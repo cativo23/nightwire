@@ -1,20 +1,20 @@
 ---
 name: nightwire
-description: "Nightwire — Dark cyberpunk UI system. Pure black (#000), soft neon palette, 14px mono base. Semantic color roles (primary, success, info, danger, warning, accent), surface elevation, type scale, spacing, utility classes, and component patterns for any dark UI. Inspired by Evangelion/GITS. Built on nerv-ui by TheGreatGildo."
+description: "Use when building any dark-themed web UI or generating HTML/CSS with a cyberpunk aesthetic — dashboards, admin panels, dev tools, media players, monitoring UIs, or landing pages. Provides design tokens, semantic color roles, component classes, and utility CSS for dark-mode interfaces on pure black backgrounds."
 ---
 
 # Nightwire — Cyberpunk UI System
 
-A dark-mode-only design system with a modern cyberpunk aesthetic. Works for dashboards, admin panels, dev tools, media players, monitoring UIs, landing pages — any interface that lives in the void.
+A dark-mode-only design system with a modern cyberpunk aesthetic. Any interface that lives in the void.
 
-**Based on:** [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by TheGreatGildo
+**Usage:** Include `nightwire.css` for vanilla CSS, or use `tailwind.preset.js` with Tailwind CSS.
 
-**Usage:** Include `nightwire.css` for vanilla CSS, or use `tailwind.preset.js` with Tailwind CSS:
-```js
-// tailwind.config.js
-import nightwirePreset from './tailwind.preset.js';
-export default { presets: [nightwirePreset] };
-```
+## When to Use
+
+- User asks for a dark UI, cyberpunk-themed interface, or "hacker aesthetic"
+- Building dashboards, admin panels, dev tools, monitoring UIs, landing pages
+- Any project where the background should be pure black with neon-colored data
+- **Don't use** for light-mode UIs, print-friendly layouts, or projects requiring a different design system
 
 ---
 
@@ -31,64 +31,20 @@ export default { presets: [nightwirePreset] };
 
 ## Color System
 
-### Palette (raw colors)
-
-```css
-:root {
-  /* Surfaces */
-  --void:             #000000;
-  --void-warm:        #0a0a0a;
-  --void-panel:       #111111;
-  --void-raised:      #1a1a1a;
-
-  /* Blue */
-  --nw-primary:       #6699ff;
-  --nw-primary-dim:   #4477cc;
-  --nw-primary-hot:   #99bbff;
-  --nw-primary-fill:  rgba(102, 153, 255, 0.08);
-
-  /* Green */
-  --nw-green:         #7aed7a;
-  --nw-green-dim:     #5cb85c;
-  --nw-green-faint:   rgba(122, 237, 122, 0.06);
-  --nw-green-fill:    rgba(122, 237, 122, 0.1);
-
-  /* Cyan */
-  --nw-cyan:          #66ddff;
-  --nw-cyan-dim:      #44aacc;
-  --nw-cyan-glow:     rgba(102, 221, 255, 0.12);
-
-  /* Red/Pink */
-  --nw-red:           #ff6688;
-  --nw-red-dim:       #cc4466;
-  --nw-red-hot:       #ff99aa;
-  --nw-red-fill:      rgba(255, 102, 136, 0.15);
-
-  /* Accent */
-  --nw-yellow:        #e8993a;
-  --nw-purple:        #b266e0;
-
-  /* Text */
-  --nw-text:          #ffffff;
-  --nw-text-dim:      #aaaaaa;
-  --nw-text-faint:    rgba(255, 255, 255, 0.06);
-  --nw-text-line:     rgba(255, 255, 255, 0.12);
-}
-```
+All colors are defined as CSS custom properties in `nightwire.css` with the `--nw-` prefix. Use semantic roles, not raw colors.
 
 ### Semantic Roles
 
-Map raw colors to meaning. Apps can remap these.
+| Role | Variable | Raw Color | Use For |
+|---|---|---|---|
+| Primary | `--nw-primary` | `#6699ff` blue | Headers, labels, actions, links |
+| Success | `--nw-success` | `#7aed7a` green | Confirmations, positive data, online |
+| Info | `--nw-info` | `#66ddff` cyan | Metadata, secondary actions, neutral |
+| Danger | `--nw-danger` | `#ff6688` pink | Errors, destructive actions, offline |
+| Warning | `--nw-warning` | `#e8993a` yellow | Caution, pending, degraded |
+| Accent | `--nw-accent` | `#b266e0` purple | Highlights, badges, decorative |
 
-```css
-:root {
-  --nw-success:       var(--nw-green);      /* Confirmations, positive data, online */
-  --nw-info:          var(--nw-cyan);       /* Metadata, secondary actions, neutral */
-  --nw-danger:        var(--nw-red);        /* Errors, destructive actions, offline */
-  --nw-warning:       var(--nw-yellow);     /* Caution, pending, degraded */
-  --nw-accent:        var(--nw-purple);     /* Highlights, badges, decorative */
-}
-```
+Each role has `-dim` (muted), `-hot` (bright), `-fill` (translucent bg), and `-faint` (subtle bg) variants where applicable.
 
 ### Surfaces & Elevation
 
@@ -389,6 +345,118 @@ input:focus              /* Primary border, primary-fill glow */
 ### Activity Feed
 
 Timestamped, color-coded scrolling list. Build with `.ev` rows: `.ev-time` (dim), `.ev-type` (color-coded bold), `.ev-detail` (white, truncated), `.ev-amount`, `.ev-block`. Color entries by type using semantic roles.
+
+---
+
+## HTML Examples
+
+HTML structure for components where DOM nesting isn't obvious from class names alone.
+
+### Card
+
+```html
+<div class="card">
+  <div class="card-header">Section Title</div>
+  <div class="card-body">
+    <div class="kv-row"><span class="kv-label">Status</span><span class="kv-value"><span class="led green"></span> Online</span></div>
+    <div class="kv-row"><span class="kv-label">Uptime</span><span class="kv-value">99.97%</span></div>
+  </div>
+  <div class="card-footer">
+    <button class="btn-sm btn-ghost">Details</button>
+  </div>
+</div>
+```
+
+### Modal
+
+```html
+<div class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <span>Confirm Action</span>
+      <button class="btn-ghost btn-sm" onclick="this.closest('.modal-backdrop').remove()">✕</button>
+    </div>
+    <div class="modal-body">Are you sure you want to proceed?</div>
+    <div class="modal-footer">
+      <button class="btn-ghost">Cancel</button>
+      <button class="btn-danger">Delete</button>
+    </div>
+  </div>
+</div>
+```
+
+### Tabs
+
+```html
+<div class="tabs">
+  <button class="tab active">Overview</button>
+  <button class="tab">Settings</button>
+  <button class="tab">Logs</button>
+</div>
+<div class="tab-panel">
+  <!-- Active tab content here -->
+</div>
+```
+
+### Sidebar with Main Content
+
+```html
+<div style="display:flex; height:100vh">
+  <nav class="sidebar">
+    <div class="sidebar-header">App Name</div>
+    <div class="sidebar-section">Navigation</div>
+    <a class="sidebar-item active" href="#">Dashboard</a>
+    <a class="sidebar-item" href="#">Settings</a>
+    <a class="sidebar-item" href="#">Users</a>
+    <div class="sidebar-section">System</div>
+    <a class="sidebar-item" href="#">Logs</a>
+  </nav>
+  <main class="surface-0" style="flex:1; padding:var(--sp-6)">
+    <!-- Page content -->
+  </main>
+</div>
+```
+
+### Dropdown
+
+```html
+<div class="dropdown">
+  <button class="btn-ghost btn-sm">Actions ▾</button>
+  <div class="dropdown-menu">
+    <button class="dropdown-item">Edit</button>
+    <button class="dropdown-item">Duplicate</button>
+    <div class="dropdown-divider"></div>
+    <button class="dropdown-item danger">Delete</button>
+  </div>
+</div>
+```
+
+### Panel with Table
+
+```html
+<div class="panel">
+  <div class="panel-header"><span>Server Status</span></div>
+  <table class="nw-table">
+    <thead><tr><th>Host</th><th>CPU</th><th>Memory</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>node-01</td><td>42%</td><td>68%</td><td><span class="led green"></span> OK</td></tr>
+      <tr><td>node-02</td><td>87%</td><td>91%</td><td><span class="led yellow"></span> High</td></tr>
+    </tbody>
+  </table>
+</div>
+```
+
+### Breadcrumbs
+
+```html
+<nav class="breadcrumbs">
+  <a href="#">Home</a>
+  <span class="separator">›</span>
+  <a href="#">Settings</a>
+  <span class="separator">›</span>
+  <span class="current">Security</span>
+</nav>
+```
 
 ---
 
