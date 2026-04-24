@@ -14,9 +14,16 @@ Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreat
 
 ## Quick Start
 
-### Stylesheet
+### Vanilla CSS
 ```html
 <link rel="stylesheet" href="nightwire.css">
+```
+
+### Tailwind CSS
+```js
+// tailwind.config.js
+import nightwirePreset from './tailwind.preset.js';
+export default { presets: [nightwirePreset] };
 ```
 
 ### Fonts
@@ -24,13 +31,18 @@ Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreat
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
 ```
 
+### AI Agents (Claude Code, etc.)
+Drop `SKILL.md` into your project as a skill. The agent can then generate Nightwire-compliant UIs from natural language prompts.
+
 ## What's Included
 
 **Design tokens** — Colors, semantic roles, surfaces, type scale, spacing, border radius.
 
-**Utility classes** — Text color (`.text-primary`, `.text-success`, ...), glow effects, surface levels, borders, grid layouts.
+**Utility classes** — Text color, glow effects, surface levels, borders, grid layouts.
 
-**Component styles** — Buttons, form inputs, badges, status LEDs, panels, data tables, metrics grids, progress bars, toasts.
+**Component styles** — Buttons, cards, panels, modals, tabs, sidebar nav, dropdowns, breadcrumbs, tooltips, data tables, metrics grids, badges, tags, status LEDs, avatars, key-value rows, progress bars, skeleton loaders, toasts, dividers.
+
+**Tailwind preset** — All tokens mapped to Tailwind's config (colors, fonts, spacing, radius, shadows).
 
 **Accessibility** — All colors pass WCAG AA on black. Focus-visible outlines. Reduced-motion support.
 
@@ -50,6 +62,7 @@ Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreat
 ```
 nightwire/
 ├── nightwire.css          <- Design tokens, utilities & component styles
+├── tailwind.preset.js     <- Tailwind CSS preset with all tokens
 ├── demo.html              <- Full working demo (blockchain dashboard)
 ├── demo2.html             <- Full working demo (neural ops center)
 ├── SKILL.md               <- Claude Code skill (full design system spec)
