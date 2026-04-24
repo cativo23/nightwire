@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nightwire — Data Table Component</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #000000; --void-warm: #0a0a0a; --void-panel: #111111;
+  --nw-primary: #6699ff; --nw-primary-dim: #4477cc;
+  --nw-green: #7aed7a; --nw-green-faint: rgba(122,237,122,0.06);
+  --nw-cyan: #66ddff;
+  --nw-text-dim: #aaaaaa; --nw-text-faint: rgba(255,255,255,0.06);
+  --font-sys: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--void); font-family: var(--font-sys); font-size: 14px; line-height: 1.5; padding: 40px; }
+
+.panel {
+  background: var(--void-warm); border: 1px solid var(--nw-text-faint);
+  max-width: 900px; margin: 0 auto;
+}
+.panel-header {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--nw-primary);
+  padding: 8px 12px 7px; border-bottom: 1px solid var(--nw-primary-dim);
+  display: flex; justify-content: space-between;
+}
+.panel-header .tag { font-size: 9px; color: var(--nw-text-dim); }
+
+.nw-table {
+  width: 100%; border-collapse: collapse; font-size: 12px;
+}
+.nw-table th {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; text-align: left;
+  padding: 6px 10px; color: var(--nw-primary);
+  border-bottom: 1px solid var(--nw-primary-dim);
+}
+.nw-table td {
+  padding: 5px 10px; color: var(--nw-green);
+  border-bottom: 1px solid var(--nw-text-faint);
+  font-variant-numeric: tabular-nums; font-weight: 500;
+}
+.nw-table td.lbl {
+  color: var(--nw-primary-dim); text-transform: uppercase;
+  letter-spacing: 0.06em; font-size: 10px; font-weight: 400;
+}
+.nw-table td.strat-name { color: var(--nw-cyan); font-weight: 500; }
+.nw-table td.apy { font-weight: 700; }
+.nw-table tr:hover td { background: var(--nw-green-faint); }
+
+.nw-progress {
+  height: 4px; background: var(--void-panel);
+  border: 1px solid var(--nw-text-faint); overflow: hidden; min-width: 60px;
+}
+.nw-progress .fill {
+  height: 100%; background: var(--nw-green);
+  box-shadow: 0 0 4px rgba(122,237,122,0.3);
+}
+.led { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.led.green { background: var(--nw-green); box-shadow: 0 0 4px var(--nw-green); }
+</style>
+</head>
+<body>
+
+<!-- Strategy Performance Table -->
+<div class="panel" style="margin-bottom:20px">
+  <div class="panel-header">
+    <span>MYT Strategy Performance</span>
+    <span class="tag">メタイールドトークン</span>
+  </div>
+  <div style="padding:0 0 4px 0">
+    <table class="nw-table">
+      <thead><tr><th>Strategy</th><th>Vault</th><th>TVL</th><th>APY</th><th>24h Yield</th><th>Utilization</th></tr></thead>
+      <tbody>
+        <tr><td class="strat-name">Morpho wETH</td><td class="lbl">alETH</td><td>$68.2M</td><td class="apy">5.12%</td><td>$9,572</td><td><div class="nw-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="fill" style="width:78%"></div></div> 78%</td></tr>
+        <tr><td class="strat-name">EtherFi eETH</td><td class="lbl">alETH</td><td>$42.1M</td><td class="apy">4.68%</td><td>$5,401</td><td><div class="nw-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="fill" style="width:64%"></div></div> 64%</td></tr>
+        <tr><td class="strat-name">Euler USDC</td><td class="lbl">alUSD</td><td>$38.4M</td><td class="apy">6.84%</td><td>$7,198</td><td><div class="nw-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="fill" style="width:71%"></div></div> 71%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Transmuter Status Table -->
+<div class="panel">
+  <div class="panel-header">
+    <span>Transmuter Status — Redemption Engine</span>
+    <span class="tag">変成器</span>
+  </div>
+  <div style="padding:0 0 4px 0">
+    <table class="nw-table">
+      <thead><tr><th>Pair</th><th>Buffer</th><th>Rate</th><th>24h Redeemed</th><th>Queue</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="lbl">alETH → ETH</td><td>94.2%</td><td>0.9997</td><td>$2,184,200</td><td>142 pos</td><td><span class="led green"></span>Nominal</td></tr>
+        <tr><td class="lbl">alUSD → USDC</td><td>91.8%</td><td>0.9999</td><td>$1,442,800</td><td>89 pos</td><td><span class="led green"></span>Nominal</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

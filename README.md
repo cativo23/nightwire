@@ -1,0 +1,68 @@
+# Nightwire
+
+A dark-mode-only design system with a modern cyberpunk aesthetic. Works for dashboards, admin panels, dev tools, media players, monitoring UIs, landing pages — any interface that lives in the void.
+
+Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreatGildo](https://github.com/TheGreatGildo).
+
+## Design Principles
+
+1. **Pure black void** — Background is always `#000000`. No gray, no navy.
+2. **Color = function** — Every color has a semantic role. Don't use color decoratively.
+3. **Readable first** — 14px base font, 1.5 line-height. Legibility over density.
+4. **No CRT effects** — No scanlines, no flicker, no vignette. Clean modern look.
+5. **Soft neon** — Cyberpunk-inspired but not eye-burning. Vibrant, not harsh.
+
+## Quick Start
+
+### Stylesheet
+```html
+<link rel="stylesheet" href="nightwire.css">
+```
+
+### Fonts
+```html
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+```
+
+## What's Included
+
+**Design tokens** — Colors, semantic roles, surfaces, type scale, spacing, border radius.
+
+**Utility classes** — Text color (`.text-primary`, `.text-success`, ...), glow effects, surface levels, borders, grid layouts.
+
+**Component styles** — Buttons, form inputs, badges, status LEDs, panels, data tables, metrics grids, progress bars, toasts.
+
+**Accessibility** — All colors pass WCAG AA on black. Focus-visible outlines. Reduced-motion support.
+
+## Color Palette
+
+| Role | Color | Hex | Contrast on Black |
+|---|---|---|---|
+| Primary | Blue | `#6699ff` | 7.5:1 |
+| Success | Green | `#7aed7a` | 11.2:1 |
+| Info | Cyan | `#66ddff` | 10.8:1 |
+| Danger | Red/Pink | `#ff6688` | 6.4:1 |
+| Warning | Yellow | `#e8993a` | — |
+| Accent | Purple | `#b266e0` | — |
+
+## File Structure
+
+```
+nightwire/
+├── nightwire.css          <- Design tokens, utilities & component styles
+├── demo.html              <- Full working demo (blockchain dashboard)
+├── demo2.html             <- Full working demo (neural ops center)
+├── SKILL.md               <- Claude Code skill (full design system spec)
+├── LICENSE                 <- MIT (with nerv-ui credits)
+├── README.md
+└── components/
+    ├── event-log.html
+    ├── vault-card.html
+    ├── magi-oracle.html
+    ├── metrics-grid.html
+    └── data-table.html
+```
+
+## Credits
+
+Built on [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by TheGreatGildo. Licensed under MIT.

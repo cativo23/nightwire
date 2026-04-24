@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEURON-OPS — Distributed Neural Network Operations Center</title>
+
+<!-- TYPOGRAPHY: Authentic EVA stack -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+  }
+}
+</script>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   NEURON-OPS — Neural Network Operations Center
+   Nightwire Design System. Every pixel conveys information.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --void:             #000000;
+  --void-warm:        #0a0a0a;
+  --void-panel:       #111111;
+  --void-raised:      #1a1a1a;
+
+  --nw-primary:       #6699ff;
+  --nw-primary-dim:   #4477cc;
+  --nw-primary-hot:   #99bbff;
+  --nw-primary-fill:  rgba(102, 153, 255, 0.08);
+
+  --nw-green:         #7aed7a;
+  --nw-green-dim:     #5cb85c;
+  --nw-green-faint:   rgba(122, 237, 122, 0.06);
+  --nw-green-fill:    rgba(122, 237, 122, 0.1);
+
+  --nw-cyan:          #66ddff;
+  --nw-cyan-dim:      #44aacc;
+  --nw-cyan-glow:     rgba(102, 221, 255, 0.12);
+
+  --nw-red:           #ff6688;
+  --nw-red-dim:       #cc4466;
+  --nw-red-hot:       #ff99aa;
+  --nw-red-fill:      rgba(255, 102, 136, 0.15);
+
+  --nw-yellow:        #e8993a;
+  --nw-purple:        #b266e0;
+
+  --nw-text:          #ffffff;
+  --nw-text-dim:      #aaaaaa;
+  --nw-text-faint:    rgba(255, 255, 255, 0.06);
+  --nw-text-line:     rgba(255, 255, 255, 0.12);
+
+  --font-title:  'Noto Serif Display', 'Times New Roman', serif;
+  --font-mincho: 'Shippori Mincho B1', 'YuMincho', serif;
+  --font-sys:    'JetBrains Mono', 'Cascadia Mono', monospace;
+  --font-stamp:  'Saira Extra Condensed', 'Impact', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--void); color: var(--nw-green); }
+
+body {
+  font-family: var(--font-sys);
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--void);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+}
+
+/* ── GLOW EFFECTS ─────────────────────────────────────────── */
+.glow-green { text-shadow: 0 0 8px rgba(122,237,122,0.5), 0 0 16px rgba(122,237,122,0.2); }
+.glow-blue { text-shadow: 0 0 8px rgba(102,153,255,0.5), 0 0 16px rgba(102,153,255,0.2); }
+.glow-cyan { text-shadow: 0 0 8px rgba(102,221,255,0.5), 0 0 16px rgba(102,221,255,0.2); }
+.glow-red { text-shadow: 0 0 8px rgba(255,102,136,0.5), 0 0 16px rgba(255,102,136,0.3); }
+.glow-purple { text-shadow: 0 0 8px rgba(178,102,224,0.5), 0 0 16px rgba(178,102,224,0.2); }
+
+/* ── COMPRESSED TITLE ─────────────────────────────────────── */
+.compressed-title {
+  font-family: var(--font-title);
+  font-weight: 900;
+  transform: scaleX(0.82);
+  transform-origin: left center;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ── NAVIGATION ───────────────────────────────────────────── */
+.nw-nav {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--void);
+  border-bottom: 1px solid var(--nw-primary-dim);
+  gap: 20px;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.nw-nav .org-mark {
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  color: var(--nw-primary);
+  text-transform: uppercase;
+  transform: scaleX(0.82);
+  transform-origin: left center;
+  line-height: 1.15;
+}
+
+.nw-nav .org-mark .sub {
+  font-family: var(--font-sys);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--nw-text-dim);
+  display: block;
+  transform: scaleX(1.22);
+  font-weight: 400;
+}
+
+.nw-nav .jp-sub {
+  font-family: var(--font-mincho);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--nw-primary-dim);
+  transform: scaleX(0.8);
+  transform-origin: left;
+}
+
+.nw-nav .nav-links {
+  display: flex;
+  gap: 14px;
+  margin-left: auto;
+}
+
+.nw-nav a {
+  font-family: var(--font-sys);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nw-text-dim);
+  text-decoration: none;
+  padding: 4px 8px;
+  transition: color 0.15s;
+}
+
+.nw-nav a:hover, .nw-nav a.active { color: var(--nw-primary); }
+
+/* ── TICKER ───────────────────────────────────────────────── */
+.ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--void);
+  border-bottom: 1px solid var(--nw-text-faint);
+  padding: 2px 0;
+  font-family: var(--font-sys);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  flex-shrink: 0;
+}
+
+.ticker .scroll {
+  display: inline-block;
+  animation: ticker-scroll 80s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* ── PANEL (base component) ───────────────────────────────── */
+.panel {
+  background: var(--void-warm);
+  border: 1px solid var(--nw-text-faint);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  font-family: var(--font-sys);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  padding: 6px 10px 5px;
+  border-bottom: 1px solid var(--nw-primary-dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.panel-header .tag {
+  font-size: 7px;
+  color: var(--nw-text-dim);
+  letter-spacing: 0.08em;
+}
+
+.panel-body {
+  padding: 8px 10px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── DASHBOARD LAYOUT ─────────────────────────────────────── */
+.console-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.dashboard {
+  display: flex;
+  gap: 2px;
+  flex: 1;
+  padding: 2px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dash-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.dash-right {
+  width: 370px;
+  min-width: 370px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dash-row {
+  display: grid;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.dash-row.r1 { grid-template-columns: 1.2fr 1fr; min-height: 360px; }
+.dash-row.r2 { grid-template-columns: 1fr 1fr; }
+.dash-row.r3 { grid-template-columns: 1.5fr 1fr; min-height: 180px; }
+.dash-row.r4 { grid-template-columns: 1fr; }
+
+@media (max-width: 1100px) {
+  .dashboard { flex-direction: column; }
+  .dash-right { width: 100%; min-width: 0; max-height: 300px; }
+  .dash-row.r1, .dash-row.r2, .dash-row.r3 { grid-template-columns: 1fr; }
+}
+
+/* ── LED ──────────────────────────────────────────────────── */
+.led {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.led.green { background: var(--nw-green); box-shadow: 0 0 4px var(--nw-green), 0 0 8px rgba(122,237,122,0.3); }
+.led.red { background: var(--nw-red); box-shadow: 0 0 4px var(--nw-red); }
+.led.blue { background: var(--nw-primary); box-shadow: 0 0 4px var(--nw-primary); }
+.led.cyan { background: var(--nw-cyan); box-shadow: 0 0 4px var(--nw-cyan); }
+.led.purple { background: var(--nw-purple); box-shadow: 0 0 4px var(--nw-purple); }
+.led.yellow { background: var(--nw-yellow); box-shadow: 0 0 4px var(--nw-yellow); }
+@keyframes led-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.led.blink { animation: led-blink 1s ease-in-out infinite; }
+
+/* ── METRICS GRID ─────────────────────────────────────────── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--nw-text-faint);
+  flex: 1;
+}
+
+.metric-cell {
+  background: var(--void-warm);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.metric-cell .m-label {
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  margin-bottom: 2px;
+}
+
+.metric-cell .m-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--nw-green);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 6px rgba(122,237,122,0.4), 0 0 12px rgba(122,237,122,0.15);
+  line-height: 1.1;
+}
+
+.metric-cell .m-sub {
+  font-size: 7px;
+  color: var(--nw-text-dim);
+  margin-top: 2px;
+  letter-spacing: 0.06em;
+}
+
+.metric-cell.highlight .m-value {
+  color: var(--nw-primary);
+  text-shadow: 0 0 6px rgba(102,153,255,0.4), 0 0 12px rgba(102,153,255,0.15);
+  font-size: 22px;
+}
+
+.metric-cell.accent .m-value {
+  color: var(--nw-cyan);
+  text-shadow: 0 0 6px rgba(102,221,255,0.4), 0 0 12px rgba(102,221,255,0.15);
+}
+
+.metric-cell.warn .m-value {
+  color: var(--nw-yellow);
+  text-shadow: 0 0 6px rgba(232,153,58,0.4), 0 0 12px rgba(232,153,58,0.15);
+}
+
+/* ── THREE.JS VIEWPORT ───────────────────────────────────── */
+.three-viewport {
+  position: relative;
+  background: var(--void);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.three-viewport canvas { width: 100% !important; height: 100% !important; display: block; }
+
+.three-viewport .vp-label {
+  position: absolute;
+  bottom: 4px;
+  left: 8px;
+  font-family: var(--font-sys);
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nw-primary-dim);
+  z-index: 2;
+  background: rgba(0,0,0,0.65);
+  padding: 2px 6px;
+}
+
+.three-viewport .vp-data {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-family: var(--font-sys);
+  font-size: 9px;
+  color: var(--nw-cyan);
+  z-index: 2;
+  line-height: 1.5;
+  background: rgba(0,0,0,0.65);
+  padding: 4px 8px;
+  border-left: 1px solid var(--nw-primary-dim);
+}
+
+/* ── CANVAS WAVEFORM ──────────────────────────────────────── */
+.waveform-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--void);
+}
+
+.waveform-wrap canvas { width: 100%; height: 100%; display: block; }
+
+.waveform-wrap .readout {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--nw-green);
+  text-shadow: 0 0 6px rgba(122,237,122,0.8), 0 0 12px rgba(122,237,122,0.5), 0 0 24px rgba(122,237,122,0.3);
+  z-index: 2;
+}
+
+.waveform-wrap .readout-label {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  z-index: 2;
+}
+
+.waveform-wrap .timecode {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  font-size: 7px;
+  color: var(--nw-primary-dim);
+  letter-spacing: 0.08em;
+  z-index: 2;
+}
+
+.waveform-wrap .legend {
+  position: absolute;
+  bottom: 4px;
+  left: 8px;
+  font-size: 7px;
+  color: var(--nw-text-dim);
+  z-index: 2;
+  display: flex;
+  gap: 12px;
+}
+
+.waveform-wrap .legend span::before { content: '\25CF'; margin-right: 3px; }
+.waveform-wrap .legend .l-green::before { color: var(--nw-green); }
+.waveform-wrap .legend .l-cyan::before { color: var(--nw-cyan); }
+.waveform-wrap .legend .l-blue::before { color: var(--nw-primary); }
+.waveform-wrap .legend .l-purple::before { color: var(--nw-purple); }
+
+/* ── NODE CARDS ───────────────────────────────────────────── */
+.node-card {
+  padding: 8px 10px;
+  flex: 1;
+}
+
+.node-card .nc-id {
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--nw-cyan);
+  transform: scaleX(0.82);
+  transform-origin: left;
+}
+
+.node-card .nc-name {
+  font-family: var(--font-mincho);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--nw-text);
+  transform: scaleX(0.78);
+  transform-origin: left;
+  margin: 2px 0 6px;
+}
+
+.node-card .nc-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--nw-text-faint);
+}
+
+.node-card .nc-row:last-child { border-bottom: none; }
+.node-card .nc-row .lbl { color: var(--nw-primary-dim); text-transform: uppercase; letter-spacing: 0.06em; font-size: 8px; }
+.node-card .nc-row .val { color: var(--nw-green); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+.node-card .nc-status {
+  margin-top: 4px;
+  font-family: var(--font-stamp);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── MAGI CONSENSUS ───────────────────────────────────────── */
+.magi-oracle {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.magi-source {
+  padding: 6px 8px;
+  border: 1px solid var(--nw-cyan-dim);
+  background: var(--void);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.magi-source .ms-name {
+  font-family: var(--font-title);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--nw-cyan);
+  transform: scaleX(0.85);
+  transform-origin: left;
+  min-width: 80px;
+}
+
+.magi-source .ms-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--nw-green);
+  font-variant-numeric: tabular-nums;
+}
+
+.magi-source .ms-meta {
+  font-size: 7px;
+  color: var(--nw-text-dim);
+  margin-left: auto;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.magi-source .ms-status {
+  font-family: var(--font-stamp);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.magi-source .ms-status.agree { color: var(--nw-green); }
+.magi-source .ms-status.warn { color: var(--nw-yellow); }
+.magi-source .ms-status.reject { color: var(--nw-red); }
+
+.magi-consensus {
+  font-size: 8px;
+  text-align: center;
+  padding: 4px;
+  color: var(--nw-text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--nw-cyan-dim);
+}
+
+.magi-consensus span { font-weight: 700; }
+
+/* ── DATA TABLE ───────────────────────────────────────────── */
+.nw-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sys);
+  font-size: 10px;
+}
+
+.nw-table th {
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 4px 8px;
+  color: var(--nw-primary);
+  border-bottom: 1px solid var(--nw-primary-dim);
+}
+
+.nw-table td {
+  padding: 3px 8px;
+  color: var(--nw-green);
+  border-bottom: 1px solid var(--nw-text-faint);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.nw-table td.lbl {
+  color: var(--nw-primary-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 8px;
+  font-weight: 400;
+}
+
+.nw-table tr:hover td { background: var(--nw-green-faint); }
+
+.nw-progress {
+  height: 3px;
+  background: var(--void-panel);
+  border: 1px solid var(--nw-text-faint);
+  overflow: hidden;
+  min-width: 60px;
+}
+.nw-progress .fill {
+  height: 100%;
+  background: var(--nw-green);
+  box-shadow: 0 0 4px rgba(122,237,122,0.3);
+}
+
+/* ── EVENT LOG ────────────────────────────────────────────── */
+.event-log {
+  background: var(--void-warm);
+  border: 1px solid var(--nw-text-faint);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.event-log .el-header {
+  font-family: var(--font-sys);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  padding: 6px 10px 5px;
+  border-bottom: 1px solid var(--nw-primary-dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.event-log .el-header .el-count {
+  font-size: 7px;
+  color: var(--nw-green);
+  font-weight: 500;
+}
+
+.event-log .el-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: var(--font-sys);
+  font-size: 9px;
+  line-height: 1.5;
+  padding: 2px 0;
+  min-height: 0;
+}
+
+.event-log .el-body::-webkit-scrollbar { width: 3px; }
+.event-log .el-body::-webkit-scrollbar-track { background: var(--void); }
+.event-log .el-body::-webkit-scrollbar-thumb { background: var(--nw-text-faint); border-radius: 2px; }
+
+.ev {
+  padding: 1px 10px;
+  display: flex;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  border-left: 2px solid transparent;
+}
+
+.ev:hover { background: var(--nw-green-faint); }
+
+.ev .ev-time { color: var(--nw-text-dim); min-width: 52px; flex-shrink: 0; }
+.ev .ev-type { min-width: 62px; font-weight: 700; letter-spacing: 0.04em; flex-shrink: 0; }
+.ev .ev-detail { color: var(--nw-text); flex: 1; overflow: hidden; text-overflow: ellipsis; }
+.ev .ev-metric { color: var(--nw-green); min-width: 75px; text-align: right; flex-shrink: 0; }
+.ev .ev-node { color: var(--nw-text-dim); font-size: 8px; min-width: 65px; text-align: right; flex-shrink: 0; }
+
+.ev-type.inference { color: var(--nw-green); }
+.ev-type.training  { color: var(--nw-cyan); }
+.ev-type.gradient  { color: var(--nw-primary); }
+.ev-type.anomaly   { color: var(--nw-red); }
+.ev-type.checkpoint{ color: var(--nw-yellow); }
+.ev-type.scaling   { color: var(--nw-purple); }
+.ev-type.sync      { color: var(--nw-cyan-dim); }
+
+.ev.new-entry { border-left-color: var(--nw-green); }
+.ev.new-entry { animation: ev-flash 0.6s ease-out; }
+@keyframes ev-flash {
+  0% { background: var(--nw-green-fill); }
+  100% { background: transparent; }
+}
+
+/* ── LAYER MAP ────────────────────────────────────────────── */
+.layer-map {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+}
+
+.layer-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  font-size: 9px;
+}
+
+.layer-row .layer-name {
+  min-width: 100px;
+  color: var(--nw-cyan);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.layer-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--void-panel);
+  border: 1px solid var(--nw-text-faint);
+  overflow: hidden;
+  position: relative;
+}
+
+.layer-bar-wrap .layer-fill {
+  height: 100%;
+  transition: width 0.8s ease;
+}
+
+.layer-row .layer-val {
+  min-width: 42px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--nw-green);
+  font-size: 8px;
+  font-weight: 700;
+}
+
+/* ── STATUS BAR ───────────────────────────────────────────── */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 12px;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nw-text-dim);
+  border-top: 1px solid var(--nw-text-faint);
+  flex-shrink: 0;
+}
+
+/* ── ATTENTION HEATMAP ────────────────────────────────────── */
+.heatmap-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--void);
+}
+.heatmap-wrap canvas { width: 100%; height: 100%; display: block; }
+.heatmap-wrap .hm-label {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  z-index: 2;
+}
+.heatmap-wrap .hm-readout {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--nw-purple);
+  text-shadow: 0 0 6px rgba(178,102,224,0.6);
+  z-index: 2;
+}
+</style>
+</head>
+
+<body>
+
+<div class="console-wrapper">
+
+<!-- NAV -->
+<nav class="nw-nav">
+  <div class="org-mark">
+    Neuron-Ops
+    <span class="sub">Distributed Neural Network Operations Center — Deep Learning Infrastructure</span>
+  </div>
+  <span class="jp-sub">神経制御システム</span>
+  <div class="nav-links">
+    <a href="#" class="active">Dashboard</a>
+    <a href="#">Clusters</a>
+    <a href="#">Training</a>
+    <a href="#">Inference</a>
+    <a href="#">Models</a>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker" id="mainTicker">
+  <div class="scroll" id="tickerContent"></div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+  <!-- LEFT COLUMN -->
+  <div class="dash-left">
+
+    <!-- ROW 1: 3D Neural Network + Cluster Metrics -->
+    <div class="dash-row r1">
+
+      <!-- 3D Neural Network Visualization -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>Neural Topology — Live Inference Graph</span>
+          <span class="tag">神経接続構造</span>
+        </div>
+        <div class="three-viewport" id="neuralViewport">
+          <div class="vp-data">
+            <div style="color:var(--nw-primary);font-size:7px;letter-spacing:0.12em">ACTIVE PARAMETERS</div>
+            <div style="font-size:18px;font-weight:700;color:var(--nw-green);text-shadow:0 0 8px rgba(122,237,122,0.6),0 0 20px rgba(122,237,122,0.3);" id="paramReadout">70.6B</div>
+            <div style="font-size:7px;color:var(--nw-text-dim);margin-top:2px" id="vpLegend"></div>
+          </div>
+          <div class="vp-label">DEEP TOPOLOGY ANALYSIS — ニューラルネットワーク構造解析</div>
+        </div>
+      </div>
+
+      <!-- Cluster Metrics Grid -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>Cluster Metrics</span>
+          <span class="tag">クラスタ指標</span>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-cell">
+            <div class="m-label">Total GPUs Online</div>
+            <div class="m-value" id="metricGPUs">2,048</div>
+            <div class="m-sub">H100 cluster — 8 racks</div>
+          </div>
+          <div class="metric-cell">
+            <div class="m-label">Inference Throughput</div>
+            <div class="m-value" id="metricThroughput">847K</div>
+            <div class="m-sub">tokens/sec aggregate</div>
+          </div>
+          <div class="metric-cell accent">
+            <div class="m-label">Training FLOPS</div>
+            <div class="m-value" id="metricFlops">1.42 EFLOPS</div>
+            <div class="m-sub">effective utilization 94.2%</div>
+          </div>
+          <div class="metric-cell">
+            <div class="m-label">Active Models</div>
+            <div class="m-value" id="metricModels">12</div>
+            <div class="m-sub">serving + 3 training</div>
+          </div>
+          <div class="metric-cell highlight">
+            <div class="m-label">Avg Latency (P99)</div>
+            <div class="m-value" id="metricLatency">42ms</div>
+            <div class="m-sub">target: &lt;50ms</div>
+          </div>
+          <div class="metric-cell warn">
+            <div class="m-label">GPU Temperature</div>
+            <div class="m-value" id="metricTemp">71.4C</div>
+            <div class="m-sub">thermal budget: 83C max</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 2: Node Cards (GPU Clusters) -->
+    <div class="dash-row r2">
+
+      <div class="panel">
+        <div class="panel-header">
+          <span>Cluster-Alpha — Training</span>
+          <span class="tag" id="alphaStatus"></span>
+        </div>
+        <div class="node-card">
+          <div class="nc-id">Primary — H100 x 512</div>
+          <div class="nc-name">深層学習訓練クラスタ</div>
+          <div class="nc-row"><span class="lbl">Model</span><span class="val">CORTEX-7B v4.2</span></div>
+          <div class="nc-row"><span class="lbl">Epoch</span><span class="val" id="alphaEpoch">847 / 1200</span></div>
+          <div class="nc-row"><span class="lbl">Loss</span><span class="val" id="alphaLoss">0.0341</span></div>
+          <div class="nc-row"><span class="lbl">Learning Rate</span><span class="val" id="alphaLR">2.4e-5</span></div>
+          <div class="nc-row"><span class="lbl">GPU Util</span><span class="val" id="alphaUtil">96.8%</span></div>
+          <div class="nc-row"><span class="lbl">ETA</span><span class="val" id="alphaETA">14h 22m</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span>Cluster-Beta — Inference</span>
+          <span class="tag" id="betaStatus"></span>
+        </div>
+        <div class="node-card">
+          <div class="nc-id">Edge Serving — H100 x 256</div>
+          <div class="nc-name">推論サービングクラスタ</div>
+          <div class="nc-row"><span class="lbl">Model</span><span class="val">CORTEX-70B v3.8</span></div>
+          <div class="nc-row"><span class="lbl">Requests/sec</span><span class="val" id="betaRPS">12,847</span></div>
+          <div class="nc-row"><span class="lbl">P50 Latency</span><span class="val" id="betaP50">18ms</span></div>
+          <div class="nc-row"><span class="lbl">P99 Latency</span><span class="val" id="betaP99">42ms</span></div>
+          <div class="nc-row"><span class="lbl">Cache Hit Rate</span><span class="val" id="betaCache">89.4%</span></div>
+          <div class="nc-row"><span class="lbl">Queue Depth</span><span class="val" id="betaQueue">247</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 3: Signal Waveform + MAGI Consensus -->
+    <div class="dash-row r3">
+
+      <!-- Neural Signal Waveform -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>Signal Propagation — Layer Activations</span>
+          <span class="tag">信号伝搬</span>
+        </div>
+        <div class="waveform-wrap" id="waveformWrap">
+          <canvas id="waveformCanvas"></canvas>
+          <div class="readout-label">Activation Magnitude</div>
+          <div class="readout" id="activationReadout">0.847</div>
+          <div class="timecode" id="waveformTime">00:00:00.000</div>
+          <div class="legend">
+            <span class="l-green">Layer-48</span>
+            <span class="l-cyan">Layer-32</span>
+            <span class="l-purple">Attention</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAGI Model Consensus -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>MAGI — Model Agreement</span>
+          <span class="tag">合意判定</span>
+        </div>
+        <div class="panel-body">
+          <div class="magi-oracle">
+            <div class="magi-source" id="magi1">
+              <span class="led green"></span>
+              <div class="ms-name">Melchior</div>
+              <div class="ms-value" id="magi1Val">94.21%</div>
+              <div class="ms-meta" id="magi1Meta"></div>
+              <div class="ms-status agree" id="magi1Status">AGREE</div>
+            </div>
+            <div class="magi-source" id="magi2">
+              <span class="led green"></span>
+              <div class="ms-name">Balthasar</div>
+              <div class="ms-value" id="magi2Val">93.87%</div>
+              <div class="ms-meta" id="magi2Meta"></div>
+              <div class="ms-status agree" id="magi2Status">AGREE</div>
+            </div>
+            <div class="magi-source" id="magi3">
+              <span class="led green"></span>
+              <div class="ms-name">Casper</div>
+              <div class="ms-value" id="magi3Val">94.02%</div>
+              <div class="ms-meta" id="magi3Meta"></div>
+              <div class="ms-status agree" id="magi3Status">AGREE</div>
+            </div>
+            <div class="magi-consensus">
+              Consensus: <span style="color:var(--nw-green)" id="magiResult">3/3 AGREE — Confidence: 94.03%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 4: Model Registry Table -->
+    <div class="dash-row r4">
+      <div class="panel">
+        <div class="panel-header">
+          <span>Model Registry — Active Deployments</span>
+          <span class="tag">モデル登録簿</span>
+        </div>
+        <div class="panel-body" style="padding:0 0 4px 0;overflow-x:auto">
+          <table class="nw-table" id="modelTable">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Version</th>
+                <th>Parameters</th>
+                <th>Status</th>
+                <th>Throughput</th>
+                <th>Accuracy</th>
+                <th>GPU Alloc</th>
+                <th>Utilization</th>
+              </tr>
+            </thead>
+            <tbody id="modelBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 5: Attention Heatmap + Layer Activation Map -->
+    <div class="dash-row" style="grid-template-columns: 1fr 1fr; min-height: 160px;">
+
+      <!-- Attention Heatmap -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>Attention Pattern — Head Visualization</span>
+          <span class="tag">注意機構</span>
+        </div>
+        <div class="heatmap-wrap" id="heatmapWrap">
+          <canvas id="heatmapCanvas"></canvas>
+          <div class="hm-label">Multi-Head Self-Attention</div>
+          <div class="hm-readout" id="heatmapReadout">H=64</div>
+        </div>
+      </div>
+
+      <!-- Layer Activation Map -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>Layer Activation — Gradient Health</span>
+          <span class="tag">勾配健全性</span>
+        </div>
+        <div class="panel-body" style="padding:4px 6px;overflow-y:auto">
+          <div class="layer-map" id="layerMap"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN: Neural Event Log + Power Table -->
+  <div class="dash-right">
+    <div class="event-log">
+      <div class="el-header">
+        <span>Neural Event Log — ニューラルイベント</span>
+        <span class="el-count" id="eventCount">0 events</span>
+      </div>
+      <div class="el-body" id="eventLogBody"></div>
+    </div>
+
+    <!-- GPU Power Distribution -->
+    <div class="panel" style="max-height: 200px;">
+      <div class="panel-header">
+        <span>GPU Power Distribution</span>
+        <span class="tag">電力分配</span>
+      </div>
+      <div class="panel-body" style="padding:0 0 4px 0;overflow-y:auto">
+        <table class="nw-table" id="powerTable">
+          <thead>
+            <tr>
+              <th>Rack</th>
+              <th>GPUs</th>
+              <th>Power</th>
+              <th>Temp</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="powerBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM TICKER -->
+<div class="ticker">
+  <div class="scroll">
+    &#9670; 神経制御システム — NEURON-OPS DISTRIBUTED INFERENCE &#9670; 2,048 GPUs ONLINE — 全GPU正常 &#9670; ZERO DOWNTIME — ゼロダウンタイム &#9670; TRAINING EPOCH 847/1200 — LOSS: 0.0341 &#9670; INFERENCE LATENCY P99: 42ms — 低遅延推論 &#9670; 全システム正常 &#9670;
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <span>NEURON-OPS v1.0 — DISTRIBUTED NEURAL OPERATIONS</span>
+  <span>CLASSIFICATION: <span style="color:var(--nw-primary)">RESTRICTED</span></span>
+  <span id="systemClock">--</span>
+</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCRIPTS — Neural Network Operations Data Engine
+     All DOM manipulation uses safe methods (no innerHTML)
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- Utility: safe DOM builder -->
+<script>
+function createEl(tag, className, textContent) {
+  var el = document.createElement(tag);
+  if (className) el.className = className;
+  if (textContent !== undefined) el.textContent = textContent;
+  return el;
+}
+
+function createSpan(className, text) {
+  return createEl('span', className, text);
+}
+</script>
+
+<!-- Neural Cluster Data Model -->
+<script>
+var NEURO = {
+  totalGPUs: 2048,
+  gpusOnline: 2048,
+  inferenceTokens: 847000,
+  trainingFlops: 1.42,
+  activeModels: 12,
+  latencyP99: 42,
+  gpuTemp: 71.4,
+  epoch: 847,
+  maxEpoch: 1200,
+  loss: 0.0341,
+  learningRate: 2.4e-5,
+  rps: 12847,
+  cacheHitRate: 89.4,
+  queueDepth: 247,
+  eventCount: 0,
+  totalParams: 70.6,
+
+  racks: [
+    { id: 'A1', gpus: 256, power: 178, temp: 72.1 },
+    { id: 'A2', gpus: 256, power: 182, temp: 73.4 },
+    { id: 'B1', gpus: 256, power: 171, temp: 70.8 },
+    { id: 'B2', gpus: 256, power: 176, temp: 71.2 },
+    { id: 'C1', gpus: 256, power: 184, temp: 74.1 },
+    { id: 'C2', gpus: 256, power: 169, temp: 69.8 },
+    { id: 'D1', gpus: 256, power: 180, temp: 72.9 },
+    { id: 'D2', gpus: 256, power: 174, temp: 71.6 },
+  ],
+
+  layers: []
+};
+
+// Generate layer gradient data
+for (var i = 0; i < 48; i++) {
+  var depth = i / 48;
+  var baseGrad = 0.4 + (1 - depth) * 0.55 + Math.random() * 0.1;
+  NEURO.layers.push({
+    name: i < 24 ? 'Encoder-' + i : 'Decoder-' + (i - 24),
+    type: i < 24 ? 'enc' : 'dec',
+    gradient: Math.min(1, baseGrad),
+    activation: 0.3 + Math.random() * 0.6,
+  });
+}
+
+function fmtNum(n) {
+  return n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+}
+
+function shortHash() {
+  var hex = '0123456789abcdef';
+  var h = '';
+  for (var i = 0; i < 8; i++) h += hex[Math.floor(Math.random() * 16)];
+  return h;
+}
+</script>
+
+<!-- Initialize static DOM content safely -->
+<script>
+(function() {
+  // VP Legend
+  var vpLegend = document.getElementById('vpLegend');
+  if (vpLegend) {
+    var items = [
+      { color: 'var(--nw-cyan)', label: 'Synapses' },
+      { color: 'var(--nw-primary)', label: 'Neurons' },
+      { color: 'var(--nw-yellow)', label: 'Activations' },
+      { color: 'var(--nw-green)', label: 'Signals' },
+    ];
+    items.forEach(function(item, idx) {
+      var dot = createSpan('', '●');
+      dot.style.color = item.color;
+      vpLegend.appendChild(dot);
+      vpLegend.appendChild(document.createTextNode(' ' + item.label));
+      if (idx < items.length - 1) {
+        vpLegend.appendChild(document.createTextNode('  '));
+      }
+    });
+  }
+
+  // Alpha/Beta status LEDs
+  var alphaStatus = document.getElementById('alphaStatus');
+  if (alphaStatus) {
+    var led = createSpan('led green', '');
+    alphaStatus.appendChild(led);
+    alphaStatus.appendChild(document.createTextNode('Active'));
+  }
+
+  var betaStatus = document.getElementById('betaStatus');
+  if (betaStatus) {
+    var led2 = createSpan('led cyan', '');
+    betaStatus.appendChild(led2);
+    betaStatus.appendChild(document.createTextNode('Serving'));
+  }
+
+  // MAGI meta fields
+  var magiMeta = [
+    { id: 'magi1Meta', model: 'CORTEX-70B', ageId: 'magi1Age', ageText: '2ms ago' },
+    { id: 'magi2Meta', model: 'CORTEX-7B', ageId: 'magi2Age', ageText: '5ms ago' },
+    { id: 'magi3Meta', model: 'Ensemble', ageId: 'magi3Age', ageText: '1ms ago' },
+  ];
+  magiMeta.forEach(function(m) {
+    var el = document.getElementById(m.id);
+    if (el) {
+      el.appendChild(document.createTextNode(m.model));
+      el.appendChild(document.createElement('br'));
+      var ageSpan = createSpan('', m.ageText);
+      ageSpan.id = m.ageId;
+      el.appendChild(ageSpan);
+    }
+  });
+
+  // Model registry table
+  var models = [
+    { name: 'CORTEX-70B', ver: 'v3.8', params: '70.6B', ledCls: 'led green', status: 'Serving', tput: '312K tok/s', acc: '94.2%', gpu: '256 H100', util: 89, utilColor: null },
+    { name: 'CORTEX-7B', ver: 'v4.2', params: '7.2B', ledCls: 'led yellow blink', status: 'Training', tput: '--', acc: '91.8%', gpu: '512 H100', util: 97, utilColor: 'var(--nw-yellow)' },
+    { name: 'SYNAPSE-3B', ver: 'v2.1', params: '3.1B', ledCls: 'led green', status: 'Serving', tput: '421K tok/s', acc: '88.4%', gpu: '64 H100', util: 72, utilColor: null },
+    { name: 'REFLEX-1B', ver: 'v5.0', params: '1.3B', ledCls: 'led green', status: 'Serving', tput: '98K tok/s', acc: '84.1%', gpu: '32 H100', util: 58, utilColor: null },
+    { name: 'DENDRITE-13B', ver: 'v1.4', params: '13.2B', ledCls: 'led purple blink', status: 'Fine-tuning', tput: '--', acc: '90.7%', gpu: '128 H100', util: 94, utilColor: 'var(--nw-purple)' },
+    { name: 'AXON-500M', ver: 'v8.2', params: '542M', ledCls: 'led green', status: 'Edge', tput: '16K tok/s', acc: '79.3%', gpu: '8 H100', util: 34, utilColor: null },
+  ];
+
+  var modelBody = document.getElementById('modelBody');
+  if (modelBody) {
+    models.forEach(function(m) {
+      var tr = document.createElement('tr');
+
+      var tdName = document.createElement('td');
+      tdName.style.color = 'var(--nw-cyan)';
+      tdName.style.fontWeight = '500';
+      tdName.textContent = m.name;
+      tr.appendChild(tdName);
+
+      var tdVer = document.createElement('td');
+      tdVer.className = 'lbl';
+      tdVer.textContent = m.ver;
+      tr.appendChild(tdVer);
+
+      var tdParams = document.createElement('td');
+      tdParams.textContent = m.params;
+      tr.appendChild(tdParams);
+
+      var tdStatus = document.createElement('td');
+      var statusLed = createSpan(m.ledCls, '');
+      tdStatus.appendChild(statusLed);
+      tdStatus.appendChild(document.createTextNode(m.status));
+      tr.appendChild(tdStatus);
+
+      var tdTput = document.createElement('td');
+      tdTput.textContent = m.tput;
+      tr.appendChild(tdTput);
+
+      var tdAcc = document.createElement('td');
+      tdAcc.style.fontWeight = '700';
+      tdAcc.textContent = m.acc;
+      tr.appendChild(tdAcc);
+
+      var tdGpu = document.createElement('td');
+      tdGpu.textContent = m.gpu;
+      tr.appendChild(tdGpu);
+
+      var tdUtil = document.createElement('td');
+      var progWrap = document.createElement('div');
+      progWrap.className = 'nw-progress';
+      progWrap.style.display = 'inline-block';
+      progWrap.style.width = '60px';
+      progWrap.style.verticalAlign = 'middle';
+      var progFill = document.createElement('div');
+      progFill.className = 'fill';
+      progFill.style.width = m.util + '%';
+      if (m.utilColor) progFill.style.background = m.utilColor;
+      progWrap.appendChild(progFill);
+      tdUtil.appendChild(progWrap);
+      tdUtil.appendChild(document.createTextNode(' ' + m.util + '%'));
+      tr.appendChild(tdUtil);
+
+      modelBody.appendChild(tr);
+    });
+  }
+
+  // Power distribution table
+  var powerBody = document.getElementById('powerBody');
+  if (powerBody) {
+    NEURO.racks.forEach(function(rack) {
+      var tr = document.createElement('tr');
+
+      var tdRack = document.createElement('td');
+      tdRack.className = 'lbl';
+      tdRack.textContent = 'Rack-' + rack.id;
+      tr.appendChild(tdRack);
+
+      var tdGpus = document.createElement('td');
+      tdGpus.textContent = rack.gpus.toString();
+      tr.appendChild(tdGpus);
+
+      var tdPower = document.createElement('td');
+      tdPower.id = 'r' + rack.id + 'p';
+      tdPower.textContent = rack.power + ' kW';
+      tr.appendChild(tdPower);
+
+      var tdTemp = document.createElement('td');
+      tdTemp.id = 'r' + rack.id + 't';
+      tdTemp.textContent = rack.temp.toFixed(1) + 'C';
+      tr.appendChild(tdTemp);
+
+      var tdStatus = document.createElement('td');
+      var statusLed = createSpan(rack.temp > 73 ? 'led yellow' : 'led green', '');
+      tdStatus.appendChild(statusLed);
+      tdStatus.appendChild(document.createTextNode(rack.temp > 73 ? 'Warm' : 'OK'));
+      tr.appendChild(tdStatus);
+
+      powerBody.appendChild(tr);
+    });
+  }
+})();
+</script>
+
+<!-- Event Generator + Log Renderer (safe DOM methods) -->
+<script>
+(function() {
+  var logBody = document.getElementById('eventLogBody');
+  var countEl = document.getElementById('eventCount');
+  if (!logBody) return;
+
+  var EVENT_TYPES = [
+    { type: 'INFERENCE', cls: 'inference', weight: 30 },
+    { type: 'TRAINING',  cls: 'training',  weight: 15 },
+    { type: 'GRADIENT',  cls: 'gradient',  weight: 15 },
+    { type: 'ANOMALY',   cls: 'anomaly',   weight: 5 },
+    { type: 'CHECKPOINT', cls: 'checkpoint', weight: 10 },
+    { type: 'SCALING',   cls: 'scaling',   weight: 10 },
+    { type: 'SYNC',      cls: 'sync',      weight: 15 },
+  ];
+
+  var totalWeight = EVENT_TYPES.reduce(function(s, e) { return s + e.weight; }, 0);
+
+  function pickType() {
+    var r = Math.random() * totalWeight;
+    for (var i = 0; i < EVENT_TYPES.length; i++) {
+      r -= EVENT_TYPES[i].weight;
+      if (r <= 0) return EVENT_TYPES[i];
+    }
+    return EVENT_TYPES[0];
+  }
+
+  var MODELS = ['CORTEX-70B', 'CORTEX-7B', 'SYNAPSE-3B', 'REFLEX-1B', 'DENDRITE-13B', 'AXON-500M'];
+  var CLUSTERS = ['Alpha', 'Beta', 'Gamma', 'Delta'];
+
+  function generateEvent() {
+    var et = pickType();
+    var model = MODELS[Math.floor(Math.random() * MODELS.length)];
+    var cluster = CLUSTERS[Math.floor(Math.random() * CLUSTERS.length)];
+    var now = new Date();
+    var time = now.toTimeString().split(' ')[0].slice(0, 8);
+
+    var detail = '', metric = '', node = '';
+
+    switch (et.type) {
+      case 'INFERENCE': {
+        var tokens = Math.floor(128 + Math.random() * 4000);
+        var lat = (8 + Math.random() * 80).toFixed(1);
+        detail = model + ' batch ' + Math.floor(Math.random() * 256);
+        metric = tokens + ' tok ' + lat + 'ms';
+        node = 'Cluster-' + cluster;
+        NEURO.inferenceTokens += tokens;
+        break;
+      }
+      case 'TRAINING': {
+        var step = Math.floor(Math.random() * 50000);
+        var loss = (0.02 + Math.random() * 0.05).toFixed(4);
+        detail = 'step ' + step + ' grad_norm OK';
+        metric = 'loss: ' + loss;
+        node = 'Cluster-Alpha';
+        NEURO.loss = parseFloat(loss);
+        break;
+      }
+      case 'GRADIENT': {
+        var layer = Math.floor(Math.random() * 48);
+        var norm = (0.001 + Math.random() * 0.1).toFixed(4);
+        detail = 'Layer-' + layer + ' grad update';
+        metric = 'norm: ' + norm;
+        node = 'AllReduce';
+        break;
+      }
+      case 'ANOMALY': {
+        var anomalies = [
+          'NaN detected in attention',
+          'Gradient explosion L-42',
+          'Memory spike GPU-' + Math.floor(Math.random() * 2048),
+          'Latency threshold P99',
+          'Temperature warning R-C1',
+          'KV-cache overflow detected',
+        ];
+        detail = anomalies[Math.floor(Math.random() * anomalies.length)];
+        metric = 'ALERT';
+        node = 'GPU-' + Math.floor(Math.random() * 2048);
+        break;
+      }
+      case 'CHECKPOINT': {
+        var ckpt = 'ckpt-' + shortHash();
+        var sizeMB = Math.floor(800 + Math.random() * 4200);
+        detail = model + ' → ' + ckpt;
+        metric = sizeMB + ' MB';
+        node = 'Storage';
+        break;
+      }
+      case 'SCALING': {
+        var actions = ['autoscale +4 GPU', 'rebalance shards', 'migrate model', 'scale replicas +1', 'compact KV-cache'];
+        detail = actions[Math.floor(Math.random() * actions.length)];
+        metric = CLUSTERS[Math.floor(Math.random() * 4)];
+        node = 'Scheduler';
+        break;
+      }
+      case 'SYNC': {
+        var syncOps = ['weight sync', 'gradient allreduce', 'param broadcast', 'optimizer merge'];
+        detail = syncOps[Math.floor(Math.random() * syncOps.length)];
+        var bw = (12 + Math.random() * 88).toFixed(1);
+        metric = bw + ' GB/s';
+        node = 'Ring-' + Math.floor(Math.random() * 8);
+        break;
+      }
+    }
+
+    NEURO.eventCount++;
+    return { time: time, type: et.type, cls: et.cls, detail: detail, metric: metric, node: node };
+  }
+
+  function renderEvent(ev, isNew) {
+    var div = document.createElement('div');
+    div.className = 'ev' + (isNew ? ' new-entry' : '');
+
+    div.appendChild(createSpan('ev-time', ev.time));
+    div.appendChild(createSpan('ev-type ' + ev.cls, ev.type));
+    div.appendChild(createSpan('ev-detail', ev.detail));
+    div.appendChild(createSpan('ev-metric', ev.metric));
+    div.appendChild(createSpan('ev-node', ev.node));
+
+    logBody.appendChild(div);
+
+    if (isNew) setTimeout(function() { div.classList.remove('new-entry'); }, 700);
+    while (logBody.children.length > 200) logBody.removeChild(logBody.firstChild);
+    logBody.scrollTop = logBody.scrollHeight;
+    if (countEl) countEl.textContent = NEURO.eventCount + ' events';
+  }
+
+  // Pre-populate with 50 historical events
+  var now = Date.now();
+  for (var i = 50; i >= 1; i--) {
+    var ev = generateEvent();
+    var past = new Date(now - i * 8000);
+    ev.time = past.toTimeString().split(' ')[0].slice(0, 8);
+    renderEvent(ev, false);
+  }
+
+  // Live events every 2-6 seconds
+  function scheduleNext() {
+    var delay = 2000 + Math.random() * 4000;
+    setTimeout(function() {
+      var ev = generateEvent();
+      renderEvent(ev, true);
+      updateMetrics();
+      scheduleNext();
+    }, delay);
+  }
+  scheduleNext();
+})();
+
+function updateMetrics() {
+  var el = function(id) { return document.getElementById(id); };
+  if (el('metricThroughput')) el('metricThroughput').textContent = Math.round(NEURO.inferenceTokens / 1000) + 'K';
+  if (el('metricLatency')) {
+    var jitter = 38 + Math.random() * 12;
+    NEURO.latencyP99 = jitter;
+    el('metricLatency').textContent = jitter.toFixed(0) + 'ms';
+  }
+  if (el('metricTemp')) {
+    var temp = 69 + Math.random() * 6;
+    NEURO.gpuTemp = temp;
+    el('metricTemp').textContent = temp.toFixed(1) + 'C';
+  }
+  if (el('alphaLoss')) el('alphaLoss').textContent = NEURO.loss.toFixed(4);
+  if (el('betaRPS')) {
+    NEURO.rps = 11000 + Math.floor(Math.random() * 4000);
+    el('betaRPS').textContent = fmtNum(NEURO.rps);
+  }
+  if (el('betaP99')) el('betaP99').textContent = NEURO.latencyP99.toFixed(0) + 'ms';
+  if (el('betaQueue')) {
+    NEURO.queueDepth = 100 + Math.floor(Math.random() * 400);
+    el('betaQueue').textContent = fmtNum(NEURO.queueDepth);
+  }
+  if (el('betaCache')) {
+    NEURO.cacheHitRate = 85 + Math.random() * 10;
+    el('betaCache').textContent = NEURO.cacheHitRate.toFixed(1) + '%';
+  }
+
+  NEURO.racks.forEach(function(rack) {
+    rack.power = 160 + Math.random() * 30;
+    rack.temp = 68 + Math.random() * 8;
+    var pEl = el('r' + rack.id + 'p');
+    var tEl = el('r' + rack.id + 't');
+    if (pEl) pEl.textContent = Math.round(rack.power) + ' kW';
+    if (tEl) tEl.textContent = rack.temp.toFixed(1) + 'C';
+  });
+}
+</script>
+
+<!-- Ticker: data-driven -->
+<script>
+(function() {
+  var el = document.getElementById('tickerContent');
+  if (!el) return;
+
+  function updateTicker() {
+    el.textContent = '◆ NEURON-OPS — STATUS: NOMINAL ◆ GPUs: ' + NEURO.gpusOnline + '/' + NEURO.totalGPUs + ' ONLINE ◆ INFERENCE: ' + Math.round(NEURO.inferenceTokens / 1000) + 'K tok/s ◆ TRAINING: Epoch ' + NEURO.epoch + '/' + NEURO.maxEpoch + ' — Loss: ' + NEURO.loss.toFixed(4) + ' ◆ P99 LATENCY: ' + NEURO.latencyP99.toFixed(0) + 'ms ◆ GPU TEMP: ' + NEURO.gpuTemp.toFixed(1) + 'C ◆ 神経制御 — 全ノード正常 ◆ CACHE HIT: ' + NEURO.cacheHitRate.toFixed(1) + '% ◆ PATTERN: GREEN ◆';
+  }
+
+  updateTicker();
+  setInterval(updateTicker, 8000);
+})();
+</script>
+
+<!-- Signal Waveform Canvas -->
+<script>
+(function() {
+  var canvas = document.getElementById('waveformCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var w, h;
+
+  function resize() {
+    var rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = w = rect.width * 2;
+    canvas.height = h = rect.height * 2;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  var t = 0;
+
+  function draw() {
+    t += 0.018;
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, w, h);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(200,200,192,0.04)';
+    ctx.lineWidth = 1;
+    for (var gx = 0; gx < w; gx += 80) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke(); }
+    for (var gy = 0; gy < h; gy += 40) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke(); }
+
+    // Baseline
+    ctx.strokeStyle = 'rgba(122,237,122,0.08)';
+    ctx.beginPath(); ctx.moveTo(0, h / 2); ctx.lineTo(w, h / 2); ctx.stroke();
+
+    var waves = [
+      { color: '#7aed7a', width: 2.5, glow: 'rgba(122,237,122,0.2)', freq: 0.009, amp: 0.2, phase: 0, speed: 1, noise: 0.04 },
+      { color: '#66ddff', width: 1.5, glow: 'rgba(102,221,255,0.12)', freq: 0.014, amp: 0.14, phase: 1.8, speed: 0.7, noise: 0.06 },
+      { color: '#b266e0', width: 1.2, glow: null, freq: 0.02, amp: 0.1, phase: 3.2, speed: 1.4, noise: 0.08 },
+    ];
+
+    waves.forEach(function(wave) {
+      if (wave.glow) {
+        ctx.strokeStyle = wave.glow;
+        ctx.lineWidth = wave.width + 5;
+        ctx.beginPath();
+        for (var x = 0; x < w; x++) {
+          var noiseVal = Math.sin(x * 0.03 + t * 2.5) * wave.noise * h;
+          var y = h / 2 + Math.sin(x * wave.freq + t * wave.speed + wave.phase) * h * wave.amp
+            + Math.sin(x * wave.freq * 3 + t * wave.speed * 1.8 + wave.phase) * h * wave.amp * 0.25
+            + noiseVal;
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = wave.color;
+      ctx.lineWidth = wave.width;
+      ctx.beginPath();
+      for (var x2 = 0; x2 < w; x2++) {
+        var noiseVal2 = Math.sin(x2 * 0.03 + t * 2.5) * wave.noise * h;
+        var y2 = h / 2 + Math.sin(x2 * wave.freq + t * wave.speed + wave.phase) * h * wave.amp
+          + Math.sin(x2 * wave.freq * 3 + t * wave.speed * 1.8 + wave.phase) * h * wave.amp * 0.25
+          + noiseVal2;
+        x2 === 0 ? ctx.moveTo(x2, y2) : ctx.lineTo(x2, y2);
+      }
+      ctx.stroke();
+    });
+
+    var activation = 0.7 + Math.sin(t * 0.4) * 0.15 + Math.random() * 0.03;
+    var readoutEl = document.getElementById('activationReadout');
+    if (readoutEl) readoutEl.textContent = activation.toFixed(3);
+
+    var now = new Date();
+    var tc = document.getElementById('waveformTime');
+    if (tc) tc.textContent = now.toTimeString().split(' ')[0] + '.' + String(now.getMilliseconds()).padStart(3, '0');
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+</script>
+
+<!-- Attention Heatmap Canvas -->
+<script>
+(function() {
+  var canvas = document.getElementById('heatmapCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var w, h;
+  var GRID = 32;
+
+  function resize() {
+    var rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = w = rect.width * 2;
+    canvas.height = h = rect.height * 2;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Pre-generate attention pattern (causal mask + learned pattern)
+  var attn = new Float32Array(GRID * GRID);
+  for (var r = 0; r < GRID; r++) {
+    for (var c = 0; c < GRID; c++) {
+      if (c > r) {
+        attn[r * GRID + c] = 0;
+      } else {
+        var diag = r === c ? 0.7 : 0;
+        var local = Math.abs(r - c) < 4 ? 0.3 * (1 - Math.abs(r - c) / 4) : 0;
+        var global = c < 3 ? 0.15 : 0;
+        attn[r * GRID + c] = Math.min(1, diag + local + global + Math.random() * 0.08);
+      }
+    }
+  }
+
+  var t = 0;
+
+  function draw() {
+    t += 0.02;
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, w, h);
+
+    var cellW = w / GRID;
+    var cellH = h / GRID;
+
+    for (var r = 0; r < GRID; r++) {
+      for (var c = 0; c < GRID; c++) {
+        var val = attn[r * GRID + c];
+        val += Math.sin(t * 0.5 + r * 0.3 + c * 0.2) * 0.05;
+        val = Math.max(0, Math.min(1, val));
+
+        if (val < 0.01) continue;
+
+        var R = Math.floor(val * 120);
+        var G = Math.floor(val * 100 + val * val * 150);
+        var B = Math.floor(val * 200 + 55);
+        ctx.fillStyle = 'rgb(' + R + ',' + G + ',' + B + ')';
+        ctx.fillRect(c * cellW, r * cellH, cellW - 1, cellH - 1);
+      }
+    }
+
+    // Axis labels
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx.font = Math.max(8, cellH * 0.5) + 'px monospace';
+    ctx.textAlign = 'center';
+    for (var i = 0; i < GRID; i += 8) {
+      ctx.fillText(i.toString(), i * cellW + cellW / 2, h - 2);
+      ctx.fillText(i.toString(), 12, i * cellH + cellH / 2 + 3);
+    }
+
+    var readoutEl = document.getElementById('heatmapReadout');
+    if (readoutEl) {
+      var headIdx = Math.floor(t * 0.3) % 64;
+      readoutEl.textContent = 'H=' + headIdx;
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+</script>
+
+<!-- Layer Activation Map (gradient health bars) -->
+<script>
+(function() {
+  var container = document.getElementById('layerMap');
+  if (!container) return;
+
+  var subset = NEURO.layers.filter(function(_, i) { return i % 3 === 0; });
+
+  subset.forEach(function(layer, i) {
+    var gradPct = (layer.gradient * 100).toFixed(0);
+    var color = layer.gradient > 0.8 ? 'var(--nw-green)' :
+                layer.gradient > 0.5 ? 'var(--nw-cyan)' :
+                layer.gradient > 0.3 ? 'var(--nw-yellow)' : 'var(--nw-red)';
+
+    var row = createEl('div', 'layer-row');
+
+    var nameSpan = createSpan('layer-name', layer.name);
+    row.appendChild(nameSpan);
+
+    var barWrap = createEl('div', 'layer-bar-wrap');
+    var fill = createEl('div', 'layer-fill');
+    fill.id = 'layerFill' + i;
+    fill.style.width = gradPct + '%';
+    fill.style.background = color;
+    fill.style.boxShadow = '0 0 4px ' + color;
+    barWrap.appendChild(fill);
+    row.appendChild(barWrap);
+
+    var valSpan = createSpan('layer-val', gradPct + '%');
+    valSpan.id = 'layerVal' + i;
+    row.appendChild(valSpan);
+
+    container.appendChild(row);
+  });
+
+  // Animate
+  setInterval(function() {
+    var subset = NEURO.layers.filter(function(_, i) { return i % 3 === 0; });
+    subset.forEach(function(layer, i) {
+      layer.gradient += (Math.random() - 0.5) * 0.04;
+      layer.gradient = Math.max(0.1, Math.min(1, layer.gradient));
+
+      var pct = (layer.gradient * 100).toFixed(0);
+      var color = layer.gradient > 0.8 ? 'var(--nw-green)' :
+                  layer.gradient > 0.5 ? 'var(--nw-cyan)' :
+                  layer.gradient > 0.3 ? 'var(--nw-yellow)' : 'var(--nw-red)';
+
+      var fillEl = document.getElementById('layerFill' + i);
+      var valEl = document.getElementById('layerVal' + i);
+      if (fillEl) {
+        fillEl.style.width = pct + '%';
+        fillEl.style.background = color;
+        fillEl.style.boxShadow = '0 0 4px ' + color;
+      }
+      if (valEl) valEl.textContent = pct + '%';
+    });
+  }, 1500);
+})();
+</script>
+
+<!-- MAGI Model Agreement -->
+<script>
+(function() {
+  var baseConfidence = 94.0;
+  var lastUpdate = [Date.now(), Date.now(), Date.now()];
+
+  function updateOracles() {
+    var now = Date.now();
+    var intervals = [3000, 5000, 2000];
+    var ids = ['magi1', 'magi2', 'magi3'];
+
+    ids.forEach(function(id, i) {
+      var elapsed = now - lastUpdate[i];
+      if (elapsed > intervals[i]) {
+        lastUpdate[i] = now;
+        var deviation = (Math.random() - 0.5) * 1.5;
+        var confidence = baseConfidence + deviation;
+        var valEl = document.getElementById(id + 'Val');
+        if (valEl) valEl.textContent = confidence.toFixed(2) + '%';
+      }
+
+      var age = Math.round((now - lastUpdate[i]));
+      var ageEl = document.getElementById(id + 'Age');
+      if (ageEl) ageEl.textContent = age + 'ms ago';
+
+      var led = document.querySelector('#' + id + ' .led');
+      var statusEl = document.getElementById(id + 'Status');
+      if (age < 5000) {
+        if (led) led.className = 'led green';
+        if (statusEl) { statusEl.className = 'ms-status agree'; statusEl.textContent = 'AGREE'; }
+      } else if (age < 10000) {
+        if (led) led.className = 'led yellow';
+        if (statusEl) { statusEl.className = 'ms-status warn'; statusEl.textContent = 'STALE'; }
+      } else {
+        if (led) led.className = 'led red';
+        if (statusEl) { statusEl.className = 'ms-status reject'; statusEl.textContent = 'REJECT'; }
+      }
+    });
+
+    var vals = ids.map(function(id) {
+      var el = document.getElementById(id + 'Val');
+      return el ? parseFloat(el.textContent) : baseConfidence;
+    });
+    var avg = vals.reduce(function(a, b) { return a + b; }, 0) / 3;
+    var resultEl = document.getElementById('magiResult');
+    var allAgree = document.querySelectorAll('.ms-status.agree').length === 3;
+    if (resultEl) {
+      resultEl.style.color = allAgree ? 'var(--nw-green)' : 'var(--nw-yellow)';
+      resultEl.textContent = (allAgree ? '3/3 AGREE' : 'DEVIATION') + ' — Confidence: ' + avg.toFixed(2) + '%';
+    }
+  }
+
+  setInterval(updateOracles, 500);
+  updateOracles();
+})();
+</script>
+
+<!-- System Clock -->
+<script>
+(function() {
+  function tick() {
+    var now = new Date();
+    var y = now.getFullYear();
+    var m = String(now.getMonth() + 1).padStart(2, '0');
+    var d = String(now.getDate()).padStart(2, '0');
+    var time = now.toTimeString().split(' ')[0];
+    var el = document.getElementById('systemClock');
+    if (el) el.textContent = y + '.' + m + '.' + d + ' — ' + time + ' UTC';
+  }
+  setInterval(tick, 1000);
+  tick();
+})();
+</script>
+
+<!-- Three.js: Neural Network 3D Visualization -->
+<script type="module">
+import * as THREE from 'three';
+
+{
+  const container = document.getElementById('neuralViewport');
+  if (container) {
+    const rect = container.getBoundingClientRect();
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, rect.width / rect.height, 0.1, 1000);
+    camera.position.set(0, 4, 14);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(rect.width, rect.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 1);
+    container.appendChild(renderer.domElement);
+
+    window.addEventListener('resize', () => {
+      const r = container.getBoundingClientRect();
+      camera.aspect = r.width / r.height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(r.width, r.height);
+    });
+
+    // === 1. NEURAL NETWORK LAYERS ===
+    const NUM_LAYERS = 8;
+    const NEURONS_PER_LAYER = [8, 12, 16, 20, 20, 16, 12, 8];
+    const LAYER_SPACING = 2.2;
+    const layerOffset = -(NUM_LAYERS - 1) * LAYER_SPACING / 2;
+
+    const neuronMeshes = [];
+    const neuronPositions = [];
+
+    const layerColors = [0x6699ff, 0x6699ff, 0x66ddff, 0x66ddff, 0x7aed7a, 0x7aed7a, 0xe8993a, 0xe8993a];
+
+    for (let layer = 0; layer < NUM_LAYERS; layer++) {
+      const numNeurons = NEURONS_PER_LAYER[layer];
+      const x = layerOffset + layer * LAYER_SPACING;
+      const layerNeurons = [];
+      const layerPositions = [];
+      const color = layerColors[layer];
+
+      for (let n = 0; n < numNeurons; n++) {
+        const ySpread = 5;
+        const y = (n / (numNeurons - 1) - 0.5) * ySpread;
+        const z = (Math.random() - 0.5) * 1.5;
+
+        const geo = new THREE.SphereGeometry(0.12, 8, 8);
+        const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.85 });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(x, y, z);
+        scene.add(mesh);
+
+        const glowGeo = new THREE.SphereGeometry(0.2, 8, 8);
+        const glowMat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.15, wireframe: true });
+        const glow = new THREE.Mesh(glowGeo, glowMat);
+        glow.position.copy(mesh.position);
+        scene.add(glow);
+
+        layerNeurons.push({ mesh, glow, baseY: y });
+        layerPositions.push(new THREE.Vector3(x, y, z));
+      }
+
+      neuronMeshes.push(layerNeurons);
+      neuronPositions.push(layerPositions);
+    }
+
+    // === 2. SYNAPTIC CONNECTIONS ===
+    const connectionLines = [];
+    for (let layer = 0; layer < NUM_LAYERS - 1; layer++) {
+      const from = neuronPositions[layer];
+      const to = neuronPositions[layer + 1];
+
+      from.forEach((fromPos) => {
+        const numConnections = 3 + Math.floor(Math.random() * 4);
+        const indices = [];
+        while (indices.length < numConnections && indices.length < to.length) {
+          const idx = Math.floor(Math.random() * to.length);
+          if (!indices.includes(idx)) indices.push(idx);
+        }
+
+        indices.forEach(ti => {
+          const toPos = to[ti];
+          const points = [fromPos, toPos];
+          const geo = new THREE.BufferGeometry().setFromPoints(points);
+          const depthFrac = layer / (NUM_LAYERS - 2);
+          const hue = 0.52 + depthFrac * 0.15;
+          const color = new THREE.Color().setHSL(hue, 0.7, 0.5);
+          const opacity = 0.08 + Math.random() * 0.1;
+          const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity });
+          const line = new THREE.Line(geo, mat);
+          scene.add(line);
+          connectionLines.push({ line, mat, fromLayer: layer, baseOpacity: opacity });
+        });
+      });
+    }
+
+    // === 3. SIGNAL PARTICLES ===
+    const NUM_PARTICLES = 60;
+    const particles = [];
+
+    for (let i = 0; i < NUM_PARTICLES; i++) {
+      const layer = Math.floor(Math.random() * (NUM_LAYERS - 1));
+      const fromIdx = Math.floor(Math.random() * neuronPositions[layer].length);
+      const toIdx = Math.floor(Math.random() * neuronPositions[layer + 1].length);
+
+      const geo = new THREE.SphereGeometry(0.04, 4, 4);
+      const mat = new THREE.MeshBasicMaterial({ color: 0x7aed7a, transparent: true, opacity: 0.9 });
+      const mesh = new THREE.Mesh(geo, mat);
+      scene.add(mesh);
+
+      particles.push({
+        mesh,
+        from: neuronPositions[layer][fromIdx],
+        to: neuronPositions[layer + 1][toIdx],
+        progress: Math.random(),
+        speed: 0.003 + Math.random() * 0.008,
+        layer,
+      });
+    }
+
+    // === 4. BACKGROUND GRID ===
+    const gridGeo = new THREE.PlaneGeometry(25, 15, 25, 15);
+    const gridMat = new THREE.MeshBasicMaterial({ color: 0x6699ff, wireframe: true, transparent: true, opacity: 0.04 });
+    const grid = new THREE.Mesh(gridGeo, gridMat);
+    grid.position.set(0, 0, -4);
+    scene.add(grid);
+
+    // === 5. FLOATING DATA PARTICLES ===
+    const bgN = 120;
+    const bgPos = new Float32Array(bgN * 3);
+    for (let i = 0; i < bgN; i++) {
+      bgPos[i * 3] = (Math.random() - 0.5) * 30;
+      bgPos[i * 3 + 1] = (Math.random() - 0.5) * 15;
+      bgPos[i * 3 + 2] = (Math.random() - 0.5) * 20 - 5;
+    }
+    const bgGeo = new THREE.BufferGeometry();
+    bgGeo.setAttribute('position', new THREE.BufferAttribute(bgPos, 3));
+    scene.add(new THREE.Points(bgGeo, new THREE.PointsMaterial({
+      color: 0x66ddff, size: 0.06, transparent: true, opacity: 0.25
+    })));
+
+    // === ANIMATE ===
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = Date.now() * 0.001;
+
+      // Camera orbit
+      camera.position.x = Math.sin(t * 0.06) * 5;
+      camera.position.y = 3 + Math.sin(t * 0.04) * 1.5;
+      camera.position.z = 12 + Math.cos(t * 0.06) * 3;
+      camera.lookAt(0, 0, 0);
+
+      // Neuron breathing
+      neuronMeshes.forEach((layer, li) => {
+        layer.forEach((neuron, ni) => {
+          const pulse = 0.85 + Math.sin(t * 2 + li * 0.5 + ni * 0.3) * 0.15;
+          neuron.mesh.scale.setScalar(pulse);
+          neuron.glow.scale.setScalar(pulse * 1.5);
+          neuron.mesh.position.y = neuron.baseY + Math.sin(t * 0.8 + ni * 0.5) * 0.08;
+          neuron.glow.position.y = neuron.mesh.position.y;
+        });
+      });
+
+      // Signal particles
+      particles.forEach(p => {
+        p.progress += p.speed;
+        if (p.progress >= 1) {
+          p.progress = 0;
+          p.layer = Math.floor(Math.random() * (NUM_LAYERS - 1));
+          const fromIdx = Math.floor(Math.random() * neuronPositions[p.layer].length);
+          const toIdx = Math.floor(Math.random() * neuronPositions[p.layer + 1].length);
+          p.from = neuronPositions[p.layer][fromIdx];
+          p.to = neuronPositions[p.layer + 1][toIdx];
+          p.speed = 0.003 + Math.random() * 0.008;
+        }
+
+        p.mesh.position.lerpVectors(p.from, p.to, p.progress);
+        const brightness = Math.sin(p.progress * Math.PI);
+        p.mesh.material.opacity = 0.3 + brightness * 0.7;
+        p.mesh.scale.setScalar(0.6 + brightness * 0.6);
+      });
+
+      // Connection line pulse
+      connectionLines.forEach(c => {
+        const wave = Math.sin(t * 1.5 - c.fromLayer * 0.8);
+        c.mat.opacity = c.baseOpacity + wave * 0.04;
+      });
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  }
+}
+</script>
+
+</body>
+</html>

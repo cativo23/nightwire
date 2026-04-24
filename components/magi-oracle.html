@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nightwire — MAGI Oracle Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #000000; --void-warm: #0a0a0a;
+  --nw-primary: #6699ff; --nw-primary-dim: #4477cc;
+  --nw-green: #7aed7a;
+  --nw-cyan: #66ddff; --nw-cyan-dim: #44aacc;
+  --nw-red: #ff6688;
+  --nw-text: #ffffff; --nw-text-dim: #aaaaaa; --nw-text-faint: rgba(255,255,255,0.06);
+  --font-title: 'Noto Serif Display', serif;
+  --font-sys: 'JetBrains Mono', monospace;
+  --font-stamp: 'Saira Extra Condensed', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--void); font-family: var(--font-sys); font-size: 14px; line-height: 1.5; padding: 40px; }
+
+.panel {
+  background: var(--void-warm); border: 1px solid var(--nw-text-faint);
+  display: flex; flex-direction: column; width: 480px; margin: 0 auto;
+}
+.panel-header {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--nw-primary);
+  padding: 8px 12px 7px; border-bottom: 1px solid var(--nw-primary-dim);
+  display: flex; justify-content: space-between;
+}
+.panel-header .tag { font-size: 9px; color: var(--nw-text-dim); }
+.panel-body { padding: 10px 12px; }
+
+.magi-oracle { display: flex; flex-direction: column; gap: 8px; }
+.magi-source {
+  padding: 8px 10px; border: 1px solid var(--nw-cyan-dim);
+  background: var(--void); display: flex; align-items: center; gap: 10px;
+}
+.magi-source .ms-name {
+  font-family: var(--font-title); font-size: 13px; font-weight: 800;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--nw-cyan);
+  transform: scaleX(0.85); transform-origin: left; min-width: 100px;
+}
+.magi-source .ms-price {
+  font-size: 13px; font-weight: 700; color: var(--nw-green); font-variant-numeric: tabular-nums;
+}
+.magi-source .ms-meta {
+  font-size: 9px; color: var(--nw-text-dim); margin-left: auto; text-align: right; line-height: 1.4;
+}
+.magi-source .ms-status {
+  font-family: var(--font-stamp); font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+}
+.ms-status.agree { color: var(--nw-green); }
+.ms-status.stale { color: var(--nw-primary); }
+.ms-status.reject { color: var(--nw-red); }
+.magi-consensus {
+  font-size: 10px; text-align: center; padding: 6px;
+  color: var(--nw-text-dim); letter-spacing: 0.1em; text-transform: uppercase;
+  border-top: 1px solid var(--nw-cyan-dim);
+}
+.led { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.led.green { background: var(--nw-green); box-shadow: 0 0 4px var(--nw-green); }
+.led.blue { background: var(--nw-primary); box-shadow: 0 0 4px var(--nw-primary); }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <div class="panel-header">
+    <span>MAGI Oracle — Price Consensus</span>
+    <span class="tag">合意形成</span>
+  </div>
+  <div class="panel-body">
+    <div class="magi-oracle">
+      <div class="magi-source">
+        <span class="led green"></span>
+        <div class="ms-name">Melchior</div>
+        <div class="ms-price" id="p1">$3,842.18</div>
+        <div class="ms-meta">Chainlink<br><span id="a1">2s ago</span></div>
+        <div class="ms-status agree">AGREE</div>
+      </div>
+      <div class="magi-source">
+        <span class="led green"></span>
+        <div class="ms-name">Balthasar</div>
+        <div class="ms-price" id="p2">$3,842.44</div>
+        <div class="ms-meta">Uniswap TWAP<br><span id="a2">5s ago</span></div>
+        <div class="ms-status agree">AGREE</div>
+      </div>
+      <div class="magi-source">
+        <span class="led green"></span>
+        <div class="ms-name">Casper</div>
+        <div class="ms-price" id="p3">$3,841.92</div>
+        <div class="ms-meta">Internal<br><span id="a3">1s ago</span></div>
+        <div class="ms-status agree">AGREE</div>
+      </div>
+      <div class="magi-consensus">
+        Consensus: <span style="color:var(--nw-green);font-weight:700">3/3 AGREE — Deviation: 0.013%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const base = 3842.18;
+const prices = [base, base + 0.26, base - 0.26];
+const intervals = [12000, 20000, 8000];
+const lastUpdate = [Date.now(), Date.now(), Date.now()];
+
+setInterval(() => {
+  const now = Date.now();
+  [1,2,3].forEach((n, i) => {
+    if (now - lastUpdate[i] > intervals[i]) {
+      lastUpdate[i] = now;
+      prices[i] = base + (Math.random() - 0.5) * 2;
+      document.getElementById('p' + n).textContent = '$' + prices[i].toFixed(2);
+    }
+    document.getElementById('a' + n).textContent = Math.round((now - lastUpdate[i]) / 1000) + 's ago';
+  });
+}, 1000);
+</script>
+</body>
+</html>
