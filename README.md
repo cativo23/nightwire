@@ -1,6 +1,22 @@
+<div align="center">
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="400" height="160">
+  <rect width="200" height="80" fill="#000000"/>
+  <rect x="2" y="2" width="196" height="76" fill="none" stroke="#6699ff" stroke-width="1"/>
+  <text x="16" y="58" font-family="Georgia, serif" font-weight="900" font-size="56" fill="#6699ff" letter-spacing="-2">NW</text>
+  <rect x="16" y="64" width="40" height="2" fill="#7aed7a"/>
+  <rect x="60" y="64" width="40" height="2" fill="#66ddff"/>
+  <rect x="104" y="64" width="40" height="2" fill="#ff6688"/>
+  <rect x="148" y="64" width="36" height="2" fill="#b266e0"/>
+  <text x="16" y="76" font-family="monospace" font-size="7" fill="#4477cc" letter-spacing="2">DARK CYBERPUNK UI SYSTEM</text>
+</svg>
+
 # Nightwire
 
-A dark-mode-only design system with a modern cyberpunk aesthetic. Works for dashboards, admin panels, dev tools, media players, monitoring UIs, landing pages — any interface that lives in the void.
+**A dark-mode-only cyberpunk UI design system.**
+Framework-agnostic. Pure `#000000` void. Semantic neon palette. AI-first.
+
+</div>
 
 Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreatGildo](https://github.com/TheGreatGildo).
 
