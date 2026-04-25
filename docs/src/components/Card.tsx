@@ -1,0 +1,18 @@
+import { cn } from '../utils/cn';
+import React from 'react';
+
+export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('card', className)} {...props} />;
+}
+
+export function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('card-header', className)} {...props} />;
+}
+
+export function CardBody({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('card-body', className)} {...props} />;
+}
+
+export function CardFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('card-footer', className)} {...props} />;
+}

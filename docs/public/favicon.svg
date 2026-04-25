@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Void background -->
+  <rect width="32" height="32" fill="#000000"/>
+  <!-- Primary border -->
+  <rect x="1" y="1" width="30" height="30" fill="none" stroke="#6699ff" stroke-width="1"/>
+  <!-- N letterform -->
+  <text x="4" y="24" font-family="Georgia, serif" font-weight="900" font-size="22" fill="#6699ff" letter-spacing="-1">N</text>
+  <!-- Neon accent lines at bottom -->
+  <rect x="4" y="27" width="7" height="1.5" fill="#7aed7a"/>
+  <rect x="13" y="27" width="7" height="1.5" fill="#66ddff"/>
+  <rect x="22" y="27" width="6" height="1.5" fill="#ff6688"/>
+</svg>

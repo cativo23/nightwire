@@ -1,0 +1,90 @@
+@import './nightwire.css';
+@import './console.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Responsive Typography ──────────────────────────────────── */
+/* Fluid base font: 13px @ 375px → 16px @ 2560px */
+html {
+  font-size: clamp(13px, 0.5vw + 11px, 16px);
+}
+
+body {
+  margin: 0;
+  background-color: var(--void);
+  color: var(--nw-text);
+  font-family: var(--font-sys);
+  font-size: 1rem;
+}
+
+/* ── Component Typography Overrides ─────────────────────────── */
+/* Scale up previously tiny elements for legibility */
+.sidebar { font-size: 13px; }
+.sidebar-item { font-size: 13px; }
+.sidebar-section { font-size: 10px; }
+.panel-header { font-size: 11px; }
+.nw-table { font-size: 13px; }
+.nw-table th { font-size: 10px; }
+.nw-table td { font-size: 13px; }
+.metric-cell .m-label { font-size: 10px; }
+.metric-cell .m-value { font-size: 22px; }
+.metric-cell .m-sub { font-size: 10px; }
+.metric-cell.highlight .m-value { font-size: 26px; }
+.kv-row .kv-label { font-size: 11px; }
+pre { font-size: 13px; line-height: 1.6; }
+
+/* Console-specific overrides for tiny text */
+.nw-nav .org-mark .sub { font-size: 10px; }
+.nw-nav a { font-size: 11px; }
+.ticker { font-size: 10px; }
+.waveform-wrap .readout-label { font-size: 10px; }
+.waveform-wrap .timecode { font-size: 10px; }
+.waveform-wrap .legend { font-size: 10px; }
+.node-card .nc-row { font-size: 10px; }
+.node-card .nc-row .lbl { font-size: 10px; }
+.magi-consensus { font-size: 10px; }
+.event-log .el-header { font-size: 10px; }
+.event-log .el-header .el-count { font-size: 10px; }
+.event-log .el-body { font-size: 11px; }
+.ev { font-size: 11px; }
+.ev .ev-time { font-size: 11px; }
+.status-bar { font-size: 10px; }
+.color-swatch { font-size: 11px; }
+.color-swatch .swatch-name { font-size: 10px; }
+.color-swatch .swatch-var { font-size: 10px; }
+
+/* ── Mobile Responsive Layout ───────────────────────────────── */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--nw-text-faint);
+  }
+  main {
+    padding: 16px !important;
+  }
+}
+
+/* Enforce zero border-radius everywhere — Nightwire is sharp */
+.btn, .btn-ghost, .btn-danger,
+.card, .modal, .dropdown-menu,
+input, select, textarea,
+.badge, .toast, pre { border-radius: 0 !important; }
+
+/* Section spacing and visual separation */
+section {
+  padding-top: 32px;
+  margin-top: 8px;
+  border-top: 1px solid var(--nw-text-faint);
+}
+
+section:first-child {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}

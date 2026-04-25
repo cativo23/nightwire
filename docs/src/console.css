@@ -1,0 +1,446 @@
+/* ═══════════════════════════════════════════════════════════════
+   Nightwire Docs — Console Layout Classes
+   Extracted from demo HTML files. These complement nightwire.css
+   with the dense operations console layout patterns.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── CONSOLE WRAPPER ──────────────────────────────────────── */
+.console-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ── NAVIGATION ───────────────────────────────────────────── */
+.nw-nav {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--void);
+  border-bottom: 1px solid var(--nw-primary-dim);
+  gap: 20px;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.nw-nav .org-mark {
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  color: var(--nw-primary);
+  text-transform: uppercase;
+  transform: scaleX(0.82);
+  transform-origin: left center;
+  line-height: 1.15;
+}
+
+.nw-nav .org-mark .sub {
+  font-family: var(--font-sys);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--nw-text-dim);
+  display: block;
+  transform: scaleX(1.22);
+  transform-origin: left;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.nw-nav .jp-sub {
+  font-family: var(--font-mincho);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--nw-primary-dim);
+  transform: scaleX(0.8);
+  transform-origin: left;
+}
+
+.nw-nav .nav-links {
+  display: flex;
+  gap: 14px;
+  margin-left: auto;
+}
+
+.nw-nav a {
+  font-family: var(--font-sys);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nw-text-dim);
+  text-decoration: none;
+  padding: 4px 8px;
+  transition: color 0.15s;
+}
+
+.nw-nav a:hover, .nw-nav a.active { color: var(--nw-primary); }
+
+/* ── TICKER ───────────────────────────────────────────────── */
+.ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--void);
+  border-bottom: 1px solid var(--nw-text-faint);
+  padding: 2px 0;
+  font-family: var(--font-sys);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  flex-shrink: 0;
+}
+
+.ticker .scroll {
+  display: inline-block;
+  animation: ticker-scroll 80s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* ── DASHBOARD LAYOUT ─────────────────────────────────────── */
+.dashboard {
+  display: flex;
+  gap: 2px;
+  flex: 1;
+  padding: 2px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dash-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.dash-right {
+  width: 370px;
+  min-width: 370px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dash-row {
+  display: grid;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.dash-row.r1 { grid-template-columns: 1.2fr 1fr; min-height: 360px; }
+.dash-row.r2 { grid-template-columns: 1fr 1fr; }
+.dash-row.r3 { grid-template-columns: 1.5fr 1fr; min-height: 180px; }
+.dash-row.r4 { grid-template-columns: 1fr; }
+
+@media (max-width: 1100px) {
+  .dashboard { flex-direction: column; }
+  .dash-right { width: 100%; min-width: 0; max-height: 300px; }
+  .dash-row.r1, .dash-row.r2, .dash-row.r3 { grid-template-columns: 1fr; }
+}
+
+/* ── CANVAS WAVEFORM ──────────────────────────────────────── */
+.waveform-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--void);
+}
+
+.waveform-wrap canvas { width: 100%; height: 100%; display: block; }
+
+.waveform-wrap .readout {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--nw-green);
+  text-shadow: 0 0 6px rgba(122,237,122,0.8), 0 0 12px rgba(122,237,122,0.5), 0 0 24px rgba(122,237,122,0.3);
+  z-index: 2;
+}
+
+.waveform-wrap .readout-label {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  z-index: 2;
+}
+
+.waveform-wrap .timecode {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  font-size: 7px;
+  color: var(--nw-primary-dim);
+  letter-spacing: 0.08em;
+  z-index: 2;
+}
+
+.waveform-wrap .legend {
+  position: absolute;
+  bottom: 4px;
+  left: 8px;
+  font-size: 7px;
+  color: var(--nw-text-dim);
+  z-index: 2;
+  display: flex;
+  gap: 12px;
+}
+
+/* ── NODE/VAULT CARDS ─────────────────────────────────────── */
+.node-card {
+  padding: 8px 10px;
+  flex: 1;
+}
+
+.node-card .nc-id {
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--nw-cyan);
+  transform: scaleX(0.82);
+  transform-origin: left;
+}
+
+.node-card .nc-name {
+  font-family: var(--font-mincho);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--nw-text);
+  transform: scaleX(0.78);
+  transform-origin: left;
+  margin: 2px 0 6px;
+}
+
+.node-card .nc-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--nw-text-faint);
+}
+
+.node-card .nc-row:last-child { border-bottom: none; }
+.node-card .nc-row .lbl { color: var(--nw-primary-dim); text-transform: uppercase; letter-spacing: 0.06em; font-size: 8px; }
+.node-card .nc-row .val { color: var(--nw-green); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+.node-card .nc-status {
+  margin-top: 4px;
+  font-family: var(--font-stamp);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── MAGI CONSENSUS ───────────────────────────────────────── */
+.magi-oracle {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.magi-source {
+  padding: 6px 8px;
+  border: 1px solid var(--nw-cyan-dim);
+  background: var(--void);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.magi-source .ms-name {
+  font-family: var(--font-title);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--nw-cyan);
+  transform: scaleX(0.85);
+  transform-origin: left;
+  min-width: 80px;
+}
+
+.magi-source .ms-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--nw-green);
+  font-variant-numeric: tabular-nums;
+}
+
+.magi-source .ms-meta {
+  font-size: 10px;
+  color: var(--nw-text-dim);
+  margin-left: auto;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.magi-source .ms-status {
+  font-family: var(--font-stamp);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.magi-source .ms-status.agree { color: var(--nw-green); }
+.magi-source .ms-status.warn { color: var(--nw-yellow); }
+.magi-source .ms-status.reject { color: var(--nw-red); }
+
+.magi-consensus {
+  font-size: 8px;
+  text-align: center;
+  padding: 4px;
+  color: var(--nw-text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--nw-cyan-dim);
+}
+
+.magi-consensus span { font-weight: 700; }
+
+/* ── EVENT LOG ────────────────────────────────────────────── */
+.event-log {
+  background: var(--void-warm);
+  border: 1px solid var(--nw-text-faint);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.event-log .el-header {
+  font-family: var(--font-sys);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  padding: 6px 10px 5px;
+  border-bottom: 1px solid var(--nw-primary-dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.event-log .el-header .el-count {
+  font-size: 7px;
+  color: var(--nw-green);
+  font-weight: 500;
+}
+
+.event-log .el-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: var(--font-sys);
+  font-size: 9px;
+  line-height: 1.5;
+  padding: 2px 0;
+  min-height: 0;
+}
+
+.event-log .el-body::-webkit-scrollbar { width: 3px; }
+.event-log .el-body::-webkit-scrollbar-track { background: var(--void); }
+.event-log .el-body::-webkit-scrollbar-thumb { background: var(--nw-text-faint); border-radius: 2px; }
+
+.ev {
+  padding: 1px 10px;
+  display: flex;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  border-left: 2px solid transparent;
+}
+
+.ev:hover { background: var(--nw-green-faint); }
+
+.ev .ev-time { color: var(--nw-text-dim); min-width: 52px; flex-shrink: 0; }
+.ev .ev-type { min-width: 62px; font-weight: 700; letter-spacing: 0.04em; flex-shrink: 0; }
+.ev .ev-detail { color: var(--nw-text); flex: 1; overflow: hidden; text-overflow: ellipsis; }
+.ev .ev-metric { color: var(--nw-green); min-width: 75px; text-align: right; flex-shrink: 0; }
+
+.ev-type.system  { color: var(--nw-green); }
+.ev-type.render  { color: var(--nw-cyan); }
+.ev-type.token   { color: var(--nw-primary); }
+.ev-type.error   { color: var(--nw-red); }
+.ev-type.warning { color: var(--nw-yellow); }
+.ev-type.build   { color: var(--nw-purple); }
+
+.ev.new-entry { border-left-color: var(--nw-green); }
+.ev.new-entry { animation: ev-flash 0.6s ease-out; }
+@keyframes ev-flash {
+  0% { background: var(--nw-green-fill); }
+  100% { background: transparent; }
+}
+
+/* ── STATUS BAR ───────────────────────────────────────────── */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 12px;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nw-text-dim);
+  border-top: 1px solid var(--nw-text-faint);
+  flex-shrink: 0;
+}
+
+/* ── LED BLINK ────────────────────────────────────────────── */
+@keyframes led-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.led.blink { animation: led-blink 1s ease-in-out infinite; }
+
+/* ── COLOR SWATCH ─────────────────────────────────────────── */
+.color-swatch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--nw-text-faint);
+  font-size: 9px;
+}
+
+.color-swatch:last-child { border-bottom: none; }
+
+.color-swatch .swatch-chip {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--nw-text-faint);
+  flex-shrink: 0;
+}
+
+.color-swatch .swatch-name {
+  color: var(--nw-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 8px;
+  min-width: 100px;
+}
+
+.color-swatch .swatch-hex {
+  color: var(--nw-green);
+  font-variant-numeric: tabular-nums;
+}
+
+.color-swatch .swatch-var {
+  color: var(--nw-text-dim);
+  font-size: 8px;
+  margin-left: auto;
+}
