@@ -1,0 +1,12 @@
+services:
+  docs:
+    build:
+      context: ./docs
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:5173"
+    volumes:
+      - ./docs/src:/app/src
+      - ./docs/index.html:/app/index.html
+      - ./docs/public:/app/public
+    restart: unless-stopped
