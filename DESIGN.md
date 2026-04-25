@@ -182,11 +182,14 @@ Nightwire uses a three-family system: monospace for all body and data, serif dis
 
 All text is set in uppercase with generous letter-spacing for labels and UI chrome. Body text uses normal case.
 
-## Layout
+## Layout & Architecture
+
+The Nightwire CSS system is divided into two distinct architectural concepts:
+
+1. **Base System (Layout-Agnostic):** The core `nightwire.css` file only contains design tokens (colors, typography) and atomic components (`.btn`, `.card`, `.panel`, `.nw-table`). This makes it completely layout-agnostic, allowing you to build standard scrolling websites, portfolios, or documentation sites.
+2. **Operations Console (Dashboard Layout):** For dense, full-viewport dashboard interfaces (like the demos), Nightwire uses a specific 3-column layout pattern with `console-wrapper`, `nw-nav`, `dash-left`, and `dash-right`. This is provided as a layout template rather than baked into the core CSS, ensuring maximum flexibility.
 
 Nightwire follows a **4px base spacing scale**. All spacing values are multiples of 4px, with a 12px step for component internal padding and 16px for section separation.
-
-The layout model is content-driven — no fixed grid is prescribed. Components are placed in flex or CSS grid layouts as needed. The `stack` utility (flex column, 8px gap) and `grid-2/3/4` utilities cover the most common patterns.
 
 Panels and cards use sharp or minimal-radius edges to reinforce the industrial aesthetic. Dense information layouts are preferred over spacious ones — every pixel should carry data.
 

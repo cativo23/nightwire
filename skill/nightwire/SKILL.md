@@ -475,6 +475,36 @@ Serif title with `scaleX(0.82)` compression + Japanese subtitle. Adds cyberpunk 
 
 ---
 
+## Operations Console Layout (Optional Template)
+
+While `nightwire.css` is layout-agnostic, you can build dense, full-viewport dashboard interfaces by adding the following template classes:
+
+```css
+.console-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.nw-nav { display: flex; align-items: center; padding: 10px 16px; background: var(--void); border-bottom: 1px solid var(--nw-primary-dim); flex-shrink: 0; }
+.dashboard { display: flex; gap: 2px; flex: 1; padding: 2px; min-height: 0; }
+.dash-left { flex: 1; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+.dash-right { width: 370px; min-width: 370px; display: flex; flex-direction: column; gap: 2px; }
+.dash-row { display: grid; gap: 2px; flex-shrink: 0; }
+```
+
+HTML Structure:
+```html
+<div class="console-wrapper">
+  <nav class="nw-nav">...</nav>
+  <div class="dashboard">
+    <div class="dash-left">
+      <div class="dash-row" style="grid-template-columns: 1fr 1fr;">
+        <div class="panel">...</div>
+      </div>
+    </div>
+    <div class="dash-right">...</div>
+  </div>
+</div>
+```
+
+---
+
 ## Utility Classes
 
 ### Text Color
