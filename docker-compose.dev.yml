@@ -9,4 +9,5 @@ services:
       - ./docs/src:/app/src
       - ./docs/index.html:/app/index.html
       - ./docs/public:/app/public
+      - ./examples:/app/public/examples
     restart: unless-stopped
