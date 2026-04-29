@@ -38,7 +38,12 @@
 
   /* Accent */
   --nw-yellow:        #e8993a;
+  --nw-yellow-dim:    #b8732a;
+  --nw-yellow-fill:   rgba(232, 153, 58, 0.1);
+
   --nw-purple:        #b266e0;
+  --nw-purple-dim:    #8844bb;
+  --nw-purple-fill:   rgba(178, 102, 224, 0.1);
 
   /* Text */
   --nw-text:          #ffffff;
@@ -161,10 +166,12 @@ table {
 
 /* ── Glow ────────────────────────────────────────────────────── */
 
-.glow-green { text-shadow: 0 0 8px rgba(122,237,122,0.5), 0 0 16px rgba(122,237,122,0.2); }
-.glow-blue  { text-shadow: 0 0 8px rgba(102,153,255,0.5), 0 0 16px rgba(102,153,255,0.2); }
-.glow-cyan  { text-shadow: 0 0 8px rgba(102,221,255,0.5), 0 0 16px rgba(102,221,255,0.2); }
-.glow-red   { text-shadow: 0 0 8px rgba(255,102,136,0.5), 0 0 16px rgba(255,102,136,0.3); }
+.glow-green  { text-shadow: 0 0 8px rgba(122,237,122,0.5), 0 0 16px rgba(122,237,122,0.2); }
+.glow-blue   { text-shadow: 0 0 8px rgba(102,153,255,0.5), 0 0 16px rgba(102,153,255,0.2); }
+.glow-cyan   { text-shadow: 0 0 8px rgba(102,221,255,0.5), 0 0 16px rgba(102,221,255,0.2); }
+.glow-red    { text-shadow: 0 0 8px rgba(255,102,136,0.5), 0 0 16px rgba(255,102,136,0.3); }
+.glow-yellow { text-shadow: 0 0 8px rgba(232,153,58,0.5),  0 0 16px rgba(232,153,58,0.2); }
+.glow-purple { text-shadow: 0 0 8px rgba(178,102,224,0.5), 0 0 16px rgba(178,102,224,0.2); }
 
 /* ── Border ──────────────────────────────────────────────────── */
 
@@ -189,6 +196,13 @@ table {
   letter-spacing: var(--ls-ultra);
   text-transform: uppercase;
 }
+
+/* ── Font Family Utilities ───────────────────────────────────── */
+
+.font-sys    { font-family: var(--font-sys); }
+.font-title  { font-family: var(--font-title); }
+.font-stamp  { font-family: var(--font-stamp); }
+.font-mincho { font-family: var(--font-mincho); }
 
 /* ── Buttons ─────────────────────────────────────────────────── */
 
@@ -722,6 +736,7 @@ input::placeholder, textarea::placeholder {
   border-radius: var(--radius-sm);
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--nw-text-faint);
 }
 
 .skeleton::after {
@@ -731,10 +746,12 @@ input::placeholder, textarea::placeholder {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--nw-text-faint) 50%,
+    rgba(102, 153, 255, 0.08) 40%,
+    rgba(102, 221, 255, 0.12) 50%,
+    rgba(102, 153, 255, 0.08) 60%,
     transparent 100%
   );
-  animation: skeleton-shimmer 1.5s infinite;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
 }
 
 @keyframes skeleton-shimmer {

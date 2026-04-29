@@ -736,6 +736,7 @@ input::placeholder, textarea::placeholder {
   border-radius: var(--radius-sm);
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--nw-text-faint);
 }
 
 .skeleton::after {
@@ -745,10 +746,12 @@ input::placeholder, textarea::placeholder {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--nw-text-faint) 50%,
+    rgba(102, 153, 255, 0.08) 40%,
+    rgba(102, 221, 255, 0.12) 50%,
+    rgba(102, 153, 255, 0.08) 60%,
     transparent 100%
   );
-  animation: skeleton-shimmer 1.5s infinite;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
 }
 
 @keyframes skeleton-shimmer {
