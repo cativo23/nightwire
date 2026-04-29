@@ -1,63 +1,85 @@
 ---
 name: nightwire
-description: "Use when building any dark-themed web UI or generating HTML/CSS with a cyberpunk aesthetic — dashboards, admin panels, dev tools, media players, monitoring UIs, or landing pages. Provides design tokens, semantic color roles, component classes, and utility CSS for dark-mode interfaces on pure black backgrounds."
+description: >
+  Use when building any dark-themed web UI or generating HTML/CSS with a cyberpunk aesthetic —
+  dashboards, admin panels, dev tools, monitoring UIs, portfolios, landing pages, blogs, or any
+  interface that lives on a pure black background. Provides design tokens, semantic color roles,
+  component classes, layout templates, and complete HTML examples.
 ---
 
 # Nightwire — Cyberpunk UI System
 
-A dark-mode-only design system with a modern cyberpunk aesthetic. Any interface that lives in the void.
+A dark-mode-only design system with a modern cyberpunk aesthetic. Works for **any type of interface** — from a personal portfolio to a dense operations console. The aesthetic is consistent; the layout is yours to choose.
 
 **Usage:** Include `nightwire.css` for vanilla CSS, or use `tailwind.preset.js` with Tailwind CSS.
+
+---
 
 ## When to Use
 
 - User asks for a dark UI, cyberpunk-themed interface, or "hacker aesthetic"
-- Building dashboards, admin panels, dev tools, monitoring UIs, landing pages
-- Any project where the background should be pure black with neon-colored data
+- Building dashboards, admin panels, dev tools, monitoring UIs, operations consoles
+- Building portfolios, landing pages, blogs, documentation sites, or SaaS products
+- Any project where the background should be pure black with neon-colored accents
 - **Don't use** for light-mode UIs, print-friendly layouts, or projects requiring a different design system
 
 ---
 
-## Design Principles
+## Visual Identity — Read This First
 
-1. **Pure black void.** Background is always `#000000`. No gray, no navy.
-2. **Color = function.** Every color has a semantic role. Don't use color decoratively.
-3. **Readable first.** 14px base font, 1.5 line-height. Legibility over density.
-4. **No CRT effects.** No scanlines, no flicker, no vignette. Clean modern look.
-5. **Soft neon.** Cyberpunk-inspired but not eye-burning. Vibrant, not harsh.
-6. **Content-driven.** Every visual element serves a purpose. Minimize decoration.
+Nightwire is a **cyberpunk aesthetic system** that works at any information density. A portfolio can use it. A blog can use it. A dense operations console can use it. The aesthetic is the same — the layout adapts to the use case.
+
+**Emotional tone:** Calm precision. The quiet confidence of a system that knows exactly what it's doing.
+
+**Visual references:**
+- NERV command center from Evangelion — dense panels, kanji labels, compressed serif titles
+- Ghost in the Shell — monospace data, neon on void, information density
+- Blade Runner terminals — soft neon, never harsh, always readable
+
+**NOT:** Apple design, Material Design, generic SaaS dashboards, Cyberpunk 2077 UI (too flashy)
+
+---
+
+## Core Rules — Non-Negotiable
+
+1. **Background is always `#000000`** — never `#0d0d0d`, `#111`, `#1a1a2e`, or any gray/navy
+2. **2px gaps between adjacent panels** — not 8px, not 16px, always 2px
+3. **Sharp edges on panels** — `border-radius: 0` on `.panel`, `.nw-table`, data containers
+4. **Kanji tags on every panel header** — Japanese characters as decorative style, not translation
+5. **Green for data values** — all numbers, percentages, metrics use `--nw-green`
+6. **Blue for UI chrome** — headers, labels, navigation use `--nw-primary`
+7. **No box-shadows** — elevation through surface color progression only
+8. **Monospace everywhere** — JetBrains Mono for all body text, data, labels
+9. **Compressed serif titles** — Noto Serif Display with `scaleX(0.82)` for display headings
+10. **No CRT effects** — no scanlines, no vignette, no flicker. Clean and modern.
 
 ---
 
 ## Color System
 
-All colors are defined as CSS custom properties in `nightwire.css` with the `--nw-` prefix. Use semantic roles, not raw colors.
+All colors are CSS custom properties with `--nw-` prefix. Use semantic roles, never raw hex.
 
 ### Semantic Roles
 
-| Role | Variable | Raw Color | Use For |
+| Role | Variable | Hex | Use ONLY for |
 |---|---|---|---|
-| Primary | `--nw-primary` | `#6699ff` blue | Headers, labels, actions, links |
-| Success | `--nw-success` | `#7aed7a` green | Confirmations, positive data, online |
-| Info | `--nw-info` | `#66ddff` cyan | Metadata, secondary actions, neutral |
-| Danger | `--nw-danger` | `#ff6688` pink | Errors, destructive actions, offline |
-| Warning | `--nw-warning` | `#e8993a` yellow | Caution, pending, degraded |
-| Accent | `--nw-accent` | `#b266e0` purple | Highlights, badges, decorative |
+| Primary | `--nw-primary` | `#6699ff` | Headers, labels, active states, links, UI chrome |
+| Success/Data | `--nw-green` | `#7aed7a` | Data values, success states, online indicators |
+| Info | `--nw-cyan` | `#66ddff` | Metadata, secondary info, wireframe elements |
+| Danger | `--nw-red` | `#ff6688` | Errors, destructive actions, offline states |
+| Warning | `--nw-warning` | `#e8993a` | Caution, pending, degraded states |
+| Accent | `--nw-accent` | `#b266e0` | AI elements, accent highlights |
 
-Each role has `-dim` (muted), `-hot` (bright), `-fill` (translucent bg), and `-faint` (subtle bg) variants where applicable.
+Each role has `-dim` (muted), `-hot` (bright), `-fill` (translucent bg) variants.
 
-### Surfaces & Elevation
+### Surfaces — Elevation Through Tone
 
-Stack surfaces to create depth. Higher = more light.
-
-| Surface | Token | Hex | Use |
+| Level | Token | Hex | Use |
 |---|---|---|---|
-| Level 0 | `--void` | `#000000` | Page background |
-| Level 1 | `--void-warm` | `#0a0a0a` | Cards, panels |
-| Level 2 | `--void-panel` | `#111111` | Raised panels, modals |
-| Level 3 | `--void-raised` | `#1a1a1a` | Dropdowns, popovers, tooltips |
-
-CSS classes: `.surface-0`, `.surface-1`, `.surface-2`, `.surface-3`
+| 0 | `--void` | `#000000` | Page background — always |
+| 1 | `--void-warm` | `#0a0a0a` | Panels, cards |
+| 2 | `--void-panel` | `#111111` | Modals, inputs, raised panels |
+| 3 | `--void-raised` | `#1a1a1a` | Dropdowns, tooltips |
 
 ---
 
@@ -67,10 +89,10 @@ CSS classes: `.surface-0`, `.surface-1`, `.surface-2`, `.surface-3`
 
 ```css
 :root {
-  --font-title:  'Noto Serif Display', 'Times New Roman', serif;    /* Headings, display */
-  --font-sys:    'JetBrains Mono', 'Cascadia Mono', monospace;      /* Body, code, data */
-  --font-stamp:  'Saira Extra Condensed', 'Impact', sans-serif;     /* Labels, badges, tags */
-  --font-mincho: 'Shippori Mincho B1', 'YuMincho', serif;           /* Thematic (optional) */
+  --font-title:  'Noto Serif Display', serif;       /* Display headings — compressed */
+  --font-sys:    'JetBrains Mono', monospace;        /* Body, code, data — everything */
+  --font-stamp:  'Saira Extra Condensed', sans-serif; /* Labels, badges, buttons */
+  --font-mincho: 'Shippori Mincho B1', serif;        /* Japanese decorative accents */
 }
 ```
 
@@ -79,81 +101,217 @@ Google Fonts:
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
 ```
 
-### Type Scale
+### Usage Rules
 
-| Token | Size | Use |
+| Context | Font | Rule |
 |---|---|---|
-| `--text-xs` | 11px | Fine print, timestamps |
-| `--text-sm` | 12px | Labels, captions |
-| `--text-base` | 14px | Body text (default) |
-| `--text-lg` | 16px | Section headers |
-| `--text-xl` | 20px | Card titles |
-| `--text-2xl` | 24px | Page headings |
-| `--text-3xl` | 32px | Hero/display |
+| All body text, data | `--font-sys` | Always monospace |
+| Page/section titles | `--font-title` + `.compressed-title` | scaleX(0.82), uppercase |
+| Buttons, badges, tags | `--font-stamp` | Uppercase, condensed |
+| Japanese decorative | `--font-mincho` | Panel tags, subtitles only |
 
-### Weight & Spacing
+### Compressed Title Pattern
 
-| Weight | Value | Use |
-|---|---|---|
-| Regular | 400 | Body text |
-| Medium | 500 | Data values |
-| Bold | 700 | Headings, emphasis |
-| Black | 900 | Display titles |
-
-| Spacing | Value | Use |
-|---|---|---|
-| `--ls-tight` | -0.01em | Dense data |
-| `--ls-normal` | 0 | Body text |
-| `--ls-wide` | 0.06em | Labels, small caps |
-| `--ls-ultra` | 0.2em | Display titles |
-
-### Compressed Title
-
-```css
-.compressed-title {
-  font-family: var(--font-title);
-  font-weight: 900;
-  transform: scaleX(0.82);
-  transform-origin: left center;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
+```html
+<div class="compressed-title" style="font-size:32px; color:var(--nw-primary)">
+  NIGHTWIRE
+</div>
+<div style="font-family:var(--font-mincho); font-size:14px; color:var(--nw-primary-dim)">
+  設計体系
+</div>
 ```
 
 ---
 
-## Spacing & Layout
+## Panel Header Pattern — Use on Every Panel
 
-### Spacing Scale (4px base)
+```html
+<div class="panel">
+  <div class="panel-header">
+    <span>SECTION TITLE</span>
+    <span class="tag">日本語タグ</span>
+  </div>
+  <div class="panel-body">
+    <!-- content -->
+  </div>
+</div>
+```
 
-| Token | Value |
-|---|---|
-| `--sp-1` | 4px |
-| `--sp-2` | 8px |
-| `--sp-3` | 12px |
-| `--sp-4` | 16px |
-| `--sp-6` | 24px |
-| `--sp-8` | 32px |
-| `--sp-12` | 48px |
-| `--sp-16` | 64px |
+Rules:
+- Header text: 8-10px, uppercase, `--nw-primary`, letter-spacing 0.14em
+- Japanese tag: right-aligned, `--nw-text-dim`, `--font-mincho`
+- Bottom border: `1px solid --nw-primary-dim`
 
-### Border Radius
+---
 
-| Token | Value | Use |
-|---|---|---|
-| `--radius-none` | 0 | Sharp/hard edges (default) |
-| `--radius-sm` | 2px | Subtle rounding |
-| `--radius-md` | 4px | Buttons, inputs |
-| `--radius-lg` | 8px | Cards, modals |
-| `--radius-full` | 9999px | Pills, avatars |
+## Layout Templates
 
-### Grid System
+### Standard Scrolling Layout (portfolios, blogs, docs)
 
-```css
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-2); }
-.stack  { display: flex; flex-direction: column; gap: var(--sp-2); }
+Use standard HTML flow. Apply Nightwire components within your own layout. No special wrapper needed.
+
+### Operations Console (dashboards, monitoring, admin panels)
+
+Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire layout.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="[google-fonts-url]" rel="stylesheet">
+  <link rel="stylesheet" href="nightwire.css">
+  <style>
+    /* Operations Console Layout */
+    .console-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    .nw-nav { display: flex; align-items: center; padding: 10px 16px; background: var(--void); border-bottom: 1px solid var(--nw-primary-dim); flex-shrink: 0; gap: 20px; }
+    .org-mark { font-family: var(--font-title); font-size: 24px; font-weight: 900; letter-spacing: 0.25em; color: var(--nw-primary); text-transform: uppercase; transform: scaleX(0.82); transform-origin: left center; line-height: 1.15; }
+    .org-mark .sub { font-family: var(--font-sys); font-size: 9px; letter-spacing: 0.12em; color: var(--nw-text-dim); display: block; transform: scaleX(1.22); font-weight: 400; }
+    .ticker { overflow: hidden; white-space: nowrap; background: var(--void); border-bottom: 1px solid var(--nw-text-faint); padding: 2px 0; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nw-primary); flex-shrink: 0; }
+    .ticker .scroll { display: inline-block; animation: ticker-scroll 80s linear infinite; padding-left: 100%; }
+    @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+    .dashboard { display: flex; gap: 2px; flex: 1; padding: 2px; min-height: 0; }
+    .dash-left { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow-y: auto; }
+    .dash-right { width: 370px; min-width: 370px; display: flex; flex-direction: column; gap: 2px; }
+    .dash-row { display: grid; gap: 2px; flex-shrink: 0; }
+    .dash-row.r1 { grid-template-columns: 1.2fr 1fr; min-height: 360px; }
+    .dash-row.r2 { grid-template-columns: 1fr 1fr; }
+    .status-bar { display: flex; justify-content: space-between; padding: 3px 12px; font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--nw-text-dim); border-top: 1px solid var(--nw-text-faint); flex-shrink: 0; }
+  </style>
+</head>
+<body>
+<div class="console-wrapper">
+
+  <!-- Navigation -->
+  <nav class="nw-nav">
+    <div class="org-mark">
+      SYSTEM NAME
+      <span class="sub">System subtitle — descriptor</span>
+    </div>
+    <span style="font-family:var(--font-mincho); font-size:15px; font-weight:800; color:var(--nw-primary-dim)">システム名</span>
+    <div style="display:flex; gap:14px; margin-left:auto;">
+      <a href="#" style="font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-dim)">Dashboard</a>
+      <a href="#" style="font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-dim)">Settings</a>
+    </div>
+  </nav>
+
+  <!-- Ticker -->
+  <div class="ticker">
+    <div class="scroll">
+      STATUS: NOMINAL &nbsp;│&nbsp; 稼働中 &nbsp;│&nbsp; NODES: 42 &nbsp;│&nbsp; UPTIME: 99.9% &nbsp;│&nbsp;
+    </div>
+  </div>
+
+  <!-- Dashboard Grid -->
+  <div class="dashboard">
+    <div class="dash-left">
+
+      <!-- Row 1: Waveform + Metrics -->
+      <div class="dash-row r1">
+        <div class="panel">
+          <div class="panel-header">
+            <span>SIGNAL ANALYSIS</span>
+            <span class="tag">信号解析</span>
+          </div>
+          <!-- canvas waveform or chart goes here -->
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span>SYSTEM METRICS</span>
+            <span class="tag">指標一覧</span>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-cell">
+              <div class="m-label">SYNC RATIO</div>
+              <div class="m-value">48.2%</div>
+              <div class="m-sub">Unit-01</div>
+            </div>
+            <div class="metric-cell highlight">
+              <div class="m-label">BUFFER</div>
+              <div class="m-value">93.0%</div>
+              <div class="m-sub">Nominal</div>
+            </div>
+            <div class="metric-cell">
+              <div class="m-label">RESPONSE</div>
+              <div class="m-value">12.4ms</div>
+              <div class="m-sub">p99 latency</div>
+            </div>
+            <div class="metric-cell">
+              <div class="m-label">THROUGHPUT</div>
+              <div class="m-value" style="color:var(--nw-cyan)">847K</div>
+              <div class="m-sub">tokens/sec</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Data table -->
+      <div class="dash-row r2">
+        <div class="panel">
+          <div class="panel-header">
+            <span>NODE REGISTRY</span>
+            <span class="tag">ノード登録</span>
+          </div>
+          <table class="nw-table">
+            <thead>
+              <tr><th>Node</th><th>Status</th><th>CPU</th><th>Memory</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>node-01</td><td><span class="led green"></span> Online</td><td>42%</td><td>68%</td></tr>
+              <tr><td>node-02</td><td><span class="led yellow"></span> Degraded</td><td>87%</td><td>91%</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span>MAGI CONSENSUS</span>
+            <span class="tag">設計哲学</span>
+          </div>
+          <div class="panel-body">
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="padding:6px 8px;border:1px solid var(--nw-cyan-dim);background:var(--void);display:flex;align-items:center;gap:8px;">
+                <span style="font-family:var(--font-title);font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:var(--nw-cyan);transform:scaleX(0.85);transform-origin:left;min-width:80px;">MELCHIOR</span>
+                <span style="font-size:11px;font-weight:700;color:var(--nw-green)">Void First</span>
+                <span style="font-size:7px;color:var(--nw-text-dim);margin-left:auto">Pure #000000 backgrounds.</span>
+                <span style="font-family:var(--font-stamp);font-size:11px;font-weight:700;color:var(--nw-green)">AGREE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right column: Event log -->
+    <div class="dash-right">
+      <div style="background:var(--void-warm);border:1px solid var(--nw-text-faint);display:flex;flex-direction:column;flex:1;min-height:0;">
+        <div style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--nw-primary);padding:6px 10px 5px;border-bottom:1px solid var(--nw-primary-dim);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+          <span>EVENT LOG</span>
+          <span style="font-size:7px;color:var(--nw-green)">42 entries</span>
+        </div>
+        <div style="flex:1;overflow-y:auto;font-size:9px;line-height:1.5;padding:2px 0;">
+          <div style="padding:1px 10px;display:flex;gap:6px;font-variant-numeric:tabular-nums;">
+            <span style="color:var(--nw-text-dim);min-width:52px">14:32:07</span>
+            <span style="color:var(--nw-green);min-width:62px;font-weight:700">system</span>
+            <span style="color:var(--nw-text);flex:1">Component tree reconciled</span>
+            <span style="color:var(--nw-green);min-width:75px;text-align:right">12.4ms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <span><span class="led green"></span> SYSTEM ONLINE</span>
+    <span>NODES: 42 │ TOKENS: 847K │ UPTIME: 99.9%</span>
+    <span id="clock">14:32:07 JST</span>
+  </div>
+
+</div>
+</body>
+</html>
 ```
 
 ---
@@ -167,51 +325,83 @@ Google Fonts:
 .btn-ghost   /* Transparent bg, blue border */
 .btn-danger  /* Red bg for destructive actions */
 .btn-sm      /* Small size modifier */
-.btn:disabled /* Dimmed, no pointer */
 ```
 
-### Form Inputs
+### Panel & Card
 
 ```css
-input, select, textarea  /* void-panel bg, text-line border, nw-text color */
-input:focus              /* Primary border, primary-fill glow */
-```
-
-### Card
-
-```css
-.card          /* void-warm bg, faint border, radius-lg, overflow hidden */
-.card-header   /* Uppercase primary label, faint bottom border */
-.card-body     /* Content area with sp-4 padding */
-.card-footer   /* Faint top border, sp-3 padding */
-```
-
-### Panel
-
-```css
-.panel         /* void-warm bg, faint border — no radius (sharper than card) */
+.panel         /* void-warm bg, faint border, NO radius */
 .panel-header  /* 10px uppercase primary, primary-dim bottom border */
 .panel-body    /* sp-3 padding */
+
+.card          /* void-warm bg, faint border, radius-lg */
+.card-header   /* Uppercase primary label */
+.card-body     /* sp-4 padding */
+.card-footer   /* Faint top border */
 ```
 
 ### Data Table
 
 ```css
-.nw-table      /* Full-width, collapsed borders, 12px font */
-.nw-table th   /* 9px uppercase primary headers, primary-dim border */
+.nw-table      /* Full-width, collapsed borders */
+.nw-table th   /* 9px uppercase primary, primary-dim border */
 .nw-table td   /* Green data, faint border, tabular-nums */
-.nw-table tr:hover td  /* green-faint background on hover */
 ```
 
 ### Metrics Grid
 
 ```css
-.metrics-grid  /* 2-column grid with 1px gap (faint separator) */
-.metric-cell   /* void-warm bg, sp-3/sp-4 padding */
-.m-label       /* 9px uppercase primary label */
-.m-value       /* 20px bold green with glow text-shadow */
-.m-sub         /* 9px dim subtitle */
-.metric-cell.highlight  /* Blue primary value with blue glow, 24px */
+.metrics-grid           /* 2-column grid, 1px faint separators */
+.metric-cell            /* void-warm bg */
+.m-label                /* 9px uppercase primary */
+.m-value                /* 20px bold green with glow */
+.m-sub                  /* 9px dim subtitle */
+.metric-cell.highlight  /* Blue primary value, 24px */
+```
+
+### Status LED
+
+```css
+.led.green   /* Online / healthy */
+.led.blue    /* Active / processing */
+.led.red     /* Error / offline */
+.led.yellow  /* Warning / degraded */
+.led.blink   /* Animated pulse */
+```
+
+### Badges & Tags
+
+```css
+.badge           /* Stamp font, 12px uppercase, primary border */
+.badge-success   /* Green */
+.badge-danger    /* Red */
+.badge-warning   /* Yellow */
+
+.tag             /* Pill, stamp font, primary on primary-fill */
+.tag-success     /* Green on green-faint */
+.tag-danger      /* Red on red-fill */
+.tag-warning     /* Yellow */
+.tag-info        /* Cyan */
+```
+
+### Toast / Notification
+
+```css
+.toast           /* void-panel bg, 3px left border */
+.toast-success   /* Green left border */
+.toast-danger    /* Red left border */
+.toast-warning   /* Yellow left border */
+.toast-info      /* Cyan left border */
+```
+
+### Sidebar Nav
+
+```css
+.sidebar              /* 240px, void-warm bg, right border */
+.sidebar-header       /* Uppercase primary, bottom border */
+.sidebar-section      /* 9px dim section label */
+.sidebar-item         /* 12px dim text, left border */
+.sidebar-item.active  /* Primary text, primary left border */
 ```
 
 ### Key-Value Row
@@ -222,302 +412,113 @@ input:focus              /* Primary border, primary-fill glow */
 .kv-value      /* Green, medium weight, tabular-nums */
 ```
 
-### Tabs
-
-```css
-.tabs          /* Flex container with faint bottom border */
-.tab           /* 12px uppercase, dim text, transparent bg, no border */
-.tab:hover     /* White text */
-.tab.active    /* Primary text + primary bottom border */
-.tab-panel     /* Content area below tabs */
-```
-
-### Sidebar Nav
-
-```css
-.sidebar       /* 240px wide, void-warm bg, right border, full height */
-.sidebar-header  /* Uppercase primary, bottom border */
-.sidebar-section /* 9px dim section label */
-.sidebar-item    /* 12px dim text, left border, hover highlights */
-.sidebar-item.active /* Primary text, primary left border, primary-fill bg */
-```
-
-### Modal / Dialog
-
-```css
-.modal-backdrop  /* Fixed overlay, rgba(0,0,0,0.8), flex center, z-1000 */
-.modal           /* void-panel bg, primary-dim border, radius-lg, max 480px */
-.modal-header    /* Uppercase primary, primary-dim border, flex space-between */
-.modal-body      /* sp-4 padding, white text */
-.modal-footer    /* Faint top border, flex end, sp-2 gap for buttons */
-```
-
-### Dropdown
-
-```css
-.dropdown       /* Relative container */
-.dropdown-menu  /* Absolute, void-raised bg, line border, radius-md, z-100 */
-.dropdown-item  /* 12px dim text, hover → white + primary-fill bg */
-.dropdown-item.danger /* Red text, red-fill bg on hover */
-.dropdown-divider    /* 1px faint horizontal line */
-```
-
-### Breadcrumbs
-
-```css
-.breadcrumbs   /* Flex row, sp-2 gap, 12px dim text */
-.breadcrumbs a /* Dim text, hover → primary */
-.separator     /* Faint, 11px (use / or ›) */
-.current       /* White text for last item */
-```
-
-### Badge
-
-```css
-.badge           /* Stamp font, 12px uppercase, primary border */
-.badge-success   /* Green + green-dim border */
-.badge-danger    /* Red + red-dim border */
-.badge-warning   /* Yellow + yellow border */
-```
-
-### Tag
-
-```css
-.tag             /* Pill shape, stamp font, 11px, primary on primary-fill bg */
-.tag-success     /* Green on green-faint bg */
-.tag-danger      /* Red on red-fill bg */
-.tag-warning     /* Yellow on yellow-fill bg */
-.tag-info        /* Cyan on cyan-glow bg */
-```
-
-### Status LED
-
-```css
-.led         /* 6px circle indicator */
-.led.green   /* Online / healthy — green glow */
-.led.blue    /* Active / processing — blue glow */
-.led.red     /* Error / offline — red glow */
-.led.yellow  /* Warning / degraded — yellow glow */
-```
-
-### Avatar
-
-```css
-.avatar      /* 32px circle, primary-fill bg, primary-dim border, bold initial */
-.avatar-sm   /* 24px */
-.avatar-lg   /* 48px */
-```
-
 ### Progress Bar
 
 ```css
-.nw-progress      /* 4px height, void-panel bg, faint border */
-.nw-progress .fill /* Green with green glow shadow */
-```
-
-### Toast / Notification
-
-```css
-.toast           /* void-panel bg, left border colored by severity */
-.toast-success   /* Green left border */
-.toast-danger    /* Red left border */
-.toast-warning   /* Yellow left border */
-.toast-info      /* Cyan left border */
+.nw-progress      /* 4px height, void-panel bg */
+.nw-progress .fill /* Green with glow */
 ```
 
 ### Skeleton Loader
 
 ```css
-.skeleton         /* void-panel bg, shimmer animation */
-.skeleton-text    /* 14px height, bottom margin — for text lines */
-.skeleton-heading /* 24px height, 60% width — for headings */
-.skeleton-avatar  /* 40px circle — for avatars */
-.skeleton-block   /* 80px height — for content blocks */
+.skeleton          /* void-panel bg, neon blue shimmer animation */
+.skeleton-text     /* 14px height */
+.skeleton-heading  /* 24px height, 60% width */
+.skeleton-block    /* 80px height */
 ```
 
-### Divider
+### Modal
 
 ```css
-.divider          /* 1px faint line, sp-4 vertical margin */
-.divider-primary  /* Primary-dim color */
+.modal-backdrop  /* Fixed overlay, rgba(0,0,0,0.8) */
+.modal           /* void-panel bg, primary-dim border, radius-lg */
+.modal-header    /* Uppercase primary, flex space-between */
+.modal-body      /* sp-4 padding */
+.modal-footer    /* Faint top border, flex end */
 ```
-
-### Activity Feed
-
-Timestamped, color-coded scrolling list. Build with `.ev` rows: `.ev-time` (dim), `.ev-type` (color-coded bold), `.ev-detail` (white, truncated), `.ev-amount`, `.ev-block`. Color entries by type using semantic roles.
 
 ---
 
 ## HTML Examples
 
-HTML structure for components where DOM nesting isn't obvious from class names alone.
-
-### Card
-
-```html
-<div class="card">
-  <div class="card-header">Section Title</div>
-  <div class="card-body">
-    <div class="kv-row"><span class="kv-label">Status</span><span class="kv-value"><span class="led green"></span> Online</span></div>
-    <div class="kv-row"><span class="kv-label">Uptime</span><span class="kv-value">99.97%</span></div>
-  </div>
-  <div class="card-footer">
-    <button class="btn-sm btn-ghost">Details</button>
-  </div>
-</div>
-```
-
-### Modal
-
-```html
-<div class="modal-backdrop">
-  <div class="modal">
-    <div class="modal-header">
-      <span>Confirm Action</span>
-      <button class="btn-ghost btn-sm" onclick="this.closest('.modal-backdrop').remove()">✕</button>
-    </div>
-    <div class="modal-body">Are you sure you want to proceed?</div>
-    <div class="modal-footer">
-      <button class="btn-ghost">Cancel</button>
-      <button class="btn-danger">Delete</button>
-    </div>
-  </div>
-</div>
-```
-
-### Tabs
-
-```html
-<div class="tabs">
-  <button class="tab active">Overview</button>
-  <button class="tab">Settings</button>
-  <button class="tab">Logs</button>
-</div>
-<div class="tab-panel">
-  <!-- Active tab content here -->
-</div>
-```
-
-### Sidebar with Main Content
-
-```html
-<div style="display:flex; height:100vh">
-  <nav class="sidebar">
-    <div class="sidebar-header">App Name</div>
-    <div class="sidebar-section">Navigation</div>
-    <a class="sidebar-item active" href="#">Dashboard</a>
-    <a class="sidebar-item" href="#">Settings</a>
-    <a class="sidebar-item" href="#">Users</a>
-    <div class="sidebar-section">System</div>
-    <a class="sidebar-item" href="#">Logs</a>
-  </nav>
-  <main class="surface-0" style="flex:1; padding:var(--sp-6)">
-    <!-- Page content -->
-  </main>
-</div>
-```
-
-### Dropdown
-
-```html
-<div class="dropdown">
-  <button class="btn-ghost btn-sm">Actions ▾</button>
-  <div class="dropdown-menu">
-    <button class="dropdown-item">Edit</button>
-    <button class="dropdown-item">Duplicate</button>
-    <div class="dropdown-divider"></div>
-    <button class="dropdown-item danger">Delete</button>
-  </div>
-</div>
-```
-
 ### Panel with Table
 
 ```html
 <div class="panel">
-  <div class="panel-header"><span>Server Status</span></div>
+  <div class="panel-header">
+    <span>SERVER STATUS</span>
+    <span class="tag">サーバー状態</span>
+  </div>
   <table class="nw-table">
-    <thead><tr><th>Host</th><th>CPU</th><th>Memory</th><th>Status</th></tr></thead>
+    <thead>
+      <tr><th>Host</th><th>CPU</th><th>Memory</th><th>Status</th></tr>
+    </thead>
     <tbody>
-      <tr><td>node-01</td><td>42%</td><td>68%</td><td><span class="led green"></span> OK</td></tr>
-      <tr><td>node-02</td><td>87%</td><td>91%</td><td><span class="led yellow"></span> High</td></tr>
+      <tr>
+        <td>node-01</td>
+        <td>42%</td>
+        <td>68%</td>
+        <td><span class="led green"></span> OK</td>
+      </tr>
     </tbody>
   </table>
 </div>
 ```
 
-### Breadcrumbs
+### Sidebar Layout
 
 ```html
-<nav class="breadcrumbs">
-  <a href="#">Home</a>
-  <span class="separator">›</span>
-  <a href="#">Settings</a>
-  <span class="separator">›</span>
-  <span class="current">Security</span>
-</nav>
+<div style="display:flex; height:100vh">
+  <nav class="sidebar">
+    <div class="sidebar-header">NIGHTWIRE</div>
+    <div class="sidebar-section">Navigation</div>
+    <a class="sidebar-item active" href="#">Dashboard</a>
+    <a class="sidebar-item" href="#">Settings</a>
+  </nav>
+  <main style="flex:1; padding:var(--sp-6); background:var(--void); overflow-y:auto">
+    <!-- content -->
+  </main>
+</div>
 ```
 
----
+### Node Card
 
-## Recipes (domain-specific examples)
-
-These are opinionated implementations for specific domains. Use as inspiration.
-
-### Multi-Source Consensus
-Three-source agreement indicator with price/status/freshness. Good for oracle systems, cluster health, CI pipeline status.
-
-### 3D Visualization (Three.js)
-Cyan wireframe mesh, warm orange flow curves, bar columns. See `demo.html` for implementation.
-
-### Compressed Title with Katakana
-Serif title with `scaleX(0.82)` compression + Japanese subtitle. Adds cyberpunk flavor to any header.
-
----
-
-## Operations Console Layout (Optional Template)
-
-While `nightwire.css` is layout-agnostic, you can build dense, full-viewport dashboard interfaces by adding the following template classes:
-
-```css
-.console-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-.nw-nav { display: flex; align-items: center; padding: 10px 16px; background: var(--void); border-bottom: 1px solid var(--nw-primary-dim); flex-shrink: 0; }
-.dashboard { display: flex; gap: 2px; flex: 1; padding: 2px; min-height: 0; }
-.dash-left { flex: 1; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
-.dash-right { width: 370px; min-width: 370px; display: flex; flex-direction: column; gap: 2px; }
-.dash-row { display: grid; gap: 2px; flex-shrink: 0; }
-```
-
-HTML Structure:
 ```html
-<div class="console-wrapper">
-  <nav class="nw-nav">...</nav>
-  <div class="dashboard">
-    <div class="dash-left">
-      <div class="dash-row" style="grid-template-columns: 1fr 1fr;">
-        <div class="panel">...</div>
-      </div>
+<div class="panel">
+  <div class="panel-header"><span>NODE ALPHA</span><span class="tag">ノード</span></div>
+  <div style="padding:8px 10px">
+    <div style="font-family:var(--font-title);font-size:12px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--nw-cyan);transform:scaleX(0.82);transform-origin:left">Cluster-Alpha — H100 x 512</div>
+    <div style="font-family:var(--font-mincho);font-size:13px;font-weight:800;color:var(--nw-text);transform:scaleX(0.78);transform-origin:left;margin:2px 0 6px">深層学習訓練クラスタ</div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;padding:2px 0;border-bottom:1px solid var(--nw-text-faint)">
+      <span style="color:var(--nw-primary-dim);text-transform:uppercase;font-size:8px">STATUS</span>
+      <span style="color:var(--nw-green);font-weight:500">Training</span>
     </div>
-    <div class="dash-right">...</div>
+    <div style="margin-top:4px;font-family:var(--font-stamp);font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--nw-green)">
+      <span class="led green"></span> Operational
+    </div>
   </div>
 </div>
 ```
 
 ---
 
-## Utility Classes
+## Anti-Patterns — What NOT to Generate
 
-### Text Color
-`.text-primary`, `.text-success`, `.text-info`, `.text-danger`, `.text-warning`, `.text-accent`, `.text-dim`
-
-### Glow
-`.glow-green`, `.glow-blue`, `.glow-cyan`, `.glow-red`
-
-### Surface
-`.surface-0`, `.surface-1`, `.surface-2`, `.surface-3`
-
-### Border
-`.border`, `.border-primary`, `.border-dim`
+| Don't | Do instead |
+|---|---|
+| Gray/navy backgrounds (`#1a1a2e`, `#0d0d0d`) | Pure black `#000000` |
+| `box-shadow` for elevation | Surface color progression |
+| `border-radius` on panels/tables | `border-radius: 0` |
+| Gaps larger than 2px between panels | `gap: 2px` always |
+| Sans-serif fonts for titles | Noto Serif Display + scaleX(0.82) |
+| Lowercase labels | Uppercase + letter-spacing |
+| Pastel or soft colors | Soft neon from the palette |
+| Harsh neon (`#00ff00`, `#0000ff`) | `#7aed7a`, `#6699ff` |
+| CRT effects (scanlines, vignette) | Clean, no overlays |
+| Whitespace for "breathing room" | Dense, information-rich layouts |
+| Generic SaaS card layouts | Panel-based operations console |
+| Color used decoratively | Semantic color only |
 
 ---
 
@@ -537,20 +538,6 @@ All primary colors pass WCAG AA on black:
 :focus-visible { outline: 2px solid var(--nw-primary); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
 ```
-
----
-
-## Anti-Patterns
-
-| Don't | Do |
-|---|---|
-| Gray/navy backgrounds | Pure black (`#000`) |
-| CRT effects (scanlines, vignette) | Clean, no overlays |
-| Harsh neon (`#00ff00`) | Soft neon (`#7aed7a`) |
-| 12px base font | 14px for readability |
-| Decorative-only elements | Content-driven visuals |
-| Light mode | Dark only |
-| Color without meaning | Semantic color roles |
 
 ---
 
