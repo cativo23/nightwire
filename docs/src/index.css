@@ -76,7 +76,17 @@ pre { font-size: 13px; line-height: 1.6; }
 input, select, textarea,
 .badge, .toast, pre { border-radius: 0 !important; }
 
-/* Section spacing and visual separation */
+/* Responsive layout */
+@media (max-width: 768px) {
+  .nw-hamburger { display: flex !important; }
+  .nw-sidebar-desktop { display: none !important; }
+  .nw-drawer { display: block !important; }
+  .nw-backdrop { display: block !important; }
+  main { padding: 16px !important; }
+  .nw-nav .jp-sub { display: none; }
+  .magi-source { flex-wrap: wrap; }
+  .grid-2 { grid-template-columns: 1fr !important; }
+}
 section {
   padding-top: 32px;
   margin-top: 8px;
