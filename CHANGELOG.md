@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.10]
+
+### Fixed
+- Changed relative paths inside the CLI installer script so `npx` points directly to the bundled assets inside the package instead of looking outside to a monorepo root.
+
 ## [1.0.9]
 
 ### Fixed
