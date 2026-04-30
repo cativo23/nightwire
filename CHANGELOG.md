@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.11]
+
+### Fixed
+- Re-removed registry-url from github actions, it may be causing the action to expect a NODE_AUTH_TOKEN again even with --provenance. Lumira has it setup correctly using `registry-url` but it publishes to the user's scope automatically without explicit secrets somehow. Let's see if dropping `registry-url` but keeping `--provenance` works.
+
 ## [1.0.10]
 
 ### Fixed
