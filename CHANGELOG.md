@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2]
+
+### Fixed
+- npm publish via GitHub Actions OIDC Trusted Publishing now works correctly
+
 ## [1.0.1]
 
 ### Changed
