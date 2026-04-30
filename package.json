@@ -1,6 +1,6 @@
 {
   "name": "@cativo23/nightwire",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "CLI installer for the Nightwire cyberpunk UI design system",
   "main": "dist/index.js",
   "bin": {
@@ -17,7 +17,14 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "docs:dev": "cd docs && npm run dev",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cativo23/nightwire.git"
   },
   "keywords": [
     "nightwire",
@@ -28,6 +35,10 @@
   ],
   "author": "cativo23",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cativo23/nightwire/issues"
+  },
+  "homepage": "https://github.com/cativo23/nightwire#readme",
   "dependencies": {
     "picocolors": "^1.1.1",
     "prompts": "^2.4.2"
@@ -35,6 +46,8 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/prompts": "^2.4.9",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.33"
   }
 }

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.15]
+
+### Changed
+- Restructured project to move CLI from `packages/cli/` to root directory
+- Simplified npm publishing workflow to match Lumira's structure (no subdirectory)
+- Removed `repository.directory` field requirement for npm OIDC Trusted Publishing
+- Updated GitHub Actions workflow to publish from root instead of `packages/cli/`
+- Consolidated package.json with CLI configuration at root level
+- Updated README with CLI installation instructions as recommended method
+
+### Removed
+- Eliminated duplicate files between root and `packages/cli/`
+- Removed `packages/cli/` directory entirely
+
 ## [1.0.14]
 
 ### Fixed
