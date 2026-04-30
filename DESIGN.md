@@ -14,43 +14,43 @@ colors:
   void-raised:      "#1a1a1a"
 
   # Primary — blue for all UI chrome, headers, labels, focus
-  primary:          "#6699ff"
-  primary-dim:      "#4477cc"
-  primary-hot:      "#99bbff"
-  primary-fill:     "rgba(102,153,255,0.08)"
+  primary:          "#6699ff"      # CSS: --nw-primary
+  primary-dim:      "#4477cc"      # CSS: --nw-primary-dim
+  primary-hot:      "#99bbff"      # CSS: --nw-primary-hot
+  primary-fill:     "rgba(102,153,255,0.08)"  # CSS: --nw-primary-fill
 
   # Success / Data — green for all data values and positive states
-  success:          "#7aed7a"
-  success-dim:      "#5cb85c"
-  success-faint:    "rgba(122,237,122,0.06)"
-  success-fill:     "rgba(122,237,122,0.1)"
+  success:          "#7aed7a"      # CSS: --nw-green
+  success-dim:      "#5cb85c"      # CSS: --nw-green-dim
+  success-faint:    "rgba(122,237,122,0.06)"  # CSS: --nw-green-faint
+  success-fill:     "rgba(122,237,122,0.1)"   # CSS: --nw-green-fill
 
   # Info — cyan for metadata, secondary info, wireframes
-  info:             "#66ddff"
-  info-dim:         "#44aacc"
-  info-glow:        "rgba(102,221,255,0.12)"
+  info:             "#66ddff"      # CSS: --nw-cyan
+  info-dim:         "#44aacc"      # CSS: --nw-cyan-dim
+  info-glow:        "rgba(102,221,255,0.12)"  # CSS: --nw-cyan-glow
 
   # Danger — pink-red for errors, destructive actions, offline
-  danger:           "#ff6688"
-  danger-dim:       "#cc4466"
-  danger-hot:       "#ff99aa"
-  danger-fill:      "rgba(255,102,136,0.15)"
+  danger:           "#ff6688"      # CSS: --nw-red
+  danger-dim:       "#cc4466"      # CSS: --nw-red-dim
+  danger-hot:       "#ff99aa"      # CSS: --nw-red-hot
+  danger-fill:      "rgba(255,102,136,0.15)"  # CSS: --nw-red-fill
 
   # Warning — amber for caution, pending, degraded
-  warning:          "#e8993a"
-  warning-dim:      "#b8732a"
-  warning-fill:     "rgba(232,153,58,0.1)"
+  warning:          "#e8993a"      # CSS: --nw-yellow
+  warning-dim:      "#b8732a"      # CSS: --nw-yellow-dim
+  warning-fill:     "rgba(232,153,58,0.1)"    # CSS: --nw-yellow-fill
 
   # Accent — purple for AI elements, highlights
-  accent:           "#b266e0"
-  accent-dim:       "#8844bb"
-  accent-fill:      "rgba(178,102,224,0.1)"
+  accent:           "#b266e0"      # CSS: --nw-purple
+  accent-dim:       "#8844bb"      # CSS: --nw-purple-dim
+  accent-fill:      "rgba(178,102,224,0.1)"   # CSS: --nw-purple-fill
 
   # Text
-  on-surface:       "#ffffff"
-  on-surface-dim:   "#aaaaaa"
-  on-surface-faint: "rgba(255,255,255,0.06)"
-  on-surface-line:  "rgba(255,255,255,0.12)"
+  on-surface:       "#ffffff"      # CSS: --nw-text
+  on-surface-dim:   "#aaaaaa"      # CSS: --nw-text-dim
+  on-surface-faint: "rgba(255,255,255,0.06)"  # CSS: --nw-text-faint
+  on-surface-line:  "rgba(255,255,255,0.12)"  # CSS: --nw-text-line
 
 typography:
   # System / Data — all body text, data readouts, code
@@ -204,11 +204,47 @@ components:
     focusBorder: "{colors.primary}"
     focusGlow: "0 0 0 3px {colors.primary-fill}"
 
+  navbar:
+    height: "auto"
+    background: "{colors.void}"
+    borderBottom: "1px solid {colors.on-surface-faint}"
+    padding: "12px 24px"
+    font: "{typography.stamp}"
+
+  footer:
+    background: "{colors.void}"
+    borderTop: "1px solid {colors.on-surface-faint}"
+    padding: "{spacing.sp-6} {spacing.sp-8}"
+    font: "{typography.sys}"
+    fontSize: "12px"
+    color: "{colors.on-surface-dim}"
+
+  input-error:
+    border: "1px solid {colors.danger}"
+    helperColor: "{colors.danger}"
+    helperSize: "11px"
+
+  input-success:
+    border: "1px solid {colors.success}"
+    helperColor: "{colors.success}"
+    helperSize: "11px"
+
   states:
     focus-ring: "2px solid {colors.primary}"
     focus-offset: "2px"
     disabled-opacity: "0.4"
     hover-transition: "150ms ease"
+
+breakpoints:
+  mobile:  "640px"
+  tablet:  "1024px"
+  desktop: "1280px"
+
+  responsive-rules:
+    - "Operations console collapses to vertical stack below tablet"
+    - "Sidebar becomes hamburger drawer below mobile"
+    - "dash-right becomes full-width below tablet"
+    - "grid-2/3/4 collapse to single column below mobile"
 
 motion:
   duration-fast:  "150ms"

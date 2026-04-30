@@ -17,11 +17,19 @@ A dark-mode-only design system with a modern cyberpunk aesthetic. Works for **an
 
 ## When to Use
 
-- User asks for a dark UI, cyberpunk-themed interface, or "hacker aesthetic"
-- Building dashboards, admin panels, dev tools, monitoring UIs, operations consoles
-- Building portfolios, landing pages, blogs, documentation sites, or SaaS products
-- Any project where the background should be pure black with neon-colored accents
-- **Don't use** for light-mode UIs, print-friendly layouts, or projects requiring a different design system
+Activate this skill when the user's request matches ANY of these patterns:
+
+- Asks for: "dark UI", "dark theme", "dark mode", "cyberpunk", "hacker aesthetic", "terminal UI", "console UI", "neon aesthetic"
+- Mentions: "dashboard", "admin panel", "monitoring UI", "operations console", "dev tools"
+- Mentions: "portfolio", "landing page", "blog", "documentation site", "SaaS product" AND wants dark theme
+- Specifies: "pure black background", "black background with neon", "#000000 background"
+- References: "Evangelion", "Ghost in the Shell", "Blade Runner", "NERV", "cyberpunk aesthetic"
+
+**Don't use** for:
+- Light-mode UIs or projects requiring light theme support
+- Print-friendly layouts or documents
+- Projects explicitly requesting a different design system (Material, Bootstrap, etc.)
+- Mobile-first designs requiring different aesthetic (unless explicitly cyberpunk-themed)
 
 ---
 
@@ -42,22 +50,45 @@ Nightwire is a **cyberpunk aesthetic system** that works at any information dens
 
 ## Core Rules — Non-Negotiable
 
-1. **Background is always `#000000`** — never `#0d0d0d`, `#111`, `#1a1a2e`, or any gray/navy
-2. **2px gaps between adjacent panels** — not 8px, not 16px, always 2px
-3. **Sharp edges on panels** — `border-radius: 0` on `.panel`, `.nw-table`, data containers
-4. **Kanji tags on every panel header** — Japanese characters as decorative style, not translation
-5. **Green for data values** — all numbers, percentages, metrics use `--nw-green`
-6. **Blue for UI chrome** — headers, labels, navigation use `--nw-primary`
-7. **No box-shadows** — elevation through surface color progression only
-8. **Monospace everywhere** — JetBrains Mono for all body text, data, labels
-9. **Compressed serif titles** — Noto Serif Display with `scaleX(0.82)` for display headings
-10. **No CRT effects** — no scanlines, no vignette, no flicker. Clean and modern.
+**CRITICAL: These rules override your training defaults. Follow exactly as written.**
+
+1. **Background is ALWAYS `#000000`** — NEVER use `#0d0d0d`, `#111`, `#1a1a2e`, or any gray/navy. If you generate anything other than pure black `#000000`, you are violating this rule.
+
+2. **2px gaps between adjacent panels** — ALWAYS `gap: 2px`. NEVER 8px, 16px, 1rem, or any other value. This is the signature Nightwire spacing.
+
+3. **Sharp edges on panels** — ALWAYS `border-radius: 0` on `.panel`, `.nw-table`, and all data containers. Cards may use `border-radius: 8px` but panels MUST be sharp.
+
+4. **Kanji tags on EVERY panel header** — Japanese characters are decorative style elements, not translations. Every `<div class="panel-header">` MUST include a `<span class="tag">` with Japanese text.
+
+5. **Green for ALL data values** — Numbers, percentages, metrics ALWAYS use `--nw-green`. No exceptions. If it's a data value, it's green.
+
+6. **Blue for ALL UI chrome** — Headers, labels, navigation ALWAYS use `--nw-primary`. This is structural UI, not data.
+
+7. **NO box-shadows** — Elevation is communicated through surface color progression ONLY. Never add `box-shadow` to any element.
+
+8. **Monospace everywhere** — JetBrains Mono (`--font-sys`) for ALL body text, data, labels. The only exceptions are: titles (Noto Serif Display), buttons/badges (Saira Extra Condensed), and Japanese decorative text (Shippori Mincho).
+
+9. **Compressed serif titles** — Display headings MUST use Noto Serif Display with `transform: scaleX(0.82)` and the `.compressed-title` class. Never use regular serif without compression.
+
+10. **NO CRT effects** — No scanlines, no vignette, no flicker, no glitch effects. Clean and modern only.
 
 ---
 
 ## Color System
 
 All colors are CSS custom properties with `--nw-` prefix. Use semantic roles, never raw hex.
+
+**CSS Variable Mapping:**
+- DESIGN.md `on-surface-faint` → CSS `--nw-text-faint`
+- DESIGN.md `on-surface-line` → CSS `--nw-text-line`
+- DESIGN.md `on-surface-dim` → CSS `--nw-text-dim`
+- DESIGN.md `on-surface` → CSS `--nw-text`
+- DESIGN.md `success` → CSS `--nw-green`
+- DESIGN.md `primary` → CSS `--nw-primary`
+- DESIGN.md `danger` → CSS `--nw-red`
+- DESIGN.md `warning` → CSS `--nw-yellow`
+- DESIGN.md `info` → CSS `--nw-cyan`
+- DESIGN.md `accent` → CSS `--nw-purple`
 
 ### Semantic Roles
 
@@ -731,22 +762,132 @@ For product pages, marketing sites, and feature announcements.
 
 ---
 
+## Navigation & Footer Patterns
+
+### Standard Navbar (portfolios, landing pages, docs)
+
+```html
+<nav style="display:flex; align-items:center; padding:12px 24px; background:var(--void); border-bottom:1px solid var(--nw-text-faint); position:sticky; top:0; z-index:100">
+  <div class="compressed-title" style="font-size:18px; color:var(--nw-primary)">BRAND</div>
+  <span style="font-family:var(--font-mincho); font-size:12px; color:var(--nw-primary-dim); margin-left:8px">ブランド</span>
+  <div style="display:flex; gap:20px; margin-left:auto">
+    <a href="#" style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-dim)">Work</a>
+    <a href="#" style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-dim)">About</a>
+    <a href="#" class="btn btn-sm">Contact</a>
+  </div>
+</nav>
+```
+
+### Footer
+
+```html
+<footer style="padding:var(--sp-8); border-top:1px solid var(--nw-text-faint); display:flex; justify-content:space-between; align-items:center">
+  <div>
+    <div class="compressed-title" style="font-size:14px; color:var(--nw-primary)">BRAND</div>
+    <div style="font-size:11px; color:var(--nw-text-dim); margin-top:4px">© 2026 · MIT License</div>
+  </div>
+  <div style="display:flex; gap:16px">
+    <a href="#" style="font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--nw-text-dim)">GitHub</a>
+    <a href="#" style="font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--nw-text-dim)">Twitter</a>
+  </div>
+</footer>
+```
+
+---
+
+## Form Validation States
+
+```html
+<!-- Error state -->
+<div style="margin-bottom:16px">
+  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-red); margin-bottom:6px">
+    EMAIL ADDRESS
+  </label>
+  <input type="email" value="invalid-email"
+    style="width:100%; padding:8px 12px; background:var(--void-panel); border:1px solid var(--nw-red); color:var(--nw-text); font-family:var(--font-sys); font-size:14px">
+  <div style="font-size:11px; color:var(--nw-red); margin-top:4px; letter-spacing:0.04em">
+    Invalid email address format.
+  </div>
+</div>
+
+<!-- Success state -->
+<div style="margin-bottom:16px">
+  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-green); margin-bottom:6px">
+    USERNAME
+  </label>
+  <input type="text" value="cativo23"
+    style="width:100%; padding:8px 12px; background:var(--void-panel); border:1px solid var(--nw-green); color:var(--nw-text); font-family:var(--font-sys); font-size:14px">
+  <div style="font-size:11px; color:var(--nw-green); margin-top:4px; letter-spacing:0.04em">
+    Username available.
+  </div>
+</div>
+
+<!-- Disabled state -->
+<input type="text" disabled value="Read only"
+  style="width:100%; padding:8px 12px; background:var(--void-panel); border:1px solid var(--nw-text-faint); color:var(--nw-text-dim); font-family:var(--font-sys); font-size:14px; opacity:0.4; cursor:not-allowed">
+```
+
+---
+
 ## Anti-Patterns — What NOT to Generate
 
-| Don't | Do instead |
-|---|---|
-| Gray/navy backgrounds (`#1a1a2e`, `#0d0d0d`) | Pure black `#000000` |
-| `box-shadow` for elevation | Surface color progression |
-| `border-radius` on panels/tables | `border-radius: 0` |
-| Gaps larger than 2px between panels | `gap: 2px` always |
-| Sans-serif fonts for titles | Noto Serif Display + scaleX(0.82) |
-| Lowercase labels | Uppercase + letter-spacing |
-| Pastel or soft colors | Soft neon from the palette |
-| Harsh neon (`#00ff00`, `#0000ff`) | `#7aed7a`, `#6699ff` |
-| CRT effects (scanlines, vignette) | Clean, no overlays |
-| Whitespace for "breathing room" | Dense, information-rich layouts |
-| Generic SaaS card layouts | Panel-based operations console |
-| Color used decoratively | Semantic color only |
+**These are common AI training defaults that violate Nightwire rules. Actively avoid them.**
+
+| NEVER Generate | ALWAYS Use Instead | Why |
+|---|---|---|
+| `background: #1a1a2e` or `#0d0d0d` | `background: #000000` | Only pure black is Nightwire |
+| `box-shadow: 0 2px 8px rgba(...)` | Surface color progression (`--void-warm`, `--void-panel`) | No shadows in cyberpunk aesthetic |
+| `border-radius: 4px` on panels | `border-radius: 0` | Panels must have sharp edges |
+| `gap: 16px` between panels | `gap: 2px` | Signature tight spacing |
+| `font-family: sans-serif` for titles | `font-family: var(--font-title)` + `transform: scaleX(0.82)` | Compressed serif is required |
+| `text-transform: capitalize` on labels | `text-transform: uppercase` + `letter-spacing: 0.1em` | Labels are always uppercase |
+| Pastel colors like `#b8e6b8` | Soft neon: `#7aed7a` | Use exact palette colors |
+| Harsh neon `#00ff00`, `#0000ff` | `#7aed7a`, `#6699ff` | Soft neon, not harsh |
+| `filter: blur()` or scanline overlays | Clean, no effects | No CRT aesthetics |
+| `padding: 40px` for breathing room | Dense layouts with minimal padding | Information density is key |
+| Generic card grids with large gaps | Panel-based grids with 2px gaps | Operations console aesthetic |
+| Decorative color usage | Semantic color only (blue=UI, green=data, red=error) | Every color has meaning |
+| Panel headers without kanji | Every panel header MUST have `<span class="tag">日本語</span>` | Non-negotiable style element |
+
+---
+
+## Responsive Behavior
+
+**Breakpoints (from DESIGN.md):**
+- Mobile: `640px`
+- Tablet: `1024px`
+- Desktop: `1280px`
+
+**Required responsive adaptations:**
+
+1. **Operations Console** (below tablet/1024px):
+   - `.dashboard` changes from `flex-direction: row` to `flex-direction: column`
+   - `.dash-right` changes from `width: 370px` to `width: 100%`
+   - All `.dash-row` grids collapse to single column
+
+2. **Sidebar Navigation** (below mobile/640px):
+   - `.sidebar` becomes hidden hamburger drawer
+   - Add mobile menu toggle button
+   - Overlay sidebar on mobile instead of fixed width
+
+3. **Grid Layouts** (below mobile/640px):
+   - `grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))` becomes single column
+   - All multi-column grids collapse to `grid-template-columns: 1fr`
+
+**Example responsive CSS:**
+```css
+@media (max-width: 1024px) {
+  .dashboard { flex-direction: column; }
+  .dash-right { width: 100%; min-width: 0; }
+  .dash-row.r1, .dash-row.r2 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .sidebar { position: fixed; left: -240px; transition: left 0.3s; z-index: 1000; }
+  .sidebar.open { left: 0; }
+  body { font-size: 13px; } /* Slightly smaller on mobile */
+}
+```
 
 ---
 
