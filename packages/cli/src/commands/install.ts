@@ -4,7 +4,7 @@ import prompts from 'prompts';
 import pc from 'picocolors';
 
 // Path to the nightwire root (two levels up from packages/cli)
-const NIGHTWIRE_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
+const NIGHTWIRE_ROOT = path.resolve(__dirname, '..', '..');
 
 const FILES_TO_COPY = [
   { src: 'nightwire.css', dest: 'nightwire.css', label: 'Core CSS' },
