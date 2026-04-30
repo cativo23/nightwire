@@ -107,8 +107,7 @@ jobs:
 
       - uses: actions/setup-node@v5
         with:
-          node-version: 22
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 22 # Removing registry-url to avoid NPM_TOKEN requirement for OIDC
 
       - name: Build and publish nightwire-cli
         working-directory: packages/cli
