@@ -116,7 +116,7 @@ jobs:
           npm ci
           npm run build
           PKG_VERSION=$(node -p "require('./package.json').version")
-          echo "Publishing nightwire-cli@${PKG_VERSION}"
+          echo "Publishing @cativo23/nightwire@${PKG_VERSION} (release tag: ${{ needs.release.outputs.tag }})"
           npm publish --access public
         env:
-          NPM_CONFIG_PROVENANCE: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
