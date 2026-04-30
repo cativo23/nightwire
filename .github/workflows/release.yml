@@ -96,7 +96,7 @@ jobs:
             --target "$MERGE_SHA" \
             $PRERELEASE_FLAG
 
-  npm-publish-cli:
+  npm-publish:
     needs: release
     runs-on: ubuntu-latest
     permissions:
@@ -110,13 +110,12 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Build and publish nightwire-cli
-        working-directory: packages/cli
+      - name: Publish to npm
         run: |
+          cd packages/cli
           npm ci
-          npm run build
           PKG_VERSION=$(node -p "require('./package.json').version")
-          echo "Publishing nightwire-cli@${PKG_VERSION}"
+          echo "Publishing @cativo23/nightwire@${PKG_VERSION} (release tag: ${{ needs.release.outputs.tag }})"
           npm publish --access public
         env:
-          NPM_CONFIG_PROVENANCE: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
