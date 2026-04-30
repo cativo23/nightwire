@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3]
+
+### Fixed
+- GitHub Actions workflow: run npm publish from repo root to fix OIDC Trusted Publishing
+
 ## [1.0.2]
 
 ### Fixed
