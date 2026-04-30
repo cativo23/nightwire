@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.5]
+
+### Fixed
+- Reverted registry-url and use NODE_AUTH_TOKEN explicitly from NPM_TOKEN secret for npm publish
+
 ## [1.0.4]
 
 ### Fixed
