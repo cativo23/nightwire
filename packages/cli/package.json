@@ -7,13 +7,22 @@
     "nightwire": "dist/index.js"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "nightwire.css",
+    "tailwind.preset.js",
+    "DESIGN.md",
+    "skill/**/*"
   ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
     "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cativo23/nightwire.git",
+    "directory": "packages/cli"
   },
   "keywords": ["nightwire", "design-system", "cyberpunk", "cli", "dark-mode"],
   "author": "cativo23",

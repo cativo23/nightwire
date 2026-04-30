@@ -1,0 +1,32 @@
+{
+  "name": "nightwire",
+  "version": "1.0.0",
+  "description": "A dark-mode-only design system with a modern cyberpunk aesthetic. Works for dashboards, admin panels, dev tools, media players, monitoring UIs, landing pages — any interface that lives in the void.",
+  "main": "tailwind.preset.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "cd docs && npm run dev",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cativo23/nightwire.git"
+  },
+  "keywords": [],
+  "author": "cativo23",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cativo23/nightwire/issues"
+  },
+  "homepage": "https://github.com/cativo23/nightwire#readme",
+  "devDependencies": {
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.33"
+  }
+}
