@@ -168,6 +168,60 @@ components:
   skeleton:
     background: "{colors.void-panel}"
     animation: "neon blue shimmer, 1.2s ease-in-out infinite"
+
+  sidebar:
+    width: "240px"
+    background: "{colors.void-warm}"
+    border: "1px solid {colors.on-surface-faint}"
+    itemPadding: "{spacing.sp-2} {spacing.sp-4}"
+    activeBorderLeft: "2px solid {colors.primary}"
+    activeBg: "{colors.primary-fill}"
+
+  toast:
+    background: "{colors.void-panel}"
+    borderLeftWidth: "3px"
+    padding: "{spacing.sp-3} {spacing.sp-4}"
+    borderRadius: "{rounded.none}"
+
+  modal:
+    background: "{colors.void-panel}"
+    border: "1px solid {colors.primary-dim}"
+    backdropColor: "rgba(0,0,0,0.8)"
+    maxWidth: "480px"
+    borderRadius: "{rounded.lg}"
+
+  progress:
+    height: "4px"
+    background: "{colors.void-panel}"
+    fillColor: "{colors.success}"
+    fillGlow: "0 0 4px rgba(122,237,122,0.3)"
+
+  input:
+    background: "{colors.void-panel}"
+    border: "1px solid {colors.on-surface-line}"
+    borderRadius: "{rounded.md}"
+    padding: "{spacing.sp-2} {spacing.sp-3}"
+    focusBorder: "{colors.primary}"
+    focusGlow: "0 0 0 3px {colors.primary-fill}"
+
+  states:
+    focus-ring: "2px solid {colors.primary}"
+    focus-offset: "2px"
+    disabled-opacity: "0.4"
+    hover-transition: "150ms ease"
+
+motion:
+  duration-fast:  "150ms"
+  duration-base:  "250ms"
+  duration-slow:  "400ms"
+  easing-standard: "cubic-bezier(0.4, 0.0, 0.2, 1)"
+  easing-decelerate: "cubic-bezier(0.0, 0.0, 0.2, 1)"
+
+animations:
+  ticker-scroll:    { duration: "80s",   timing: "linear",     iteration: "infinite" }
+  led-blink:        { duration: "1.2s",  timing: "ease-in-out", iteration: "infinite" }
+  skeleton-shimmer: { duration: "1.2s",  timing: "ease-in-out", iteration: "infinite" }
+  transition-base:  { duration: "150ms", timing: "ease",        iteration: "1" }
 ---
 
 # Nightwire Design System
@@ -364,6 +418,30 @@ Compressed title usage:
 <div style="font-family:var(--font-mincho); font-size:14px; color:var(--nw-primary-dim)">
   設計体系
 </div>
+```
+
+## Typography Hierarchy for Content
+
+For long-form content (blogs, articles, documentation):
+
+| Element | Font | Size | Color | Notes |
+|---|---|---|---|---|
+| H1 | `--font-title` + `.compressed-title` | 36-48px | `--nw-primary` | scaleX(0.82) |
+| H2 | `--font-title` | 24px | `--nw-cyan` | scaleX(0.82), uppercase |
+| H3 | `--font-sys` | 16px | `--nw-primary` | uppercase, letter-spacing |
+| Body | `--font-sys` | 14-15px | `--nw-text-dim` | 1.6 line-height |
+| Caption | `--font-sys` | 11px | `--nw-text-dim` | uppercase, letter-spacing |
+| Code inline | `--font-sys` | 13px | `--nw-green` | void-panel bg |
+| Blockquote | `--font-sys` | 14px | `--nw-text-dim` | primary-dim left border |
+
+```html
+<!-- Article heading hierarchy -->
+<h1 class="compressed-title" style="font-size:40px; color:var(--nw-primary)">ARTICLE TITLE</h1>
+<h2 style="font-family:var(--font-title); font-size:24px; font-weight:800; letter-spacing:0.15em; text-transform:uppercase; color:var(--nw-cyan); transform:scaleX(0.82); transform-origin:left">Section Heading</h2>
+<h3 style="font-family:var(--font-sys); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary)">Subsection</h3>
+<p style="font-size:14px; line-height:1.6; color:var(--nw-text-dim)">Body paragraph text.</p>
+<blockquote style="border-left:3px solid var(--nw-primary-dim); padding-left:16px; color:var(--nw-text-dim); font-style:italic">Quoted text</blockquote>
+<code style="background:var(--void-panel); color:var(--nw-green); padding:2px 6px; font-family:var(--font-sys)">inline code</code>
 ```
 
 ---

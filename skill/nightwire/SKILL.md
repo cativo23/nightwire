@@ -503,6 +503,234 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
 ---
 
+## Portfolio Layout
+
+For personal sites, project showcases, and developer profiles.
+
+```html
+<!-- Hero Section -->
+<section style="min-height:100vh; display:flex; align-items:center; padding:var(--sp-8); background:var(--void)">
+  <div style="max-width:800px">
+    <div class="compressed-title" style="font-size:48px; color:var(--nw-primary); line-height:1; margin-bottom:8px">
+      YOUR NAME
+    </div>
+    <div style="font-family:var(--font-mincho); font-size:18px; color:var(--nw-primary-dim); margin-bottom:24px">
+      役職・専門分野
+    </div>
+    <p style="font-size:16px; line-height:1.6; color:var(--nw-text-dim); max-width:560px; margin-bottom:32px">
+      Short bio or tagline. Keep it punchy. One or two sentences max.
+    </p>
+    <div style="display:flex; gap:12px">
+      <a href="#work" class="btn">View Work</a>
+      <a href="#contact" class="btn-ghost">Contact</a>
+    </div>
+  </div>
+</section>
+
+<!-- Project Grid -->
+<section style="padding:var(--sp-12) var(--sp-8); max-width:1200px; margin:0 auto">
+  <div class="panel-header" style="background:var(--void); margin-bottom:16px">
+    <span>SELECTED WORK</span>
+    <span class="tag">プロジェクト</span>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px">
+    <div class="card">
+      <div class="card-header">
+        <span>PROJECT NAME</span>
+        <span class="tag tag-info">React</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px; line-height:1.5; color:var(--nw-text-dim); margin-bottom:12px">
+          Short project description. What it does, what problem it solves.
+        </p>
+        <div style="display:flex; gap:6px; flex-wrap:wrap">
+          <span class="tag tag-info">TypeScript</span>
+          <span class="tag tag-info">Node.js</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="#" style="font-size:12px; color:var(--nw-primary)">View Project →</a>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+---
+
+## Blog / Article Layout
+
+For articles, documentation pages, and long-form content.
+
+```html
+<article style="max-width:720px; margin:0 auto; padding:var(--sp-12) var(--sp-6)">
+
+  <!-- Article Header -->
+  <header style="margin-bottom:var(--sp-8)">
+    <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px">
+      <span class="badge">Tutorial</span>
+      <span style="font-size:11px; color:var(--nw-text-dim); letter-spacing:0.06em">12 MIN READ</span>
+    </div>
+    <h1 class="compressed-title" style="font-size:40px; color:var(--nw-primary); margin-bottom:12px">
+      ARTICLE TITLE
+    </h1>
+    <div style="font-family:var(--font-mincho); font-size:16px; color:var(--nw-primary-dim); margin-bottom:16px">
+      記事のサブタイトル
+    </div>
+    <div style="font-size:11px; color:var(--nw-text-dim); letter-spacing:0.08em; text-transform:uppercase">
+      2026-04-30 · Carlos Developer
+    </div>
+  </header>
+
+  <!-- Article Body -->
+  <div style="font-size:15px; line-height:1.7; color:var(--nw-text-dim)">
+    <p style="margin-bottom:20px">
+      Opening paragraph. Sets context and hooks the reader.
+    </p>
+
+    <h2 style="font-family:var(--font-title); font-size:24px; font-weight:800; letter-spacing:0.15em; text-transform:uppercase; color:var(--nw-cyan); transform:scaleX(0.82); transform-origin:left; margin:32px 0 16px">
+      SECTION HEADING
+    </h2>
+
+    <p style="margin-bottom:20px">Body text continues here.</p>
+
+    <!-- Inline code -->
+    <p style="margin-bottom:20px">
+      Use <code style="background:var(--void-panel); color:var(--nw-green); padding:2px 6px; font-family:var(--font-sys); font-size:13px">inline code</code> for short snippets.
+    </p>
+
+    <!-- Code block -->
+    <div class="panel" style="margin:24px 0">
+      <div class="panel-header"><span>CODE EXAMPLE</span><span class="tag">コード</span></div>
+      <pre style="margin:0; padding:12px; font-size:13px; line-height:1.5; overflow-x:auto; background:transparent">const config = {
+  void: '#000000',
+  primary: '#6699ff'
+}</pre>
+    </div>
+
+    <!-- Blockquote -->
+    <blockquote style="border-left:3px solid var(--nw-primary-dim); padding-left:16px; margin:24px 0; color:var(--nw-text-dim); font-style:italic">
+      Key insight or quote worth highlighting.
+    </blockquote>
+  </div>
+</article>
+```
+
+---
+
+## Landing Page Layout
+
+For product pages, marketing sites, and feature announcements.
+
+```html
+<!-- Hero -->
+<section style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:var(--sp-8); background:var(--void)">
+  <span class="badge" style="margin-bottom:16px">v1.0 — Now Available</span>
+  <div class="compressed-title" style="font-size:56px; color:var(--nw-primary); margin-bottom:12px">
+    PRODUCT NAME
+  </div>
+  <div style="font-family:var(--font-mincho); font-size:20px; color:var(--nw-primary-dim); margin-bottom:24px">
+    製品の説明
+  </div>
+  <p style="font-size:18px; line-height:1.5; color:var(--nw-text-dim); max-width:600px; margin-bottom:40px">
+    One-sentence value proposition. What it does and why it matters.
+  </p>
+  <div style="display:flex; gap:16px; justify-content:center">
+    <a href="#" class="btn">Get Started</a>
+    <a href="#" class="btn-ghost">View Docs</a>
+  </div>
+</section>
+
+<!-- Features Grid -->
+<section style="padding:var(--sp-12) var(--sp-8); max-width:1100px; margin:0 auto">
+  <div class="panel-header" style="background:var(--void); margin-bottom:24px; text-align:center">
+    <span>FEATURES</span>
+    <span class="tag">機能</span>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2px">
+    <div class="panel">
+      <div class="panel-header"><span>FEATURE ONE</span><span class="tag">機能一</span></div>
+      <div class="panel-body">
+        <p style="font-size:13px; line-height:1.5; color:var(--nw-text-dim)">
+          Feature description. Keep it short and benefit-focused.
+        </p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span>FEATURE TWO</span><span class="tag">機能二</span></div>
+      <div class="panel-body">
+        <p style="font-size:13px; line-height:1.5; color:var(--nw-text-dim)">
+          Another feature description.
+        </p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span>FEATURE THREE</span><span class="tag">機能三</span></div>
+      <div class="panel-body">
+        <p style="font-size:13px; line-height:1.5; color:var(--nw-text-dim)">
+          Third feature description.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Footer -->
+<section style="padding:var(--sp-12) var(--sp-8); text-align:center; border-top:1px solid var(--nw-text-faint)">
+  <div class="compressed-title" style="font-size:32px; color:var(--nw-primary); margin-bottom:16px">
+    READY TO START?
+  </div>
+  <a href="#" class="btn">Get Started Free</a>
+</section>
+```
+
+---
+
+## Form Components
+
+```html
+<!-- Text Input -->
+<div style="margin-bottom:16px">
+  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:6px">
+    EMAIL ADDRESS
+  </label>
+  <input type="email" placeholder="user@example.com"
+    style="width:100%; padding:8px 12px; background:var(--void-panel); border:1px solid var(--nw-text-line); color:var(--nw-text); font-family:var(--font-sys); font-size:14px">
+</div>
+
+<!-- Textarea -->
+<div style="margin-bottom:16px">
+  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:6px">
+    MESSAGE
+  </label>
+  <textarea rows="4" placeholder="Your message..."
+    style="width:100%; padding:8px 12px; background:var(--void-panel); border:1px solid var(--nw-text-line); color:var(--nw-text); font-family:var(--font-sys); font-size:14px; resize:vertical"></textarea>
+</div>
+
+<!-- Select -->
+<div style="margin-bottom:16px">
+  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:6px">
+    CATEGORY
+  </label>
+  <select style="width:100%; padding:8px 12px; background:var(--void-panel); border:1px solid var(--nw-text-line); color:var(--nw-text); font-family:var(--font-sys); font-size:14px">
+    <option>Select option</option>
+    <option>Option 1</option>
+    <option>Option 2</option>
+  </select>
+</div>
+
+<!-- Checkbox -->
+<label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:12px">
+  <input type="checkbox" style="width:16px; height:16px; accent-color:var(--nw-primary)">
+  <span style="font-size:13px; color:var(--nw-text-dim)">I agree to the terms</span>
+</label>
+
+<!-- Submit Button -->
+<button class="btn" type="submit">Submit</button>
+```
+
+---
+
 ## Anti-Patterns — What NOT to Generate
 
 | Don't | Do instead |
