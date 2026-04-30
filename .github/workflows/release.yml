@@ -107,7 +107,8 @@ jobs:
 
       - uses: actions/setup-node@v5
         with:
-          node-version: 22 # Removing registry-url to avoid NPM_TOKEN requirement for OIDC
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Build and publish nightwire-cli
         working-directory: packages/cli
@@ -118,4 +119,4 @@ jobs:
           echo "Publishing nightwire-cli@${PKG_VERSION}"
           npm publish --access public
         env:
-          NPM_CONFIG_PROVENANCE: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
