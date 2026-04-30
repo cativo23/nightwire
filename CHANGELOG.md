@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.13]
+
+### Fixed
+- Changed the npm package name from `@cativo23/nightwire` back to `nightwire-cli` or just without the `@cativo23` scope. The 404 is happening specifically because npm is returning 404 on the scoped package PUT. If the token is empty (because `secrets.NPM_TOKEN` doesn't exist), you can't publish scoped packages without it throwing a 404. Let's try changing the name.
+
 ## [1.0.12]
 
 ### Fixed
