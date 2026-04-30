@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.9]
+
+### Fixed
+- Fixed missing files when running via `npx` by bundling assets into the `packages/cli` distribution.
+- Changed the root directory resolution so `install.js` looks internally instead of globally.
+
 ## [1.0.8]
 
 ### Fixed
