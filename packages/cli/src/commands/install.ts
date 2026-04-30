@@ -3,16 +3,16 @@ import path from 'path';
 import prompts from 'prompts';
 import pc from 'picocolors';
 
-// Path to the nightwire root (two levels up from packages/cli)
-const NIGHTWIRE_ROOT = path.resolve(__dirname, '..', '..');
+// Path to the nightwire root is now local since files are bundled via package.json
+const NIGHTWIRE_ROOT = __dirname;
 
 const FILES_TO_COPY = [
-  { src: 'nightwire.css', dest: 'nightwire.css', label: 'Core CSS' },
-  { src: 'tailwind.preset.js', dest: 'nightwire.tailwind.preset.js', label: 'Tailwind preset' },
-  { src: 'DESIGN.md', dest: 'DESIGN.md', label: 'Design spec (AI context)' },
-  { src: 'skill/nightwire/SKILL.md', dest: 'skill/nightwire/SKILL.md', label: 'AI skill' },
-  { src: 'skill/nightwire/references/layouts.md', dest: 'skill/nightwire/references/layouts.md', label: 'Layout templates' },
-  { src: 'skill/nightwire/references/examples.md', dest: 'skill/nightwire/references/examples.md', label: 'HTML examples' },
+  { src: '../../nightwire.css', dest: 'nightwire.css', label: 'Core CSS' },
+  { src: '../../tailwind.preset.js', dest: 'nightwire.tailwind.preset.js', label: 'Tailwind preset' },
+  { src: '../../DESIGN.md', dest: 'DESIGN.md', label: 'Design spec (AI context)' },
+  { src: '../../skill/nightwire/SKILL.md', dest: 'skill/nightwire/SKILL.md', label: 'AI skill' },
+  { src: '../../skill/nightwire/references/layouts.md', dest: 'skill/nightwire/references/layouts.md', label: 'Layout templates' },
+  { src: '../../skill/nightwire/references/examples.md', dest: 'skill/nightwire/references/examples.md', label: 'HTML examples' },
 ];
 
 function detectProjectType(cwd: string): string {
@@ -24,12 +24,12 @@ function detectProjectType(cwd: string): string {
 }
 
 function copyFile(src: string, dest: string, cwd: string): void {
-  const srcPath = path.join(NIGHTWIRE_ROOT, src);
+  const srcPath = path.resolve(NIGHTWIRE_ROOT, src);
   const destPath = path.join(cwd, dest);
   const destDir = path.dirname(destPath);
 
   if (!fs.existsSync(srcPath)) {
-    console.warn(pc.yellow(`  ! Skipped ${src} (not found in nightwire package)`));
+    console.warn(pc.yellow(`  ! Skipped ${src} (not found in nightwire package: ${srcPath})`));
     return;
   }
 
