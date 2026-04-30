@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1]
+
+### Changed
+- CLI install command now shows ASCII art banner on startup
+- Renamed npm package to `@cativo23/nightwire`, binary to `nightwire`
+- Switched npm publish to OIDC Trusted Publishing (no tokens required)
+
 ## [1.0.0]
 
 ### Added
