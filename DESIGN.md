@@ -37,9 +37,9 @@ colors:
   danger-fill:      "rgba(255,102,136,0.15)"  # CSS: --nw-red-fill
 
   # Warning — amber for caution, pending, degraded
-  warning:          "#e8993a"      # CSS: --nw-yellow
-  warning-dim:      "#b8732a"      # CSS: --nw-yellow-dim
-  warning-fill:     "rgba(232,153,58,0.1)"    # CSS: --nw-yellow-fill
+  warning:          "#e8993a"                   # CSS: --nw-yellow (base) / --nw-warning (semantic alias)
+  warning-dim:      "#b8732a"                   # CSS: --nw-yellow-dim
+  warning-fill:     "rgba(232,153,58,0.1)"      # CSS: --nw-yellow-fill
 
   # Accent — purple for AI elements, highlights
   accent:           "#b266e0"      # CSS: --nw-purple
@@ -234,6 +234,49 @@ components:
     focus-offset: "2px"
     disabled-opacity: "0.4"
     hover-transition: "150ms ease"
+
+  metrics-grid:
+    display: "grid"
+    gridTemplateColumns: "repeat(2, 1fr)"
+    gap: "1px"
+    separatorColor: "{colors.on-surface-faint}"
+
+  event-log:
+    background: "{colors.void-warm}"
+    border: "1px solid {colors.on-surface-faint}"
+    headerFont: "8px uppercase {colors.primary}"
+    bodyFont: "9px {typography.sys.fontFamily}"
+    rowPadding: "1px 10px"
+
+  ticker:
+    overflow: "hidden"
+    whiteSpace: "nowrap"
+    background: "{colors.void}"
+    borderBottom: "1px solid {colors.on-surface-faint}"
+    padding: "2px 0"
+    fontSize: "9px"
+    color: "{colors.primary}"
+    animation: "{animations.ticker-scroll}"
+
+  org-mark:
+    fontFamily: "{typography.title.fontFamily}"
+    fontSize: "24px"
+    fontWeight: 900
+    letterSpacing: "0.25em"
+    color: "{colors.primary}"
+    textTransform: "uppercase"
+    transform: "scaleX(0.82)"
+    transformOrigin: "left center"
+
+  compressed-title:
+    fontFamily: "{typography.title.fontFamily}"
+    fontWeight: 900
+    letterSpacing: "0.2em"
+    textTransform: "uppercase"
+    transform: "scaleX(0.82)"
+    transformOrigin: "left center"
+    color: "{colors.primary}"
+    lineHeight: 1.1
 
 breakpoints:
   mobile:  "640px"
