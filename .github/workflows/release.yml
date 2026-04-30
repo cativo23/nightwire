@@ -112,7 +112,6 @@ jobs:
 
       - name: Publish to npm
         run: |
-          cd packages/cli
           npm ci
           PKG_VERSION=$(node -p "require('./package.json').version")
           echo "Publishing @cativo23/nightwire@${PKG_VERSION} (release tag: ${{ needs.release.outputs.tag }})"

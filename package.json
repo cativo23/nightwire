@@ -1,14 +1,23 @@
 {
-  "name": "nightwire",
-  "version": "1.0.0",
-  "description": "A dark-mode-only design system with a modern cyberpunk aesthetic. Works for dashboards, admin panels, dev tools, media players, monitoring UIs, landing pages — any interface that lives in the void.",
-  "main": "tailwind.preset.js",
-  "directories": {
-    "doc": "docs",
-    "example": "examples"
+  "name": "@cativo23/nightwire",
+  "version": "1.0.14",
+  "description": "CLI installer for the Nightwire cyberpunk UI design system",
+  "main": "dist/index.js",
+  "bin": {
+    "nightwire": "dist/index.js"
   },
+  "files": [
+    "dist/**/*",
+    "nightwire.css",
+    "tailwind.preset.js",
+    "DESIGN.md",
+    "skill/**/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build",
     "docs:dev": "cd docs && npm run dev",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
@@ -17,15 +26,27 @@
     "type": "git",
     "url": "git+https://github.com/cativo23/nightwire.git"
   },
-  "keywords": [],
+  "keywords": [
+    "nightwire",
+    "design-system",
+    "cyberpunk",
+    "cli",
+    "dark-mode"
+  ],
   "author": "cativo23",
   "license": "MIT",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/cativo23/nightwire/issues"
   },
   "homepage": "https://github.com/cativo23/nightwire#readme",
+  "dependencies": {
+    "picocolors": "^1.1.1",
+    "prompts": "^2.4.2"
+  },
   "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/prompts": "^2.4.9",
+    "typescript": "^5.7.0",
     "vitepress": "^1.6.4",
     "vue": "^3.5.33"
   }
