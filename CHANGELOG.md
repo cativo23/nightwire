@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.7]
+
+### Fixed
+- Attempt 7: Run npm publish from root (with `cd packages/cli`) rather than `working-directory`
+
 ## [1.0.6]
 
 ### Fixed

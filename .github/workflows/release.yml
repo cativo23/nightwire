@@ -111,8 +111,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Build and publish nightwire-cli
-        working-directory: packages/cli
         run: |
+          cd packages/cli
           npm ci
           npm run build
           PKG_VERSION=$(node -p "require('./package.json').version")
