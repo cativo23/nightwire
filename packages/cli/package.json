@@ -7,7 +7,11 @@
     "nightwire": "dist/index.js"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "nightwire.css",
+    "tailwind.preset.js",
+    "DESIGN.md",
+    "skill/**/*"
   ],
   "scripts": {
     "build": "tsc",
