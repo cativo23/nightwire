@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.12]
+
+### Fixed
+- Add back explicit `NPM_TOKEN` environment variable and `registry-url` to GitHub Actions publishing flow.
+
 ## [1.0.11]
 
 ### Fixed
