@@ -117,6 +117,4 @@ jobs:
           npm run build
           PKG_VERSION=$(node -p "require('./package.json').version")
           echo "Publishing nightwire-cli@${PKG_VERSION}"
-          npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          npm publish --access public --provenance

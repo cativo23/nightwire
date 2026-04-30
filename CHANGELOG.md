@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.8]
+
+### Fixed
+- Attempt 8: Use `--provenance` explicit flag without explicit ENV tokens since Lumira has no secrets configured. It turns out Lumira does *not* have an `NPM_TOKEN` secret despite it referencing one in the yaml. Thus we must use true secretless OIDC publishing.
+
 ## [1.0.7]
 
 ### Fixed
