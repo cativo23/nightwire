@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4]
+
+### Fixed
+- npm publish via GitHub Actions OIDC Trusted Publishing (removed registry-url from setup-node)
+
 ## [1.0.3]
 
 ### Fixed
