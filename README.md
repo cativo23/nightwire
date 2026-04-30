@@ -28,6 +28,21 @@ Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreat
 4. **No CRT effects** — No scanlines, no flicker, no vignette. Clean modern look.
 5. **Soft neon** — Cyberpunk-inspired but not eye-burning. Vibrant, not harsh.
 
+## Installation
+
+### CLI Installer (Recommended)
+
+```bash
+npx @cativo23/nightwire install
+```
+
+Interactive prompts detect your project type (Next.js, Vite, Astro, plain HTML) and copy the right files:
+- `nightwire.css` — 24+ pure CSS components, 42 design tokens
+- `DESIGN.md` — AI-readable design spec (Google design.md standard)
+- `skill/nightwire/SKILL.md` — AI skill for Claude, Cursor, Copilot, v0
+
+### Manual Installation
+
 ## Quick Start
 
 ### Vanilla CSS
