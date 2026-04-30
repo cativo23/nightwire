@@ -1,6 +1,6 @@
 {
-  "name": "nightwire-cli",
-  "version": "1.0.13",
+  "name": "@cativo23/nightwire",
+  "version": "1.0.14",
   "description": "CLI installer for the Nightwire cyberpunk UI design system",
   "main": "dist/index.js",
   "bin": {

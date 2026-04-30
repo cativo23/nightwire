@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.14]
+
+### Fixed
+- Reverted to `@cativo23/nightwire` package name.
+- Match `lumira`'s exact workflow step naming (`npm-publish` rather than `npm-publish-cli`) and structure.
+- Removed `--provenance` since lumira doesn't use it explicitly.
+- The npm setup is now identically modeled after `lumira` which successfully publishes to the user's scope.
+
 ## [1.0.13]
 
 ### Fixed
