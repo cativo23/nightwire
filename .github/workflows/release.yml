@@ -110,13 +110,13 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Build and publish nightwire-cli
+      - run: npm ci
         working-directory: packages/cli
+
+      - name: Publish to npm
         run: |
-          npm ci
-          npm run build
-          PKG_VERSION=$(node -p "require('./package.json').version")
+          PKG_VERSION=$(node -p "require('./packages/cli/package.json').version")
           echo "Publishing @cativo23/nightwire@${PKG_VERSION} (release tag: ${{ needs.release.outputs.tag }})"
-          npm publish --access public
+          cd packages/cli && npm run build && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
