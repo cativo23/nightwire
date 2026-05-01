@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 - Updated GitHub Actions workflow to use Node.js 24 (latest LTS)
 - Simplified npm publish step by removing redundant `npm ci` call (already executed in separate step)
 
+## [1.0.16]
+
+### Fixed
+- Include `package-lock.json` in repository for `npm ci` in GitHub Actions workflow
+- Remove `package-lock.json` from `.gitignore` to ensure consistent dependency installation
+
 ## [1.0.15]
 
 ### Changed
