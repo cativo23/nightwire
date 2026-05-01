@@ -107,12 +107,13 @@ jobs:
 
       - uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
+
+      - run: npm ci
 
       - name: Publish to npm
         run: |
-          npm ci
           PKG_VERSION=$(node -p "require('./package.json').version")
           echo "Publishing @cativo23/nightwire@${PKG_VERSION} (release tag: ${{ needs.release.outputs.tag }})"
           npm publish --access public
