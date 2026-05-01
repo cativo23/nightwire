@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.17]
+
+### Fixed
+- Updated GitHub Actions workflow to use Node.js 24 (latest LTS)
+- Simplified npm publish step by removing redundant `npm ci` call (already executed in separate step)
+
 ## [1.0.15]
 
 ### Changed
