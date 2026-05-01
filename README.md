@@ -1,6 +1,6 @@
 <div align="center">
 
-![Nightwire Logo](logo.png)
+![Nightwire Logo](.github/assets/logo.png)
 
 # Nightwire
 
