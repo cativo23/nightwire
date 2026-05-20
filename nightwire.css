@@ -1400,3 +1400,25 @@ input::placeholder, textarea::placeholder {
 .nw-stack   { display: flex; flex-direction: column; gap: calc(var(--sp-2) * var(--nw-density)); }
 .nw-cluster { display: flex; flex-wrap: wrap; gap: calc(var(--sp-2) * var(--nw-density)); align-items: center; }
 .nw-split   { display: grid; grid-template-columns: 240px 1fr; gap: 2px; height: 100%; }
+
+/* ── v2 · Modal show/hide via [data-open] attribute ──────────────
+   The v1 .modal-backdrop above is always visible (relies on DOM
+   add/remove). The patch below makes it controllable via attribute
+   so React/Vue consumers can keep the element mounted and toggle
+   data-open instead. v1 markup without data-open still works
+   (defaults to hidden — set data-open="true" on initial render or
+   render conditionally). */
+.modal-backdrop {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+}
+.modal-backdrop[data-open="true"] {
+  visibility: visible;
+  opacity: 1;
+}
+.modal-backdrop .modal {
+  transform: scale(0.96);
+  transition: transform var(--nw-sweep);
+}
+.modal-backdrop[data-open="true"] .modal { transform: scale(1); }

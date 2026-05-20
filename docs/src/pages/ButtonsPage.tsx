@@ -16,8 +16,12 @@ export function ButtonsPage() {
             <button className="btn-ghost">Ghost</button>
             <button className="btn-danger">Danger</button>
             <button className="btn btn-sm">Small</button>
-            <button className="btn btn-success">Success<NewBadge tight /></button>
-            <button className="btn btn-ai">AI<NewBadge tight /></button>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <button className="btn btn-success">Success</button><NewBadge tight />
+            </span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <button className="btn btn-ai">AI</button><NewBadge tight />
+            </span>
           </div>
           <CodeBlock>{`<button class="btn">Primary</button>
 <button class="btn-ghost">Ghost</button>
@@ -92,9 +96,15 @@ export function ButtonsPage() {
             <span className="tag tag-danger">Offline</span>
             <span className="tag tag-warning">Degraded</span>
             <span className="tag tag-info">Metadata</span>
-            <span className="tag tag-chrome">System<NewBadge tight /></span>
-            <span className="tag tag-warn">Warn<NewBadge tight /></span>
-            <span className="tag tag-ai">Oracle<NewBadge tight /></span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <span className="tag tag-chrome">System</span><NewBadge tight />
+            </span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <span className="tag tag-warn">Warn</span><NewBadge tight />
+            </span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <span className="tag tag-ai">Oracle</span><NewBadge tight />
+            </span>
           </div>
           <CodeBlock>{`<span class="tag tag-success">Operational</span>
 <span class="tag tag-danger">Offline</span>
