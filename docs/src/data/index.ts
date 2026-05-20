@@ -37,27 +37,78 @@ export const COMPONENTS = [
   { name: '.compressed-title', desc: 'scaleX(0.82) serif', variants: 'standalone class' },
 ];
 
-export const SIDEBAR_ITEMS = [
-  { id: 'overview', label: 'Overview', kanji: '概要' },
-  { id: 'quickstart', label: 'Quick Start', kanji: 'クイック' },
-  { id: 'install', label: 'Installation', kanji: '導入' },
-  { id: 'tokens', label: 'Design Tokens', kanji: '設計変数' },
-  { id: 'colors', label: 'Color Palette', kanji: 'パレット' },
-  { id: 'typography', label: 'Typography', kanji: 'タイポ' },
-  { id: 'surfaces', label: 'Surface Hierarchy', kanji: 'サーフェス' },
-  { id: 'spacing', label: 'Spacing Scale', kanji: 'スペース' },
-  { id: 'components', label: 'Component Registry', kanji: 'UI部品' },
-  { id: 'buttons', label: 'Buttons & Actions', kanji: '操作' },
-  { id: 'data', label: 'Data Display', kanji: 'データ' },
-  { id: 'feedback', label: 'Feedback & Status', kanji: '応答' },
-  { id: 'panels', label: 'Panel Anatomy', kanji: '構造' },
-  { id: 'more-components', label: 'More Components', kanji: '追加部品' },
-  { id: 'templates', label: 'Layout Templates', kanji: '型紙' },
-  { id: 'examples', label: 'Live Examples', kanji: 'デモ' },
-  // ── v2 additions, integrated as transversal docs (not a separate section) ─
-  { id: 'intensity',     label: 'Intensity System',  kanji: '強度' },
-  { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層' },
+// ── Sidebar structure ──────────────────────────────────────────────────────
+// Source of truth is SIDEBAR_GROUPS (named sections in render order).
+// SIDEBAR_ITEMS is kept as a derived flat alias for any callers (e.g. the
+// legacy Shell component's IntersectionObserver) that still expect a flat list.
+//
+// Grouping rationale lives in .claude-research/design-system-sidebar-research.md
+// (Foundation / Components / Patterns model, inspired by Polaris + Geist + Atlassian).
+//
+// v2-alpha additions get an inline `isNewV2` flag so the Sidebar can pin a small
+// "v2" chip next to the label without splitting them into their own section.
+
+export type SidebarItem = {
+  id: string;
+  label: string;
+  kanji: string;
+  isNewV2?: boolean;
+};
+
+export type SidebarGroup = {
+  section: string;
+  kanji: string;
+  items: SidebarItem[];
+};
+
+export const SIDEBAR_GROUPS: SidebarGroup[] = [
+  {
+    section: 'Getting Started',
+    kanji: '入門',
+    items: [
+      { id: 'overview',   label: 'Overview',     kanji: '概要' },
+      { id: 'quickstart', label: 'Quick Start',  kanji: 'クイック' },
+      { id: 'install',    label: 'Installation', kanji: '導入' },
+    ],
+  },
+  {
+    section: 'Foundation',
+    kanji: '基礎',
+    items: [
+      { id: 'tokens',        label: 'Design Tokens',     kanji: '設計変数' },
+      { id: 'colors',        label: 'Color Palette',     kanji: 'パレット' },
+      { id: 'typography',    label: 'Typography',        kanji: 'タイポ' },
+      { id: 'surfaces',      label: 'Surface Hierarchy', kanji: 'サーフェス' },
+      { id: 'spacing',       label: 'Spacing Scale',     kanji: 'スペース' },
+      { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層', isNewV2: true },
+    ],
+  },
+  {
+    section: 'Components',
+    kanji: '部品',
+    items: [
+      { id: 'components',      label: 'Component Registry', kanji: 'UI部品' },
+      { id: 'buttons',         label: 'Buttons & Actions',  kanji: '操作' },
+      { id: 'data',            label: 'Data Display',       kanji: 'データ' },
+      { id: 'feedback',        label: 'Feedback & Status',  kanji: '応答' },
+      { id: 'panels',          label: 'Panel Anatomy',      kanji: '構造' },
+      { id: 'more-components', label: 'More Components',    kanji: '追加部品' },
+    ],
+  },
+  {
+    section: 'Patterns',
+    kanji: '応用',
+    items: [
+      { id: 'intensity', label: 'Intensity System', kanji: '強度', isNewV2: true },
+      { id: 'templates', label: 'Layout Templates', kanji: '型紙' },
+      { id: 'examples',  label: 'Live Examples',    kanji: 'デモ' },
+    ],
+  },
 ];
+
+// Flat alias — preserved so existing callers (Shell.tsx scroll-spy) keep working
+// without touching unrelated files. Order matches sidebar render order.
+export const SIDEBAR_ITEMS: SidebarItem[] = SIDEBAR_GROUPS.flatMap(g => g.items);
 
 export const INTENSITY_MODES = [
   {
