@@ -54,13 +54,9 @@ export const SIDEBAR_ITEMS = [
   { id: 'more-components', label: 'More Components', kanji: '追加部品' },
   { id: 'templates', label: 'Layout Templates', kanji: '型紙' },
   { id: 'examples', label: 'Live Examples', kanji: 'デモ' },
-];
-
-// ── v2-alpha (additive) ────────────────────────────────────────
-export const SIDEBAR_ITEMS_V2 = [
+  // ── v2 additions, integrated as transversal docs (not a separate section) ─
   { id: 'intensity',     label: 'Intensity System',  kanji: '強度' },
   { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層' },
-  { id: 'components-v2', label: 'v2 Components',     kanji: '部品V2' },
 ];
 
 export const INTENSITY_MODES = [

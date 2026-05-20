@@ -1,5 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import { SIDEBAR_ITEMS, SIDEBAR_ITEMS_V2 } from '../data';
+import { SIDEBAR_ITEMS } from '../data';
+
+// Items added in v2-alpha — pin a tiny NEW chip next to their label
+// so consumers can spot the additions without splitting the nav.
+const V2_NEW_IDS = new Set(['intensity', 'layer2-tokens']);
 
 interface SidebarProps {
   onNavigate?: () => void;
@@ -21,23 +25,27 @@ export function Sidebar({ onNavigate }: SidebarProps) {
           className={({ isActive }) => `sidebar-item${isActive ? ' active' : ''}`}
           onClick={onNavigate}
         >
-          <span style={{ flex: 1 }}>{item.label}</span>
-          <span style={{ fontSize: 7, color: 'var(--nw-text-dim)', fontFamily: 'var(--font-mincho)' }}>{item.kanji}</span>
-        </NavLink>
-      ))}
-
-      <div className="sidebar-section" style={{ marginTop: 12 }}>
-        v2-alpha
-        <span style={{ marginLeft: 6, fontSize: 8, color: 'var(--nw-purple)', letterSpacing: '0.1em' }}>NEW</span>
-      </div>
-      {SIDEBAR_ITEMS_V2.map(item => (
-        <NavLink
-          key={item.id}
-          to={`/${item.id}`}
-          className={({ isActive }) => `sidebar-item${isActive ? ' active' : ''}`}
-          onClick={onNavigate}
-        >
-          <span style={{ flex: 1 }}>{item.label}</span>
+          <span style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
+            {item.label}
+            {V2_NEW_IDS.has(item.id) && (
+              <span
+                style={{
+                  fontFamily: 'var(--font-stamp)',
+                  fontSize: 7,
+                  fontWeight: 700,
+                  letterSpacing: '0.16em',
+                  color: 'var(--nw-purple)',
+                  border: '1px solid var(--nw-purple-dim)',
+                  background: 'rgba(178,102,224,0.08)',
+                  padding: '0 3px',
+                  lineHeight: 1.4,
+                  textTransform: 'uppercase',
+                }}
+              >
+                v2
+              </span>
+            )}
+          </span>
           <span style={{ fontSize: 7, color: 'var(--nw-text-dim)', fontFamily: 'var(--font-mincho)' }}>{item.kanji}</span>
         </NavLink>
       ))}
