@@ -95,6 +95,105 @@
   --radius-md:   4px;
   --radius-lg:   8px;
   --radius-full: 9999px;
+
+  /* ═══════════════════════════════════════════════════════════
+     Nightwire v2 — Layer 2 Semantic Tokens (additive aliases)
+     v1 tokens above remain untouched. Layer 2 references Layer 1
+     so any v1 override propagates to v2 consumers.
+     ─────────────────────────────────────────────────────────── */
+
+  /* Surfaces */
+  --nw-surface-0:    var(--void);
+  --nw-surface-1:    var(--void-warm);
+  --nw-surface-2:    var(--void-panel);
+  --nw-surface-3:    var(--void-raised);
+  --nw-surface-4:    #242424;
+
+  /* Text tiers (split the old --nw-text-dim into 3 contrast levels) */
+  --nw-text-strong:   var(--nw-text);
+  --nw-text-default:  #e6e6e6;
+  --nw-text-mute:     var(--nw-text-dim);
+  --nw-text-disabled: #5a5a5a;
+  --nw-text-on-fill:  var(--void);
+
+  /* Semantic roles */
+  --nw-chrome:        var(--nw-primary);
+  --nw-chrome-mute:   var(--nw-primary-dim);
+  --nw-chrome-hot:    var(--nw-primary-hot);
+  --nw-data:          var(--nw-green);
+  --nw-data-mute:     var(--nw-green-dim);
+  --nw-signal-info:   var(--nw-cyan);
+  --nw-signal-warn:   var(--nw-yellow);
+  --nw-signal-error:  var(--nw-red);
+  --nw-ai:            var(--nw-purple);
+  --nw-ai-mute:       var(--nw-purple-dim);
+
+  /* Lines */
+  --nw-line:          var(--nw-text-line);
+  --nw-line-strong:   rgba(255, 255, 255, 0.18);
+  --nw-line-chrome:   rgba(102, 153, 255, 0.35);
+
+  /* Focus */
+  --nw-focus-ring:    var(--nw-chrome);
+
+  /* ── Intensity knobs (default: operator) ────────────────── */
+  --nw-glow:          1;
+  --nw-density:       1;
+  --nw-motion-scale:  1;
+  --nw-pad-scale:     1;
+  --nw-base-font:     var(--text-base);
+  --nw-pulse-state:   running;
+  --nw-pulse-speed:   1.4s;
+  --nw-panel-radius:  var(--radius-none);
+  --nw-value-color:   var(--nw-data);
+  --nw-value-weight:  500;
+  --nw-kanji-display: inline;
+  --nw-header-gradient: linear-gradient(180deg, rgba(102, 153, 255, 0.06), transparent 80%);
+  --nw-header-pattern:  none;
+  --nw-label-spacing:   var(--ls-ultra);
+
+  /* ── Motion vocabulary ──────────────────────────────────── */
+  --nw-tick:   calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1);
+  --nw-sweep:  calc(350ms * var(--nw-motion-scale)) cubic-bezier(0.2, 0.8, 0.2, 1);
+  --nw-uplink: calc(400ms * var(--nw-motion-scale)) cubic-bezier(0, 0.6, 0.4, 1);
+}
+
+/* ── Intensity: archive (docs, blogs, low-glow) ─────────── */
+:root[data-intensity="archive"] {
+  --nw-glow: 0;
+  --nw-motion-scale: 0.6;
+  --nw-pad-scale: 1.35;
+  --nw-base-font: 15px;
+  --nw-pulse-state: paused;
+  --nw-panel-radius: var(--radius-sm);
+  --nw-value-color: var(--nw-green-dim);
+  --nw-value-weight: 400;
+  --nw-kanji-display: none;
+  --nw-header-gradient: none;
+  --nw-label-spacing: 0.14em;
+}
+
+/* ── Intensity: operator (default — same as base :root) ── */
+:root[data-intensity="operator"] {
+  /* base :root values apply */
+}
+
+/* ── Intensity: combat (ops console, high-glow, dense) ─── */
+:root[data-intensity="combat"] {
+  --nw-glow: 2.2;
+  --nw-motion-scale: 1.2;
+  --nw-density: 0.85;
+  --nw-pad-scale: 0.7;
+  --nw-base-font: 13px;
+  --nw-pulse-state: running;
+  --nw-pulse-speed: 0.7s;
+  --nw-value-color: var(--nw-green-dim);
+  --nw-header-gradient: linear-gradient(180deg, rgba(102, 153, 255, 0.18), transparent 70%);
+  --nw-header-pattern: repeating-linear-gradient(0deg, rgba(102, 153, 255, 0.05) 0 1px, transparent 1px 3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --nw-motion-scale: 0; --nw-pulse-state: paused; }
 }
 
 /* ── Reset ───────────────────────────────────────────────────── */
