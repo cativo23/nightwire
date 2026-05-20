@@ -56,6 +56,142 @@ export const SIDEBAR_ITEMS = [
   { id: 'examples', label: 'Live Examples', kanji: 'デモ' },
 ];
 
+// ── v2-alpha (additive) ────────────────────────────────────────
+export const SIDEBAR_ITEMS_V2 = [
+  { id: 'intensity',     label: 'Intensity System',  kanji: '強度' },
+  { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層' },
+  { id: 'components-v2', label: 'v2 Components',     kanji: '部品V2' },
+];
+
+export const INTENSITY_MODES = [
+  {
+    id: 'archive',
+    label: 'Archive',
+    kanji: '保管',
+    desc: 'Docs, blogs, low-glow. Glow off, paused pulses, larger padding, no kanji, slower motion.',
+    knobs: {
+      '--nw-glow': '0',
+      '--nw-motion-scale': '0.6',
+      '--nw-pad-scale': '1.35',
+      '--nw-base-font': '15px',
+      '--nw-pulse-state': 'paused',
+      '--nw-kanji-display': 'none',
+      '--nw-panel-radius': '2px',
+      '--nw-value-weight': '400',
+      '--nw-header-gradient': 'none',
+    },
+  },
+  {
+    id: 'operator',
+    label: 'Operator',
+    kanji: '通常',
+    desc: 'Default. Identical to v1 Nightwire look. Subtle glow, comfortable density, kanji visible.',
+    knobs: {
+      '--nw-glow': '1',
+      '--nw-motion-scale': '1',
+      '--nw-pad-scale': '1',
+      '--nw-base-font': '14px',
+      '--nw-pulse-state': 'running',
+      '--nw-kanji-display': 'inline',
+      '--nw-panel-radius': '0',
+      '--nw-value-weight': '500',
+      '--nw-header-gradient': 'subtle',
+    },
+  },
+  {
+    id: 'combat',
+    label: 'Combat',
+    kanji: '戦闘',
+    desc: 'Ops console, high glow, dense. Extra glow, faster pulses, denser padding, scanline overlay on headers.',
+    knobs: {
+      '--nw-glow': '2.2',
+      '--nw-motion-scale': '1.2',
+      '--nw-density': '0.85',
+      '--nw-pad-scale': '0.7',
+      '--nw-base-font': '13px',
+      '--nw-pulse-speed': '0.7s',
+      '--nw-header-gradient': 'stronger',
+      '--nw-header-pattern': 'scanlines',
+    },
+  },
+];
+
+export const LAYER2_TOKENS = [
+  // Surfaces
+  { token: '--nw-surface-0', maps: '--void',         desc: 'Page background' },
+  { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Panels, cards' },
+  { token: '--nw-surface-2', maps: '--void-panel',   desc: 'Modals, inputs' },
+  { token: '--nw-surface-3', maps: '--void-raised',  desc: 'Dropdowns, tooltips' },
+  { token: '--nw-surface-4', maps: '#242424',        desc: 'NEW — Overlays' },
+  // Text tiers
+  { token: '--nw-text-strong',   maps: '#ffffff', desc: 'Headings, critical values' },
+  { token: '--nw-text-default',  maps: '#e6e6e6', desc: 'Body text (NEW tier)' },
+  { token: '--nw-text-mute',     maps: '#aaaaaa', desc: 'Captions, sub-labels' },
+  { token: '--nw-text-disabled', maps: '#5a5a5a', desc: 'Disabled (NEW tier)' },
+  // Semantic roles
+  { token: '--nw-chrome',        maps: '--nw-primary',     desc: 'UI chrome, headers, focus' },
+  { token: '--nw-chrome-mute',   maps: '--nw-primary-dim', desc: 'Subdued chrome' },
+  { token: '--nw-data',          maps: '--nw-green',       desc: 'Data values, success' },
+  { token: '--nw-data-mute',     maps: '--nw-green-dim',   desc: 'Subdued data' },
+  { token: '--nw-signal-info',   maps: '--nw-cyan',        desc: 'Info, metadata' },
+  { token: '--nw-signal-warn',   maps: '--nw-yellow',      desc: 'Warnings, degraded' },
+  { token: '--nw-signal-error',  maps: '--nw-red',         desc: 'Errors, destructive' },
+  { token: '--nw-ai',            maps: '--nw-purple',      desc: 'AI / oracle surfaces' },
+  { token: '--nw-ai-mute',       maps: '--nw-purple-dim',  desc: 'Subdued AI' },
+  // Lines
+  { token: '--nw-line',          maps: '--nw-text-line',                desc: 'Standard divider' },
+  { token: '--nw-line-strong',   maps: 'rgba(255,255,255,0.18)',        desc: 'Stronger divider' },
+  { token: '--nw-line-chrome',   maps: 'rgba(102,153,255,0.35)',        desc: 'Chrome-tinted divider' },
+];
+
+export const COMPONENTS_V2 = [
+  // Forms
+  { name: '.field',       category: 'forms',    desc: 'Form field wrapper', variants: '.field.error, .field.success' },
+  { name: '.switch',      category: 'forms',    desc: 'Toggle switch',      variants: '.track, .lbl' },
+  { name: '.check',       category: 'forms',    desc: 'Checkbox',           variants: '.box' },
+  { name: '.radio',       category: 'forms',    desc: 'Radio button',       variants: '.box' },
+  { name: '.combo',       category: 'forms',    desc: 'Multiselect with chips', variants: '.chip, .x' },
+  { name: '.kbd',         category: 'forms',    desc: 'Keyboard chip',      variants: 'inline' },
+  { name: '.seg',         category: 'forms',    desc: 'Segmented control',  variants: 'aria-pressed' },
+  // Overlays
+  { name: '.drawer',      category: 'overlays', desc: 'Right slide-in detail panel', variants: '.drawer-backdrop, .drawer-header, .drawer-body' },
+  { name: '.cmdk',        category: 'overlays', desc: 'Command palette',    variants: '.cmdk-backdrop, .cmdk-section, .cmdk-item' },
+  { name: '.modal-title', category: 'overlays', desc: 'Non-flex header label',  variants: 'companion to modal-header' },
+  // Data display
+  { name: '.code-block',  category: 'data',     desc: 'Syntax-highlighted code', variants: '.tok-k, .tok-s, .tok-c, .tok-n, .tok-fn' },
+  { name: '.code-inline', category: 'data',     desc: 'Inline code chip',   variants: 'inline' },
+  { name: '.diff',        category: 'data',     desc: 'Add/del diff view',  variants: '.ln.add, .ln.del, .num, .code-content' },
+  { name: '.steps',       category: 'data',     desc: 'Stepper bar',        variants: '.step.done, .step.current' },
+  { name: '.stat',        category: 'data',     desc: 'Stat card with sparkline', variants: '.stat-label, .stat-value, .stat-delta, .stat-spark' },
+  // State & feedback
+  { name: '.empty',       category: 'feedback', desc: 'Empty state',        variants: '.glyph, .head, .sub' },
+  { name: '.ai-block',    category: 'feedback', desc: 'Purple-accented suggestion strip', variants: '.ai-block-head, .ai-block-body' },
+  { name: '.banner',      category: 'feedback', desc: 'System-wide notice', variants: '.banner-tag' },
+  { name: '.led[data-state]', category: 'feedback', desc: 'LED with state attribute', variants: 'ok | warn | error | info | ai · [data-pulse]' },
+  // Tag & button variants
+  { name: '.tag-chrome',  category: 'variants', desc: 'System/UI tag (blue)' },
+  { name: '.tag-warn',    category: 'variants', desc: 'Degraded tag (amber)' },
+  { name: '.tag-ai',      category: 'variants', desc: 'AI/oracle tag (purple)' },
+  { name: '.btn-success', category: 'variants', desc: 'Green outline button' },
+  { name: '.btn-ai',      category: 'variants', desc: 'Purple outline button' },
+  { name: '.btn-icon',    category: 'variants', desc: 'Square icon-only button' },
+  { name: '.btn-xs',      category: 'variants', desc: 'Extra small button' },
+  { name: '.btn-lg',      category: 'variants', desc: 'Large button' },
+  { name: '.btn-loading', category: 'variants', desc: 'Spinner-prefixed button' },
+  // Layout primitives
+  { name: '.nw-frame',    category: 'layout',   desc: '100vh flex column with overflow hidden' },
+  { name: '.nw-stack',    category: 'layout',   desc: 'Vertical flex with density-aware gap' },
+  { name: '.nw-cluster',  category: 'layout',   desc: 'Horizontal wrapping flex' },
+  { name: '.nw-split',    category: 'layout',   desc: 'Sidebar + main grid (240px / 1fr)' },
+];
+
+export const MOTION_VOCAB = [
+  { token: '--nw-tick',   value: '150ms cubic-bezier(0.3, 0, 0.7, 1)',    use: 'Clicks, toggles, micro-feedback' },
+  { token: '--nw-sweep',  value: '350ms cubic-bezier(0.2, 0.8, 0.2, 1)',  use: 'Panels enter/exit, modal/drawer' },
+  { token: '--nw-uplink', value: '400ms cubic-bezier(0, 0.6, 0.4, 1)',    use: 'Data load reveal (staggered)' },
+  { token: '--nw-pulse',  value: '--nw-pulse-speed (1.4s default, 0.7s in combat)', use: 'LED heartbeat (state-driven)' },
+];
+
 export type EventEntry = { time: string; type: string; detail: string; metric: string };
 
 export function makeEvent(): EventEntry {
