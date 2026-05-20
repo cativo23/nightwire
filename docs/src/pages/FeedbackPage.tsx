@@ -1,6 +1,6 @@
 import { SectionTitle, CodeBlock } from '../components/CodeBlock';
 import { useState } from 'react';
-import { makeEvent, EventEntry } from '../data';
+import { makeEvent, type EventEntry } from '../data';
 
 export function FeedbackPage() {
   const [events] = useState<EventEntry[]>(() => Array.from({ length: 15 }, makeEvent));
