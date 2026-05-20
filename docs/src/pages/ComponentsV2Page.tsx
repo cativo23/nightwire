@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import { SectionTitle, CodeBlock } from '../components/CodeBlock';
 import { COMPONENTS_V2 } from '../data';
 
@@ -10,7 +11,20 @@ const CATEGORIES = [
   { id: 'layout',   label: 'Layout',       kanji: '配置' },
 ];
 
+type ToastKind = 'success' | 'info' | 'warning' | 'danger';
+type Toast = { id: number; kind: ToastKind; head: string; body: string };
+
 export function ComponentsV2Page() {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const pushToast = useCallback((kind: ToastKind, head: string, body: string) => {
+    const id = Date.now() + Math.random();
+    setToasts(prev => [...prev, { id, kind, head, body }]);
+    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 5000);
+  }, []);
+
+  const dismissToast = (id: number) => setToasts(prev => prev.filter(t => t.id !== id));
+
   return (
     <section id="components-v2">
       <SectionTitle tag="部品V2">v2 Components</SectionTitle>
@@ -116,6 +130,51 @@ export function ComponentsV2Page() {
             <span style={{ color: 'var(--nw-text-dim)', fontSize: 11, marginLeft: 8 }}>ok / warn / error / info / ai (with data-pulse on first &amp; third)</span>
           </div>
         </div>
+      </div>
+
+      <div className="panel" style={{ marginBottom: 2 }}>
+        <div className="panel-header"><span>Live · Toast stack</span><span className="tag">プレビュー</span></div>
+        <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button className="btn btn-success" onClick={() => pushToast('success', 'Operation complete', '12 nodes synced')}>Success</button>
+            <button className="btn btn-ghost" onClick={() => pushToast('info', 'Heads up', 'New build is ready')}>Info</button>
+            <button className="btn btn-ghost" style={{ color: 'var(--nw-yellow)', borderColor: 'var(--nw-yellow-dim)' }} onClick={() => pushToast('warning', 'Capacity 84%', 'Consider scaling out')}>Warn</button>
+            <button className="btn btn-danger" onClick={() => pushToast('danger', 'Deploy failed', 'Build #482 · auth error (ix:9244)')}>Error</button>
+          </div>
+          <div style={{ fontSize: 11, color: 'var(--nw-text-dim)' }}>
+            Toasts stack top-right, auto-dismiss in 5s. Click × to dismiss earlier.
+          </div>
+        </div>
+      </div>
+
+      {/* Toast stack — fixed position top-right */}
+      <div
+        className="toast-stack"
+        style={{
+          position: 'fixed', right: 16, top: 80,
+          display: 'flex', flexDirection: 'column', gap: 8,
+          zIndex: 60, width: 320, pointerEvents: 'none',
+        }}
+      >
+        {toasts.map(t => (
+          <div
+            key={t.id}
+            className={`toast toast-${t.kind}`}
+            style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'flex-start', gap: 10 }}
+          >
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: 'var(--font-stamp)', fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--nw-chrome)', marginBottom: 2 }}>
+                {t.head}
+              </div>
+              <div>{t.body}</div>
+            </div>
+            <button
+              onClick={() => dismissToast(t.id)}
+              style={{ marginLeft: 'auto', cursor: 'pointer', color: 'var(--nw-text-mute)', background: 'none', border: 0, fontSize: 14 }}
+              aria-label="Dismiss"
+            >×</button>
+          </div>
+        ))}
       </div>
 
       <div className="panel" style={{ marginBottom: 2 }}>
