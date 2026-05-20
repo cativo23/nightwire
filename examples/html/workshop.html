@@ -7,7 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<!--
+  CSS path: relative to repo root when opened via file://.
+  When served by the docs site (Vite/Docker), nightwire.css is also
+  mirrored to docs/public/nightwire.css so /nightwire.css works.
+-->
 <link rel="stylesheet" href="../../nightwire.css">
+<link rel="stylesheet" href="/nightwire.css">
 <style>
   /* Workshop-only layout — uses Nightwire v2 tokens, no overrides */
   body { background: var(--nw-surface-0); color: var(--nw-text-default); font-size: var(--nw-base-font); transition: font-size var(--nw-sweep); }
