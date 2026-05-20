@@ -53,9 +53,9 @@ export function FeedbackPage() {
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
           <button className="btn btn-success" onClick={() => pushToast('success', 'Operation complete', '12 nodes synced')}>Success</button>
-          <button className="btn btn-ghost" onClick={() => pushToast('info', 'Heads up', 'New build is ready')}>Info</button>
+          <button className="btn btn-ghost" style={{ color: 'var(--nw-cyan)', borderColor: 'var(--nw-cyan-dim)' }} onClick={() => pushToast('info', 'Heads up', 'New build is ready')}>Info</button>
           <button className="btn btn-ghost" style={{ color: 'var(--nw-yellow)', borderColor: 'var(--nw-yellow-dim)' }} onClick={() => pushToast('warning', 'Capacity 84%', 'Consider scaling out')}>Warn</button>
-          <button className="btn btn-danger" onClick={() => pushToast('danger', 'Deploy failed', 'Build #482 · auth error')}>Error</button>
+          <button className="btn btn-ghost" style={{ color: 'var(--nw-red)', borderColor: 'var(--nw-red-dim)' }} onClick={() => pushToast('danger', 'Deploy failed', 'Build #482 · auth error')}>Error</button>
         </div>
         <CodeBlock>{`<div class="toast toast-success">Success message</div>
 <div class="toast toast-warning">Warning message</div>
