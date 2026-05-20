@@ -83,20 +83,33 @@ Drop `SKILL.md` into your project as a skill. The agent can then generate Nightw
 
 ```
 nightwire/
-├── nightwire.css          <- Design tokens, utilities & component styles
-├── tailwind.preset.js     <- Tailwind CSS preset with all tokens
-├── demo.html              <- Full working demo (blockchain dashboard)
-├── demo2.html             <- Full working demo (neural ops center)
-├── SKILL.md               <- Claude Code skill (full design system spec)
-├── LICENSE                 <- MIT (with nerv-ui credits)
-├── README.md
-└── components/
-    ├── event-log.html
-    ├── vault-card.html
-    ├── magi-oracle.html
-    ├── metrics-grid.html
-    └── data-table.html
+├── nightwire.css                      <- Design tokens, utilities & component styles
+├── tailwind.preset.js                 <- Tailwind CSS preset with all tokens
+├── DESIGN.md                          <- AI-readable design spec
+├── CHANGELOG.md
+├── docs/                              <- React docs site (Vite + Tailwind)
+├── examples/
+│   └── html/
+│       ├── dashboard.html             <- Full demo (blockchain dashboard)
+│       ├── neural-ops.html            <- Full demo (neural ops center)
+│       ├── workshop.html              <- v2 component showcase (alpha)
+│       └── components/                <- Standalone component snippets
+├── skill/nightwire/
+│   ├── SKILL.md                       <- Claude Code skill (full design system spec)
+│   └── references/                    <- Examples & layout docs
+└── src/                               <- CLI installer source
 ```
+
+## v2-alpha — coming soon
+
+A `v2-alpha` branch is in flight with **100% additive** changes (zero rename, no breaking):
+
+- Layer 2 semantic tokens (`--nw-chrome`, `--nw-data`, `--nw-signal-*`, `--nw-ai`)
+- **Intensity system** via `<html data-intensity="archive|operator|combat">` — one attribute reconfigures glow, motion, density, kanji visibility, padding
+- New components: command palette (`.cmdk`), drawer, form suite (`.field`/`.switch`/`.check`/`.combo`), code/diff/steps, button & tag variants, layout primitives
+- Motion vocabulary (`--nw-tick`/`--nw-sweep`/`--nw-uplink`) + `prefers-reduced-motion` contract
+
+Preview the v2 workshop in `examples/html/workshop.html`. See `CHANGELOG.md` for the full additive surface.
 
 ## Credits
 

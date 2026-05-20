@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0-alpha] — Unreleased
+
+> **Status:** opt-in preview on `feature/v2-alpha` branch. Fully additive — v1 consumers (cativo.dev, blog.cativo.dev) keep working without changes.
+
+### Added — CSS
+
+- **Layer 2 semantic tokens** alongside v1 (zero rename). New names reference the role, not the hue, so palettes can be forked without touching components:
+  - Surfaces: `--nw-surface-0..4` (the 4th is new for overlays)
+  - Text tiers: `--nw-text-strong`, `--nw-text-default`, `--nw-text-mute`, `--nw-text-disabled`
+  - Roles: `--nw-chrome`, `--nw-data`, `--nw-signal-info/warn/error`, `--nw-ai`
+  - Lines: `--nw-line`, `--nw-line-strong`, `--nw-line-chrome`
+- **Intensity system** via `<html data-intensity="...">`:
+  - `archive` — glow off, paused pulses, larger padding, no kanji, slower motion. For docs and blogs.
+  - `operator` (default) — current Nightwire look
+  - `combat` — extra glow, faster pulses, denser padding, scanline overlay. For ops consoles.
+- **Knobs** that respond to intensity: `--nw-glow`, `--nw-density`, `--nw-motion-scale`, `--nw-pad-scale`, `--nw-kanji-display`, `--nw-pulse-state`, `--nw-header-gradient`.
+- **Motion vocabulary**: `--nw-tick` (150ms), `--nw-sweep` (350ms), `--nw-uplink` (400ms). All multiplied by `--nw-motion-scale`.
+- `prefers-reduced-motion` contract: sets `--nw-motion-scale: 0` and pauses pulses.
+
+### Added — Components
+
+- **Tag variants**: `.tag-chrome`, `.tag-warn`, `.tag-ai`
+- **Button variants**: `.btn-success`, `.btn-ai`, `.btn-icon`, `.btn-xs`, `.btn-lg`, `.btn-loading`
+- **Form suite**: `.field` (default/success/error states), `.switch`, `.check`, `.radio`, `.combo` (multiselect with chips), `.kbd`, `.seg` (segmented control)
+- **Overlays**: `.drawer` + `.drawer-backdrop`, `.cmdk` + `.cmdk-section`/`.cmdk-item`, `.modal-title`
+- **Data display**: `.code-block` with syntax tokens, `.code-inline`, `.diff` with add/del lines, `.steps` stepper
+- **State**: `.led[data-state="ok|warn|error|info|ai"]`, `.led[data-pulse]`, `.empty`, `.ai-block`
+- **Stat card** with sparkline support (`.stat`, `.stat-label`, `.stat-value`, `.stat-spark`)
+- **Layout primitives**: `.nw-frame`, `.nw-stack`, `.nw-cluster`, `.nw-split`
+- **Banner**: system-wide notice strip
+- **Uplink reveal**: staggered enter animation on `.uplink > *`
+
+### Added — Tailwind preset
+
+- Semantic color aliases: `nw-chrome`, `nw-data`, `nw-signal-info/warn/error`, `nw-ai`
+- Text tier split: `nw-text-strong/default/mute/disabled`
+- New surface tier: `void-surface` (#242424)
+- Stronger border colors: `nw-line-strong`, `nw-line-chrome`
+- Motion timing utilities: `duration-nw-tick/sweep/uplink`, `ease-nw-tick/sweep/uplink`
+
+### Added — Examples
+
+- `examples/html/workshop.html` — v2 showcase with live intensity toggle, dashboard view, components workshop (Forms / Buttons / Data / Feedback tabs), Cmd K palette, toast stack, debug HUD
+
+### Compatibility
+
+- All v1 tokens (`--nw-primary`, `--void`, `--nw-text-dim`, etc.) untouched. Existing projects keep working with zero changes.
+- All v1 classes (`.btn`, `.panel`, `.tag`, `.card`, `.nw-table`, etc.) untouched.
+- Opt-in to v2 via `data-intensity` attribute or by using new class names directly.
+
 ## [1.0.16]
 
 ### Fixed

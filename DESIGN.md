@@ -592,3 +592,132 @@ Tailwind:
 import nightwirePreset from 'nightwire/tailwind.preset.js'
 export default { presets: [nightwirePreset] }
 ```
+
+---
+
+## v2-alpha — Additive Architecture
+
+> v2 is in flight on the `feature/v2-alpha` branch. The frontmatter above describes v1 (current default). This section describes the additive surface — nothing in v1 is removed or renamed.
+
+### Token architecture in 3 layers
+
+v1 mixes primitives and semantics in one layer. v2 separates them while keeping v1 as **Layer 1**:
+
+| Layer | Purpose | Naming | Examples |
+|---|---|---|---|
+| 1 — Primitive | Raw values | `--nw-<hue>[-<step>]` | `--nw-primary`, `--nw-green`, `--void-warm` (v1 names preserved) |
+| 2 — Semantic | Role references | `--nw-<role>[-<modifier>]` | `--nw-chrome`, `--nw-data`, `--nw-signal-error`, `--nw-ai` |
+| 3 — Component | Per-component | `--nw-<component>-<prop>` | (consumer-defined) |
+
+Layer 2 references Layer 1, so a v1 override propagates to v2 consumers automatically.
+
+### Intensity system
+
+A single attribute on `<html>` reconfigures glow strength, motion speed, density, padding, kanji visibility, and pulse state across all components:
+
+```html
+<html data-intensity="archive">    <!-- docs, blogs: glow off, more padding, no kanji -->
+<html data-intensity="operator">   <!-- default: same as v1 -->
+<html data-intensity="combat">     <!-- ops console: high glow, dense, fast pulse -->
+```
+
+Components read knobs, not hardcoded values:
+
+```yaml
+knobs:
+  --nw-glow:           1          # multiplier for all box/text-shadow glows
+  --nw-density:        1          # gap/spacing multiplier
+  --nw-motion-scale:   1          # animation speed multiplier (0 = motion off)
+  --nw-pad-scale:      1          # padding multiplier (0.7 → 1.35)
+  --nw-base-font:      14px       # body base
+  --nw-pulse-state:    running    # LED pulse on/off
+  --nw-pulse-speed:    1.4s
+  --nw-panel-radius:   0          # softens to 2px in archive
+  --nw-value-color:    green-500  # dims in archive, brightens in combat
+  --nw-kanji-display:  inline     # → none in archive
+  --nw-header-gradient: subtle    # → none in archive, scanlines in combat
+  --nw-label-spacing:  0.2em      # → 0.14em in archive
+```
+
+### Motion vocabulary
+
+Named timing functions instead of ad-hoc keyframes:
+
+```yaml
+motion:
+  --nw-tick:    150ms cubic-bezier(0.3,0,0.7,1)    # clicks, toggles, micro-feedback
+  --nw-sweep:   350ms cubic-bezier(0.2,0.8,0.2,1)  # panels enter/exit, modal/drawer
+  --nw-uplink:  400ms cubic-bezier(0,0.6,0.4,1)    # data load reveal (staggered)
+  --nw-pulse:   --nw-pulse-speed                    # LED heartbeat (state-driven)
+```
+
+`@media (prefers-reduced-motion: reduce)` sets `--nw-motion-scale: 0` and pauses pulses.
+
+### New components
+
+```yaml
+components-v2:
+  # Forms
+  field:           "{label, input, help}"
+  switch:          "{checkbox, track, lbl}"
+  check:           "{checkbox, box}"
+  radio:           "{radio, box}"
+  combo:           "{chip, x, input}"
+  kbd:             "inline keyboard chip"
+  seg:             "segmented control with aria-pressed"
+
+  # Overlays
+  drawer:          "{drawer-backdrop, drawer-header, drawer-body} right slide-in"
+  cmdk:            "{cmdk-backdrop, cmdk, cmdk-section, cmdk-item}"
+  modal-title:     "non-flex header label (companion to modal-header)"
+
+  # Data display
+  code-block:      "{tok-k, tok-s, tok-c, tok-n, tok-fn} syntax tokens"
+  code-inline:     "inline code chip"
+  diff:            "{ln, ln.add, ln.del, num, code-content}"
+  steps:           "{step, step.done, step.current}"
+  stat:            "{stat-label, stat-value, stat-delta, stat-spark}"
+
+  # State & feedback
+  empty:           "{glyph, head, sub}"
+  ai-block:        "{ai-block-head, ai-block-body} purple-accented"
+  led-state:       "[data-state=ok|warn|error|info|ai], [data-pulse]"
+  banner:          "system-wide notice strip"
+
+  # Tag & button variants
+  tag-chrome:      "system/UI tag (blue)"
+  tag-warn:        "degraded tag (amber)"
+  tag-ai:          "AI/oracle tag (purple)"
+  btn-success:     "green outline button"
+  btn-ai:          "purple outline button"
+  btn-icon:        "square icon-only button"
+  btn-xs:          "extra small button"
+  btn-lg:          "large button"
+  btn-loading:     "spinner-prefixed button"
+
+  # Layout primitives
+  nw-frame:        "100vh flex column with overflow hidden"
+  nw-stack:        "vertical flex with density-aware gap"
+  nw-cluster:      "horizontal wrapping flex"
+  nw-split:        "sidebar + main grid"
+```
+
+### Color-blind safety
+
+v2 adds **state + shape + label** redundancy rather than relying on color alone:
+
+- `.led[data-state="ok|warn|error|info|ai"]` carries the color
+- Recommended companion: matching `.tag-*` or icon next to the LED
+- Status text in monospace (`tabular-nums`) maintains alignment regardless of locale
+
+### Backward compatibility contract
+
+v2 promises:
+
+1. No v1 token rename. `--nw-primary` stays `--nw-primary`.
+2. No v1 class rename. `.btn` stays `.btn`.
+3. No v1 component layout change. Existing HTML renders identically.
+4. New v2 classes are opt-in by name.
+5. Intensity is opt-in by attribute. Default behaves like v1.
+
+A consumer can safely upgrade by replacing `nightwire.css` and continue using v1 markup, then incrementally adopt v2 classes/tokens where useful.
