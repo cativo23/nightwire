@@ -28,7 +28,7 @@ npx @cativo23/nightwire install
 ```
 
 Interactive prompts detect your project type (Next.js, Vite, Astro, plain HTML) and copy the right files:
-- `nightwire.css` — 24+ pure CSS components, 42 design tokens
+- `nightwire.css` — **50+ pure CSS components**, 60+ design tokens (v1 + v2 Layer 2)
 - `DESIGN.md` — AI-readable design spec (Google design.md standard)
 - `skill/nightwire/SKILL.md` — AI skill for Claude, Cursor, Copilot, v0
 
@@ -100,7 +100,9 @@ nightwire/
 └── src/                               <- CLI installer source
 ```
 
-## v2-alpha — coming soon
+## v2-alpha — preview
+
+See [`examples/html/workshop.html`](examples/html/workshop.html) or the live [`/intensity`](#) / [`/layer2-tokens`](#) pages.
 
 A `v2-alpha` branch is in flight with **100% additive** changes (zero rename, no breaking):
 
