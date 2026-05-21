@@ -969,6 +969,16 @@ input::placeholder, textarea::placeholder {
 .tag-ai      { color: var(--nw-ai);           background: var(--nw-purple-fill); }
 
 /* ── v2 · Button variants ──────────────────────────────────── */
+.btn-chrome {
+  color: var(--void);
+  background: var(--nw-chrome);
+  border-color: var(--nw-chrome);
+}
+.btn-chrome:hover {
+  background: var(--nw-chrome-hot);
+  border-color: var(--nw-chrome-hot);
+}
+
 .btn-success {
   background: transparent;
   color: var(--nw-data);
