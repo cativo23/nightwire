@@ -4,6 +4,15 @@ on:
   pull_request:
     types: [closed]
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag (e.g. v2.0.0-alpha.1)'
+        required: true
+      npm_tag:
+        description: 'npm dist-tag (e.g. alpha, latest)'
+        required: true
+        default: 'latest'
 
 permissions:
   contents: write
@@ -16,8 +25,9 @@ concurrency:
 jobs:
   release:
     if: >-
-      github.event.pull_request.merged == true &&
-      startsWith(github.event.pull_request.head.ref, 'release/')
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/'))
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.version.outputs.tag }}
@@ -28,7 +38,8 @@ jobs:
       - name: Extract and validate version
         id: version
         env:
-          BRANCH: ${{ github.event.pull_request.head.ref }}
+          BRANCH: ${{ github.event_name == 'workflow_dispatch' && format('release/{0}', inputs.tag) || github.event.pull_request.head.ref }}
+          MANUAL_NPM_TAG: ${{ inputs.npm_tag }}
         run: |
           RAW="${BRANCH#release/}"
           if [[ "$RAW" != v* ]]; then
@@ -52,6 +63,10 @@ jobs:
           else
             NPM_TAG="latest"
             echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+          # workflow_dispatch overrides the inferred npm tag
+          if [[ -n "$MANUAL_NPM_TAG" ]]; then
+            NPM_TAG="$MANUAL_NPM_TAG"
           fi
           echo "npm_tag=${NPM_TAG}" >> "$GITHUB_OUTPUT"
 
