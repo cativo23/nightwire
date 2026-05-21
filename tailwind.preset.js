@@ -8,6 +8,8 @@ export default {
           warm: '#0a0a0a',
           panel: '#111111',
           raised: '#1a1a1a',
+          // v2: surface tier 4 (overlays)
+          surface: '#242424',
         },
         nw: {
           primary: {
@@ -33,6 +35,30 @@ export default {
           text: {
             DEFAULT: '#ffffff',
             dim: '#aaaaaa',
+            // v2: split text tier (was dim doing too much in v1)
+            strong: '#ffffff',
+            default: '#e6e6e6',
+            mute: '#aaaaaa',
+            disabled: '#5a5a5a',
+          },
+          // ── v2 · Semantic role aliases ──────────────────
+          // Reference the role, not the color. Lets you fork
+          // the palette without touching component code.
+          chrome: {
+            DEFAULT: '#6699ff',
+            mute: '#4477cc',
+            hot: '#99bbff',
+          },
+          data: {
+            DEFAULT: '#7aed7a',
+            mute: '#5cb85c',
+          },
+          'signal-info':  '#66ddff',
+          'signal-warn':  '#e8993a',
+          'signal-error': '#ff6688',
+          ai: {
+            DEFAULT: '#b266e0',
+            mute: '#8844bb',
           },
         },
       },
@@ -88,6 +114,20 @@ export default {
       borderColor: {
         'nw-faint': 'rgba(255, 255, 255, 0.06)',
         'nw-line': 'rgba(255, 255, 255, 0.12)',
+        // v2: stronger line + chrome-tinted line
+        'nw-line-strong': 'rgba(255, 255, 255, 0.18)',
+        'nw-line-chrome': 'rgba(102, 153, 255, 0.35)',
+      },
+      // ── v2 · Motion vocabulary ────────────────────────────
+      transitionTimingFunction: {
+        'nw-tick':   'cubic-bezier(0.3, 0, 0.7, 1)',
+        'nw-sweep':  'cubic-bezier(0.2, 0.8, 0.2, 1)',
+        'nw-uplink': 'cubic-bezier(0, 0.6, 0.4, 1)',
+      },
+      transitionDuration: {
+        'nw-tick':   '150ms',
+        'nw-sweep':  '350ms',
+        'nw-uplink': '400ms',
       },
     },
   },

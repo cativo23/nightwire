@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en" data-intensity="operator">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nightwire 2.0 — Workshop · operator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<!--
+  CSS path: relative to repo root when opened via file://.
+  When served by the docs site (Vite/Docker), nightwire.css is also
+  mirrored to docs/public/nightwire.css so /nightwire.css works.
+-->
+<link rel="stylesheet" href="../../nightwire.css">
+<link rel="stylesheet" href="/nightwire.css">
+<style>
+  /* Workshop-only layout — uses Nightwire v2 tokens, no overrides */
+  body { background: var(--nw-surface-0); color: var(--nw-text-default); font-size: var(--nw-base-font); transition: font-size var(--nw-sweep); }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: calc(10px * var(--nw-pad-scale)) 16px;
+    background: var(--nw-surface-0);
+    border-bottom: 1px solid var(--nw-line-chrome);
+    flex-shrink: 0;
+  }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  .brand .mark {
+    font-family: var(--font-title); font-weight: 900; font-size: var(--text-xl);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--nw-chrome);
+    transform: scaleX(0.82); transform-origin: left center;
+    display: inline-block;
+    text-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(102, 153, 255, 0.45);
+  }
+  .brand .kanji {
+    font-family: var(--font-mincho); font-size: 13px;
+    color: var(--nw-chrome-mute); letter-spacing: 0.05em;
+    display: var(--nw-kanji-display);
+  }
+  .brand .badge-ver {
+    font-family: var(--font-stamp); font-size: 10px; letter-spacing: 0.18em;
+    color: var(--nw-text-mute); border: 1px solid var(--nw-line-strong);
+    padding: 2px 6px; text-transform: uppercase;
+    border-radius: var(--nw-panel-radius);
+  }
+
+  .sidebar-nav {
+    background: var(--nw-surface-1); border-right: 1px solid var(--nw-line);
+    padding: calc(12px * var(--nw-pad-scale)) 0;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .sidebar-nav-section {
+    font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
+    letter-spacing: var(--nw-label-spacing); text-transform: uppercase;
+    color: var(--nw-chrome-mute);
+    padding: calc(14px * var(--nw-pad-scale)) 16px calc(6px * var(--nw-pad-scale));
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: calc(6px * var(--nw-pad-scale)) 16px;
+    font-size: 13px; color: var(--nw-text-default);
+    cursor: pointer; position: relative; user-select: none;
+    transition: background var(--nw-tick), color var(--nw-tick);
+  }
+  .nav-item:hover { background: var(--nw-surface-2); }
+  .nav-item.active { background: rgba(102, 153, 255, 0.08); color: var(--nw-chrome); }
+  .nav-item.active::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px; background: var(--nw-chrome);
+    box-shadow: 0 0 calc(10px * var(--nw-glow)) var(--nw-chrome);
+  }
+  .nav-item .count {
+    margin-left: auto; font-size: 10px; color: var(--nw-data); font-family: var(--font-sys);
+    text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(122, 237, 122, 0.5);
+  }
+
+  .page { display: none; flex-direction: column; gap: 2px; flex: 1; min-height: 0; overflow: hidden; }
+  .page.active { display: flex; }
+  .page-scroll { flex: 1; overflow: auto; }
+
+  /* Components workshop */
+  .workshop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px; padding: 2px;
+  }
+  .show-block {
+    background: var(--nw-surface-1); border: 1px solid var(--nw-line);
+    padding: 18px;
+    display: flex; flex-direction: column; gap: 14px;
+    border-radius: var(--nw-panel-radius);
+  }
+  .show-head {
+    font-family: var(--font-stamp); font-size: 10px;
+    letter-spacing: var(--nw-label-spacing); text-transform: uppercase;
+    color: var(--nw-chrome-mute);
+    border-bottom: 1px solid var(--nw-line); padding-bottom: 6px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .show-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .show-col { display: flex; flex-direction: column; gap: 10px; }
+  .show-note { font-size: 11px; color: var(--nw-text-mute); }
+
+  /* Override v1 input to use surfaces (so light themes can fork) */
+  input.input, select.input, textarea.input,
+  .field input, .field select, .field textarea {
+    font-family: var(--font-sys); font-size: 13px;
+    background: var(--nw-surface-2); color: var(--nw-text-strong);
+    border: 1px solid var(--nw-line-strong); border-radius: var(--radius-md);
+    padding: 7px 10px; width: 100%; outline: none;
+    transition: border-color var(--nw-tick), box-shadow var(--nw-tick);
+  }
+  .field input::placeholder { color: var(--nw-text-mute); }
+  .field input:focus { border-color: var(--nw-chrome); box-shadow: 0 0 0 3px rgba(102, 153, 255, 0.18); }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .field select {
+    appearance: none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--nw-chrome) 50%),
+      linear-gradient(135deg, var(--nw-chrome) 50%, transparent 50%);
+    background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%;
+    background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+    padding-right: 30px;
+  }
+
+  .statusbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: calc(4px * var(--nw-pad-scale)) 12px;
+    border-top: 1px solid var(--nw-line);
+    font-size: 10px; color: var(--nw-text-mute); letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--nw-surface-0); flex-shrink: 0;
+  }
+  .statusbar .cluster { display: flex; gap: 16px; align-items: center; }
+
+  .hud {
+    position: fixed; right: 16px; bottom: 34px;
+    background: var(--nw-surface-3); border: 1px solid var(--nw-line-chrome);
+    padding: 8px 12px;
+    font-family: var(--font-sys); font-size: 10px;
+    color: var(--nw-text-mute); z-index: 60;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(102, 153, 255, 0.25);
+    letter-spacing: 0.05em;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .hud b { color: var(--nw-chrome); font-weight: 500; }
+  .hud .v { color: var(--nw-data); }
+
+  /* Stat strip layout */
+  .stat-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  }
+
+  /* Toast stack */
+  .toast-stack {
+    position: fixed; right: 16px; top: 80px;
+    display: flex; flex-direction: column; gap: 8px;
+    z-index: 40; width: 320px;
+  }
+
+  /* Tabs */
+  .tabs-bar { display: flex; gap: 0; border-bottom: 1px solid var(--nw-line); background: var(--nw-surface-1); padding: 0 16px; }
+  .tab-btn {
+    font-family: var(--font-stamp); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 8px 14px; color: var(--nw-text-mute); cursor: pointer;
+    background: transparent; border: 0; position: relative;
+    transition: color var(--nw-tick);
+  }
+  .tab-btn:hover { color: var(--nw-text-default); }
+  .tab-btn.active { color: var(--nw-chrome); }
+  .tab-btn.active::after {
+    content: ""; position: absolute;
+    left: 8px; right: 8px; bottom: -1px; height: 2px;
+    background: var(--nw-chrome);
+    box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-chrome);
+  }
+</style>
+</head>
+<body>
+
+<div class="nw-frame">
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="mark">Nightwire 2.0</span>
+      <span class="kanji">夜線</span>
+      <span class="badge-ver">codename · operator</span>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center">
+      <button class="btn btn-ghost" id="open-cmdk">Search <span class="kbd">⌘K</span></button>
+      <div class="seg" role="group" aria-label="Intensity">
+        <button data-i="archive"  aria-pressed="false">Archive</button>
+        <button data-i="operator" aria-pressed="true">Operator</button>
+        <button data-i="combat"   aria-pressed="false">Combat</button>
+      </div>
+      <button class="btn btn-chrome" id="btn-deploy">Deploy</button>
+    </div>
+  </div>
+
+  <div class="banner">
+    <span class="banner-tag">Notice</span>
+    Scheduled maintenance on edge nodes <span class="data tabular">2026-05-20 22:00 UTC</span> · expected 12m downtime.
+    <span style="margin-left:auto; color:var(--nw-text-mute)">Dismiss <span class="kbd">esc</span></span>
+  </div>
+
+  <div class="nw-split" style="flex:1; min-height:0;">
+
+    <aside class="sidebar-nav">
+      <div class="sidebar-nav-section">Operations</div>
+      <div class="nav-item active" data-route="dashboard"><span class="led" data-state="ok" data-pulse></span> Overview</div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="ok"></span> Fleet <span class="count">512</span></div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="warn"></span> Pipelines <span class="count">3</span></div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="error" data-pulse></span> Incidents <span class="count">1</span></div>
+
+      <div class="sidebar-nav-section">Intelligence</div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="ai"></span> Oracle</div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="info"></span> Telemetry</div>
+
+      <div class="sidebar-nav-section">Design</div>
+      <div class="nav-item" data-route="components"><span class="led" data-state="info"></span> Components</div>
+
+      <div class="sidebar-nav-section" style="margin-top:auto">System</div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="ok"></span> Settings</div>
+    </aside>
+
+    <main style="display:flex; flex-direction:column; overflow:hidden; gap:2px; padding:2px; min-height:0;">
+
+      <!-- Dashboard -->
+      <section class="page active" data-page="dashboard">
+        <section class="panel" style="box-shadow:inset 2px 0 0 var(--nw-chrome);">
+          <div class="panel-header">
+            <span style="font-family:var(--font-stamp); font-size:10px; letter-spacing:var(--nw-label-spacing); text-transform:uppercase; color:var(--nw-chrome); text-shadow:0 0 calc(8px * var(--nw-glow)) rgba(102,153,255,0.5)">Fleet Pulse</span>
+            <span style="display:flex; gap:10px; align-items:center; font-family:var(--font-sys); font-size:10px; color:var(--nw-text-mute)">
+              <span class="kanji" style="font-family:var(--font-mincho); display:var(--nw-kanji-display)">艦隊</span> · live
+              <span class="led" data-state="ok" data-pulse></span>
+            </span>
+          </div>
+          <div class="stat-strip uplink">
+            <div class="stat">
+              <span class="stat-label">Active Nodes</span>
+              <span class="stat-value tabular">487<span style="font-size:0.5em; color:var(--nw-text-mute)"> / 512</span></span>
+              <span class="stat-delta up">▲ 2.1% · 24h</span>
+              <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <path class="area" d="M0,18 L8,16 L16,17 L24,12 L32,14 L40,10 L48,11 L56,7 L64,9 L72,5 L80,6 L88,4 L96,3 L100,2 L100,24 L0,24 Z"/>
+                <path d="M0,18 L8,16 L16,17 L24,12 L32,14 L40,10 L48,11 L56,7 L64,9 L72,5 L80,6 L88,4 L96,3 L100,2"/>
+              </svg>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Throughput</span>
+              <span class="stat-value tabular">1.42M<span style="font-size:0.5em; color:var(--nw-text-mute)"> req/s</span></span>
+              <span class="stat-delta up">▲ 12.4% · 1h</span>
+              <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <path class="area" d="M0,14 L10,18 L20,15 L30,10 L40,12 L50,8 L60,9 L70,5 L80,7 L90,3 L100,2 L100,24 L0,24 Z"/>
+                <path d="M0,14 L10,18 L20,15 L30,10 L40,12 L50,8 L60,9 L70,5 L80,7 L90,3 L100,2"/>
+              </svg>
+            </div>
+            <div class="stat">
+              <span class="stat-label">p99 Latency</span>
+              <span class="stat-value tabular">42<span style="font-size:0.5em; color:var(--nw-text-mute)"> ms</span></span>
+              <span class="stat-delta down">▼ 0.8 ms · 1h</span>
+              <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <path class="area" d="M0,8 L10,10 L20,7 L30,12 L40,9 L50,11 L60,13 L70,10 L80,14 L90,12 L100,15 L100,24 L0,24 Z"/>
+                <path d="M0,8 L10,10 L20,7 L30,12 L40,9 L50,11 L60,13 L70,10 L80,14 L90,12 L100,15"/>
+              </svg>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Error Rate</span>
+              <span class="stat-value tabular" style="color:var(--nw-signal-warn); text-shadow:0 0 calc(8px * var(--nw-glow)) rgba(232,153,58,0.55), 0 0 calc(20px * var(--nw-glow)) rgba(232,153,58,0.25);">0.21<span style="font-size:0.5em; color:var(--nw-text-mute)"> %</span></span>
+              <span class="stat-delta up" style="color:var(--nw-signal-warn)">▲ 0.04 pp · breached SLO</span>
+              <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <path class="area" style="fill:var(--nw-signal-warn); opacity:0.14" d="M0,18 L10,17 L20,18 L30,15 L40,16 L50,13 L60,14 L70,10 L80,12 L90,8 L100,6 L100,24 L0,24 Z"/>
+                <path style="stroke:var(--nw-signal-warn)" d="M0,18 L10,17 L20,18 L30,15 L40,16 L50,13 L60,14 L70,10 L80,12 L90,8 L100,6"/>
+              </svg>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Components workshop -->
+      <section class="page" data-page="components">
+        <div class="panel-header" style="background:var(--nw-surface-1); border-bottom:1px solid var(--nw-line-chrome); padding:12px 16px;">
+          <span style="font-family:var(--font-stamp); font-size:11px; letter-spacing:var(--nw-label-spacing); text-transform:uppercase; color:var(--nw-chrome)">Components · Workshop</span>
+          <span style="display:flex; gap:10px; align-items:center">
+            <span class="kanji" style="font-family:var(--font-mincho); display:var(--nw-kanji-display); color:var(--nw-text-mute); font-size:11px">部品</span>
+            <span class="tag tag-info">v2.0-alpha</span>
+          </span>
+        </div>
+
+        <div class="tabs-bar">
+          <button class="tab-btn active" data-tab="forms">Forms</button>
+          <button class="tab-btn" data-tab="buttons">Buttons</button>
+          <button class="tab-btn" data-tab="data">Data</button>
+          <button class="tab-btn" data-tab="feedback">Feedback</button>
+        </div>
+
+        <div class="page-scroll">
+          <div class="workshop-grid">
+
+            <div class="show-block tab-content" data-tab="forms">
+              <div class="show-head"><span>Input · states</span><span class="kbd">.field</span></div>
+              <div class="field">
+                <label class="field-label">Node ID <span class="req">*</span></label>
+                <input placeholder="cluster-α-NN" value="cluster-α-12">
+                <span class="field-help">Identifier of the target node</span>
+              </div>
+              <div class="field success">
+                <label class="field-label">Region</label>
+                <input value="ap-northeast-1">
+                <span class="field-help">✓ Verified · 12 nodes available</span>
+              </div>
+              <div class="field error">
+                <label class="field-label">Replica count</label>
+                <input value="9999">
+                <span class="field-help">Exceeds quota (max 512)</span>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="forms">
+              <div class="show-head"><span>Switch · Check · Radio</span><span class="kbd">toggles</span></div>
+              <label class="switch"><input type="checkbox" checked><span class="track"></span><span class="lbl">Auto-scale enabled</span></label>
+              <label class="switch"><input type="checkbox"><span class="track"></span><span class="lbl">Drain before restart</span></label>
+              <div class="show-row">
+                <label class="check"><input type="checkbox" checked><span class="box"></span> Notify oncall</label>
+                <label class="check"><input type="checkbox"><span class="box"></span> Dry run</label>
+              </div>
+              <div class="show-row">
+                <label class="radio"><input type="radio" name="strategy" checked><span class="box"></span> Rolling</label>
+                <label class="radio"><input type="radio" name="strategy"><span class="box"></span> Blue/green</label>
+                <label class="radio"><input type="radio" name="strategy"><span class="box"></span> Canary</label>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="forms">
+              <div class="show-head"><span>Combobox</span><span class="kbd">.combo</span></div>
+              <div class="field">
+                <label class="field-label">Multiselect · regions</label>
+                <div class="combo">
+                  <span class="chip">ap-northeast-1 <span class="x">×</span></span>
+                  <span class="chip">eu-west-2 <span class="x">×</span></span>
+                  <input placeholder="Add region…">
+                </div>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="buttons" style="display:none">
+              <div class="show-head"><span>Buttons · variants</span><span class="kbd">.btn</span></div>
+              <div class="show-row">
+                <button class="btn btn-chrome">Chrome</button>
+                <button class="btn btn-ghost">Ghost</button>
+                <button class="btn btn-success">Success</button>
+                <button class="btn btn-danger">Danger</button>
+                <button class="btn btn-ai">AI</button>
+              </div>
+              <div class="show-row">
+                <button class="btn btn-chrome btn-xs">XS</button>
+                <button class="btn btn-chrome btn-sm">SM</button>
+                <button class="btn btn-chrome">MD</button>
+                <button class="btn btn-chrome btn-lg">LG</button>
+              </div>
+              <div class="show-row">
+                <button class="btn btn-chrome btn-loading">Loading…</button>
+                <button class="btn btn-chrome" disabled>Disabled</button>
+                <button class="btn btn-ghost btn-icon">⚙</button>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="data" style="display:none">
+              <div class="show-head"><span>Tags</span><span class="kbd">.tag</span></div>
+              <div class="show-row">
+                <span class="tag tag-chrome">system</span>
+                <span class="tag tag-success">healthy</span>
+                <span class="tag tag-warn">degraded</span>
+                <span class="tag tag-danger">offline</span>
+                <span class="tag tag-info">signal</span>
+                <span class="tag tag-ai">oracle</span>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="data" style="display:none">
+              <div class="show-head"><span>Diff</span><span class="kbd">.diff</span></div>
+              <div class="diff">
+                <div class="ln"><span class="num">12</span><span class="code-content"> autoscaler:</span></div>
+                <div class="ln del"><span class="num">13</span><span class="code-content"> -  replicas: 4</span></div>
+                <div class="ln add"><span class="num">13</span><span class="code-content"> +  replicas: 8</span></div>
+                <div class="ln del"><span class="num">14</span><span class="code-content"> -  cooldown: 60s</span></div>
+                <div class="ln add"><span class="num">14</span><span class="code-content"> +  cooldown: 30s</span></div>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="feedback" style="display:none">
+              <div class="show-head"><span>Toast</span><span class="kbd">.toast</span></div>
+              <div class="show-row">
+                <button class="btn btn-success" data-toast="success|Operation complete|12 nodes synced">Success</button>
+                <button class="btn btn-ghost" data-toast="info|Heads up|New build is ready">Info</button>
+                <button class="btn btn-ghost" style="color:var(--nw-signal-warn); border-color:var(--nw-yellow-dim)" data-toast="warning|Capacity 84%|Consider scaling out">Warn</button>
+                <button class="btn btn-danger" data-toast="danger|Deploy failed|Build #482 · auth error">Error</button>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="feedback" style="display:none">
+              <div class="show-head"><span>Progress · Stepper</span><span class="kbd">.nw-progress .steps</span></div>
+              <div class="show-row"><span class="show-note" style="width:60px">Progress</span><div class="nw-progress" style="flex:1"><div class="fill" style="width:62%"></div></div><span style="color:var(--nw-data)">62%</span></div>
+              <div class="show-row"><span class="show-note" style="width:60px">Stepper</span><div class="steps" style="flex:1"><div class="step done"></div><div class="step done"></div><div class="step current"></div><div class="step"></div><div class="step"></div></div></div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="statusbar">
+    <div class="cluster">
+      <span><span class="led" data-state="ok" data-pulse></span> System online</span>
+      <span class="tabular">Nodes 487 · Uptime 99.94%</span>
+    </div>
+    <div class="cluster">
+      <span class="tabular">v2.0.0-alpha · <b id="mode-name">operator</b></span>
+      <span class="tabular" id="clock">— —:— —:— —</span>
+    </div>
+  </div>
+</div>
+
+<div class="hud" id="hud">
+  <span><b>intensity</b> <span class="v" id="hud-mode">operator</span></span>
+  <span><b>--nw-glow</b> <span class="v" id="hud-glow">1</span></span>
+  <span><b>--nw-motion</b> <span class="v" id="hud-motion">1</span></span>
+  <span><b>--nw-density</b> <span class="v" id="hud-density">1</span></span>
+</div>
+
+<div class="toast-stack" id="toast-stack"></div>
+
+<div class="cmdk-backdrop" id="cmdk" data-open="false">
+  <div class="cmdk" role="dialog" aria-label="Command palette">
+    <input autofocus placeholder="Type a command or search…">
+    <div class="cmdk-section">Navigate</div>
+    <div class="cmdk-item active"><span>Go to Components</span><div style="display:flex; gap:4px"><span class="kbd">g</span><span class="kbd">c</span></div></div>
+    <div class="cmdk-item"><span>Go to Incidents</span><div style="display:flex; gap:4px"><span class="kbd">g</span><span class="kbd">i</span></div></div>
+    <div class="cmdk-section">Actions</div>
+    <div class="cmdk-item"><span>Deploy current branch</span><div style="display:flex; gap:4px"><span class="kbd">⌘</span><span class="kbd">↵</span></div></div>
+  </div>
+</div>
+
+<script>
+  function syncHud() {
+    const cs = getComputedStyle(document.documentElement);
+    const mode = document.documentElement.dataset.intensity;
+    document.getElementById('hud-mode').textContent    = mode;
+    document.getElementById('hud-glow').textContent    = cs.getPropertyValue('--nw-glow').trim();
+    document.getElementById('hud-motion').textContent  = cs.getPropertyValue('--nw-motion-scale').trim();
+    document.getElementById('hud-density').textContent = cs.getPropertyValue('--nw-density').trim();
+    document.getElementById('mode-name').textContent   = mode;
+  }
+  document.querySelectorAll('.seg[role="group"] button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.seg[role="group"] button').forEach(x => x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+      document.documentElement.dataset.intensity = b.dataset.i;
+      syncHud();
+    });
+  });
+  syncHud();
+
+  function tick() {
+    const d = new Date(), z = n => String(n).padStart(2,'0');
+    document.getElementById('clock').textContent = `${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())} local`;
+  }
+  setInterval(tick, 1000); tick();
+
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.addEventListener('click', () => {
+      if (!n.dataset.route) return;
+      const route = n.dataset.route;
+      document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.dataset.page === route));
+      document.querySelectorAll('.nav-item').forEach(x => {
+        const lbl = x.textContent.trim();
+        x.classList.toggle('active', x.dataset.route === route &&
+          ((route === 'components' && lbl.startsWith('Components')) || (route !== 'components' && lbl.startsWith('Overview'))));
+      });
+    });
+  });
+
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn[data-tab]').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      const tab = t.dataset.tab;
+      document.querySelectorAll('.tab-content').forEach(c => {
+        c.style.display = (c.dataset.tab === tab) ? '' : 'none';
+      });
+    });
+  });
+
+  function pushToast(kind, head, body) {
+    const el = document.createElement('div');
+    el.className = 'toast toast-' + kind;
+    const text = document.createElement('div');
+    text.style.flex = '1';
+    const h = document.createElement('div');
+    h.style.cssText = 'font-family:var(--font-stamp); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--nw-chrome); margin-bottom:2px';
+    h.textContent = head;
+    const b = document.createElement('div');
+    b.textContent = body || '';
+    text.appendChild(h); text.appendChild(b);
+    const close = document.createElement('button');
+    close.style.cssText = 'margin-left:auto; cursor:pointer; color:var(--nw-text-mute); background:none; border:0; font-size:14px';
+    close.textContent = '×';
+    close.addEventListener('click', () => el.remove());
+    el.appendChild(text); el.appendChild(close);
+    document.getElementById('toast-stack').appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+  document.querySelectorAll('[data-toast]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const [kind, head, body] = btn.dataset.toast.split('|');
+      pushToast(kind, head, body);
+    });
+  });
+
+  document.getElementById('btn-deploy').addEventListener('click', () => pushToast('success','Deployment started','build #482 → production'));
+  document.getElementById('open-cmdk').addEventListener('click', () => document.getElementById('cmdk').dataset.open = 'true');
+  document.getElementById('cmdk').addEventListener('click', e => { if (e.target.id === 'cmdk') document.getElementById('cmdk').dataset.open = 'false'; });
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); document.getElementById('cmdk').dataset.open = 'true'; }
+    if (e.key === 'Escape') document.getElementById('cmdk').dataset.open = 'false';
+  });
+</script>
+</body>
+</html>

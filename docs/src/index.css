@@ -8,6 +8,12 @@
 /* Fluid base font: 13px @ 375px → 16px @ 2560px */
 html {
   font-size: clamp(13px, 0.5vw + 11px, 16px);
+  /* Lock the document viewport. The .console-wrapper is the 100vh frame
+     and its internal <main> handles vertical scroll. Without this, any
+     position:fixed overlay (browser extensions, AT shells) can inflate
+     html.scrollHeight and create a "phantom" scroll past the statusbar. */
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -15,7 +21,14 @@ body {
   background-color: var(--void);
   color: var(--nw-text);
   font-family: var(--font-sys);
-  font-size: 1rem;
+  font-size: var(--nw-base-font);
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
 }
 
 /* ── Component Typography Overrides ─────────────────────────── */

@@ -275,4 +275,70 @@ For HTML examples, see [references/examples.md](references/examples.md)
 
 ---
 
+## v2-alpha — Additive Surface
+
+> v1 is the default. v2 is **100% additive**: nothing renamed, nothing removed. Use v2 tokens/classes when they help; keep using v1 where it works.
+
+### Intensity attribute
+
+Set on `<html>` to retune glow, motion, density, kanji visibility:
+
+```html
+<html data-intensity="archive">   <!-- docs / blogs: glow off, more padding, no kanji -->
+<html data-intensity="operator">  <!-- default: identical to v1 -->
+<html data-intensity="combat">    <!-- ops console: high glow, dense, fast pulse -->
+```
+
+### Layer 2 semantic tokens (use these when forking palette)
+
+```
+--nw-chrome           UI chrome (was --nw-primary)
+--nw-data             data values (was --nw-green)
+--nw-signal-info      info (was --nw-cyan)
+--nw-signal-warn      warning (was --nw-yellow)
+--nw-signal-error     error (was --nw-red)
+--nw-ai               AI / oracle (was --nw-purple)
+--nw-text-strong      headings (#ffffff)
+--nw-text-default     body (#e6e6e6)
+--nw-text-mute        captions (#aaaaaa)
+--nw-text-disabled    disabled (#5a5a5a)
+--nw-surface-0..4     elevation tiers
+```
+
+### New components (v2)
+
+- **Forms**: `.field` (with `.error`/`.success` modifiers), `.switch`, `.check`, `.radio`, `.combo` (with `.chip`), `.kbd`, `.seg`
+- **Overlays**: `.cmdk` + `.cmdk-section`/`.cmdk-item`, `.drawer` + `.drawer-backdrop`, `.modal-title`
+- **Data**: `.code-block` (syntax tokens `.tok-k/-s/-c/-n/-fn`), `.code-inline`, `.diff` (with `.ln.add`/`.ln.del`), `.steps`
+- **State**: `.led[data-state="ok|warn|error|info|ai"]`, `.led[data-pulse]`, `.empty`, `.ai-block`
+- **Stat**: `.stat` + `.stat-label`/`.stat-value`/`.stat-delta`/`.stat-spark`
+- **Layout**: `.nw-frame`, `.nw-stack`, `.nw-cluster`, `.nw-split`
+- **Tag variants**: `.tag-chrome`, `.tag-warn`, `.tag-ai`
+- **Button variants**: `.btn-success`, `.btn-ai`, `.btn-icon`, `.btn-xs`, `.btn-lg`, `.btn-loading`
+- **Banner**: system-wide notice strip
+
+### Motion vocabulary
+
+Use named timings instead of ad-hoc ms values:
+
+- `var(--nw-tick)` — clicks, toggles (150ms)
+- `var(--nw-sweep)` — panels, modal/drawer enter/exit (350ms)
+- `var(--nw-uplink)` — staggered reveal animations (400ms)
+
+All scale with `--nw-motion-scale` (0 in `prefers-reduced-motion`).
+
+### When to use v2 vs v1
+
+| Use case | Recommendation |
+|---|---|
+| Blog post, portfolio, docs | `data-intensity="archive"` + v1 components |
+| Default look (current Nightwire feel) | No attribute or `data-intensity="operator"` + mix freely |
+| Ops console, monitoring dashboard | `data-intensity="combat"` + v2 components (`.cmdk`, `.drawer`, `.stat`, `.steps`) |
+| Forms-heavy admin panel | v2 form suite (`.field`, `.switch`, `.check`, `.combo`) |
+| AI-generated suggestions/oracle UIs | `.ai-block` + `.tag-ai` + `.btn-ai` + `.led[data-state="ai"]` |
+
+See `examples/html/workshop.html` for a live demonstration with all v2 components + intensity toggle.
+
+---
+
 *The void is the canvas. Data is the art.*

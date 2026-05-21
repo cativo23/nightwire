@@ -452,3 +452,76 @@ For portfolios, landing pages, and documentation sites.
   body { font-size: 13px; }
 }
 ```
+
+---
+
+## v2-alpha — Layout primitives
+
+v1's `.console-wrapper` / `.dashboard` / `.dash-left|right` are coupled to a single ops-console layout. v2 adds **composable primitives** that work for any layout (blog, portfolio, SaaS, docs, dashboard, console).
+
+```css
+.nw-frame   { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.nw-stack   { display: flex; flex-direction: column; gap: calc(var(--sp-2) * var(--nw-density)); }
+.nw-cluster { display: flex; flex-wrap: wrap; gap: calc(var(--sp-2) * var(--nw-density)); align-items: center; }
+.nw-split   { display: grid; grid-template-columns: 240px 1fr; gap: 2px; height: 100%; }
+```
+
+### Composing layouts
+
+**Sidebar + main (most apps):**
+
+```html
+<div class="nw-frame">
+  <header class="topbar">...</header>
+  <div class="nw-split" style="flex:1; min-height:0;">
+    <aside class="sidebar">...</aside>
+    <main>...</main>
+  </div>
+  <footer class="statusbar">...</footer>
+</div>
+```
+
+**Centered article (blog/docs):**
+
+```html
+<div class="nw-frame">
+  <header class="topbar">...</header>
+  <main class="nw-stack" style="max-width:720px; margin:0 auto; padding:48px 16px; gap:24px">
+    <article>...</article>
+  </main>
+  <footer class="statusbar">...</footer>
+</div>
+```
+
+Combine with `data-intensity="archive"` on `<html>` to drop glow and increase padding for reading comfort.
+
+**Dense ops grid (3-row, 2-col):**
+
+```html
+<div class="nw-frame">
+  <header>...</header>
+  <div class="nw-stack" style="flex:1; gap:2px; padding:2px">
+    <div class="nw-cluster" style="gap:2px; grid-template-columns:1.6fr 1fr">
+      <div class="panel">stat strip</div>
+    </div>
+    <div style="display:grid; grid-template-columns:1.6fr 1fr; gap:2px; flex:1; min-height:0">
+      <div class="panel">events table</div>
+      <div class="panel">oracle</div>
+    </div>
+  </div>
+  <footer>...</footer>
+</div>
+```
+
+Combine with `data-intensity="combat"` on `<html>` for high-density ops feel.
+
+### Density-aware gaps
+
+`.nw-stack` and `.nw-cluster` multiply their gap by `var(--nw-density)`. In combat mode `--nw-density` drops to 0.85 and gaps tighten automatically; archive and operator keep the default of 1.
+
+### Best practices
+
+- Use `.nw-frame` once at the root of full-viewport layouts (dashboards, consoles).
+- Use `.nw-stack` / `.nw-cluster` instead of inline `display:flex` — keeps density consistent across the app.
+- Use `.nw-split` for the canonical 240px sidebar + main pattern; override grid-template-columns for variants.
+- Keep `.console-wrapper` (v1) if you're already using it; it still works.
