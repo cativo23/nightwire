@@ -84,7 +84,7 @@ export function MoreComponentsPage() {
               </div>
             </div>
           </div>
-          <CodeBlock>{`<div class="modal-backdrop">
+          <CodeBlock>{`<div class="modal-backdrop" data-open="true">
   <div class="modal">
     <div class="modal-header">
       <span>Title</span>

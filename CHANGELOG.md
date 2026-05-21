@@ -54,6 +54,8 @@ All notable changes to this project will be documented in this file.
 
 > **Behavior change** — `.modal-backdrop` now defaults to `visibility: hidden; opacity: 0` and requires `data-open="true"` to become visible. v1 consumers that mount the backdrop conditionally (only when modal is open) are unaffected; consumers that always render the backdrop must add the `data-open` attribute.
 
+> **Visual delta** — `.panel-header` now applies a subtle blue gradient overlay (`rgba(102,153,255,0.06)` at default intensity). Existing v1 markup will see a faint tint on panel headers. This is purely additive and intentional; to opt out, override `background-image: none` on `.panel-header` in your project CSS.
+
 ## [1.0.16]
 
 ### Fixed
