@@ -2,9 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.0-alpha] — Unreleased
+## [2.0.0-alpha.1]
 
-> **Status:** opt-in preview on `feature/v2-alpha` branch. Fully additive — v1 consumers (cativo.dev, blog.cativo.dev) keep working without changes.
+> **Status:** First alpha release. Fully additive — v1 consumers (cativo.dev, blog.cativo.dev) keep working without changes. Install with `npm i @cativo23/nightwire@alpha`.
 
 ### Added — CSS
 

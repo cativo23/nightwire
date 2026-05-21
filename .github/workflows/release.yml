@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.version.outputs.tag }}
+      npm_tag: ${{ steps.version.outputs.npm_tag }}
     steps:
       - uses: actions/checkout@v5
 
@@ -41,11 +42,18 @@ jobs:
           echo "number=${RAW#v}" >> "$GITHUB_OUTPUT"
           MAJOR="${RAW#v}"
           MAJOR="${MAJOR%%.*}"
-          if [[ "$MAJOR" -eq 0 ]]; then
+          # Detect pre-release suffix (e.g. -alpha.1 -> npm tag "alpha")
+          if [[ "$RAW" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-([a-zA-Z][a-zA-Z0-9]*) ]]; then
+            NPM_TAG="${BASH_REMATCH[1]}"
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          elif [[ "$MAJOR" -eq 0 ]]; then
+            NPM_TAG="latest"
             echo "prerelease=true" >> "$GITHUB_OUTPUT"
           else
+            NPM_TAG="latest"
             echo "prerelease=false" >> "$GITHUB_OUTPUT"
           fi
+          echo "npm_tag=${NPM_TAG}" >> "$GITHUB_OUTPUT"
 
       - name: Check tag does not already exist
         id: check_tag
@@ -111,10 +119,11 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TAG: ${{ needs.release.outputs.npm_tag }}
         run: |
           npm ci
           PKG_VERSION=$(node -p "require('./package.json').version")
-          echo "Publishing @cativo23/nightwire@${PKG_VERSION} (release tag: ${{ needs.release.outputs.tag }})"
-          npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          echo "Publishing @cativo23/nightwire@${PKG_VERSION} --tag ${NPM_TAG}"
+          npm publish --access public --tag "$NPM_TAG"
