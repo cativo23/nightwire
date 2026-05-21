@@ -74,7 +74,7 @@ export function IntensityPage() {
                     <td style={{ color: 'var(--nw-cyan)' }}>{k}</td>
                     {INTENSITY_MODES.map(m => (
                       <td key={m.id} style={{ color: m.id === mode ? 'var(--nw-green)' : 'var(--nw-text-dim)' }}>
-                        {(m.knobs as Record<string, string>)[k] ?? '—'}
+                        {(m.knobs as unknown as Record<string, string>)[k] ?? '—'}
                       </td>
                     ))}
                   </tr>
