@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_USERNAME:-cativo23}/nightwire-docs:latest
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:80"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
       interval: 30s
       timeout: 10s
       start_period: 15s
