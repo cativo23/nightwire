@@ -207,7 +207,7 @@ html {
 
 body {
   font-family: var(--font-sys);
-  font-size: var(--text-base);
+  font-size: var(--nw-base-font);
   line-height: 1.5;
   background: var(--void);
   -webkit-font-smoothing: antialiased;
@@ -302,6 +302,11 @@ table {
 .font-title  { font-family: var(--font-title); }
 .font-stamp  { font-family: var(--font-stamp); }
 .font-mincho { font-family: var(--font-mincho); }
+
+.kanji {
+  display: var(--nw-kanji-display);
+  font-family: var(--font-mincho);
+}
 
 /* ── Buttons ─────────────────────────────────────────────────── */
 
@@ -441,6 +446,7 @@ input::placeholder, textarea::placeholder {
 .panel {
   background: var(--void-warm);
   border: 1px solid var(--nw-text-faint);
+  border-radius: var(--nw-panel-radius);
 }
 
 .panel-header {
@@ -453,6 +459,7 @@ input::placeholder, textarea::placeholder {
   border-bottom: 1px solid var(--nw-primary-dim);
   display: flex;
   justify-content: space-between;
+  background-image: var(--nw-header-pattern), var(--nw-header-gradient);
 }
 
 .panel-body {
