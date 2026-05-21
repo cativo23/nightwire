@@ -633,7 +633,7 @@ knobs:
   --nw-pulse-state:    running    # LED pulse on/off
   --nw-pulse-speed:    1.4s
   --nw-panel-radius:   0          # softens to 2px in archive
-  --nw-value-color:    green-500  # dims in archive, brightens in combat
+  --nw-value-color:    var(--nw-data)  # dims in archive, brightens in combat
   --nw-kanji-display:  inline     # → none in archive
   --nw-header-gradient: subtle    # → none in archive, scanlines in combat
   --nw-label-spacing:  0.2em      # → 0.14em in archive
@@ -648,7 +648,9 @@ motion:
   --nw-tick:    150ms cubic-bezier(0.3,0,0.7,1)    # clicks, toggles, micro-feedback
   --nw-sweep:   350ms cubic-bezier(0.2,0.8,0.2,1)  # panels enter/exit, modal/drawer
   --nw-uplink:  400ms cubic-bezier(0,0.6,0.4,1)    # data load reveal (staggered)
-  --nw-pulse:   --nw-pulse-speed                    # LED heartbeat (state-driven)
+  --nw-pulse-speed:    1.4s                          # LED heartbeat speed (0.7s in combat)
+  --nw-pulse-state:    running                       # running | paused — state-driven
+  # keyframes: nw-pulse (used by .led[data-pulse])
 ```
 
 `@media (prefers-reduced-motion: reduce)` sets `--nw-motion-scale: 0` and pauses pulses.

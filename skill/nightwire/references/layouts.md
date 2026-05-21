@@ -517,7 +517,7 @@ Combine with `data-intensity="combat"` on `<html>` for high-density ops feel.
 
 ### Density-aware gaps
 
-`.nw-stack` and `.nw-cluster` multiply their gap by `var(--nw-density)`. In combat mode (density 0.85), gaps tighten automatically. In archive mode (density 1.0), they stay comfortable.
+`.nw-stack` and `.nw-cluster` multiply their gap by `var(--nw-density)`. In combat mode `--nw-density` drops to 0.85 and gaps tighten automatically; archive and operator keep the default of 1.
 
 ### Best practices
 

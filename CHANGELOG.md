@@ -52,6 +52,8 @@ All notable changes to this project will be documented in this file.
 - All v1 classes (`.btn`, `.panel`, `.tag`, `.card`, `.nw-table`, etc.) untouched.
 - Opt-in to v2 via `data-intensity` attribute or by using new class names directly.
 
+> **Behavior change** — `.modal-backdrop` now defaults to `visibility: hidden; opacity: 0` and requires `data-open="true"` to become visible. v1 consumers that mount the backdrop conditionally (only when modal is open) are unaffected; consumers that always render the backdrop must add the `data-open` attribute.
+
 ## [1.0.16]
 
 ### Fixed

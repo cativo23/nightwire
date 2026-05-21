@@ -37,7 +37,7 @@ docs/
 │   │   ├── IntensityPage.tsx     (v2)
 │   │   ├── TemplatesPage.tsx
 │   │   └── ExamplesPage.tsx
-│   ├── components/      Shared UI (Shell, Sidebar, StatusBar, etc.)
+│   ├── components/      Shared UI (Sidebar, StatusBar, NewBadge, etc.)
 │   └── data/            Single source for COLORS, FONTS, COMPONENTS, SIDEBAR_GROUPS
 ├── tailwind.config.js   Uses the root tailwind.preset.js
 └── vite.config.ts

@@ -39,14 +39,13 @@ export const COMPONENTS = [
 
 // ── Sidebar structure ──────────────────────────────────────────────────────
 // Source of truth is SIDEBAR_GROUPS (named sections in render order).
-// SIDEBAR_ITEMS is kept as a derived flat alias for any callers (e.g. the
-// legacy Shell component's IntersectionObserver) that still expect a flat list.
 //
 // Grouping rationale lives in .claude-research/design-system-sidebar-research.md
 // (Foundation / Components / Patterns model, inspired by Polaris + Geist + Atlassian).
 //
 // v2-alpha additions get an inline `isNewV2` flag so the Sidebar can pin a small
-// "v2" chip next to the label without splitting them into their own section.
+// "v2" chip next to the label, and NewBadge renders the full "NEW IN V2" pill —
+// together they form a two-tier visual system (chip for sidebar, badge for page headers).
 
 export type SidebarItem = {
   id: string;
@@ -106,9 +105,6 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
   },
 ];
 
-// Flat alias — preserved so existing callers (Shell.tsx scroll-spy) keep working
-// without touching unrelated files. Order matches sidebar render order.
-export const SIDEBAR_ITEMS: SidebarItem[] = SIDEBAR_GROUPS.flatMap(g => g.items);
 
 export const INTENSITY_MODES = [
   {
@@ -142,7 +138,7 @@ export const INTENSITY_MODES = [
       '--nw-kanji-display': 'inline',
       '--nw-panel-radius': '0',
       '--nw-value-weight': '500',
-      '--nw-header-gradient': 'subtle',
+      '--nw-header-gradient': 'linear-gradient(180deg, rgba(102,153,255,0.06), transparent 80%)',
     },
   },
   {
@@ -157,8 +153,8 @@ export const INTENSITY_MODES = [
       '--nw-pad-scale': '0.7',
       '--nw-base-font': '13px',
       '--nw-pulse-speed': '0.7s',
-      '--nw-header-gradient': 'stronger',
-      '--nw-header-pattern': 'scanlines',
+      '--nw-header-gradient': 'linear-gradient(180deg, rgba(102,153,255,0.18), transparent 70%)',
+      '--nw-header-pattern': 'repeating-linear-gradient(0deg, rgba(102,153,255,0.05) 0 1px, transparent 1px 3px)',
     },
   },
 ];
