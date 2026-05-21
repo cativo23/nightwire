@@ -54,17 +54,6 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Copy compose file to server
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "docs/compose.prod.yml"
-          target: "/home/cativo23/deploy/nightwire-docs"
-          strip_components: 1
-
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
         with:
