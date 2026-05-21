@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0]
+
+> **Status:** Stable release. API frozen. All v1 consumers keep working with zero changes.
+> Install with `npm i @cativo23/nightwire` (now the default `latest` tag).
+
+### What's new since alpha.1
+
+- **Docs site** (`nightwire.cativo.dev`) — favicon, workshop link, and all example HTML files now served correctly in production
+- **Workshop** (`/examples/html/workshop.html`) — fully expanded with all v2 components: interactive drawer, modal, Cmd K palette, AI block showcase, LED state guide, code-block with syntax tokens, diff, empty state, progress + stepper, and a real dashboard with fleet/incident panels
+- **Live examples** — all three demo cards (Alchemix, Neural-Ops, Workshop) now open correctly from the docs site
+
+### Migration guide — v1.x → v2.0.0
+
+v2 is **fully additive**. Upgrade by bumping the version; nothing breaks.
+
+**To adopt v2 features:**
+
+1. Add `data-intensity="operator"` to your `<html>` tag (or `archive` for docs/blogs, `combat` for dashboards):
+   ```html
+   <html data-intensity="operator">
+   ```
+
+2. Replace hardcoded colors with the new semantic tokens where convenient:
+   | v1 token | v2 equivalent |
+   |---|---|
+   | `--nw-primary` | `--nw-chrome` |
+   | `--nw-text` | `--nw-text-default` |
+   | `--nw-text-dim` | `--nw-text-mute` |
+   | `--void` | `--nw-surface-0` |
+   | `--void-panel` | `--nw-surface-1` |
+
+3. Use new components as needed — see the [workshop](https://nightwire.cativo.dev/examples) for live examples of every v2 primitive.
+
+### Behavior changes (from alpha.1, none new in stable)
+
+- **`.modal-backdrop`** requires `data-open="true"` to be visible. Projects that always render the backdrop must add the attribute; projects that mount it conditionally are unaffected.
+- **`.panel-header`** has a subtle `rgba(102,153,255,0.06)` gradient tint at `operator` intensity. Override with `background-image: none` on `.panel-header` to opt out.
+
+### API freeze
+
+All token names, class names, and modifier conventions are now stable. No renames or removals will happen in the v2.x line without a semver-major bump.
+
+---
+
 ## [2.0.0-alpha.1]
 
 > **Status:** First alpha release. Fully additive — v1 consumers (cativo.dev, blog.cativo.dev) keep working without changes. Install with `npm i @cativo23/nightwire@alpha`.
