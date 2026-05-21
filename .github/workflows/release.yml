@@ -131,6 +131,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to npm
         env:
@@ -139,4 +140,4 @@ jobs:
           npm ci
           PKG_VERSION=$(node -p "require('./package.json').version")
           echo "Publishing @cativo23/nightwire@${PKG_VERSION} --tag ${NPM_TAG}"
-          npm publish --access public --tag "$NPM_TAG"
+          npm publish --provenance --access public --tag "$NPM_TAG"
