@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
+      - 'examples/**'
       - 'nightwire.css'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
@@ -41,7 +42,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
         with:
-          context: ./docs
+          context: .
           file: ./docs/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}

@@ -1,12 +1,16 @@
 FROM node:22-alpine AS builder
 
+# Build context is repo root. Keep docs/ as working dir for npm ci + build.
 WORKDIR /app
-COPY package*.json ./
+COPY docs/package*.json ./
 RUN npm ci
-COPY . .
+COPY docs/ .
 RUN npm run build
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy examples and root CSS (not in docs/ build context, must come from repo root)
+COPY examples/ /usr/share/nginx/html/examples/
+COPY nightwire.css /usr/share/nginx/html/nightwire.css
+COPY docs/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80

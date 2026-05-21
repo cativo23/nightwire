@@ -5,8 +5,7 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // Serve the project root so /examples/html/*.html works in dev.
-  // Disabled in production: the Docker build context is docs/ only,
-  // so __dirname resolves to / which would copy the entire filesystem.
-  publicDir: process.env.NODE_ENV === 'production' ? false : path.resolve(__dirname, '..'),
+  // Dev: serve repo root so /examples/html/*.html resolves from parent.
+  // Production: use docs/public/ (favicon, nightwire.css, icons) — Docker build context is now repo root.
+  publicDir: process.env.NODE_ENV === 'production' ? 'public' : path.resolve(__dirname, '..'),
 })
