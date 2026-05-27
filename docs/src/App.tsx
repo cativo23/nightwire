@@ -19,6 +19,8 @@ import { PanelsPage } from './pages/PanelsPage';
 import { MoreComponentsPage } from './pages/MoreComponentsPage';
 import { TemplatesPage } from './pages/TemplatesPage';
 import { ExamplesPage } from './pages/ExamplesPage';
+import { IntensityPage } from './pages/IntensityPage';
+import { Layer2TokensPage } from './pages/Layer2TokensPage';
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -115,6 +117,9 @@ export default function App() {
               <Route path="/more-components" element={<MoreComponentsPage />} />
               <Route path="/templates" element={<TemplatesPage />} />
               <Route path="/examples" element={<ExamplesPage />} />
+              {/* v2 transversal docs */}
+              <Route path="/intensity" element={<IntensityPage />} />
+              <Route path="/layer2-tokens" element={<Layer2TokensPage />} />
             </Routes>
           </div>
         </main>

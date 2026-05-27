@@ -5,6 +5,7 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // Serve the project root so /examples/html/*.html works
-  publicDir: path.resolve(__dirname, '..'),
+  // Dev: serve repo root so /examples/html/*.html resolves from parent.
+  // Production: use docs/public/ (favicon, nightwire.css, icons) — Docker build context is now repo root.
+  publicDir: process.env.NODE_ENV === 'production' ? 'public' : path.resolve(__dirname, '..'),
 })

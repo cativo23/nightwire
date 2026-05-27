@@ -440,3 +440,196 @@ This file contains complete HTML examples for all Nightwire components and patte
   </div>
 </div>
 ```
+
+---
+
+## v2-alpha examples (additive)
+
+### Command palette (Cmd K)
+
+```html
+<div class="cmdk-backdrop" id="cmdk" data-open="false">
+  <div class="cmdk" role="dialog" aria-label="Command palette">
+    <input autofocus placeholder="Type a command or search…">
+    <div class="cmdk-section">Navigate</div>
+    <div class="cmdk-item active">
+      <span>Go to Fleet</span>
+      <div style="display:flex; gap:4px"><span class="kbd">g</span><span class="kbd">f</span></div>
+    </div>
+    <div class="cmdk-section">Actions</div>
+    <div class="cmdk-item">
+      <span>Deploy current branch</span>
+      <div style="display:flex; gap:4px"><span class="kbd">⌘</span><span class="kbd">↵</span></div>
+    </div>
+  </div>
+</div>
+```
+
+Toggle with `document.getElementById('cmdk').dataset.open = 'true'` (or `false`).
+
+### Drawer (right slide-in for detail views)
+
+```html
+<div class="drawer-backdrop" data-open="false"></div>
+<aside class="drawer" data-open="false">
+  <div class="drawer-header">
+    <div>
+      <div class="modal-title">Node detail</div>
+      <div style="display:flex; gap:8px; align-items:center; margin-top:4px">
+        <span class="led" data-state="ok" data-pulse></span>
+        <span style="color:var(--nw-chrome)">cluster-α-12</span>
+        <span class="tag tag-success">healthy</span>
+      </div>
+    </div>
+    <button class="btn btn-ghost btn-icon">×</button>
+  </div>
+  <div class="drawer-body">
+    <!-- content -->
+  </div>
+</aside>
+```
+
+### Form with validation states
+
+```html
+<div class="field">
+  <label class="field-label">Node ID <span class="req">*</span></label>
+  <input value="cluster-α-12">
+  <span class="field-help">Identifier of the target node</span>
+</div>
+
+<div class="field success">
+  <label class="field-label">Region</label>
+  <input value="ap-northeast-1">
+  <span class="field-help">✓ Verified · 12 nodes available</span>
+</div>
+
+<div class="field error">
+  <label class="field-label">Replica count</label>
+  <input value="9999">
+  <span class="field-help">Exceeds quota (max 512)</span>
+</div>
+```
+
+### Switch / Check / Radio
+
+```html
+<label class="switch">
+  <input type="checkbox" checked>
+  <span class="track"></span>
+  <span class="lbl">Auto-scale enabled</span>
+</label>
+
+<label class="check"><input type="checkbox" checked><span class="box"></span> Notify oncall</label>
+<label class="radio"><input type="radio" name="strategy" checked><span class="box"></span> Rolling</label>
+```
+
+### Combo (multiselect with chips)
+
+```html
+<div class="combo">
+  <span class="chip">ap-northeast-1 <span class="x">×</span></span>
+  <span class="chip">eu-west-2 <span class="x">×</span></span>
+  <input placeholder="Add region…">
+</div>
+```
+
+### Segmented control
+
+```html
+<div class="seg" role="group" aria-label="Intensity">
+  <button data-i="archive"  aria-pressed="false">Archive</button>
+  <button data-i="operator" aria-pressed="true">Operator</button>
+  <button data-i="combat"   aria-pressed="false">Combat</button>
+</div>
+```
+
+### Stat card with sparkline
+
+```html
+<div class="stat">
+  <span class="stat-label">Active Nodes</span>
+  <span class="stat-value">487<span style="font-size:.5em; color:var(--nw-text-mute)"> / 512</span></span>
+  <span class="stat-delta up">▲ 2.1% · 24h</span>
+  <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+    <path class="area" d="M0,18 L24,12 L48,11 L72,5 L100,2 L100,24 L0,24 Z"/>
+    <path d="M0,18 L24,12 L48,11 L72,5 L100,2"/>
+  </svg>
+</div>
+```
+
+### Diff view
+
+```html
+<div class="diff">
+  <div class="ln"><span class="num">12</span><span class="code-content"> autoscaler:</span></div>
+  <div class="ln del"><span class="num">13</span><span class="code-content"> -  replicas: 4</span></div>
+  <div class="ln add"><span class="num">13</span><span class="code-content"> +  replicas: 8</span></div>
+</div>
+```
+
+### Code block with syntax tokens
+
+```html
+<pre class="code-block">
+<span class="tok-c">// reconcile fleet state</span>
+<span class="tok-k">async function</span> <span class="tok-fn">reconcile</span>(nodes) {
+  <span class="tok-k">const</span> drift = nodes.<span class="tok-fn">filter</span>(n =&gt; n.lag &gt; <span class="tok-n">3</span>);
+  <span class="tok-k">return</span> drift.<span class="tok-fn">map</span>(<span class="tok-fn">scaleOut</span>);
+}
+</pre>
+```
+
+### Stepper
+
+```html
+<div class="steps">
+  <div class="step done"></div>
+  <div class="step done"></div>
+  <div class="step current"></div>
+  <div class="step"></div>
+  <div class="step"></div>
+</div>
+```
+
+### LED with state attribute
+
+```html
+<span class="led" data-state="ok" data-pulse></span>     <!-- green pulsing -->
+<span class="led" data-state="warn"></span>              <!-- amber static -->
+<span class="led" data-state="error" data-pulse></span>  <!-- red pulsing -->
+<span class="led" data-state="ai"></span>                <!-- purple static -->
+```
+
+### AI block (oracle / suggestion strip)
+
+```html
+<div class="ai-block">
+  <div class="ai-block-head">
+    <span class="led" data-state="ai" data-pulse></span> suggested
+  </div>
+  <div class="ai-block-body">
+    <em>edge-eu-19</em> CPU climbed over 4 windows. Consider <em>scaling out</em>.
+  </div>
+</div>
+```
+
+### Empty state
+
+```html
+<div class="empty">
+  <div class="glyph">⌬</div>
+  <div class="head">No active query</div>
+  <div class="sub">Ask the operator's intelligence layer.</div>
+  <button class="btn btn-ai">Start session <span class="kbd">⌘ /</span></button>
+</div>
+```
+
+### Banner (system-wide notice)
+
+```html
+<div class="banner">
+  <span class="banner-tag">Notice</span>
+  Scheduled maintenance <span style="color:var(--nw-data)">2026-05-20 22:00 UTC</span>
+</div>
+```

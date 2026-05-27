@@ -2,6 +2,117 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] — 2026-05-27
+
+> **Status:** Patch. Fully additive — operator-mode (default) rendering is byte-for-byte unchanged. Safe drop-in over 2.0.0.
+
+### Fixed
+
+- **v1 status LEDs are now glow-aware.** `.led.green/.blue/.red/.yellow` previously used a fixed `0 0 4px` shadow, so they ignored the intensity system: they stayed lit in `archive` (glow off) and never intensified in `combat`. They now use `0 0 calc(4px * var(--nw-glow))`, matching the v2 `.led[data-state]` API. Measured output: operator `4px` (unchanged), combat `8.8px`, archive `0px`.
+- **`.nw-progress` fill shadow** made glow-aware in the same pass for consistency (operator unchanged at 4px).
+
+### Added
+
+- **`.nw-progress-fill`** is now a first-class selector alongside `.nw-progress .fill`. The generic `.fill` child class collided with utility frameworks (Bootstrap/Tailwind) and was unguessable from the parent name. Existing `.fill` markup keeps working — this is an alias, not a rename. `.fill` is a deprecation candidate for v3.
+
+## [2.0.0]
+
+> **Status:** Stable release. API frozen. All v1 consumers keep working with zero changes.
+> Install with `npm i @cativo23/nightwire` (now the default `latest` tag).
+
+### What's new since alpha.1
+
+- **Docs site** (`nightwire.cativo.dev`) — favicon, workshop link, and all example HTML files now served correctly in production
+- **Workshop** (`/examples/html/workshop.html`) — fully expanded with all v2 components: interactive drawer, modal, Cmd K palette, AI block showcase, LED state guide, code-block with syntax tokens, diff, empty state, progress + stepper, and a real dashboard with fleet/incident panels
+- **Live examples** — all three demo cards (Alchemix, Neural-Ops, Workshop) now open correctly from the docs site
+
+### Migration guide — v1.x → v2.0.0
+
+v2 is **fully additive**. Upgrade by bumping the version; nothing breaks.
+
+**To adopt v2 features:**
+
+1. Add `data-intensity="operator"` to your `<html>` tag (or `archive` for docs/blogs, `combat` for dashboards):
+   ```html
+   <html data-intensity="operator">
+   ```
+
+2. Replace hardcoded colors with the new semantic tokens where convenient:
+   | v1 token | v2 equivalent |
+   |---|---|
+   | `--nw-primary` | `--nw-chrome` |
+   | `--nw-text` | `--nw-text-default` |
+   | `--nw-text-dim` | `--nw-text-mute` |
+   | `--void` | `--nw-surface-0` |
+   | `--void-panel` | `--nw-surface-1` |
+
+3. Use new components as needed — see the [workshop](https://nightwire.cativo.dev/examples) for live examples of every v2 primitive.
+
+### Behavior changes (from alpha.1, none new in stable)
+
+- **`.modal-backdrop`** requires `data-open="true"` to be visible. Projects that always render the backdrop must add the attribute; projects that mount it conditionally are unaffected.
+- **`.panel-header`** has a subtle `rgba(102,153,255,0.06)` gradient tint at `operator` intensity. Override with `background-image: none` on `.panel-header` to opt out.
+
+### API freeze
+
+All token names, class names, and modifier conventions are now stable. No renames or removals will happen in the v2.x line without a semver-major bump.
+
+---
+
+## [2.0.0-alpha.1]
+
+> **Status:** First alpha release. Fully additive — v1 consumers (cativo.dev, blog.cativo.dev) keep working without changes. Install with `npm i @cativo23/nightwire@alpha`.
+
+### Added — CSS
+
+- **Layer 2 semantic tokens** alongside v1 (zero rename). New names reference the role, not the hue, so palettes can be forked without touching components:
+  - Surfaces: `--nw-surface-0..4` (the 4th is new for overlays)
+  - Text tiers: `--nw-text-strong`, `--nw-text-default`, `--nw-text-mute`, `--nw-text-disabled`
+  - Roles: `--nw-chrome`, `--nw-data`, `--nw-signal-info/warn/error`, `--nw-ai`
+  - Lines: `--nw-line`, `--nw-line-strong`, `--nw-line-chrome`
+- **Intensity system** via `<html data-intensity="...">`:
+  - `archive` — glow off, paused pulses, larger padding, no kanji, slower motion. For docs and blogs.
+  - `operator` (default) — current Nightwire look
+  - `combat` — extra glow, faster pulses, denser padding, scanline overlay. For ops consoles.
+- **Knobs** that respond to intensity: `--nw-glow`, `--nw-density`, `--nw-motion-scale`, `--nw-pad-scale`, `--nw-kanji-display`, `--nw-pulse-state`, `--nw-header-gradient`.
+- **Motion vocabulary**: `--nw-tick` (150ms), `--nw-sweep` (350ms), `--nw-uplink` (400ms). All multiplied by `--nw-motion-scale`.
+- `prefers-reduced-motion` contract: sets `--nw-motion-scale: 0` and pauses pulses.
+
+### Added — Components
+
+- **Tag variants**: `.tag-chrome`, `.tag-warn`, `.tag-ai`
+- **Button variants**: `.btn-success`, `.btn-ai`, `.btn-icon`, `.btn-xs`, `.btn-lg`, `.btn-loading`
+- **Form suite**: `.field` (default/success/error states), `.switch`, `.check`, `.radio`, `.combo` (multiselect with chips), `.kbd`, `.seg` (segmented control)
+- **Overlays**: `.drawer` + `.drawer-backdrop`, `.cmdk` + `.cmdk-section`/`.cmdk-item`, `.modal-title`
+- **Data display**: `.code-block` with syntax tokens, `.code-inline`, `.diff` with add/del lines, `.steps` stepper
+- **State**: `.led[data-state="ok|warn|error|info|ai"]`, `.led[data-pulse]`, `.empty`, `.ai-block`
+- **Stat card** with sparkline support (`.stat`, `.stat-label`, `.stat-value`, `.stat-spark`)
+- **Layout primitives**: `.nw-frame`, `.nw-stack`, `.nw-cluster`, `.nw-split`
+- **Banner**: system-wide notice strip
+- **Uplink reveal**: staggered enter animation on `.uplink > *`
+
+### Added — Tailwind preset
+
+- Semantic color aliases: `nw-chrome`, `nw-data`, `nw-signal-info/warn/error`, `nw-ai`
+- Text tier split: `nw-text-strong/default/mute/disabled`
+- New surface tier: `void-surface` (#242424)
+- Stronger border colors: `nw-line-strong`, `nw-line-chrome`
+- Motion timing utilities: `duration-nw-tick/sweep/uplink`, `ease-nw-tick/sweep/uplink`
+
+### Added — Examples
+
+- `examples/html/workshop.html` — v2 showcase with live intensity toggle, dashboard view, components workshop (Forms / Buttons / Data / Feedback tabs), Cmd K palette, toast stack, debug HUD
+
+### Compatibility
+
+- All v1 tokens (`--nw-primary`, `--void`, `--nw-text-dim`, etc.) untouched. Existing projects keep working with zero changes.
+- All v1 classes (`.btn`, `.panel`, `.tag`, `.card`, `.nw-table`, etc.) untouched.
+- Opt-in to v2 via `data-intensity` attribute or by using new class names directly.
+
+> **Behavior change** — `.modal-backdrop` now defaults to `visibility: hidden; opacity: 0` and requires `data-open="true"` to become visible. v1 consumers that mount the backdrop conditionally (only when modal is open) are unaffected; consumers that always render the backdrop must add the `data-open` attribute.
+
+> **Visual delta** — `.panel-header` now applies a subtle blue gradient overlay (`rgba(102,153,255,0.06)` at default intensity). Existing v1 markup will see a faint tint on panel headers. This is purely additive and intentional; to opt out, override `background-image: none` on `.panel-header` in your project CSS.
+
 ## [1.0.16]
 
 ### Fixed

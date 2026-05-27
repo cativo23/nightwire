@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en" data-intensity="operator">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nightwire 2.0 — Workshop · operator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<!--
+  CSS path: relative to repo root when opened via file://.
+  When served by the docs site (Vite/Docker), /nightwire.css is at nginx root.
+-->
+<link rel="stylesheet" href="../../nightwire.css">
+<link rel="stylesheet" href="/nightwire.css">
+<style>
+  body { background: var(--nw-surface-0); color: var(--nw-text-default); font-size: var(--nw-base-font); transition: font-size var(--nw-sweep); }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: calc(10px * var(--nw-pad-scale)) 16px;
+    background: var(--nw-surface-0);
+    border-bottom: 1px solid var(--nw-line-chrome);
+    flex-shrink: 0;
+  }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  .brand .mark {
+    font-family: var(--font-title); font-weight: 900; font-size: var(--text-xl);
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--nw-chrome);
+    transform: scaleX(0.82); transform-origin: left center; display: inline-block;
+    text-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(102,153,255,0.45);
+  }
+  .brand .kanji { font-family: var(--font-mincho); font-size: 13px; color: var(--nw-chrome-mute); letter-spacing: 0.05em; display: var(--nw-kanji-display); }
+  .brand .badge-ver { font-family: var(--font-stamp); font-size: 10px; letter-spacing: 0.18em; color: var(--nw-text-mute); border: 1px solid var(--nw-line-strong); padding: 2px 6px; text-transform: uppercase; border-radius: var(--nw-panel-radius); }
+
+  .sidebar-nav { background: var(--nw-surface-1); border-right: 1px solid var(--nw-line); padding: calc(12px * var(--nw-pad-scale)) 0; display: flex; flex-direction: column; overflow: hidden; }
+  .sidebar-nav-section { font-family: var(--font-stamp); font-size: 9px; font-weight: 700; letter-spacing: var(--nw-label-spacing); text-transform: uppercase; color: var(--nw-chrome-mute); padding: calc(14px * var(--nw-pad-scale)) 16px calc(6px * var(--nw-pad-scale)); }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: calc(6px * var(--nw-pad-scale)) 16px; font-size: 13px; color: var(--nw-text-default); cursor: pointer; position: relative; user-select: none; transition: background var(--nw-tick), color var(--nw-tick); }
+  .nav-item:hover { background: var(--nw-surface-2); }
+  .nav-item.active { background: rgba(102,153,255,0.08); color: var(--nw-chrome); }
+  .nav-item.active::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--nw-chrome); box-shadow: 0 0 calc(10px * var(--nw-glow)) var(--nw-chrome); }
+  .nav-item .count { margin-left: auto; font-size: 10px; color: var(--nw-data); font-family: var(--font-sys); text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(122,237,122,0.5); }
+
+  .page { display: none; flex-direction: column; gap: 2px; flex: 1; min-height: 0; overflow: hidden; }
+  .page.active { display: flex; }
+  .page-scroll { flex: 1; overflow: auto; }
+
+  .workshop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; padding: 2px; }
+  .show-block { background: var(--nw-surface-1); border: 1px solid var(--nw-line); padding: 18px; display: flex; flex-direction: column; gap: 14px; border-radius: var(--nw-panel-radius); }
+  .show-head { font-family: var(--font-stamp); font-size: 10px; letter-spacing: var(--nw-label-spacing); text-transform: uppercase; color: var(--nw-chrome-mute); border-bottom: 1px solid var(--nw-line); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+  .show-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .show-col { display: flex; flex-direction: column; gap: 10px; }
+  .show-note { font-size: 11px; color: var(--nw-text-mute); }
+
+  .field input, .field select, .field textarea { font-family: var(--font-sys); font-size: 13px; background: var(--nw-surface-2); color: var(--nw-text-strong); border: 1px solid var(--nw-line-strong); border-radius: var(--radius-md); padding: 7px 10px; width: 100%; outline: none; transition: border-color var(--nw-tick), box-shadow var(--nw-tick); }
+  .field input::placeholder, .field textarea::placeholder { color: var(--nw-text-mute); }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--nw-chrome); box-shadow: 0 0 0 3px rgba(102,153,255,0.18); }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .field select { appearance: none; background-image: linear-gradient(45deg,transparent 50%,var(--nw-chrome) 50%), linear-gradient(135deg,var(--nw-chrome) 50%,transparent 50%); background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 30px; }
+
+  .statusbar { display: flex; justify-content: space-between; align-items: center; padding: calc(4px * var(--nw-pad-scale)) 12px; border-top: 1px solid var(--nw-line); font-size: 10px; color: var(--nw-text-mute); letter-spacing: 0.12em; text-transform: uppercase; background: var(--nw-surface-0); flex-shrink: 0; }
+  .statusbar .cluster { display: flex; gap: 16px; align-items: center; }
+
+  .hud { position: fixed; right: 16px; bottom: 34px; background: var(--nw-surface-3); border: 1px solid var(--nw-line-chrome); padding: 8px 12px; font-family: var(--font-sys); font-size: 10px; color: var(--nw-text-mute); z-index: 60; border-radius: var(--radius-sm); box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(102,153,255,0.25); letter-spacing: 0.05em; display: flex; gap: 14px; align-items: center; }
+  .hud b { color: var(--nw-chrome); font-weight: 500; }
+  .hud .v { color: var(--nw-data); }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+
+  .toast-stack { position: fixed; right: 16px; top: 80px; display: flex; flex-direction: column; gap: 8px; z-index: 50; width: 300px; }
+  .toast { display: flex; align-items: flex-start; gap: 10px; background: var(--nw-surface-2); border: 1px solid var(--nw-line-strong); border-left: 3px solid var(--nw-chrome); padding: 10px 14px; font-size: 12px; color: var(--nw-text-default); box-shadow: 0 4px 20px rgba(0,0,0,0.5); animation: toast-in 0.15s ease; cursor: default; }
+  .toast-success { border-left-color: var(--nw-data); }
+  .toast-danger  { border-left-color: var(--nw-signal-error); }
+  .toast-warning { border-left-color: var(--nw-signal-warn); }
+  .toast-info    { border-left-color: var(--nw-signal-info); }
+  @keyframes toast-in { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: translateX(0); } }
+
+  .tabs-bar { display: flex; gap: 0; border-bottom: 1px solid var(--nw-line); background: var(--nw-surface-1); padding: 0 16px; flex-shrink: 0; }
+  .tab-btn { font-family: var(--font-stamp); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; padding: 8px 14px; color: var(--nw-text-mute); cursor: pointer; background: transparent; border: 0; position: relative; transition: color var(--nw-tick); }
+  .tab-btn:hover { color: var(--nw-text-default); }
+  .tab-btn.active { color: var(--nw-chrome); }
+  .tab-btn.active::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px; background: var(--nw-chrome); box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-chrome); }
+
+  .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 2px; }
+  @media (max-width: 860px) { .dash-grid { grid-template-columns: 1fr; } }
+
+  /* Modal overlay */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 48; display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; transition: opacity var(--nw-sweep), visibility var(--nw-sweep); }
+  .modal-overlay[data-open="true"] { visibility: visible; opacity: 1; }
+  .modal-box { background: var(--nw-surface-2); border: 1px solid var(--nw-line-chrome); border-radius: var(--nw-panel-radius); width: min(420px, 90vw); padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 8px calc(40px * var(--nw-glow)) rgba(102,153,255,0.15); }
+</style>
+</head>
+<body>
+
+<div class="nw-frame">
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="mark">Nightwire 2.0</span>
+      <span class="kanji">夜線</span>
+      <span class="badge-ver">codename · operator</span>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center">
+      <button class="btn btn-ghost" id="open-cmdk">Search <span class="kbd">⌘K</span></button>
+      <div class="seg" role="group" aria-label="Intensity">
+        <button data-i="archive"  aria-pressed="false">Archive</button>
+        <button data-i="operator" aria-pressed="true">Operator</button>
+        <button data-i="combat"   aria-pressed="false">Combat</button>
+      </div>
+      <button class="btn btn-chrome" id="btn-deploy">Deploy</button>
+    </div>
+  </div>
+
+  <div class="banner">
+    <span class="banner-tag">Notice</span>
+    Scheduled maintenance on edge nodes <span class="data tabular">2026-05-20 22:00 UTC</span> · expected 12m downtime.
+    <span style="margin-left:auto; color:var(--nw-text-mute)">Dismiss <span class="kbd">esc</span></span>
+  </div>
+
+  <div class="nw-split" style="flex:1; min-height:0;">
+
+    <aside class="sidebar-nav">
+      <div class="sidebar-nav-section">Operations</div>
+      <div class="nav-item active" data-route="dashboard"><span class="led" data-state="ok" data-pulse></span> Overview</div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="ok"></span> Fleet <span class="count">512</span></div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="warn"></span> Pipelines <span class="count">3</span></div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="error" data-pulse></span> Incidents <span class="count">1</span></div>
+      <div class="sidebar-nav-section">Intelligence</div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="ai"></span> Oracle</div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="info"></span> Telemetry</div>
+      <div class="sidebar-nav-section">Design</div>
+      <div class="nav-item" data-route="components"><span class="led" data-state="info"></span> Components</div>
+      <div class="sidebar-nav-section" style="margin-top:auto">System</div>
+      <div class="nav-item" data-route="dashboard"><span class="led" data-state="ok"></span> Settings</div>
+    </aside>
+
+    <main style="display:flex; flex-direction:column; overflow:hidden; gap:2px; padding:2px; min-height:0;">
+
+      <!-- ── Dashboard ───────────────────────────────────── -->
+      <section class="page active" data-page="dashboard">
+        <div class="page-scroll">
+
+          <section class="panel">
+            <div class="panel-header">
+              <span style="font-family:var(--font-stamp); font-size:10px; letter-spacing:var(--nw-label-spacing); text-transform:uppercase; color:var(--nw-chrome); text-shadow:0 0 calc(8px * var(--nw-glow)) rgba(102,153,255,0.5)">Fleet Pulse</span>
+              <span style="display:flex; gap:10px; align-items:center; font-family:var(--font-sys); font-size:10px; color:var(--nw-text-mute)">
+                <span class="kanji" style="font-family:var(--font-mincho); display:var(--nw-kanji-display)">艦隊</span> · live
+                <span class="led" data-state="ok" data-pulse></span>
+              </span>
+            </div>
+            <div class="stat-strip uplink">
+              <div class="stat">
+                <span class="stat-label">Active Nodes</span>
+                <span class="stat-value tabular">487<span style="font-size:.5em; color:var(--nw-text-mute)"> / 512</span></span>
+                <span class="stat-delta up">▲ 2.1% · 24h</span>
+                <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none"><path class="area" d="M0,18 L8,16 L16,17 L24,12 L32,14 L40,10 L48,11 L56,7 L64,9 L72,5 L80,6 L88,4 L96,3 L100,2 L100,24 L0,24 Z"/><path d="M0,18 L8,16 L16,17 L24,12 L32,14 L40,10 L48,11 L56,7 L64,9 L72,5 L80,6 L88,4 L96,3 L100,2"/></svg>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Throughput</span>
+                <span class="stat-value tabular">1.42M<span style="font-size:.5em; color:var(--nw-text-mute)"> req/s</span></span>
+                <span class="stat-delta up">▲ 12.4% · 1h</span>
+                <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none"><path class="area" d="M0,14 L10,18 L20,15 L30,10 L40,12 L50,8 L60,9 L70,5 L80,7 L90,3 L100,2 L100,24 L0,24 Z"/><path d="M0,14 L10,18 L20,15 L30,10 L40,12 L50,8 L60,9 L70,5 L80,7 L90,3 L100,2"/></svg>
+              </div>
+              <div class="stat">
+                <span class="stat-label">p99 Latency</span>
+                <span class="stat-value tabular">42<span style="font-size:.5em; color:var(--nw-text-mute)"> ms</span></span>
+                <span class="stat-delta down">▼ 0.8 ms · 1h</span>
+                <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none"><path class="area" d="M0,8 L10,10 L20,7 L30,12 L40,9 L50,11 L60,13 L70,10 L80,14 L90,12 L100,15 L100,24 L0,24 Z"/><path d="M0,8 L10,10 L20,7 L30,12 L40,9 L50,11 L60,13 L70,10 L80,14 L90,12 L100,15"/></svg>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Error Rate</span>
+                <span class="stat-value tabular" style="color:var(--nw-signal-warn)">0.21<span style="font-size:.5em; color:var(--nw-text-mute)"> %</span></span>
+                <span class="stat-delta up" style="color:var(--nw-signal-warn)">▲ 0.04 pp · breached SLO</span>
+                <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none"><path class="area" style="fill:var(--nw-signal-warn);opacity:.14" d="M0,18 L10,17 L20,18 L30,15 L40,16 L50,13 L60,14 L70,10 L80,12 L90,8 L100,6 L100,24 L0,24 Z"/><path style="stroke:var(--nw-signal-warn)" d="M0,18 L10,17 L20,18 L30,15 L40,16 L50,13 L60,14 L70,10 L80,12 L90,8 L100,6"/></svg>
+              </div>
+            </div>
+            <div class="ai-block">
+              <div class="ai-block-head"><span class="led" data-state="ai" data-pulse></span> oracle · suggested</div>
+              <div class="ai-block-body">
+                <em>edge-eu-19</em> CPU climbed steadily over 4 windows. Consider <em>scaling out</em> before the 14:45 traffic peak.
+                <div style="display:flex; gap:6px; margin-top:8px">
+                  <button class="btn btn-ai btn-sm" id="apply-scale">Apply</button>
+                  <button class="btn btn-ghost btn-sm" id="defer-scale">Defer</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="dash-grid">
+            <section class="panel">
+              <div class="panel-header"><span>Fleet Status</span><span class="tag tag-success">healthy</span></div>
+              <div class="panel-body" style="padding:0">
+                <div class="node-card"><div class="nc-row"><span class="led" data-state="ok"></span><span class="lbl">cluster-ap-12</span><span class="val tabular">99.98%</span></div><div class="nc-row"><span style="width:10px"></span><span class="lbl">region</span><span class="val">ap-northeast-1</span></div></div>
+                <div class="node-card"><div class="nc-row"><span class="led" data-state="ok"></span><span class="lbl">cluster-eu-08</span><span class="val tabular">99.91%</span></div><div class="nc-row"><span style="width:10px"></span><span class="lbl">region</span><span class="val">eu-west-2</span></div></div>
+                <div class="node-card"><div class="nc-row"><span class="led" data-state="warn" data-pulse></span><span class="lbl">cluster-us-03</span><span class="val tabular" style="color:var(--nw-signal-warn)">84.2%</span></div><div class="nc-row"><span style="width:10px"></span><span class="lbl">region</span><span class="val">us-east-1</span></div></div>
+                <div class="node-card"><div class="nc-row"><span class="led" data-state="error" data-pulse></span><span class="lbl">cluster-sa-01</span><span class="val tabular" style="color:var(--nw-signal-error)">offline</span></div><div class="nc-row"><span style="width:10px"></span><span class="lbl">region</span><span class="val">sa-east-1</span></div></div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header"><span>Active Incidents</span><span class="tag tag-danger">1 open</span></div>
+              <div class="panel-body">
+                <div class="node-card">
+                  <div class="nc-id">INC-0048</div>
+                  <div class="nc-name" style="color:var(--nw-signal-error)">cluster-sa-01 · node failure</div>
+                  <div class="nc-row"><span class="lbl">Started</span><span class="val tabular">22:14 UTC</span></div>
+                  <div class="nc-row"><span class="lbl">Oncall</span><span class="val">@ops-latam</span></div>
+                  <div class="nc-row"><span class="lbl">Severity</span><span class="val"><span class="tag tag-danger">P1</span></span></div>
+                  <div style="margin-top:10px; display:flex; gap:6px">
+                    <button class="btn btn-sm" id="open-drawer-btn">View runbook</button>
+                    <button class="btn btn-ghost btn-sm" id="escalate-btn">Escalate</button>
+                  </div>
+                </div>
+              </div>
+              <div class="ai-block">
+                <div class="ai-block-head"><span class="led" data-state="ai"></span> root cause · hypothesis</div>
+                <div class="ai-block-body">Node <em>sa-01-worker-07</em> lost disk I/O at 22:13. Correlated with <em>storage pool rebalance</em> triggered by the 22:00 maintenance.</div>
+              </div>
+            </section>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Components ─────────────────────────────────── -->
+      <section class="page" data-page="components">
+        <div class="panel-header" style="background:var(--nw-surface-1); border-bottom:1px solid var(--nw-line-chrome); padding:12px 16px; flex-shrink:0">
+          <span style="font-family:var(--font-stamp); font-size:11px; letter-spacing:var(--nw-label-spacing); text-transform:uppercase; color:var(--nw-chrome)">Components · v2 Workshop</span>
+          <span style="display:flex; gap:10px; align-items:center">
+            <span class="kanji" style="font-family:var(--font-mincho); display:var(--nw-kanji-display); color:var(--nw-text-mute); font-size:11px">部品</span>
+            <span class="tag tag-info">v2.0-alpha</span>
+          </span>
+        </div>
+
+        <div class="tabs-bar">
+          <button class="tab-btn active" data-tab="forms">Forms</button>
+          <button class="tab-btn" data-tab="buttons">Buttons</button>
+          <button class="tab-btn" data-tab="data">Data</button>
+          <button class="tab-btn" data-tab="feedback">Feedback</button>
+          <button class="tab-btn" data-tab="overlays">Overlays</button>
+        </div>
+
+        <div class="page-scroll">
+          <div class="workshop-grid">
+
+            <!-- FORMS -->
+            <div class="show-block tab-content" data-tab="forms">
+              <div class="show-head"><span>Input · states</span><span class="kbd">.field</span></div>
+              <div class="field">
+                <label class="field-label">Node ID <span class="req">*</span></label>
+                <input placeholder="cluster-α-NN" value="cluster-α-12">
+                <span class="field-help">Identifier of the target node</span>
+              </div>
+              <div class="field success">
+                <label class="field-label">Region</label>
+                <input value="ap-northeast-1">
+                <span class="field-help">✓ Verified · 12 nodes available</span>
+              </div>
+              <div class="field error">
+                <label class="field-label">Replica count</label>
+                <input value="9999">
+                <span class="field-help">Exceeds quota (max 512)</span>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="forms">
+              <div class="show-head"><span>Textarea · Select</span><span class="kbd">.field</span></div>
+              <div class="field">
+                <label class="field-label">Deployment note</label>
+                <textarea>Bumping replicas from 4→8 ahead of traffic peak.</textarea>
+              </div>
+              <div class="field">
+                <label class="field-label">Strategy</label>
+                <select>
+                  <option>Rolling</option>
+                  <option selected>Blue / Green</option>
+                  <option>Canary</option>
+                </select>
+                <span class="field-help">Rollout strategy for this deployment</span>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="forms">
+              <div class="show-head"><span>Switch · Check · Radio</span><span class="kbd">toggles</span></div>
+              <label class="switch"><input type="checkbox" checked><span class="track"></span><span class="lbl">Auto-scale enabled</span></label>
+              <label class="switch"><input type="checkbox"><span class="track"></span><span class="lbl">Drain before restart</span></label>
+              <div class="show-row">
+                <label class="check"><input type="checkbox" checked><span class="box"></span> Notify oncall</label>
+                <label class="check"><input type="checkbox"><span class="box"></span> Dry run</label>
+              </div>
+              <div class="show-row">
+                <label class="radio"><input type="radio" name="strategy" checked><span class="box"></span> Rolling</label>
+                <label class="radio"><input type="radio" name="strategy"><span class="box"></span> Blue/green</label>
+                <label class="radio"><input type="radio" name="strategy"><span class="box"></span> Canary</label>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="forms">
+              <div class="show-head"><span>Combobox · Segmented</span><span class="kbd">.combo .seg</span></div>
+              <div class="field">
+                <label class="field-label">Target regions</label>
+                <div class="combo">
+                  <span class="chip">ap-northeast-1 <span class="x">×</span></span>
+                  <span class="chip">eu-west-2 <span class="x">×</span></span>
+                  <input placeholder="Add region…">
+                </div>
+              </div>
+              <div class="seg" role="group">
+                <button aria-pressed="true">1h</button>
+                <button aria-pressed="false">6h</button>
+                <button aria-pressed="false">24h</button>
+                <button aria-pressed="false">7d</button>
+              </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="show-block tab-content" data-tab="buttons" style="display:none">
+              <div class="show-head"><span>Variants</span><span class="kbd">.btn</span></div>
+              <div class="show-row">
+                <button class="btn btn-chrome">Chrome</button>
+                <button class="btn btn-ghost">Ghost</button>
+                <button class="btn btn-success">Success</button>
+                <button class="btn btn-danger">Danger</button>
+                <button class="btn btn-ai">AI</button>
+              </div>
+              <div class="show-head"><span>Sizes</span></div>
+              <div class="show-row">
+                <button class="btn btn-chrome btn-xs">XS</button>
+                <button class="btn btn-chrome btn-sm">SM</button>
+                <button class="btn btn-chrome">MD</button>
+                <button class="btn btn-chrome btn-lg">LG</button>
+              </div>
+              <div class="show-head"><span>States</span></div>
+              <div class="show-row">
+                <button class="btn btn-chrome btn-loading">Loading…</button>
+                <button class="btn btn-chrome" disabled>Disabled</button>
+                <button class="btn btn-ghost btn-icon">⚙</button>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="buttons" style="display:none">
+              <div class="show-head"><span>Keyboard hints</span><span class="kbd">.kbd</span></div>
+              <div class="show-col">
+                <div class="show-row"><span class="kbd">⌘</span><span class="kbd">K</span><span class="show-note">Command palette</span></div>
+                <div class="show-row"><span class="kbd">⌘</span><span class="kbd">↵</span><span class="show-note">Confirm action</span></div>
+                <div class="show-row"><span class="kbd">esc</span><span class="show-note">Dismiss overlay</span></div>
+                <div class="show-row"><span class="kbd">g</span><span class="kbd">c</span><span class="show-note">Go → Components</span></div>
+              </div>
+              <div class="show-note">Press <span class="kbd">⌘K</span> to open the command palette.</div>
+            </div>
+
+            <!-- DATA -->
+            <div class="show-block tab-content" data-tab="data" style="display:none">
+              <div class="show-head"><span>Tags</span><span class="kbd">.tag</span></div>
+              <div class="show-row">
+                <span class="tag tag-chrome">system</span>
+                <span class="tag tag-success">healthy</span>
+                <span class="tag tag-warn">degraded</span>
+                <span class="tag tag-danger">offline</span>
+                <span class="tag tag-info">signal</span>
+                <span class="tag tag-ai">oracle</span>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="data" style="display:none">
+              <div class="show-head"><span>Code block</span><span class="kbd">.code-block</span></div>
+              <pre class="code-block"><span class="tok-c"># autoscaler config</span>
+<span class="tok-k">autoscaler</span>:
+  <span class="tok-n">replicas</span>: <span class="tok-s">8</span>
+  <span class="tok-n">cooldown</span>: <span class="tok-s">30s</span>
+  <span class="tok-fn">strategy</span>: rolling
+  <span class="tok-n">target_cpu</span>: <span class="tok-s">0.72</span></pre>
+              <div class="show-note">Inline: <code class="code-inline">kubectl cordon sa-01-worker-07</code></div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="data" style="display:none">
+              <div class="show-head"><span>Diff</span><span class="kbd">.diff</span></div>
+              <div class="diff">
+                <div class="ln"><span class="num">11</span><span class="code-content"> autoscaler:</span></div>
+                <div class="ln del"><span class="num">12</span><span class="code-content"> -  replicas: 4</span></div>
+                <div class="ln add"><span class="num">12</span><span class="code-content"> +  replicas: 8</span></div>
+                <div class="ln del"><span class="num">13</span><span class="code-content"> -  cooldown: 60s</span></div>
+                <div class="ln add"><span class="num">13</span><span class="code-content"> +  cooldown: 30s</span></div>
+                <div class="ln"><span class="num">14</span><span class="code-content">   strategy: rolling</span></div>
+              </div>
+            </div>
+
+            <!-- FEEDBACK -->
+            <div class="show-block tab-content" data-tab="feedback" style="display:none">
+              <div class="show-head"><span>LED states</span><span class="kbd">.led[data-state]</span></div>
+              <div class="show-col">
+                <div class="show-row"><span class="led" data-state="ok"    data-pulse></span><span class="show-note">ok — system online</span></div>
+                <div class="show-row"><span class="led" data-state="warn"  data-pulse></span><span class="show-note">warn — degraded</span></div>
+                <div class="show-row"><span class="led" data-state="error" data-pulse></span><span class="show-note">error — node failure</span></div>
+                <div class="show-row"><span class="led" data-state="info"            ></span><span class="show-note">info — telemetry</span></div>
+                <div class="show-row"><span class="led" data-state="ai"    data-pulse></span><span class="show-note">ai — oracle processing</span></div>
+              </div>
+              <div class="show-note">Add <code class="code-inline">data-pulse</code> for animation.</div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="feedback" style="display:none">
+              <div class="show-head"><span>AI block</span><span class="kbd">.ai-block</span></div>
+              <div class="ai-block" style="margin:-18px; margin-top:0; border-radius:0 0 var(--nw-panel-radius) var(--nw-panel-radius)">
+                <div class="ai-block-head"><span class="led" data-state="ai" data-pulse></span> oracle · recommendation</div>
+                <div class="ai-block-body">
+                  Increase <em>connection pool</em> on <em>db-primary</em> from 50→80. Peak utilization at 94%.
+                  <div style="display:flex; gap:6px; margin-top:8px">
+                    <button class="btn btn-ai btn-sm" id="ai-apply-btn">Apply</button>
+                    <button class="btn btn-ghost btn-sm">Dismiss</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="feedback" style="display:none">
+              <div class="show-head"><span>Toast</span><span class="kbd">.toast</span></div>
+              <div class="show-row">
+                <button class="btn btn-success btn-sm" data-toast="success|Operation complete|12 nodes synced">Success</button>
+                <button class="btn btn-ghost   btn-sm" data-toast="info|Heads up|New build ready">Info</button>
+                <button class="btn btn-ghost   btn-sm" style="color:var(--nw-signal-warn);border-color:var(--nw-signal-warn)" data-toast="warning|Capacity 84%|Consider scaling out">Warn</button>
+                <button class="btn btn-danger  btn-sm" data-toast="danger|Deploy failed|Build #482 · auth error">Error</button>
+              </div>
+            </div>
+
+            <div class="show-block tab-content" data-tab="feedback" style="display:none">
+              <div class="show-head"><span>Progress · Steps</span><span class="kbd">.nw-progress .steps</span></div>
+              <div class="show-row"><span class="show-note" style="width:64px">Progress</span><div class="nw-progress" style="flex:1"><div class="fill" style="width:62%"></div></div><span style="color:var(--nw-data);font-size:11px;font-family:var(--font-sys)">62%</span></div>
+              <div class="show-row"><span class="show-note" style="width:64px">Stepper</span><div class="steps" style="flex:1"><div class="step done"></div><div class="step done"></div><div class="step current"></div><div class="step"></div><div class="step"></div></div></div>
+              <div class="show-head" style="margin-top:4px"><span>Empty state</span><span class="kbd">.empty</span></div>
+              <div class="empty" style="padding:24px 0">
+                <div class="glyph">空</div>
+                <div class="head">No incidents</div>
+                <div class="sub">All systems operational. No active alerts.</div>
+              </div>
+            </div>
+
+            <!-- OVERLAYS -->
+            <div class="show-block tab-content" data-tab="overlays" style="display:none">
+              <div class="show-head"><span>Drawer</span><span class="kbd">.drawer</span></div>
+              <div class="show-note">Right-side slide-in panel. Press <span class="kbd">esc</span> or click backdrop to close.</div>
+              <button class="btn btn-chrome btn-sm" id="open-drawer-btn2">Open Drawer</button>
+            </div>
+
+            <div class="show-block tab-content" data-tab="overlays" style="display:none">
+              <div class="show-head"><span>Modal</span><span class="kbd">.modal-title</span></div>
+              <div class="show-note">Centered dialog overlay with backdrop.</div>
+              <button class="btn btn-sm" id="open-modal-btn">Open Modal</button>
+            </div>
+
+            <div class="show-block tab-content" data-tab="overlays" style="display:none">
+              <div class="show-head"><span>Command palette</span><span class="kbd">.cmdk</span></div>
+              <div class="show-note">Press <span class="kbd">⌘K</span> or click the Search button in the topbar.</div>
+              <button class="btn btn-ghost btn-sm" id="open-cmdk2">Open <span class="kbd">⌘K</span></button>
+            </div>
+
+            <div class="show-block tab-content" data-tab="overlays" style="display:none">
+              <div class="show-head"><span>Banner</span><span class="kbd">.banner</span></div>
+              <div class="show-note">Persistent notice strip. See example at the top of this page.</div>
+              <div class="banner" style="margin:0">
+                <span class="banner-tag">v2</span>
+                New <em style="color:var(--nw-ai)">Oracle</em> recommendations are available.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="statusbar">
+    <div class="cluster">
+      <span><span class="led" data-state="ok" data-pulse></span> System online</span>
+      <span class="tabular">Nodes 487 · Uptime 99.94%</span>
+    </div>
+    <div class="cluster">
+      <span class="tabular">v2.0.0-alpha · <b id="mode-name">operator</b></span>
+      <span class="tabular" id="clock">—</span>
+    </div>
+  </div>
+</div>
+
+<!-- HUD -->
+<div class="hud">
+  <span><b>intensity</b> <span class="v" id="hud-mode">operator</span></span>
+  <span><b>glow</b> <span class="v" id="hud-glow">1</span></span>
+  <span><b>motion</b> <span class="v" id="hud-motion">1</span></span>
+  <span><b>density</b> <span class="v" id="hud-density">1</span></span>
+</div>
+
+<!-- Toast stack -->
+<div class="toast-stack" id="toast-stack"></div>
+
+<!-- Drawer -->
+<div class="drawer-backdrop" id="drawer-backdrop" data-open="false"></div>
+<div class="drawer" id="drawer" data-open="false">
+  <div class="drawer-header">
+    <span class="modal-title">Runbook · INC-0048</span>
+    <button class="btn btn-ghost btn-xs" id="close-drawer">✕</button>
+  </div>
+  <div class="drawer-body" style="display:flex; flex-direction:column; gap:16px">
+    <div class="steps">
+      <div class="step done"></div>
+      <div class="step done"></div>
+      <div class="step current"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Incident ID</label>
+      <input value="INC-0048" readonly>
+    </div>
+    <div class="field">
+      <label class="field-label">Affected node</label>
+      <input value="cluster-sa-01" readonly>
+    </div>
+    <pre class="code-block"><span class="tok-c"># Step 3 — isolate node</span>
+<span class="tok-k">kubectl</span> cordon <span class="tok-s">sa-01-worker-07</span>
+<span class="tok-k">kubectl</span> drain <span class="tok-fn">--ignore-daemonsets</span> \
+  <span class="tok-s">sa-01-worker-07</span></pre>
+    <div class="ai-block" style="margin:-16px; margin-top:0">
+      <div class="ai-block-head"><span class="led" data-state="ai"></span> oracle · next step</div>
+      <div class="ai-block-body">After draining, <em>restart the storage agent</em> before uncordoning to prevent I/O stalls on reconnect.</div>
+    </div>
+    <button class="btn btn-chrome btn-sm" style="margin-top:auto" id="drawer-complete">Mark step complete</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" data-open="false">
+  <div class="modal-box">
+    <div style="display:flex; justify-content:space-between; align-items:center">
+      <span class="modal-title">Confirm deployment</span>
+      <button class="btn btn-ghost btn-xs" id="close-modal">✕</button>
+    </div>
+    <div style="font-size:13px; color:var(--nw-text-default)">Deploy <span style="color:var(--nw-chrome)">build #483</span> to production? This will affect <span class="tag tag-warn">3 regions</span>.</div>
+    <div class="diff">
+      <div class="ln del"><span class="num">1</span><span class="code-content"> -  replicas: 4</span></div>
+      <div class="ln add"><span class="num">1</span><span class="code-content"> +  replicas: 8</span></div>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:flex-end">
+      <button class="btn btn-ghost btn-sm" id="cancel-modal">Cancel</button>
+      <button class="btn btn-chrome btn-sm" id="confirm-modal">Deploy</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cmd K -->
+<div class="cmdk-backdrop" id="cmdk" data-open="false">
+  <div class="cmdk" role="dialog" aria-label="Command palette">
+    <input autofocus placeholder="Type a command or search…">
+    <div class="cmdk-section">Navigate</div>
+    <div class="cmdk-item active"><span>Go to Dashboard</span><div style="display:flex;gap:4px"><span class="kbd">g</span><span class="kbd">d</span></div></div>
+    <div class="cmdk-item"><span>Go to Components</span><div style="display:flex;gap:4px"><span class="kbd">g</span><span class="kbd">c</span></div></div>
+    <div class="cmdk-item"><span>View incidents</span><div style="display:flex;gap:4px"><span class="kbd">g</span><span class="kbd">i</span></div></div>
+    <div class="cmdk-section">Actions</div>
+    <div class="cmdk-item"><span>Deploy current branch</span><div style="display:flex;gap:4px"><span class="kbd">⌘</span><span class="kbd">↵</span></div></div>
+    <div class="cmdk-item"><span>Open runbook</span><div style="display:flex;gap:4px"><span class="kbd">⌘</span><span class="kbd">r</span></div></div>
+  </div>
+</div>
+
+<script>
+  /* ── HUD sync ──────────────────────────────────────── */
+  function syncHud() {
+    const cs   = getComputedStyle(document.documentElement);
+    const mode = document.documentElement.dataset.intensity;
+    document.getElementById('hud-mode').textContent    = mode;
+    document.getElementById('hud-glow').textContent    = cs.getPropertyValue('--nw-glow').trim();
+    document.getElementById('hud-motion').textContent  = cs.getPropertyValue('--nw-motion-scale').trim();
+    document.getElementById('hud-density').textContent = cs.getPropertyValue('--nw-density').trim();
+    document.getElementById('mode-name').textContent   = mode;
+    document.title = 'Nightwire 2.0 — Workshop · ' + mode;
+  }
+
+  /* ── Intensity toggle ──────────────────────────────── */
+  document.querySelectorAll('.seg[role="group"] button[data-i]').forEach(b => {
+    b.addEventListener('click', () => {
+      b.closest('.seg').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+      b.setAttribute('aria-pressed', 'true');
+      document.documentElement.dataset.intensity = b.dataset.i;
+      syncHud();
+    });
+  });
+  syncHud();
+
+  /* ── Segmented controls (non-intensity) ────────────── */
+  document.querySelectorAll('.seg[role="group"]:not([aria-label="Intensity"]) button').forEach(b => {
+    b.addEventListener('click', () => {
+      b.closest('.seg').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+      b.setAttribute('aria-pressed', 'true');
+    });
+  });
+
+  /* ── Clock ─────────────────────────────────────────── */
+  function tick() {
+    const d = new Date(), z = n => String(n).padStart(2, '0');
+    document.getElementById('clock').textContent = z(d.getHours()) + ':' + z(d.getMinutes()) + ':' + z(d.getSeconds()) + ' local';
+  }
+  setInterval(tick, 1000); tick();
+
+  /* ── Page routing ──────────────────────────────────── */
+  document.querySelectorAll('.nav-item[data-route]').forEach(n => {
+    n.addEventListener('click', () => {
+      const route = n.dataset.route;
+      document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.dataset.page === route));
+      document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+      n.classList.add('active');
+    });
+  });
+
+  /* ── Tabs ──────────────────────────────────────────── */
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn[data-tab]').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      const tab = t.dataset.tab;
+      document.querySelectorAll('.tab-content').forEach(c => {
+        c.style.display = c.dataset.tab === tab ? '' : 'none';
+      });
+    });
+  });
+
+  /* ── Toast ─────────────────────────────────────────── */
+  function pushToast(kind, head, body) {
+    const el    = document.createElement('div');
+    el.className = 'toast toast-' + kind;
+
+    const textWrap = document.createElement('div');
+    textWrap.style.flex = '1';
+
+    const headEl = document.createElement('div');
+    headEl.style.cssText = 'font-family:var(--font-stamp);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--nw-chrome);margin-bottom:2px';
+    headEl.textContent = head;
+
+    const bodyEl = document.createElement('div');
+    bodyEl.style.cssText = 'font-size:12px;color:var(--nw-text-mute)';
+    bodyEl.textContent = body || '';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.style.cssText = 'margin-left:8px;cursor:pointer;color:var(--nw-text-mute);background:none;border:0;font-size:15px;line-height:1;flex-shrink:0';
+    closeBtn.textContent = '×';
+    closeBtn.addEventListener('click', () => el.remove());
+
+    textWrap.appendChild(headEl);
+    textWrap.appendChild(bodyEl);
+    el.appendChild(textWrap);
+    el.appendChild(closeBtn);
+
+    document.getElementById('toast-stack').appendChild(el);
+    setTimeout(() => { if (el.parentNode) el.remove(); }, 4000);
+  }
+
+  document.querySelectorAll('[data-toast]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const parts = btn.dataset.toast.split('|');
+      pushToast(parts[0], parts[1], parts[2]);
+    });
+  });
+
+  /* ── Drawer ────────────────────────────────────────── */
+  function openDrawer()  { document.getElementById('drawer').dataset.open = 'true';  document.getElementById('drawer-backdrop').dataset.open = 'true'; }
+  function closeDrawer() { document.getElementById('drawer').dataset.open = 'false'; document.getElementById('drawer-backdrop').dataset.open = 'false'; }
+
+  document.getElementById('open-drawer-btn').addEventListener('click', openDrawer);
+  document.getElementById('open-drawer-btn2').addEventListener('click', openDrawer);
+  document.getElementById('close-drawer').addEventListener('click', closeDrawer);
+  document.getElementById('drawer-backdrop').addEventListener('click', closeDrawer);
+  document.getElementById('drawer-complete').addEventListener('click', () => {
+    pushToast('success', 'Step complete', 'Node drained · step 3/5');
+    closeDrawer();
+  });
+
+  /* ── Modal ─────────────────────────────────────────── */
+  function openModal()  { document.getElementById('modal').dataset.open = 'true'; }
+  function closeModal() { document.getElementById('modal').dataset.open = 'false'; }
+
+  document.getElementById('open-modal-btn').addEventListener('click', openModal);
+  document.getElementById('close-modal').addEventListener('click', closeModal);
+  document.getElementById('cancel-modal').addEventListener('click', closeModal);
+  document.getElementById('confirm-modal').addEventListener('click', () => {
+    pushToast('success', 'Deployed', 'Build #483 → production');
+    closeModal();
+  });
+  document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+  /* ── Cmd K ─────────────────────────────────────────── */
+  function openCmdk()  { document.getElementById('cmdk').dataset.open = 'true'; }
+  function closeCmdk() { document.getElementById('cmdk').dataset.open = 'false'; }
+
+  document.getElementById('open-cmdk').addEventListener('click', openCmdk);
+  document.getElementById('open-cmdk2').addEventListener('click', openCmdk);
+  document.getElementById('cmdk').addEventListener('click', e => { if (e.target.id === 'cmdk') closeCmdk(); });
+
+  /* ── Dashboard buttons ─────────────────────────────── */
+  document.getElementById('btn-deploy').addEventListener('click', () => pushToast('success', 'Deployment started', 'build #483 → production'));
+  document.getElementById('apply-scale').addEventListener('click', () => pushToast('success', 'Scale initiated', 'edge-eu-19 → +2 replicas'));
+  document.getElementById('defer-scale').addEventListener('click', () => pushToast('info', 'Deferred', 'Reminder set for 14:30'));
+  document.getElementById('escalate-btn').addEventListener('click', () => pushToast('info', 'Escalated', 'Notified @ops-latam'));
+  document.getElementById('ai-apply-btn').addEventListener('click', () => pushToast('success', 'Applied', 'Pool size updated to 80'));
+
+  /* ── Global keyboard ───────────────────────────────── */
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openCmdk(); }
+    if (e.key === 'Escape') { closeCmdk(); closeDrawer(); closeModal(); }
+  });
+</script>
+</body>
+</html>

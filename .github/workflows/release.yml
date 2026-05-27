@@ -4,6 +4,15 @@ on:
   pull_request:
     types: [closed]
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag (e.g. v2.0.0-alpha.1)'
+        required: true
+      npm_tag:
+        description: 'npm dist-tag (e.g. alpha, latest)'
+        required: true
+        default: 'latest'
 
 permissions:
   contents: write
@@ -16,18 +25,21 @@ concurrency:
 jobs:
   release:
     if: >-
-      github.event.pull_request.merged == true &&
-      startsWith(github.event.pull_request.head.ref, 'release/')
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/'))
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.version.outputs.tag }}
+      npm_tag: ${{ steps.version.outputs.npm_tag }}
     steps:
       - uses: actions/checkout@v5
 
       - name: Extract and validate version
         id: version
         env:
-          BRANCH: ${{ github.event.pull_request.head.ref }}
+          BRANCH: ${{ github.event_name == 'workflow_dispatch' && format('release/{0}', inputs.tag) || github.event.pull_request.head.ref }}
+          MANUAL_NPM_TAG: ${{ inputs.npm_tag }}
         run: |
           RAW="${BRANCH#release/}"
           if [[ "$RAW" != v* ]]; then
@@ -41,11 +53,37 @@ jobs:
           echo "number=${RAW#v}" >> "$GITHUB_OUTPUT"
           MAJOR="${RAW#v}"
           MAJOR="${MAJOR%%.*}"
-          if [[ "$MAJOR" -eq 0 ]]; then
+          # Detect pre-release suffix (e.g. -alpha.1 -> npm tag "alpha")
+          if [[ "$RAW" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-([a-zA-Z][a-zA-Z0-9]*) ]]; then
+            NPM_TAG="${BASH_REMATCH[1]}"
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          elif [[ "$MAJOR" -eq 0 ]]; then
+            NPM_TAG="latest"
             echo "prerelease=true" >> "$GITHUB_OUTPUT"
           else
+            NPM_TAG="latest"
             echo "prerelease=false" >> "$GITHUB_OUTPUT"
           fi
+          # workflow_dispatch overrides the inferred npm tag
+          if [[ -n "$MANUAL_NPM_TAG" ]]; then
+            NPM_TAG="$MANUAL_NPM_TAG"
+          fi
+          echo "npm_tag=${NPM_TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Guard against version drift
+        env:
+          TAG_NUMBER: ${{ steps.version.outputs.number }}
+        run: |
+          PKG=$(grep -m1 '"version"' package.json | sed -E 's/.*"version"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
+          if [ "$PKG" != "$TAG_NUMBER" ]; then
+            echo "::error::package.json version ($PKG) does not match branch/tag version ($TAG_NUMBER). Bump package.json (and package-lock.json) to match the release branch before merging."
+            exit 1
+          fi
+          if ! grep -q "^## \[$PKG\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## [$PKG]' heading. Add the release section before merging."
+            exit 1
+          fi
+          echo "Version drift check passed: package.json, branch/tag, and CHANGELOG all agree on $PKG"
 
       - name: Check tag does not already exist
         id: check_tag
@@ -107,15 +145,17 @@ jobs:
 
       - uses: actions/setup-node@v5
         with:
-          node-version: 24
+          node-version: 22
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm ci
+      - name: Upgrade npm for OIDC Trusted Publishing support
+        run: npm install -g npm@latest
 
       - name: Publish to npm
-        run: |
-          PKG_VERSION=$(node -p "require('./package.json').version")
-          echo "Publishing @cativo23/nightwire@${PKG_VERSION} (release tag: ${{ needs.release.outputs.tag }})"
-          npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TAG: ${{ needs.release.outputs.npm_tag }}
+        run: |
+          npm ci
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "Publishing @cativo23/nightwire@${PKG_VERSION} --tag ${NPM_TAG}"
+          npm publish --provenance --access public --tag "$NPM_TAG"

@@ -1,10 +1,12 @@
 import { SectionTitle } from '../components/CodeBlock';
+import { NewBadge } from '../components/NewBadge';
 
 export function ExamplesPage() {
   return (
     <section id="examples">
       <SectionTitle tag="デモ">Live Examples</SectionTitle>
-      <div className="grid-2" style={{ gap: 2 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 2 }}>
+
         <div className="panel">
           <div className="panel-header"><span>Alchemix V3 Dashboard</span><span className="tag">デモ</span></div>
           <div className="node-card">
@@ -25,6 +27,7 @@ export function ExamplesPage() {
             </div>
           </div>
         </div>
+
         <div className="panel">
           <div className="panel-header"><span>Neural-Ops Center</span><span className="tag">デモ</span></div>
           <div className="node-card">
@@ -44,6 +47,32 @@ export function ExamplesPage() {
             </div>
           </div>
         </div>
+
+        {/* v2 — Workshop */}
+        <div className="panel">
+          <div className="panel-header">
+            <span>Workshop — Operator Console</span>
+            <span style={{ display: 'inline-flex', gap: 4 }}><NewBadge /><span className="tag">部品</span></span>
+          </div>
+          <div className="node-card">
+            <div className="nc-id">v2 Operator Console</div>
+            <div className="nc-name">部品工房 — 強度切替</div>
+            <div className="nc-row"><span className="lbl">Intensity</span><span className="val">Archive · Operator · Combat</span></div>
+            <div className="nc-row"><span className="lbl">Forms</span><span className="val">.field · .switch · .combo</span></div>
+            <div className="nc-row"><span className="lbl">Overlays</span><span className="val">Drawer · Cmd K · Modal</span></div>
+            <div className="nc-row"><span className="lbl">Data</span><span className="val">Stat · Diff · Code</span></div>
+            <div className="nc-row"><span className="lbl">AI</span><span className="val">.ai-block · .tag-ai</span></div>
+            <div style={{ marginTop: 8 }}>
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); window.open('/examples/html/workshop.html', '_blank'); }}
+                className="btn btn-sm"
+                style={{ fontSize: 9 }}
+              >Open Workshop</a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );
