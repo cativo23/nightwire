@@ -1,4 +1,4 @@
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 
 # Build context is repo root. Keep docs/ as working dir for npm ci + build.
 WORKDIR /app
