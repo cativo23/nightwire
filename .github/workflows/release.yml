@@ -70,6 +70,21 @@ jobs:
           fi
           echo "npm_tag=${NPM_TAG}" >> "$GITHUB_OUTPUT"
 
+      - name: Guard against version drift
+        env:
+          TAG_NUMBER: ${{ steps.version.outputs.number }}
+        run: |
+          PKG=$(grep -m1 '"version"' package.json | sed -E 's/.*"version"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
+          if [ "$PKG" != "$TAG_NUMBER" ]; then
+            echo "::error::package.json version ($PKG) does not match branch/tag version ($TAG_NUMBER). Bump package.json (and package-lock.json) to match the release branch before merging."
+            exit 1
+          fi
+          if ! grep -q "^## \[$PKG\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## [$PKG]' heading. Add the release section before merging."
+            exit 1
+          fi
+          echo "Version drift check passed: package.json, branch/tag, and CHANGELOG all agree on $PKG"
+
       - name: Check tag does not already exist
         id: check_tag
         env:

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] — 2026-05-27
+
+> **Status:** Patch. Fully additive — operator-mode (default) rendering is byte-for-byte unchanged. Safe drop-in over 2.0.0.
+
+### Fixed
+
+- **v1 status LEDs are now glow-aware.** `.led.green/.blue/.red/.yellow` previously used a fixed `0 0 4px` shadow, so they ignored the intensity system: they stayed lit in `archive` (glow off) and never intensified in `combat`. They now use `0 0 calc(4px * var(--nw-glow))`, matching the v2 `.led[data-state]` API. Measured output: operator `4px` (unchanged), combat `8.8px`, archive `0px`.
+- **`.nw-progress` fill shadow** made glow-aware in the same pass for consistency (operator unchanged at 4px).
+
+### Added
+
+- **`.nw-progress-fill`** is now a first-class selector alongside `.nw-progress .fill`. The generic `.fill` child class collided with utility frameworks (Bootstrap/Tailwind) and was unguessable from the parent name. Existing `.fill` markup keeps working — this is an alias, not a rename. `.fill` is a deprecation candidate for v3.
+
 ## [2.0.0]
 
 > **Status:** Stable release. API frozen. All v1 consumers keep working with zero changes.
