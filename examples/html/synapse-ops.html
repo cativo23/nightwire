@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en" data-intensity="operator">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYNAPSE · Neural Intelligence Operations Center</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../nightwire.css">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: var(--font-sys); font-size: 13px; background: var(--void); color: var(--nw-text); -webkit-font-smoothing: antialiased; }
+
+/* ── Navigation ─────────────────────────────────────────────── */
+.nw-nav {
+  display: flex; align-items: center; height: 38px;
+  padding: 0 12px; border-bottom: 1px solid var(--nw-text-line);
+  background: var(--void); flex-shrink: 0; gap: 12px;
+}
+.org-mark {
+  font-family: var(--font-title); font-size: 18px; font-weight: 900;
+  color: var(--nw-primary); letter-spacing: -0.02em;
+  transform: scaleX(0.82); transform-origin: left;
+  display: inline-block; flex-shrink: 0;
+}
+.nav-sep  { width: 1px; height: 14px; background: var(--nw-text-line); flex-shrink: 0; }
+.nav-mid  { flex: 1; display: flex; align-items: center; gap: 10px; }
+.nav-end  { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+/* ── Ticker ─────────────────────────────────────────────────── */
+.ticker {
+  height: 22px; background: var(--nw-primary-fill);
+  border-bottom: 1px solid rgba(102,153,255,.2);
+  overflow: hidden; flex-shrink: 0; display: flex; align-items: center;
+}
+.ticker-label {
+  font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
+  letter-spacing: .25em; color: var(--nw-primary); text-transform: uppercase;
+  padding: 0 10px; border-right: 1px solid rgba(102,153,255,.2);
+  height: 100%; display: flex; align-items: center; flex-shrink: 0;
+}
+.ticker-track { overflow: hidden; flex: 1; }
+.ticker-tape  {
+  display: flex; white-space: nowrap;
+  animation: tape-scroll 55s linear infinite;
+}
+[data-intensity="archive"] .ticker-tape { animation-play-state: paused; }
+.ticker-tape .t-item {
+  font-family: var(--font-sys); font-size: 11px;
+  color: var(--nw-text-dim); padding: 0 20px;
+}
+.ticker-tape .t-sep { color: rgba(102,153,255,.3); }
+@keyframes tape-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ── Dashboard grid ─────────────────────────────────────────── */
+.dashboard {
+  flex: 1; display: flex; gap: 2px;
+  background: var(--nw-text-line); min-height: 0;
+}
+[data-intensity="combat"] .dashboard { gap: 1px; }
+[data-intensity="archive"] .dashboard { gap: 4px; background: rgba(255,255,255,.06); }
+
+.col-left  { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.col-right { width: 360px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px; }
+[data-intensity="combat"] .col-left, [data-intensity="combat"] .col-right { gap: 1px; }
+[data-intensity="archive"] .col-left, [data-intensity="archive"] .col-right { gap: 4px; }
+
+.row { display: flex; gap: 2px; }
+[data-intensity="combat"] .row  { gap: 1px; }
+[data-intensity="archive"] .row { gap: 4px; }
+.row-top { flex: 1.5; min-height: 0; }
+.row-bot { flex: 1; min-height: 0; }
+
+.panel { display: flex; flex-direction: column; overflow: hidden; }
+.panel-body { flex: 1; overflow-y: auto; overflow-x: hidden; }
+.panel-body.dense { padding: 0; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--nw-text-line); }
+::-webkit-scrollbar-thumb:hover { background: var(--nw-primary-dim); }
+
+/* ── Threat counters ────────────────────────────────────────── */
+.threat-counters { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; padding: 6px; }
+.tcell { background: var(--void-panel); padding: 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.tcell .num { font-family: var(--font-sys); font-size: 22px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.tcell .lbl { font-family: var(--font-stamp); font-size: 9px; letter-spacing: .15em; color: var(--nw-text-dim); text-transform: uppercase; }
+
+/* ── Region bars ────────────────────────────────────────────── */
+.region-list { padding: 4px 10px 8px; display: flex; flex-direction: column; gap: 4px; }
+.rbar-row { display: flex; align-items: center; gap: 8px; }
+.rbar-name {
+  font-family: var(--font-stamp); font-size: 10px; letter-spacing: .08em;
+  color: var(--nw-text-dim); text-transform: uppercase; width: 80px; flex-shrink: 0;
+}
+.rbar-track { flex: 1; height: 5px; background: var(--nw-text-faint); overflow: hidden; }
+.rbar-fill  { height: 100%; transition: width 1.5s ease; }
+.rbar-fill.hot  { background: var(--nw-red); box-shadow: 0 0 4px var(--nw-red-fill); }
+.rbar-fill.warn { background: var(--nw-yellow); }
+.rbar-fill.ok   { background: var(--nw-primary); }
+.rbar-count { font-family: var(--font-sys); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+
+/* ── Neural waveform ────────────────────────────────────────── */
+.wave-chart { height: 72px; margin: 6px 10px; border-bottom: 1px solid var(--nw-text-faint); overflow: hidden; }
+.wave-chart svg { width: 100%; height: 100%; }
+
+/* ── Metrics 2-col override ─────────────────────────────────── */
+.metrics-grid { padding: 0 !important; }
+
+/* ── System status list ─────────────────────────────────────── */
+.sys-list { display: flex; flex-direction: column; padding: 6px 0; }
+.sys-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 10px; border-bottom: 1px solid rgba(255,255,255,.04); font-size: 11px;
+}
+.sys-name { flex: 1; color: var(--nw-text-dim); }
+.sys-val  { font-variant-numeric: tabular-nums; font-size: 11px; }
+
+/* ── LED dot (inline use) ───────────────────────────────────── */
+.dot {
+  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+  display: inline-block;
+}
+.dot.g { background: var(--nw-green); box-shadow: 0 0 4px var(--nw-green); }
+.dot.b { background: var(--nw-primary); box-shadow: 0 0 4px var(--nw-primary); }
+.dot.r { background: var(--nw-red); box-shadow: 0 0 4px var(--nw-red); animation: nw-pulse 1s ease-in-out infinite; }
+.dot.y { background: var(--nw-yellow); }
+.dot.p { background: var(--nw-purple); box-shadow: 0 0 6px var(--nw-purple); animation: nw-pulse 1.4s ease-in-out infinite; }
+
+/* ── Progress stack ─────────────────────────────────────────── */
+.progress-stack { padding: 8px 10px; display: flex; flex-direction: column; gap: 8px; }
+.prog-row { display: flex; flex-direction: column; gap: 3px; }
+.prog-hd {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-stamp); font-size: 9px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--nw-text-dim);
+}
+
+/* ── Event stream ───────────────────────────────────────────── */
+.ev {
+  display: flex; gap: 8px; padding: 5px 10px;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  align-items: flex-start; animation: ev-slide .22s ease;
+}
+@keyframes ev-slide { from { opacity: 0; transform: translateX(5px); } }
+.ev-time { font-size: 10px; color: var(--nw-text-dim); flex-shrink: 0; width: 52px; font-variant-numeric: tabular-nums; padding-top: 1px; }
+.ev-dot  { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.ev-msg  { flex: 1; font-size: 11px; line-height: 1.45; color: var(--nw-text-dim); }
+.ev-msg b { font-weight: 500; }
+.ev.crit .ev-dot { background: var(--nw-red); box-shadow: 0 0 4px var(--nw-red); }
+.ev.crit .ev-msg, .ev.crit .ev-msg b { color: var(--nw-red-hot); }
+.ev.warn .ev-dot { background: var(--nw-yellow); }
+.ev.warn .ev-msg b { color: var(--nw-yellow); }
+.ev.ok   .ev-dot { background: var(--nw-green); box-shadow: 0 0 4px rgba(122,237,122,.4); }
+.ev.ok   .ev-msg b { color: var(--nw-green); }
+.ev.info .ev-dot { background: var(--nw-cyan); }
+.ev.info .ev-msg b { color: var(--nw-cyan); }
+.ev.ai   .ev-dot { background: var(--nw-purple); box-shadow: 0 0 4px var(--nw-purple); }
+.ev.ai   .ev-msg { color: var(--nw-purple); }
+.ev.ai   .ev-msg b { color: var(--nw-purple); }
+
+/* ── Status bar ─────────────────────────────────────────────── */
+.statusbar {
+  height: 26px; background: var(--void-warm);
+  border-top: 1px solid var(--nw-text-line);
+  display: flex; align-items: center; padding: 0 12px; flex-shrink: 0;
+}
+.sb-item { display: flex; align-items: center; gap: 6px; padding: 0 12px; border-right: 1px solid var(--nw-text-faint); font-size: 10px; }
+.sb-item:first-child { padding-left: 0; }
+.sb-key { font-family: var(--font-stamp); font-size: 9px; letter-spacing: .15em; color: var(--nw-text-dim); text-transform: uppercase; }
+.sb-val { color: var(--nw-text); font-variant-numeric: tabular-nums; }
+.sb-brand {
+  margin-left: auto; display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-stamp); font-size: 9px; letter-spacing: .2em; color: var(--nw-text-dim); text-transform: uppercase;
+}
+.sb-brand .mark {
+  font-family: var(--font-title); font-size: 14px; color: var(--nw-primary);
+  transform: scaleX(0.82); transform-origin: right; display: inline-block; letter-spacing: -0.01em;
+}
+
+/* ── Mode toggle ────────────────────────────────────────────── */
+.mode-group { display: flex; gap: 1px; background: rgba(255,255,255,.05); padding: 2px; }
+.mode-btn {
+  font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase;
+  padding: 2px 9px; border: none; background: transparent;
+  color: var(--nw-text-dim); cursor: pointer; transition: all .12s;
+}
+.mode-btn.on { background: var(--nw-primary); color: #000; }
+.mode-btn:hover:not(.on) { color: var(--nw-text); background: var(--nw-text-faint); }
+
+/* ── Toast stack ────────────────────────────────────────────── */
+#toast-stack { position: fixed; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 6px; z-index: 800; pointer-events: none; }
+#toast-stack .toast { pointer-events: auto; animation: toast-in .25s ease; font-size: 11px; }
+#toast-stack .toast.out { animation: toast-out .25s ease forwards; }
+@keyframes toast-in  { from { opacity: 0; transform: translateX(16px); } }
+@keyframes toast-out { to   { opacity: 0; transform: translateX(16px); } }
+
+/* ── Command palette open state ─────────────────────────────── */
+.cmdk-backdrop { display: none; }
+.cmdk-backdrop.open { display: flex; }
+
+/* ── Boot overlay ───────────────────────────────────────────── */
+#boot {
+  position: fixed; inset: 0; background: var(--void); z-index: 9000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+}
+#boot.off { animation: boot-fade .6s ease forwards; }
+@keyframes boot-fade { to { opacity: 0; pointer-events: none; } }
+.boot-logo {
+  font-family: var(--font-title); font-size: 52px; font-weight: 900; color: var(--nw-primary);
+  transform: scaleX(.82); display: inline-block; letter-spacing: -0.02em;
+}
+.boot-sub {
+  font-family: var(--font-stamp); font-size: 11px; letter-spacing: .35em;
+  color: var(--nw-text-dim); text-transform: uppercase; margin-top: -10px;
+}
+#boot-log  { width: 420px; display: flex; flex-direction: column; gap: 3px; }
+#boot-bar  { width: 420px; margin-top: 8px; }
+.boot-line { font-family: var(--font-sys); font-size: 11px; color: var(--nw-text-dim); opacity: 0; animation: line-in .15s ease forwards; }
+.boot-line.done { color: var(--nw-green); }
+@keyframes line-in { to { opacity: 1; } }
+
+/* ── Oracle ─────────────────────────────────────────────────── */
+.oracle-body { font-family: var(--font-sys); font-size: 11px; color: var(--nw-purple); line-height: 1.65; }
+.cursor { display: inline-block; width: 5px; height: 11px; background: var(--nw-purple); animation: cur-blink 1s step-end infinite; vertical-align: middle; margin-left: 1px; }
+@keyframes cur-blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* ── Table density ──────────────────────────────────────────── */
+.nw-table td, .nw-table th { padding: 4px 8px; }
+
+/* ── Kanji accent ───────────────────────────────────────────── */
+.k { font-family: var(--font-mincho); font-size: 13px; color: rgba(102,153,255,.3); }
+</style>
+</head>
+
+<body class="nw-frame">
+
+<!-- ══ BOOT ═════════════════════════════════════════════════════ -->
+<div id="boot">
+  <div style="text-align:center">
+    <div class="boot-logo">SYNAPSE</div>
+    <div class="boot-sub">Neural Intelligence Operations Center</div>
+  </div>
+  <div id="boot-log"></div>
+  <div id="boot-bar">
+    <div class="nw-progress" style="height:2px">
+      <div class="fill" id="boot-fill" style="width:0%;transition:width .12s linear"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════ -->
+<nav class="nw-nav">
+  <div class="org-mark">SYNAPSE</div>
+  <div class="nav-sep"></div>
+  <div class="nav-mid">
+    <span class="dot g"></span>
+    <span style="font-family:var(--font-stamp);font-size:9px;letter-spacing:.2em;color:var(--nw-text-dim);text-transform:uppercase">NOMINAL</span>
+    <span class="tag tag-chrome" style="font-size:9px;padding:1px 6px">v3.7.1</span>
+    <span class="tag tag-ai" style="font-size:9px;padding:1px 6px">AI·ORACLE ACTIVE</span>
+  </div>
+  <div class="nav-end">
+    <span style="font-family:var(--font-sys);font-size:11px;color:var(--nw-text-dim);display:flex;align-items:center;gap:4px">
+      <kbd class="kbd" style="font-size:9px">⌘K</kbd> Command
+    </span>
+    <div class="nav-sep"></div>
+    <div class="mode-group">
+      <button class="mode-btn" onclick="setMode(this,'archive')">Archive</button>
+      <button class="mode-btn on" onclick="setMode(this,'operator')">Operator</button>
+      <button class="mode-btn" onclick="setMode(this,'combat')">Combat</button>
+    </div>
+    <div class="avatar avatar-sm">CC</div>
+  </div>
+</nav>
+
+<!-- ══ TICKER ════════════════════════════════════════════════════ -->
+<div class="ticker">
+  <div class="ticker-label">Live</div>
+  <div class="ticker-track"><div class="ticker-tape" id="ticker"></div></div>
+</div>
+
+<!-- ══ DASHBOARD ═════════════════════════════════════════════════ -->
+<div class="dashboard">
+
+  <!-- LEFT COLUMN ─────────────────────────────────────────────── -->
+  <div class="col-left">
+
+    <!-- ROW TOP -->
+    <div class="row row-top">
+
+      <!-- Threat Grid -->
+      <div class="panel" style="flex:1.1">
+        <div class="panel-header">
+          <span style="display:flex;align-items:center;gap:6px">
+            <span class="dot r" id="threat-dot"></span>Threat Grid
+          </span>
+          <span style="display:flex;align-items:center;gap:8px">
+            <span class="tag tag-warn" style="font-size:9px;padding:1px 6px" id="crit-tag">3 CRITICAL</span>
+            <span class="k">脅威</span>
+          </span>
+        </div>
+        <div class="panel-body dense">
+          <div class="threat-counters">
+            <div class="tcell">
+              <div class="num" style="color:var(--nw-red)" id="tc-crit">03</div>
+              <div class="lbl">Critical</div>
+            </div>
+            <div class="tcell">
+              <div class="num" style="color:var(--nw-yellow)" id="tc-warn">11</div>
+              <div class="lbl">Warning</div>
+            </div>
+            <div class="tcell">
+              <div class="num" style="color:var(--nw-primary)" id="tc-mon">47</div>
+              <div class="lbl">Monitored</div>
+            </div>
+            <div class="tcell">
+              <div class="num" style="color:var(--nw-green)" id="tc-ok">189</div>
+              <div class="lbl">Clear</div>
+            </div>
+          </div>
+          <div class="region-list" id="regions"></div>
+        </div>
+      </div>
+
+      <!-- Neural Feed -->
+      <div class="panel" style="flex:1">
+        <div class="panel-header">
+          <span style="display:flex;align-items:center;gap:6px">
+            <span class="dot b"></span>Neural Feed
+          </span>
+          <span class="k">神経</span>
+        </div>
+        <div class="panel-body dense">
+          <div class="wave-chart">
+            <svg id="wave-svg" viewBox="0 0 400 72" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="wg" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#6699ff" stop-opacity=".18"/>
+                  <stop offset="100%" stop-color="#6699ff" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <line x1="0" y1="18" x2="400" y2="18" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="0" y1="36" x2="400" y2="36" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="0" y1="54" x2="400" y2="54" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <path id="wave-area" fill="url(#wg)"/>
+              <path id="wave-line"  fill="none" stroke="#6699ff" stroke-width="1.4"/>
+              <path id="wave-line2" fill="none" stroke="#7aed7a" stroke-width="1" opacity=".55"/>
+            </svg>
+          </div>
+          <div class="metrics-grid" style="padding:0 6px">
+            <div class="metric-cell">
+              <div class="m-label">Signal Rate</div>
+              <div class="m-value glow-green" id="m-sig">847.3</div>
+              <div class="m-sub">req/s</div>
+            </div>
+            <div class="metric-cell highlight">
+              <div class="m-label">Anomaly σ</div>
+              <div class="m-value" id="m-anm">0.031</div>
+              <div class="m-sub">threshold</div>
+            </div>
+            <div class="metric-cell">
+              <div class="m-label">Neural Nodes</div>
+              <div class="m-value glow-green" id="m-nod">2,048</div>
+              <div class="m-sub">active</div>
+            </div>
+            <div class="metric-cell">
+              <div class="m-label">Latency P99</div>
+              <div class="m-value" id="m-lat">42ms</div>
+              <div class="m-sub">uplink</div>
+            </div>
+          </div>
+          <div style="padding:8px 10px 10px">
+            <div style="font-family:var(--font-stamp);font-size:9px;letter-spacing:.15em;color:var(--nw-text-dim);text-transform:uppercase;margin-bottom:6px">Processing Pipeline</div>
+            <div class="steps">
+              <div class="step done">Ingest</div>
+              <div class="step done">Normalize</div>
+              <div class="step done">Classify</div>
+              <div class="step current">Correlate</div>
+              <div class="step">Report</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /row-top -->
+
+    <!-- ROW BOTTOM -->
+    <div class="row row-bot">
+
+      <!-- System Status -->
+      <div class="panel" style="flex:.85">
+        <div class="panel-header">
+          <span style="display:flex;align-items:center;gap:6px">
+            <span class="dot g"></span>System Status
+          </span>
+          <span class="k">状態</span>
+        </div>
+        <div class="panel-body dense">
+          <div class="sys-list">
+            <div class="sys-row">
+              <span class="dot g"></span>
+              <span class="sys-name">CORE-01 Primary</span>
+              <span class="sys-val text-success">99.97%</span>
+            </div>
+            <div class="sys-row">
+              <span class="dot g"></span>
+              <span class="sys-name">CORE-02 Mirror</span>
+              <span class="sys-val text-success">99.94%</span>
+            </div>
+            <div class="sys-row">
+              <span class="dot y"></span>
+              <span class="sys-name">EDGE-NA Relay</span>
+              <span class="sys-val text-warning">98.11%</span>
+            </div>
+            <div class="sys-row">
+              <span class="dot g"></span>
+              <span class="sys-name">EDGE-EU Relay</span>
+              <span class="sys-val text-success">99.88%</span>
+            </div>
+            <div class="sys-row">
+              <span class="dot r"></span>
+              <span class="sys-name">EDGE-APAC Relay</span>
+              <span class="sys-val text-danger">81.23%</span>
+            </div>
+            <div class="sys-row">
+              <span class="dot p"></span>
+              <span class="sys-name">AI-ORACLE Engine</span>
+              <span class="sys-val text-primary">ACTIVE</span>
+            </div>
+          </div>
+          <div class="progress-stack">
+            <div class="prog-row">
+              <div class="prog-hd">
+                <span>CPU Load</span>
+                <span class="text-success" id="cpu-pct">34%</span>
+              </div>
+              <div class="nw-progress" style="height:3px">
+                <div class="fill" id="cpu-bar" style="width:34%"></div>
+              </div>
+            </div>
+            <div class="prog-row">
+              <div class="prog-hd">
+                <span>Memory</span><span class="text-success">61%</span>
+              </div>
+              <div class="nw-progress" style="height:3px">
+                <div class="fill" style="width:61%"></div>
+              </div>
+            </div>
+            <div class="prog-row">
+              <div class="prog-hd">
+                <span>Network I/O</span><span class="text-warning">78%</span>
+              </div>
+              <div class="nw-progress" style="height:3px">
+                <div class="fill" style="width:78%;background:var(--nw-yellow)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident Matrix -->
+      <div class="panel" style="flex:1.15">
+        <div class="panel-header">
+          <span style="display:flex;align-items:center;gap:6px">
+            <span class="dot r" style="animation:nw-pulse 1.4s ease-in-out infinite"></span>
+            Incident Matrix
+          </span>
+          <span style="display:flex;align-items:center;gap:8px">
+            <button class="btn btn-ghost btn-sm" style="font-size:9px;padding:2px 8px;height:auto">Export</button>
+            <span class="k">事件</span>
+          </span>
+        </div>
+        <div class="panel-body dense">
+          <table class="nw-table">
+            <thead>
+              <tr>
+                <th>ID</th><th>Source</th><th>Type</th>
+                <th>Severity</th><th>Status</th><th>Age</th>
+              </tr>
+            </thead>
+            <tbody id="inc-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /row-bot -->
+  </div><!-- /col-left -->
+
+  <!-- RIGHT COLUMN ────────────────────────────────────────────── -->
+  <div class="col-right">
+
+    <!-- Event Stream -->
+    <div class="panel" style="flex:1;min-height:0">
+      <div class="panel-header">
+        <span style="display:flex;align-items:center;gap:6px">
+          <span class="dot g"></span>Event Stream
+        </span>
+        <span style="display:flex;align-items:center;gap:6px">
+          <span class="badge badge-success" id="ev-count" style="font-size:9px">0</span>
+          <span class="k">記録</span>
+        </span>
+      </div>
+      <div class="panel-body dense" id="ev-stream" style="display:flex;flex-direction:column"></div>
+    </div>
+
+    <!-- AI Oracle -->
+    <div class="ai-block" style="flex-shrink:0">
+      <div class="ai-block-head" style="display:flex;align-items:center;gap:6px">
+        <span class="dot p" style="width:5px;height:5px"></span>
+        AI·ORACLE — Analysis
+        <span style="margin-left:auto;font-family:var(--font-mincho);font-size:13px;color:rgba(178,102,224,.35)">神託</span>
+      </div>
+      <div class="ai-block-body">
+        <p class="oracle-body" id="oracle-p"></p>
+        <div style="display:flex;gap:6px;margin-top:10px">
+          <button class="btn btn-ai btn-sm" style="font-size:9px;padding:3px 10px">Deep Scan</button>
+          <button class="btn btn-ghost btn-sm" style="font-size:9px;padding:3px 10px" onclick="nextOracle()">Next</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /col-right -->
+
+</div><!-- /dashboard -->
+
+<!-- ══ STATUS BAR ════════════════════════════════════════════════ -->
+<div class="statusbar">
+  <div class="sb-item"><span class="sb-key">Uptime</span><span class="sb-val" id="uptime">00:00:00</span></div>
+  <div class="sb-item"><span class="sb-key">Nodes</span><span class="sb-val">2,048</span></div>
+  <div class="sb-item"><span class="sb-key">Sync</span><span class="sb-val" style="color:var(--nw-green)">LIVE</span></div>
+  <div class="sb-item"><span class="sb-key">Region</span><span class="sb-val">GLOBAL</span></div>
+  <div class="sb-item"><span class="sb-key">Build</span><span class="sb-val">d0b7068</span></div>
+  <div class="sb-brand">Powered by <span class="mark">NIGHTWIRE</span></div>
+</div>
+
+<!-- ══ COMMAND PALETTE ══════════════════════════════════════════ -->
+<div class="cmdk-backdrop" id="cmdk-wrap" onclick="if(event.target===this)closeCmdk()">
+  <div class="cmdk">
+    <input id="cmdk-in" type="text" placeholder="Type a command or search…" autocomplete="off">
+    <div class="cmdk-section">
+      <div style="font-family:var(--font-stamp);font-size:9px;letter-spacing:.2em;color:var(--nw-text-dim);text-transform:uppercase;padding:4px 10px 2px">Interface</div>
+      <div class="cmdk-item" tabindex="0" onclick="setModeByName('archive');closeCmdk()">
+        <span style="color:var(--nw-text-dim)">◈</span> Switch to Archive mode
+      </div>
+      <div class="cmdk-item" tabindex="0" onclick="setModeByName('operator');closeCmdk()">
+        <span style="color:var(--nw-primary)">◈</span> Switch to Operator mode
+      </div>
+      <div class="cmdk-item" tabindex="0" onclick="setModeByName('combat');closeCmdk()">
+        <span style="color:var(--nw-red)">◈</span> Switch to Combat mode
+        <kbd class="kbd" style="margin-left:auto;font-size:9px">⌘1</kbd>
+      </div>
+    </div>
+    <div class="cmdk-section">
+      <div style="font-family:var(--font-stamp);font-size:9px;letter-spacing:.2em;color:var(--nw-text-dim);text-transform:uppercase;padding:4px 10px 2px">Actions</div>
+      <div class="cmdk-item" tabindex="0" onclick="pushToast('danger');closeCmdk()">
+        <span class="text-danger">⚠</span> Trigger emergency alert
+        <kbd class="kbd" style="margin-left:auto;font-size:9px">⌘E</kbd>
+      </div>
+      <div class="cmdk-item" tabindex="0" onclick="pushToast('success');closeCmdk()">
+        <span class="text-success">✓</span> Run full system diagnostic
+      </div>
+      <div class="cmdk-item" tabindex="0" onclick="nextOracle();closeCmdk()">
+        <span class="text-accent">◆</span> Cycle Oracle analysis
+        <kbd class="kbd" style="margin-left:auto;font-size:9px">⌘O</kbd>
+      </div>
+      <div class="cmdk-item" tabindex="0" onclick="pushToast('info');closeCmdk()">
+        <span class="text-info">ℹ</span> Push threat intel update
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-stack"></div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── DATA ────────────────────────────────────────────────────── */
+const REGIONS = [
+  { name:'North America', cls:'warn', pct:72, cnt:3 },
+  { name:'Europe',        cls:'ok',   pct:24, cnt:0 },
+  { name:'Asia Pacific',  cls:'hot',  pct:91, cnt:3 },
+  { name:'South America', cls:'ok',   pct:31, cnt:0 },
+  { name:'Middle East',   cls:'warn', pct:58, cnt:1 },
+  { name:'Africa',        cls:'ok',   pct:18, cnt:0 },
+];
+
+const INCIDENTS = [
+  { id:'INC-4471', src:'APAC-NODE-07', type:'DDoS',         sev:'danger',  st:'ACTIVE',     age:'00:03' },
+  { id:'INC-4470', src:'NA-RELAY-02',  type:'Auth Flood',   sev:'warning', st:'MONITORING', age:'00:11' },
+  { id:'INC-4469', src:'AI-ORACLE',    type:'Anomaly',      sev:'info',    st:'ANALYSIS',   age:'00:18' },
+  { id:'INC-4468', src:'EU-CORE-01',   type:'Probe',        sev:'warning', st:'MITIGATED',  age:'00:42' },
+  { id:'INC-4467', src:'APAC-NODE-03', type:'Intrusion',    sev:'danger',  st:'ACTIVE',     age:'01:07' },
+  { id:'INC-4466', src:'NA-EDGE-08',   type:'Exfil Attempt',sev:'danger',  st:'BLOCKED',    age:'02:34' },
+];
+
+const TICKER_ITEMS = [
+  'INC-4471 · DDoS surge on APAC-NODE-07 · 2.1M req/s threshold breached',
+  'EDGE-APAC relay degraded to 81.23% · automatic failover initiated',
+  'Neural correlation: 3 new threat vectors identified · confidence 94.7%',
+  'AI-ORACLE recommends deep scan of subnet 203.0.113.0/24',
+  'INC-4470 · Auth flood on NA-RELAY-02 · mitigation active',
+  'System checkpoint ALPHA-7 passed · all primary cores nominal',
+  'Threat intelligence v847 applied · 2,304 new signatures',
+  'CORE-01 heartbeat confirmed · latency 4ms',
+  'Geofence alert: anomalous pattern from restricted region',
+  'INC-4468 resolved · EU probe neutralized · zero exfiltration',
+];
+
+/* label / body split so we can build DOM without innerHTML */
+const EVENTS = [
+  { cls:'crit', lbl:'INC-4471', body:' · DDoS surge on APAC-NODE-07 · 2.1M req/s' },
+  { cls:'ok',   lbl:'Mitigation', body:' · Geo-block applied to APAC-NODE-07 cluster' },
+  { cls:'warn', lbl:'EDGE-APAC', body:' relay degraded · 81.23% uptime · failover active' },
+  { cls:'ai',   lbl:'ORACLE', body:' · Correlation match · confidence 94.7% · escalate' },
+  { cls:'info', lbl:'Checkpoint', body:' ALPHA-7 passed · all core systems nominal' },
+  { cls:'crit', lbl:'INC-4467', body:' · Intrusion attempt on APAC-NODE-03' },
+  { cls:'warn', lbl:'NA-RELAY-02', body:' · Auth flood 847 req/s above baseline' },
+  { cls:'ok',   lbl:'INC-4468', body:' neutralized · no data exfiltrated · closed' },
+  { cls:'info', lbl:'Intel v847', body:' applied · 2,304 new threat signatures loaded' },
+  { cls:'ai',   lbl:'ORACLE', body:' · New threat vector · East-origin pattern identified' },
+];
+
+const ORACLE_MSGS = [
+  'Correlation analysis indicates coordinated attack pattern across APAC nodes. Recommend immediate geo-isolation of subnet 203.0.113.0/24. Confidence: 94.7%.',
+  'Anomaly index elevated above baseline. Neural pathway INC-4470 shares fingerprint with known APT-31 toolchain. Escalation recommended.',
+  'EDGE-APAC degradation correlates with INC-4459 at 72-hour interval. Possible scheduled attack vector. Pattern logged for future detection.',
+  'DDoS traffic signature matches botnet cluster from INC-4388. Automated counter-measure suite ALPHA is standing by for deployment.',
+];
+
+const TOAST_DATA = {
+  danger:  { msg:'CRITICAL: DDoS surge on APAC-NODE-07 exceeding 2.1M req/s',  cls:'toast-danger' },
+  warning: { msg:'WARNING: Auth flood on NA-RELAY-02 above threshold',           cls:'toast-warning' },
+  success: { msg:'Diagnostic complete — all primary cores nominal',              cls:'toast-success' },
+  info:    { msg:'Threat intel v847 applied — 2,304 new signatures loaded',      cls:'toast-info' },
+};
+
+/* ── BOOT ────────────────────────────────────────────────────── */
+const BOOT_LINES = [
+  { txt:'> Initializing SYNAPSE neural substrate…',         done:false },
+  { txt:'> Loading threat intelligence database v847…',     done:false },
+  { txt:'> Establishing uplink to 2,048 nodes…',           done:false },
+  { txt:'> Starting AI-ORACLE inference engine…',           done:false },
+  { txt:'> Calibrating anomaly detection baseline…',        done:false },
+  { txt:'> SYNAPSE NEXUS online. All systems nominal.',     done:true  },
+];
+
+function runBoot() {
+  const log  = document.getElementById('boot-log');
+  const fill = document.getElementById('boot-fill');
+  let i = 0;
+  function step() {
+    if (i >= BOOT_LINES.length) {
+      setTimeout(() => {
+        const boot = document.getElementById('boot');
+        boot.classList.add('off');
+        setTimeout(() => boot.remove(), 650);
+        initAll();
+      }, 350);
+      return;
+    }
+    const b   = BOOT_LINES[i];
+    const el  = document.createElement('div');
+    el.className = 'boot-line' + (b.done ? ' done' : '');
+    el.textContent = b.txt;
+    log.appendChild(el);
+    fill.style.width = ((i + 1) / BOOT_LINES.length * 100) + '%';
+    i++;
+    setTimeout(step, 280 + Math.random() * 200);
+  }
+  step();
+}
+
+/* ── INIT ────────────────────────────────────────────────────── */
+function initAll() {
+  buildTicker();
+  buildRegions();
+  buildIncidents();
+  seedEvents();
+  startWave();
+  startUptime();
+  startMetrics();
+  startOracle();
+  scheduleToasts();
+  scheduleEvents();
+}
+
+/* ── TICKER ──────────────────────────────────────────────────── */
+function buildTicker() {
+  const el   = document.getElementById('ticker');
+  const all  = [...TICKER_ITEMS, ...TICKER_ITEMS];
+  all.forEach(txt => {
+    const span = document.createElement('span');
+    span.className = 't-item';
+    span.textContent = txt;
+    el.appendChild(span);
+    const sep = document.createElement('span');
+    sep.className = 't-sep';
+    sep.textContent = '　│　';
+    el.appendChild(sep);
+  });
+}
+
+/* ── REGIONS ─────────────────────────────────────────────────── */
+function buildRegions() {
+  const el = document.getElementById('regions');
+  REGIONS.forEach(r => {
+    const countColor = r.cls === 'hot' ? 'var(--nw-red)' : r.cls === 'warn' ? 'var(--nw-yellow)' : 'var(--nw-text-dim)';
+
+    const row  = document.createElement('div');  row.className = 'rbar-row';
+    const name = document.createElement('span'); name.className = 'rbar-name'; name.textContent = r.name;
+    const track = document.createElement('div'); track.className = 'rbar-track';
+    const fill  = document.createElement('div'); fill.className = `rbar-fill ${r.cls}`; fill.style.width = r.pct + '%';
+    const cnt   = document.createElement('span'); cnt.className = 'rbar-count'; cnt.style.color = countColor;
+    cnt.textContent = r.cnt || '—';
+
+    track.appendChild(fill);
+    row.appendChild(name);
+    row.appendChild(track);
+    row.appendChild(cnt);
+    el.appendChild(row);
+  });
+}
+
+/* ── INCIDENTS ───────────────────────────────────────────────── */
+function buildIncidents() {
+  const sev2badge = { danger:'badge-danger', warning:'badge-warning', info:'badge' };
+  const st2cls    = { ACTIVE:'text-danger', MONITORING:'text-warning', MITIGATED:'text-success', BLOCKED:'text-success', ANALYSIS:'text-primary' };
+  const tbody = document.getElementById('inc-tbody');
+
+  INCIDENTS.forEach(inc => {
+    const tr = document.createElement('tr');
+
+    function td(cls, text) {
+      const cell = document.createElement('td');
+      if (cls) cell.className = cls;
+      cell.style.fontSize = '10px';
+      cell.textContent = text;
+      return cell;
+    }
+
+    const sevBadge = document.createElement('span');
+    sevBadge.className = `badge ${sev2badge[inc.sev] || 'badge'}`;
+    sevBadge.style.fontSize = '9px';
+    sevBadge.textContent = inc.sev.toUpperCase();
+    const sevTd = document.createElement('td');
+    sevTd.appendChild(sevBadge);
+
+    tr.appendChild(td('text-primary', inc.id));
+    tr.appendChild(td('text-dim', inc.src));
+    tr.appendChild(td('', inc.type));
+    tr.appendChild(sevTd);
+    tr.appendChild(td(st2cls[inc.st] || '', inc.st));
+    tr.appendChild(td('text-dim', '-' + inc.age));
+    tbody.appendChild(tr);
+  });
+}
+
+/* ── EVENTS ──────────────────────────────────────────────────── */
+let evCount = 0;
+
+function addEvent(ev) {
+  evCount++;
+  document.getElementById('ev-count').textContent = evCount;
+
+  const now  = new Date();
+  const t    = now.toTimeString().slice(0, 8);
+  const el   = document.getElementById('ev-stream');
+
+  const item = document.createElement('div');
+  item.className = `ev ${ev.cls}`;
+
+  const time = document.createElement('span');
+  time.className = 'ev-time';
+  time.textContent = t;
+
+  const dot = document.createElement('span');
+  dot.className = 'ev-dot';
+
+  const msg  = document.createElement('span');
+  msg.className = 'ev-msg';
+
+  const bold = document.createElement('b');
+  bold.textContent = ev.lbl;
+  const rest = document.createTextNode(ev.body);
+  msg.appendChild(bold);
+  msg.appendChild(rest);
+
+  item.appendChild(time);
+  item.appendChild(dot);
+  item.appendChild(msg);
+  el.insertBefore(item, el.firstChild);
+
+  while (el.children.length > 60) el.removeChild(el.lastChild);
+}
+
+function seedEvents() {
+  [...EVENTS].reverse().forEach((ev, i) => setTimeout(() => addEvent(ev), i * 90));
+}
+
+function scheduleEvents() {
+  function next() {
+    addEvent(EVENTS[Math.floor(Math.random() * EVENTS.length)]);
+    setTimeout(next, 3200 + Math.random() * 3500);
+  }
+  setTimeout(next, 2800);
+}
+
+/* ── WAVEFORM ────────────────────────────────────────────────── */
+let W1 = Array.from({length:60}, () => 14 + Math.random() * 48);
+let W2 = Array.from({length:60}, () => 44 + Math.random() * 24);
+const SH = 72;
+
+function pts(data) {
+  const step = 400 / (data.length - 1);
+  return data.map((v, i) =>
+    (i === 0 ? 'M' : 'L') + (i * step).toFixed(1) + ',' + (SH - v / 100 * SH).toFixed(1)
+  ).join(' ');
+}
+
+function startWave() {
+  const l1 = document.getElementById('wave-line');
+  const l2 = document.getElementById('wave-line2');
+  const ar = document.getElementById('wave-area');
+  function tick() {
+    W1.shift(); W1.push(12 + Math.random() * 52 + (Math.random() > 0.93 ? 25 : 0));
+    W2.shift(); W2.push(42 + Math.random() * 28);
+    const p = pts(W1);
+    l1.setAttribute('d', p);
+    l2.setAttribute('d', pts(W2));
+    ar.setAttribute('d', p + ' L400,' + SH + ' L0,' + SH + 'Z');
+  }
+  tick();
+  setInterval(tick, 500);
+}
+
+/* ── METRICS ─────────────────────────────────────────────────── */
+function startMetrics() {
+  setInterval(() => {
+    document.getElementById('m-sig').textContent = (780 + Math.random() * 130).toFixed(1);
+    document.getElementById('m-anm').textContent = (0.018 + Math.random() * 0.028).toFixed(3);
+    document.getElementById('m-lat').textContent = Math.round(32 + Math.random() * 22) + 'ms';
+    const cpu = Math.round(22 + Math.random() * 34);
+    document.getElementById('cpu-pct').textContent = cpu + '%';
+    document.getElementById('cpu-bar').style.width = cpu + '%';
+  }, 2200);
+}
+
+/* ── UPTIME ──────────────────────────────────────────────────── */
+function startUptime() {
+  let s = 4 * 3600 + 12 * 60 + 33;
+  function tick() {
+    s++;
+    const h  = String(Math.floor(s / 3600)).padStart(2, '0');
+    const m  = String(Math.floor(s % 3600 / 60)).padStart(2, '0');
+    const sc = String(s % 60).padStart(2, '0');
+    document.getElementById('uptime').textContent = h + ':' + m + ':' + sc;
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ── ORACLE ──────────────────────────────────────────────────── */
+let oIdx = 0, oTimer = null;
+
+function typeOracle(text) {
+  const el = document.getElementById('oracle-p');
+  el.textContent = '';
+  const cur = document.createElement('span');
+  cur.className = 'cursor';
+  el.appendChild(cur);
+
+  let i = 0;
+  clearInterval(oTimer);
+  oTimer = setInterval(() => {
+    if (i >= text.length) { clearInterval(oTimer); return; }
+    el.textContent = text.slice(0, ++i);
+    const c = document.createElement('span');
+    c.className = 'cursor';
+    el.appendChild(c);
+  }, 16);
+}
+
+function nextOracle() {
+  oIdx = (oIdx + 1) % ORACLE_MSGS.length;
+  typeOracle(ORACLE_MSGS[oIdx]);
+}
+
+function startOracle() {
+  typeOracle(ORACLE_MSGS[0]);
+  setInterval(nextOracle, 13000);
+}
+
+/* ── TOASTS ──────────────────────────────────────────────────── */
+function pushToast(type) {
+  const d     = TOAST_DATA[type] || TOAST_DATA.info;
+  const stack = document.getElementById('toast-stack');
+  const t     = document.createElement('div');
+  t.className = 'toast ' + d.cls;
+  t.textContent = d.msg;
+  stack.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('out');
+    setTimeout(() => t.remove(), 280);
+  }, 4200);
+}
+
+function scheduleToasts() {
+  const types = ['danger','warning','success','info'];
+  let i = 0;
+  function next() {
+    pushToast(types[i++ % types.length]);
+    setTimeout(next, 9000 + Math.random() * 5000);
+  }
+  setTimeout(next, 2500);
+}
+
+/* ── COMMAND PALETTE ─────────────────────────────────────────── */
+function openCmdk() {
+  document.getElementById('cmdk-wrap').classList.add('open');
+  setTimeout(() => document.getElementById('cmdk-in').focus(), 40);
+}
+function closeCmdk() {
+  document.getElementById('cmdk-wrap').classList.remove('open');
+}
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openCmdk(); }
+  if (e.key === 'Escape') closeCmdk();
+});
+
+/* ── MODE SWITCHER ───────────────────────────────────────────── */
+function setMode(btn, mode) {
+  document.documentElement.setAttribute('data-intensity', mode);
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+function setModeByName(mode) {
+  document.documentElement.setAttribute('data-intensity', mode);
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    b.classList.toggle('on', b.textContent.toLowerCase() === mode);
+  });
+}
+
+/* ── GO ──────────────────────────────────────────────────────── */
+runBoot();
+</script>
+</body>
+</html>
