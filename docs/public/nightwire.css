@@ -438,10 +438,10 @@ input::placeholder, textarea::placeholder {
   vertical-align: middle;
   margin-right: 4px;
 }
-.led.green  { background: var(--nw-green);   box-shadow: 0 0 4px var(--nw-green); }
-.led.blue   { background: var(--nw-primary); box-shadow: 0 0 4px var(--nw-primary); }
-.led.red    { background: var(--nw-red);     box-shadow: 0 0 4px var(--nw-red); }
-.led.yellow { background: var(--nw-yellow);  box-shadow: 0 0 4px var(--nw-yellow); }
+.led.green  { background: var(--nw-green);   box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-green); }
+.led.blue   { background: var(--nw-primary); box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-primary); }
+.led.red    { background: var(--nw-red);     box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-red); }
+.led.yellow { background: var(--nw-yellow);  box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-yellow); }
 
 /* ── Panel ───────────────────────────────────────────────────── */
 
@@ -549,10 +549,11 @@ input::placeholder, textarea::placeholder {
   overflow: hidden;
 }
 
-.nw-progress .fill {
+.nw-progress .fill,
+.nw-progress-fill {
   height: 100%;
   background: var(--nw-green);
-  box-shadow: 0 0 4px rgba(122,237,122,0.3);
+  box-shadow: 0 0 calc(4px * var(--nw-glow)) rgba(122,237,122,0.3);
 }
 
 /* ── Toast / Notification ────────────────────────────────────── */
