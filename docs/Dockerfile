@@ -5,6 +5,8 @@ WORKDIR /app
 COPY docs/package*.json ./
 RUN npm ci
 COPY docs/ .
+# Root package.json for Vite version injection (vite.config.ts reads ../package.json)
+COPY package.json /package.json
 RUN npm run build
 
 FROM nginx:alpine
