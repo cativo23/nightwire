@@ -68,7 +68,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
 
       <div style={{ marginTop: 'auto', padding: '12px 16px', borderTop: '1px solid var(--nw-text-faint)' }}>
         <div style={{ fontSize: 8, color: 'var(--nw-text-dim)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-          <span className="led green" /> v2.0.0-alpha
+          <span className="led green" /> v2.0.1
         </div>
         <a href="https://github.com/cativo23/nightwire" target="_blank" rel="noopener noreferrer"
           style={{ fontSize: 9, color: 'var(--nw-primary-dim)', display: 'block', marginTop: 4 }}>

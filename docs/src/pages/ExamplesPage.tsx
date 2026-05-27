@@ -73,6 +73,31 @@ export function ExamplesPage() {
           </div>
         </div>
 
+        {/* v2.0.1 — SYNAPSE */}
+        <div className="panel">
+          <div className="panel-header">
+            <span>SYNAPSE — Neural Intelligence</span>
+            <span style={{ display: 'inline-flex', gap: 4 }}><NewBadge /><span className="tag">デモ</span></span>
+          </div>
+          <div className="node-card">
+            <div className="nc-id">v2 Ops Center</div>
+            <div className="nc-name">神経監視センター</div>
+            <div className="nc-row"><span className="lbl">Intensity</span><span className="val">Archive · Operator · Combat</span></div>
+            <div className="nc-row"><span className="lbl">Live</span><span className="val">SVG Waveform · Metrics</span></div>
+            <div className="nc-row"><span className="lbl">Stream</span><span className="val">Event Log · Ticker</span></div>
+            <div className="nc-row"><span className="lbl">Command</span><span className="val">Cmd K Palette</span></div>
+            <div className="nc-row"><span className="lbl">AI</span><span className="val">.ai-block Oracle</span></div>
+            <div style={{ marginTop: 8 }}>
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); window.open('/examples/html/synapse-ops.html', '_blank'); }}
+                className="btn btn-sm"
+                style={{ fontSize: 9 }}
+              >Open Demo</a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );
