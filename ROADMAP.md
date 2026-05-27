@@ -19,7 +19,7 @@ Both verified in-browser; operator output unchanged.
 | # | Change | Notes |
 |---|--------|-------|
 | 1 | v1 `.led.color` LEDs now glow-aware (`calc(4px * --nw-glow)`) | operator 4px · combat 8.8px · archive 0px |
-| 3 | `.nw-progress-fill` alias added alongside `.nw-progress .fill` | additive; `.fill` deprecated for v3 |
+| 3 | `.nw-progress-fill` alias added alongside `.nw-progress .fill` | additive; `.fill` kept indefinitely |
 
 ---
 
@@ -83,5 +83,5 @@ Until then, deprecated selectors stay put and the system keeps its promise: **up
 ## Consumer impact check
 
 Production consumers must keep working at every step:
-- **cativo.dev** (raw CSS classes) — unaffected through 2.x; only 3.0.0 requires migration.
-- **blog.cativo.dev** (Tailwind preset) — token-only consumer; component renames in 3.0.0 don't touch it. New tokens (#5, chalk) are additive.
+- **cativo.dev** (raw CSS classes) — unaffected across the entire 2.x line; deprecated selectors are never removed, so there's no migration to make.
+- **blog.cativo.dev** (Tailwind preset) — token-only consumer; new tokens (#5, chalk) are additive, so it's never forced to change.
