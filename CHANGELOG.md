@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.1] — Unreleased
+## [2.0.1] — 2026-05-27
 
 > **Status:** Patch. Fully additive — operator-mode (default) rendering is byte-for-byte unchanged. Safe drop-in over 2.0.0.
 
