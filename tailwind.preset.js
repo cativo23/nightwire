@@ -40,6 +40,12 @@ export default {
             default: '#e6e6e6',
             mute: '#aaaaaa',
             disabled: '#5a5a5a',
+            // v2.1: expose the faint/line tiers as color tokens so
+            // text-/bg-/border-nw-text-{faint,line} resolve. These
+            // mirror the --nw-text-faint / --nw-text-line CSS vars,
+            // which previously only existed as vars + borderColor.
+            faint: 'rgba(255, 255, 255, 0.06)',
+            line: 'rgba(255, 255, 255, 0.12)',
           },
           // ── v2 · Semantic role aliases ──────────────────
           // Reference the role, not the color. Lets you fork
