@@ -46,7 +46,7 @@ export function QuickStartPage() {
         <div className="panel-header"><span>Tailwind Preset (Optional)</span><span className="tag">TW</span></div>
         <div className="panel-body">
           <CodeBlock>{`// tailwind.config.js
-import nightwirePreset from 'nightwire/tailwind.preset.js'
+import nightwirePreset from '@cativo23/nightwire/tailwind.preset.js'
 export default { presets: [nightwirePreset] }`}</CodeBlock>
         </div>
       </div>

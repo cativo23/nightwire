@@ -8,19 +8,19 @@ export function InstallPage() {
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>AI Skill (Recommended)</span><span className="tag">推奨</span></div>
         <div className="panel-body">
-          <CodeBlock>npx nightwire-cli install</CodeBlock>
+          <CodeBlock>npx @cativo23/nightwire install</CodeBlock>
         </div>
       </div>
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>CSS Import</span><span className="tag">CSS</span></div>
         <div className="panel-body">
-          <CodeBlock>{"@import 'nightwire/nightwire.css';"}</CodeBlock>
+          <CodeBlock>{"@import '@cativo23/nightwire/nightwire.css';"}</CodeBlock>
         </div>
       </div>
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>Tailwind Preset</span><span className="tag">TW</span></div>
         <div className="panel-body">
-          <CodeBlock>{'presets: [require("nightwire/tailwind.preset")]'}</CodeBlock>
+          <CodeBlock>{'presets: [require("@cativo23/nightwire/tailwind.preset.js")]'}</CodeBlock>
         </div>
       </div>
       <div className="panel">
