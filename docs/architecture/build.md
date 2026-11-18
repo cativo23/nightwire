@@ -66,3 +66,26 @@ before merge rather than in the deploy.
 restructure was verified, and it is the check to run before any change that should not be
 visible. It is not in CI because it needs a local Chrome. Usage and options are in
 [CONTRIBUTING.md](../../CONTRIBUTING.md#checking-that-nothing-changed-visually).
+
+### Change categories (`--expect`)
+
+For an intended visual change, `--expect <file>` turns the check from "nothing differs" into
+"nothing differs that a declared category does not explain". The file is validated, compiled once
+and applied to the structured difference records; the pure pieces live in
+`scripts/parity/lib/diff.mjs` (`validateCategories`, `classify`), `lib/glob.mjs` (the one glob
+used by `--pages` and `match.page`) and `lib/report.mjs` (report layout and exit code), each
+covered by a test in `tests/`.
+
+- **Matching.** A record `{ page, state, path, prop, old, new }` is expected when one category
+  matches every `match.*` field it declares. `prop` is required; `path`, `state`, `old` and `new`
+  are unanchored regexes, `page` is a glob. The first matching category in file order takes the
+  difference, so counts plus unexpected equal the total.
+- **Output.** Only unexpected `DIFF` lines print (still capped by `--max-lines`), followed by one
+  `CATEGORY  <id>  <count>` line per category in file order (unused ones show 0), the `COVERAGE`
+  line, and `RESULT  differences=N  unexpected=M`. Without `--expect` the output is the classic
+  `DIFF` lines, `COVERAGE` and `RESULT  differences=N`.
+- **Exit code.** 0 only when `unexpected=0` and coverage is full; 1 otherwise; 2 when the file is
+  unreadable, not JSON or invalid (checked before Chrome starts).
+
+The file format, with every field, is in
+[CONTRIBUTING.md](../../CONTRIBUTING.md#declaring-intended-changes-with---expect).

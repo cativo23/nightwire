@@ -70,13 +70,56 @@ npm run parity -- --pages "examples/html/workshop.html" --max-lines 50
 NW_CHROME_PATH=/usr/bin/chromium npm run parity     # no branded Chrome installed
 ```
 
-It prints `DIFF` lines, a `COVERAGE` line and `RESULT differences=N`. Exit code 0 means no
+It prints `DIFF` lines, a `COVERAGE` line and `RESULT  differences=N`. Exit code 0 means no
 differences and full coverage; 1 means differences or missing coverage; 2 means a usage error, a
-browser that would not start, or a page that never loaded `nightwire.css`. If coverage drops because you added a class, add markup for it to
-`scripts/parity/fixtures/coverage.html`.
+browser that would not start, or a page that never loaded `nightwire.css`. If coverage drops
+because you added a class, add markup for it to `scripts/parity/fixtures/coverage.html`.
 
 Run it before any refactor that should be invisible. For an intended visual change, the
 differences it reports should be exactly the ones you meant.
+
+### Declaring intended changes with `--expect`
+
+`--expect <file>` classifies the differences against a list of change categories instead of
+treating every one as a failure. The v3 inventory is
+[`docs/design/v3/change-inventory.json`](docs/design/v3/change-inventory.json):
+
+```sh
+npm run parity -- --old git:v2.1.0 --expect docs/design/v3/change-inventory.json
+```
+
+Every difference that a category matches is counted under that category. Only the rest, the
+*unexpected* ones, are printed as `DIFF` lines and make the run fail:
+
+```text
+DIFF  …                              (unexpected differences only)
+CATEGORY  <id>  <count>              (one per category, file order, 0 included)
+COVERAGE  …
+RESULT  differences=N  unexpected=M
+```
+
+Exit code 0 means `unexpected=0` and full coverage; 1 means unexpected differences or missing
+coverage; 2 means the file cannot be read, is not valid JSON, or fails validation (the message
+names the category and field). Without `--expect` the output and exit codes are unchanged.
+
+A category file is `{ "baseline": "v2.1.0", "categories": [ … ] }`. Each category has:
+
+| Field | Rule |
+|---|---|
+| `id` | Required, unique, kebab-case. |
+| `description` | Why the change is intended; link the requirement. |
+| `match.prop` | Required regex, tested against the DIFF property (a CSS property, `--custom`, `@keyframes` name or `(element)`). |
+| `match.path` | Optional regex against the DOM path. |
+| `match.state` | Optional regex against the full state label, for example `combat\|rm-off` or `:hover@`. |
+| `match.old` / `match.new` | Optional regexes against the old and new value (`<missing>` when absent). |
+| `match.page` | Optional glob against the page path. `*` and `?` stay inside one directory, `**` crosses directories, `**/` also matches zero directories, everything else is literal. |
+
+Regexes are unanchored, like `RegExp.test`; add `^` and `$` to pin a value. An empty string in
+any `match` field is rejected, because it would match every difference. A difference is
+expected when at least one category matches all of the fields that category has. It counts
+toward the **first** matching category in file order only, so the counts plus `unexpected`
+always add up to `differences`. Every new rendering difference gets a category in the same
+commit that causes it.
 
 ## Commits and branches
 
