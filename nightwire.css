@@ -145,6 +145,7 @@
   --nw-pad-scale:     1;
   --nw-base-font:     var(--text-base);
   --nw-pulse-state:   running;
+  --nw-loop-state:    running;
   --nw-pulse-speed:   1.4s;
   --nw-panel-radius:  var(--radius-none);
   --nw-value-color:   var(--nw-data);
@@ -219,9 +220,13 @@
   --nw-header-pattern: repeating-linear-gradient(0deg, rgba(102, 153, 255, 0.05) 0 1px, transparent 1px 3px);
 }
 
-/* ── src/base/reduced-motion.css ───────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  :root { --nw-motion-scale: 0; --nw-pulse-state: paused; }
+  :root,
+  :root[data-intensity] {
+    --nw-motion-scale: 0;
+    --nw-pulse-state: paused;
+    --nw-loop-state: paused;
+  }
 }
 
 /* ── src/base/reset.css ────────────────────────────────────────── */

@@ -3,10 +3,41 @@
   "categories": [
     {
       "id": "token-additions",
-      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles (FR-001, FR-002). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged.",
+      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles, and the --nw-loop-state knob (FR-001, FR-002, FR-006). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged.",
       "match": {
-        "prop": "^--nw-(tick|sweep|uplink)-(out|duration|ease|out-duration|out-ease)$|^--nw-(stagger|loop-spin|loop-shimmer)$",
+        "prop": "^--nw-(tick|sweep|uplink)-(out|duration|ease|out-duration|out-ease)$|^--nw-(stagger|loop-spin|loop-shimmer)$|^--nw-loop-state$",
         "path": "^:root$"
+      }
+    },
+    {
+      "id": "motion-reduced",
+      "description": "Reduced motion now wins over every intensity level (FR-006, known issue K1): under prefers-reduced-motion, --nw-motion-scale resolves to 0 and --nw-pulse-state and --nw-loop-state to paused, even with data-intensity set. Before, the intensity block won.",
+      "match": {
+        "prop": "^--nw-(motion-scale|pulse-state|loop-state)$",
+        "path": "^:root$",
+        "state": "\\|rm-on",
+        "new": "^(0|paused)$"
+      }
+    },
+    {
+      "id": "motion-reduced-composites",
+      "description": "Consequence of motion-reduced (FR-006, K1): the existing --nw-tick, --nw-sweep and --nw-uplink composites multiply by --nw-motion-scale, so under reduced motion with data-intensity set they now compute to calc(<n>ms * 0) instead of * 0.6 (archive) or * 1.2 (combat).",
+      "match": {
+        "prop": "^--nw-(tick|sweep|uplink)$",
+        "path": "^:root$",
+        "state": "\\|rm-on",
+        "new": "^calc\\(\\d+ms \\* 0\\) cubic-bezier"
+      }
+    },
+    {
+      "id": "motion-reduced-pseudo",
+      "description": "Consequence of motion-reduced (FR-006, K1): the universal reduced-motion kill switch in accessibility.css does not reach pseudo-elements, so the switch knob (.switch .track::after) keeps a transition whose duration is --nw-tick. With data-intensity set that was 0.09s (archive) or 0.18s (combat) under reduced motion; it is now 0s.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "::after$",
+        "state": "\\|rm-on",
+        "old": "^0\\.(09|18)s(, 0\\.(09|18)s)*$",
+        "new": "^0s(, 0s)*$"
       }
     }
   ]

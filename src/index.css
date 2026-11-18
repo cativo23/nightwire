@@ -5,7 +5,6 @@
    ═══════════════════════════════════════════════════════════════ */
 
 @import "./tokens/tokens.css";
-@import "./base/reduced-motion.css";
 @import "./base/reset.css";
 @import "./base/accessibility.css";
 @import "./utilities/surface.css";
