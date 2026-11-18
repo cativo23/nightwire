@@ -6,9 +6,10 @@ import { makeEvent, type EventEntry } from '../data';
 type ToastKind = 'success' | 'info' | 'warning' | 'danger';
 type Toast = { id: number; kind: ToastKind; head: string; body: string; open: boolean };
 
-// Longer than the slowest toast exit (--nw-sweep-out, 262.5ms at motion scale 1), so the toast
-// is removed from the DOM after it has finished fading.
-const TOAST_EXIT_MS = 300;
+// Longer than the slowest toast exit: --nw-sweep-out is 262.5ms at operator, and the longest at any
+// intensity is combat's sweep-out, 315ms (262.5ms * 1.2). 350ms clears it. A timer rather than
+// transitionend, which never fires under reduced motion (transitions are off there).
+const TOAST_EXIT_MS = 350;
 
 export function FeedbackPage() {
   const [events] = useState<EventEntry[]>(() => Array.from({ length: 15 }, makeEvent));
@@ -25,7 +26,13 @@ export function FeedbackPage() {
 
   const pushToast = useCallback((kind: ToastKind, head: string, body: string) => {
     const id = Date.now() + Math.random();
-    setToasts(prev => [...prev, { id, kind, head, body, open: true }]);
+    // Mount closed, then open on the next frame: an element inserted already open has no previous
+    // style to transition from, so it would appear without the enter animation. Two frames, because
+    // one rAF can still run before the browser has computed the closed style.
+    setToasts(prev => [...prev, { id, kind, head, body, open: false }]);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      setToasts(prev => prev.map(t => (t.id === id ? { ...t, open: true } : t)));
+    }));
     setTimeout(() => dismissToast(id), 5000);
   }, [dismissToast]);
 
@@ -72,7 +79,9 @@ export function FeedbackPage() {
 <div class="toast toast-danger">Error message</div>
 <div class="toast toast-info">Info message</div>
 
-<!-- Optional: data-open="false" fades the toast out and hides it; "true" or no attribute shows it -->
+<!-- data-open="false" fades the toast out and hides it; "true" or no attribute shows it.
+     Toast added at runtime: mount it closed, open it on the next frame (double
+     requestAnimationFrame), and remove it 350ms after closing. -->
 <div class="toast toast-info" data-open="false">Dismissed</div>`}</CodeBlock>
       </div>
 
@@ -217,7 +226,7 @@ export function FeedbackPage() {
         style={{
           position: 'fixed', right: 16, top: 80,
           display: 'flex', flexDirection: 'column', gap: 8,
-          zIndex: 60, width: 320, pointerEvents: 'none',
+          zIndex: 60, width: 320,
         }}
       >
         {toasts.map(t => (
@@ -225,7 +234,7 @@ export function FeedbackPage() {
             key={t.id}
             className={`toast toast-${t.kind}`}
             data-open={t.open}
-            style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'flex-start', gap: 10 }}
+            style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}
           >
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: 'var(--font-stamp)', fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--nw-chrome)', marginBottom: 2 }}>
