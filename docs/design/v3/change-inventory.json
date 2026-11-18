@@ -159,6 +159,28 @@
       }
     },
     {
+      "id": "focus-ring-controls",
+      "description": "Checkbox, radio and switch show keyboard focus (FR-015, research R12): their native input is visually hidden, so nothing marked focus. The box or track right after the focused input now draws a 2px --nw-focus-ring outline offset by 2px. The parity tool forces :focus-visible on the input and captures its next siblings, so the box and track are covered. Only the forced :focus-visible state is matched; pinned to the old (no outline) and new values.",
+      "match": {
+        "prop": "^outline-(color|offset|style|width)$",
+        "path": "label\\.(check|radio|switch):nth-child\\(\\d+\\)>span\\.(box|track):nth-child\\(\\d+\\)$",
+        "state": "\\|:focus-visible@",
+        "old": "^(rgb\\(230, 230, 230\\)|0px|none|3px)$",
+        "new": "^(rgb\\(102, 153, 255\\)|2px|solid)$"
+      }
+    },
+    {
+      "id": "focus-ring-segmented",
+      "description": "A focused segmented-control button draws its focus ring inside the segment (FR-015, research R12): .seg clips with overflow: hidden, so the global outline at offset 2px was cut off. The outline offset is now -2px, and the selected segment (aria-pressed) also gets a 4px inset void band, because the ring colour equals its fill and would vanish. Only the forced :focus-visible state is matched; pinned to those values.",
+      "match": {
+        "prop": "^(outline-offset|box-shadow)$",
+        "path": "div\\.seg:nth-child\\(\\d+\\)>button:nth-child\\(\\d+\\)$",
+        "state": "\\|:focus-visible@",
+        "old": "^(2px|none)$",
+        "new": "^(-2px|rgb\\(0, 0, 0\\) 0px 0px 0px 4px inset)$"
+      }
+    },
+    {
       "id": "motion-reduced-backstop",
       "description": "Nothing animates under reduced motion (FR-006): the kill switch in accessibility.css now covers ::before and ::after as well as elements, because the universal selector does not reach pseudo-elements. Before, the button spinner (.btn-loading::before) and the skeleton shimmer (::after) kept looping under reduced motion, and the switch and checkbox marks kept a transition. Their animation and transition longhands now take the reset values of animation: none and transition: none. Pinned to pseudo-elements, to reduced motion on, and to those reset values.",
       "match": {
