@@ -1028,6 +1028,36 @@
         "old": "^rgba\\(178, 102, 224, 0\\.25\\)$",
         "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
       }
+    },
+    {
+      "id": "q-avatar-text",
+      "description": "Group A (T043): the default .avatar text goes from blue to --nw-text-default (direction rule 2: a default look is neutral). Includes the properties that follow the text colour. Pinned to blue to #e6e6e6 on .avatar.",
+      "match": {
+        "prop": "^(column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "(div|span)\\.avatar(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "q-avatar-edge",
+      "description": "Group A (T043): the .avatar border goes from --nw-primary-dim to --nw-line (direction rule 3). The avatar stays round (--radius-full): it is round by nature (rule 4). Pinned to the border colours of .avatar.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "(div|span)\\.avatar(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "q-avatar-fill",
+      "description": "Group A (T043): the .avatar fill goes from the blue --nw-primary-fill to the neutral --nw-text-faint (white at 0.08), same alpha (direction rule 5). Pinned to .avatar background-color.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "(div|span)\\.avatar(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(102, 153, 255, 0\\.08\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
+      }
     }
   ]
 }

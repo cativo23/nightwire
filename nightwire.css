@@ -1149,9 +1149,9 @@ input::placeholder, textarea::placeholder {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-full);
-  background: var(--nw-primary-fill);
-  border: var(--nw-hairline) solid var(--nw-primary-dim);
-  color: var(--nw-primary);
+  background: var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line);
+  color: var(--nw-text-default);
   font-size: var(--text-sm);
   font-weight: 700;
 }
