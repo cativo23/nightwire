@@ -42,18 +42,36 @@
     },
     {
       "id": "motion-overlays",
-      "description": "Overlays now have a real closed state (FR-004, FR-005, FR-007): closed drawer, modal and command palette set pointer-events: none, which their children inherit, and the closed command palette panel sits at translateY(-8px). Open overlays are otherwise unchanged. Applies to the overlay roots and everything inside them.",
+      "description": "Overlays now have a real closed state (FR-004, FR-005, FR-007). Closed drawer, modal and command palette (no data-open or data-open=\"false\"), dropdown menu and toast with data-open=\"false\", and tooltips without hover or data-open=\"true\" get pointer-events: none and, where the element moves or fades, the closed opacity, transform and visibility. Dropdown menus and toasts without data-open are unchanged; a tooltip now opens through visibility as well as opacity, and one marked data-open=\"true\" is open.",
       "match": {
         "prop": "^(visibility|opacity|transform|pointer-events)$",
-        "path": "(^|>)div\\.(drawer|drawer-backdrop|modal-backdrop|cmdk-backdrop):nth-child\\(\\d+\\)(>|$)"
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$"
+      }
+    },
+    {
+      "id": "motion-overlays-inherited",
+      "description": "Consequence of motion-overlays (FR-004, FR-005, FR-007): visibility and pointer-events inherit, so everything inside a closed overlay now computes hidden and none instead of visible and auto. This is what takes the contents out of the accessibility tree and out of the tab order.",
+      "match": {
+        "prop": "^(visibility|pointer-events)$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|cmdk-backdrop|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)>",
+        "old": "^(visible|auto)$",
+        "new": "^(hidden|none)$"
       }
     },
     {
       "id": "motion-overlay-transitions",
-      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, one --nw-sweep transition covered both directions and animated visibility itself.",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition.",
       "match": {
         "prop": "^transition-(property|duration|timing-function|delay|behavior)$",
-        "path": "(^|>)div\\.(drawer|drawer-backdrop|modal-backdrop|cmdk-backdrop):nth-child\\(\\d+\\)(>|$)"
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$"
+      }
+    },
+    {
+      "id": "motion-transitions",
+      "description": "The dropdown item hover transition uses --nw-tick instead of a literal 0.15s (FR-003), so it scales with data-intensity and honours reduced motion, and takes the tick easing instead of the default ease.",
+      "match": {
+        "prop": "^transition-(property|duration|timing-function|delay|behavior)$",
+        "path": "\\.dropdown-item:nth-child\\(\\d+\\)$"
       }
     }
   ]
