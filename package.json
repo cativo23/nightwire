@@ -25,7 +25,8 @@
     "prepublishOnly": "npm run build",
     "docs:dev": "cd apps/docs && npm run dev",
     "docs:build": "cd apps/docs && npm run build",
-    "docs:preview": "cd apps/docs && npm run preview"
+    "docs:preview": "cd apps/docs && npm run preview",
+    "test:browsers": "node scripts/browsers/run.mjs"
   },
   "repository": {
     "type": "git",
