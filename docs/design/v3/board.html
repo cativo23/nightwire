@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nightwire v3 direction board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../nightwire.css">
+<style>
+  /* Board-local layout and captions. Plain values on purpose: no Nightwire class and no --nw-*
+     token is declared or read here, so these rules look identical before and after. */
+  .bd-page { max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; }
+  .bd-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 8px; }
+  .bd-head h1 { margin: 0; font-size: 44px; line-height: 1; }
+  .bd-note { margin: 8px 0 0; font: 12px/1.5 monospace; color: #8a93a6; max-width: 80ch; }
+  .bd-section { margin-top: 40px; }
+  .bd-section > h2 { margin: 0 0 12px; font: 700 12px/1 monospace; letter-spacing: 0.08em; text-transform: uppercase; color: #8a93a6;
+    border-bottom: 1px dashed #3a4151; padding-bottom: 8px; }
+  .bd-cap { font: 11px/1.4 monospace; color: #8a93a6; margin: 0 0 6px; }
+  .bd-grid { display: grid; gap: 16px; }
+  .bd-grid.c2 { grid-template-columns: 1fr 1fr; }
+  .bd-grid.c3 { grid-template-columns: 1fr 1fr 1fr; }
+  .bd-matrix { display: grid; grid-template-columns: 110px repeat(5, 1fr); gap: 10px 12px; align-items: center; }
+  .bd-matrix .bd-colhead, .bd-matrix .bd-rowlabel { font: 11px/1.4 monospace; color: #8a93a6; }
+  .bd-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .bd-fonts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .bd-fonts p { margin: 0; font-size: 22px; line-height: 1.2; }
+  .bd-fonts p.bd-cap { margin-top: 6px; font-size: 11px; }
+  .bd-fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 16px; }
+  .bd-fields input, .bd-fields select, .bd-fields textarea { width: 100%; box-sizing: border-box; }
+  .bd-overlay { position: relative; height: 320px; overflow: hidden; border: 1px dashed #3a4151; }
+  /* Keep the open modal inside its own section instead of covering the whole board. */
+  .bd-overlay .modal-backdrop { position: absolute; }
+  .bd-led-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; font: 12px monospace; color: #8a93a6; }
+  .bd-led-row span { display: inline-flex; align-items: center; }
+</style>
+</head>
+<body>
+<main class="bd-page">
+
+  <header>
+    <div class="bd-head">
+      <h1 class="compressed-title">Direction board</h1>
+      <span class="font-stamp" style="font-size:20px">v3 refresh <span class="kanji">方向</span></span>
+    </div>
+    <p class="bd-note">Representative components at rest and in forced hover, focus, active and disabled states.
+      Rendered by <code>npm run design:board</code> against v2.1.0 (before) and the working tree (after) at archive,
+      operator and combat intensity. Captions are board-local; everything else is Nightwire.</p>
+  </header>
+
+  <section class="bd-section">
+    <h2>Identity: four typefaces, kanji, compressed title</h2>
+    <div class="bd-fonts">
+      <div><p class="font-title" style="font-weight:800">Noto Serif Display</p><p class="bd-cap">.font-title</p></div>
+      <div><p class="font-sys">JetBrains Mono 0123</p><p class="bd-cap">.font-sys (body text)</p></div>
+      <div><p class="font-stamp" style="font-weight:700;letter-spacing:.08em;text-transform:uppercase">Saira Extra Condensed</p><p class="bd-cap">.font-stamp</p></div>
+      <div><p class="font-mincho">Shippori Mincho 監視 <span class="kanji">夜線</span></p><p class="bd-cap">.font-mincho and .kanji (hidden where the intensity hides kanji)</p></div>
+    </div>
+  </section>
+
+  <section class="bd-section">
+    <h2>Buttons</h2>
+    <div class="bd-matrix">
+      <div></div>
+      <div class="bd-colhead">rest</div><div class="bd-colhead">hover (forced)</div><div class="bd-colhead">focus-visible (forced)</div>
+      <div class="bd-colhead">active (forced)</div><div class="bd-colhead">disabled</div>
+      <div class="bd-rowlabel">.btn</div>
+      <div class="bd-cell"><button type="button" class="btn">Primary</button></div>
+      <div class="bd-cell"><button type="button" class="btn" data-force=":hover">Primary</button></div>
+      <div class="bd-cell"><button type="button" class="btn" data-force=":focus-visible">Primary</button></div>
+      <div class="bd-cell"><button type="button" class="btn" data-force=":active">Primary</button></div>
+      <div class="bd-cell"><button type="button" class="btn" disabled>Primary</button></div>
+      <div class="bd-rowlabel">.btn-ghost</div>
+      <div class="bd-cell"><button type="button" class="btn-ghost">Ghost</button></div>
+      <div class="bd-cell"><button type="button" class="btn-ghost" data-force=":hover">Ghost</button></div>
+      <div class="bd-cell"><button type="button" class="btn-ghost" data-force=":focus-visible">Ghost</button></div>
+      <div class="bd-cell"><button type="button" class="btn-ghost" data-force=":active">Ghost</button></div>
+      <div class="bd-cell"><button type="button" class="btn-ghost" disabled>Ghost</button></div>
+      <div class="bd-rowlabel">.btn-danger</div>
+      <div class="bd-cell"><button type="button" class="btn-danger">Danger</button></div>
+      <div class="bd-cell"><button type="button" class="btn-danger" data-force=":hover">Danger</button></div>
+      <div class="bd-cell"><button type="button" class="btn-danger" data-force=":focus-visible">Danger</button></div>
+      <div class="bd-cell"><button type="button" class="btn-danger" data-force=":active">Danger</button></div>
+      <div class="bd-cell"><button type="button" class="btn-danger" disabled>Danger</button></div>
+      <div class="bd-rowlabel">.btn-chrome</div>
+      <div class="bd-cell"><button type="button" class="btn btn-chrome">Chrome</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-chrome" data-force=":hover">Chrome</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-chrome" data-force=":focus-visible">Chrome</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-chrome" data-force=":active">Chrome</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-chrome" disabled>Chrome</button></div>
+      <div class="bd-rowlabel">.btn-success</div>
+      <div class="bd-cell"><button type="button" class="btn btn-success">Success</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-success" data-force=":hover">Success</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-success" data-force=":focus-visible">Success</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-success" data-force=":active">Success</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-success" disabled>Success</button></div>
+      <div class="bd-rowlabel">.btn-ai</div>
+      <div class="bd-cell"><button type="button" class="btn btn-ai">AI</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-ai" data-force=":hover">AI</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-ai" data-force=":focus-visible">AI</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-ai" data-force=":active">AI</button></div>
+      <div class="bd-cell"><button type="button" class="btn btn-ai" disabled>AI</button></div>
+    </div>
+    <p class="bd-cap" style="margin-top:20px">Sizes (rest) and loading</p>
+    <div class="bd-row">
+      <button type="button" class="btn btn-lg">Large</button>
+      <button type="button" class="btn">Default</button>
+      <button type="button" class="btn btn-sm">Small</button>
+      <button type="button" class="btn btn-xs">Extra small</button>
+      <button type="button" class="btn btn-loading">Loading</button>
+      <button type="button" class="btn-ghost btn-loading">Loading ghost</button>
+      <button type="button" class="btn btn-ai btn-loading">Loading AI</button>
+    </div>
+  </section>
+
+  <section class="bd-section">
+    <h2>Panel, stat, metrics</h2>
+    <div class="bd-grid c3">
+      <div>
+        <p class="bd-cap">.panel with .panel-header (kanji) and .panel-body, rest</p>
+        <div class="panel">
+          <div class="panel-header"><span>Fleet status <span class="kanji">状態</span></span><span class="tag tag-success">healthy</span></div>
+          <div class="panel-body">Nine of ten relays answering. One drifting, flagged for review.</div>
+        </div>
+      </div>
+      <div>
+        <p class="bd-cap">.stat with delta up and sparkline, rest</p>
+        <div class="panel"><div class="stat">
+          <div class="stat-label">Signal rate</div>
+          <div class="stat-value">847.3</div>
+          <div class="stat-delta up">+4.2% vs last hour</div>
+          <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true">
+            <path class="area" d="M0 20 L14 16 L28 18 L42 11 L56 13 L70 6 L84 8 L100 3 L100 24 L0 24 Z"/>
+            <path d="M0 20 L14 16 L28 18 L42 11 L56 13 L70 6 L84 8 L100 3"/>
+          </svg>
+        </div></div>
+      </div>
+      <div>
+        <p class="bd-cap">.stat with delta down, rest</p>
+        <div class="panel"><div class="stat">
+          <div class="stat-label">Packet loss</div>
+          <div class="stat-value">0.42%</div>
+          <div class="stat-delta down">-0.8% vs last hour</div>
+          <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true">
+            <path class="area" d="M0 4 L14 6 L28 5 L42 12 L56 10 L70 16 L84 15 L100 20 L100 24 L0 24 Z"/>
+            <path d="M0 4 L14 6 L28 5 L42 12 L56 10 L70 16 L84 15 L100 20"/>
+          </svg>
+        </div></div>
+      </div>
+    </div>
+    <p class="bd-cap" style="margin-top:20px">.metrics-grid with .metric-cell, one .highlight</p>
+    <div class="metrics-grid" style="max-width:560px">
+      <div class="metric-cell"><div class="m-label">Uptime</div><div class="m-value">99.98</div><div class="m-sub">percent, 30 days</div></div>
+      <div class="metric-cell highlight"><div class="m-label">Throughput</div><div class="m-value">412</div><div class="m-sub">req/s, peak</div></div>
+      <div class="metric-cell"><div class="m-label">Latency</div><div class="m-value">38</div><div class="m-sub">ms, p95</div></div>
+      <div class="metric-cell"><div class="m-label">Errors</div><div class="m-value">7</div><div class="m-sub">last hour</div></div>
+    </div>
+  </section>
+
+  <section class="bd-section">
+    <h2>LED and tag</h2>
+    <p class="bd-cap">.led[data-state], rest; pulse variants use data-pulse</p>
+    <div class="bd-led-row">
+      <span><i class="led" data-state="ok"></i>ok</span>
+      <span><i class="led" data-state="warn"></i>warn</span>
+      <span><i class="led" data-state="error"></i>error</span>
+      <span><i class="led" data-state="info"></i>info</span>
+      <span><i class="led" data-state="ai"></i>ai</span>
+      <span><i class="led" data-state="ok" data-pulse></i>ok pulse</span>
+      <span><i class="led" data-state="warn" data-pulse></i>warn pulse</span>
+      <span><i class="led" data-state="error" data-pulse></i>error pulse</span>
+      <span><i class="led" data-state="info" data-pulse></i>info pulse</span>
+      <span><i class="led" data-state="ai" data-pulse></i>ai pulse</span>
+    </div>
+    <p class="bd-cap" style="margin-top:16px">v1 colour classes (to be removed)</p>
+    <div class="bd-led-row">
+      <span><i class="led green"></i>.green</span>
+      <span><i class="led blue"></i>.blue</span>
+      <span><i class="led red"></i>.red</span>
+      <span><i class="led yellow"></i>.yellow</span>
+    </div>
+    <p class="bd-cap" style="margin-top:16px">.tag and every variant, rest</p>
+    <div class="bd-row">
+      <span class="tag">default</span>
+      <span class="tag tag-success">success</span>
+      <span class="tag tag-danger">danger</span>
+      <span class="tag tag-warning">warning</span>
+      <span class="tag tag-info">info</span>
+      <span class="tag tag-chrome">chrome</span>
+      <span class="tag tag-warn">warn</span>
+      <span class="tag tag-ai">ai</span>
+    </div>
+  </section>
+
+  <section class="bd-section">
+    <h2>Table</h2>
+    <p class="bd-cap">.nw-table, rest rows; the third row is forced :hover</p>
+    <div class="panel"><table class="nw-table">
+      <thead><tr><th>Node</th><th>Region</th><th>Load</th><th>State</th></tr></thead>
+      <tbody>
+        <tr><td>relay-01</td><td>eu-west</td><td>0.42</td><td><i class="led" data-state="ok"></i>ok</td></tr>
+        <tr><td>relay-02</td><td>eu-west</td><td>0.67</td><td><i class="led" data-state="warn"></i>warn</td></tr>
+        <tr data-force=":hover"><td>relay-03</td><td>us-east</td><td>0.18</td><td><i class="led" data-state="ok"></i>ok</td></tr>
+        <tr><td>relay-04</td><td>ap-south</td><td>0.91</td><td><i class="led" data-state="error"></i>error</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="bd-section">
+    <h2>Form fields</h2>
+    <div class="bd-fields">
+      <div><p class="bd-cap">input, rest</p><input type="text" value="relay-01"></div>
+      <div><p class="bd-cap">input, focus (forced)</p><input type="text" value="relay-01" data-force=":focus"></div>
+      <div><p class="bd-cap">input, placeholder only</p><input type="text" placeholder="Search nodes"></div>
+      <div><p class="bd-cap">input, disabled</p><input type="text" value="locked" disabled></div>
+      <div><p class="bd-cap">select, rest</p><select><option>eu-west</option><option>us-east</option></select></div>
+      <div><p class="bd-cap">textarea, rest</p><textarea rows="2">Maintenance window notes</textarea></div>
+      <div><p class="bd-cap">.field with label and help, rest</p>
+        <div class="field"><label class="field-label" for="bd-f1">Node name <span class="req">*</span></label>
+          <input id="bd-f1" type="text" value="relay-05"><div class="field-help">Lowercase letters and digits.</div></div></div>
+      <div><p class="bd-cap">.field.error, rest</p>
+        <div class="field error"><label class="field-label" for="bd-f2">Node name</label>
+          <input id="bd-f2" type="text" value="Relay 05!"><div class="field-help">Only lowercase letters and digits.</div></div></div>
+      <div><p class="bd-cap">.field.error, focus (forced)</p>
+        <div class="field error"><label class="field-label" for="bd-f3">Node name</label>
+          <input id="bd-f3" type="text" value="Relay 05!" data-force=":focus"><div class="field-help">Only lowercase letters and digits.</div></div></div>
+      <div><p class="bd-cap">.field.success, rest</p>
+        <div class="field success"><label class="field-label" for="bd-f4">Node name</label>
+          <input id="bd-f4" type="text" value="relay-05"><div class="field-help">Name is available.</div></div></div>
+    </div>
+  </section>
+
+  <section class="bd-section">
+    <h2>Overlay</h2>
+    <p class="bd-cap">.modal-backdrop[data-open="true"] with .modal, scoped to this box instead of the viewport</p>
+    <div class="bd-overlay">
+      <div class="modal-backdrop" data-open="true">
+        <div class="modal">
+          <div class="modal-header"><span class="modal-title">Decommission relay <span class="kanji">停止</span></span><span class="tag tag-danger">irreversible</span></div>
+          <div class="modal-body">relay-04 will stop accepting traffic and leave the pool. Active sessions drain for 60 seconds.</div>
+          <div class="modal-footer"><button type="button" class="btn-ghost">Cancel</button><button type="button" class="btn-danger">Decommission</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
