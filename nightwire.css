@@ -1127,19 +1127,19 @@ input::placeholder, textarea::placeholder {
   justify-content: space-between;
   align-items: baseline;
   padding: var(--sp-1) 0;
-  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   font-size: var(--text-sm);
 }
 
 .kv-row .kv-label {
-  color: var(--nw-primary-dim);
+  color: var(--nw-text-mute);
   text-transform: uppercase;
   letter-spacing: var(--ls-wide);
   font-size: 10px;
 }
 
 .kv-row .kv-value {
-  color: var(--nw-green);
+  color: var(--nw-text-default);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }

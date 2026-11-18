@@ -1218,6 +1218,36 @@
         "old": "^rgb\\(68, 119, 204\\)$",
         "new": "^rgb\\(230, 230, 230\\)$"
       }
+    },
+    {
+      "id": "q-kv-row-rule",
+      "description": "Group A (T043): the .kv-row rule goes from --nw-text-faint to --nw-line (direction rule 3), the base of the spec sheet in the approved mockup. Pinned to the bottom border colour of .kv-row.",
+      "match": {
+        "prop": "^border-(bottom|block-end)-color$",
+        "path": "div\\.kv-row:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "q-kv-row-label",
+      "description": "Group A (T043): the .kv-label goes from --nw-primary-dim to --nw-text-mute (direction rule 1) and so does everything that follows its colour. Pinned to .kv-row .kv-label, #4477cc to #aaaaaa.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "span\\.kv-label:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$"
+      }
+    },
+    {
+      "id": "q-kv-row-value",
+      "description": "Group A (T043): the .kv-value goes from the data green to --nw-text-default (direction rule 2): a default look is neutral, the data colour is opt-in. Includes the properties that follow the text colour. Pinned to .kv-row .kv-value, #7aed7a to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "span\\.kv-value:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
     }
   ]
 }
