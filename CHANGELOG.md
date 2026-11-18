@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2.1.0] — 2026-11-18
+
+> **Status:** Minor. Additive: two new preset colors and a button press state. Existing tokens,
+> classes and package files are unchanged.
+
+### Added
+
+- **`nw.text.faint` and `nw.text.line` in the Tailwind preset.** The `--nw-text-faint` and
+  `--nw-text-line` custom properties existed, but the preset had no matching colors, so
+  `text-`/`bg-`/`border-nw-text-faint` and `-line` resolved to nothing. Values:
+  `rgba(255, 255, 255, 0.06)` and `rgba(255, 255, 255, 0.12)`.
+- **Button press state.** `.btn`, `.btn-ghost` and `.btn-danger` move down 1px on `:active`
+  (`transform 0.1s`). Under `prefers-reduced-motion: reduce` the shift is removed as well.
 
 ### Changed
 
