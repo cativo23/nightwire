@@ -49,6 +49,58 @@ on the black surfaces).
 | Line-weight knobs per intensity | none | no per-level overrides in v3 | Combat energy comes from state glow, pulse and density, not heavier lines. The knobs exist so a level can change them later. |
 | Reduced-motion review: static spinner ring, static skeleton shimmer, segmented focus ring next to a selected segment | not reviewed | spinner and shimmer stay static; the segmented ring is addressed in T044 | Recorded as reviewed. |
 
+## Round 2
+
+The maintainer rejected round 1 at the approval gate: it looked too close to v2.1.0 and did not
+follow the approved mockup, because it only retuned alphas and glow. Round 2 keeps everything in the
+table above and adds the mockup's patterns on the nine board components (panel, button, stat,
+table, form, modal, tag, metrics; the LED is unchanged). The patterns are neutral-first colour,
+neutral hairlines, square corners, and one solid action in bone with outline secondaries. Only
+ryoku.dev patterns are taken: no palette, no fonts (constitution, principle IV).
+
+| Surface | Round 1 | Round 2 | Why |
+|---|---|---|---|
+| Label colour: `.panel-header`, `.modal-header`, `.modal-title`, `.nw-table th`, `.stat .stat-label`, `.metric-cell .m-label`, `.field-label` | `--nw-primary` or `--nw-chrome` | `--nw-text-mute` | Labels are quiet. Blue is kept for focus and accents, so it still means something. |
+| Kanji inside `.panel-header` and `.modal-header` | inherits the blue label | `--nw-text-default` | The glyph is the one bright mark in a quiet header. |
+| Header rules: `.panel-header`, `.modal-header`, `.nw-table th` border-bottom | `--nw-line-chrome` | `--nw-line` | A neutral hairline, like the mockup's. |
+| `.panel` border | `--nw-text-faint` | `--nw-line` | One step clearer so the panel edge reads against the page. |
+| `.modal` border | `--nw-primary-dim` | `--nw-line-strong` | Neutral, and the same 3:1 boundary as the other controls. |
+| `.modal-footer` border-top | `--nw-text-faint` | `--nw-line` | Matches the header rule. |
+| `.nw-table td` colour | `--nw-green` | `--nw-text-default` | Table text is content, not a data readout. The data colour lives on stat and metric values (`--nw-value-color`), unchanged. |
+| `.nw-table tr:hover td` background | `--nw-green-faint` | `--nw-text-faint` | Neutral row hover. |
+| Corners: `.btn`, `.btn-ghost`, `.btn-danger`, `input`, `select`, `textarea`, `.tag`, `.modal` | `--radius-md`, `--radius-full` (tag), `--radius-lg` (modal) | `--radius-sm` | Square corners, the mockup's silhouette. |
+| `.btn` (primary) | blue solid | bone solid: background and border `--nw-action`, text `--nw-action-text`; hover background and border `--nw-action-hot` | The single solid action, like the mockup's INSTALL chip. |
+| `.btn-chrome` | blue solid, shared with `.btn` | blue solid: `--nw-chrome`, hover `--nw-chrome-hot`, text `--void` | The only blue solid left, for UI-chrome actions. |
+| `.btn-ghost` | blue text, `--nw-primary-dim` border, filled hover | text `--nw-text-default`, border `--nw-line-strong`; hover: transparent, border `--nw-line-chrome`, text `--nw-text-strong` | An outline secondary that lifts instead of filling. |
+| `.btn-success`, `.btn-ai` | coloured text, coloured mute border | coloured text kept, border `--nw-line-strong`; hover keeps the coloured fill and takes the coloured mute border (`--nw-data-mute`, `--nw-ai-mute`) | Colour stays in the text and on hover. |
+| Stat and metrics values | data green, highlight blue | unchanged | Data colour means data. |
+
+### New role tokens
+
+Added next to `--nw-chrome` in `src/tokens/tokens.json`, with Tailwind mappings like the chrome
+tokens (`nw.action.DEFAULT`, `nw.action.hot`, `nw.action.text`).
+
+| Token | Value | Use |
+|---|---|---|
+| `--nw-action` | `var(--nw-text-default)` (#e6e6e6) | The primary action fill. |
+| `--nw-action-hot` | `var(--nw-chrome-hot)` (#99bbff) | Its hover. |
+| `--nw-action-text` | `var(--void)` (#000000) | Text on the action fill. |
+
+### Contrast (FR-014)
+
+WCAG contrast ratios, computed from the sRGB values (relative luminance, ratio of
+(L1 + 0.05) / (L2 + 0.05)). AA needs 4.5:1 for text.
+
+| Pair | Ratio | Result |
+|---|---|---|
+| `--nw-action-text` (#000000) on `--nw-action` (#e6e6e6) | 16.83:1 | pass |
+| `--nw-action-text` (#000000) on `--nw-action-hot` (#99bbff) | 10.91:1 | pass |
+| `--nw-text-mute` (#aaaaaa) 9px and 10px labels on `--void` (#000000) | 9.04:1 | pass |
+| `--nw-text-mute` on `--void-warm` (#0a0a0a) | 8.52:1 | pass |
+| `--nw-text-mute` on `--void-panel` (#111111) | 8.13:1 | pass |
+| `--nw-text-default` (#e6e6e6) table text on `--void-warm` (#0a0a0a) | 15.86:1 | pass |
+| Disabled `.btn` (opacity 0.4): text over the dimmed bone fill | 3.14:1 | exempt (inactive control, WCAG 1.4.3) |
+
 ## Reference
 
 The ryoku-inspired mockup the maintainer approved on 2026-11-13 informs patterns only: thin
