@@ -734,8 +734,8 @@ input::placeholder, textarea::placeholder {
 
 .card {
   background: var(--void-warm);
-  border: var(--nw-hairline) solid var(--nw-text-faint);
-  border-radius: var(--radius-lg);
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -744,9 +744,14 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.card-header .kanji) {
+  color: var(--nw-text-default);
 }
 
 .card-body {
@@ -755,7 +760,7 @@ input::placeholder, textarea::placeholder {
 
 .card-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: var(--nw-hairline) solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-line);
 }
 
 /* ── src/components/modal.css ──────────────────────────────────── */

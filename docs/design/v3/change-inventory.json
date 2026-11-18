@@ -1078,6 +1078,56 @@
         "old": "^rgb\\(68, 119, 204\\)$",
         "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
       }
+    },
+    {
+      "id": "q-card-edge",
+      "description": "Group A (T043): the .card edge goes from --nw-text-faint to --nw-line, like .panel (direction rule 3). Pinned to the border colours of .card, 0.06 to 0.14.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "div\\.card:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "q-card-radius",
+      "description": "Group A (T043): square corners, .card goes from --radius-lg (8px) to --radius-sm (2px) (direction rule 4). Pinned to the corner radii of .card.",
+      "match": {
+        "prop": "^border-(top|bottom)-(left|right)-radius$|^border-(start|end)-(start|end)-radius$",
+        "path": "div\\.card:nth-child\\(\\d+\\)$",
+        "old": "^8px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "q-card-header-label",
+      "description": "Group A (T043): the .card-header label goes from blue to --nw-text-mute, like .panel-header (direction rule 1), and so does everything that follows its colour (currentColor borders, outlines, carets). Pinned to .card-header, blue to #aaaaaa.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "div\\.card-header:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$"
+      }
+    },
+    {
+      "id": "q-card-header-rule",
+      "description": "Group A (T043): the .card-header bottom rule goes from --nw-text-faint to --nw-line (direction rule 3). Pinned to the bottom border colour of .card-header.",
+      "match": {
+        "prop": "^border-(bottom|block-end)-color$",
+        "path": "div\\.card-header:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "q-card-footer-rule",
+      "description": "Group A (T043): the .card-footer top rule goes from --nw-text-faint to --nw-line (direction rule 3). Pinned to the top border colour of .card-footer.",
+      "match": {
+        "prop": "^border-(top|block-start)-color$",
+        "path": "div\\.card-footer:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
     }
   ]
 }
