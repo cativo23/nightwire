@@ -118,6 +118,16 @@
       }
     },
     {
+      "id": "motion-transitions-tick",
+      "description": "Component transitions run on --nw-tick instead of literal 0.15s and 0.1s (FR-003, SC-003): buttons (colour, border and the press transform), form inputs, sidebar items, tabs and breadcrumb links. They now scale with data-intensity (0.09s archive, 0.18s combat), take the tick easing instead of the default ease, and the button press transform moves from 0.1s to the tick duration, so press timing joins the motion vocabulary. Property lists and order are unchanged. Under reduced motion nothing differs: the blanket transition: none already won. Pinned to the elements that owned those declarations and to the old and new values.",
+      "match": {
+        "prop": "^transition-(duration|timing-function)$",
+        "path": "(^|>)((button|a)\\.(btn[a-z-]*|tab|sidebar-item)|(input|select|textarea)(\\.[\\w-]+)?|nav\\.breadcrumbs:nth-child\\(\\d+\\)>a):nth-child\\(\\d+\\)$",
+        "old": "^(0\\.1(5)?s(, 0\\.1(5)?s)*|ease(, ease)*)$",
+        "new": "^(0\\.(09|15|18)s(, 0\\.(09|15|18)s)*|cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)(, cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\))*)$"
+      }
+    },
+    {
       "id": "focus-ring",
       "description": "The command palette input had outline: none with no replacement, so keyboard focus was invisible (FR-015, research R12). It now draws a 2px inset --nw-focus-ring outline on :focus-visible (inset because .cmdk clips with overflow: hidden). Only the focused state changes; the unfocused input is untouched.",
       "match": {
