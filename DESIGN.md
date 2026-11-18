@@ -175,7 +175,7 @@ components:
 
   skeleton:
     background: "{colors.void-panel}"
-    animation: "neon blue shimmer, 1.2s ease-in-out infinite"
+    animation: "neon blue shimmer, var(--nw-loop-shimmer) ease-in-out infinite"
 
   sidebar:
     width: "240px"
@@ -241,7 +241,7 @@ components:
     focus-ring: "2px solid {colors.primary}"
     focus-offset: "2px"
     disabled-opacity: "0.4"
-    hover-transition: "150ms ease"
+    hover-transition: "var(--nw-tick)"
 
   metrics-grid:
     display: "grid"
@@ -326,9 +326,11 @@ motion:
   loop-shimmer:        "calc(1200ms / var(--nw-motion-scale))"                                # skeleton shimmer cycle
 # </generated:motion>
 
+# Durations come from the motion tokens above, never from a literal: they follow the intensity level
+# and reduced motion.
 animations:
-  skeleton-shimmer: { duration: "1.2s",  timing: "ease-in-out", iteration: "infinite" }
-  transition-base:  { duration: "150ms", timing: "ease",        iteration: "1" }
+  skeleton-shimmer: { duration: "var(--nw-loop-shimmer)", timing: "ease-in-out",         iteration: "infinite" }
+  transition-base:  { duration: "var(--nw-tick-duration)", timing: "var(--nw-tick-ease)", iteration: "1" }
 ---
 
 # Nightwire Design System
