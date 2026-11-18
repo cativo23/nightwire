@@ -136,6 +136,29 @@ toward the **first** matching category in file order only, so the counts plus `u
 always add up to `differences`. Every new rendering difference gets a category in the same
 commit that causes it.
 
+## Checking overlays in real browsers
+
+`npm run test:browsers` opens the six overlays (drawer, modal, command palette, dropdown, toast,
+tooltip) in real Chrome and real Firefox and runs 65 checks per engine: open and close really
+animate and hide on time, a closed overlay cannot be hit or tabbed to, re-opening mid-close does
+not flash, first paint with `data-open="true"` does not animate, reduced motion switches
+instantly, the LED pulse follows intensity, and the console stays clean. Expected enter and exit
+durations are read from the stylesheet at run time, so retuning the motion tokens does not
+require editing the harness. It is not part of `npm test`: it needs local browsers.
+
+```sh
+npm run test:browsers                                  # Chrome and Firefox
+npm run test:browsers -- --engine firefox --out ./out  # one engine, custom output directory
+NW_CHROME_PATH=/usr/bin/chromium NW_FIREFOX_PATH=/opt/firefox/firefox npm run test:browsers
+```
+
+Chrome runs through `playwright-core` (the `chrome` channel, or `NW_CHROME_PATH`); Firefox runs
+through `puppeteer-core` against `NW_FIREFOX_PATH` or `/usr/bin/firefox`. Neither downloads a
+browser. Pages, `results-<engine>.json` and `results.md` go to `--out`, by default
+`nightwire-browsers/` under the system temp directory; nothing is written inside the repo. Exit
+code 0 means every check passed, 1 means a check failed, 2 means a usage error or a browser that
+would not start.
+
 ## Commits and branches
 
 - Conventional commits: `type(scope): description` (`feat`, `fix`, `docs`, `refactor`, `test`,
