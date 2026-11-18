@@ -1128,6 +1128,26 @@
         "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
         "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
       }
+    },
+    {
+      "id": "q-code-inline-text",
+      "description": "Group A (T043): .code-inline text goes from the data green to --nw-text-default: inline code in prose is content, not a data readout (direction rule 2). The syntax colours in .code-block are data colours and stay. Includes the properties that follow the text colour. Pinned to .code-inline, #7aed7a to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "code\\.code-inline:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "q-code-radius",
+      "description": "Group A (T043): square corners, .code-block and .diff go from --radius-md (4px) to --radius-sm (2px) (direction rule 4). Pinned to the corner radii of those two, 4px to 2px.",
+      "match": {
+        "prop": "^border-(top|bottom)-(left|right)-radius$|^border-(start|end)-(start|end)-radius$",
+        "path": "(pre\\.code-block|div\\.diff):nth-child\\(\\d+\\)$",
+        "old": "^4px$",
+        "new": "^2px$"
+      }
     }
   ]
 }

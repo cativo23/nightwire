@@ -1483,7 +1483,7 @@ input::placeholder, textarea::placeholder {
 .code-inline {
   font-family: var(--font-sys); font-size: 0.9em;
   background: var(--nw-surface-2);
-  color: var(--nw-data);
+  color: var(--nw-text-default);
   padding: 1px 5px;
   border-radius: var(--radius-sm);
 }
@@ -1493,7 +1493,7 @@ input::placeholder, textarea::placeholder {
   background: var(--nw-surface-2);
   color: var(--nw-text-default);
   border: var(--nw-hairline) solid var(--nw-line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   padding: 10px var(--sp-3);
   white-space: pre;
   overflow: auto;
@@ -1508,7 +1508,7 @@ input::placeholder, textarea::placeholder {
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
   border: var(--nw-hairline) solid var(--nw-line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 .diff .ln { display: flex; border-left: var(--nw-accent-width) solid transparent; }
