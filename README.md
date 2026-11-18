@@ -145,7 +145,8 @@ A `v2-alpha` branch is in flight with **100% additive** changes (zero rename, no
   above
 - Overlays take `data-open`: drawer, modal and command palette are closed unless `"true"`;
   dropdown and toast are open unless `"false"`; a tooltip opens on hover and focus unless
-  `"false"`. See [DESIGN.md](DESIGN.md)
+  `"false"`. An overlay added to the page already open does not animate in: mount it with
+  `data-open="false"` and set `"true"` two animation frames later. See [DESIGN.md](DESIGN.md)
 
 Preview the v2 workshop in `examples/html/workshop.html`. See `CHANGELOG.md` for the full additive surface.
 

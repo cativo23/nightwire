@@ -399,7 +399,17 @@ This file contains complete HTML examples for all Nightwire components and patte
 ```
 
 A toast with no `data-open` is visible. Set `data-open="false"` on it to fade it out and hide it
-(then remove it after about 300ms); `"true"` shows it again.
+(then remove it after at least 350ms, the longest exit at any intensity, using a timer rather than
+`transitionend`, which does not fire under reduced motion); `"true"` shows it again.
+
+A toast mounted already open does not animate in, because the first style never transitions. To
+animate one you add at runtime, mount it closed and open it two frames later:
+
+```js
+toast.dataset.open = 'false';
+container.append(toast);
+requestAnimationFrame(() => requestAnimationFrame(() => { toast.dataset.open = 'true'; }));
+```
 
 ---
 

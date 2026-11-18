@@ -758,6 +758,14 @@ Overlays take a `data-open` attribute. The value is a string; React's `data-open
 - A tooltip opens on hover and when focus is inside it, so keyboard users get it too.
   `data-open="true"` pins it open and `data-open="false"` keeps it closed whatever the pointer or
   focus does.
+- **Mount closed, then open.** An element inserted already open has no earlier style to transition
+  from, so it appears without the enter animation (the first style never transitions). For a toast
+  or dropdown you add at runtime, insert it with `data-open="false"`, then set `"true"` on a later
+  frame: two nested `requestAnimationFrame` calls, since one can still run before the browser has
+  computed the closed style. Drawer, modal and command palette are already closed on mount, so they
+  only need the flip to `"true"`. Remove an overlay after its longest exit (350ms covers the sweep at
+  every intensity: combat's `--nw-sweep-out` is 315ms), with a timer rather than `transitionend`,
+  which does not fire under reduced motion.
 - A closed tooltip is `visibility: hidden`, so its text is out of the accessibility tree. Wire it
   the usual way: the trigger gets `aria-describedby` pointing at the `.tooltip-content` `id`, and the
   content gets `role="tooltip"`. `aria-describedby` still reads hidden content.
