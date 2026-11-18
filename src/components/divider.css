@@ -2,7 +2,7 @@
 
 .divider {
   height: 1px;
-  background: var(--nw-text-faint);
+  background: var(--nw-line);
   margin: var(--sp-4) 0;
 }
 

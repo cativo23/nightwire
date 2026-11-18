@@ -1198,6 +1198,16 @@
         "old": "^rgba\\(102, 153, 255, 0\\.12\\)$",
         "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
       }
+    },
+    {
+      "id": "q-divider-line",
+      "description": "Group A (T043): the default .divider goes from --nw-text-faint to --nw-line, the structural divider colour (direction rule 3). .divider-primary is an explicit chrome variant and stays. Pinned to .divider background-color, 0.06 to 0.14.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "(hr|div)\\.divider:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
     }
   ]
 }
