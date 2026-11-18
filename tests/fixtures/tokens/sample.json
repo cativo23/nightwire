@@ -57,13 +57,18 @@
       "$value": 1,
       "$extensions": { "dev.cativo.nightwire": { "css": "--glow" } }
     },
+    "scale": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": { "dev.cativo.nightwire": { "css": "--scale", "motion": true, "reducedMotion": 0 } }
+    },
     "radius": {
       "$value": "{radius.none}",
       "$extensions": { "dev.cativo.nightwire": { "css": "--panel-radius" } }
     },
     "state": {
       "$value": "running",
-      "$extensions": { "dev.cativo.nightwire": { "css": "--state", "raw": true } }
+      "$extensions": { "dev.cativo.nightwire": { "css": "--state", "raw": true, "motion": true, "reducedMotion": "paused" } }
     }
   },
   "motion": {

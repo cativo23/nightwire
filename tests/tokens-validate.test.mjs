@@ -124,6 +124,67 @@ test('intensity overrides must target a token with css', () => {
   rejects(t2, 'combat', 'knob.nope');
 });
 
+test('reducedMotion is accepted on a token with css, with or without motion: true', () => {
+  const t = sample();
+  ext(t.knob.glow).reducedMotion = 0;
+  assert.doesNotThrow(() => validate(t));
+  delete ext(t.knob.scale).motion;
+  assert.doesNotThrow(() => validate(t));
+});
+
+test('reducedMotion needs css on its token', () => {
+  const t = sample();
+  ext(t.motion.timing.duration).reducedMotion = { value: 0, unit: 'ms' };
+  rejects(t, 'motion.timing.duration', 'reducedMotion', /css/);
+});
+
+test('reducedMotion is shaped by the token type, like intensity overrides', () => {
+  const t1 = sample();
+  ext(t1.knob.scale).reducedMotion = { value: 0, unit: 'ms' };
+  rejects(t1, 'knob.scale', /number/);
+
+  const t2 = sample();
+  ext(t2.radius.sm).reducedMotion = 2;
+  rejects(t2, 'radius.sm', /dimension/);
+
+  const t3 = sample();
+  ext(t3.knob.state).reducedMotion = 0;
+  rejects(t3, 'knob.state', /raw/, /string/);
+});
+
+test('reducedMotion strings may be aliases to tokens with css or raw text, and unknown aliases are rejected', () => {
+  const t1 = sample();
+  ext(t1.knob.radius).reducedMotion = '{radius.sm}';
+  assert.doesNotThrow(() => validate(t1));
+
+  const t2 = sample();
+  ext(t2.knob.scale).reducedMotion = '{knob.nope}';
+  rejects(t2, 'knob.scale', '{knob.nope}');
+
+  const t3 = sample();
+  ext(t3.knob.scale).reducedMotion = '{motion.timing.duration}';
+  rejects(t3, 'knob.scale', 'motion.timing.duration', /no css/);
+});
+
+test('motion must be a boolean', () => {
+  const t = sample();
+  ext(t.knob.scale).motion = 'yes';
+  rejects(t, 'knob.scale', /motion must be a boolean/);
+});
+
+test('motion: true requires reducedMotion', () => {
+  const t = sample();
+  delete ext(t.knob.scale).reducedMotion;
+  rejects(t, 'motion token knob.scale has no reducedMotion value');
+});
+
+test('motion: false does not require reducedMotion', () => {
+  const t = sample();
+  delete ext(t.knob.scale).reducedMotion;
+  ext(t.knob.scale).motion = false;
+  assert.doesNotThrow(() => validate(t));
+});
+
 test('token and group names cannot start with $ or contain { } .', () => {
   const t1 = sample();
   t1.color['a.b'] = t1.color.blue;
