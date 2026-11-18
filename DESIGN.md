@@ -299,11 +299,32 @@ breakpoints:
 
 # <generated:motion> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 motion:
-  duration-fast:     "150ms"
-  duration-base:     "250ms"
-  duration-slow:     "400ms"
-  easing-standard:   "cubic-bezier(0.4, 0.0, 0.2, 1)"
-  easing-decelerate: "cubic-bezier(0.0, 0.0, 0.2, 1)"
+  # Bare name = enter, -out = exit. Scaled by --nw-motion-scale; loop cycles scale inversely.
+  tick:                "calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1)"    # enter: clicks, toggles, micro-feedback
+  sweep:               "calc(350ms * var(--nw-motion-scale)) cubic-bezier(0.2, 0.8, 0.2, 1)"  # enter: panels, modals, drawers
+  uplink:              "calc(400ms * var(--nw-motion-scale)) cubic-bezier(0, 0.6, 0.4, 1)"    # enter: data load reveal
+
+  tick-out:            "calc(112.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"    # exit: shorter, accelerating (provisional)
+  sweep-out:           "calc(262.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"    # exit: shorter, accelerating (provisional)
+  uplink-out:          "calc(300ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (provisional)
+
+  tick-duration:       "calc(150ms * var(--nw-motion-scale))"
+  sweep-duration:      "calc(350ms * var(--nw-motion-scale))"
+  uplink-duration:     "calc(400ms * var(--nw-motion-scale))"
+  tick-ease:           "cubic-bezier(0.3, 0, 0.7, 1)"
+  sweep-ease:          "cubic-bezier(0.2, 0.8, 0.2, 1)"
+  uplink-ease:         "cubic-bezier(0, 0.6, 0.4, 1)"
+
+  tick-out-duration:   "calc(112.5ms * var(--nw-motion-scale))"
+  sweep-out-duration:  "calc(262.5ms * var(--nw-motion-scale))"
+  uplink-out-duration: "calc(300ms * var(--nw-motion-scale))"
+  tick-out-ease:       "cubic-bezier(0.4, 0, 1, 1)"
+  sweep-out-ease:      "cubic-bezier(0.4, 0, 1, 1)"
+  uplink-out-ease:     "cubic-bezier(0.4, 0, 1, 1)"
+
+  stagger:             "calc(50ms * var(--nw-motion-scale))"                                  # delay between staggered items
+  loop-spin:           "calc(800ms / var(--nw-motion-scale))"                                 # spinner cycle
+  loop-shimmer:        "calc(1200ms / var(--nw-motion-scale))"                                # skeleton shimmer cycle
 # </generated:motion>
 
 animations:
