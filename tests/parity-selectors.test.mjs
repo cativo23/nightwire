@@ -40,16 +40,47 @@ test('analyzeSelectors normalizes attribute-selector states to double quotes', (
 
 test('analyzeSelectors lists stateful targets with the compound that carries the state', () => {
   const { stateful } = analyzeSelectors(extractSelectors(css));
-  const has = (target, pseudo) => stateful.some((s) => s.target === target && s.pseudo === pseudo);
+  const has = (target, pseudo) => stateful.some((s) => s.target === target && s.pseudos.includes(pseudo));
   assert.ok(has('.btn', 'hover'), '.btn:hover::before → force hover on .btn');
   assert.ok(has('.tabs .tab', 'focus-visible'));
   assert.ok(has('.card', 'hover'), 'state on an ancestor compound targets that ancestor');
   assert.ok(has('.btn', 'active'));
   assert.ok(has('.btn', 'focus'));
-  assert.ok(!stateful.some((s) => s.pseudo === 'placeholder'), 'pseudo-elements are not states');
+  assert.ok(!stateful.some((s) => s.pseudos.includes('placeholder')), 'pseudo-elements are not states');
 });
 
 test('analyzeSelectors deduplicates stateful targets', () => {
   const { stateful } = analyzeSelectors(['.a:hover', '.a:hover::after', '.a:hover']);
-  assert.equal(stateful.filter((s) => s.target === '.a' && s.pseudo === 'hover').length, 1);
+  assert.equal(stateful.filter((s) => s.target === '.a' && s.pseudos.join() === 'hover').length, 1);
+});
+
+test('extractSelectors honours backslash escapes and semicolons inside strings', () => {
+  const sels = extractSelectors('.a::before { content: "\\""; } .b { } a[href=";"]:hover { } .d:hover { }');
+  assert.deepEqual(sels, ['.a::before', '.b', 'a[href=";"]:hover', '.d:hover']);
+});
+
+test('extractSelectors walks @scope and @starting-style blocks', () => {
+  assert.deepEqual(extractSelectors('@scope (.card) { .x { } } @starting-style { .y { } }'), ['.x', '.y']);
+});
+
+test('extractSelectors fails loudly on native CSS nesting instead of skipping rules', () => {
+  assert.throws(() => extractSelectors('.n { color: red; &:hover { color: blue; } }'), /nest/);
+});
+
+test(':focus-within is a forced state', () => {
+  const { stateful } = analyzeSelectors(['.combo:focus-within']);
+  assert.deepEqual(stateful, [{ target: '.combo', pseudos: ['focus-within'] }]);
+});
+
+test('states in one compound are forced together, including inside :is() and :where()', () => {
+  const { stateful } = analyzeSelectors(['.a:hover:active', '.b:is(:hover, :focus)', '.c:where(:focus-visible)']);
+  assert.deepEqual(stateful, [
+    { target: '.a', pseudos: ['active', 'hover'] },
+    { target: '.b', pseudos: ['focus', 'hover'] },
+    { target: '.c', pseudos: ['focus-visible'] },
+  ]);
+});
+
+test('states on two different compounds fail loudly (not supported by the forcing model)', () => {
+  assert.throws(() => analyzeSelectors(['.a:hover .b:focus']), /more than one compound/);
 });

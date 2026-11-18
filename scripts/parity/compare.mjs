@@ -18,7 +18,7 @@
 // 2 = usage error or browser launch failure. See CONTRIBUTING.md.
 
 import { createServer } from 'node:http';
-import { readFileSync, existsSync, statSync, globSync } from 'node:fs';
+import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { resolve, extname, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -37,6 +37,8 @@ const FOCUSABLE = 'a[href], button, input, select, textarea, summary, [tabindex]
 const PROVIDED_ATTR_STATES = /^\[data-intensity(="(archive|operator|combat)")?\]$/;
 const SEPARATOR = '\u0001';
 
+class UsageError extends Error {}
+
 function usage(message) {
   if (message) console.error(`parity: ${message}`);
   console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N]');
@@ -46,6 +48,7 @@ function usage(message) {
 function loadSheet(spec) {
   if (spec.startsWith('git:')) {
     const ref = spec.slice(4);
+    if (!ref || ref.startsWith('-')) usage(`invalid git ref: ${spec}`);
     try {
       return execFileSync('git', ['show', `${ref}:nightwire.css`], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 << 20 });
     } catch {
@@ -57,8 +60,45 @@ function loadSheet(spec) {
   return readFileSync(path, 'utf8');
 }
 
+/** Repo-relative POSIX paths of every file under `dir` (no dotfiles, no node_modules). */
+function listFiles(dir) {
+  const out = [];
+  const walkDir = (rel) => {
+    for (const e of readdirSync(resolve(ROOT, rel), { withFileTypes: true })) {
+      if (e.name.startsWith('.') || e.name === 'node_modules') continue;
+      const child = rel ? `${rel}/${e.name}` : e.name;
+      if (e.isDirectory()) walkDir(child); else out.push(child);
+    }
+  };
+  if (existsSync(resolve(ROOT, dir))) walkDir(dir);
+  return out;
+}
+
+/** Minimal glob for --pages: `**` matches any number of directories, `*` and `?` stay within one. */
+function globToRegExp(pattern) {
+  let re = '';
+  for (let k = 0; k < pattern.length; k++) {
+    const ch = pattern[k];
+    if (ch === '*' && pattern[k + 1] === '*') {
+      k++;
+      if (pattern[k + 1] === '/') { k++; re += '(?:.*/)?'; } else re += '.*';
+    } else if (ch === '*') re += '[^/]*';
+    else if (ch === '?') re += '[^/]';
+    else re += ch.replace(/[.+^${}()|[\]\\]/g, '\\$&');
+  }
+  return new RegExp(`^${re}$`);
+}
+
+function glob(pattern) {
+  if (!/[*?]/.test(pattern)) return existsSync(resolve(ROOT, pattern)) ? [pattern] : [];
+  const fixed = [];
+  for (const seg of pattern.split('/')) { if (/[*?]/.test(seg)) break; fixed.push(seg); }
+  const re = globToRegExp(pattern);
+  return listFiles(fixed.join('/')).filter((p) => re.test(p));
+}
+
 function defaultPages() {
-  const pages = globSync('examples/html/**/*.html', { cwd: ROOT })
+  const pages = glob('examples/html/**/*.html')
     .filter((p) => /nightwire\.css/.test(readFileSync(resolve(ROOT, p), 'utf8')));
   if (existsSync(resolve(ROOT, COVERAGE_FIXTURE))) pages.push(COVERAGE_FIXTURE);
   return pages.map((p) => p.split(sep).join('/')).sort();
@@ -68,7 +108,7 @@ function resolvePages(arg) {
   if (!arg) return defaultPages();
   const pages = new Set();
   for (const pattern of arg.split(',').map((s) => s.trim()).filter(Boolean)) {
-    for (const p of globSync(pattern, { cwd: ROOT })) pages.add(p.split(sep).join('/'));
+    for (const p of glob(pattern)) pages.add(p);
   }
   if (!pages.size) usage(`--pages matched nothing: ${arg}`);
   return [...pages].sort();
@@ -80,7 +120,9 @@ const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascrip
 
 function startServer() {
   const server = createServer((req, res) => {
-    const pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    let pathname;
+    try { pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch { res.writeHead(400).end(); return; }
+    if (pathname.split('/').some((seg) => seg.startsWith('.'))) { res.writeHead(404).end(); return; }
     const file = resolve(ROOT, `.${pathname}`);
     if (file !== ROOT && !file.startsWith(ROOT + sep)) { res.writeHead(403).end(); return; }
     if (!existsSync(file) || !statSync(file).isFile()) { res.writeHead(404).end(); return; }
@@ -132,11 +174,23 @@ window.__nwParity = {
       const cs = getComputedStyle(document.documentElement);
       const custom = Array.from(cs).filter((n) => n.startsWith('--')).sort();
       for (const n of custom) rows.push([':root' + sepr + n, cs.getPropertyValue(n).trim()]);
+      // @keyframes are not visible through computed styles at t=0: compare the effective
+      // (last-declared) rule for every name instead.
+      const frames = new Map();
+      const visit = (rules) => { for (const r of rules) {
+        if (r.type === CSSRule.KEYFRAMES_RULE) frames.set(r.name, r.cssText.replace(/\s+/g, ' '));
+        else if (r.cssRules) visit(r.cssRules);
+      } };
+      for (const sheet of document.styleSheets) { try { visit(sheet.cssRules); } catch {} }
+      for (const [name, text] of [...frames].sort()) rows.push(['@keyframes' + sepr + name, text]);
     }
     return rows;
   },
   signature(el) {
-    return [el.localName, el.getAttribute('class') || '', el.getAttribute('type') || '',
+    const attrs = Array.from(el.attributes)
+      .filter((a) => !['id', 'style', 'href', 'src', 'alt', 'title', 'placeholder', 'value', 'for', 'name', 'aria-label'].includes(a.name))
+      .map((a) => a.name + '=' + a.value).sort().join(' ');
+    return [el.localName, attrs, el.disabled ? 'disabled' : '', el.checked ? 'checked' : '',
       el.parentElement ? el.parentElement.localName + '.' + (el.parentElement.classList[0] || '') : ''].join('|');
   },
 };
@@ -152,10 +206,11 @@ const SEED_RANDOM = `(() => { let s = 0x6e77; Math.random = () => { s |= 0; s = 
 async function openPage(browser, { css, origin, url, intensity, reducedMotion }) {
   const context = await browser.newContext({ viewport: VIEWPORT, reducedMotion });
   const page = await context.newPage();
+  let substituted = 0;
   await page.route('**/*', (route) => {
     const u = new URL(route.request().url());
     if (u.origin !== origin) return route.abort();
-    if (u.pathname.endsWith('/nightwire.css')) return route.fulfill({ status: 200, contentType: 'text/css', body: css });
+    if (u.pathname.endsWith('/nightwire.css')) { substituted++; return route.fulfill({ status: 200, contentType: 'text/css', body: css }); }
     return route.continue();
   });
   await page.addInitScript(SEED_RANDOM);
@@ -163,7 +218,9 @@ async function openPage(browser, { css, origin, url, intensity, reducedMotion })
   await page.clock.install({ time: FIXED_TIME });
   // install() lets time flow in real time; pause it so page timers only fire on runFor().
   await page.clock.pauseAt(new Date(FIXED_TIME.getTime() + 1000));
-  await page.goto(url, { waitUntil: 'load' });
+  const response = await page.goto(url, { waitUntil: 'load' });
+  if (!response?.ok()) throw new UsageError(`${url} returned HTTP ${response?.status() ?? 'no response'}`);
+  if (!substituted) throw new UsageError(`${url} never requested nightwire.css, so there is nothing to compare`);
   await page.evaluate(() => document.fonts.ready.then(() => true));
   await page.clock.runFor(SCRIPT_RUN_MS);
   await page.evaluate((value) => {
@@ -190,7 +247,7 @@ async function captureState(browser, opts, props, stateful) {
     await cdp.send('CSS.enable');
     const { root } = await cdp.send('DOM.getDocument', { depth: -1 });
 
-    for (const { target, pseudo } of stateful) {
+    for (const { target, pseudos } of stateful) {
       const selector = target === '*' ? FOCUSABLE : target;
       let reps;
       try {
@@ -207,13 +264,13 @@ async function captureState(browser, opts, props, stateful) {
       const { nodeIds } = await cdp.send('DOM.querySelectorAll', { nodeId: root.nodeId, selector });
       for (const index of reps) {
         const nodeId = nodeIds[index];
-        await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [pseudo] });
+        await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: pseudos });
         const { where, rows } = await page.evaluate(([sel, i, p, s]) => {
           const el = document.querySelectorAll(sel)[i];
           window.__nwParity.settle();
           return { where: window.__nwParity.path(el), rows: window.__nwParity.capture(el, p, s) };
         }, [selector, index, props, SEPARATOR]);
-        captures.push({ state: `${opts.label}|:${pseudo}@${where}`, rows });
+        captures.push({ state: `${opts.label}|:${pseudos.join(':')}@${where}`, rows });
         await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [] });
         await page.evaluate(() => window.__nwParity.settle());
       }
@@ -243,10 +300,10 @@ function compareCaptures(pageName, oldCaps, newCaps, props) {
       const va = ra.get(path);
       const vb = rb.get(path);
       if (va === vb) continue;
-      if (path.startsWith(':root' + SEPARATOR)) {
-        const prop = path.slice(6);
-        if (va !== undefined) oldSnap.set(snapshotKey({ page: pageName, state, path: ':root', prop }), va);
-        if (vb !== undefined) newSnap.set(snapshotKey({ page: pageName, state, path: ':root', prop }), vb);
+      if (path.includes(SEPARATOR)) { // ':root' custom properties and '@keyframes' rules
+        const [where, prop] = path.split(SEPARATOR);
+        if (va !== undefined) oldSnap.set(snapshotKey({ page: pageName, state, path: where, prop }), va);
+        if (vb !== undefined) newSnap.set(snapshotKey({ page: pageName, state, path: where, prop }), vb);
         continue;
       }
       if (va === undefined || vb === undefined) {
@@ -346,6 +403,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error(`parity: ${err.stack || err.message}`);
+  console.error(`parity: ${err instanceof UsageError ? err.message : err.stack || err.message}`);
   process.exit(2);
 });
