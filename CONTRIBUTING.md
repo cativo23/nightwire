@@ -68,7 +68,13 @@ npm run parity                                      # main's nightwire.css vs yo
 npm run parity -- --old git:v2.0.1 --new nightwire.css
 npm run parity -- --pages "examples/html/workshop.html" --max-lines 50
 NW_CHROME_PATH=/usr/bin/chromium npm run parity     # no branded Chrome installed
+npm run parity -- --jobs 1                          # strictly sequential
 ```
+
+Captures run concurrently, one job per page and state. `--jobs N` (or `NW_PARITY_JOBS=N`) sets how
+many run at once; the default is `min(6, cores - 2)`, at least 1, and `--jobs 1` is the sequential
+run. The output does not depend on `N`. While iterating, pass `--pages <glob>` for the pages you
+touch, and run the full set once before committing.
 
 It prints `DIFF` lines, a `COVERAGE` line and `RESULT  differences=N`. Exit code 0 means no
 differences and full coverage; 1 means differences or missing coverage; 2 means a usage error, a
