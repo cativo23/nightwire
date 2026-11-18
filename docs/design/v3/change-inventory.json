@@ -171,13 +171,13 @@
     },
     {
       "id": "focus-ring-segmented",
-      "description": "A focused segmented-control button draws its focus ring inside the segment (FR-015, research R12): .seg clips with overflow: hidden, so the global outline at offset 2px was cut off. The outline offset is now -2px, and the selected segment (aria-pressed) also gets a 4px inset void band, because the ring colour equals its fill and would vanish. Only the forced :focus-visible state is matched; pinned to those values.",
+      "description": "A focused segmented-control button draws its focus ring inside the segment (FR-015, research R12): .seg clips with overflow: hidden, so the global outline at offset 2px was cut off. T044 sets the ring in from the segment edge: the outline offset is -4px and a 2px inset band of --nw-text-on-fill (void) sits outside it, so the ring stays distinguishable from the selected segment next to it (its --nw-chrome fill merged with a ring on the edge). The selected segment (aria-pressed) gets a 6px inset band instead, which also keeps the ring off its own fill. Only the forced :focus-visible state is matched; pinned to those values.",
       "match": {
         "prop": "^(outline-offset|box-shadow)$",
         "path": "div\\.seg:nth-child\\(\\d+\\)>button:nth-child\\(\\d+\\)$",
         "state": "\\|:focus-visible@",
         "old": "^(2px|none)$",
-        "new": "^(-2px|rgb\\(0, 0, 0\\) 0px 0px 0px 4px inset)$"
+        "new": "^(-4px|rgb\\(0, 0, 0\\) 0px 0px 0px (2|6)px inset)$"
       }
     },
     {
