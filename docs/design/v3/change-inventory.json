@@ -816,6 +816,17 @@
         "path": "div\\.show-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
         "page": "examples/html/workshop.html"
       }
+    },
+    {
+      "id": "v1-removal-tag-warning",
+      "description": "The v1 .tag-warning is removed (FR-016, research R10, T042); the v3 spelling is .tag-warn. A tag that still carries only .tag-warning falls back to the base .tag colours (primary on primary-fill), so every colour derived from color follows. Pinned to the fixture's .fixture-v1 wrapper, to the old warning yellow and to the new primary blue.",
+      "match": {
+        "prop": "^(color|background-color|-webkit-text-(fill|stroke)-color|border-[a-z-]+-color|caret-color|(column|row)-rule-color|outline-color|text-decoration-color|text-emphasis-color)$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>span\\.tag:nth-child\\(\\d+\\)$",
+        "old": "^rgba?\\(232, 153, 58",
+        "new": "^rgba?\\(102, 153, 255",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
     }
   ]
 }

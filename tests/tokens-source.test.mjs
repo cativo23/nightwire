@@ -360,6 +360,7 @@ test('the v1 surfaces removed in v3 are gone from the sources', () => {
   const removed = [
     /\.led\.(?:green|blue|red|yellow)\b/,
     /\.nw-progress \.fill\b/,
+    /\.tag-warning\b/,
   ];
   const hits = ['src/components/', 'src/utilities/'].flatMap(allSelectors)
     .filter((r) => r.selector.split(',').some((s) => removed.some((re) => re.test(s.trim()))))
