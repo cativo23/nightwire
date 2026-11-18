@@ -42,20 +42,63 @@
     },
     {
       "id": "motion-overlays",
-      "description": "Overlays now have a real closed state (FR-004, FR-005, FR-007). Closed drawer, modal and command palette (no data-open or data-open=\"false\"), dropdown menu and toast with data-open=\"false\", and tooltips without hover or data-open=\"true\" get pointer-events: none and, where the element moves or fades, the closed opacity, transform and visibility. Dropdown menus and toasts without data-open are unchanged; a tooltip now opens through visibility as well as opacity, and one marked data-open=\"true\" is open.",
+      "description": "Closed overlay instances now have a real closed state (FR-004, FR-005, FR-007). Pinned to the parity fixture's closed instances (inside .fixture-closed): drawer, modal and command palette without data-open or with data-open=\"false\", dropdown menu and toast with data-open=\"false\", and a tooltip that is not hovered or focused or is data-open=\"false\". They get pointer-events: none (not the tooltip content, which already had it in v2) and, where the element moves or fades, the closed opacity 0, transform and visibility: hidden. Open, \"true\" and absent-attribute dropdown and toast instances sit outside the container, so any change to their visibility, opacity, pointer-events or transform is reported as unexpected.",
       "match": {
         "prop": "^(visibility|opacity|transform|pointer-events)$",
-        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$"
+        "path": "div\\.fixture-closed:nth-child\\(\\d+\\)>(.*>)?[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "new": "^(0|hidden|none|matrix\\(1, 0, 0, 1, 0, -?\\d+\\))$"
       }
     },
     {
       "id": "motion-overlays-inherited",
-      "description": "Consequence of motion-overlays (FR-004, FR-005, FR-007): visibility and pointer-events inherit, so everything inside a closed overlay now computes hidden and none instead of visible and auto. This is what takes the contents out of the accessibility tree and out of the tab order.",
+      "description": "Consequence of motion-overlays (FR-004, FR-005, FR-007): visibility and pointer-events inherit, so everything inside a closed overlay now computes hidden and none instead of visible and auto. This is what takes the contents out of the accessibility tree and out of the tab order. Pinned to the closed instances in .fixture-closed; contents of open overlays must not change.",
       "match": {
         "prop": "^(visibility|pointer-events)$",
-        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|cmdk-backdrop|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)>",
+        "path": "div\\.fixture-closed:nth-child\\(\\d+\\)>(.*>)?[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|cmdk-backdrop|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)>",
         "old": "^(visible|auto)$",
         "new": "^(hidden|none)$"
+      }
+    },
+    {
+      "id": "motion-overlays-workshop-closed",
+      "description": "Closed overlays on the workshop example page get their v3 closed state (FR-004, FR-007): the drawer and its backdrop (data-open=\"false\") and the command palette backdrop (data-open=\"false\"), plus everything inside them, compute pointer-events: none (inherited) and the palette panel sits at translateY(-8px). Pinned to this page and to those three elements by DOM position, since parity paths carry no attributes; the page has no open overlay.",
+      "match": {
+        "prop": "^(visibility|opacity|transform|pointer-events)$",
+        "path": "^html>body:nth-child\\(2\\)>div\\.(cmdk-backdrop:nth-child\\(7\\)|drawer-backdrop:nth-child\\(4\\)|drawer:nth-child\\(5\\))(>|$)",
+        "new": "^(0|hidden|none|matrix\\(1, 0, 0, 1, 0, -?\\d+\\))$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "motion-overlays-synapse-closed",
+      "description": "The closed command palette on the synapse-ops example page (no data-open) and everything inside it compute pointer-events: none (FR-004, FR-007). Pinned to this page and to that element by DOM position, since parity paths carry no attributes; the page's own stylesheet hides it with display: none, so nothing else about it changes.",
+      "match": {
+        "prop": "^(visibility|opacity|transform|pointer-events)$",
+        "path": "^html>body\\.nw-frame:nth-child\\(2\\)>div\\.cmdk-backdrop:nth-child\\(5\\)(>|$)",
+        "new": "^(0|hidden|none|matrix\\(1, 0, 0, 1, 0, -?\\d+\\))$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "motion-tooltip-opens",
+      "description": "A tooltip with data-open=\"true\" is now open at rest (FR-005, FR-007): in v2 data-open did nothing on a tooltip, so its content stayed at opacity 0 until hover. Pinned to the fixture's open tooltip, which sits directly in a section, outside .fixture-closed.",
+      "match": {
+        "prop": "^opacity$",
+        "path": "section:nth-child\\(\\d+\\)>span\\.tooltip:nth-child\\(\\d+\\)>span\\.tooltip-content:nth-child\\(\\d+\\)$",
+        "old": "^0$",
+        "new": "^1$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "motion-tooltip-focus-within",
+      "description": "A tooltip now opens when focus is inside it (FR-007): v2 only opened on :hover, so with :focus-within forced its content stays at opacity 0 there and is 1 now. Only the forced :focus-within state is matched.",
+      "match": {
+        "prop": "^opacity$",
+        "path": "span\\.tooltip:nth-child\\(\\d+\\)>span\\.tooltip-content:nth-child\\(\\d+\\)$",
+        "state": "\\|:focus-within@",
+        "old": "^0$",
+        "new": "^1$"
       }
     },
     {

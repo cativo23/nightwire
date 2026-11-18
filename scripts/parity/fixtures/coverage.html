@@ -3,6 +3,12 @@
   Parity coverage fixture. Not a demo: it exists so `npm run parity` matches every class and
   attribute state in nightwire.css that the example pages do not use. If the parity tool reports
   an uncovered selector, add the smallest markup that matches it here.
+
+  Overlay instances that are closed in v3 (data-open="false", no attribute on drawer, modal and
+  command palette, a tooltip that is not hovered) sit inside <div class="fixture-closed">. The
+  parity DOM path has no attributes, so this wrapper is how change-inventory.json tells a closed
+  instance from an open one. Keep open, "true" and absent-attribute dropdown and toast instances
+  outside it: they must not change.
 -->
 <html lang="en">
 <head>
@@ -54,7 +60,7 @@
     <div class="toast toast-warning">warning</div>
     <div class="toast toast-info">info</div>
     <div class="toast toast-danger">danger</div>
-    <div class="toast" data-open="false">closed</div>
+    <div class="fixture-closed"><div class="toast" data-open="false">closed</div></div>
   </section>
 
   <section>
@@ -100,12 +106,14 @@
         <a class="dropdown-item danger" href="#b">Delete</a>
       </div>
     </div>
-    <div class="dropdown" data-open="false">
-      <button>Closed menu</button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#a">Item</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item danger" href="#b">Delete</a>
+    <div class="fixture-closed">
+      <div class="dropdown" data-open="false">
+        <button>Closed menu</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#a">Item</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item danger" href="#b">Delete</a>
+        </div>
       </div>
     </div>
   </section>
@@ -119,9 +127,9 @@
   </section>
 
   <section>
-    <span class="tooltip">Hover me<span class="tooltip-content">Tooltip</span></span>
+    <div class="fixture-closed"><span class="tooltip">Hover me<span class="tooltip-content">Tooltip</span></span></div>
     <span class="tooltip" data-open="true">Open<span class="tooltip-content">Tooltip</span></span>
-    <span class="tooltip" data-open="false">Closed<span class="tooltip-content">Tooltip</span></span>
+    <div class="fixture-closed"><span class="tooltip" data-open="false">Closed<span class="tooltip-content">Tooltip</span></span></div>
   </section>
 
   <section>
@@ -137,11 +145,13 @@
 </main>
 
 <!-- Overlays: one closed and one open copy of each, so both states are measured. -->
-<div class="modal-backdrop">
-  <div class="modal">
-    <div class="modal-header">Closed modal</div>
-    <div class="modal-body">Body</div>
-    <div class="modal-footer">Footer</div>
+<div class="fixture-closed">
+  <div class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">Closed modal</div>
+      <div class="modal-body">Body</div>
+      <div class="modal-footer">Footer</div>
+    </div>
   </div>
 </div>
 <div class="modal-backdrop" data-open="true">
@@ -156,16 +166,20 @@
   <div class="drawer-header">Open drawer</div>
   <div class="drawer-body">Body</div>
 </div>
-<div class="drawer-backdrop" data-open="false"></div>
-<div class="drawer" data-open="false">
-  <div class="drawer-header">Closed drawer</div>
-  <div class="drawer-body">Body</div>
+<div class="fixture-closed">
+  <div class="drawer-backdrop" data-open="false"></div>
+  <div class="drawer" data-open="false">
+    <div class="drawer-header">Closed drawer</div>
+    <div class="drawer-body">Body</div>
+  </div>
 </div>
 <div class="cmdk-backdrop" data-open="true">
   <div class="cmdk"><input placeholder="Open palette"></div>
 </div>
-<div class="cmdk-backdrop">
-  <div class="cmdk"><input placeholder="Closed palette"></div>
+<div class="fixture-closed">
+  <div class="cmdk-backdrop">
+    <div class="cmdk"><input placeholder="Closed palette"></div>
+  </div>
 </div>
 </body>
 </html>
