@@ -238,7 +238,7 @@ components:
     helperSize: "11px"
 
   states:
-    focus-ring: "2px solid {colors.primary}"
+    focus-ring: "2px solid var(--nw-focus-ring)"
     focus-offset: "2px"
     disabled-opacity: "0.4"
     hover-transition: "var(--nw-tick)"
@@ -700,10 +700,11 @@ generated `motion` region in the frontmatter lists the current values.
   (`running` | `paused`) are state-driven: the LED pulse reads the first, the spinner and the
   shimmer read the second.
 - **The off switches.** `--nw-motion-scale` multiplies transition durations, and loops divide by it,
-  so `0` zeroes the transitions, but for a loop it divides by zero: the cycle token becomes invalid
-  and the animation falls back to a `0s` duration (checked in Chrome) rather than being paused.
-  Treat the scale as a speed dial, not a switch. The real off switches for loops are
-  `--nw-loop-state` and `--nw-pulse-state` set to `paused`.
+  so `0` zeroes the transitions, but for a loop it divides by zero. The cycle tokens stay
+  `calc(800ms / 0)` and the browser clamps the duration to its largest finite time (Chrome and
+  Firefox, checked): the loop keeps running, so it looks frozen on its first frame, neither paused
+  nor at its end state. Treat the scale as a speed dial, not a switch. The real off switches for
+  loops are `--nw-loop-state` and `--nw-pulse-state` set to `paused`.
   Reduced motion sets all three: scale `0`, loop state and pulse state `paused`.
 - Keyframes: `nw-pulse` (used by `.led[data-pulse]`), `nw-spin`, `nw-uplink`, `skeleton-shimmer`.
 
