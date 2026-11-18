@@ -91,6 +91,24 @@ emits `calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1)`. The 1
 live once, in `motion.timing.tick`, and feed both `--nw-tick` and the preset's
 `transitionDuration`/`transitionTimingFunction`.
 
+Every raw token today, and why it cannot be typed:
+
+| Token | Value | Emitted as | Why raw |
+|-------|-------|------------|---------|
+| `font.tracking.tight` / `normal` / `wide` / `ultra` | `-0.01em`, `0`, `0.06em`, `0.2em` | `--ls-*`, preset `letterSpacing.nw-*` (not `normal`) | `em` is not a DTCG dimension unit |
+| `knob.pulse-state` | `running` | `--nw-pulse-state` | CSS keyword |
+| `knob.kanji-display` | `inline` | `--nw-kanji-display` | CSS keyword |
+| `knob.header-gradient` | `linear-gradient(180deg, rgba(102, 153, 255, 0.06), transparent 80%)` | `--nw-header-gradient` | CSS gradient |
+| `knob.header-pattern` | `none` | `--nw-header-pattern` | CSS keyword (combat sets a gradient) |
+| `motion.tick` / `sweep` / `uplink` | `calc({motion.timing.<name>.duration} * var(--nw-motion-scale)) {motion.timing.<name>.easing}` | `--nw-tick`, `--nw-sweep`, `--nw-uplink` | `calc()` with a runtime `var()` |
+| `shadow.glow-green` / `blue` / `cyan` / `red` | `0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)` (red: `0.3`) | preset `boxShadow.glow-*` | Kept byte-for-byte as the preset had it |
+| `doc.typography.title.transform` | `scaleX(0.82)` | `DESIGN.md` only | CSS transform |
+| `doc.typography.title.textTransform`, `doc.typography.stamp.textTransform` | `uppercase` | `DESIGN.md` only | CSS keyword |
+| `doc.motion.easing-standard` / `easing-decelerate` | `cubic-bezier(0.4, 0.0, 0.2, 1)`, `cubic-bezier(0.0, 0.0, 0.2, 1)` | `DESIGN.md` only | Kept as written (`0.0`); a typed cubicBezier would print `0` |
+
+Intensity overrides that are strings (`paused`, `none`, the combat gradients, `0.14em`) are raw in
+the same way.
+
 ## Preset-only and doc-only tokens
 
 Some values exist only in one output, and they stay that way so this refactor changes no public
