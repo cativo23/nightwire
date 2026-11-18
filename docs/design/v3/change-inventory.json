@@ -1058,6 +1058,26 @@
         "old": "^rgba\\(102, 153, 255, 0\\.08\\)$",
         "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
       }
+    },
+    {
+      "id": "q-badge-text",
+      "description": "Group A (T043): the default .badge text goes from blue to --nw-text-default, like the neutral chip of the approved mockup (direction rule 2). The semantic variants keep their colours. Pinned to blue to #e6e6e6 on .badge.",
+      "match": {
+        "prop": "^(column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "span\\.badge:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "q-badge-edge",
+      "description": "Group A (T043): the default .badge border goes from --nw-primary-dim to --nw-line-strong, the chip boundary of the approved mockup (direction rule 3). Pinned to the border colours of .badge.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "span\\.badge:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
     }
   ]
 }
