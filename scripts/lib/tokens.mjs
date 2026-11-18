@@ -228,9 +228,18 @@ export function validate(tree) {
   const r = makeResolver(tokens);
   const cssOwners = new Map();
 
+  // A token with no target of its own is live when another token's value references it,
+  // by whole alias or by interpolation inside a raw string.
+  const referenced = new Set();
+  for (const t of tokens.values()) {
+    if (typeof t.node.$value === 'string') {
+      for (const [, ref] of t.node.$value.matchAll(ANY_ALIAS)) referenced.add(ref);
+    }
+  }
+
   for (const t of tokens.values()) {
     const { path, node, ext } = t;
-    if (!ext.css && !ext.tailwind?.length && !ext.designMd?.length) {
+    if (!ext.css && !ext.tailwind?.length && !ext.designMd?.length && !referenced.has(path)) {
       fail(path, 'a token needs at least one of css, tailwind, designMd');
     }
     if (ext.css !== undefined) {

@@ -63,6 +63,11 @@ At the root, `cssComment` (printed above `:root`), `cssAlign`, and `intensity`:
 Override keys are token paths and must point at tokens with `css`. A string override is raw (or
 an alias); any other value is typed by the overridden token's type. See [intensity.md](intensity.md).
 
+Every token needs at least one of `css`, `tailwind` or `designMd`, so the file holds no dead data. A token with none of them is still valid when another token's
+`$value` references it, by alias or by `{...}` interpolation in a raw value; that is how
+values that only feed other tokens (the exit durations, the loop base durations) stay typed.
+Two tokens cannot write the same preset or `DESIGN.md` path.
+
 ### Reduced motion
 
 A token with `reducedMotion` gets a declaration in a generated block at the very end of
@@ -87,9 +92,6 @@ not even a blank line.
 `motion: true` is the guard against forgetting. A token marked `motion: true` without a
 `reducedMotion` value fails the build with `motion token <path> has no reducedMotion value`.
 `reducedMotion` without `motion: true` is allowed; only the reverse is an error.
-
-Every token needs at least one of `css`, `tailwind` or `designMd`, so the file holds no dead data.
-Two tokens cannot write the same preset or `DESIGN.md` path.
 
 ## How values are emitted
 

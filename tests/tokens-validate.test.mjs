@@ -25,6 +25,27 @@ test('V-T1: a token needs at least one of css, tailwind, designMd', () => {
   rejects(t, 'color.orphan', 'at least one of css, tailwind, designMd');
 });
 
+test('V-T1: a token with no target is valid when a raw value interpolates it', () => {
+  const t = sample();
+  t.motion.base = { $type: 'duration', $value: { value: 90, unit: 'ms' } };
+  t.motion.tick.$value = 'calc({motion.base} * 2)';
+  assert.doesNotThrow(() => validate(t));
+});
+
+test('V-T1: a token with no target is valid when another token aliases it', () => {
+  const t = sample();
+  t.color.hidden = { $value: { colorSpace: 'srgb', components: [0, 0, 0], hex: '#000000' } };
+  t.color.shown = { $value: '{color.hidden}', $extensions: { [NS]: { tailwind: ['colors.shown'] } } };
+  assert.doesNotThrow(() => validate(t));
+});
+
+test('V-T1: a token with no target stays invalid when only another targetless token references it', () => {
+  const t = sample();
+  t.color.hidden = { $value: { colorSpace: 'srgb', components: [0, 0, 0], hex: '#000000' } };
+  t.color.hidden2 = { $value: '{color.hidden}' };
+  rejects(t, 'color.hidden2', 'at least one of css, tailwind, designMd');
+});
+
 test('V-T2: css names are unique', () => {
   const t = sample();
   ext(t.color.fill).css = '--blue';
