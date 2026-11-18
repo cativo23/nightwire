@@ -52,6 +52,7 @@
     "@types/node": "^22.0.0",
     "@types/prompts": "^2.4.9",
     "playwright-core": "1.65.1",
+    "puppeteer-core": "24.43.1",
     "typescript": "^5.7.0"
   }
 }
