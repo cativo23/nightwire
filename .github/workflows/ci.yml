@@ -27,5 +27,13 @@ jobs:
 
       - name: Generated artifacts are up to date
         run: |
-          git diff --exit-code -- nightwire.css tailwind.preset.js DESIGN.md \
+          git diff --exit-code --stat -- nightwire.css tailwind.preset.js DESIGN.md \
             || (echo "::error::Generated artifacts are stale: run npm run build and commit."; exit 1)
+
+      # The docs site imports the root nightwire.css and tailwind.preset.js; build it so a
+      # broken apps/docs fails here instead of in the post-merge deploy.
+      - name: Docs site builds
+        working-directory: apps/docs
+        run: |
+          npm ci
+          npm run build

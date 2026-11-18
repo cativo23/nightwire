@@ -55,8 +55,10 @@ the second time, which is what the CI check relies on.
 git diff --exit-code -- nightwire.css tailwind.preset.js DESIGN.md
 ```
 
-If the build changed a committed artifact, the job fails with "Generated artifacts are stale: run
-npm run build and commit."
+If the build changed a committed artifact, the job lists the stale files and fails with
+"Generated artifacts are stale: run npm run build and commit." It then builds the docs site in
+`apps/docs`, which imports the root stylesheet and preset, so a change that breaks the site fails
+before merge rather than in the deploy.
 
 ## Parity tool
 
