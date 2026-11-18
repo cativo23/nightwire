@@ -398,12 +398,39 @@ This file contains complete HTML examples for all Nightwire components and patte
 </div>
 ```
 
+A toast with no `data-open` is visible. Set `data-open="false"` on it to fade it out and hide it
+(then remove it after about 300ms); `"true"` shows it again.
+
+---
+
+## Dropdown and Tooltip
+
+```html
+<!-- Dropdown: visible without data-open; "false" closes it with an exit animation -->
+<div class="dropdown" data-open="false">
+  <button class="btn-ghost btn-sm">Actions ▾</button>
+  <div class="dropdown-menu">
+    <button class="dropdown-item">Edit</button>
+    <div class="dropdown-divider"></div>
+    <button class="dropdown-item danger">Delete</button>
+  </div>
+</div>
+
+<!-- Tooltip: opens on hover and when focus is inside; data-open="true" pins it open,
+     data-open="false" keeps it closed even on hover -->
+<span class="tooltip">
+  <button class="btn-ghost btn-sm">Deploy</button>
+  <span class="tooltip-content">Deploy the current branch</span>
+</span>
+```
+
 ---
 
 ## Modal Dialog
 
 ```html
-<div class="modal-backdrop">
+<!-- Closed unless data-open="true"; set it to "false" to close with an exit animation -->
+<div class="modal-backdrop" data-open="true">
   <div class="modal">
     <div class="modal-header">
       <span style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--nw-primary)">CONFIRM ACTION</span>
