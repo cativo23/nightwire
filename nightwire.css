@@ -1200,10 +1200,7 @@ input::placeholder, textarea::placeholder {
 .tag-ai      { color: var(--nw-ai);           background: var(--nw-purple-fill); }
 
 /* ═══════════════════════════════════════════════════════════════
-   Nightwire v2 — additive components
-   All new classes. Consumers using v1 (.btn, .panel, .tag) keep
-   working unchanged. v2 components opt-in by class name or via
-   data-intensity attribute on <html>.
+   Components added after the base set. Order is the cascade.
    ─────────────────────────────────────────────────────────────── */
 
 /* ── src/components/kbd.css ────────────────────────────────────── */
