@@ -1,11 +1,11 @@
 # v3 visual direction
 
-Status: pending
+Status: approved (2026-11-18, round 2)
 
 The proposed look for the v3 refresh, recorded once so the maintainer can approve or amend it on
 the direction board (`npm run design:board`, page `docs/design/v3/board.html`) before it reaches
 the other components. The values live in `src/tokens/tokens.json`; this file explains each one.
-Until the Approval section below is filled, nothing here is final.
+The Approval section below records the decision.
 
 What already reaches the whole system: the token values in this proposal are on `:root`, so every
 component that reads them changes now, not only the nine board components. That is `--nw-glow` (every
@@ -109,5 +109,15 @@ it (constitution, principle IV).
 
 ## Approval
 
-<!-- Filled at the gate: approver, date, decision (approved, approved with changes, rejected), and
-the changes requested. -->
+- **Approver:** Carlos Cativo (maintainer).
+- **Date:** 2026-11-18.
+- **Round 1:** rejected. It read as v2.1.0 with lower alphas and did not follow the approved
+  mockup's language.
+- **Round 2:** approved, with the primary `.btn` as a bone solid (`--nw-action`), like the mockup's
+  INSTALL chip. Reviewed on the board rendered from `e566677` (round 2) at archive, operator and
+  combat, before and after; `3732f7a` changes no board render.
+- **Identity (FR-012):** confirmed on the board: the four typefaces, kanji labels, the compressed
+  title and three distinct intensities.
+- **Not in this refresh:** the mockup's new pieces (grain, chips, section heads, spec sheets, kanji
+  index, accordion, reticle, halftone, barcode, outline wordmark) are approved patterns, but they
+  are new components, which spec 002 leaves to the next spec.
