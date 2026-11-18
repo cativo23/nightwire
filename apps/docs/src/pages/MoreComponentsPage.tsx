@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { SectionTitle, CodeBlock } from '../components/CodeBlock';
 import { NewBadge } from '../components/NewBadge';
 
 export function MoreComponentsPage() {
+  const [menuOpen, setMenuOpen] = useState(true);
+
   return (
     <section id="more-components">
       <SectionTitle tag="追加部品">More Components</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
-        Additional components available in <code style={{ color: 'var(--nw-cyan)' }}>nightwire.css</code>. All are pure CSS — no JavaScript required.
+        Additional components available in <code style={{ color: 'var(--nw-cyan)' }}>nightwire.css</code>. All are plain CSS; overlays open and close by toggling a <code style={{ color: 'var(--nw-cyan)' }}>data-open</code> attribute.
       </p>
 
       {/* Form Suite — v2 */}
@@ -102,8 +105,8 @@ export function MoreComponentsPage() {
         <div className="panel">
           <div className="panel-header"><span>Dropdown</span><span className="tag">ドロップダウン</span></div>
           <div className="panel-body">
-            <div className="dropdown" style={{ position: 'relative' }}>
-              <button className="btn-ghost btn-sm">Actions ▾</button>
+            <div className="dropdown" data-open={menuOpen} style={{ position: 'relative' }}>
+              <button className="btn-ghost btn-sm" aria-expanded={menuOpen} onClick={() => setMenuOpen(o => !o)}>Actions ▾</button>
               <div className="dropdown-menu" style={{ position: 'relative', marginTop: 4 }}>
                 <button className="dropdown-item">Edit</button>
                 <button className="dropdown-item">Duplicate</button>
@@ -112,7 +115,8 @@ export function MoreComponentsPage() {
               </div>
             </div>
           </div>
-          <CodeBlock>{`<div class="dropdown">
+          <CodeBlock>{`<!-- data-open="false" closes the menu with a fade; "true" or no attribute leaves it open -->
+<div class="dropdown" data-open="true">
   <button class="btn-ghost btn-sm">Actions ▾</button>
   <div class="dropdown-menu">
     <button class="dropdown-item">Edit</button>

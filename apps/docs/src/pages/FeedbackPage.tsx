@@ -4,7 +4,11 @@ import { NewBadge } from '../components/NewBadge';
 import { makeEvent, type EventEntry } from '../data';
 
 type ToastKind = 'success' | 'info' | 'warning' | 'danger';
-type Toast = { id: number; kind: ToastKind; head: string; body: string };
+type Toast = { id: number; kind: ToastKind; head: string; body: string; open: boolean };
+
+// Longer than the slowest toast exit (--nw-sweep-out, 262.5ms at motion scale 1), so the toast
+// is removed from the DOM after it has finished fading.
+const TOAST_EXIT_MS = 300;
 
 export function FeedbackPage() {
   const [events] = useState<EventEntry[]>(() => Array.from({ length: 15 }, makeEvent));
@@ -13,11 +17,17 @@ export function FeedbackPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cmdkOpen, setCmdkOpen] = useState(false);
 
+  // Closing flips data-open to "false" so the toast animates out; it leaves the DOM afterwards.
+  const dismissToast = useCallback((id: number) => {
+    setToasts(prev => prev.map(t => (t.id === id ? { ...t, open: false } : t)));
+    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), TOAST_EXIT_MS);
+  }, []);
+
   const pushToast = useCallback((kind: ToastKind, head: string, body: string) => {
     const id = Date.now() + Math.random();
-    setToasts(prev => [...prev, { id, kind, head, body }]);
-    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 5000);
-  }, []);
+    setToasts(prev => [...prev, { id, kind, head, body, open: true }]);
+    setTimeout(() => dismissToast(id), 5000);
+  }, [dismissToast]);
 
   // ⌘K / Esc bindings — only active on this page
   useEffect(() => {
@@ -60,7 +70,10 @@ export function FeedbackPage() {
         <CodeBlock>{`<div class="toast toast-success">Success message</div>
 <div class="toast toast-warning">Warning message</div>
 <div class="toast toast-danger">Error message</div>
-<div class="toast toast-info">Info message</div>`}</CodeBlock>
+<div class="toast toast-info">Info message</div>
+
+<!-- Optional: data-open="false" fades the toast out and hides it; "true" or no attribute shows it -->
+<div class="toast toast-info" data-open="false">Dismissed</div>`}</CodeBlock>
       </div>
 
       {/* Banner — v2 */}
@@ -211,6 +224,7 @@ export function FeedbackPage() {
           <div
             key={t.id}
             className={`toast toast-${t.kind}`}
+            data-open={t.open}
             style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'flex-start', gap: 10 }}
           >
             <div style={{ flex: 1 }}>
@@ -220,7 +234,7 @@ export function FeedbackPage() {
               <div>{t.body}</div>
             </div>
             <button
-              onClick={() => setToasts(prev => prev.filter(x => x.id !== t.id))}
+              onClick={() => dismissToast(t.id)}
               style={{ cursor: 'pointer', color: 'var(--nw-text-mute)', background: 'none', border: 0, fontSize: 14 }}
               aria-label="Dismiss"
             >×</button>
