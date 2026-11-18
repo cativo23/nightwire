@@ -53,7 +53,7 @@ on the black surfaces).
 
 The maintainer rejected round 1 at the approval gate: it looked too close to v2.1.0 and did not
 follow the approved mockup, because it only retuned alphas and glow. Round 2 keeps everything in the
-table above and adds the mockup's patterns on the nine board components (panel, button, stat,
+table above and adds the mockup's patterns on the board set (panel, button, stat,
 table, form, modal, tag, metrics; the LED is unchanged). The patterns are neutral-first colour,
 neutral hairlines, square corners, and one solid action in bone with outline secondaries. Only
 ryoku.dev patterns are taken: no palette, no fonts (constitution, principle IV).
@@ -61,7 +61,7 @@ ryoku.dev patterns are taken: no palette, no fonts (constitution, principle IV).
 | Surface | Round 1 | Round 2 | Why |
 |---|---|---|---|
 | Label colour: `.panel-header`, `.modal-header`, `.modal-title`, `.nw-table th`, `.stat .stat-label`, `.metric-cell .m-label`, `.field-label` | `--nw-primary` or `--nw-chrome` | `--nw-text-mute` | Labels are quiet. Blue is kept for focus and accents, so it still means something. |
-| Kanji inside `.panel-header` and `.modal-header` | inherits the blue label | `--nw-text-default` | The glyph is the one bright mark in a quiet header. |
+| Kanji inside `.panel-header` and `.modal-header` | inherits the blue label | `--nw-text-default`, set inside `:where()` so colour utilities still win | The glyph is the one bright mark in a quiet header. The default has specificity 0, so `.text-dim` or a Tailwind colour class on the kanji overrides it in any load order (a colour inherited from an ancestor does not). |
 | Header rules: `.panel-header`, `.modal-header`, `.nw-table th` border-bottom | `--nw-line-chrome` | `--nw-line` | A neutral hairline, like the mockup's. |
 | `.panel` border | `--nw-text-faint` | `--nw-line` | One step clearer so the panel edge reads against the page. |
 | `.modal` border | `--nw-primary-dim` | `--nw-line-strong` | Neutral, and the same 3:1 boundary as the other controls. |
