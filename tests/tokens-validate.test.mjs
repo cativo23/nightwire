@@ -148,3 +148,21 @@ test('two tokens cannot target the same preset or DESIGN.md path', () => {
   ext(t2.radius.sm).designMd = ['rounded.none'];
   rejects(t2, 'rounded.none', 'radius.sm');
 });
+
+test('a preset or DESIGN.md path nested under another token\'s path is rejected, whatever the sort order', () => {
+  const t1 = sample();
+  ext(t1.color.chrome).tailwind = ['colors.blue.DEFAULT.x'];
+  rejects(t1, 'colors.blue.DEFAULT.x', 'colors.blue.DEFAULT');
+
+  const t2 = sample();
+  ext(t2.color.blue).tailwind = ['colors.primary'];
+  ext(t2.color.fill).tailwind = ['colors.primary-dark'];
+  ext(t2.color.chrome).tailwind = ['colors.primary.500'];
+  rejects(t2, 'colors.primary.500', 'colors.primary');
+});
+
+test('a DESIGN.md path needs a region and a key (at least two segments)', () => {
+  const t = sample();
+  ext(t.doc.type.weight).designMd = ['version'];
+  rejects(t, 'doc.type.weight', 'version', /two segments/);
+});

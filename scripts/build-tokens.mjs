@@ -20,7 +20,12 @@ function write(rel, content) {
 }
 
 try {
-  const tree = JSON.parse(readFileSync(resolve(ROOT, SOURCE), 'utf8'));
+  let tree;
+  try {
+    tree = JSON.parse(readFileSync(resolve(ROOT, SOURCE), 'utf8'));
+  } catch (err) {
+    throw new Error(`${SOURCE}: ${err.message}`);
+  }
   const css = HEADER + emitCss(tree);
   const preset = HEADER + emitPreset(tree);
   const design = rewrite(readFileSync(resolve(ROOT, 'DESIGN.md'), 'utf8'), emitRegions(tree));

@@ -199,10 +199,12 @@ function checkTargets(tokens, key) {
       owners.set(p, t.path);
     }
   }
-  const paths = [...owners.keys()].sort();
-  for (let i = 1; i < paths.length; i++) {
-    if (paths[i].startsWith(paths[i - 1] + '.')) {
-      fail(owners.get(paths[i]), `${key} path ${paths[i]} is nested under ${paths[i - 1]} (${owners.get(paths[i - 1])})`);
+  for (const [p, owner] of owners) {
+    const segs = p.split('.');
+    if (key === 'designMd' && segs.length < 2) fail(owner, `designMd path ${p} needs at least two segments (region.key)`);
+    for (let i = 1; i < segs.length; i++) {
+      const prefix = segs.slice(0, i).join('.');
+      if (owners.has(prefix)) fail(owner, `${key} path ${p} is nested under ${prefix} (${owners.get(prefix)})`);
     }
   }
 }

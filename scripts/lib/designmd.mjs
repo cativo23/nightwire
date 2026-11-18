@@ -97,7 +97,8 @@ function renderRegion(name, entries) {
 
     if (e.group !== prevGroup) {
       const threshold = Math.max(1, groupPrefix.get(e.group).length - 1);
-      const at = fresh.findIndex((f) => f.depth >= threshold);
+      let at = fresh.findIndex((f) => f.depth >= threshold);
+      if (at < 0) at = fresh.length - 1;
       const extra = [];
       if (prevGroup !== null) extra.push({ depth: 0, text: '' });
       if (e.groupDescription) extra.push({ depth: fresh[at].depth, text: `${'  '.repeat(fresh[at].depth)}# ${e.groupDescription}` });
