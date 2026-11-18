@@ -352,3 +352,18 @@ test('the .glow-* utilities scale by --nw-glow and stay restrained (alpha at mos
   }
   assert.deepEqual(offenders, [], `glow utilities must be calc(Npx * var(--nw-glow)) with alpha <= 0.35:\n${offenders.join('\n')}`);
 });
+
+// ---- v1 compatibility surfaces (FR-016, research R10) ------------------------------------------
+
+const allSelectors = (dir) => cssFiles(dir).flatMap(({ name, text }) =>
+  parseRules(text).map((r) => ({ file: name, selector: r.selector, decls: r.decls })));
+
+test('.modal-backdrop is declared once, closed by default, with its open state on [data-open="true"]', () => {
+  const rules = allSelectors('src/components/').filter((r) => r.file.endsWith('modal.css') && r.selector === '.modal-backdrop');
+  assert.equal(rules.length, 1, 'one merged .modal-backdrop rule');
+  const props = Object.fromEntries(rules[0].decls.map((d) => [d.prop, d.value]));
+  assert.equal(props.position, 'fixed');
+  assert.equal(props.visibility, 'hidden');
+  assert.equal(props.opacity, '0');
+  assert.equal(props['pointer-events'], 'none');
+});

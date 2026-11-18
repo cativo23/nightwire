@@ -766,6 +766,7 @@ input::placeholder, textarea::placeholder {
 /* ── src/components/modal.css ──────────────────────────────────── */
 /* ── Modal / Dialog ──────────────────────────────────────────── */
 
+/* Closed by default. Set data-open="true" to show it; the element can stay mounted. */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -774,6 +775,11 @@ input::placeholder, textarea::placeholder {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
 
 .modal {
@@ -819,27 +825,14 @@ input::placeholder, textarea::placeholder {
   gap: var(--sp-2);
 }
 
-/* ── v2 · Modal title (non-flex header label) ──────────────── */
+/* ── Modal title (non-flex header label) ───────────────────── */
 .modal-title {
   font-family: var(--font-stamp); font-size: 10px; font-weight: 700;
   letter-spacing: var(--ls-ultra); text-transform: uppercase;
   color: var(--nw-text-mute);
 }
 
-/* ── v2 · Modal show/hide via [data-open] attribute ──────────────
-   The v1 .modal-backdrop above is always visible (relies on DOM
-   add/remove). The patch below makes it controllable via attribute
-   so React/Vue consumers can keep the element mounted and toggle
-   data-open instead. v1 markup without data-open still works
-   (defaults to hidden — set data-open="true" on initial render or
-   render conditionally). */
-.modal-backdrop {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  /* Closed: exit curve, visibility dropped once the fade is done. */
-  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
-}
+/* ── Open state ────────────────────────────────────────────── */
 .modal-backdrop[data-open="true"] {
   visibility: visible;
   opacity: 1;
