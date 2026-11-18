@@ -129,7 +129,7 @@
     },
     {
       "id": "motion-loops",
-      "description": "Continuous loops scale inversely with intensity (FR-002, Principle V): the button spinner (--nw-loop-spin, 0.8s), the skeleton shimmer (--nw-loop-shimmer, 1.2s) and the LED pulse (--nw-pulse-speed / --nw-motion-scale) are slower under archive and faster under combat. Operator durations are unchanged, so only archive and combat differ. Pinned to those three loops and to their old and new durations, with reduced motion off; the reduced-motion case is motion-loops-paused.",
+      "description": "Continuous loops scale inversely with intensity (FR-002, Principle V): the button spinner (--nw-loop-spin, 0.8s), the skeleton shimmer (--nw-loop-shimmer, 1.2s) and the LED pulse (--nw-pulse-speed / --nw-motion-scale) are slower under archive and faster under combat. Operator durations are unchanged, so only archive and combat differ. Pinned to those three loops and to their old and new durations, with reduced motion off; the reduced-motion case is motion-reduced-backstop.",
       "match": {
         "prop": "^animation-duration$",
         "path": "(button\\.btn[a-z-]*:nth-child\\(\\d+\\)::before|div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after|span\\.led:nth-child\\(\\d+\\))$",
@@ -150,23 +150,45 @@
       }
     },
     {
-      "id": "motion-loops-paused",
-      "description": "Under reduced motion the spinner and the shimmer are paused by --nw-loop-state (FR-002, FR-006). Their pseudo-elements were not reached by the universal kill switch, so they kept running at 0.8s and 1.2s. The scale is 0 there, so the inverse-scaled duration divides by zero: Chrome clamps it to 1.79769e+308s, which is never played because the animation is paused. Pinned to the two pseudo-element loops with reduced motion on; the pseudo-element kill switch itself follows in motion-reduced-backstop.",
-      "match": {
-        "prop": "^animation-(duration|play-state)$",
-        "path": "(button\\.btn[a-z-]*:nth-child\\(\\d+\\)::before|div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after)$",
-        "state": "\\|rm-on",
-        "old": "^(0\\.8s|1\\.2s|running)$",
-        "new": "^(paused|1\\.79769e\\+308s)$"
-      }
-    },
-    {
       "id": "focus-ring",
       "description": "The command palette input had outline: none with no replacement, so keyboard focus was invisible (FR-015, research R12). It now draws a 2px inset --nw-focus-ring outline on :focus-visible (inset because .cmdk clips with overflow: hidden). Only the focused state changes; the unfocused input is untouched.",
       "match": {
         "prop": "^outline-(color|offset|style|width)$",
         "path": "div\\.cmdk:nth-child\\(\\d+\\)>input:nth-child\\(\\d+\\)$",
         "state": "\\|:focus-visible@"
+      }
+    },
+    {
+      "id": "motion-reduced-backstop",
+      "description": "Nothing animates under reduced motion (FR-006): the kill switch in accessibility.css now covers ::before and ::after as well as elements, because the universal selector does not reach pseudo-elements. Before, the button spinner (.btn-loading::before) and the skeleton shimmer (::after) kept looping under reduced motion, and the switch and checkbox marks kept a transition. Their animation and transition longhands now take the reset values of animation: none and transition: none. Pinned to pseudo-elements, to reduced motion on, and to those reset values.",
+      "match": {
+        "prop": "^(animation|transition)-(name|duration|timing-function|delay|iteration-count|property|behavior)$",
+        "path": "::(before|after)$",
+        "state": "\\|rm-on",
+        "new": "^(none|0s|ease|1|normal)$"
+      }
+    },
+    {
+      "id": "motion-reduced-backstop-transform",
+      "description": "Consequence of motion-reduced-backstop (FR-006): the skeleton shimmer overlay no longer runs, so its transform is none instead of the translateX the animation held it at (the parity harness freezes animations at t=0, which is the -100% start of the sweep). Pinned to the skeleton overlays with reduced motion on.",
+      "match": {
+        "prop": "^transform$",
+        "path": "div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after$",
+        "state": "\\|rm-on",
+        "old": "^matrix\\(1, 0, 0, 1, -?\\d+, 0\\)$",
+        "new": "^none$"
+      }
+    },
+    {
+      "id": "motion-reduced-uplink",
+      "description": "Uplink content stays visible under reduced motion (FR-006, research R13): .uplink children start at opacity 0 and translateY(4px), and only the animation reveals them. The kill switch removed the animation and left them invisible. Reduced motion now resets them to opacity 1 and no transform. Only the workshop page uses .uplink (its first stat strip); parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position and to reduced motion on.",
+      "match": {
+        "prop": "^(opacity|transform)$",
+        "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-on",
+        "page": "**/workshop.html",
+        "old": "^(0|matrix\\(1, 0, 0, 1, 0, 4\\))$",
+        "new": "^(1|none)$"
       }
     }
   ]
