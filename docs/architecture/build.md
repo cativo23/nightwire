@@ -87,5 +87,9 @@ covered by a test in `tests/`.
 - **Exit code.** 0 only when `unexpected=0` and coverage is full; 1 otherwise; 2 when the file is
   unreadable, not JSON or invalid (checked before Chrome starts).
 
+A state label joins its parts with `|` (`combat|rm-off`, then `|:hover@<path>` for a forced
+pseudo-state), and `match.state` is a regex, so an unescaped `|` is alternation:
+`"combat|rm-off"` also matches `archive|rm-off`. Write `"^combat\\|rm-off"` to pin one label.
+
 The file format, with every field, is in
 [CONTRIBUTING.md](../../CONTRIBUTING.md#declaring-intended-changes-with---expect).

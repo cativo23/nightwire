@@ -92,6 +92,20 @@ test('matchCategory requires every present field to match', () => {
   assert.equal(matchCategory(diff({ new: 'rgb(1, 1, 1)' }), c), false);
 });
 
+test('matchCategory state: an unescaped | is regex alternation, so only the escaped form pins one label', () => {
+  // State labels use | as a separator (`combat|rm-off`, `combat|rm-off|:hover@<path>`). In a
+  // JSON regex an unescaped | means "or", so it also matches any label containing the other
+  // side. Behaviour pin: do not "fix" this in matchCategory; escape the pipe in the file.
+  const loose = compile(cat('loose', { prop: '^color$', state: 'combat|rm-off' }));
+  const strict = compile(cat('strict', { prop: '^color$', state: '^combat\\|rm-off' }));
+  const archive = diff({ state: 'archive|rm-off' });
+  assert.equal(matchCategory(archive, loose), true);
+  assert.equal(matchCategory(archive, strict), false);
+  assert.equal(matchCategory(diff({ state: 'archive|rm-off|:hover@x' }), loose), true);
+  assert.equal(matchCategory(diff({ state: 'combat|rm-off' }), strict), true);
+  assert.equal(matchCategory(diff({ state: 'combat|rm-off|:hover@x' }), strict), true);
+});
+
 test('matchCategory tests state against the full label, including forced pseudo-state suffixes', () => {
   const c = compile(cat('hover-only', { prop: 'color', state: '\\|:hover@' }));
   assert.equal(matchCategory(diff({ state: 'operator|rm-off|:hover@html>body>a' }), c), true);

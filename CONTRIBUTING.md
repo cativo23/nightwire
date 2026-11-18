@@ -110,9 +110,18 @@ A category file is `{ "baseline": "v2.1.0", "categories": [ … ] }`. Each categ
 | `description` | Why the change is intended; link the requirement. |
 | `match.prop` | Required regex, tested against the DIFF property (a CSS property, `--custom`, `@keyframes` name or `(element)`). |
 | `match.path` | Optional regex against the DOM path. |
-| `match.state` | Optional regex against the full state label, for example `combat\|rm-off` or `:hover@`. |
+| `match.state` | Optional regex against the full state label (see below). |
 | `match.old` / `match.new` | Optional regexes against the old and new value (`<missing>` when absent). |
 | `match.page` | Optional glob against the page path. `*` and `?` stay inside one directory, `**` crosses directories, `**/` also matches zero directories, everything else is literal. |
+
+A state label joins its parts with `|`: `combat|rm-off`, and `combat|rm-off|:hover@<dom path>` when
+a pseudo-state is forced. In a regex an unescaped `|` is alternation, so `"state": "combat|rm-off"`
+means "combat or rm-off" and also matches `archive|rm-off`. Escape the pipe and anchor the start to
+pin one label, which still matches the forced-pseudo variants that continue after it:
+
+```json
+"state": "^combat\\|rm-off"
+```
 
 Regexes are unanchored, like `RegExp.test`; add `^` and `$` to pin a value. An empty string in
 any `match` field is rejected, because it would match every difference. A difference is
