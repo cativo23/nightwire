@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import nightwirePreset from './tailwind.preset.js'
+import nightwirePreset from '../../tailwind.preset.js'
 
 export default {
   content: [

@@ -16,7 +16,7 @@ npm run preview  # serve dist/
 ## Structure
 
 ```
-docs/
+apps/docs/
 ├── src/
 │   ├── pages/           Page components (one per route)
 │   │   ├── OverviewPage.tsx
@@ -39,9 +39,12 @@ docs/
 │   │   └── ExamplesPage.tsx
 │   ├── components/      Shared UI (Sidebar, StatusBar, NewBadge, etc.)
 │   └── data/            Single source for COLORS, FONTS, COMPONENTS, SIDEBAR_GROUPS
-├── tailwind.config.js   Uses the root tailwind.preset.js
-└── vite.config.ts
+├── tailwind.config.js   Uses the root ../../tailwind.preset.js
+└── vite.config.ts       Aliases @nightwire/css to the root ../../nightwire.css
 ```
+
+The app keeps no copy of the stylesheet or the preset: both are the generated files at the repo
+root. Run `npm run build` at the root after changing `src/`.
 
 ## Adding a new page
 
@@ -66,4 +69,4 @@ See `CHANGELOG.md` at the repo root for the full v2 surface.
 
 ## Tailwind config
 
-The docs site imports the root `tailwind.preset.js`. To see new v2 semantic tokens (`bg-nw-chrome`, `text-nw-ai`, `border-nw-line-strong`), rebuild after editing the preset.
+The docs site imports the root `tailwind.preset.js`, which is generated from `src/tokens/tokens.json`. To see new v2 semantic tokens (`bg-nw-chrome`, `text-nw-ai`, `border-nw-line-strong`), run `npm run build` at the repo root after editing the tokens.

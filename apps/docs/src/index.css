@@ -1,4 +1,4 @@
-@import './nightwire.css';
+@import '@nightwire/css';
 @import './console.css';
 @tailwind base;
 @tailwind components;
