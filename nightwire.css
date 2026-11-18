@@ -340,9 +340,8 @@ table {
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-2); }
-.stack  { display: flex; flex-direction: column; gap: var(--sp-2); }
 
-/* ── v2 · Layout primitives ────────────────────────────────── */
+/* ── Layout primitives ─────────────────────────────────────── */
 .nw-frame   { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 .nw-stack   { display: flex; flex-direction: column; gap: calc(var(--sp-2) * var(--nw-density)); }
 .nw-cluster { display: flex; flex-wrap: wrap; gap: calc(var(--sp-2) * var(--nw-density)); align-items: center; }

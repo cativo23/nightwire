@@ -827,6 +827,15 @@
         "new": "^rgba?\\(102, 153, 255",
         "page": "scripts/parity/fixtures/coverage.html"
       }
+    },
+    {
+      "id": "v1-removal-stack",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: no flex column and no gap, and its children no longer have flex-item minimum sizes. Pinned to the fixture's .fixture-v1 wrapper.",
+      "match": {
+        "prop": "^(display|flex-direction|row-gap|column-gap|height|block-size|perspective-origin|transform-origin|min-(width|height|inline-size|block-size))$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)(>div:nth-child\\(\\d+\\))?$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
     }
   ]
 }
