@@ -85,8 +85,14 @@ treating every one as a failure. The v3 inventory is
 [`docs/design/v3/change-inventory.json`](docs/design/v3/change-inventory.json):
 
 ```sh
-npm run parity -- --old git:v2.1.0 --expect docs/design/v3/change-inventory.json
+npm run parity -- --expect docs/design/v3/change-inventory.json
 ```
+
+Without `--old`, `--expect` compares against the file's `baseline` (`git:v2.1.0` for the v3
+inventory), so a later change of `main` cannot silently change what the run compares against. The
+`baseline` field is optional; when the file has none, `--old` keeps its usual default `git:main`.
+If you pass `--old` and it differs from the baseline, the run still happens, after one
+`WARN  --old <x> differs from the category baseline <y>` line printed before the `PARITY` line.
 
 Every difference that a category matches is counted under that category. Only the rest, the
 *unexpected* ones, are printed as `DIFF` lines and make the run fail:

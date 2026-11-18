@@ -4,6 +4,11 @@
 //   npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>]
 //                     [--max-lines N] [--expect <categories.json>]
 //
+// --old defaults to git:main. With --expect and no --old it defaults to git:<baseline> instead,
+// where `baseline` is the optional top-level field of the category file (git:main when the file
+// has none); an explicit --old that differs from that baseline still runs but prints one WARN
+// line before the PARITY line.
+//
 // Loads every page twice in the local Chrome, once with each stylesheet substituted for
 // nightwire.css, and compares getComputedStyle for every element, its ::before/::after/
 // ::placeholder, and every --* on :root. It does that in 8 states (intensity none/archive/
@@ -34,6 +39,7 @@ import { extractSelectors, analyzeSelectors } from './lib/selectors.mjs';
 import { snapshotKey, diffRecords, validateCategories } from './lib/diff.mjs';
 import { globToRegExp } from './lib/glob.mjs';
 import { buildReport } from './lib/report.mjs';
+import { resolveOld } from './lib/baseline.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const COVERAGE_FIXTURE = 'scripts/parity/fixtures/coverage.html';
@@ -51,6 +57,7 @@ class UsageError extends Error {}
 function usage(message) {
   if (message) console.error(`parity: ${message}`);
   console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N] [--expect <categories.json>]');
+  console.error('  --old defaults to git:main, or to git:<baseline> of the --expect file when it has one');
   process.exit(2);
 }
 
@@ -69,7 +76,7 @@ function loadSheet(spec) {
   return readFileSync(path, 'utf8');
 }
 
-/** Read and compile a change-category file; any failure is a usage error. */
+/** Read and compile a change-category file ({ baseline?, categories }); any failure is a usage error. */
 function loadCategories(file) {
   let json;
   try {
@@ -78,7 +85,7 @@ function loadCategories(file) {
     usage(`cannot read --expect file ${file}: ${err.message}`);
   }
   try {
-    return validateCategories(json).categories;
+    return validateCategories(json);
   } catch (err) {
     usage(`${file}: ${err.message}`);
   }
@@ -339,16 +346,18 @@ async function main() {
   try {
     ({ values: args } = parseArgs({
       args: process.argv.slice(2),
-      options: { old: { type: 'string', default: 'git:main' }, new: { type: 'string', default: 'nightwire.css' },
+      options: { old: { type: 'string' }, new: { type: 'string', default: 'nightwire.css' },
         pages: { type: 'string' }, 'max-lines': { type: 'string', default: '200' }, expect: { type: 'string' } },
     }));
   } catch (err) { usage(err.message); }
   const maxLines = Number(args['max-lines']);
   if (!Number.isInteger(maxLines) || maxLines < 0) usage('--max-lines must be a non-negative integer');
 
-  const categories = args.expect === undefined ? undefined : loadCategories(args.expect);
+  const file = args.expect === undefined ? undefined : loadCategories(args.expect);
+  const categories = file?.categories;
+  const { old: oldSpec, warning } = resolveOld({ expect: file !== undefined, baseline: file?.baseline, old: args.old });
 
-  const oldCss = loadSheet(args.old);
+  const oldCss = loadSheet(oldSpec);
   const newCss = loadSheet(args.new);
   const pages = resolvePages(args.pages);
 
@@ -374,7 +383,8 @@ async function main() {
   const server = await startServer();
   const origin = `http://127.0.0.1:${server.address().port}`;
   const states = INTENSITIES.flatMap((i) => MOTION.map(([tag, rm]) => ({ intensity: i, reducedMotion: rm, label: `${i}|${tag}` })));
-  console.log(`PARITY  old=${args.old}  new=${args.new}  pages=${pages.length}  states=${states.length}  viewport=${VIEWPORT.width}x${VIEWPORT.height}`);
+  if (warning) console.log(warning);
+  console.log(`PARITY  old=${oldSpec}  new=${args.new}  pages=${pages.length}  states=${states.length}  viewport=${VIEWPORT.width}x${VIEWPORT.height}`);
 
   const diffs = [];
   const coveredClasses = new Set();

@@ -72,9 +72,9 @@ visible. It is not in CI because it needs a local Chrome. Usage and options are 
 For an intended visual change, `--expect <file>` turns the check from "nothing differs" into
 "nothing differs that a declared category does not explain". The file is validated, compiled once
 and applied to the structured difference records; the pure pieces live in
-`scripts/parity/lib/diff.mjs` (`validateCategories`, `classify`), `lib/glob.mjs` (the one glob
-used by `--pages` and `match.page`) and `lib/report.mjs` (report layout and exit code), each
-covered by a test in `tests/`.
+`scripts/parity/lib/diff.mjs` (`validateCategories`, `classify`), `lib/baseline.mjs`
+(`resolveOld`), `lib/glob.mjs` (the one glob used by `--pages` and `match.page`) and
+`lib/report.mjs` (report layout and exit code), each covered by a test in `tests/`.
 
 - **Matching.** A record `{ page, state, path, prop, old, new }` is expected when one category
   matches every `match.*` field it declares. `prop` is required; `path`, `state`, `old` and `new`
@@ -84,6 +84,12 @@ covered by a test in `tests/`.
   `CATEGORY  <id>  <count>` line per category in file order (unused ones show 0), the `COVERAGE`
   line, and `RESULT  differences=N  unexpected=M`. Without `--expect` the output is the classic
   `DIFF` lines, `COVERAGE` and `RESULT  differences=N`.
+- **Baseline.** The file's top-level `baseline` (a git ref such as `v2.1.0`) is optional. With
+  `--expect` and no `--old`, the old side is `git:<baseline>`, or `git:main` when the file has no
+  baseline. An explicit `--old` that differs from the baseline still runs, after one
+  `WARN  --old <x> differs from the category baseline <y>` line before the `PARITY` line. The
+  decision is `resolveOld` in `lib/baseline.mjs`. Without `--expect`, `--old` defaults to
+  `git:main` as before.
 - **Exit code.** 0 only when `unexpected=0` and coverage is full; 1 otherwise; 2 when the file is
   unreadable, not JSON or invalid (checked before Chrome starts).
 
