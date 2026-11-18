@@ -1,0 +1,29 @@
+// Builds the parity report lines and exit code from structured differences. Pure.
+import { formatDiff, classify } from './diff.mjs';
+
+/**
+ * @param {object} input
+ * @param {object[]} input.diffs         records from diffRecords(), any order
+ * @param {object[]} [input.categories]  compiled categories (validateCategories(...).categories);
+ *                                       omit for the classic report without --expect
+ * @param {number}   input.maxLines      cap on printed DIFF lines
+ * @param {string}   input.coverageLine  the finished COVERAGE line
+ * @param {number}   input.uncovered     how many classes/attr-states no page exercised
+ * @returns {{ lines: string[], exitCode: 0 | 1 }}
+ *
+ * Layout: DIFF lines (all of them, or only the unexpected ones with categories), the
+ * truncation note, then CATEGORY lines (only with categories), COVERAGE, RESULT.
+ */
+export function buildReport({ diffs, categories, maxLines, coverageLine, uncovered }) {
+  const withCategories = categories !== undefined;
+  const { counts, unexpected } = withCategories ? classify(diffs, categories) : { counts: new Map(), unexpected: diffs };
+  const shown = unexpected.map(formatDiff).sort();
+
+  const lines = shown.slice(0, maxLines);
+  if (shown.length > maxLines) lines.push(`…  ${shown.length - maxLines} more DIFF lines (raise --max-lines to see them)`);
+  for (const [id, count] of counts) lines.push(`CATEGORY  ${id}  ${count}`);
+  lines.push(coverageLine);
+  lines.push(`RESULT  differences=${diffs.length}${withCategories ? `  unexpected=${unexpected.length}` : ''}`);
+
+  return { lines, exitCode: unexpected.length || uncovered ? 1 : 0 };
+}

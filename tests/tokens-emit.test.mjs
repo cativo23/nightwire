@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { emitCss, emitPreset, resolve, NS } from '../scripts/lib/tokens.mjs';
 
+const ext = (node) => node.$extensions[NS];
 const sample = () => JSON.parse(readFileSync(new URL('./fixtures/tokens/sample.json', import.meta.url), 'utf8'));
 const loadPreset = async (src) => (await import(`data:text/javascript,${encodeURIComponent(src)}`)).default;
 
@@ -20,6 +21,7 @@ const EXPECTED_CSS = `/* ── Palette ── */
 
   /* Knobs */
   --glow:     1;
+  --scale:    1;
   --panel-radius: var(--radius-none);
   --state:    running;
 
@@ -43,6 +45,14 @@ const EXPECTED_CSS = `/* ── Palette ── */
 /* combat */
 :root[data-intensity="combat"] {
   --glow: 2.2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  :root[data-intensity] {
+    --scale: 0;
+    --state: paused;
+  }
 }
 `;
 
@@ -80,6 +90,36 @@ test('emitCss: intensity blocks follow archive, operator, combat order', () => {
   const o = css.indexOf('"operator"');
   const c = css.indexOf('"combat"');
   assert.ok(a < o && o < c);
+});
+
+test('emitCss: the reduced-motion block follows the intensity blocks and uses :root and :root[data-intensity]', () => {
+  const css = emitCss(sample());
+  const combat = css.indexOf('"combat"');
+  const media = css.indexOf('@media (prefers-reduced-motion: reduce) {\n  :root,\n  :root[data-intensity] {\n');
+  assert.ok(combat !== -1 && media > combat);
+});
+
+test('emitCss: reduced-motion declarations follow token key order', () => {
+  const t = sample();
+  const { scale, state } = t.knob;
+  delete t.knob.scale;
+  delete t.knob.state;
+  t.knob.state = state;
+  t.knob.scale = scale;
+  const css = emitCss(t);
+  const block = css.slice(css.indexOf('@media'));
+  assert.ok(block.indexOf('--state: paused;') < block.indexOf('--scale: 0;'));
+});
+
+test('emitCss: no reducedMotion on any token emits no @media block', () => {
+  const t = sample();
+  for (const k of [t.knob.scale, t.knob.state]) {
+    delete ext(k).motion;
+    delete ext(k).reducedMotion;
+  }
+  const css = emitCss(t);
+  assert.doesNotMatch(css, /@media/);
+  assert.ok(css.endsWith('  --glow: 2.2;\n}\n'));
 });
 
 test('emitCss: emission follows key order', () => {

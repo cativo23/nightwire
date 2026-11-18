@@ -2,7 +2,8 @@
 //
 // validate(tree)   throws on the first rule violation, naming the token path
 // resolve(tree, p) the literal CSS-form value of a token (aliases followed to the end)
-// emitCss(tree)    the :root block and the three intensity blocks (src/tokens/tokens.css)
+// emitCss(tree)    the :root block, the three intensity blocks and the reduced-motion block
+//                  (src/tokens/tokens.css)
 // emitPreset(tree) the Tailwind preset module (tailwind.preset.js)
 //
 // Nightwire metadata lives under $extensions["dev.cativo.nightwire"]. See
@@ -209,14 +210,36 @@ function checkTargets(tokens, key) {
   }
 }
 
+/** An override value (intensity level or reducedMotion) for the token at `p`: string or typed. */
+function checkOverrideValue(tokens, r, where, p, v, shapeWhere) {
+  if (typeof v === 'string') {
+    const target = wholeAlias(v);
+    if (target && !tokens.get(target)?.ext.css) fail(where, `${p}: alias {${target}} has no css`);
+    for (const [, ref] of v.matchAll(ANY_ALIAS)) if (!tokens.has(ref)) fail(where, `${p}: unknown alias {${ref}}`);
+    return;
+  }
+  const type = r.typeOf(p);
+  if (type === 'raw') fail(where, `${p} is raw, so its override must be a string`);
+  checkShape(shapeWhere, type, v);
+}
+
 export function validate(tree) {
   const tokens = index(tree);
   const r = makeResolver(tokens);
   const cssOwners = new Map();
 
+  // A token with no target of its own is live when another token's value references it,
+  // by whole alias or by interpolation inside a raw string.
+  const referenced = new Set();
+  for (const t of tokens.values()) {
+    if (typeof t.node.$value === 'string') {
+      for (const [, ref] of t.node.$value.matchAll(ANY_ALIAS)) referenced.add(ref);
+    }
+  }
+
   for (const t of tokens.values()) {
     const { path, node, ext } = t;
-    if (!ext.css && !ext.tailwind?.length && !ext.designMd?.length) {
+    if (!ext.css && !ext.tailwind?.length && !ext.designMd?.length && !referenced.has(path)) {
       fail(path, 'a token needs at least one of css, tailwind, designMd');
     }
     if (ext.css !== undefined) {
@@ -260,16 +283,17 @@ export function validate(tree) {
       const t = tokens.get(p);
       if (!t) fail(where, `unknown token ${p}`);
       if (!t.ext.css) fail(where, `${p} has no css, so it cannot be overridden`);
-      if (typeof v === 'string') {
-        const target = wholeAlias(v);
-        if (target && !tokens.get(target)?.ext.css) fail(where, `${p}: alias {${target}} has no css`);
-        for (const [, ref] of v.matchAll(ANY_ALIAS)) if (!tokens.has(ref)) fail(where, `${p}: unknown alias {${ref}}`);
-      } else {
-        const type = r.typeOf(p);
-        if (type === 'raw') fail(where, `${p} is raw, so its override must be a string`);
-        checkShape(`${where}.${p}`, type, v);
-      }
+      checkOverrideValue(tokens, r, where, p, v, `${where}.${p}`);
     }
+  }
+
+  for (const t of tokens.values()) {
+    const { path, ext } = t;
+    if (ext.motion !== undefined && typeof ext.motion !== 'boolean') fail(path, 'motion must be a boolean');
+    if (ext.motion && ext.reducedMotion === undefined) fail(path, `motion token ${path} has no reducedMotion value`);
+    if (ext.reducedMotion === undefined) continue;
+    if (!ext.css) fail(path, 'reducedMotion needs css, so the token can be overridden');
+    checkOverrideValue(tokens, r, 'reducedMotion', path, ext.reducedMotion, `${path}.reducedMotion`);
   }
   return tokens;
 }
@@ -328,6 +352,17 @@ export function emitCss(tree) {
     push(`:root[data-intensity="${level}"] {`);
     if (set.body) for (const l of set.body.split('\n')) push(`  ${l}`);
     for (const [p, v] of Object.entries(set.tokens ?? {})) push(`  ${tokens.get(p).ext.css}: ${r.overrideCss(p, v)};`);
+    push('}');
+  }
+
+  const reduced = [...tokens.values()].filter((t) => t.ext.reducedMotion !== undefined);
+  if (reduced.length) {
+    push('');
+    push('@media (prefers-reduced-motion: reduce) {');
+    push('  :root,');
+    push('  :root[data-intensity] {');
+    for (const t of reduced) push(`    ${t.ext.css}: ${r.overrideCss(t.path, t.ext.reducedMotion)};`);
+    push('  }');
     push('}');
   }
   return lines.join('\n') + '\n';

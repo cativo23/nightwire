@@ -1,0 +1,13 @@
+{
+  "baseline": "v2.1.0",
+  "categories": [
+    {
+      "id": "token-additions",
+      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles (FR-001, FR-002). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged.",
+      "match": {
+        "prop": "^--nw-(tick|sweep|uplink)-(out|duration|ease|out-duration|out-ease)$|^--nw-(stagger|loop-spin|loop-shimmer)$",
+        "path": "^:root$"
+      }
+    }
+  ]
+}

@@ -264,7 +264,6 @@ components:
     padding: "2px 0"
     fontSize: "9px"
     color: "{colors.primary}"
-    animation: "{animations.ticker-scroll}"
 
   org-mark:
     fontFamily: "{typography.title.fontFamily}"
@@ -299,16 +298,35 @@ breakpoints:
 
 # <generated:motion> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 motion:
-  duration-fast:     "150ms"
-  duration-base:     "250ms"
-  duration-slow:     "400ms"
-  easing-standard:   "cubic-bezier(0.4, 0.0, 0.2, 1)"
-  easing-decelerate: "cubic-bezier(0.0, 0.0, 0.2, 1)"
+  # Bare name = enter, -out = exit. Scaled by --nw-motion-scale; loop cycles scale inversely.
+  tick:                "calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1)"    # enter: clicks, toggles, micro-feedback
+  sweep:               "calc(350ms * var(--nw-motion-scale)) cubic-bezier(0.2, 0.8, 0.2, 1)"  # enter: panels, modals, drawers
+  uplink:              "calc(400ms * var(--nw-motion-scale)) cubic-bezier(0, 0.6, 0.4, 1)"    # enter: data load reveal
+
+  tick-out:            "calc(112.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"    # exit: shorter, accelerating (provisional)
+  sweep-out:           "calc(262.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"    # exit: shorter, accelerating (provisional)
+  uplink-out:          "calc(300ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (provisional)
+
+  tick-duration:       "calc(150ms * var(--nw-motion-scale))"
+  sweep-duration:      "calc(350ms * var(--nw-motion-scale))"
+  uplink-duration:     "calc(400ms * var(--nw-motion-scale))"
+  tick-ease:           "cubic-bezier(0.3, 0, 0.7, 1)"
+  sweep-ease:          "cubic-bezier(0.2, 0.8, 0.2, 1)"
+  uplink-ease:         "cubic-bezier(0, 0.6, 0.4, 1)"
+
+  tick-out-duration:   "calc(112.5ms * var(--nw-motion-scale))"
+  sweep-out-duration:  "calc(262.5ms * var(--nw-motion-scale))"
+  uplink-out-duration: "calc(300ms * var(--nw-motion-scale))"
+  tick-out-ease:       "cubic-bezier(0.4, 0, 1, 1)"
+  sweep-out-ease:      "cubic-bezier(0.4, 0, 1, 1)"
+  uplink-out-ease:     "cubic-bezier(0.4, 0, 1, 1)"
+
+  stagger:             "calc(50ms * var(--nw-motion-scale))"                                  # delay between staggered items
+  loop-spin:           "calc(800ms / var(--nw-motion-scale))"                                 # spinner cycle
+  loop-shimmer:        "calc(1200ms / var(--nw-motion-scale))"                                # skeleton shimmer cycle
 # </generated:motion>
 
 animations:
-  ticker-scroll:    { duration: "80s",   timing: "linear",     iteration: "infinite" }
-  led-blink:        { duration: "1.2s",  timing: "ease-in-out", iteration: "infinite" }
   skeleton-shimmer: { duration: "1.2s",  timing: "ease-in-out", iteration: "infinite" }
   transition-base:  { duration: "150ms", timing: "ease",        iteration: "1" }
 ---
@@ -651,17 +669,34 @@ knobs:
 
 ### Motion vocabulary
 
-Named timing functions instead of ad-hoc keyframes:
+Three steps, each with an enter and an exit variant. The bare name is the enter variant; `-out`
+is the exit variant (shorter, accelerating away). Of the enter curves, `sweep` and `uplink`
+decelerate into place, while `tick` is a symmetric ease-in-out.
 
-```yaml
-motion:
-  --nw-tick:    150ms cubic-bezier(0.3,0,0.7,1)    # clicks, toggles, micro-feedback
-  --nw-sweep:   350ms cubic-bezier(0.2,0.8,0.2,1)  # panels enter/exit, modal/drawer
-  --nw-uplink:  400ms cubic-bezier(0,0.6,0.4,1)    # data load reveal (staggered)
-  --nw-pulse-speed:    1.4s                          # LED heartbeat speed (0.7s in combat)
-  --nw-pulse-state:    running                       # running | paused — state-driven
-  # keyframes: nw-pulse (used by .led[data-pulse])
-```
+| Step | Use | Enter | Exit |
+|------|-----|-------|------|
+| `tick` | clicks, toggles, micro-feedback | `--nw-tick` (150ms) | `--nw-tick-out` |
+| `sweep` | panels, modals, drawers | `--nw-sweep` (350ms) | `--nw-sweep-out` |
+| `uplink` | data load reveal | `--nw-uplink` (400ms) | `--nw-uplink-out` |
+
+The exit values and the final curves are provisional until the v3 direction board sets them. The
+generated `motion` region in the frontmatter lists the current values.
+
+- **Composites** (`--nw-sweep`, `--nw-sweep-out`) fill the `transition` shorthand slot:
+  `transition: transform var(--nw-sweep)`.
+- **Longhands** (`--nw-sweep-duration`, `--nw-sweep-ease`, `--nw-sweep-out-duration`,
+  `--nw-sweep-out-ease`) build a transition piece by piece. A closing overlay needs the duration
+  alone, to delay its `visibility` flip until the exit has finished:
+  `transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration)`.
+- **Stagger**: `--nw-stagger` is the delay step between items revealed in sequence; multiply it
+  by the item's index.
+- **Loops**: `--nw-loop-spin` (800ms at scale 1) and `--nw-loop-shimmer` (1200ms) are the cycles of
+  continuous animations, and `--nw-pulse-speed` (1.4s, 0.7s in combat) is the LED heartbeat. Loop
+  cycles scale inversely with `--nw-motion-scale`: archive (0.6) runs slower and calmer, combat
+  (1.2) runs faster. `--nw-pulse-state` (`running` | `paused`) is state-driven. The spinner and
+  skeleton shimmer still use fixed durations equal to these values; they move onto the tokens in a
+  later change.
+- Keyframes: `nw-pulse` (used by `.led[data-pulse]`), `nw-spin`, `nw-uplink`, `skeleton-shimmer`.
 
 `@media (prefers-reduced-motion: reduce)` sets `--nw-motion-scale: 0` and pauses pulses.
 

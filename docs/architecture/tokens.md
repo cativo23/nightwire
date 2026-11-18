@@ -43,6 +43,8 @@ On a token:
 | `designMd` | Array of dot paths in the `DESIGN.md` frontmatter, e.g. `["colors.primary"]` |
 | `raw` | `true` emits `$value` verbatim (see below) |
 | `cssAlign` | Column the CSS value starts at (formatting only) |
+| `motion` | `true` marks a motion knob. A boolean; a motion knob must also have `reducedMotion` (see below) |
+| `reducedMotion` | Value the token takes under `prefers-reduced-motion: reduce`. Only on tokens with `css`. Shaped like an intensity override: a string is raw text or an alias, anything else is typed by the token's type |
 | `designMdNote` | Trailing `# note` in `DESIGN.md`; `false` for none |
 
 On a group: `cssComment` (comment printed before the group's declarations), `cssAlign`
@@ -61,8 +63,38 @@ At the root, `cssComment` (printed above `:root`), `cssAlign`, and `intensity`:
 Override keys are token paths and must point at tokens with `css`. A string override is raw (or
 an alias); any other value is typed by the overridden token's type. See [intensity.md](intensity.md).
 
-Every token needs at least one of `css`, `tailwind` or `designMd`, so the file holds no dead data.
-Two tokens cannot write the same preset or `DESIGN.md` path.
+Every token needs at least one of `css`, `tailwind` or `designMd`, so the file holds no dead
+data. A token with none of them is still valid when another token's `$value` references it, by
+alias or by `{...}` interpolation in a raw value; that is how values that only feed other tokens
+(the exit durations, the loop base durations) stay typed. Two tokens cannot write the same preset
+or `DESIGN.md` path.
+
+### Reduced motion
+
+A token with `reducedMotion` gets a declaration in a generated block at the very end of
+`src/tokens/tokens.css`, after the intensity blocks, in token key order. No token carries
+`reducedMotion` yet, so the build emits no such block today. Once the motion knobs do (v3 motion
+phase), it looks like this:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  :root[data-intensity] {
+    --nw-motion-scale: 0;
+    --nw-pulse-state: paused;
+  }
+}
+```
+
+The selector list is deliberate. `:root[data-intensity]` has the same specificity as
+`:root[data-intensity="combat"]`, and the block comes later in source order, so the reduced value
+beats every intensity level (known issue K1; verified in Chrome, research R1). `:root` covers a page
+with no `data-intensity` attribute at all. If no token has `reducedMotion`, nothing is emitted,
+not even a blank line.
+
+`motion: true` is the guard against forgetting. A token marked `motion: true` without a
+`reducedMotion` value fails the build with `motion token <path> has no reducedMotion value`.
+`reducedMotion` without `motion: true` is allowed; only the reverse is an error.
 
 ## How values are emitted
 
@@ -86,9 +118,9 @@ letter spacing in `em`, or multi-layer shadows. Those tokens omit `$type` and se
 their `$value` is a CSS string. A strict DTCG tool will reject them. We accept that because the
 alternative was a second hand-edited token file, and the point of this file is to be the only one.
 
-Raw values can interpolate aliases: `"calc({motion.timing.tick.duration} * var(--nw-motion-scale)) {motion.timing.tick.easing}"`
+Raw values can interpolate aliases: `"calc({motion.timing.tick.in.duration} * var(--nw-motion-scale)) {motion.timing.tick.in.easing}"`
 emits `calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1)`. The 150 ms and the curve
-live once, in `motion.timing.tick`, and feed both `--nw-tick` and the preset's
+live once, in `motion.timing.tick.in`, and feed both `--nw-tick` and the preset's
 `transitionDuration`/`transitionTimingFunction`.
 
 Every raw token today, and why it cannot be typed:
@@ -100,11 +132,12 @@ Every raw token today, and why it cannot be typed:
 | `knob.kanji-display` | `inline` | `--nw-kanji-display` | CSS keyword |
 | `knob.header-gradient` | `linear-gradient(180deg, rgba(102, 153, 255, 0.06), transparent 80%)` | `--nw-header-gradient` | CSS gradient |
 | `knob.header-pattern` | `none` | `--nw-header-pattern` | CSS keyword (combat sets a gradient) |
-| `motion.tick` / `sweep` / `uplink` | `calc({motion.timing.<name>.duration} * var(--nw-motion-scale)) {motion.timing.<name>.easing}` | `--nw-tick`, `--nw-sweep`, `--nw-uplink` | `calc()` with a runtime `var()` |
+| `motion.tick` / `sweep` / `uplink` | `calc({motion.timing.<name>.in.duration} * var(--nw-motion-scale)) {motion.timing.<name>.in.easing}` | `--nw-tick`, `--nw-sweep`, `--nw-uplink` | `calc()` with a runtime `var()` |
+| `motion.exit.*`, `motion.longhand.*`, `motion.longhand-out.*` | the same shape over `out.*`, and the bare `calc()` duration or curve | `--nw-<step>-out`, `--nw-<step>-duration`, `--nw-<step>-ease`, `--nw-<step>-out-duration`, `--nw-<step>-out-ease` | `calc()` with a runtime `var()`; a bare curve interpolated from a typed token |
+| `motion.cycle.*` | `calc({motion.timing.stagger} * var(--nw-motion-scale))`; loops divide by `var(--nw-motion-scale)` | `--nw-stagger`, `--nw-loop-spin`, `--nw-loop-shimmer` | `calc()` with a runtime `var()` |
 | `shadow.glow-green` / `blue` / `cyan` / `red` | `0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)` (red: `0.3`) | preset `boxShadow.glow-*` | Kept byte-for-byte as the preset had it |
 | `doc.typography.title.transform` | `scaleX(0.82)` | `DESIGN.md` only | CSS transform |
 | `doc.typography.title.textTransform`, `doc.typography.stamp.textTransform` | `uppercase` | `DESIGN.md` only | CSS keyword |
-| `doc.motion.easing-standard` / `easing-decelerate` | `cubic-bezier(0.4, 0.0, 0.2, 1)`, `cubic-bezier(0.0, 0.0, 0.2, 1)` | `DESIGN.md` only | Kept as written (`0.0`); a typed cubicBezier would print `0` |
 
 Intensity overrides that are strings (`paused`, `none`, the combat gradients, `0.14em`) are raw in
 the same way.
@@ -116,8 +149,8 @@ surface:
 
 - **Preset-only:** `shadow.glow-*` (the `boxShadow.glow-*` utilities have no custom property).
 - **Doc-only:** `doc.*` holds the `DESIGN.md` views. `doc.typography.*` mostly aliases the font and
-  size tokens and adds weights and line heights; `doc.motion.*` keeps the `DESIGN.md` motion
-  vocabulary, which does not match the CSS yet (known issue K2 in [intensity.md](intensity.md)).
+  size tokens and adds weights and line heights. The `motion` region of `DESIGN.md` has no doc-only
+  tokens: it lists the real `motion.*` tokens through their `designMd` targets.
 
 ## Adding or changing a token
 

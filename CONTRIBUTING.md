@@ -70,13 +70,71 @@ npm run parity -- --pages "examples/html/workshop.html" --max-lines 50
 NW_CHROME_PATH=/usr/bin/chromium npm run parity     # no branded Chrome installed
 ```
 
-It prints `DIFF` lines, a `COVERAGE` line and `RESULT differences=N`. Exit code 0 means no
+It prints `DIFF` lines, a `COVERAGE` line and `RESULT  differences=N`. Exit code 0 means no
 differences and full coverage; 1 means differences or missing coverage; 2 means a usage error, a
-browser that would not start, or a page that never loaded `nightwire.css`. If coverage drops because you added a class, add markup for it to
-`scripts/parity/fixtures/coverage.html`.
+browser that would not start, or a page that never loaded `nightwire.css`. If coverage drops
+because you added a class, add markup for it to `scripts/parity/fixtures/coverage.html`.
 
 Run it before any refactor that should be invisible. For an intended visual change, the
 differences it reports should be exactly the ones you meant.
+
+### Declaring intended changes with `--expect`
+
+`--expect <file>` classifies the differences against a list of change categories instead of
+treating every one as a failure. The v3 inventory is
+[`docs/design/v3/change-inventory.json`](docs/design/v3/change-inventory.json):
+
+```sh
+npm run parity -- --expect docs/design/v3/change-inventory.json
+```
+
+Without `--old`, `--expect` compares against the file's `baseline` (`git:v2.1.0` for the v3
+inventory), so a later change of `main` cannot silently change what the run compares against. The
+`baseline` field is optional; when the file has none, `--old` keeps its usual default `git:main`.
+If you pass `--old` and it differs from the baseline, the run still happens, after one
+`WARN  --old <x> differs from the category baseline <y>` line printed before the `PARITY` line.
+
+Every difference that a category matches is counted under that category. Only the rest, the
+*unexpected* ones, are printed as `DIFF` lines and make the run fail:
+
+```text
+DIFF  …                              (unexpected differences only)
+CATEGORY  <id>  <count>              (one per category, file order, 0 included)
+COVERAGE  …
+RESULT  differences=N  unexpected=M
+```
+
+Exit code 0 means `unexpected=0` and full coverage; 1 means unexpected differences or missing
+coverage; 2 means the file cannot be read, is not valid JSON, or fails validation (the message
+names the category and field). Without `--expect` the output and exit codes are unchanged.
+
+A category file is `{ "baseline": "v2.1.0", "categories": [ … ] }`. Each category has:
+
+| Field | Rule |
+|---|---|
+| `id` | Required, unique, kebab-case. |
+| `description` | Why the change is intended; link the requirement. |
+| `match.prop` | Required regex, tested against the DIFF property (a CSS property, `--custom`, `@keyframes` name or `(element)`). |
+| `match.path` | Optional regex against the DOM path. |
+| `match.state` | Optional regex against the full state label (see below). |
+| `match.old` / `match.new` | Optional regexes against the old and new value (`<missing>` when absent). |
+| `match.page` | Optional glob against the page path. `*` and `?` stay inside one directory, `**` crosses directories, `**/` also matches zero directories, everything else is literal. |
+
+A state label joins its parts with `|`: `combat|rm-off`, and `combat|rm-off|:hover@<dom path>` when
+a pseudo-state is forced. In a regex an unescaped `|` is alternation, so `"state": "combat|rm-off"`
+means "combat or rm-off" and also matches `archive|rm-off`. Escape the pipe and anchor the start to
+pin one label, which still matches the forced-pseudo variants that continue after it:
+
+```json
+"state": "^combat\\|rm-off"
+```
+
+Regexes are unanchored, like `RegExp.test`; add `^` and `$` to pin a value. An empty string in
+any `match` field is rejected, because it would match every difference. A difference is
+expected when at least one category matches all of the fields that category has. It counts
+toward the **first** matching category in file order only, so the counts plus `unexpected`
+always add up to `differences`. Every new rendering difference gets a category in the same
+commit that causes it.
 
 ## Commits and branches
 

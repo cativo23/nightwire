@@ -158,6 +158,31 @@
   --nw-tick:   calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1);
   --nw-sweep:  calc(350ms * var(--nw-motion-scale)) cubic-bezier(0.2, 0.8, 0.2, 1);
   --nw-uplink: calc(400ms * var(--nw-motion-scale)) cubic-bezier(0, 0.6, 0.4, 1);
+
+  /* Exit variants: shorter, accelerating (provisional) */
+  --nw-tick-out:   calc(112.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+  --nw-sweep-out:  calc(262.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+  --nw-uplink-out: calc(300ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+
+  /* Longhands, for building transitions */
+  --nw-tick-duration:   calc(150ms * var(--nw-motion-scale));
+  --nw-sweep-duration:  calc(350ms * var(--nw-motion-scale));
+  --nw-uplink-duration: calc(400ms * var(--nw-motion-scale));
+  --nw-tick-ease:       cubic-bezier(0.3, 0, 0.7, 1);
+  --nw-sweep-ease:      cubic-bezier(0.2, 0.8, 0.2, 1);
+  --nw-uplink-ease:     cubic-bezier(0, 0.6, 0.4, 1);
+
+  --nw-tick-out-duration:   calc(112.5ms * var(--nw-motion-scale));
+  --nw-sweep-out-duration:  calc(262.5ms * var(--nw-motion-scale));
+  --nw-uplink-out-duration: calc(300ms * var(--nw-motion-scale));
+  --nw-tick-out-ease:       cubic-bezier(0.4, 0, 1, 1);
+  --nw-sweep-out-ease:      cubic-bezier(0.4, 0, 1, 1);
+  --nw-uplink-out-ease:     cubic-bezier(0.4, 0, 1, 1);
+
+  /* Stagger, and loop cycles (scale inversely: archive slower, combat faster) */
+  --nw-stagger:      calc(50ms * var(--nw-motion-scale));
+  --nw-loop-spin:    calc(800ms / var(--nw-motion-scale));
+  --nw-loop-shimmer: calc(1200ms / var(--nw-motion-scale));
 }
 
 /* ── Intensity: archive (docs, blogs, low-glow) ─────────── */

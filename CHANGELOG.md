@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+> **Status:** v3 in progress on `next/v3`. Not released.
+
+### Added
+
+- **Motion vocabulary: exit variants and longhands.** Each step (`tick`, `sweep`, `uplink`) now
+  publishes an exit composite (`--nw-tick-out`, …), and duration and easing longhands for both
+  directions (`--nw-tick-duration`, `--nw-tick-ease`, `--nw-tick-out-duration`,
+  `--nw-tick-out-ease`, …). Durations scale with `--nw-motion-scale`. The exit values (enter × 0.75,
+  accelerating curve) are provisional until the v3 direction board sets them. `--nw-tick`,
+  `--nw-sweep` and `--nw-uplink` are unchanged.
+- **`--nw-stagger`, `--nw-loop-spin` and `--nw-loop-shimmer`.** Stagger scales with
+  `--nw-motion-scale`; the loop cycles scale inversely (`calc(<ms> / var(--nw-motion-scale))`), so
+  archive loops run slower and combat faster. Components move onto them in a later change.
+- **Token generator:** the `motion` and `reducedMotion` extension keys. A token with
+  `reducedMotion` gets its value inside a generated
+  `@media (prefers-reduced-motion: reduce) { :root, :root[data-intensity] { … } }` block, which
+  beats every intensity level. `motion: true` makes `reducedMotion` required. No token uses them
+  yet.
+- **Parity tool:** `--expect <file>` classifies every difference against declared change
+  categories (`docs/design/v3/change-inventory.json`) and fails only on differences no category
+  explains. Without `--expect`, the output and exit codes are unchanged.
+
+### Changed
+
+- `DESIGN.md`: the generated `motion` region lists the real motion custom properties instead of
+  the doc-only `duration-*` and `easing-*` names, and the `ticker-scroll` and `led-blink`
+  animations, which had no CSS behind them, are gone.
+- Token validation accepts a token with no output of its own when another token references it.
+
 ## [2.1.0] — 2026-11-18
 
 > **Status:** Minor. Additive: two new preset colors and a button press state. Existing tokens,

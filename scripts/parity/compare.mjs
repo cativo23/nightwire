@@ -2,6 +2,12 @@
 // Computed-style parity between two Nightwire stylesheets.
 //
 //   npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>]
+//                     [--max-lines N] [--expect <categories.json>]
+//
+// --old defaults to git:main. With --expect and no --old it defaults to git:<baseline> instead,
+// where `baseline` is the optional top-level field of the category file (git:main when the file
+// has none); an explicit --old that differs from that baseline still runs but prints one WARN
+// line before the PARITY line.
 //
 // Loads every page twice in the local Chrome, once with each stylesheet substituted for
 // nightwire.css, and compares getComputedStyle for every element, its ::before/::after/
@@ -14,8 +20,14 @@
 // transitions are finished and CSS animations are paused at t=0. No freeze stylesheet is
 // injected, so animation-* and transition-* values stay comparable.
 //
-// Exit codes: 0 = no differences and full coverage, 1 = differences or coverage < 100%,
-// 2 = usage error or browser launch failure. See CONTRIBUTING.md.
+// With --expect <file>, differences are classified against the change categories in that file
+// (docs/design/v3/change-inventory.json): one CATEGORY line per category, and only the
+// differences no category explains are printed and fail the run.
+//
+// Exit codes: 0 = no differences (with --expect: none unexpected) and full coverage,
+// 1 = differences (with --expect: unexpected ones) or coverage < 100%,
+// 2 = usage error (including an unreadable or invalid --expect file) or browser launch failure.
+// See CONTRIBUTING.md.
 
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
@@ -24,7 +36,10 @@ import { resolve, extname, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { extractSelectors, analyzeSelectors } from './lib/selectors.mjs';
-import { snapshotKey, diffSnapshots } from './lib/diff.mjs';
+import { snapshotKey, diffRecords, validateCategories } from './lib/diff.mjs';
+import { globToRegExp } from './lib/glob.mjs';
+import { buildReport } from './lib/report.mjs';
+import { resolveOld } from './lib/baseline.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const COVERAGE_FIXTURE = 'scripts/parity/fixtures/coverage.html';
@@ -41,7 +56,8 @@ class UsageError extends Error {}
 
 function usage(message) {
   if (message) console.error(`parity: ${message}`);
-  console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N]');
+  console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N] [--expect <categories.json>]');
+  console.error('  --old defaults to git:main, or to git:<baseline> of the --expect file when it has one');
   process.exit(2);
 }
 
@@ -60,6 +76,21 @@ function loadSheet(spec) {
   return readFileSync(path, 'utf8');
 }
 
+/** Read and compile a change-category file ({ baseline?, categories }); any failure is a usage error. */
+function loadCategories(file) {
+  let json;
+  try {
+    json = JSON.parse(readFileSync(resolve(file), 'utf8'));
+  } catch (err) {
+    usage(`cannot read --expect file ${file}: ${err.message}`);
+  }
+  try {
+    return validateCategories(json);
+  } catch (err) {
+    usage(`${file}: ${err.message}`);
+  }
+}
+
 /** Repo-relative POSIX paths of every file under `dir` (no dotfiles, no node_modules). */
 function listFiles(dir) {
   const out = [];
@@ -72,21 +103,6 @@ function listFiles(dir) {
   };
   if (existsSync(resolve(ROOT, dir))) walkDir(dir);
   return out;
-}
-
-/** Minimal glob for --pages: `**` matches any number of directories, `*` and `?` stay within one. */
-function globToRegExp(pattern) {
-  let re = '';
-  for (let k = 0; k < pattern.length; k++) {
-    const ch = pattern[k];
-    if (ch === '*' && pattern[k + 1] === '*') {
-      k++;
-      if (pattern[k + 1] === '/') { k++; re += '(?:.*/)?'; } else re += '.*';
-    } else if (ch === '*') re += '[^/]*';
-    else if (ch === '?') re += '[^/]';
-    else re += ch.replace(/[.+^${}()|[\]\\]/g, '\\$&');
-  }
-  return new RegExp(`^${re}$`);
 }
 
 function glob(pattern) {
@@ -320,7 +336,7 @@ function compareCaptures(pageName, oldCaps, newCaps, props) {
       });
     }
   }
-  return diffSnapshots(oldSnap, newSnap);
+  return diffRecords(oldSnap, newSnap);
 }
 
 // ---- main -----------------------------------------------------------------------------------
@@ -330,14 +346,18 @@ async function main() {
   try {
     ({ values: args } = parseArgs({
       args: process.argv.slice(2),
-      options: { old: { type: 'string', default: 'git:main' }, new: { type: 'string', default: 'nightwire.css' },
-        pages: { type: 'string' }, 'max-lines': { type: 'string', default: '200' } },
+      options: { old: { type: 'string' }, new: { type: 'string', default: 'nightwire.css' },
+        pages: { type: 'string' }, 'max-lines': { type: 'string', default: '200' }, expect: { type: 'string' } },
     }));
   } catch (err) { usage(err.message); }
   const maxLines = Number(args['max-lines']);
   if (!Number.isInteger(maxLines) || maxLines < 0) usage('--max-lines must be a non-negative integer');
 
-  const oldCss = loadSheet(args.old);
+  const file = args.expect === undefined ? undefined : loadCategories(args.expect);
+  const categories = file?.categories;
+  const { old: oldSpec, warning } = resolveOld({ expect: file !== undefined, baseline: file?.baseline, old: args.old });
+
+  const oldCss = loadSheet(oldSpec);
   const newCss = loadSheet(args.new);
   const pages = resolvePages(args.pages);
 
@@ -363,9 +383,10 @@ async function main() {
   const server = await startServer();
   const origin = `http://127.0.0.1:${server.address().port}`;
   const states = INTENSITIES.flatMap((i) => MOTION.map(([tag, rm]) => ({ intensity: i, reducedMotion: rm, label: `${i}|${tag}` })));
-  console.log(`PARITY  old=${args.old}  new=${args.new}  pages=${pages.length}  states=${states.length}  viewport=${VIEWPORT.width}x${VIEWPORT.height}`);
+  if (warning) console.log(warning);
+  console.log(`PARITY  old=${oldSpec}  new=${args.new}  pages=${pages.length}  states=${states.length}  viewport=${VIEWPORT.width}x${VIEWPORT.height}`);
 
-  const lines = [];
+  const diffs = [];
   const coveredClasses = new Set();
   const coveredAttrs = new Set(attrStates.filter((a) => PROVIDED_ATTR_STATES.test(a)));
   try {
@@ -381,7 +402,7 @@ async function main() {
           label: state.label, classes, attrs: attrStates };
         const before = await captureState(browser, { ...common, css: oldCss }, props, stateful);
         const after = await captureState(browser, { ...common, css: newCss }, props, stateful);
-        lines.push(...compareCaptures(pageName, before.captures, after.captures, props));
+        diffs.push(...compareCaptures(pageName, before.captures, after.captures, props));
         after.coverage.classes.forEach((c) => coveredClasses.add(c));
         after.coverage.attrs.forEach((a) => coveredAttrs.add(a));
       }
@@ -391,15 +412,12 @@ async function main() {
     server.close();
   }
 
-  lines.sort();
-  lines.slice(0, maxLines).forEach((l) => console.log(l));
-  if (lines.length > maxLines) console.log(`…  ${lines.length - maxLines} more DIFF lines (raise --max-lines to see them)`);
-
   const uncovered = [...classes.filter((c) => !coveredClasses.has(c)).map((c) => '.' + c),
     ...attrStates.filter((a) => !coveredAttrs.has(a))];
-  console.log(`COVERAGE  classes=${coveredClasses.size}/${classes.length}  attr-states=${coveredAttrs.size}/${attrStates.length}  uncovered=${uncovered.length ? uncovered.join(' ') : 'none'}`);
-  console.log(`RESULT  differences=${lines.length}`);
-  process.exit(lines.length || uncovered.length ? 1 : 0);
+  const coverageLine = `COVERAGE  classes=${coveredClasses.size}/${classes.length}  attr-states=${coveredAttrs.size}/${attrStates.length}  uncovered=${uncovered.length ? uncovered.join(' ') : 'none'}`;
+  const report = buildReport({ diffs, categories, maxLines, coverageLine, uncovered: uncovered.length });
+  report.lines.forEach((l) => console.log(l));
+  process.exit(report.exitCode);
 }
 
 main().catch((err) => {
