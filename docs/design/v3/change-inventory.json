@@ -889,6 +889,50 @@
       }
     },
     {
+      "id": "v1-removal-progress-fixture-size",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. The parity fixture keeps one .fill bar inside .fixture-v1 so the class stays covered once T045 migrates the examples, so the bar loses its height. Pinned to the fixture's .fixture-v1 wrapper and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^2px$",
+        "new": "^0px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-progress-fixture-colour",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. The parity fixture keeps one .fill bar inside .fixture-v1 so the class stays covered once T045 migrates the examples, so the bar loses its background colour. Pinned to the fixture's .fixture-v1 wrapper and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgba\\(0, 0, 0, 0\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-progress-fixture-glow",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. The parity fixture keeps one .fill bar inside .fixture-v1 so the class stays covered once T045 migrates the examples, so the bar loses its glow. Pinned to the fixture's .fixture-v1 wrapper and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^box-shadow$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(122, 237, 122, 0\\.3\\) 0px 0px (0|4|8\\.8)px 0px$",
+        "new": "^none$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-progress-fixture-origin",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. The parity fixture keeps one .fill bar inside .fixture-v1 so the class stays covered once T045 migrates the examples, so the bar loses its height, so the size-derived origins follow. Pinned to the fixture's .fixture-v1 wrapper and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^[\\d.]+px 1px$",
+        "new": "^[\\d.]+px 0px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
       "id": "v1-removal-tag-warning",
       "description": "The v1 .tag-warning is removed (FR-016, research R10, T042); the v3 spelling is .tag-warn. A tag that still carries only .tag-warning falls back to the base .tag colours (primary on primary-fill), so every colour derived from color follows. Pinned to the fixture's .fixture-v1 wrapper, to the old warning yellow and to the new primary blue.",
       "match": {
