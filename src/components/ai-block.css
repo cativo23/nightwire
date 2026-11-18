@@ -2,7 +2,7 @@
 .ai-block {
   padding: var(--sp-3);
   background: linear-gradient(180deg, rgba(178, 102, 224, 0.06), transparent 70%);
-  border-top: 1px solid rgba(178, 102, 224, 0.25);
+  border-top: var(--nw-hairline) solid rgba(178, 102, 224, 0.25);
 }
 .ai-block-head {
   font-family: var(--font-stamp); font-size: 10px;

@@ -3,7 +3,7 @@
 .nw-progress {
   height: 4px;
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
   overflow: hidden;
 }
 

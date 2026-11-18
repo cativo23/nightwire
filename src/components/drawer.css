@@ -17,7 +17,7 @@
   position: fixed; top: 0; right: 0; height: 100vh;
   width: min(440px, 92vw);
   background: var(--nw-surface-1);
-  border-left: 1px solid var(--nw-line-chrome);
+  border-left: var(--nw-hairline) solid var(--nw-line-chrome);
   display: flex; flex-direction: column;
   z-index: 46;
   box-shadow: var(--nw-elevation-overlay);
@@ -32,6 +32,6 @@
 .drawer-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--nw-chrome-mute);
+  border-bottom: var(--nw-hairline) solid var(--nw-chrome-mute);
 }
 .drawer-body { flex: 1; overflow: auto; padding: var(--sp-4); }

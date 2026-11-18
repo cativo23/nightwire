@@ -2,7 +2,7 @@
 
 .tabs {
   display: flex;
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   gap: 0;
 }
 
@@ -15,7 +15,7 @@
   color: var(--nw-text-dim);
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--nw-accent-width) solid transparent;
   padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
   transition: color var(--nw-tick), border-color var(--nw-tick);

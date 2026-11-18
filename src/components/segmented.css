@@ -1,7 +1,7 @@
 /* ── v2 · Segmented control ────────────────────────────────── */
 .seg {
   display: inline-flex;
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
@@ -10,7 +10,7 @@
   letter-spacing: 0.14em; text-transform: uppercase;
   padding: 5px 12px; background: transparent;
   color: var(--nw-text-mute); border: 0;
-  border-right: 1px solid var(--nw-line);
+  border-right: var(--nw-hairline) solid var(--nw-line);
   cursor: pointer;
   transition: background var(--nw-tick), color var(--nw-tick);
 }

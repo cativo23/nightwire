@@ -8,7 +8,7 @@
   height: 32px;
   border-radius: var(--radius-full);
   background: var(--nw-primary-fill);
-  border: 1px solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-primary-dim);
   color: var(--nw-primary);
   font-size: var(--text-sm);
   font-weight: 700;

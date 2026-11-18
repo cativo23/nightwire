@@ -2,7 +2,7 @@
 
 .toast {
   background: var(--void-panel);
-  border-left: 3px solid var(--nw-primary);
+  border-left: var(--nw-accent-width) solid var(--nw-primary);
   padding: var(--sp-3) var(--sp-4);
   font-size: var(--text-sm);
   color: var(--nw-text);

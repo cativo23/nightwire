@@ -553,7 +553,7 @@ input::placeholder, textarea::placeholder {
   padding: 1px var(--sp-2);
   border-radius: var(--radius-sm);
   color: var(--nw-primary);
-  border: 1px solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-primary-dim);
 }
 .badge-success { color: var(--nw-success); border-color: var(--nw-green-dim); }
 .badge-danger  { color: var(--nw-danger);  border-color: var(--nw-red-dim); }
@@ -698,7 +698,7 @@ input::placeholder, textarea::placeholder {
 .nw-progress {
   height: 4px;
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
   overflow: hidden;
 }
 
@@ -714,7 +714,7 @@ input::placeholder, textarea::placeholder {
 
 .toast {
   background: var(--void-panel);
-  border-left: 3px solid var(--nw-primary);
+  border-left: var(--nw-accent-width) solid var(--nw-primary);
   padding: var(--sp-3) var(--sp-4);
   font-size: var(--text-sm);
   color: var(--nw-text);
@@ -739,7 +739,7 @@ input::placeholder, textarea::placeholder {
 
 .card {
   background: var(--void-warm);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
@@ -751,7 +751,7 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
 }
 
 .card-body {
@@ -760,7 +760,7 @@ input::placeholder, textarea::placeholder {
 
 .card-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: 1px solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-text-faint);
 }
 
 /* ── src/components/modal.css ──────────────────────────────────── */
@@ -861,7 +861,7 @@ input::placeholder, textarea::placeholder {
 
 .tabs {
   display: flex;
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   gap: 0;
 }
 
@@ -874,7 +874,7 @@ input::placeholder, textarea::placeholder {
   color: var(--nw-text-dim);
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--nw-accent-width) solid transparent;
   padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
   transition: color var(--nw-tick), border-color var(--nw-tick);
@@ -899,7 +899,7 @@ input::placeholder, textarea::placeholder {
 .sidebar {
   width: 240px;
   background: var(--void-warm);
-  border-right: 1px solid var(--nw-text-faint);
+  border-right: var(--nw-hairline) solid var(--nw-text-faint);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -912,7 +912,7 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-4);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
 }
 
 .sidebar-section {
@@ -931,7 +931,7 @@ input::placeholder, textarea::placeholder {
   font-size: var(--text-sm);
   color: var(--nw-text-dim);
   padding: var(--sp-2) var(--sp-4);
-  border-left: 2px solid transparent;
+  border-left: var(--nw-accent-width) solid transparent;
   cursor: pointer;
   transition: color var(--nw-tick), background var(--nw-tick), border-color var(--nw-tick);
   text-decoration: none;
@@ -963,7 +963,7 @@ input::placeholder, textarea::placeholder {
   z-index: 100;
   min-width: 180px;
   background: var(--void-raised);
-  border: 1px solid var(--nw-text-line);
+  border: var(--nw-hairline) solid var(--nw-text-line);
   border-radius: var(--radius-md);
   padding: var(--sp-1) 0;
   margin-top: var(--sp-1);
@@ -1048,7 +1048,7 @@ input::placeholder, textarea::placeholder {
   left: 50%;
   transform: translateX(-50%);
   background: var(--void-raised);
-  border: 1px solid var(--nw-text-line);
+  border: var(--nw-hairline) solid var(--nw-text-line);
   border-radius: var(--radius-md);
   padding: var(--sp-1) var(--sp-2);
   font-size: var(--text-xs);
@@ -1081,7 +1081,7 @@ input::placeholder, textarea::placeholder {
   border-radius: var(--radius-sm);
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
 }
 
 .skeleton::after {
@@ -1134,7 +1134,7 @@ input::placeholder, textarea::placeholder {
   justify-content: space-between;
   align-items: baseline;
   padding: var(--sp-1) 0;
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   font-size: var(--text-sm);
 }
 
@@ -1162,7 +1162,7 @@ input::placeholder, textarea::placeholder {
   height: 32px;
   border-radius: var(--radius-full);
   background: var(--nw-primary-fill);
-  border: 1px solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-primary-dim);
   color: var(--nw-primary);
   font-size: var(--text-sm);
   font-weight: 700;
@@ -1225,7 +1225,7 @@ input::placeholder, textarea::placeholder {
   display: inline-block;
   font-family: var(--font-sys); font-size: 10px;
   padding: 1px 5px;
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   background: var(--nw-surface-2);
   color: var(--nw-text-mute);
   border-radius: var(--radius-sm);
@@ -1235,7 +1235,7 @@ input::placeholder, textarea::placeholder {
 /* ── v2 · Segmented control ────────────────────────────────── */
 .seg {
   display: inline-flex;
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
@@ -1244,7 +1244,7 @@ input::placeholder, textarea::placeholder {
   letter-spacing: 0.14em; text-transform: uppercase;
   padding: 5px 12px; background: transparent;
   color: var(--nw-text-mute); border: 0;
-  border-right: 1px solid var(--nw-line);
+  border-right: var(--nw-hairline) solid var(--nw-line);
   cursor: pointer;
   transition: background var(--nw-tick), color var(--nw-tick);
 }
@@ -1274,7 +1274,7 @@ input::placeholder, textarea::placeholder {
 .switch .track {
   width: 32px; height: 16px;
   background: var(--nw-surface-3);
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-full);
   position: relative;
   transition: background var(--nw-tick), border-color var(--nw-tick);
@@ -1311,7 +1311,7 @@ input::placeholder, textarea::placeholder {
 .check .box, .radio .box {
   width: 14px; height: 14px;
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   display: inline-flex; align-items: center; justify-content: center;
   transition: border-color var(--nw-tick), background var(--nw-tick);
 }
@@ -1324,8 +1324,8 @@ input::placeholder, textarea::placeholder {
 }
 .check input:checked + .box::after {
   content: ""; width: 8px; height: 4px;
-  border-left: 1.5px solid var(--nw-text-on-fill);
-  border-bottom: 1.5px solid var(--nw-text-on-fill);
+  border-left: var(--nw-rule) solid var(--nw-text-on-fill);
+  border-bottom: var(--nw-rule) solid var(--nw-text-on-fill);
   transform: rotate(-45deg) translate(1px, -1px);
 }
 .radio input:checked + .box { border-color: var(--nw-chrome); }
@@ -1345,7 +1345,7 @@ input::placeholder, textarea::placeholder {
 /* ── v2 · Combo / multiselect ──────────────────────────────── */
 .combo {
   position: relative; min-height: 36px;
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-md);
   background: var(--nw-surface-2);
   padding: var(--sp-1) var(--sp-2);
@@ -1359,7 +1359,7 @@ input::placeholder, textarea::placeholder {
   display: inline-flex; align-items: center; gap: var(--sp-1);
   padding: 2px 6px;
   background: rgba(102, 153, 255, 0.12);
-  border: 1px solid var(--nw-chrome-mute);
+  border: var(--nw-hairline) solid var(--nw-chrome-mute);
   border-radius: var(--radius-sm);
   font-size: var(--text-xs); color: var(--nw-chrome);
 }
@@ -1390,7 +1390,7 @@ input::placeholder, textarea::placeholder {
   position: fixed; top: 0; right: 0; height: 100vh;
   width: min(440px, 92vw);
   background: var(--nw-surface-1);
-  border-left: 1px solid var(--nw-line-chrome);
+  border-left: var(--nw-hairline) solid var(--nw-line-chrome);
   display: flex; flex-direction: column;
   z-index: 46;
   box-shadow: var(--nw-elevation-overlay);
@@ -1405,7 +1405,7 @@ input::placeholder, textarea::placeholder {
 .drawer-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--nw-chrome-mute);
+  border-bottom: var(--nw-hairline) solid var(--nw-chrome-mute);
 }
 .drawer-body { flex: 1; overflow: auto; padding: var(--sp-4); }
 
@@ -1429,7 +1429,7 @@ input::placeholder, textarea::placeholder {
 .cmdk {
   width: min(560px, 92vw);
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-chrome-mute);
+  border: var(--nw-hairline) solid var(--nw-chrome-mute);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--nw-elevation-overlay);
@@ -1446,7 +1446,7 @@ input::placeholder, textarea::placeholder {
 }
 .cmdk input {
   width: 100%; background: transparent;
-  border: 0; border-bottom: 1px solid var(--nw-line);
+  border: 0; border-bottom: var(--nw-hairline) solid var(--nw-line);
   color: var(--nw-text-strong);
   padding: 14px 16px;
   font-family: var(--font-sys); font-size: var(--text-base);
@@ -1477,14 +1477,14 @@ input::placeholder, textarea::placeholder {
   padding: 6px var(--sp-3);
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: rgba(232, 153, 58, 0.08);
-  border-bottom: 1px solid var(--nw-signal-warn);
+  border-bottom: var(--nw-hairline) solid var(--nw-signal-warn);
   color: var(--nw-text-default);
 }
 .banner .banner-tag {
   font-family: var(--font-stamp); font-size: 9px;
   letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--nw-signal-warn);
-  border: 1px solid var(--nw-signal-warn);
+  border: var(--nw-hairline) solid var(--nw-signal-warn);
   padding: 1px 6px;
   background: transparent;
 }
@@ -1503,7 +1503,7 @@ input::placeholder, textarea::placeholder {
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
   color: var(--nw-text-default);
-  border: 1px solid var(--nw-line);
+  border: var(--nw-hairline) solid var(--nw-line);
   border-radius: var(--radius-md);
   padding: 10px var(--sp-3);
   white-space: pre;
@@ -1518,11 +1518,11 @@ input::placeholder, textarea::placeholder {
 .diff {
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-line);
+  border: var(--nw-hairline) solid var(--nw-line);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
-.diff .ln { display: flex; border-left: 2px solid transparent; }
+.diff .ln { display: flex; border-left: var(--nw-accent-width) solid transparent; }
 .diff .ln .num {
   width: 32px; text-align: right;
   color: var(--nw-text-mute);
@@ -1578,7 +1578,7 @@ input::placeholder, textarea::placeholder {
 .ai-block {
   padding: var(--sp-3);
   background: linear-gradient(180deg, rgba(178, 102, 224, 0.06), transparent 70%);
-  border-top: 1px solid rgba(178, 102, 224, 0.25);
+  border-top: var(--nw-hairline) solid rgba(178, 102, 224, 0.25);
 }
 .ai-block-head {
   font-family: var(--font-stamp); font-size: 10px;

@@ -12,7 +12,7 @@
   z-index: 100;
   min-width: 180px;
   background: var(--void-raised);
-  border: 1px solid var(--nw-text-line);
+  border: var(--nw-hairline) solid var(--nw-text-line);
   border-radius: var(--radius-md);
   padding: var(--sp-1) 0;
   margin-top: var(--sp-1);

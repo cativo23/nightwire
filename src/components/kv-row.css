@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: baseline;
   padding: var(--sp-1) 0;
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   font-size: var(--text-sm);
 }
 

@@ -315,6 +315,16 @@
       }
     },
     {
+      "id": "line-toast-accent",
+      "description": "The toast accent bar goes from 3px to 2px (FR-013, T040): it reads --nw-accent-width, the one accent weight shared with tabs, sidebar and diff. Every other literal border width moved onto --nw-hairline, --nw-rule or --nw-accent-width at the same value, so nothing else changes. Pinned to the left (and inline-start) border width of .toast, 3px to 2px.",
+      "match": {
+        "prop": "^border-(left|inline-start)-width$",
+        "path": "div\\.toast:nth-child\\(\\d+\\)$",
+        "old": "^3px$",
+        "new": "^2px$"
+      }
+    },
+    {
       "id": "refresh-elevation",
       "description": "New --nw-elevation-overlay token: a neutral, non-coloured shadow for overlays. Did not exist in v2.1.0.",
       "match": {

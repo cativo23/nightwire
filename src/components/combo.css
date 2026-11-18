@@ -1,7 +1,7 @@
 /* ── v2 · Combo / multiselect ──────────────────────────────── */
 .combo {
   position: relative; min-height: 36px;
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-md);
   background: var(--nw-surface-2);
   padding: var(--sp-1) var(--sp-2);
@@ -15,7 +15,7 @@
   display: inline-flex; align-items: center; gap: var(--sp-1);
   padding: 2px 6px;
   background: rgba(102, 153, 255, 0.12);
-  border: 1px solid var(--nw-chrome-mute);
+  border: var(--nw-hairline) solid var(--nw-chrome-mute);
   border-radius: var(--radius-sm);
   font-size: var(--text-xs); color: var(--nw-chrome);
 }

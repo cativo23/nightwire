@@ -4,7 +4,7 @@
 .switch .track {
   width: 32px; height: 16px;
   background: var(--nw-surface-3);
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-full);
   position: relative;
   transition: background var(--nw-tick), border-color var(--nw-tick);

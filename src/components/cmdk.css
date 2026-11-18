@@ -17,7 +17,7 @@
 .cmdk {
   width: min(560px, 92vw);
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-chrome-mute);
+  border: var(--nw-hairline) solid var(--nw-chrome-mute);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--nw-elevation-overlay);
@@ -34,7 +34,7 @@
 }
 .cmdk input {
   width: 100%; background: transparent;
-  border: 0; border-bottom: 1px solid var(--nw-line);
+  border: 0; border-bottom: var(--nw-hairline) solid var(--nw-line);
   color: var(--nw-text-strong);
   padding: 14px 16px;
   font-family: var(--font-sys); font-size: var(--text-base);

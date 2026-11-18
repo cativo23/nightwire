@@ -3,7 +3,7 @@
 .sidebar {
   width: 240px;
   background: var(--void-warm);
-  border-right: 1px solid var(--nw-text-faint);
+  border-right: var(--nw-hairline) solid var(--nw-text-faint);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -16,7 +16,7 @@
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-4);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
 }
 
 .sidebar-section {
@@ -35,7 +35,7 @@
   font-size: var(--text-sm);
   color: var(--nw-text-dim);
   padding: var(--sp-2) var(--sp-4);
-  border-left: 2px solid transparent;
+  border-left: var(--nw-accent-width) solid transparent;
   cursor: pointer;
   transition: color var(--nw-tick), background var(--nw-tick), border-color var(--nw-tick);
   text-decoration: none;

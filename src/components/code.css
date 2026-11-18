@@ -11,7 +11,7 @@
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
   color: var(--nw-text-default);
-  border: 1px solid var(--nw-line);
+  border: var(--nw-hairline) solid var(--nw-line);
   border-radius: var(--radius-md);
   padding: 10px var(--sp-3);
   white-space: pre;
@@ -26,11 +26,11 @@
 .diff {
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-line);
+  border: var(--nw-hairline) solid var(--nw-line);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
-.diff .ln { display: flex; border-left: 2px solid transparent; }
+.diff .ln { display: flex; border-left: var(--nw-accent-width) solid transparent; }
 .diff .ln .num {
   width: 32px; text-align: right;
   color: var(--nw-text-mute);
