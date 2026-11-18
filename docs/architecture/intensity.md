@@ -18,11 +18,12 @@ themselves; they read the knobs.
 |------|-----------------|---------|--------|---------|
 | `--nw-glow` | `1` | `0` | `2.2` | led, button, switch, check, segmented, progress, steps, drawer, cmdk, ai-block, stat |
 | `--nw-density` | `1` | — | `0.85` | layout primitives |
-| `--nw-motion-scale` | `1` | `0.6` | `1.2` | `--nw-tick`, `--nw-sweep`, `--nw-uplink` |
+| `--nw-motion-scale` | `1` | `0.6` | `1.2` | every motion token (`--nw-tick`, `--nw-sweep`, `--nw-uplink`, `-out`, longhands, `--nw-stagger`; the loop cycles inversely) |
 | `--nw-pad-scale` | `1` | `1.35` | `0.7` | stat |
 | `--nw-base-font` | `var(--text-base)` | `15px` | `13px` | reset (`body`) |
 | `--nw-pulse-state` | `running` | `paused` | `running` | led |
 | `--nw-pulse-speed` | `1.4s` | — | `0.7s` | led |
+| `--nw-loop-state` | `running` | — | — | button spinner, skeleton shimmer |
 | `--nw-panel-radius` | `var(--radius-none)` | `var(--radius-sm)` | — | panel |
 | `--nw-value-color` | `var(--nw-data)` | `var(--nw-green-dim)` | `var(--nw-green-dim)` | stat |
 | `--nw-value-weight` | `500` | `400` | — | stat |
@@ -35,31 +36,36 @@ themselves; they read the knobs.
 
 ## Known issues
 
-These exist in 2.0.1 and are preserved exactly by the restructure, because fixing any of them
-changes rendering or the published surface. Each has an owner. "Sub-project 2" is the visual
-direction work reserved in [docs/design/](../design/README.md), which follows this restructure.
+These exist in 2.0.1 and were preserved exactly by the restructure, because fixing any of them
+changes rendering or the published surface. Each has an owner. Resolved entries say so and stay
+here for the record. "Sub-project 2" is the visual direction work reserved in
+[docs/design/](../design/README.md), which follows this restructure.
 
-### K1. Reduced motion loses to an explicit intensity
+### K1. Reduced motion loses to an explicit intensity (resolved in v3)
 
-`base/reduced-motion.css` sets `--nw-motion-scale: 0` and `--nw-pulse-state: paused` on `:root`
-(specificity 0,1,0). The intensity blocks use `:root[data-intensity="…"]` (0,2,0), so with
-`data-intensity="archive"` or `"combat"` they win: motion scale stays 0.6 or 1.2, and combat keeps
-the pulse `running`. Only pages without the attribute, or with `operator`, get the reduced values
-through the knobs.
+**Resolved.** Reduced motion now wins at every intensity level. The build generates
+`@media (prefers-reduced-motion: reduce) { :root, :root[data-intensity] { … } }` from token data
+(every token with a `reducedMotion` value: `--nw-motion-scale: 0`, `--nw-pulse-state: paused`,
+`--nw-loop-state: paused`) and emits it after the intensity blocks. `:root[data-intensity]` has the
+same specificity as `:root[data-intensity="combat"]` and comes later, so it beats every level. The
+hand-written `src/base/reduced-motion.css` is deleted. See
+[cascade.md](cascade.md#the-reduced-motion-block) and [tokens.md](tokens.md#reduced-motion).
 
-Effect: users who ask for reduced motion are still protected by the blanket
-`* { animation: none !important; transition: none !important; }` in `base/accessibility.css`, so
-nothing animates. But any component that reads the knobs directly sees the wrong values.
-Owner: sub-project 2 (motion system).
+The 2.x problem, kept for the record: `base/reduced-motion.css` set the two knobs on `:root`
+(specificity 0,1,0), the intensity blocks used `:root[data-intensity="…"]` (0,2,0), and with
+`data-intensity="archive"` or `"combat"` they won. The blanket
+`* { animation: none !important; transition: none !important; }` in `base/accessibility.css` still
+stopped everything, but any component that read a knob saw the wrong value.
 
-### K2. Components hardcode motion durations instead of reading the tokens
+### K2. Components hardcode motion durations instead of reading the tokens (resolved in v3)
 
-The `DESIGN.md` half of this issue is resolved by the v3 foundation: the doc-only
-`duration-fast/base/slow` and `easing-standard/decelerate` tokens are gone, and the generated
-`motion` region lists the real tokens (`--nw-tick`, `--nw-sweep`, `--nw-uplink`, their `-out`
-variants, longhands, stagger and loop cycles). What stays open is that components still hardcode
-their durations instead of reading those tokens (the spinner and the skeleton shimmer, for
-example). Owner: the v3 motion phase.
+**Resolved.** Components read the motion tokens. Every transition and animation in
+`src/components/` uses `--nw-tick`, `--nw-sweep`, `--nw-uplink`, their `-out` and longhand forms,
+`--nw-stagger`, or the loop tokens; the only literal time left is the `0s` of a `visibility` flip. A
+test in `npm test` fails if a component hardcodes a duration. The loops scale inversely with
+`--nw-motion-scale` (`--nw-loop-spin`, `--nw-loop-shimmer`, and the LED pulse), and pause through
+`--nw-loop-state` and `--nw-pulse-state`. `DESIGN.md` lists the real tokens in its generated
+`motion` region instead of the doc-only `duration-*` and `easing-*` names.
 
 ### K3. The Tailwind preset has no `var()`
 
