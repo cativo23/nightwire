@@ -212,6 +212,17 @@
         "old": "^(0|matrix\\(1, 0, 0, 1, 0, 4\\))$",
         "new": "^(1|none)$"
       }
+    },
+    {
+      "id": "motion-reduced-press",
+      "description": "The press shift is now removed under reduced motion (FR-006, fix for a 2.1.0 claim that was false): accessibility.css loads before button.css, so button.css's :active translateY(1px) won at equal specificity and the shift still happened. The reduced-motion rule is now !important. Pinned to buttons, to the forced :active state with reduced motion on, from the translate matrix to none. Parity paths carry no classes beyond the first.",
+      "match": {
+        "prop": "^transform$",
+        "path": "button\\.btn(-ghost|-danger)?:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-on\\|:active",
+        "old": "^matrix\\(1, 0, 0, 1, 0, 1\\)$",
+        "new": "^none$"
+      }
     }
   ]
 }

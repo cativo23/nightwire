@@ -280,8 +280,10 @@ table {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   /* Suppress the tactile press shift too — the universal rule only kills
-     the easing, not the transform itself. */
-  .btn:active, .btn-ghost:active, .btn-danger:active { transform: none; }
+     the easing, not the transform itself. !important for the same load-order
+     reason as .uplink below: this file loads before button.css, whose :active
+     rule has the same specificity and would win. */
+  .btn:active, .btn-ghost:active, .btn-danger:active { transform: none !important; }
   /* .uplink children start at opacity 0 and only the animation reveals them. With
      the animation gone they would stay invisible, so show them at their end state.
      !important because this file loads before uplink.css, whose rule has the same
