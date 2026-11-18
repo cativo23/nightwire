@@ -390,6 +390,16 @@
         "old": "^0\\.6$",
         "new": "^0\\.75$"
       }
+    },
+    {
+      "id": "refresh-modal",
+      "description": "Modal elevation and open transform (direction table): .modal takes the neutral --nw-elevation-overlay shadow (it had none), and an open modal computes transform none instead of scale(1), like .cmdk. Pinned to .modal, to the old and new shadow and to the old and new transform.",
+      "match": {
+        "prop": "^(box-shadow|transform)$",
+        "path": "div\\.modal:nth-child\\(\\d+\\)$",
+        "old": "^(none|matrix\\(1, 0, 0, 1, 0, 0\\))$",
+        "new": "^(rgba\\(0, 0, 0, 0\\.7\\) 0px 24px 64px 0px|none)$"
+      }
     }
   ]
 }

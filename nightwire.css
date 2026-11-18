@@ -776,6 +776,7 @@ input::placeholder, textarea::placeholder {
   background: var(--void-panel);
   border: var(--nw-hairline) solid var(--nw-primary-dim);
   border-radius: var(--radius-lg);
+  box-shadow: var(--nw-elevation-overlay);
   width: 100%;
   max-width: 480px;
   max-height: 90vh;
@@ -842,7 +843,7 @@ input::placeholder, textarea::placeholder {
   transition: transform var(--nw-sweep-out);
 }
 .modal-backdrop[data-open="true"] .modal {
-  transform: scale(1);
+  transform: none;
   transition: transform var(--nw-sweep);
 }
 
