@@ -347,6 +347,9 @@ and unfocusable.
   finishes (about 300ms at the default speed), not at the moment you set `"false"`.
 - A tooltip needs no attribute: it opens on hover and when focus is inside it. Use `data-open`
   only to pin it open or keep it closed.
+- A closed tooltip is `visibility: hidden`, so its text is out of the accessibility tree. Give the
+  trigger `aria-describedby` pointing at the `.tooltip-content` `id`, and the content
+  `role="tooltip"`; `aria-describedby` still reads hidden content.
 
 ```html
 <div class="dropdown" data-open="false">

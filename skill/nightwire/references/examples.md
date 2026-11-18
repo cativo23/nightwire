@@ -419,10 +419,13 @@ A toast with no `data-open` is visible. Set `data-open="false"` on it to fade it
 <!-- Tooltip: opens on hover and when focus is inside; data-open="true" pins it open,
      data-open="false" keeps it closed even on hover -->
 <span class="tooltip">
-  <button class="btn-ghost btn-sm">Deploy</button>
-  <span class="tooltip-content">Deploy the current branch</span>
+  <button class="btn-ghost btn-sm" aria-describedby="tip-deploy">Deploy</button>
+  <span class="tooltip-content" id="tip-deploy" role="tooltip">Deploy the current branch</span>
 </span>
 ```
+
+A closed tooltip is `visibility: hidden`, which takes its text out of the accessibility tree.
+`aria-describedby` on the trigger still reads it, so always pair the two as above.
 
 ---
 

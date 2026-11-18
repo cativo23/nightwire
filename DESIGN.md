@@ -758,6 +758,9 @@ Overlays take a `data-open` attribute. The value is a string; React's `data-open
 - A tooltip opens on hover and when focus is inside it, so keyboard users get it too.
   `data-open="true"` pins it open and `data-open="false"` keeps it closed whatever the pointer or
   focus does.
+- A closed tooltip is `visibility: hidden`, so its text is out of the accessibility tree. Wire it
+  the usual way: the trigger gets `aria-describedby` pointing at the `.tooltip-content` `id`, and the
+  content gets `role="tooltip"`. `aria-describedby` still reads hidden content.
 
 ### New components
 

@@ -56,6 +56,11 @@ All notable changes to this project will be documented in this file.
   (`--nw-loop-shimmer`) and LED pulse (`--nw-pulse-speed`) cycle lengths divide by
   `--nw-motion-scale`: archive loops run slower, combat loops faster. Spinner and shimmer also read
   `--nw-loop-state`.
+- **A closed tooltip leaves the accessibility tree.** `.tooltip-content` is now `visibility: hidden`
+  when closed, so its text is no longer in the accessibility tree until the tooltip opens (in 2.1.0
+  it was, at opacity 0). Give the trigger `aria-describedby` pointing at the content's `id`, and the
+  content `role="tooltip"`: `aria-describedby` still reads hidden content, so the description
+  survives.
 - `docs/architecture/intensity.md`: known issues K1 and K2 are marked resolved.
 
 ### Fixed
