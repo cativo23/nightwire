@@ -52,12 +52,14 @@ Effect: users who ask for reduced motion are still protected by the blanket
 nothing animates. But any component that reads the knobs directly sees the wrong values.
 Owner: sub-project 2 (motion system).
 
-### K2. `DESIGN.md` motion vocabulary does not match the CSS
+### K2. Components hardcode motion durations instead of reading the tokens
 
-`DESIGN.md` describes `duration-fast/base/slow` and `easing-standard/decelerate`. The CSS uses
-`--nw-tick`, `--nw-sweep` and `--nw-uplink`. `duration-fast` and `duration-slow` are aliased to the
-tick and uplink durations; `duration-base` (250 ms) and both easings exist only in the doc, as
-doc-only tokens. Owner: sub-project 2 (motion system).
+The `DESIGN.md` half of this issue is resolved by the v3 foundation: the doc-only
+`duration-fast/base/slow` and `easing-standard/decelerate` tokens are gone, and the generated
+`motion` region lists the real tokens (`--nw-tick`, `--nw-sweep`, `--nw-uplink`, their `-out`
+variants, longhands, stagger and loop cycles). What stays open is that components still hardcode
+their durations instead of reading those tokens (the spinner and the skeleton shimmer, for
+example). Owner: the v3 motion phase.
 
 ### K3. The Tailwind preset has no `var()`
 
