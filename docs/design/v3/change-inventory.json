@@ -331,7 +331,7 @@
         "prop": "^--nw-action(-hot|-text)?$",
         "path": "^:root$",
         "old": "^<missing>$",
-        "new": "^(#e6e6e6|#99bbff|#000000?|rgb\\(\\d+, \\d+, \\d+\\)|var\\(--[\\w-]+\\))$"
+        "new": "^(#e6e6e6|#99bbff|#000000)$"
       }
     },
     {
@@ -505,12 +505,12 @@
     },
     {
       "id": "lines-chrome",
-      "description": "Header rules get quieter (direction table): the bottom border of .panel-header, .modal-header and .nw-table th goes from the solid --nw-primary-dim to --nw-line-chrome (primary at 0.35). The chrome colour stays in the label text. Pinned to the bottom border colour of those elements and to the old and new colour.",
+      "description": "Header rules go neutral (direction round 2): the bottom border of .panel-header, .modal-header and .nw-table th goes from the solid --nw-primary-dim to --nw-line (white at 0.14). Round 1 had --nw-line-chrome; the maintainer rejected it as too close to v2.1.0. The chrome colour is gone from the rule and the label text is neutral too. Pinned to the bottom border colour of those elements and to the old and new colour.",
       "match": {
         "prop": "^border-(bottom|block-end)-color$",
         "path": "(div\\.(panel|modal)-header|th):nth-child\\(\\d+\\)$",
         "old": "^rgb\\(68, 119, 204\\)$",
-        "new": "^rgba\\(102, 153, 255, 0\\.35\\)$"
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
       }
     },
     {
@@ -551,6 +551,76 @@
         "path": "div\\.modal:nth-child\\(\\d+\\)$",
         "old": "^matrix\\(1, 0, 0, 1, 0, 0\\)$",
         "new": "^none$"
+      }
+    },
+    {
+      "id": "round2-labels",
+      "description": "Labels go neutral (direction round 2, FR-013a): .panel-header, .modal-header, .modal-title, .nw-table th, .stat .stat-label, .metric-cell .m-label and .field-label change from the blue chrome colour to --nw-text-mute (#aaaaaa), and so does everything that follows the label colour (inherited text, currentColor borders, outlines and carets on the label and its descendants). Pinned to those elements and to blue to #aaaaaa; the kanji inside a header has its own category.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|background-color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "div\\.(panel|modal)-header:nth-child\\(\\d+\\)(>|$)|>th:nth-child\\(\\d+\\)(>|$)|span\\.(modal-title|stat-label):nth-child\\(\\d+\\)$|div\\.m-label:nth-child\\(\\d+\\)$|label\\.field-label:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$"
+      }
+    },
+    {
+      "id": "round2-kanji",
+      "description": "The kanji inside .panel-header and .modal-header is --nw-text-default (#e6e6e6), the one bright mark in a quiet header. Pinned to a .kanji under those headers, from the old #aaaaaa to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|background-color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "div\\.(panel|modal)-header:nth-child\\(\\d+\\)(>.*)?>span\\.kanji:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(170, 170, 170\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "round2-panel-edge",
+      "description": "The .panel border goes from --nw-text-faint (0.06 in v2.1.0) to --nw-line (0.14), a neutral hairline that reads against the page. Pinned to .panel and the four sides, old and new colour.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "[a-z]+\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "round2-modal-edge",
+      "description": "The .modal border goes from the solid --nw-primary-dim to --nw-line-strong (white at 0.36, the 3:1 control boundary). Pinned to .modal, to the old and new colour.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "div\\.modal:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "round2-modal-footer-rule",
+      "description": "The .modal-footer top rule goes from --nw-text-faint (0.06) to --nw-line (0.14), matching the header rule. Pinned to .modal-footer, its top border, old and new colour.",
+      "match": {
+        "prop": "^border-(top|block-start)-color$",
+        "path": "div\\.modal-footer:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "round2-table-text",
+      "description": "Table cell text is content, not a data readout: .nw-table td goes from --nw-green to --nw-text-default (#e6e6e6), including the colours that follow currentColor. The data colour stays on stat and metric values. Pinned to td (with any utility class), old green to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|background-color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "(^|>)td(\\.[\\w-]+)*:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "round2-table-hover",
+      "description": "The .nw-table row hover fill goes from --nw-green-faint to --nw-text-faint, a neutral hover. Pinned to td background-color, from green at 0.06 to white at 0.08.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "(^|>)td(\\.[\\w-]+)*:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(122, 237, 122, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
       }
     }
   ]

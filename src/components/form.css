@@ -25,7 +25,7 @@ input::placeholder, textarea::placeholder {
 .field-label {
   font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 .field-label .req { color: var(--nw-signal-error); margin-left: 2px; }
 .field-help { font-size: var(--text-xs); color: var(--nw-text-mute); }

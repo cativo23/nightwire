@@ -533,7 +533,7 @@ input::placeholder, textarea::placeholder {
 .field-label {
   font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 .field-label .req { color: var(--nw-signal-error); margin-left: 2px; }
 .field-help { font-size: var(--text-xs); color: var(--nw-text-mute); }
@@ -599,7 +599,7 @@ input::placeholder, textarea::placeholder {
 
 .panel {
   background: var(--void-warm);
-  border: var(--nw-hairline) solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line);
   border-radius: var(--nw-panel-radius);
 }
 
@@ -608,11 +608,15 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-2) var(--sp-3) 7px;
-  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: space-between;
+}
+
+.panel-header .kanji {
+  color: var(--nw-text-default);
 }
 
 .panel-body {
@@ -635,19 +639,19 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   text-align: left;
   padding: 6px 10px;
-  color: var(--nw-primary);
-  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
+  color: var(--nw-text-mute);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
 }
 
 .nw-table td {
   padding: 5px 10px;
-  color: var(--nw-green);
+  color: var(--nw-text-default);
   border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   font-variant-numeric: tabular-nums;
   font-weight: 500;
 }
 
-.nw-table tr:hover td { background: var(--nw-green-faint); }
+.nw-table tr:hover td { background: var(--nw-text-faint); }
 
 /* ── src/components/metrics.css ────────────────────────────────── */
 /* ── Metrics Grid ────────────────────────────────────────────── */
@@ -668,7 +672,7 @@ input::placeholder, textarea::placeholder {
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   margin-bottom: 2px;
 }
 
@@ -777,7 +781,7 @@ input::placeholder, textarea::placeholder {
 
 .modal {
   background: var(--void-panel);
-  border: var(--nw-hairline) solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-lg);
   box-shadow: var(--nw-elevation-overlay);
   width: 100%;
@@ -791,12 +795,16 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.modal-header .kanji {
+  color: var(--nw-text-default);
 }
 
 .modal-body {
@@ -807,7 +815,7 @@ input::placeholder, textarea::placeholder {
 
 .modal-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: var(--nw-hairline) solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: flex-end;
   gap: var(--sp-2);
@@ -817,7 +825,7 @@ input::placeholder, textarea::placeholder {
 .modal-title {
   font-family: var(--font-stamp); font-size: 10px; font-weight: 700;
   letter-spacing: var(--ls-ultra); text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 
 /* ── v2 · Modal show/hide via [data-open] attribute ──────────────
@@ -1597,7 +1605,7 @@ input::placeholder, textarea::placeholder {
 .stat .stat-label {
   font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
   letter-spacing: var(--nw-label-spacing); text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 .stat .stat-value {
   font-family: var(--font-sys);

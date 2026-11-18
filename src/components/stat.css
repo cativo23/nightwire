@@ -8,7 +8,7 @@
 .stat .stat-label {
   font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
   letter-spacing: var(--nw-label-spacing); text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 .stat .stat-value {
   font-family: var(--font-sys);

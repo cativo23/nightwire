@@ -12,7 +12,7 @@
 
 .modal {
   background: var(--void-panel);
-  border: var(--nw-hairline) solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-lg);
   box-shadow: var(--nw-elevation-overlay);
   width: 100%;
@@ -26,12 +26,16 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.modal-header .kanji {
+  color: var(--nw-text-default);
 }
 
 .modal-body {
@@ -42,7 +46,7 @@
 
 .modal-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: var(--nw-hairline) solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: flex-end;
   gap: var(--sp-2);
@@ -52,7 +56,7 @@
 .modal-title {
   font-family: var(--font-stamp); font-size: 10px; font-weight: 700;
   letter-spacing: var(--ls-ultra); text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 
 /* ── v2 · Modal show/hide via [data-open] attribute ──────────────
