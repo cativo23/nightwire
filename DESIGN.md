@@ -264,7 +264,6 @@ components:
     padding: "2px 0"
     fontSize: "9px"
     color: "{colors.primary}"
-    animation: "{animations.ticker-scroll}"
 
   org-mark:
     fontFamily: "{typography.title.fontFamily}"
@@ -328,8 +327,6 @@ motion:
 # </generated:motion>
 
 animations:
-  ticker-scroll:    { duration: "80s",   timing: "linear",     iteration: "infinite" }
-  led-blink:        { duration: "1.2s",  timing: "ease-in-out", iteration: "infinite" }
   skeleton-shimmer: { duration: "1.2s",  timing: "ease-in-out", iteration: "infinite" }
   transition-base:  { duration: "150ms", timing: "ease",        iteration: "1" }
 ---
@@ -672,17 +669,33 @@ knobs:
 
 ### Motion vocabulary
 
-Named timing functions instead of ad-hoc keyframes:
+Three steps, each with an enter and an exit variant. The bare name is the enter variant (it
+decelerates into place); `-out` is the exit variant (shorter, accelerating away).
 
-```yaml
-motion:
-  --nw-tick:    150ms cubic-bezier(0.3,0,0.7,1)    # clicks, toggles, micro-feedback
-  --nw-sweep:   350ms cubic-bezier(0.2,0.8,0.2,1)  # panels enter/exit, modal/drawer
-  --nw-uplink:  400ms cubic-bezier(0,0.6,0.4,1)    # data load reveal (staggered)
-  --nw-pulse-speed:    1.4s                          # LED heartbeat speed (0.7s in combat)
-  --nw-pulse-state:    running                       # running | paused — state-driven
-  # keyframes: nw-pulse (used by .led[data-pulse])
-```
+| Step | Use | Enter | Exit |
+|------|-----|-------|------|
+| `tick` | clicks, toggles, micro-feedback | `--nw-tick` (150ms) | `--nw-tick-out` |
+| `sweep` | panels, modals, drawers | `--nw-sweep` (350ms) | `--nw-sweep-out` |
+| `uplink` | data load reveal | `--nw-uplink` (400ms) | `--nw-uplink-out` |
+
+The exit values are provisional until the v3 direction board sets them. The generated `motion`
+region in the frontmatter lists the current values.
+
+- **Composites** (`--nw-sweep`, `--nw-sweep-out`) fill the `transition` shorthand slot:
+  `transition: transform var(--nw-sweep)`.
+- **Longhands** (`--nw-sweep-duration`, `--nw-sweep-ease`, `--nw-sweep-out-duration`,
+  `--nw-sweep-out-ease`) build a transition piece by piece. A closing overlay needs the duration
+  alone, to delay its `visibility` flip until the exit has finished:
+  `transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration)`.
+- **Stagger**: `--nw-stagger` is the delay step between items revealed in sequence; multiply it
+  by the item's index.
+- **Loops**: `--nw-loop-spin` (800ms at scale 1) and `--nw-loop-shimmer` (1200ms) are the cycles of
+  continuous animations, and `--nw-pulse-speed` (1.4s, 0.7s in combat) is the LED heartbeat. Loop
+  cycles scale inversely with `--nw-motion-scale`: archive (0.6) runs slower and calmer, combat
+  (1.2) runs faster. `--nw-pulse-state` (`running` | `paused`) is state-driven. The spinner and
+  skeleton shimmer still use fixed durations equal to these values; they move onto the tokens in a
+  later change.
+- Keyframes: `nw-pulse` (used by `.led[data-pulse]`), `nw-spin`, `skeleton-shimmer`.
 
 `@media (prefers-reduced-motion: reduce)` sets `--nw-motion-scale: 0` and pauses pulses.
 
