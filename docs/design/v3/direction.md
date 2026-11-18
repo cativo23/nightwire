@@ -5,8 +5,16 @@ Status: pending
 The proposed look for the v3 refresh, recorded once so the maintainer can approve or amend it on
 the direction board (`npm run design:board`, page `docs/design/v3/board.html`) before it reaches
 the other components. The values live in `src/tokens/tokens.json`; this file explains each one.
-Until the Approval section below is filled, nothing here is final and the other 25 components keep
-their v2.1.0 look.
+Until the Approval section below is filled, nothing here is final.
+
+What already reaches the whole system: the token values in this proposal are on `:root`, so every
+component that reads them changes now, not only the nine board components. That is `--nw-glow` (every
+remaining glow halves at operator and stops rising at combat), `--nw-text-faint`, `--nw-text-line` and
+`--nw-line` (every quiet divider and edge), `--nw-line-strong` (every control boundary: check, switch,
+segmented, combo, kbd), `--nw-pulse-speed` and the exit durations. What waits for approval is the
+per-component work on the other 25 components: moving glow onto the glow knobs (T038, T039), removing
+decorative glow (T039), moving line weights onto the line knobs (T040) and the group-by-group
+application (T043, T044). Rejecting a value here means reverting that token.
 
 Constraints: FR-013a (decorative sci-fi treatments are gone at every intensity; combat adds
 energy only through state signals), FR-013b (no glow at archive; at operator every remaining glow
@@ -26,7 +34,7 @@ on the black surfaces).
 | `--nw-text-line`, `--nw-line` | `rgba(255,255,255,0.12)` | `rgba(255,255,255,0.14)` | Same, one step up. |
 | `--nw-line-strong` | `rgba(255,255,255,0.18)` (1.6:1) | `rgba(255,255,255,0.36)` (at least 3:1 on `--void`, `--void-warm` and `--void-panel`) | It is the control-boundary colour (check, switch, segmented, combo, kbd). WCAG 1.4.11 needs 3:1. |
 | Form control border (`input`, `select`, `textarea`) | `--nw-text-line` | `--nw-line-strong` | Inputs are controls, so they get the same 3:1 boundary. |
-| Placeholder | `--nw-text-dim` at opacity 0.6 (3.65:1 on `--void-panel`) | same colour at opacity 0.75 (5.05:1) | AA for text. |
+| Placeholder | `--nw-text-dim` at opacity 0.6 (3.64:1 on `--void-panel`) | same colour at opacity 0.75 (5.03:1) | AA for text. |
 | Header rules (`.panel-header`, `.modal-header`, `.nw-table th` border-bottom) | `--nw-primary-dim`, solid | `--nw-line-chrome` (primary at 0.35) | Quieter hairline rules. The chrome colour stays in the label text. |
 | Panel header `background-image` (gradient; scanlines at combat) | on | removed | FR-013a. The `knob.header-*` tokens are deleted in T037. |
 | `.btn-success` and `.btn-ai` box-shadow at rest | `0 0 calc(10px * glow)`, coloured | none | Decorative glow. |
