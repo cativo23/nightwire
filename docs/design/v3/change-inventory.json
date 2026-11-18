@@ -325,6 +325,16 @@
       }
     },
     {
+      "id": "refresh-action-tokens",
+      "description": "New role tokens --nw-action (the primary action fill), --nw-action-hot (its hover) and --nw-action-text (text on the fill), round 2 of the direction. They did not exist in v2.1.0; their values are the neutral default text colour, the hot chrome blue and void.",
+      "match": {
+        "prop": "^--nw-action(-hot|-text)?$",
+        "path": "^:root$",
+        "old": "^<missing>$",
+        "new": "^(#e6e6e6|#99bbff|#000000?|rgb\\(\\d+, \\d+, \\d+\\)|var\\(--[\\w-]+\\))$"
+      }
+    },
+    {
       "id": "glow-state",
       "description": "State glow moves onto its own knob (FR-013a): .led[data-state] reads --nw-led-glow, which doubles --nw-glow at combat, so a state LED glows 8px at combat (it was 17.6px) while ambient glow no longer rises. At operator the value matches the halved ambient glow and is counted under glow-scale. Pinned to combat, to LEDs, and to the old and new blur.",
       "match": {

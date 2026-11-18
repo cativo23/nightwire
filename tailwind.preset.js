@@ -47,6 +47,11 @@ export default {
             mute: '#4477cc',
             hot: '#99bbff',
           },
+          action: {
+            DEFAULT: '#e6e6e6',
+            hot: '#99bbff',
+            text: '#000000',
+          },
           data: {
             DEFAULT: '#7aed7a',
             mute: '#5cb85c',

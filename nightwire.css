@@ -122,6 +122,9 @@
   --nw-chrome:        var(--nw-primary);
   --nw-chrome-mute:   var(--nw-primary-dim);
   --nw-chrome-hot:    var(--nw-primary-hot);
+  --nw-action:        var(--nw-text-default);
+  --nw-action-hot:    var(--nw-chrome-hot);
+  --nw-action-text:   var(--void);
   --nw-data:          var(--nw-green);
   --nw-data-mute:     var(--nw-green-dim);
   --nw-signal-info:   var(--nw-cyan);
