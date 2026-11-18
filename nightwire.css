@@ -1421,6 +1421,9 @@ input::placeholder, textarea::placeholder {
   box-shadow:
     0 0 0 1px rgba(102, 153, 255, 0.25),
     0 calc(20px * var(--nw-glow)) calc(80px * var(--nw-glow)) rgba(102, 153, 255, 0.15);
+}
+/* Scoped to the backdrop: a standalone .cmdk (no backdrop to open it) stays where it was in 2.x. */
+.cmdk-backdrop .cmdk {
   transform: translateY(-8px);
   transition: transform var(--nw-sweep-out);
 }
