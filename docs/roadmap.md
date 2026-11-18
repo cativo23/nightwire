@@ -1,6 +1,6 @@
 # Nightwire Roadmap — Post-2.0.0
 
-Derived from [SUGGESTIONS.md](./SUGGESTIONS.md). Sequenced by semver impact, not by raw priority.
+Derived from the [proposals](proposals/README.md) (formerly `SUGGESTIONS.md`); the `#` numbers below are proposal numbers. Sequenced by semver impact, not by raw priority.
 
 ## Versioning rules
 
