@@ -39,7 +39,7 @@ test('V-T1: a token with no target is valid when another token aliases it', () =
   assert.doesNotThrow(() => validate(t));
 });
 
-test('V-T1: a token with no target stays invalid when only another targetless token references it', () => {
+test('V-T1: an unreferenced token still fails even when it aliases another targetless token', () => {
   const t = sample();
   t.color.hidden = { $value: { colorSpace: 'srgb', components: [0, 0, 0], hex: '#000000' } };
   t.color.hidden2 = { $value: '{color.hidden}' };
