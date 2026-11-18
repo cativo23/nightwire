@@ -368,11 +368,22 @@
       }
     },
     {
+      "id": "glow-state-controls",
+      "description": "State glow moves onto the per-component knobs (FR-013, research R4, T038): the current and done step, the checked check, radio and switch marks and the pressed segment read --nw-control-glow, the progress fill reads --nw-progress-glow. Both double --nw-glow at combat, so at combat they glow 6px (4px for the progress fill) where v2.1.0 had 13.2px (8.8px): weaker than v2.1.0, and twice the operator value, because only state signals may rise at combat (FR-013a). Operator and archive are unchanged by the knob, so they stay under glow-scale-operator. Pinned to combat, to those six elements and to the exact old and new blur.",
+      "match": {
+        "prop": "^(box-shadow|text-shadow)$",
+        "path": "(div\\.steps:nth-child\\(\\d+\\)>div\\.step:nth-child\\(\\d+\\)|div\\.nw-progress:nth-child\\(\\d+\\)>div\\.(nw-progress-fill|fill):nth-child\\(\\d+\\)|label\\.check:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)|label\\.radio:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)::after|label\\.switch:nth-child\\(\\d+\\)>span\\.track:nth-child\\(\\d+\\)::after|div\\.seg:nth-child\\(\\d+\\)>button:nth-child\\(\\d+\\))$",
+        "state": "^combat\\|",
+        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) 0px 0px (13\\.2|8\\.8)px( 0px)?$",
+        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) 0px 0px (6|4)px( 0px)?$"
+      }
+    },
+    {
       "id": "glow-scale-combat",
-      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Box shadows. Pinned to the component elements that read --nw-glow (drawer, command palette, steps, progress fill, LEDs, checkbox, radio and switch marks, segmented and AI-block text), to the state, and to shadow-shaped old and new values.",
+      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Box shadows. Pinned to the component elements that still read --nw-glow (drawer, command palette, LEDs, AI-block text); the control and progress state glows have their own category, glow-state-controls, to the state, and to shadow-shaped old and new values.",
       "match": {
         "prop": "^box-shadow$",
-        "path": "(div\\.(drawer|cmdk):nth-child\\(\\d+\\)|div\\.steps:nth-child\\(\\d+\\)>div\\.step:nth-child\\(\\d+\\)|div\\.nw-progress:nth-child\\(\\d+\\)>div\\.(nw-progress-fill|fill):nth-child\\(\\d+\\)|span\\.led:nth-child\\(\\d+\\)|label\\.check:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)|label\\.radio:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)::after|label\\.switch:nth-child\\(\\d+\\)>span\\.track:nth-child\\(\\d+\\)::after)$",
+        "path": "(div\\.(drawer|cmdk):nth-child\\(\\d+\\)|span\\.led:nth-child\\(\\d+\\))$",
         "state": "^combat\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
@@ -380,10 +391,10 @@
     },
     {
       "id": "glow-scale-text-combat",
-      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Text shadows. Pinned to the component elements that read --nw-glow (drawer, command palette, steps, progress fill, LEDs, checkbox, radio and switch marks, segmented and AI-block text), to the state, and to shadow-shaped old and new values.",
+      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Text shadows. Pinned to the component elements that read --nw-glow (the AI-block text; the pressed segment has glow-state-controls), to the state, and to shadow-shaped old and new values.",
       "match": {
         "prop": "^text-shadow$",
-        "path": "(div\\.seg:nth-child\\(\\d+\\)>button:nth-child\\(\\d+\\)|div\\.ai-block:nth-child\\(\\d+\\)>div\\.ai-block-head:nth-child\\(\\d+\\)(>span(\\.[\\w-]+)?:nth-child\\(\\d+\\))?)$",
+        "path": "(div\\.ai-block:nth-child\\(\\d+\\)>div\\.ai-block-head:nth-child\\(\\d+\\)(>span(\\.[\\w-]+)?:nth-child\\(\\d+\\))?)$",
         "state": "^combat\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"

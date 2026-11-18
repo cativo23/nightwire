@@ -22,7 +22,7 @@
 .switch input:checked + .track::after {
   transform: translateX(16px);
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) var(--nw-chrome);
 }
 /* The input is visually hidden, so the track shows keyboard focus for it. */
 .switch input:focus-visible + .track {

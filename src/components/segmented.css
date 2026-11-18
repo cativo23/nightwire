@@ -19,7 +19,7 @@
 .seg button[aria-pressed="true"] {
   background: var(--nw-chrome);
   color: var(--nw-text-on-fill);
-  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(255, 255, 255, 0.5);
 }
 /* .seg clips with overflow: hidden, so the global offset outline would be cut off.
    Draw the ring inside the segment instead. */

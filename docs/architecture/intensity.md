@@ -22,7 +22,7 @@ themselves; they read the knobs.
 | `--nw-pad-scale` | `1` | `1.35` | `0.7` | stat |
 | `--nw-base-font` | `var(--text-base)` | `15px` | `13px` | reset (`body`) |
 | `--nw-pulse-state` | `running` | `paused` | `running` | led |
-| `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow` | `var(--nw-glow)` | — | `calc(var(--nw-glow) * 2)` | led now; the control and progress knobs are read by check, switch, segmented, steps and progress in T038 |
+| `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow` | `var(--nw-glow)` | — | `calc(var(--nw-glow) * 2)` | state glow only: led reads the first, check, radio, switch, segmented and steps the second, progress the third |
 | `--nw-pulse-speed` | `1.6s` | — | — (scaled by `--nw-motion-scale`, so combat runs faster) | led |
 | `--nw-loop-state` | `running` | — | — | button spinner, skeleton shimmer |
 | `--nw-panel-radius` | `var(--radius-none)` | `var(--radius-sm)` | — | panel |

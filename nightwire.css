@@ -706,7 +706,7 @@ input::placeholder, textarea::placeholder {
 .nw-progress-fill {
   height: 100%;
   background: var(--nw-green);
-  box-shadow: 0 0 calc(4px * var(--nw-glow)) rgba(122,237,122,0.3);
+  box-shadow: 0 0 calc(4px * var(--nw-progress-glow)) rgba(122,237,122,0.3);
 }
 
 /* ── src/components/toast.css ──────────────────────────────────── */
@@ -1253,7 +1253,7 @@ input::placeholder, textarea::placeholder {
 .seg button[aria-pressed="true"] {
   background: var(--nw-chrome);
   color: var(--nw-text-on-fill);
-  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(255, 255, 255, 0.5);
 }
 /* .seg clips with overflow: hidden, so the global offset outline would be cut off.
    Draw the ring inside the segment instead. */
@@ -1292,7 +1292,7 @@ input::placeholder, textarea::placeholder {
 .switch input:checked + .track::after {
   transform: translateX(16px);
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) var(--nw-chrome);
 }
 /* The input is visually hidden, so the track shows keyboard focus for it. */
 .switch input:focus-visible + .track {
@@ -1320,7 +1320,7 @@ input::placeholder, textarea::placeholder {
 .check input:checked + .box {
   background: var(--nw-chrome);
   border-color: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(102, 153, 255, 0.5);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(102, 153, 255, 0.5);
 }
 .check input:checked + .box::after {
   content: ""; width: 8px; height: 4px;
@@ -1338,7 +1338,7 @@ input::placeholder, textarea::placeholder {
 .radio input:checked + .box::after {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) var(--nw-chrome);
 }
 
 /* ── src/components/combo.css ──────────────────────────────────── */
@@ -1548,11 +1548,11 @@ input::placeholder, textarea::placeholder {
 }
 .steps .step.done {
   background: var(--nw-data);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(122, 237, 122, 0.5);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(122, 237, 122, 0.5);
 }
 .steps .step.current {
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(102, 153, 255, 0.6);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(102, 153, 255, 0.6);
 }
 
 /* ── src/components/empty.css ──────────────────────────────────── */

@@ -16,7 +16,7 @@
 .check input:checked + .box {
   background: var(--nw-chrome);
   border-color: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(102, 153, 255, 0.5);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(102, 153, 255, 0.5);
 }
 .check input:checked + .box::after {
   content: ""; width: 8px; height: 4px;
@@ -34,5 +34,5 @@
 .radio input:checked + .box::after {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) var(--nw-chrome);
 }
