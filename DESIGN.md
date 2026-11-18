@@ -303,9 +303,9 @@ motion:
   sweep:               "calc(350ms * var(--nw-motion-scale)) cubic-bezier(0.2, 0.8, 0.2, 1)"  # enter: panels, modals, drawers
   uplink:              "calc(400ms * var(--nw-motion-scale)) cubic-bezier(0, 0.6, 0.4, 1)"    # enter: data load reveal
 
-  tick-out:            "calc(100ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (provisional)
-  sweep-out:           "calc(250ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (provisional)
-  uplink-out:          "calc(300ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (provisional)
+  tick-out:            "calc(100ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (proposed final, pending approval)
+  sweep-out:           "calc(250ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (proposed final, pending approval)
+  uplink-out:          "calc(300ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (proposed final, pending approval)
 
   tick-duration:       "calc(150ms * var(--nw-motion-scale))"
   sweep-duration:      "calc(350ms * var(--nw-motion-scale))"
