@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--
+  Parity coverage fixture. Not a demo: it exists so `npm run parity` matches every class and
+  attribute state in nightwire.css that the example pages do not use. If the parity tool reports
+  an uncovered selector, add the smallest markup that matches it here.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nightwire parity coverage fixture</title>
+<link rel="stylesheet" href="../../../nightwire.css">
+</head>
+<body>
+<main>
+  <section>
+    <div class="surface-0">surface-0</div>
+    <div class="surface-1">surface-1</div>
+    <div class="surface-2">surface-2</div>
+    <div class="surface-3">surface-3</div>
+    <span class="glow-blue">blue</span> <span class="glow-cyan">cyan</span> <span class="glow-red">red</span>
+    <span class="glow-yellow">yellow</span> <span class="glow-purple">purple</span>
+    <div class="border">border</div>
+    <div class="border-primary">border-primary</div>
+    <div class="border-dim">border-dim</div>
+    <h2 class="compressed-title">Compressed title</h2>
+    <p class="font-sys">font-sys</p>
+    <p class="font-title">font-title</p>
+    <p class="font-stamp">font-stamp</p>
+    <p class="font-mincho">font-mincho</p>
+  </section>
+
+  <section>
+    <div class="grid-2"><div>a</div><div>b</div></div>
+    <div class="grid-3"><div>a</div><div>b</div><div>c</div></div>
+    <div class="grid-4"><div>a</div><div>b</div><div>c</div><div>d</div></div>
+    <div class="stack"><div>a</div><div>b</div></div>
+    <div class="nw-stack"><div>a</div><div>b</div></div>
+    <div class="nw-cluster"><span>a</span><span>b</span></div>
+    <hr class="divider">
+    <hr class="divider divider-primary">
+  </section>
+
+  <section>
+    <span class="led green"></span> <span class="led blue"></span>
+    <span class="led red"></span> <span class="led yellow"></span>
+    <div class="nw-progress"><div class="nw-progress-fill" style="width: 40%"></div></div>
+    <span class="tag tag-warning">warning</span>
+    <span class="avatar avatar-lg">NW</span>
+  </section>
+
+  <section>
+    <div class="toast toast-success">success</div>
+    <div class="toast toast-warning">warning</div>
+    <div class="toast toast-info">info</div>
+    <div class="toast toast-danger">danger</div>
+  </section>
+
+  <section>
+    <div class="card">
+      <div class="card-header">Card header</div>
+      <div class="card-body">Card body</div>
+      <div class="card-footer">Card footer</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="tabs">
+      <button class="tab active">One</button>
+      <button class="tab">Two</button>
+    </div>
+    <div class="tab-panel">Tab panel</div>
+  </section>
+
+  <section>
+    <aside class="sidebar">
+      <div class="sidebar-header">Sidebar</div>
+      <div class="sidebar-section">
+        <a class="sidebar-item active" href="#a">Active</a>
+        <a class="sidebar-item" href="#b">Item</a>
+      </div>
+    </aside>
+  </section>
+
+  <section>
+    <div class="dropdown">
+      <button>Menu</button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#a">Item</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item danger" href="#b">Delete</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <nav class="breadcrumbs">
+      <a href="#home">Home</a>
+      <span class="separator">/</span>
+      <span class="current">Here</span>
+    </nav>
+  </section>
+
+  <section>
+    <span class="tooltip">Hover me<span class="tooltip-content">Tooltip</span></span>
+  </section>
+
+  <section>
+    <div class="skeleton skeleton-text"></div>
+    <div class="skeleton skeleton-heading"></div>
+    <div class="skeleton skeleton-avatar"></div>
+    <div class="skeleton skeleton-block"></div>
+  </section>
+
+  <section>
+    <div class="kv-row"><span class="kv-label">Key</span><span class="kv-value">Value</span></div>
+  </section>
+</main>
+
+<!-- Overlays: one closed and one open copy of each, so both states are measured. -->
+<div class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-header">Closed modal</div>
+    <div class="modal-body">Body</div>
+    <div class="modal-footer">Footer</div>
+  </div>
+</div>
+<div class="modal-backdrop" data-open="true">
+  <div class="modal">
+    <div class="modal-header">Open modal</div>
+    <div class="modal-body">Body</div>
+    <div class="modal-footer">Footer</div>
+  </div>
+</div>
+<div class="drawer-backdrop" data-open="true"></div>
+<div class="drawer" data-open="true">
+  <div class="drawer-header">Open drawer</div>
+  <div class="drawer-body">Body</div>
+</div>
+<div class="cmdk-backdrop" data-open="true"></div>
+</body>
+</html>
