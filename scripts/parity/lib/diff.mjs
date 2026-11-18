@@ -93,6 +93,9 @@ export function validateCategories(file) {
       if (typeof value !== 'string') {
         throw new Error(`change category "${id}": match.${field} must be a string`);
       }
+      if (value === '') {
+        throw new Error(`change category "${id}": match.${field} must not be empty (an empty pattern matches every difference)`);
+      }
       if (field === 'page') {
         out.page = globToRegExp(value);
         continue;

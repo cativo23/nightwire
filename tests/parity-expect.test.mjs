@@ -270,3 +270,18 @@ test('validateCategories rejects an invalid regex naming the category id, the fi
 test('validateCategories rejects a non-string match field', () => {
   assert.throws(() => validateCategories({ categories: [cat('num', { prop: 5 })] }), /num.*match\.prop.*string/i);
 });
+
+test('validateCategories rejects an empty-string match field, which would be a catch-all', () => {
+  for (const field of ['prop', 'path', 'state', 'old', 'new', 'page']) {
+    const match = { prop: 'ok', [field]: '' };
+    assert.throws(
+      () => validateCategories({ categories: [cat('catch-all', match)] }),
+      (err) => {
+        assert.match(err.message, /catch-all/);
+        assert.ok(err.message.includes(`match.${field}`), `message names match.${field}: ${err.message}`);
+        assert.match(err.message, /empty/i);
+        return true;
+      },
+    );
+  }
+});
