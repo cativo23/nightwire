@@ -13,7 +13,7 @@
   color: var(--nw-action-text);
   background: var(--nw-action);
   border: var(--nw-hairline) solid var(--nw-action);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
@@ -41,7 +41,7 @@
   color: var(--nw-text-default);
   background: transparent;
   border: var(--nw-hairline) solid var(--nw-line-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
@@ -64,7 +64,7 @@
   color: var(--void);
   background: var(--nw-red);
   border: var(--nw-hairline) solid var(--nw-red);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }

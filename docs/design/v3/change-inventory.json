@@ -624,6 +624,36 @@
       }
     },
     {
+      "id": "round2-radius-controls",
+      "description": "Square corners (direction round 2): .btn, .btn-ghost, .btn-danger, input, select and textarea go from --radius-md (4px) to --radius-sm (2px). Pinned to the corner radii of those elements, 4px to 2px.",
+      "match": {
+        "prop": "^border-(top|bottom)-(left|right)-radius$|^border-(start|end)-(start|end)-radius$",
+        "path": "(button|a)\\.btn(-[\\w-]+)?:nth-child\\(\\d+\\)$|(^|>)(input|select|textarea)(\\.[\\w-]+)*:nth-child\\(\\d+\\)$",
+        "old": "^4px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "round2-radius-tag",
+      "description": "Square corners: .tag goes from --radius-full (9999px) to --radius-sm (2px). Pinned to the corner radii of .tag, 9999px to 2px.",
+      "match": {
+        "prop": "^border-(top|bottom)-(left|right)-radius$|^border-(start|end)-(start|end)-radius$",
+        "path": "span\\.tag(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "old": "^9999px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "round2-radius-modal",
+      "description": "Square corners: .modal goes from --radius-lg (8px) to --radius-sm (2px). Pinned to the corner radii of .modal, 8px to 2px.",
+      "match": {
+        "prop": "^border-(top|bottom)-(left|right)-radius$|^border-(start|end)-(start|end)-radius$",
+        "path": "div\\.modal:nth-child\\(\\d+\\)$",
+        "old": "^8px$",
+        "new": "^2px$"
+      }
+    },
+    {
       "id": "round2-btn-bone",
       "description": "The primary .btn is a bone solid (direction round 2): background and border go from --nw-primary (blue) to --nw-action (#e6e6e6). Pinned to buttons, to the fill and border colours, blue to #e6e6e6. The hover (--nw-action-hot, #99bbff) equals the v2.1.0 primary hover and does not differ.",
       "match": {

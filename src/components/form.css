@@ -6,7 +6,7 @@ input, select, textarea {
   color: var(--nw-text);
   background: var(--void-panel);
   border: var(--nw-hairline) solid var(--nw-line-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   padding: var(--sp-2) var(--sp-3);
   transition: border-color var(--nw-tick), box-shadow var(--nw-tick);
 }

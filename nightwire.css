@@ -395,7 +395,7 @@ table {
   color: var(--nw-action-text);
   background: var(--nw-action);
   border: var(--nw-hairline) solid var(--nw-action);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
@@ -423,7 +423,7 @@ table {
   color: var(--nw-text-default);
   background: transparent;
   border: var(--nw-hairline) solid var(--nw-line-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
@@ -446,7 +446,7 @@ table {
   color: var(--void);
   background: var(--nw-red);
   border: var(--nw-hairline) solid var(--nw-red);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
@@ -515,7 +515,7 @@ input, select, textarea {
   color: var(--nw-text);
   background: var(--void-panel);
   border: var(--nw-hairline) solid var(--nw-line-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   padding: var(--sp-2) var(--sp-3);
   transition: border-color var(--nw-tick), box-shadow var(--nw-tick);
 }
@@ -783,7 +783,7 @@ input::placeholder, textarea::placeholder {
 .modal {
   background: var(--void-panel);
   border: var(--nw-hairline) solid var(--nw-line-strong);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-sm);
   box-shadow: var(--nw-elevation-overlay);
   width: 100%;
   max-width: 480px;
@@ -1200,7 +1200,7 @@ input::placeholder, textarea::placeholder {
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   padding: 0 var(--sp-2);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   color: var(--nw-primary);
   background: var(--nw-primary-fill);
 }
