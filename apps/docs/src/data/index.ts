@@ -40,8 +40,8 @@ export const COMPONENTS = [
 // ── Sidebar structure ──────────────────────────────────────────────────────
 // Source of truth is SIDEBAR_GROUPS (named sections in render order).
 //
-// Grouping rationale lives in .claude-research/design-system-sidebar-research.md
-// (Foundation / Components / Patterns model, inspired by Polaris + Geist + Atlassian).
+// Grouping follows a Foundation / Components / Patterns model, inspired by Polaris, Geist and
+// Atlassian.
 //
 // v2-alpha additions get an inline `isNewV2` flag so the Sidebar can pin a small
 // "v2" chip next to the label, and NewBadge renders the full "NEW IN V2" pill —

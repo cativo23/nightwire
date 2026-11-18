@@ -23,7 +23,6 @@ generated, so the first rule is to know which files are sources.
 | `scripts/` | **hand-edited** | Build scripts and the parity tool |
 | `tests/` | **hand-edited** | `node:test` unit tests and fixtures |
 | `.github/` | **hand-edited** | CI, docs deploy and release workflows |
-| `.claude-research/` | **hand-edited** | Legacy research notes |
 | `package.json`, `package-lock.json`, `tsconfig.json` | **hand-edited** | Package and compiler config (`npm install` updates the lockfile) |
 | `docker-compose.yml`, `docker-compose.dev.yml`, `.dockerignore` | **hand-edited** | Local docs site in Docker (repo root is the build context) |
 | `README.md`, `CHANGELOG.md`, `LICENSE` | **hand-edited** | Consumer-facing docs and license |
