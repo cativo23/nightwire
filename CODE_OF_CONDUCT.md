@@ -11,8 +11,8 @@ faith, and do not harass, demean or exclude anyone.
 ## Reporting
 
 Report conduct concerns to the maintainer via GitHub ([@cativo23](https://github.com/cativo23)).
-Ask for a private channel first if the details are sensitive. Reports are handled confidentially,
-and the maintainer follows the enforcement and repair guidance in the Contributor Covenant.
+Ask for a private channel first if the details are sensitive. The maintainer aims to handle reports
+confidentially and to follow the enforcement and repair guidance in the Contributor Covenant.
 
 ## Attribution
 
