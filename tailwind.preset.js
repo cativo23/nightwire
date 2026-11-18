@@ -35,6 +35,8 @@ export default {
           text: {
             DEFAULT: '#ffffff',
             dim: '#aaaaaa',
+            faint: 'rgba(255, 255, 255, 0.06)',
+            line: 'rgba(255, 255, 255, 0.12)',
             strong: '#ffffff',
             default: '#e6e6e6',
             mute: '#aaaaaa',
