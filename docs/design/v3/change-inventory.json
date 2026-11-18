@@ -504,6 +504,16 @@
       }
     },
     {
+      "id": "decor-removal-knobs",
+      "description": "The two header decoration knobs are deleted (FR-013a, T037): --nw-header-gradient and --nw-header-pattern leave :root and every intensity block, so each resolves to <missing>. Nothing reads them since the panel header background-image went (decor-removal). Pinned to :root, the two names and their exact v2.1.0 values. The migration guide entry comes with T055.",
+      "match": {
+        "prop": "^--nw-header-(gradient|pattern)$",
+        "path": "^:root$",
+        "old": "^(none|linear-gradient\\(180deg, rgba\\(102, 153, 255, 0\\.(06|18)\\), transparent (80|70)%\\)|repeating-linear-gradient\\(0deg, rgba\\(102, 153, 255, 0\\.05\\) 0 1px, transparent 1px 3px\\))$",
+        "new": "^<missing>$"
+      }
+    },
+    {
       "id": "lines-chrome",
       "description": "Header rules go neutral (direction round 2): the bottom border of .panel-header, .modal-header and .nw-table th goes from the solid --nw-primary-dim to --nw-line (white at 0.14). Round 1 had --nw-line-chrome; the maintainer rejected it as too close to v2.1.0. The chrome colour is gone from the rule and the label text is neutral too. Pinned to the bottom border colour of those elements and to the old and new colour.",
       "match": {

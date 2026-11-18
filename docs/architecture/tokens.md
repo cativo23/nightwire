@@ -131,8 +131,6 @@ Every raw token today, and why it cannot be typed:
 | `font.tracking.tight` / `normal` / `wide` / `ultra` | `-0.01em`, `0`, `0.06em`, `0.2em` | `--ls-*`, preset `letterSpacing.nw-*` (not `normal`) | `em` is not a DTCG dimension unit |
 | `knob.pulse-state` / `loop-state` | `running` | `--nw-pulse-state`, `--nw-loop-state` | CSS keyword |
 | `knob.kanji-display` | `inline` | `--nw-kanji-display` | CSS keyword |
-| `knob.header-gradient` | `linear-gradient(180deg, rgba(102, 153, 255, 0.06), transparent 80%)` | `--nw-header-gradient` | CSS gradient |
-| `knob.header-pattern` | `none` | `--nw-header-pattern` | CSS keyword (combat sets a gradient) |
 | `motion.tick` / `sweep` / `uplink` | `calc({motion.timing.<name>.in.duration} * var(--nw-motion-scale)) {motion.timing.<name>.in.easing}` | `--nw-tick`, `--nw-sweep`, `--nw-uplink` | `calc()` with a runtime `var()` |
 | `motion.exit.*`, `motion.longhand.*`, `motion.longhand-out.*` | the same shape over `out.*`, and the bare `calc()` duration or curve | `--nw-<step>-out`, `--nw-<step>-duration`, `--nw-<step>-ease`, `--nw-<step>-out-duration`, `--nw-<step>-out-ease` | `calc()` with a runtime `var()`; a bare curve interpolated from a typed token |
 | `motion.cycle.*` | `calc({motion.timing.stagger} * var(--nw-motion-scale))`; loops divide by `var(--nw-motion-scale)` | `--nw-stagger`, `--nw-loop-spin`, `--nw-loop-shimmer` | `calc()` with a runtime `var()` |

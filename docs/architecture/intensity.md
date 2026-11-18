@@ -29,8 +29,6 @@ themselves; they read the knobs.
 | `--nw-value-color` | `var(--nw-data)` | `var(--nw-green-dim)` | `var(--nw-green-dim)` | stat |
 | `--nw-value-weight` | `500` | `400` | — | stat |
 | `--nw-kanji-display` | `inline` | `none` | — | `.kanji` |
-| `--nw-header-gradient` | blue 6% → transparent 80% | `none` | blue 18% → transparent 70% | panel header |
-| `--nw-header-pattern` | `none` | — | 1px scanlines | panel header |
 | `--nw-hairline`, `--nw-rule`, `--nw-accent-width` | `1px`, `1.5px`, `2px` | — | — | structural borders, drawn marks, accent bars (no per-level overrides) |
 | `--nw-label-spacing` | `var(--ls-ultra)` | `0.14em` | — | stat |
 

@@ -160,8 +160,6 @@
   --nw-value-color:   var(--nw-data);
   --nw-value-weight:  500;
   --nw-kanji-display: inline;
-  --nw-header-gradient: linear-gradient(180deg, rgba(102, 153, 255, 0.06), transparent 80%);
-  --nw-header-pattern:  none;
   --nw-label-spacing:   var(--ls-ultra);
 
   /* ── Motion vocabulary ──────────────────────────────────── */
@@ -208,7 +206,6 @@
   --nw-value-color: var(--nw-green-dim);
   --nw-value-weight: 400;
   --nw-kanji-display: none;
-  --nw-header-gradient: none;
   --nw-label-spacing: 0.14em;
 }
 
@@ -225,8 +222,6 @@
   --nw-base-font: 13px;
   --nw-pulse-state: running;
   --nw-value-color: var(--nw-green-dim);
-  --nw-header-gradient: linear-gradient(180deg, rgba(102, 153, 255, 0.18), transparent 70%);
-  --nw-header-pattern: repeating-linear-gradient(0deg, rgba(102, 153, 255, 0.05) 0 1px, transparent 1px 3px);
   --nw-led-glow: calc(var(--nw-glow) * 2);
   --nw-control-glow: calc(var(--nw-glow) * 2);
   --nw-progress-glow: calc(var(--nw-glow) * 2);

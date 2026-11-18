@@ -121,7 +121,6 @@ export const INTENSITY_MODES = [
       '--nw-kanji-display': 'none',
       '--nw-panel-radius': '2px',
       '--nw-value-weight': '400',
-      '--nw-header-gradient': 'none',
     },
   },
   {
@@ -138,14 +137,13 @@ export const INTENSITY_MODES = [
       '--nw-kanji-display': 'inline',
       '--nw-panel-radius': '0',
       '--nw-value-weight': '500',
-      '--nw-header-gradient': 'linear-gradient(180deg, rgba(102,153,255,0.06), transparent 80%)',
     },
   },
   {
     id: 'combat',
     label: 'Combat',
     kanji: '戦闘',
-    desc: 'Ops console, high glow, dense. Extra glow, faster pulses, denser padding, scanline overlay on headers.',
+    desc: 'Ops console, high glow, dense. Extra glow, faster pulses, denser padding.',
     knobs: {
       '--nw-glow': '2.2',
       '--nw-motion-scale': '1.2',
@@ -153,8 +151,6 @@ export const INTENSITY_MODES = [
       '--nw-pad-scale': '0.7',
       '--nw-base-font': '13px',
       '--nw-pulse-speed': '0.7s',
-      '--nw-header-gradient': 'linear-gradient(180deg, rgba(102,153,255,0.18), transparent 70%)',
-      '--nw-header-pattern': 'repeating-linear-gradient(0deg, rgba(102,153,255,0.05) 0 1px, transparent 1px 3px)',
     },
   },
 ];

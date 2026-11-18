@@ -666,7 +666,6 @@ knobs:
   --nw-panel-radius:   0          # softens to 2px in archive
   --nw-value-color:    var(--nw-data)  # dims in archive, brightens in combat
   --nw-kanji-display:  inline     # → none in archive
-  --nw-header-gradient: subtle    # → none in archive, scanlines in combat
   --nw-label-spacing:  0.2em      # → 0.14em in archive
 ```
 
