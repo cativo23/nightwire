@@ -263,7 +263,7 @@ All primary colors pass WCAG AA on black:
 | Text | `#ffffff` | 21:1 |
 
 ```css
-:focus-visible { outline: 2px solid var(--nw-primary); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--nw-focus-ring); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
