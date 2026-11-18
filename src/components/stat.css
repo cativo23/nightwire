@@ -17,9 +17,6 @@
   color: var(--nw-value-color);
   line-height: 1; letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
-  text-shadow:
-    0 0 calc(8px * var(--nw-glow)) rgba(122, 237, 122, 0.55),
-    0 0 calc(20px * var(--nw-glow)) rgba(122, 237, 122, 0.25);
 }
 .stat .stat-delta { display: inline-flex; align-items: center; gap: 4px; font-size: var(--text-xs); }
 .stat .stat-delta.up   { color: var(--nw-data); }

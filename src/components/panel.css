@@ -16,7 +16,6 @@
   border-bottom: 1px solid var(--nw-primary-dim);
   display: flex;
   justify-content: space-between;
-  background-image: var(--nw-header-pattern), var(--nw-header-gradient);
 }
 
 .panel-body {

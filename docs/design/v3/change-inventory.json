@@ -319,6 +319,36 @@
         "path": "^html>body:nth-child\\(2\\)>div\\.hud:nth-child\\(2\\)(>span:nth-child\\(2\\))?$",
         "page": "examples/html/workshop.html"
       }
+    },
+    {
+      "id": "glow-decor",
+      "description": "Decorative glow is removed from the board set at every intensity (FR-013a, research R4): the resting box-shadow of .btn-success and .btn-ai, the .stat-value text-shadow and the .m-value text-shadow of .metric-cell and its highlight. Pinned to the property, to each old coloured shadow (any blur, because the blur scaled with the glow knob) and to the new value none.",
+      "match": {
+        "prop": "^(box-shadow|text-shadow)$",
+        "old": "^(rgba\\((178, 102, 224|122, 237, 122), 0\\.2\\) 0px 0px [\\d.]+px 0px|rgba\\(122, 237, 122, 0\\.55\\) 0px 0px [\\d.]+px, rgba\\(122, 237, 122, 0\\.25\\) 0px 0px [\\d.]+px|rgba\\(122, 237, 122, 0\\.4\\) 0px 0px 6px, rgba\\(122, 237, 122, 0\\.15\\) 0px 0px 12px|rgba\\(102, 153, 255, 0\\.4\\) 0px 0px 6px)$",
+        "new": "^none$"
+      }
+    },
+    {
+      "id": "glow-decor-utility",
+      "description": "Consequence of glow-decor (FR-013a): on the synapse-ops example page a metric value also carries the .glow-green utility, which the hardcoded .m-value text-shadow used to override (specificity). With that shadow gone the utility shows through. T039 makes the utilities read --nw-glow. Pinned to the page, to the .m-value in a .metric-cell and to the old and new shadows.",
+      "match": {
+        "prop": "^text-shadow$",
+        "path": "div\\.metric-cell:nth-child\\(\\d+\\)>div\\.m-value:nth-child\\(\\d+\\)$",
+        "page": "examples/html/synapse-ops.html",
+        "old": "^rgba\\(122, 237, 122, 0\\.4\\) 0px 0px 6px, rgba\\(122, 237, 122, 0\\.15\\) 0px 0px 12px$",
+        "new": "^rgba\\(122, 237, 122, 0\\.5\\) 0px 0px 8px, rgba\\(122, 237, 122, 0\\.2\\) 0px 0px 16px$"
+      }
+    },
+    {
+      "id": "decor-removal",
+      "description": "The panel header background-image (a blue gradient, plus scanlines at combat) is removed (FR-013a). Every background longhand of the header resolves to its initial layer list: none for the image and, since the two-layer list collapses to one, one value instead of two for the other longhands. Pinned to .panel-header.",
+      "match": {
+        "prop": "^background-(image|attachment|blend-mode|clip|origin|position|repeat|size)$",
+        "path": "div\\.panel-header:nth-child\\(\\d+\\)$",
+        "old": "^(none, none|none, linear-gradient\\(rgba\\(102, 153, 255, 0\\.06\\), rgba\\(0, 0, 0, 0\\) 80%\\)|repeating-linear-gradient\\(0deg, rgba\\(102, 153, 255, 0\\.05\\) 0px, rgba\\(102, 153, 255, 0\\.05\\) 1px, rgba\\(0, 0, 0, 0\\) 1px, rgba\\(0, 0, 0, 0\\) 3px\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.18\\), rgba\\(0, 0, 0, 0\\) 70%\\)|scroll, scroll|normal, normal|border-box, border-box|padding-box, padding-box|0% 0%, 0% 0%|repeat, repeat|auto, auto)$",
+        "new": "^(none|scroll|normal|border-box|padding-box|0% 0%|repeat|auto)$"
+      }
     }
   ]
 }

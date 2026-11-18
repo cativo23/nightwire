@@ -25,7 +25,6 @@
   font-weight: 700;
   color: var(--nw-green);
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 6px rgba(122,237,122,0.4), 0 0 12px rgba(122,237,122,0.15);
   line-height: 1.1;
 }
 
@@ -37,6 +36,5 @@
 
 .metric-cell.highlight .m-value {
   color: var(--nw-primary);
-  text-shadow: 0 0 6px rgba(102,153,255,0.4);
   font-size: var(--text-2xl);
 }

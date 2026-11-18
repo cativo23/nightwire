@@ -97,7 +97,6 @@
   background: transparent;
   color: var(--nw-data);
   border: 1px solid var(--nw-data-mute);
-  box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(122, 237, 122, 0.2);
 }
 .btn-success:hover { background: var(--nw-green-fill); }
 
@@ -105,7 +104,6 @@
   background: transparent;
   color: var(--nw-ai);
   border: 1px solid var(--nw-ai-mute);
-  box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(178, 102, 224, 0.2);
 }
 .btn-ai:hover { background: var(--nw-purple-fill); }
 
