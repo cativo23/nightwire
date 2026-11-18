@@ -669,8 +669,9 @@ knobs:
 
 ### Motion vocabulary
 
-Three steps, each with an enter and an exit variant. The bare name is the enter variant (it
-decelerates into place); `-out` is the exit variant (shorter, accelerating away).
+Three steps, each with an enter and an exit variant. The bare name is the enter variant; `-out`
+is the exit variant (shorter, accelerating away). Of the enter curves, `sweep` and `uplink`
+decelerate into place, while `tick` is a symmetric ease-in-out.
 
 | Step | Use | Enter | Exit |
 |------|-----|-------|------|
@@ -678,8 +679,8 @@ decelerates into place); `-out` is the exit variant (shorter, accelerating away)
 | `sweep` | panels, modals, drawers | `--nw-sweep` (350ms) | `--nw-sweep-out` |
 | `uplink` | data load reveal | `--nw-uplink` (400ms) | `--nw-uplink-out` |
 
-The exit values are provisional until the v3 direction board sets them. The generated `motion`
-region in the frontmatter lists the current values.
+The exit values and the final curves are provisional until the v3 direction board sets them. The
+generated `motion` region in the frontmatter lists the current values.
 
 - **Composites** (`--nw-sweep`, `--nw-sweep-out`) fill the `transition` shorthand slot:
   `transition: transform var(--nw-sweep)`.
@@ -695,7 +696,7 @@ region in the frontmatter lists the current values.
   (1.2) runs faster. `--nw-pulse-state` (`running` | `paused`) is state-driven. The spinner and
   skeleton shimmer still use fixed durations equal to these values; they move onto the tokens in a
   later change.
-- Keyframes: `nw-pulse` (used by `.led[data-pulse]`), `nw-spin`, `skeleton-shimmer`.
+- Keyframes: `nw-pulse` (used by `.led[data-pulse]`), `nw-spin`, `nw-uplink`, `skeleton-shimmer`.
 
 `@media (prefers-reduced-motion: reduce)` sets `--nw-motion-scale: 0` and pauses pulses.
 
