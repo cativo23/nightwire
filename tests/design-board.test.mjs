@@ -36,7 +36,7 @@ test('--out, --page and --width override their defaults', () => {
 });
 
 test('--width must be a positive integer', () => {
-  for (const bad of ['0', '-5', '12.5', 'wide', '']) assert.throws(() => parse('--width', bad), /--width must be a positive integer/);
+  for (const bad of ['0', '-5', '12.5', 'wide', '']) assert.throws(() => parse(`--width=${bad}`), /--width must be a positive integer/);
 });
 
 test('unknown flags and stray positionals are usage errors', () => {
