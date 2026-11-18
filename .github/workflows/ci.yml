@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm test
+
+      - run: npm run build
+
+      - name: Generated artifacts are up to date
+        run: |
+          git diff --exit-code -- nightwire.css tailwind.preset.js DESIGN.md \
+            || (echo "::error::Generated artifacts are stale: run npm run build and commit."; exit 1)
