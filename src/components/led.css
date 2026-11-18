@@ -20,7 +20,7 @@
 .led[data-state="info"]  { background: var(--nw-signal-info);  box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-info); }
 .led[data-state="ai"]    { background: var(--nw-ai);           box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-ai); }
 .led[data-pulse] {
-  animation: nw-pulse var(--nw-pulse-speed) ease-in-out infinite;
+  animation: nw-pulse calc(var(--nw-pulse-speed) / var(--nw-motion-scale)) ease-in-out infinite;
   animation-play-state: var(--nw-pulse-state);
 }
 @keyframes nw-pulse {

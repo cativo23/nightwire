@@ -20,7 +20,8 @@
     rgba(102, 153, 255, 0.08) 60%,
     transparent 100%
   );
-  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+  animation: skeleton-shimmer var(--nw-loop-shimmer) ease-in-out infinite;
+  animation-play-state: var(--nw-loop-state);
 }
 
 @keyframes skeleton-shimmer {

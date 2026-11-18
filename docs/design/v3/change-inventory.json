@@ -128,6 +128,39 @@
       }
     },
     {
+      "id": "motion-loops",
+      "description": "Continuous loops scale inversely with intensity (FR-002, Principle V): the button spinner (--nw-loop-spin, 0.8s), the skeleton shimmer (--nw-loop-shimmer, 1.2s) and the LED pulse (--nw-pulse-speed / --nw-motion-scale) are slower under archive and faster under combat. Operator durations are unchanged, so only archive and combat differ. Pinned to those three loops and to their old and new durations, with reduced motion off; the reduced-motion case is motion-loops-paused.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": "(button\\.btn[a-z-]*:nth-child\\(\\d+\\)::before|div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after|span\\.led:nth-child\\(\\d+\\))$",
+        "state": "\\|rm-off",
+        "old": "^(0\\.8|1\\.2|1\\.4|0\\.7)s$",
+        "new": "^(1\\.33333|0\\.666667|2|1|2\\.33333|0\\.583333)s$"
+      }
+    },
+    {
+      "id": "motion-loops-stagger",
+      "description": "The uplink stagger is a multiple of --nw-stagger instead of literal 0.05s steps (FR-003, SC-003), so it scales with data-intensity: 0.03s steps under archive, 0.06s under combat, 0.05s (unchanged) under operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page and to the strip's position.",
+      "match": {
+        "prop": "^animation-delay$",
+        "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
+        "page": "**/workshop.html",
+        "old": "^0\\.(05|1|15|2|25)s$",
+        "new": "^0\\.(03|06|09|12|15|18|24|3)s$"
+      }
+    },
+    {
+      "id": "motion-loops-paused",
+      "description": "Under reduced motion the spinner and the shimmer are paused by --nw-loop-state (FR-002, FR-006). Their pseudo-elements were not reached by the universal kill switch, so they kept running at 0.8s and 1.2s. The scale is 0 there, so the inverse-scaled duration divides by zero: Chrome clamps it to 1.79769e+308s, which is never played because the animation is paused. Pinned to the two pseudo-element loops with reduced motion on; the pseudo-element kill switch itself follows in motion-reduced-backstop.",
+      "match": {
+        "prop": "^animation-(duration|play-state)$",
+        "path": "(button\\.btn[a-z-]*:nth-child\\(\\d+\\)::before|div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after)$",
+        "state": "\\|rm-on",
+        "old": "^(0\\.8s|1\\.2s|running)$",
+        "new": "^(paused|1\\.79769e\\+308s)$"
+      }
+    },
+    {
       "id": "focus-ring",
       "description": "The command palette input had outline: none with no replacement, so keyboard focus was invisible (FR-015, research R12). It now draws a 2px inset --nw-focus-ring outline on :focus-visible (inset because .cmdk clips with overflow: hidden). Only the focused state changes; the unfocused input is untouched.",
       "match": {
