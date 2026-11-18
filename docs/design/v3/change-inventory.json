@@ -73,6 +73,15 @@
         "prop": "^transition-(property|duration|timing-function|delay|behavior)$",
         "path": "\\.dropdown-item:nth-child\\(\\d+\\)$"
       }
+    },
+    {
+      "id": "focus-ring",
+      "description": "The command palette input had outline: none with no replacement, so keyboard focus was invisible (FR-015, research R12). It now draws a 2px inset --nw-focus-ring outline on :focus-visible (inset because .cmdk clips with overflow: hidden). Only the focused state changes; the unfocused input is untouched.",
+      "match": {
+        "prop": "^outline-(color|offset|style|width)$",
+        "path": "div\\.cmdk:nth-child\\(\\d+\\)>input:nth-child\\(\\d+\\)$",
+        "state": "\\|:focus-visible@"
+      }
     }
   ]
 }

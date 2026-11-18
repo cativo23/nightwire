@@ -37,8 +37,9 @@
   color: var(--nw-text-strong);
   padding: 14px 16px;
   font-family: var(--font-sys); font-size: var(--text-base);
-  outline: none;
 }
+/* Inset: .cmdk has overflow: hidden, which would clip an outset ring. */
+.cmdk input:focus-visible { outline: 2px solid var(--nw-focus-ring); outline-offset: -2px; }
 .cmdk input::placeholder { color: var(--nw-text-mute); }
 .cmdk-section {
   font-family: var(--font-stamp); font-size: 9px;
