@@ -1,0 +1,15 @@
+/* ── v2 · AI block (purple-accented suggestion strip) ──────── */
+.ai-block {
+  padding: var(--sp-3);
+  background: linear-gradient(180deg, rgba(178, 102, 224, 0.06), transparent 70%);
+  border-top: 1px solid rgba(178, 102, 224, 0.25);
+}
+.ai-block-head {
+  font-family: var(--font-stamp); font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--nw-ai);
+  display: flex; align-items: center; gap: var(--sp-2);
+  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(178, 102, 224, 0.45);
+}
+.ai-block-body { margin-top: var(--sp-2); font-size: var(--text-sm); color: var(--nw-text-default); }
+.ai-block-body em { color: var(--nw-ai); font-style: normal; }

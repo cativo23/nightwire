@@ -1,0 +1,35 @@
+/* ── Tabs ────────────────────────────────────────────────────── */
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--nw-text-faint);
+  gap: 0;
+}
+
+.tab {
+  font-family: var(--font-sys);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--nw-text-dim);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: var(--sp-2) var(--sp-4);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tab:hover {
+  color: var(--nw-text);
+}
+
+.tab.active {
+  color: var(--nw-primary);
+  border-bottom-color: var(--nw-primary);
+}
+
+.tab-panel {
+  padding: var(--sp-4) 0;
+}

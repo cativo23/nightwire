@@ -1,0 +1,17 @@
+/* ── Badges ──────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-stamp);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  padding: 1px var(--sp-2);
+  border-radius: var(--radius-sm);
+  color: var(--nw-primary);
+  border: 1px solid var(--nw-primary-dim);
+}
+.badge-success { color: var(--nw-success); border-color: var(--nw-green-dim); }
+.badge-danger  { color: var(--nw-danger);  border-color: var(--nw-red-dim); }
+.badge-warning { color: var(--nw-warning); border-color: var(--nw-yellow); }

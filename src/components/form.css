@@ -1,0 +1,37 @@
+/* ── Form Inputs ─────────────────────────────────────────────── */
+
+input, select, textarea {
+  font-family: var(--font-sys);
+  font-size: var(--text-base);
+  color: var(--nw-text);
+  background: var(--void-panel);
+  border: 1px solid var(--nw-text-line);
+  border-radius: var(--radius-md);
+  padding: var(--sp-2) var(--sp-3);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--nw-primary);
+  box-shadow: 0 0 0 3px var(--nw-primary-fill);
+  outline: none;
+}
+input::placeholder, textarea::placeholder {
+  color: var(--nw-text-dim);
+  opacity: 0.6;
+}
+
+/* ── v2 · Form fields ──────────────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: var(--sp-1); }
+.field-label {
+  font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--nw-chrome);
+}
+.field-label .req { color: var(--nw-signal-error); margin-left: 2px; }
+.field-help { font-size: var(--text-xs); color: var(--nw-text-mute); }
+.field.error  .field-help { color: var(--nw-signal-error); }
+.field.success .field-help { color: var(--nw-data); }
+.field.error  input, .field.error  select, .field.error  textarea { border-color: var(--nw-signal-error); }
+.field.error  input:focus { box-shadow: 0 0 0 3px rgba(255, 102, 136, 0.2); }
+.field.success input, .field.success select, .field.success textarea { border-color: var(--nw-data); }
+.field.success input:focus { box-shadow: 0 0 0 3px rgba(122, 237, 122, 0.18); }

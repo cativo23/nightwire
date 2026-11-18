@@ -1,0 +1,9 @@
+/* ── Text Color ──────────────────────────────────────────────── */
+
+.text-primary { color: var(--nw-primary); }
+.text-success { color: var(--nw-success); }
+.text-info    { color: var(--nw-info); }
+.text-danger  { color: var(--nw-danger); }
+.text-warning { color: var(--nw-warning); }
+.text-accent  { color: var(--nw-accent); }
+.text-dim     { color: var(--nw-text-dim); }

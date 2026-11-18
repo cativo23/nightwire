@@ -1,0 +1,27 @@
+/* ── v2 · Switch ───────────────────────────────────────────── */
+.switch { display: inline-flex; align-items: center; gap: var(--sp-2); cursor: pointer; user-select: none; }
+.switch input { position: absolute; opacity: 0; }
+.switch .track {
+  width: 32px; height: 16px;
+  background: var(--nw-surface-3);
+  border: 1px solid var(--nw-line-strong);
+  border-radius: var(--radius-full);
+  position: relative;
+  transition: background var(--nw-tick), border-color var(--nw-tick);
+}
+.switch .track::after {
+  content: ""; position: absolute;
+  top: 1px; left: 1px; width: 12px; height: 12px;
+  background: var(--nw-text-mute); border-radius: 50%;
+  transition: transform var(--nw-tick), background var(--nw-tick);
+}
+.switch input:checked + .track {
+  background: var(--nw-primary-fill);
+  border-color: var(--nw-chrome);
+}
+.switch input:checked + .track::after {
+  transform: translateX(16px);
+  background: var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+}
+.switch .lbl { font-size: var(--text-sm); }

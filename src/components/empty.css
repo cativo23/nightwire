@@ -1,0 +1,18 @@
+/* ── v2 · Empty state ──────────────────────────────────────── */
+.empty {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 48px var(--sp-4);
+  color: var(--nw-text-mute);
+  text-align: center; gap: var(--sp-2);
+}
+.empty .glyph {
+  font-family: var(--font-mincho); font-size: var(--text-3xl);
+  color: var(--nw-chrome-mute); opacity: 0.5;
+}
+.empty .head {
+  font-family: var(--font-stamp); font-size: var(--text-xs);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--nw-text-default);
+}
+.empty .sub { font-size: var(--text-sm); max-width: 32ch; }

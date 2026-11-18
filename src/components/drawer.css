@@ -1,0 +1,29 @@
+/* ── v2 · Drawer (right slide-in) ──────────────────────────── */
+.drawer-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 45;
+  visibility: hidden; opacity: 0;
+  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+}
+.drawer-backdrop[data-open="true"] { visibility: visible; opacity: 1; }
+
+.drawer {
+  position: fixed; top: 0; right: 0; height: 100vh;
+  width: min(440px, 92vw);
+  background: var(--nw-surface-1);
+  border-left: 1px solid var(--nw-line-chrome);
+  display: flex; flex-direction: column;
+  z-index: 46;
+  box-shadow: -10px 0 calc(40px * var(--nw-glow)) rgba(102, 153, 255, 0.1);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform var(--nw-sweep), visibility var(--nw-sweep);
+}
+.drawer[data-open="true"] { transform: translateX(0); visibility: visible; }
+.drawer-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--nw-chrome-mute);
+}
+.drawer-body { flex: 1; overflow: auto; padding: var(--sp-4); }

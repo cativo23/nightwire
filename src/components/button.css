@@ -1,0 +1,119 @@
+/* ── Buttons ─────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  font-family: var(--font-sys);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--void);
+  background: var(--nw-primary);
+  border: 1px solid var(--nw-primary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn:hover {
+  background: var(--nw-primary-hot);
+  border-color: var(--nw-primary-hot);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  font-family: var(--font-sys);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  background: transparent;
+  border: 1px solid var(--nw-primary-dim);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-ghost:hover {
+  background: var(--nw-primary-fill);
+  border-color: var(--nw-primary);
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  font-family: var(--font-sys);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--void);
+  background: var(--nw-red);
+  border: 1px solid var(--nw-red);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-danger:hover {
+  background: var(--nw-red-hot);
+  border-color: var(--nw-red-hot);
+}
+
+.btn-sm { padding: var(--sp-1) var(--sp-2); font-size: var(--text-xs); }
+
+.btn:disabled,
+.btn-ghost:disabled,
+.btn-danger:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── v2 · Button variants ──────────────────────────────────── */
+.btn-chrome {
+  color: var(--void);
+  background: var(--nw-chrome);
+  border-color: var(--nw-chrome);
+}
+.btn-chrome:hover {
+  background: var(--nw-chrome-hot);
+  border-color: var(--nw-chrome-hot);
+}
+
+.btn-success {
+  background: transparent;
+  color: var(--nw-data);
+  border: 1px solid var(--nw-data-mute);
+  box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(122, 237, 122, 0.2);
+}
+.btn-success:hover { background: var(--nw-green-fill); }
+
+.btn-ai {
+  background: transparent;
+  color: var(--nw-ai);
+  border: 1px solid var(--nw-ai-mute);
+  box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(178, 102, 224, 0.2);
+}
+.btn-ai:hover { background: var(--nw-purple-fill); }
+
+.btn-icon { padding: var(--sp-1) var(--sp-1); min-width: 28px; justify-content: center; }
+.btn-xs   { padding: 2px 6px; font-size: 9px; }
+.btn-lg   { padding: 9px 18px; font-size: var(--text-sm); }
+
+.btn-loading { position: relative; }
+.btn-loading::before {
+  content: ""; display: inline-block;
+  width: 10px; height: 10px; margin-right: 6px;
+  border: 1.5px solid currentColor; border-right-color: transparent;
+  border-radius: 50%;
+  animation: nw-spin 0.8s linear infinite;
+  vertical-align: -1px;
+}
+@keyframes nw-spin { to { transform: rotate(360deg); } }

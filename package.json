@@ -14,7 +14,7 @@
     "skill/**/*"
   ],
   "scripts": {
-    "build": "npm run build:tokens && npm run build:cli",
+    "build": "npm run build:tokens && npm run build:css && npm run build:cli",
     "build:tokens": "node scripts/build-tokens.mjs",
     "build:css": "node scripts/build-css.mjs",
     "build:cli": "tsc",

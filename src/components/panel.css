@@ -1,0 +1,24 @@
+/* ── Panel ───────────────────────────────────────────────────── */
+
+.panel {
+  background: var(--void-warm);
+  border: 1px solid var(--nw-text-faint);
+  border-radius: var(--nw-panel-radius);
+}
+
+.panel-header {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  padding: var(--sp-2) var(--sp-3) 7px;
+  border-bottom: 1px solid var(--nw-primary-dim);
+  display: flex;
+  justify-content: space-between;
+  background-image: var(--nw-header-pattern), var(--nw-header-gradient);
+}
+
+.panel-body {
+  padding: var(--sp-3);
+}

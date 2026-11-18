@@ -1,0 +1,17 @@
+/* ── v2 · Banner (system-wide notice) ──────────────────────── */
+.banner {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: 6px var(--sp-3);
+  font-family: var(--font-sys); font-size: var(--text-sm);
+  background: rgba(232, 153, 58, 0.08);
+  border-bottom: 1px solid var(--nw-signal-warn);
+  color: var(--nw-text-default);
+}
+.banner .banner-tag {
+  font-family: var(--font-stamp); font-size: 9px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--nw-signal-warn);
+  border: 1px solid var(--nw-signal-warn);
+  padding: 1px 6px;
+  background: transparent;
+}
