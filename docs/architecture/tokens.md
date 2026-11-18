@@ -68,7 +68,7 @@ Two tokens cannot write the same preset or `DESIGN.md` path.
 
 | Target | Alias | Typed value | Raw value |
 |--------|-------|-------------|-----------|
-| CSS | `var(--target)` | `#rrggbb`, or `rgba(R, G, B, A)` when alpha < 1; `Npx`; zero dimensions as `0` | verbatim, `{x}` replaced by x's literal |
+| CSS | `var(--target)` | `#rrggbb`, or `rgba(R, G, B, A)` when alpha < 1; `N<unit>` (`4px`, `1.5rem`); zero dimensions as `0` | verbatim, `{x}` replaced by x's literal |
 | Preset | the final literal | same as CSS (font families stay arrays) | verbatim with literals |
 | `DESIGN.md` | the final literal | same as CSS; numbers unquoted | verbatim |
 

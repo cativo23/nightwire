@@ -23,7 +23,7 @@ generated, so the first rule is to know which files are sources.
 | `scripts/` | **hand-edited** | Build scripts and the parity tool |
 | `tests/` | **hand-edited** | `node:test` unit tests and fixtures |
 | `.github/` | **hand-edited** | CI, docs deploy and release workflows |
-| `.claude-research/` | **hand-edited** | Legacy research notes, moving to the maintainer's notes |
+| `.claude-research/` | **hand-edited** | Legacy research notes |
 | `package.json`, `package-lock.json`, `tsconfig.json` | **hand-edited** | Package and compiler config (`npm install` updates the lockfile) |
 | `docker-compose.yml`, `docker-compose.dev.yml`, `.dockerignore` | **hand-edited** | Local docs site in Docker (repo root is the build context) |
 | `README.md`, `CHANGELOG.md`, `LICENSE` | **hand-edited** | Consumer-facing docs and license |
@@ -60,8 +60,9 @@ Commit the source and the regenerated files together.
 `npm run parity` loads pages in your local Google Chrome twice, once with each stylesheet, and
 compares the computed style of every element and pseudo-element. It covers 8 states (intensity
 `none`/`archive`/`operator`/`combat` × reduced motion off/on), forces `:hover`, `:focus`,
-`:focus-visible` and `:active` on every stateful selector, and fails if any class or attribute
-state in the stylesheet is not exercised by at least one page.
+`:focus-visible`, `:focus-within` and `:active` on every stateful selector (together when a
+selector combines them), compares `@keyframes`, and fails if any class or attribute state in the
+stylesheet is not exercised by at least one page.
 
 ```sh
 npm run parity                                      # main's nightwire.css vs your built one
@@ -71,8 +72,8 @@ NW_CHROME_PATH=/usr/bin/chromium npm run parity     # no branded Chrome installe
 ```
 
 It prints `DIFF` lines, a `COVERAGE` line and `RESULT differences=N`. Exit code 0 means no
-differences and full coverage; 1 means differences or missing coverage; 2 means a usage error or
-a browser that would not start. If coverage drops because you added a class, add markup for it to
+differences and full coverage; 1 means differences or missing coverage; 2 means a usage error, a
+browser that would not start, or a page that never loaded `nightwire.css`. If coverage drops because you added a class, add markup for it to
 `scripts/parity/fixtures/coverage.html`.
 
 Run it before any refactor that should be invisible. For an intended visual change, the

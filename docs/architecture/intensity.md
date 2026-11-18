@@ -36,7 +36,8 @@ themselves; they read the knobs.
 ## Known issues
 
 These exist in 2.0.1 and are preserved exactly by the restructure, because fixing any of them
-changes rendering or the published surface. Each has an owner.
+changes rendering or the published surface. Each has an owner. "Sub-project 2" is the visual
+direction work reserved in [docs/design/](../design/README.md), which follows this restructure.
 
 ### K1. Reduced motion loses to an explicit intensity
 
@@ -66,13 +67,15 @@ utilities render. Owner: sub-project 2.
 
 ### K4. Example pages redeclare tokens inline
 
-Seven example pages carry their own `<style>` blocks with token values, and `dashboard.html`
-declares legacy `--nerv-*` names. Inline declarations win the same way before and after the
-restructure, so parity is unaffected. Owner: sub-project 2 (examples cleanup).
+Seven example pages (`dashboard.html`, `neural-ops.html` and the five under `components/`) carry
+their own `<style>` blocks with token values instead of loading `nightwire.css`, and
+`dashboard.html` declares legacy `--nerv-*` names. These pages do not load the stylesheet, so the
+restructure cannot change them and parity does not cover them. Owner: sub-project 2 (examples
+cleanup).
 
 ### K5. The preset is ESM in a package without `"type": "module"`
 
 `tailwind.preset.js` uses `export default`, but `package.json` declares no module type. Tailwind's
 config loader handles it; plain Node prints `MODULE_TYPELESS_PACKAGE_JSON` and reparses the file as
 ESM. Adding `"type": "module"` or `exports` changes how every consumer resolves the package, so it
-waits for a major release. Owner: next major.
+waits for a major release. Owner: a future major.

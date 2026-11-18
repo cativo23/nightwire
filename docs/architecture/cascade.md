@@ -25,9 +25,10 @@ button, form, led, modal, tag, and the layout utilities.
 ## Late-file exceptions
 
 None. The plan allowed `components/<name>.late.css` files for any v2 block whose move next to its
-v1 sibling changed a computed style. The parity tool found zero differences for every merge (all
-example pages and the coverage fixture, 8 intensity × motion states, forced
-`:hover`/`:focus`/`:focus-visible`/`:active`, 100% class and attribute-state coverage), so no
+v1 sibling changed a computed style. The parity tool found zero differences for every merge (the
+two example pages that load `nightwire.css` plus the coverage fixture, 8 intensity × motion
+states, forced `:hover`/`:focus`/`:focus-visible`/`:focus-within`/`:active`, 100% class and
+attribute-state coverage), so no
 exception was needed. A static check also found no element in the docs, examples or skill
 references that combines two rules whose relative order changed.
 

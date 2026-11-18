@@ -2,7 +2,7 @@
 
 React + Vite + Tailwind docs site for the Nightwire design system.
 
-Live at: (deployment target TBD)
+Live at: https://nightwire.cativo.dev
 
 ## Development
 

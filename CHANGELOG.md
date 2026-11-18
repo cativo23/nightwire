@@ -12,8 +12,9 @@ All notable changes to this project will be documented in this file.
   - `src/tokens/tokens.json` (W3C DTCG) is now the single token source. It generates the
     stylesheet's custom properties, `tailwind.preset.js` and the token sections of `DESIGN.md`.
   - `nightwire.css` is assembled from one file per component under `src/`, in the order fixed by
-    `src/index.css`. A computed-style parity check reports zero differences against 2.0.1 on every
-    example page in all intensity and reduced-motion states.
+    `src/index.css`. A computed-style parity check reports zero differences against 2.0.1 on the
+    two example pages that load `nightwire.css` and a coverage fixture that exercises every class,
+    in all intensity and reduced-motion states.
   - The CLI source moved to `cli/`; the docs site moved to `apps/docs/` and now uses the root
     stylesheet and preset instead of its own copies.
   - CI fails when a committed generated file is stale.

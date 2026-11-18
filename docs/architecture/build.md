@@ -11,7 +11,7 @@ minified or reformatted, so a generated file is as readable as the old hand-writ
 | `npm run build:css` | `src/index.css` → `nightwire.css` |
 | `npm run build:cli` | `tsc`: `cli/` → `dist/` |
 | `npm run build` | all three, in that order |
-| `npm test` | `node --test` over `tests/**/*.test.mjs` |
+| `npm test` | `node --test`, which runs every `tests/**/*.test.mjs` |
 | `npm run parity` | computed-style comparison of two stylesheets (below) |
 
 `build:css` needs the `tokens.css` that `build:tokens` writes, so run `npm run build` rather than
@@ -48,11 +48,11 @@ the second time, which is what the CI check relies on.
 
 ## CI drift check
 
-`.github/workflows/ci.yml` runs on every pull request and every push to `main`: `npm ci`,
+`.github/workflows/ci.yml` runs on every pull request and every push to `main`, on Node 20 and 24: `npm ci`,
 `npm test`, `npm run build`, then
 
 ```sh
-git diff --exit-code -- nightwire.css tailwind.preset.js DESIGN.md
+git diff --exit-code --stat -- nightwire.css tailwind.preset.js DESIGN.md
 ```
 
 If the build changed a committed artifact, the job lists the stale files and fails with
