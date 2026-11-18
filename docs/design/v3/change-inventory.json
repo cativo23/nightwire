@@ -790,30 +790,101 @@
       }
     },
     {
-      "id": "v1-removal-led",
-      "description": "The v1 LED colour classes .led.green, .led.blue, .led.red and .led.yellow are removed (FR-016, research R10, T042); the v3 spelling is .led[data-state=\"ok\"|\"active\"|\"error\"|\"warn\"]. An LED that still carries only the class now has no background or shadow. Pinned to the fixture's .fixture-v1 wrapper, which exists to keep the removed classes in parity's coverage. The migration is not pixel-identical: v1 glowed 4px * --nw-glow, v2 states glow 8px * --nw-led-glow.",
+      "id": "v1-removal-led-colour",
+      "description": "The v1 LED colour classes .led.green, .led.blue, .led.red and .led.yellow are removed (FR-016, research R10, T042); the v3 spelling is .led[data-state=\"ok\"|\"active\"|\"error\"|\"warn\"]. An LED that still carries only the class has no background. Pinned to the fixture's .fixture-v1 wrapper (it keeps the removed classes in parity's coverage) and to the four v1 colours. The migration is not pixel-identical: v1 glowed 4px * --nw-glow, v2 states glow 8px * --nw-led-glow.",
       "match": {
-        "prop": "^(background-color|box-shadow)$",
+        "prop": "^background-color$",
         "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>span\\.led:nth-child\\(\\d+\\)$",
-        "new": "^(rgba\\(0, 0, 0, 0\\)|none)$",
+        "old": "^rgb\\((102, 153, 255|122, 237, 122|232, 153, 58|255, 102, 136)\\)$",
+        "new": "^rgba\\(0, 0, 0, 0\\)$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "v1-removal-progress-synapse",
-      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. The synapse-ops example still uses .fill and is migrated in T045, so its bars now lose their height, colour and glow, and the size-derived origins follow. Pinned to this page and to .fill directly inside .nw-progress in the progress stack.",
+      "id": "v1-removal-led-glow",
+      "description": "The v1 LED colour classes .led.green, .led.blue, .led.red and .led.yellow are removed (FR-016, research R10, T042); the v3 spelling is .led[data-state=\"ok\"|\"active\"|\"error\"|\"warn\"]. An LED that still carries only the class has no shadow. Pinned to the fixture's .fixture-v1 wrapper (it keeps the removed classes in parity's coverage) and to the four v1 colours. The migration is not pixel-identical: v1 glowed 4px * --nw-glow, v2 states glow 8px * --nw-led-glow.",
       "match": {
-        "prop": "^(height|block-size|background-color|box-shadow|perspective-origin|transform-origin)$",
+        "prop": "^box-shadow$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>span\\.led:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\((102, 153, 255|122, 237, 122|232, 153, 58|255, 102, 136)\\) 0px 0px (0|4|8\\.8)px 0px$",
+        "new": "^none$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-progress-synapse-size",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the synapse-ops example still uses .fill (migrated in T045), so its bar loses its height. Pinned to the synapse-ops example path and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^(height|block-size)$",
         "path": "div\\.progress-stack:nth-child\\(\\d+\\)>div\\.prog-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^1px$",
+        "new": "^0px$",
         "page": "examples/html/synapse-ops.html"
       }
     },
     {
-      "id": "v1-removal-progress-workshop",
-      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. The workshop example still uses .fill and is migrated in T045, so its bar loses its height, colour and glow. Pinned to this page and to .fill directly inside .nw-progress in the show-row.",
+      "id": "v1-removal-progress-synapse-colour",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the synapse-ops example still uses .fill (migrated in T045), so its bar loses its background colour. Pinned to the synapse-ops example path and to .fill directly inside .nw-progress, with the exact old and new values.",
       "match": {
-        "prop": "^(height|block-size|background-color|box-shadow|perspective-origin|transform-origin)$",
+        "prop": "^background-color$",
+        "path": "div\\.progress-stack:nth-child\\(\\d+\\)>div\\.prog-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgba\\(0, 0, 0, 0\\)$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "v1-removal-progress-synapse-glow",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the synapse-ops example still uses .fill (migrated in T045), so its bar loses its glow. Pinned to the synapse-ops example path and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^box-shadow$",
+        "path": "div\\.progress-stack:nth-child\\(\\d+\\)>div\\.prog-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(122, 237, 122, 0\\.3\\) 0px 0px (0|4|8\\.8)px 0px$",
+        "new": "^none$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "v1-removal-progress-synapse-origin",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the synapse-ops example still uses .fill (migrated in T045), so its bar loses its height, so the size-derived origins follow. Pinned to the synapse-ops example path and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "div\\.progress-stack:nth-child\\(\\d+\\)>div\\.prog-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^[\\d.]+px 0\\.5px$",
+        "new": "^[\\d.]+px 0px$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "v1-removal-progress-workshop-size",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the workshop example still uses .fill (migrated in T045), so its bar loses its height. Pinned to the workshop example path and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^(height|block-size)$",
         "path": "div\\.show-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^100%$",
+        "new": "^auto$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "v1-removal-progress-workshop-colour",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the workshop example still uses .fill (migrated in T045), so its bar loses its background colour. Pinned to the workshop example path and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "div\\.show-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgba\\(0, 0, 0, 0\\)$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "v1-removal-progress-workshop-glow",
+      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the workshop example still uses .fill (migrated in T045), so its bar loses its glow. Pinned to the workshop example path and to .fill directly inside .nw-progress, with the exact old and new values.",
+      "match": {
+        "prop": "^box-shadow$",
+        "path": "div\\.show-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(122, 237, 122, 0\\.3\\) 0px 0px (0|4|8\\.8)px 0px$",
+        "new": "^none$",
         "page": "examples/html/workshop.html"
       }
     },
@@ -829,11 +900,68 @@
       }
     },
     {
-      "id": "v1-removal-stack",
-      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: no flex column and no gap, and its children no longer have flex-item minimum sizes. Pinned to the fixture's .fixture-v1 wrapper.",
+      "id": "v1-removal-stack-display",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: display flex becomes block. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values.",
       "match": {
-        "prop": "^(display|flex-direction|row-gap|column-gap|height|block-size|perspective-origin|transform-origin|min-(width|height|inline-size|block-size))$",
-        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)(>div:nth-child\\(\\d+\\))?$",
+        "prop": "^display$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
+        "old": "^flex$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-stack-direction",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: flex-direction column becomes row. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values.",
+      "match": {
+        "prop": "^flex-direction$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
+        "old": "^column$",
+        "new": "^row$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-stack-gap",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the 8px gap becomes normal. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values.",
+      "match": {
+        "prop": "^(row|column)-gap$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
+        "old": "^8px$",
+        "new": "^normal$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-stack-size",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the height follows the lost gap. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
+        "old": "^(47|50|53)px$",
+        "new": "^(39|42|45)px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-stack-origin",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the size-derived origins follow the height. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
+        "old": "^640px (23\\.5|25|26\\.5)px$",
+        "new": "^640px (19\\.5|21|22\\.5)px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-stack-children",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: its children lose their flex-item minimum size. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values.",
+      "match": {
+        "prop": "^min-(width|height|inline-size|block-size)$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)>div:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^0px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     }
