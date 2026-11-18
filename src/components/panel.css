@@ -13,7 +13,7 @@
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-2) var(--sp-3) 7px;
-  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
   display: flex;
   justify-content: space-between;
 }

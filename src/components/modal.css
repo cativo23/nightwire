@@ -27,7 +27,7 @@
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
   display: flex;
   justify-content: space-between;
   align-items: center;

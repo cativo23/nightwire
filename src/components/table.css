@@ -14,7 +14,7 @@
   text-align: left;
   padding: 6px 10px;
   color: var(--nw-primary);
-  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
 }
 
 .nw-table td {

@@ -360,6 +360,36 @@
         "old": "^(none, none|none, linear-gradient\\(rgba\\(102, 153, 255, 0\\.06\\), rgba\\(0, 0, 0, 0\\) 80%\\)|repeating-linear-gradient\\(0deg, rgba\\(102, 153, 255, 0\\.05\\) 0px, rgba\\(102, 153, 255, 0\\.05\\) 1px, rgba\\(0, 0, 0, 0\\) 1px, rgba\\(0, 0, 0, 0\\) 3px\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.18\\), rgba\\(0, 0, 0, 0\\) 70%\\)|scroll, scroll|normal, normal|border-box, border-box|padding-box, padding-box|0% 0%, 0% 0%|repeat, repeat|auto, auto)$",
         "new": "^(none|scroll|normal|border-box|padding-box|0% 0%|repeat|auto)$"
       }
+    },
+    {
+      "id": "lines-chrome",
+      "description": "Header rules get quieter (direction table): the bottom border of .panel-header, .modal-header and .nw-table th goes from the solid --nw-primary-dim to --nw-line-chrome (primary at 0.35). The chrome colour stays in the label text. Pinned to the bottom border colour of those elements and to the old and new colour.",
+      "match": {
+        "prop": "^border-(bottom|block-end)-color$",
+        "path": "(div\\.(panel|modal)-header|th):nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgba\\(102, 153, 255, 0\\.35\\)$"
+      }
+    },
+    {
+      "id": "lines-input",
+      "description": "Form controls get a 3:1 boundary (FR-014, WCAG 1.4.11): the border of input, select and textarea goes from --nw-text-line (0.12) to --nw-line-strong (0.36). Pinned to those elements and to the old and new colour; the fixture carries one of each.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": ">(input|select|textarea):nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.12\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "placeholder-contrast",
+      "description": "Placeholder text reaches AA (FR-014): opacity 0.6 → 0.75 on the --nw-text-dim colour, 3.65:1 → 5.05:1 on --void-panel. Pinned to the ::placeholder pseudo-element and to the old and new opacity.",
+      "match": {
+        "prop": "^opacity$",
+        "path": "::placeholder$",
+        "old": "^0\\.6$",
+        "new": "^0\\.75$"
+      }
     }
   ]
 }

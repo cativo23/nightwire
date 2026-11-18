@@ -510,7 +510,7 @@ input, select, textarea {
   font-size: var(--text-base);
   color: var(--nw-text);
   background: var(--void-panel);
-  border: var(--nw-hairline) solid var(--nw-text-line);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-md);
   padding: var(--sp-2) var(--sp-3);
   transition: border-color var(--nw-tick), box-shadow var(--nw-tick);
@@ -522,7 +522,7 @@ input:focus, select:focus, textarea:focus {
 }
 input::placeholder, textarea::placeholder {
   color: var(--nw-text-dim);
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 /* ── v2 · Form fields ──────────────────────────────────────── */
@@ -607,7 +607,7 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-2) var(--sp-3) 7px;
-  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
   display: flex;
   justify-content: space-between;
 }
@@ -633,7 +633,7 @@ input::placeholder, textarea::placeholder {
   text-align: left;
   padding: 6px 10px;
   color: var(--nw-primary);
-  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
 }
 
 .nw-table td {
@@ -789,7 +789,7 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line-chrome);
   display: flex;
   justify-content: space-between;
   align-items: center;
