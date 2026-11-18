@@ -659,6 +659,7 @@ knobs:
   --nw-pad-scale:      1          # padding multiplier (0.7 → 1.35)
   --nw-base-font:      14px       # body base
   --nw-pulse-state:    running    # LED pulse on/off
+  --nw-loop-state:     running    # spinner and skeleton shimmer on/off
   --nw-pulse-speed:    1.4s
   --nw-panel-radius:   0          # softens to 2px in archive
   --nw-value-color:    var(--nw-data)  # dims in archive, brightens in combat
@@ -691,14 +692,70 @@ generated `motion` region in the frontmatter lists the current values.
 - **Stagger**: `--nw-stagger` is the delay step between items revealed in sequence; multiply it
   by the item's index.
 - **Loops**: `--nw-loop-spin` (800ms at scale 1) and `--nw-loop-shimmer` (1200ms) are the cycles of
-  continuous animations, and `--nw-pulse-speed` (1.4s, 0.7s in combat) is the LED heartbeat. Loop
-  cycles scale inversely with `--nw-motion-scale`: archive (0.6) runs slower and calmer, combat
-  (1.2) runs faster. `--nw-pulse-state` (`running` | `paused`) is state-driven. The spinner and
-  skeleton shimmer still use fixed durations equal to these values; they move onto the tokens in a
-  later change.
+  the button spinner and the skeleton shimmer, and `--nw-pulse-speed` (1.4s, 0.7s in combat) is the
+  LED heartbeat. All three cycles scale inversely with `--nw-motion-scale`: archive (0.6) runs
+  slower and calmer, combat (1.2) runs faster. `--nw-pulse-state` and `--nw-loop-state`
+  (`running` | `paused`) are state-driven: the LED pulse reads the first, the spinner and the
+  shimmer read the second.
 - Keyframes: `nw-pulse` (used by `.led[data-pulse]`), `nw-spin`, `nw-uplink`, `skeleton-shimmer`.
 
-`@media (prefers-reduced-motion: reduce)` sets `--nw-motion-scale: 0` and pauses pulses.
+Components read these tokens for every transition and animation: no component file carries a
+duration of its own. `--nw-tick` drives clicks, hover and focus feedback, `--nw-uplink` the
+`.uplink` reveal, and the overlays use the steps listed under the open-state contract below.
+
+### Reduced motion
+
+`@media (prefers-reduced-motion: reduce)` wins at every intensity level, including `archive` and
+`combat`. The build generates the block from the `reducedMotion` flag on the motion knobs
+(`--nw-motion-scale: 0`, `--nw-pulse-state: paused`, `--nw-loop-state: paused`) and places it after
+the intensity blocks, so no `data-intensity` value can override it. A backstop in
+`base/accessibility.css` covers anything the knobs do not reach: it turns off every transition and
+animation, on elements and on `::before` and `::after`, removes the `.btn`, `.btn-ghost` and
+`.btn-danger` press shift, and shows `.uplink` children at their end state (they start at opacity 0
+and only the animation reveals them).
+
+Reduced motion changes how overlays move, not where they end up. Open and closed overlays switch
+instantly and reach the same states as with motion on.
+
+### Motion contract
+
+- **Enter and exit are separate.** A component enters on the bare token (`--nw-sweep`) and leaves
+  on the `-out` token (`--nw-sweep-out`). Each state carries its own `transition`: the closed rule
+  holds the exit, the open rule holds the enter.
+- **Overlays animate in and out.** Drawer, modal, command palette, dropdown, toast and tooltip
+  fade, and where it applies move, through `opacity`, `transform` and `visibility`, so the exit is
+  as smooth as the entrance.
+- **Closed means gone.** A closed overlay is `visibility: hidden` and `pointer-events: none`. It is
+  not clickable, not focusable and not in the accessibility tree. `visibility` flips at once on
+  open and after the exit duration on close (`visibility 0s linear var(--nw-sweep-out-duration)`),
+  which keeps the exit visible.
+- **Re-opening mid-close reverses.** Every property transitions from its current value, and
+  `visibility` becomes visible immediately, so toggling back while an overlay is still closing
+  plays the enter from where it stands, with no flash.
+- **First paint does not animate.** Overlays move by transition, never by animation on load, so a
+  page that loads with an overlay open or closed shows it in that state straight away.
+
+### Open-state contract
+
+Overlays take a `data-open` attribute. The value is a string; React's `data-open={bool}` renders
+`"true"` or `"false"`. The attribute sits on the element named below.
+
+| Component | Element | Attribute absent | `"true"` | `"false"` | Motion |
+|---|---|---|---|---|---|
+| Drawer | `.drawer` and `.drawer-backdrop` | closed | open | closed | `sweep` / `sweep-out` |
+| Modal | `.modal-backdrop` | closed | open | closed | `sweep` / `sweep-out` |
+| Command palette | `.cmdk-backdrop` | closed | open | closed | `sweep` / `sweep-out` |
+| Dropdown | `.dropdown` | open | open | closed | `tick` / `tick-out` |
+| Toast | `.toast` | open | open | closed | `sweep` / `sweep-out` |
+| Tooltip | `.tooltip` | closed, opens on `:hover` and `:focus-within` | open | closed, even on hover | `tick` / `tick-out` |
+
+- Drawer, modal and command palette are closed unless told otherwise. Set `data-open="true"` to
+  open them. The drawer has two parts, backdrop and panel, and each takes the attribute.
+- Dropdown and toast keep their 2.x behaviour: with no attribute they are open, so existing markup
+  renders as before. Only `data-open="false"` closes them.
+- A tooltip opens on hover and when focus is inside it, so keyboard users get it too.
+  `data-open="true"` pins it open and `data-open="false"` keeps it closed whatever the pointer or
+  focus does.
 
 ### New components
 
