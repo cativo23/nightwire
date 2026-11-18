@@ -47,3 +47,9 @@ update_*.patch
 .parcel-cache/
 .eslintcache
 .stylelintcache
+
+# Generated intermediate (src/tokens/tokens.json -> tokens.css)
+src/tokens/tokens.css
+
+# Brainstorm companion output
+.superpowers/
