@@ -391,7 +391,10 @@ accelerating):
   can pause it.
 
 Durations scale with `--nw-motion-scale`; loop cycles scale inversely, so archive loops run slower
-and combat loops faster. In `prefers-reduced-motion` the scale is `0` and the loops pause.
+and combat loops faster. The scale is a speed dial, not a switch: loops divide by it, so `0` makes
+their cycle invalid instead of pausing them. Pause loops with `--nw-loop-state` and
+`--nw-pulse-state` set to `paused`. `prefers-reduced-motion` sets all three: the scale to `0` and
+both states to `paused`.
 
 ### When to use v2 vs v1
 

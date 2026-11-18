@@ -657,7 +657,7 @@ Components read knobs, not hardcoded values:
 knobs:
   --nw-glow:           1          # multiplier for all box/text-shadow glows
   --nw-density:        1          # gap/spacing multiplier
-  --nw-motion-scale:   1          # animation speed multiplier (0 = motion off)
+  --nw-motion-scale:   1          # multiplies transition durations; loop cycles divide by it (not an off switch)
   --nw-pad-scale:      1          # padding multiplier (0.7 → 1.35)
   --nw-base-font:      14px       # body base
   --nw-pulse-state:    running    # LED pulse on/off
@@ -699,6 +699,12 @@ generated `motion` region in the frontmatter lists the current values.
   slower and calmer, combat (1.2) runs faster. `--nw-pulse-state` and `--nw-loop-state`
   (`running` | `paused`) are state-driven: the LED pulse reads the first, the spinner and the
   shimmer read the second.
+- **The off switches.** `--nw-motion-scale` multiplies transition durations, and loops divide by it,
+  so `0` zeroes the transitions, but for a loop it divides by zero: the cycle token becomes invalid
+  and the animation falls back to a `0s` duration (checked in Chrome) rather than being paused.
+  Treat the scale as a speed dial, not a switch. The real off switches for loops are
+  `--nw-loop-state` and `--nw-pulse-state` set to `paused`.
+  Reduced motion sets all three: scale `0`, loop state and pulse state `paused`.
 - Keyframes: `nw-pulse` (used by `.led[data-pulse]`), `nw-spin`, `nw-uplink`, `skeleton-shimmer`.
 
 Components read these tokens for every transition and animation: no component file carries a
