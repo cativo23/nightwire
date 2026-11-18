@@ -26,7 +26,7 @@
         "prop": "^--nw-(tick|sweep|uplink)$",
         "path": "^:root$",
         "state": "\\|rm-on",
-        "new": "^calc\\(\\d+ms \\* 0\\) cubic-bezier"
+        "new": "^calc\\(\\d+ms \\* 0\\) (cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)|cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\)|cubic-bezier\\(0, 0\\.6, 0\\.4, 1\\))$"
       }
     },
     {
@@ -34,7 +34,7 @@
       "description": "Consequence of motion-reduced (FR-006, K1): the universal reduced-motion kill switch in accessibility.css does not reach pseudo-elements, so the switch knob (.switch .track::after) keeps a transition whose duration is --nw-tick. With data-intensity set that was 0.09s (archive) or 0.18s (combat) under reduced motion; it is now 0s.",
       "match": {
         "prop": "^transition-duration$",
-        "path": "::after$",
+        "path": "label\\.switch:nth-child\\(\\d+\\)>span\\.track:nth-child\\(\\d+\\)::after$",
         "state": "\\|rm-on",
         "old": "^0\\.(09|18)s(, 0\\.(09|18)s)*$",
         "new": "^0s(, 0s)*$"
