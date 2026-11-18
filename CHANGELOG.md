@@ -16,12 +16,26 @@ All notable changes to this project will be documented in this file.
   `--nw-sweep` and `--nw-uplink` are unchanged.
 - **`--nw-stagger`, `--nw-loop-spin` and `--nw-loop-shimmer`.** Stagger scales with
   `--nw-motion-scale`; the loop cycles scale inversely (`calc(<ms> / var(--nw-motion-scale))`), so
-  archive loops run slower and combat faster. Components move onto them in a later change.
+  archive loops run slower and combat faster. Components read them (see Changed).
 - **Token generator:** the `motion` and `reducedMotion` extension keys. A token with
   `reducedMotion` gets its value inside a generated
   `@media (prefers-reduced-motion: reduce) { :root, :root[data-intensity] { … } }` block, which
-  beats every intensity level. `motion: true` makes `reducedMotion` required. No token uses them
-  yet.
+  beats every intensity level. `motion: true` makes `reducedMotion` required. `--nw-motion-scale`,
+  `--nw-pulse-state` and `--nw-loop-state` use them.
+- **Overlays animate out as well as in.** The drawer, modal and command palette fade and slide on
+  `--nw-sweep` when they open and on `--nw-sweep-out` when they close, instead of snapping shut. A
+  closed overlay is hidden and not clickable, not focusable and not in the accessibility tree.
+  Re-opening while one is still closing reverses from where it stands, and first paint does not
+  animate. Browsers outside the latest 2 versions of Chrome, Edge, Firefox and Safari open and
+  close instantly (see the README for the baseline).
+- **`data-open` on dropdown, toast and tooltip.** `.dropdown` and `.toast` take
+  `data-open="true" | "false"`; `"false"` closes them with an exit animation (`--nw-tick-out` and
+  `--nw-sweep-out`). Without the attribute they stay open, exactly as in 2.1.0. `.tooltip` takes
+  it too: `"true"` pins it open, `"false"` keeps it closed even on hover, and without the attribute
+  it opens on hover as before.
+- **Tooltips open on keyboard focus.** `.tooltip` opens on `:focus-within` as well as `:hover`.
+- **`--nw-loop-state` knob** (`running` | `paused`), read by the button spinner and the skeleton
+  shimmer. Reduced motion pauses it.
 - **Parity tool:** `--expect <file>` classifies every difference against declared change
   categories (`docs/design/v3/change-inventory.json`) and fails only on differences no category
   explains. Without `--expect`, the output and exit codes are unchanged.
@@ -32,6 +46,39 @@ All notable changes to this project will be documented in this file.
   the doc-only `duration-*` and `easing-*` names, and the `ticker-scroll` and `led-blink`
   animations, which had no CSS behind them, are gone.
 - Token validation accepts a token with no output of its own when another token references it.
+- **Every component transition and animation reads the motion tokens.** Hover, focus and press
+  feedback in button, form fields, tabs, sidebar and breadcrumbs, and the dropdown items, now run
+  on `--nw-tick` instead of literal `0.15s` and `0.1s`. At operator the button press transition is
+  150ms where it was 100ms. The uplink stagger uses `--nw-stagger` (50ms at operator, as before).
+  The easing is the `--nw-tick` curve rather than `ease`. Durations now multiply by
+  `--nw-motion-scale` (archive 0.6, combat 1.2), where 2.1.0 used fixed values.
+- **Loops follow the intensity.** The button spinner (`--nw-loop-spin`), skeleton shimmer
+  (`--nw-loop-shimmer`) and LED pulse (`--nw-pulse-speed`) cycle lengths divide by
+  `--nw-motion-scale`: archive loops run slower, combat loops faster. Spinner and shimmer also read
+  `--nw-loop-state`.
+- `docs/architecture/intensity.md`: known issues K1 and K2 are marked resolved.
+
+### Fixed
+
+- **Reduced motion wins over every intensity (K1).** With `data-intensity="archive"` or `"combat"`
+  the intensity block used to beat the reduced-motion block, so `--nw-motion-scale` stayed 0.6 or
+  1.2 and combat kept the LED pulse running. The generated block now comes after the intensity
+  blocks with equal specificity, so `prefers-reduced-motion: reduce` sets the scale to `0` and
+  pauses pulse and loops at every level.
+- **The reduced-motion backstop reaches pseudo-elements.** The button spinner, the skeleton shimmer
+  and the switch knob kept moving under reduced motion because `*` does not match `::before` and
+  `::after`. The kill switch now covers both.
+- **`.uplink` content stays visible under reduced motion.** The children start at opacity 0 and
+  only the animation revealed them, so removing the animation hid them. They now show at their end
+  state.
+- **The button press shift is actually removed under reduced motion.** 2.1.0 said it was, but the
+  rule lost to `.btn:active` on load order, so `.btn`, `.btn-ghost` and `.btn-danger` still moved
+  down 1px. It now wins.
+- **Visible keyboard focus on the command palette input, `.check`, `.radio`, `.switch` and the
+  segmented control.** The palette input had `outline: none` with nothing in its place, the native
+  inputs of check, radio and switch are hidden, and the segmented control clips with
+  `overflow: hidden`. Each now draws a `--nw-focus-ring` outline, inside the control where it would
+  otherwise be cut off.
 
 ## [2.1.0] — 2026-11-18
 
