@@ -25,6 +25,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { extractSelectors, analyzeSelectors } from './lib/selectors.mjs';
 import { snapshotKey, diffSnapshots } from './lib/diff.mjs';
+import { globToRegExp } from './lib/glob.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const COVERAGE_FIXTURE = 'scripts/parity/fixtures/coverage.html';
@@ -72,21 +73,6 @@ function listFiles(dir) {
   };
   if (existsSync(resolve(ROOT, dir))) walkDir(dir);
   return out;
-}
-
-/** Minimal glob for --pages: `**` matches any number of directories, `*` and `?` stay within one. */
-function globToRegExp(pattern) {
-  let re = '';
-  for (let k = 0; k < pattern.length; k++) {
-    const ch = pattern[k];
-    if (ch === '*' && pattern[k + 1] === '*') {
-      k++;
-      if (pattern[k + 1] === '/') { k++; re += '(?:.*/)?'; } else re += '.*';
-    } else if (ch === '*') re += '[^/]*';
-    else if (ch === '?') re += '[^/]';
-    else re += ch.replace(/[.+^${}()|[\]\\]/g, '\\$&');
-  }
-  return new RegExp(`^${re}$`);
 }
 
 function glob(pattern) {

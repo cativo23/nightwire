@@ -1,6 +1,8 @@
 // Pure snapshot diff and change-category matching for the parity tool. Zero dependencies.
 // A snapshot is a Map<key, value>; keys are built with snapshotKey().
 
+import { globToRegExp } from './glob.mjs';
+
 const SEP = '\u0000';
 
 export function snapshotKey({ page, state, path, prop }) {
@@ -42,31 +44,6 @@ export function diffSnapshots(oldSnap, newSnap) {
 const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const REGEX_FIELDS = ['prop', 'path', 'state', 'old', 'new'];
 const MATCH_KEYS = new Set([...REGEX_FIELDS, 'page']);
-
-/**
- * Compile a glob to an anchored RegExp. `**` matches anything including `/`,
- * `*` matches any run of characters except `/`, `?` matches one character
- * except `/`. Everything else is literal. (path.matchesGlob needs Node 22.)
- */
-function globToRegExp(glob) {
-  let source = '';
-  for (let i = 0; i < glob.length; i++) {
-    const ch = glob[i];
-    if (ch === '*') {
-      if (glob[i + 1] === '*') {
-        source += '.*';
-        i++;
-      } else {
-        source += '[^/]*';
-      }
-    } else if (ch === '?') {
-      source += '[^/]';
-    } else {
-      source += ch.replace(/[\\^$.*+?()[\]{}|/-]/g, '\\$&');
-    }
-  }
-  return new RegExp(`^${source}$`, 's');
-}
 
 /**
  * Validate a parsed change-inventory file and compile it once.
