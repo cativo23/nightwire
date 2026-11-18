@@ -1,0 +1,14 @@
+# Build context is the repo root (docker-compose*.yml, deploy-docs.yml). Keep it small and
+# never send local installs, build output or private working files.
+**/node_modules
+**/dist
+.git
+.github
+.claude
+.claude-research
+.specify
+.superpowers
+specs
+notes
+tests
+scripts

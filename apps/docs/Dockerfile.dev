@@ -1,6 +1,12 @@
-FROM node:22-alpine
-WORKDIR /app
-COPY package*.json ./
+FROM node:24-alpine
+
+# Build context is the repo root, laid out as in the repo so ../../ paths resolve.
+# docker-compose.dev.yml mounts the sources over these copies for live reload.
+WORKDIR /app/apps/docs
+COPY apps/docs/package*.json ./
 RUN npm ci
+COPY apps/docs/ ./
+COPY package.json nightwire.css tailwind.preset.js /app/
+COPY examples/ /app/examples/
 EXPOSE 5173
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
