@@ -727,8 +727,10 @@ instantly and reach the same states as with motion on.
 - **Overlays animate in and out.** Drawer, modal, command palette, dropdown, toast and tooltip
   fade, and where it applies move, through `opacity`, `transform` and `visibility`, so the exit is
   as smooth as the entrance.
-- **Closed means gone.** A closed overlay is `visibility: hidden` and `pointer-events: none`. It is
-  not clickable, not focusable and not in the accessibility tree. `visibility` flips at once on
+- **Closed means inert, not removed.** A closed overlay is `visibility: hidden` and
+  `pointer-events: none`. It is not clickable, not focusable and not in the accessibility tree, but
+  it is not `display: none`: an overlay that sits in the flow, the toast, keeps its layout box and
+  the space it takes. `visibility` flips at once on
   open and after the exit duration on close (`visibility 0s linear var(--nw-sweep-out-duration)`),
   which keeps the exit visible.
 - **Re-opening mid-close reverses.** Every property transitions from its current value, and
@@ -755,6 +757,8 @@ Overlays take a `data-open` attribute. The value is a string; React's `data-open
   open them. The drawer has two parts, backdrop and panel, and each takes the attribute.
 - Dropdown and toast keep their 2.x behaviour: with no attribute they are open, so existing markup
   renders as before. Only `data-open="false"` closes them.
+- A closed toast keeps its layout box, so the toasts around it do not move up. Remove the element
+  once the exit has finished if you want the space back.
 - A tooltip opens on hover and when focus is inside it, so keyboard users get it too.
   `data-open="true"` pins it open and `data-open="false"` keeps it closed whatever the pointer or
   focus does.
