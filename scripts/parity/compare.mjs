@@ -29,10 +29,8 @@
 // 2 = usage error (including an unreadable or invalid --expect file) or browser launch failure.
 // See CONTRIBUTING.md.
 
-import { createServer } from 'node:http';
-import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
-import { resolve, extname, sep, dirname } from 'node:path';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { resolve, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { extractSelectors, analyzeSelectors } from './lib/selectors.mjs';
@@ -40,6 +38,9 @@ import { snapshotKey, diffRecords, validateCategories } from './lib/diff.mjs';
 import { globToRegExp } from './lib/glob.mjs';
 import { buildReport } from './lib/report.mjs';
 import { resolveOld } from './lib/baseline.mjs';
+import { loadSheet as loadSheetFrom, SheetError } from './lib/sheet.mjs';
+import { startServer as startServerAt } from './lib/server.mjs';
+import { routeAction } from './lib/route.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const COVERAGE_FIXTURE = 'scripts/parity/fixtures/coverage.html';
@@ -62,18 +63,12 @@ function usage(message) {
 }
 
 function loadSheet(spec) {
-  if (spec.startsWith('git:')) {
-    const ref = spec.slice(4);
-    if (!ref || ref.startsWith('-')) usage(`invalid git ref: ${spec}`);
-    try {
-      return execFileSync('git', ['show', `${ref}:nightwire.css`], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 << 20 });
-    } catch {
-      usage(`cannot read nightwire.css at ${ref}`);
-    }
+  try {
+    return loadSheetFrom(spec, ROOT);
+  } catch (err) {
+    if (err instanceof SheetError) usage(err.message);
+    throw err;
   }
-  const path = resolve(ROOT, spec);
-  if (!existsSync(path)) usage(`stylesheet not found: ${spec}`);
-  return readFileSync(path, 'utf8');
 }
 
 /** Read and compile a change-category file ({ baseline?, categories }); any failure is a usage error. */
@@ -130,23 +125,7 @@ function resolvePages(arg) {
   return [...pages].sort();
 }
 
-const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript',
-  '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg',
-  '.woff2': 'font/woff2', '.woff': 'font/woff', '.ico': 'image/x-icon' };
-
-function startServer() {
-  const server = createServer((req, res) => {
-    let pathname;
-    try { pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch { res.writeHead(400).end(); return; }
-    if (pathname.split('/').some((seg) => seg.startsWith('.'))) { res.writeHead(404).end(); return; }
-    const file = resolve(ROOT, `.${pathname}`);
-    if (file !== ROOT && !file.startsWith(ROOT + sep)) { res.writeHead(403).end(); return; }
-    if (!existsSync(file) || !statSync(file).isFile()) { res.writeHead(404).end(); return; }
-    res.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' });
-    res.end(readFileSync(file));
-  });
-  return new Promise((ok) => server.listen(0, '127.0.0.1', () => ok(server)));
-}
+const startServer = () => startServerAt(ROOT);
 
 // ---- in-page helpers (serialized into the page) -------------------------------------------
 
@@ -224,9 +203,9 @@ async function openPage(browser, { css, origin, url, intensity, reducedMotion })
   const page = await context.newPage();
   let substituted = 0;
   await page.route('**/*', (route) => {
-    const u = new URL(route.request().url());
-    if (u.origin !== origin) return route.abort();
-    if (u.pathname.endsWith('/nightwire.css')) { substituted++; return route.fulfill({ status: 200, contentType: 'text/css', body: css }); }
+    const action = routeAction(route.request().url(), origin);
+    if (action === 'abort') return route.abort();
+    if (action === 'css') { substituted++; return route.fulfill({ status: 200, contentType: 'text/css', body: css }); }
     return route.continue();
   });
   await page.addInitScript(SEED_RANDOM);
