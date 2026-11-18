@@ -16,13 +16,14 @@ themselves; they read the knobs.
 
 | Knob | Operator (base) | Archive | Combat | Read by |
 |------|-----------------|---------|--------|---------|
-| `--nw-glow` | `1` | `0` | `2.2` | led, button, switch, check, segmented, progress, steps, drawer, cmdk, ai-block, stat |
+| `--nw-glow` | `0.5` | `0` | `0.5` (proposed, pending the v3 direction gate; see [direction.md](../design/v3/direction.md)) | led, button, switch, check, segmented, progress, steps, drawer, cmdk, ai-block, stat |
 | `--nw-density` | `1` | — | `0.85` | layout primitives |
 | `--nw-motion-scale` | `1` | `0.6` | `1.2` | every motion token (`--nw-tick`, `--nw-sweep`, `--nw-uplink`, `-out`, longhands, `--nw-stagger`; the loop cycles inversely) |
 | `--nw-pad-scale` | `1` | `1.35` | `0.7` | stat |
 | `--nw-base-font` | `var(--text-base)` | `15px` | `13px` | reset (`body`) |
 | `--nw-pulse-state` | `running` | `paused` | `running` | led |
-| `--nw-pulse-speed` | `1.4s` | — | `0.7s` | led |
+| `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow` | `var(--nw-glow)` | — | `calc(var(--nw-glow) * 2)` | led (the others are read by components in T039) |
+| `--nw-pulse-speed` | `1.6s` | — | — (scaled by `--nw-motion-scale`, so combat runs faster) | led |
 | `--nw-loop-state` | `running` | — | — | button spinner, skeleton shimmer |
 | `--nw-panel-radius` | `var(--radius-none)` | `var(--radius-sm)` | — | panel |
 | `--nw-value-color` | `var(--nw-data)` | `var(--nw-green-dim)` | `var(--nw-green-dim)` | stat |
@@ -30,6 +31,7 @@ themselves; they read the knobs.
 | `--nw-kanji-display` | `inline` | `none` | — | `.kanji` |
 | `--nw-header-gradient` | blue 6% → transparent 80% | `none` | blue 18% → transparent 70% | panel header |
 | `--nw-header-pattern` | `none` | — | 1px scanlines | panel header |
+| `--nw-hairline`, `--nw-rule`, `--nw-accent-width` | `1px`, `1.5px`, `2px` | — | — | structural borders, drawn marks, accent bars (no per-level overrides) |
 | `--nw-label-spacing` | `var(--ls-ultra)` | `0.14em` | — | stat |
 
 "—" means the level keeps the base value. The operator block is intentionally empty.

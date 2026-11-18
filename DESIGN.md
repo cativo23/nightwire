@@ -50,8 +50,8 @@ colors:
   # Text
   on-surface:       "#ffffff"                    # CSS: --nw-text
   on-surface-dim:   "#aaaaaa"                    # CSS: --nw-text-dim
-  on-surface-faint: "rgba(255, 255, 255, 0.06)"  # CSS: --nw-text-faint
-  on-surface-line:  "rgba(255, 255, 255, 0.12)"  # CSS: --nw-text-line
+  on-surface-faint: "rgba(255, 255, 255, 0.08)"  # CSS: --nw-text-faint
+  on-surface-line:  "rgba(255, 255, 255, 0.14)"  # CSS: --nw-text-line
 # </generated:colors>
 
 # <generated:typography> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
@@ -303,8 +303,8 @@ motion:
   sweep:               "calc(350ms * var(--nw-motion-scale)) cubic-bezier(0.2, 0.8, 0.2, 1)"  # enter: panels, modals, drawers
   uplink:              "calc(400ms * var(--nw-motion-scale)) cubic-bezier(0, 0.6, 0.4, 1)"    # enter: data load reveal
 
-  tick-out:            "calc(112.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"    # exit: shorter, accelerating (provisional)
-  sweep-out:           "calc(262.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"    # exit: shorter, accelerating (provisional)
+  tick-out:            "calc(100ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (provisional)
+  sweep-out:           "calc(250ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (provisional)
   uplink-out:          "calc(300ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1)"      # exit: shorter, accelerating (provisional)
 
   tick-duration:       "calc(150ms * var(--nw-motion-scale))"
@@ -314,8 +314,8 @@ motion:
   sweep-ease:          "cubic-bezier(0.2, 0.8, 0.2, 1)"
   uplink-ease:         "cubic-bezier(0, 0.6, 0.4, 1)"
 
-  tick-out-duration:   "calc(112.5ms * var(--nw-motion-scale))"
-  sweep-out-duration:  "calc(262.5ms * var(--nw-motion-scale))"
+  tick-out-duration:   "calc(100ms * var(--nw-motion-scale))"
+  sweep-out-duration:  "calc(250ms * var(--nw-motion-scale))"
   uplink-out-duration: "calc(300ms * var(--nw-motion-scale))"
   tick-out-ease:       "cubic-bezier(0.4, 0, 1, 1)"
   sweep-out-ease:      "cubic-bezier(0.4, 0, 1, 1)"

@@ -50,8 +50,8 @@
   /* Text */
   --nw-text:          #ffffff;
   --nw-text-dim:      #aaaaaa;
-  --nw-text-faint:    rgba(255, 255, 255, 0.06);
-  --nw-text-line:     rgba(255, 255, 255, 0.12);
+  --nw-text-faint:    rgba(255, 255, 255, 0.08);
+  --nw-text-line:     rgba(255, 255, 255, 0.14);
 
   /* ── Semantic Roles ──────────────────────────────────────── */
   --nw-success:       var(--nw-green);
@@ -132,21 +132,27 @@
 
   /* Lines */
   --nw-line:          var(--nw-text-line);
-  --nw-line-strong:   rgba(255, 255, 255, 0.18);
+  --nw-line-strong:   rgba(255, 255, 255, 0.36);
   --nw-line-chrome:   rgba(102, 153, 255, 0.35);
 
   /* Focus */
   --nw-focus-ring:    var(--nw-chrome);
 
   /* ── Intensity knobs (default: operator) ────────────────── */
-  --nw-glow:          1;
+  --nw-glow:          0.5;
+  --nw-led-glow:      var(--nw-glow);
+  --nw-control-glow:  var(--nw-glow);
+  --nw-progress-glow: var(--nw-glow);
   --nw-density:       1;
   --nw-motion-scale:  1;
   --nw-pad-scale:     1;
   --nw-base-font:     var(--text-base);
   --nw-pulse-state:   running;
   --nw-loop-state:    running;
-  --nw-pulse-speed:   1.4s;
+  --nw-pulse-speed:   1.6s;
+  --nw-hairline:      1px;
+  --nw-rule:          1.5px;
+  --nw-accent-width:  2px;
   --nw-panel-radius:  var(--radius-none);
   --nw-value-color:   var(--nw-data);
   --nw-value-weight:  500;
@@ -161,8 +167,8 @@
   --nw-uplink: calc(400ms * var(--nw-motion-scale)) cubic-bezier(0, 0.6, 0.4, 1);
 
   /* Exit variants: shorter, accelerating (provisional) */
-  --nw-tick-out:   calc(112.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
-  --nw-sweep-out:  calc(262.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+  --nw-tick-out:   calc(100ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+  --nw-sweep-out:  calc(250ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
   --nw-uplink-out: calc(300ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
 
   /* Longhands, for building transitions */
@@ -173,8 +179,8 @@
   --nw-sweep-ease:      cubic-bezier(0.2, 0.8, 0.2, 1);
   --nw-uplink-ease:     cubic-bezier(0, 0.6, 0.4, 1);
 
-  --nw-tick-out-duration:   calc(112.5ms * var(--nw-motion-scale));
-  --nw-sweep-out-duration:  calc(262.5ms * var(--nw-motion-scale));
+  --nw-tick-out-duration:   calc(100ms * var(--nw-motion-scale));
+  --nw-sweep-out-duration:  calc(250ms * var(--nw-motion-scale));
   --nw-uplink-out-duration: calc(300ms * var(--nw-motion-scale));
   --nw-tick-out-ease:       cubic-bezier(0.4, 0, 1, 1);
   --nw-sweep-out-ease:      cubic-bezier(0.4, 0, 1, 1);
@@ -184,6 +190,8 @@
   --nw-stagger:      calc(50ms * var(--nw-motion-scale));
   --nw-loop-spin:    calc(800ms / var(--nw-motion-scale));
   --nw-loop-shimmer: calc(1200ms / var(--nw-motion-scale));
+
+  --nw-elevation-overlay: 0 24px 64px rgba(0, 0, 0, 0.7);
 }
 
 /* ── Intensity: archive (docs, blogs, low-glow) ─────────── */
@@ -208,16 +216,17 @@
 
 /* ── Intensity: combat (ops console, high-glow, dense) ─── */
 :root[data-intensity="combat"] {
-  --nw-glow: 2.2;
   --nw-motion-scale: 1.2;
   --nw-density: 0.85;
   --nw-pad-scale: 0.7;
   --nw-base-font: 13px;
   --nw-pulse-state: running;
-  --nw-pulse-speed: 0.7s;
   --nw-value-color: var(--nw-green-dim);
   --nw-header-gradient: linear-gradient(180deg, rgba(102, 153, 255, 0.18), transparent 70%);
   --nw-header-pattern: repeating-linear-gradient(0deg, rgba(102, 153, 255, 0.05) 0 1px, transparent 1px 3px);
+  --nw-led-glow: calc(var(--nw-glow) * 2);
+  --nw-control-glow: calc(var(--nw-glow) * 2);
+  --nw-progress-glow: calc(var(--nw-glow) * 2);
 }
 
 @media (prefers-reduced-motion: reduce) {

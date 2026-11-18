@@ -223,6 +223,102 @@
         "old": "^matrix\\(1, 0, 0, 1, 0, 1\\)$",
         "new": "^none$"
       }
+    },
+    {
+      "id": "refresh-values",
+      "description": "v3 direction values proposed on the board (T033, FR-013b, FR-014): --nw-glow 1 → 0.5 at operator and 2.2 → 0.5 at combat, --nw-pulse-speed 1.4s → 1.6s (combat override removed), --nw-text-faint 0.06 → 0.08, --nw-text-line and --nw-line 0.12 → 0.14, --nw-line-strong 0.18 → 0.36 (3:1 control boundary). Pinned to :root and to the old and new values.",
+      "match": {
+        "prop": "^--nw-(glow|pulse-speed|text-faint|text-line|line|line-strong)$",
+        "path": "^:root$",
+        "old": "^(1|2\\.2|1\\.4s|0\\.7s|rgba\\(255, 255, 255, 0\\.(06|12|18)\\))$",
+        "new": "^(0\\.5|1\\.6s|rgba\\(255, 255, 255, 0\\.(08|14|36)\\))$"
+      }
+    },
+    {
+      "id": "refresh-knobs",
+      "description": "New v3 knobs on :root (T033): --nw-led-glow, --nw-control-glow and --nw-progress-glow (default var(--nw-glow), doubled at combat), the line weights --nw-hairline, --nw-rule and --nw-accent-width, and --nw-elevation-overlay. They did not exist in v2.1.0.",
+      "match": {
+        "prop": "^--nw-(led-glow|control-glow|progress-glow|hairline|rule|accent-width|elevation-overlay)$",
+        "path": "^:root$",
+        "old": "^<missing>$",
+        "new": "^(0|0\\.5|1|calc\\(0\\.5 \\* 2\\)|1px|1\\.5px|2px|0 24px 64px rgba\\(0, 0, 0, 0\\.7\\))$"
+      }
+    },
+    {
+      "id": "glow-scale-operator",
+      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so shadow blurs scale by half. Pinned to the operator and no-level states and to shadow-shaped old and new values; archive is unchanged (0 → 0).",
+      "match": {
+        "prop": "^box-shadow$",
+        "state": "^(operator|none)\\|",
+        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
+      }
+    },
+    {
+      "id": "glow-scale-text-operator",
+      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so text-shadow blurs scale by half. Pinned to the operator and no-level states and to shadow-shaped old and new values; archive is unchanged (0 → 0).",
+      "match": {
+        "prop": "^text-shadow$",
+        "state": "^(operator|none)\\|",
+        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
+      }
+    },
+    {
+      "id": "glow-scale-combat",
+      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Pinned to the combat state and to shadow-shaped old and new values.",
+      "match": {
+        "prop": "^box-shadow$",
+        "state": "^combat\\|",
+        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
+      }
+    },
+    {
+      "id": "glow-scale-text-combat",
+      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Pinned to the combat state and to shadow-shaped old and new values.",
+      "match": {
+        "prop": "^text-shadow$",
+        "state": "^combat\\|",
+        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
+      }
+    },
+    {
+      "id": "lines-faint",
+      "description": "Quiet dividers and panel edges read a little clearer (FR-014 direction): --nw-text-faint 0.06 → 0.08. Every colour property that resolves to the token changes; pinned to the old and new colour.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|background-color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
+      }
+    },
+    {
+      "id": "lines-line",
+      "description": "One step up for the general line colour: --nw-text-line and --nw-line 0.12 → 0.14. Every colour property that resolves to the token changes; pinned to the old and new colour.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|background-color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.12\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "lines-strong",
+      "description": "Control boundaries reach 3:1 on the black surfaces (FR-014, WCAG 1.4.11): --nw-line-strong 0.18 → 0.36. Every colour property that resolves to the token changes; pinned to the old and new colour.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|background-color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.18\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "hud-readout",
+      "description": "The workshop page prints --nw-glow in its HUD, so the readout text, and with it the HUD box and its fixed-position origin, change width when the knob goes 1 → 0.5. Pinned to that page and to the HUD and its second item.",
+      "match": {
+        "prop": "^(width|inline-size|left|inset-inline-start|perspective-origin|transform-origin)$",
+        "path": "^html>body:nth-child\\(2\\)>div\\.hud:nth-child\\(2\\)(>span:nth-child\\(2\\))?$",
+        "page": "examples/html/workshop.html"
+      }
     }
   ]
 }

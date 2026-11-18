@@ -136,6 +136,7 @@ Every raw token today, and why it cannot be typed:
 | `motion.tick` / `sweep` / `uplink` | `calc({motion.timing.<name>.in.duration} * var(--nw-motion-scale)) {motion.timing.<name>.in.easing}` | `--nw-tick`, `--nw-sweep`, `--nw-uplink` | `calc()` with a runtime `var()` |
 | `motion.exit.*`, `motion.longhand.*`, `motion.longhand-out.*` | the same shape over `out.*`, and the bare `calc()` duration or curve | `--nw-<step>-out`, `--nw-<step>-duration`, `--nw-<step>-ease`, `--nw-<step>-out-duration`, `--nw-<step>-out-ease` | `calc()` with a runtime `var()`; a bare curve interpolated from a typed token |
 | `motion.cycle.*` | `calc({motion.timing.stagger} * var(--nw-motion-scale))`; loops divide by `var(--nw-motion-scale)` | `--nw-stagger`, `--nw-loop-spin`, `--nw-loop-shimmer` | `calc()` with a runtime `var()` |
+| `shadow.elevation-overlay` | `0 24px 64px rgba(0, 0, 0, 0.7)` | `--nw-elevation-overlay` (CSS only) | Multi-value shadow |
 | `shadow.glow-green` / `blue` / `cyan` / `red` | `0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)` (red: `0.3`) | preset `boxShadow.glow-*` | Kept byte-for-byte as the preset had it |
 | `doc.typography.title.transform` | `scaleX(0.82)` | `DESIGN.md` only | CSS transform |
 | `doc.typography.title.textTransform`, `doc.typography.stamp.textTransform` | `uppercase` | `DESIGN.md` only | CSS keyword |
@@ -149,6 +150,7 @@ Some values exist only in one output, and they stay that way so this refactor ch
 surface:
 
 - **Preset-only:** `shadow.glow-*` (the `boxShadow.glow-*` utilities have no custom property).
+- **CSS-only:** `shadow.elevation-overlay` (`--nw-elevation-overlay` has no preset utility yet).
 - **Doc-only:** `doc.*` holds the `DESIGN.md` views. `doc.typography.*` mostly aliases the font and
   size tokens and adds weights and line heights. The `motion` region of `DESIGN.md` has no doc-only
   tokens: it lists the real `motion.*` tokens through their `designMd` targets.
