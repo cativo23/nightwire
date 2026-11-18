@@ -76,8 +76,7 @@ function literalTimes(dir) {
 // A zero time (0s, 0ms) is not a timing choice, it means "no animation". Later tasks need
 // `visibility 0s linear var(--nw-…-out-duration)`: in the transition shorthand the first time
 // is the duration, so the 0s cannot be dropped or tokenized. Hence zero is exempt.
-test('no literal time value in transition/animation declarations of components and utilities (SC-003)',
-  { todo: 'components still hardcode durations; tokenized in US1 (T017-T024)' }, () => {
-    const hits = [...literalTimes('src/components/'), ...literalTimes('src/utilities/')];
-    assert.deepEqual(hits, [], `${hits.length} declaration(s) hardcode a duration, use a motion token:\n${hits.join('\n')}`);
-  });
+test('no literal time value in transition/animation declarations of components and utilities (SC-003)', () => {
+  const hits = [...literalTimes('src/components/'), ...literalTimes('src/utilities/')];
+  assert.deepEqual(hits, [], `${hits.length} declaration(s) hardcode a duration, use a motion token:\n${hits.join('\n')}`);
+});
