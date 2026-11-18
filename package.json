@@ -20,7 +20,7 @@
     "build:cli": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "test": "node --test \"tests/**/*.test.mjs\"",
+    "test": "node --test",
     "parity": "node scripts/parity/compare.mjs",
     "prepublishOnly": "npm run build",
     "docs:dev": "cd apps/docs && npm run dev",
