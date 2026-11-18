@@ -599,7 +599,7 @@ No shadows. Depth through surface color only:
 
 Tailwind:
 ```js
-import nightwirePreset from 'nightwire/tailwind.preset.js'
+import nightwirePreset from '@cativo23/nightwire/tailwind.preset.js'
 export default { presets: [nightwirePreset] }
 ```
 

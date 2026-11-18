@@ -34,6 +34,14 @@ Interactive prompts detect your project type (Next.js, Vite, Astro, plain HTML) 
 
 ### Manual Installation
 
+```bash
+npm i @cativo23/nightwire
+```
+
+Then import `@cativo23/nightwire/nightwire.css` and, for Tailwind,
+`@cativo23/nightwire/tailwind.preset.js`. Without npm, copy `nightwire.css` (and
+`tailwind.preset.js`) from the repository root.
+
 ## Quick Start
 
 ### Vanilla CSS
@@ -83,22 +91,28 @@ Drop `SKILL.md` into your project as a skill. The agent can then generate Nightw
 
 ```
 nightwire/
-├── nightwire.css                      <- Design tokens, utilities & component styles
-├── tailwind.preset.js                 <- Tailwind CSS preset with all tokens
-├── DESIGN.md                          <- AI-readable design spec
-├── CHANGELOG.md
-├── docs/                              <- React docs site (Vite + Tailwind)
-├── examples/
-│   └── html/
-│       ├── dashboard.html             <- Full demo (blockchain dashboard)
-│       ├── neural-ops.html            <- Full demo (neural ops center)
-│       ├── workshop.html              <- v2 component showcase (alpha)
-│       └── components/                <- Standalone component snippets
+├── nightwire.css                      <- The stylesheet (generated from src/, committed)
+├── tailwind.preset.js                 <- Tailwind CSS preset (generated from tokens, committed)
+├── DESIGN.md                          <- AI-readable design spec (token sections generated)
+├── src/
+│   ├── tokens/tokens.json             <- Every design token, W3C DTCG format (the only token source)
+│   ├── index.css                      <- Ordered manifest: the cascade order
+│   ├── base/                          <- Reset, accessibility, reduced motion, typography
+│   ├── utilities/                     <- Surface, text, glow, border, layout classes
+│   └── components/                    <- One file per component
+├── cli/                               <- `nightwire install` CLI source (TypeScript)
 ├── skill/nightwire/
-│   ├── SKILL.md                       <- Claude Code skill (full design system spec)
+│   ├── SKILL.md                       <- AI skill (full design system spec)
 │   └── references/                    <- Examples & layout docs
-└── src/                               <- CLI installer source
+├── examples/html/                     <- Full demos, v2 workshop and component snippets
+├── apps/docs/                         <- Docs site (React + Vite + Tailwind)
+├── docs/                              <- Architecture notes, proposals, roadmap
+├── scripts/                           <- Build scripts and the parity tool
+└── tests/                             <- Unit tests (node:test)
 ```
+
+`nightwire.css`, `tailwind.preset.js` and the paths above stay where consumers expect them. To
+work on Nightwire itself, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## v2-alpha — preview
 

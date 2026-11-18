@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- **Repository restructure. No consumer action required.** `nightwire.css` and
+  `tailwind.preset.js` stay at the repo root and in the npm package, and the package ships the same
+  13 files. What changed is how they are made:
+  - `src/tokens/tokens.json` (W3C DTCG) is now the single token source. It generates the
+    stylesheet's custom properties, `tailwind.preset.js` and the token sections of `DESIGN.md`.
+  - `nightwire.css` is assembled from one file per component under `src/`, in the order fixed by
+    `src/index.css`. A computed-style parity check reports zero differences against 2.0.1 on every
+    example page in all intensity and reduced-motion states.
+  - The CLI source moved to `cli/`; the docs site moved to `apps/docs/` and now uses the root
+    stylesheet and preset instead of its own copies.
+  - CI fails when a committed generated file is stale.
+- `DESIGN.md`: `rounded.none` reads `"0"` (was `"0px"`, the stylesheet has always used `0`), and
+  rgba values are written with spaces, as in the stylesheet.
+- `tailwind.preset.js` is reformatted with a generated header; its values are unchanged.
+
+### Fixed
+
+- Docs site install instructions used package paths that do not exist (`nightwire/…`,
+  `npx nightwire-cli`). They now use `@cativo23/nightwire`.
+- The docs Docker builds use the repo root as context, so the compose files work again.
+
+See [docs/architecture/](docs/architecture/) for how tokens, the build and the cascade work.
+
 ## [2.0.1] — 2026-05-27
 
 > **Status:** Patch. Fully additive — operator-mode (default) rendering is byte-for-byte unchanged. Safe drop-in over 2.0.0.
