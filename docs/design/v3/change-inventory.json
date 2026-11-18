@@ -1208,6 +1208,16 @@
         "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
         "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
       }
+    },
+    {
+      "id": "q-empty-glyph",
+      "description": "Group A (T043): the .empty glyph goes from --nw-chrome-mute to --nw-text-default, set inside :where() so a colour utility still wins (direction rule 6). Its opacity stays 0.5. Includes the properties that follow the glyph colour. Pinned to .empty .glyph, #4477cc to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "div\\.empty:nth-child\\(\\d+\\)>div\\.glyph:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
     }
   ]
 }
