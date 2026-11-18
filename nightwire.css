@@ -804,17 +804,25 @@ input::placeholder, textarea::placeholder {
 .modal-backdrop {
   visibility: hidden;
   opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
 .modal-backdrop[data-open="true"] {
   visibility: visible;
   opacity: 1;
+  pointer-events: auto;
+  /* Open: show at once, enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
 }
 .modal-backdrop .modal {
   transform: scale(0.96);
+  transition: transform var(--nw-sweep-out);
+}
+.modal-backdrop[data-open="true"] .modal {
+  transform: scale(1);
   transition: transform var(--nw-sweep);
 }
-.modal-backdrop[data-open="true"] .modal { transform: scale(1); }
 
 /* ── src/components/tabs.css ───────────────────────────────────── */
 /* ── Tabs ────────────────────────────────────────────────────── */
@@ -1292,10 +1300,15 @@ input::placeholder, textarea::placeholder {
   position: fixed; inset: 0;
   background: rgba(0, 0, 0, 0.7);
   z-index: 45;
-  visibility: hidden; opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; opacity: 0; pointer-events: none;
+  /* Closed: fade out on the exit curve, then drop visibility once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.drawer-backdrop[data-open="true"] { visibility: visible; opacity: 1; }
+.drawer-backdrop[data-open="true"] {
+  visibility: visible; opacity: 1; pointer-events: auto;
+  /* Open: show at once, fade in on the enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
+}
 
 .drawer {
   position: fixed; top: 0; right: 0; height: 100vh;
@@ -1306,10 +1319,13 @@ input::placeholder, textarea::placeholder {
   z-index: 46;
   box-shadow: -10px 0 calc(40px * var(--nw-glow)) rgba(102, 153, 255, 0.1);
   transform: translateX(100%);
-  visibility: hidden;
-  transition: transform var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; pointer-events: none;
+  transition: transform var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.drawer[data-open="true"] { transform: translateX(0); visibility: visible; }
+.drawer[data-open="true"] {
+  transform: translateX(0); visibility: visible; pointer-events: auto;
+  transition: transform var(--nw-sweep), visibility 0s;
+}
 .drawer-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 16px;
@@ -1324,10 +1340,15 @@ input::placeholder, textarea::placeholder {
   background: rgba(0, 0, 0, 0.85);
   display: flex; align-items: flex-start; justify-content: center;
   padding-top: 12vh; z-index: 55;
-  visibility: hidden; opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; opacity: 0; pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.cmdk-backdrop[data-open="true"] { visibility: visible; opacity: 1; }
+.cmdk-backdrop[data-open="true"] {
+  visibility: visible; opacity: 1; pointer-events: auto;
+  /* Open: show at once, enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
+}
 
 .cmdk {
   width: min(560px, 92vw);
@@ -1338,6 +1359,13 @@ input::placeholder, textarea::placeholder {
   box-shadow:
     0 0 0 1px rgba(102, 153, 255, 0.25),
     0 calc(20px * var(--nw-glow)) calc(80px * var(--nw-glow)) rgba(102, 153, 255, 0.15);
+  transform: translateY(-8px);
+  transition: transform var(--nw-sweep-out);
+}
+.cmdk-backdrop[data-open="true"] .cmdk {
+  /* none, not translateY(0): an identity transform would still make .cmdk a containing block. */
+  transform: none;
+  transition: transform var(--nw-sweep);
 }
 .cmdk input {
   width: 100%; background: transparent;

@@ -39,6 +39,22 @@
         "old": "^0\\.(09|18)s(, 0\\.(09|18)s)*$",
         "new": "^0s(, 0s)*$"
       }
+    },
+    {
+      "id": "motion-overlays",
+      "description": "Overlays now have a real closed state (FR-004, FR-005, FR-007): closed drawer, modal and command palette set pointer-events: none, which their children inherit, and the closed command palette panel sits at translateY(-8px). Open overlays are otherwise unchanged. Applies to the overlay roots and everything inside them.",
+      "match": {
+        "prop": "^(visibility|opacity|transform|pointer-events)$",
+        "path": "(^|>)div\\.(drawer|drawer-backdrop|modal-backdrop|cmdk-backdrop):nth-child\\(\\d+\\)(>|$)"
+      }
+    },
+    {
+      "id": "motion-overlay-transitions",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, one --nw-sweep transition covered both directions and animated visibility itself.",
+      "match": {
+        "prop": "^transition-(property|duration|timing-function|delay|behavior)$",
+        "path": "(^|>)div\\.(drawer|drawer-backdrop|modal-backdrop|cmdk-backdrop):nth-child\\(\\d+\\)(>|$)"
+      }
     }
   ]
 }
