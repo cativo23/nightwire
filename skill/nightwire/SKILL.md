@@ -344,7 +344,7 @@ and unfocusable.
 - For drawer, modal and command palette, always set the attribute: `"true"` to show, `"false"` to hide.
 - For dropdown and toast, omit the attribute for plain always-visible markup. Set
   `data-open="false"` to dismiss with an exit animation, and remove the element after the exit
-  finishes, not at the moment you set `"false"`: wait at least 350ms (the longest exit, combat's
+  finishes, not at the moment you set `"false"`: wait at least 350ms (the longest overlay exit, combat's
   sweep, is 315ms) with a timer, not `transitionend`, which does not fire under reduced motion.
 - An element mounted already open never animates in: the first style does not transition. To
   animate a toast or dropdown you add at runtime, mount it with `data-open="false"`, then set
