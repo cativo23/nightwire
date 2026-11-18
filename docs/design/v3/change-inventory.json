@@ -777,6 +777,27 @@
         "old": "^rgb\\(153, 187, 255\\)$",
         "new": "^rgb\\((136, 68, 187|92, 184, 92)\\)$"
       }
+    },
+    {
+      "id": "led-active",
+      "description": "New LED state .led[data-state=\"active\"] (FR-016, T042): the primary-blue LED that v1 spelled .led.blue and v2 had no equivalent for. It is drawn with --nw-chrome and the same glow rule as the other states, 8px * --nw-led-glow. In v2.1.0 the attribute value matched nothing, so the LED had no background or shadow. Pinned to the parity fixture, to the LED directly inside a section (outside .fixture-v1), and to the new chrome blue.",
+      "match": {
+        "prop": "^(background-color|box-shadow)$",
+        "path": "section:nth-child\\(\\d+\\)>span\\.led:nth-child\\(\\d+\\)$",
+        "old": "^(rgba\\(0, 0, 0, 0\\)|none)$",
+        "new": "^rgb\\(102, 153, 255\\)",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-led",
+      "description": "The v1 LED colour classes .led.green, .led.blue, .led.red and .led.yellow are removed (FR-016, research R10, T042); the v3 spelling is .led[data-state=\"ok\"|\"active\"|\"error\"|\"warn\"]. An LED that still carries only the class now has no background or shadow. Pinned to the fixture's .fixture-v1 wrapper, which exists to keep the removed classes in parity's coverage. The migration is not pixel-identical: v1 glowed 4px * --nw-glow, v2 states glow 8px * --nw-led-glow.",
+      "match": {
+        "prop": "^(background-color|box-shadow)$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>span\\.led:nth-child\\(\\d+\\)$",
+        "new": "^(rgba\\(0, 0, 0, 0\\)|none)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
     }
   ]
 }

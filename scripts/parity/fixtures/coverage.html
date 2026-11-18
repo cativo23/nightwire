@@ -9,6 +9,11 @@
   parity DOM path has no attributes, so this wrapper is how change-inventory.json tells a closed
   instance from an open one. Keep open, "true" and absent-attribute dropdown and toast instances
   outside it: they must not change.
+
+  v1 surfaces removed in v3 (FR-016) sit inside <div class="fixture-v1">. Parity unions the classes
+  of the old and the new stylesheet and demands that some page uses each one, so the removed
+  classes need markup somewhere; this wrapper is how change-inventory.json pins the expected
+  "v1 class now unstyled" differences to them and to nothing else.
 -->
 <html lang="en">
 <head>
@@ -48,8 +53,11 @@
   </section>
 
   <section>
-    <span class="led green"></span> <span class="led blue"></span>
-    <span class="led red"></span> <span class="led yellow"></span>
+    <span class="led" data-state="ok"></span> <span class="led" data-state="active"></span>
+    <span class="led" data-state="error"></span> <span class="led" data-state="warn"></span>
+    <span class="led" data-state="info"></span> <span class="led" data-state="ai"></span>
+    <div class="fixture-v1"><span class="led green"></span> <span class="led blue"></span>
+    <span class="led red"></span> <span class="led yellow"></span></div>
     <div class="nw-progress"><div class="nw-progress-fill" style="width: 40%"></div></div>
     <span class="tag tag-warning">warning</span>
     <span class="avatar avatar-lg">NW</span>

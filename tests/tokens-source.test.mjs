@@ -292,11 +292,9 @@ test('the glow scan tells glow from rings, elevation and none', () => {
   assert.equal(glowLayers('0 0 0 1px red, 0 20px 80px red').length, 1, 'one glowing layer among rings');
 });
 
-// Research R4: the state signals that keep a glow, each on its component's knob. `knob: null`
-// marks the v1 `.led.green/.blue/.red/.yellow` rules that stay on --nw-glow until T042.
+// Research R4: the state signals that keep a glow, each on its component's knob.
 const STATE_GLOW = [
   { file: 'src/components/led.css', selector: /^\.led\[data-state="[a-z]+"\]$/, knob: '--nw-led-glow' },
-  { file: 'src/components/led.css', selector: /^\.led\.(?:green|blue|red|yellow)$/, knob: null },
   { file: 'src/components/check.css', selector: /^\.check input:checked \+ \.box$/, knob: '--nw-control-glow' },
   { file: 'src/components/check.css', selector: /^\.radio input:checked \+ \.box::after$/, knob: '--nw-control-glow' },
   { file: 'src/components/switch.css', selector: /^\.switch input:checked \+ \.track::after$/, knob: '--nw-control-glow' },
@@ -357,6 +355,24 @@ test('the .glow-* utilities scale by --nw-glow and stay restrained (alpha at mos
 
 const allSelectors = (dir) => cssFiles(dir).flatMap(({ name, text }) =>
   parseRules(text).map((r) => ({ file: name, selector: r.selector, decls: r.decls })));
+
+test('the v1 surfaces removed in v3 are gone from the sources', () => {
+  const removed = [
+    /\.led\.(?:green|blue|red|yellow)\b/,
+  ];
+  const hits = ['src/components/', 'src/utilities/'].flatMap(allSelectors)
+    .filter((r) => r.selector.split(',').some((s) => removed.some((re) => re.test(s.trim()))))
+    .map((r) => `${r.file}  ${r.selector}`);
+  assert.deepEqual(hits, [], `v1 surfaces still declared:\n${hits.join('\n')}`);
+});
+
+test('.led[data-state="active"] is the primary-blue LED, on the same glow rule as the other states', () => {
+  const rule = allSelectors('src/components/').find((r) => r.selector === '.led[data-state="active"]');
+  assert.ok(rule, '.led[data-state="active"] is declared');
+  const get = (prop) => rule.decls.find((d) => d.prop === prop)?.value;
+  assert.equal(get('background'), 'var(--nw-chrome)');
+  assert.equal(get('box-shadow'), '0 0 calc(8px * var(--nw-led-glow)) var(--nw-chrome)');
+});
 
 test('.modal-backdrop is declared once, closed by default, with its open state on [data-open="true"]', () => {
   const rules = allSelectors('src/components/').filter((r) => r.file.endsWith('modal.css') && r.selector === '.modal-backdrop');
