@@ -14,11 +14,11 @@
 .led.yellow { background: var(--nw-yellow);  box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-yellow); }
 
 /* ── v2 · LED with state attribute (new pattern) ───────────── */
-.led[data-state="ok"]    { background: var(--nw-data);         box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-data); }
-.led[data-state="warn"]  { background: var(--nw-signal-warn);  box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-warn); }
-.led[data-state="error"] { background: var(--nw-signal-error); box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-error); }
-.led[data-state="info"]  { background: var(--nw-signal-info);  box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-info); }
-.led[data-state="ai"]    { background: var(--nw-ai);           box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-ai); }
+.led[data-state="ok"]    { background: var(--nw-data);         box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-data); }
+.led[data-state="warn"]  { background: var(--nw-signal-warn);  box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-signal-warn); }
+.led[data-state="error"] { background: var(--nw-signal-error); box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-signal-error); }
+.led[data-state="info"]  { background: var(--nw-signal-info);  box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-signal-info); }
+.led[data-state="ai"]    { background: var(--nw-ai);           box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-ai); }
 .led[data-pulse] {
   animation: nw-pulse calc(var(--nw-pulse-speed) / var(--nw-motion-scale)) ease-in-out infinite;
   animation-play-state: var(--nw-pulse-state);

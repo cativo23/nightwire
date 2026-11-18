@@ -245,6 +245,17 @@
       }
     },
     {
+      "id": "glow-state",
+      "description": "State glow moves onto its own knob (FR-013a): .led[data-state] reads --nw-led-glow, which doubles --nw-glow at combat, so a state LED glows 8px at combat (it was 17.6px) while ambient glow no longer rises. At operator the value matches the halved ambient glow and is counted under glow-scale. Pinned to combat, to LEDs, and to the old and new blur.",
+      "match": {
+        "prop": "^box-shadow$",
+        "path": "span\\.led:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^rgb\\(\\d+, \\d+, \\d+\\) 0px 0px 17\\.6px 0px$",
+        "new": "^rgb\\(\\d+, \\d+, \\d+\\) 0px 0px 8px 0px$"
+      }
+    },
+    {
       "id": "glow-scale-operator",
       "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so shadow blurs scale by half. Pinned to the operator and no-level states and to shadow-shaped old and new values; archive is unchanged (0 → 0).",
       "match": {
