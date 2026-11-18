@@ -43,6 +43,8 @@ On a token:
 | `designMd` | Array of dot paths in the `DESIGN.md` frontmatter, e.g. `["colors.primary"]` |
 | `raw` | `true` emits `$value` verbatim (see below) |
 | `cssAlign` | Column the CSS value starts at (formatting only) |
+| `motion` | `true` marks a motion knob. A boolean; a motion knob must also have `reducedMotion` (see below) |
+| `reducedMotion` | Value the token takes under `prefers-reduced-motion: reduce`. Only on tokens with `css`. Shaped like an intensity override: a string is raw text or an alias, anything else is typed by the token's type |
 | `designMdNote` | Trailing `# note` in `DESIGN.md`; `false` for none |
 
 On a group: `cssComment` (comment printed before the group's declarations), `cssAlign`
@@ -60,6 +62,31 @@ At the root, `cssComment` (printed above `:root`), `cssAlign`, and `intensity`:
 
 Override keys are token paths and must point at tokens with `css`. A string override is raw (or
 an alias); any other value is typed by the overridden token's type. See [intensity.md](intensity.md).
+
+### Reduced motion
+
+A token with `reducedMotion` gets a declaration in a generated block at the very end of
+`src/tokens/tokens.css`, after the intensity blocks, in token key order:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  :root[data-intensity] {
+    --nw-motion-scale: 0;
+    --nw-pulse-state: paused;
+  }
+}
+```
+
+The selector list is deliberate. `:root[data-intensity]` has the same specificity as
+`:root[data-intensity="combat"]`, and the block comes later in source order, so the reduced value
+beats every intensity level (known issue K1; verified in Chrome, research R1). `:root` covers a page
+with no `data-intensity` attribute at all. If no token has `reducedMotion`, nothing is emitted,
+not even a blank line.
+
+`motion: true` is the guard against forgetting. A token marked `motion: true` without a
+`reducedMotion` value fails the build with `motion token <path> has no reducedMotion value`.
+`reducedMotion` without `motion: true` is allowed; only the reverse is an error.
 
 Every token needs at least one of `css`, `tailwind` or `designMd`, so the file holds no dead data.
 Two tokens cannot write the same preset or `DESIGN.md` path.
