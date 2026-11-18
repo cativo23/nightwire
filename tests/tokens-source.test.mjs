@@ -300,7 +300,7 @@ const STATE_GLOW = [
   { file: 'src/components/switch.css', selector: /^\.switch input:checked \+ \.track::after$/, knob: '--nw-control-glow' },
   { file: 'src/components/segmented.css', selector: /^\.seg button\[aria-pressed="true"\]$/, knob: '--nw-control-glow' },
   { file: 'src/components/steps.css', selector: /^\.steps \.step\.(?:done|current)$/, knob: '--nw-control-glow' },
-  { file: 'src/components/progress.css', selector: /^\.nw-progress \.fill, \.nw-progress-fill$/, knob: '--nw-progress-glow' },
+  { file: 'src/components/progress.css', selector: /^\.nw-progress-fill$/, knob: '--nw-progress-glow' },
 ];
 const stateGlowFor = (file, selector) => STATE_GLOW.find((s) => s.file === file && s.selector.test(selector));
 
@@ -359,6 +359,7 @@ const allSelectors = (dir) => cssFiles(dir).flatMap(({ name, text }) =>
 test('the v1 surfaces removed in v3 are gone from the sources', () => {
   const removed = [
     /\.led\.(?:green|blue|red|yellow)\b/,
+    /\.nw-progress \.fill\b/,
   ];
   const hits = ['src/components/', 'src/utilities/'].flatMap(allSelectors)
     .filter((r) => r.selector.split(',').some((s) => removed.some((re) => re.test(s.trim()))))
