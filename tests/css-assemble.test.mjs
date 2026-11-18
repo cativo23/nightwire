@@ -72,3 +72,17 @@ test('a missing file fails and names its path', () => {
 test('an import cycle fails and names the chain', () => {
   assert.throws(() => assemble(`${dir('bad')}cycle.css`, { root: dir('bad') }), /cycle-a\.css → cycle-b\.css → cycle-a\.css/);
 });
+
+test('a missing manifest fails and names it', () => {
+  assert.throws(() => assemble(`${dir('bad')}nope-index.css`, { root: dir('bad') }), /nope-index\.css/);
+});
+
+test('an inlined file with an @import form the assembler does not inline fails', () => {
+  assert.throws(() => assemble(`${dir('bad')}url-import.css`, { root: dir('bad') }), /url-import-target\.css:1/);
+});
+
+test('an @import line inside a block comment of an inlined file stays a comment', () => {
+  const out = assemble(`${dir('ok')}commented.css`, { root: dir('ok') });
+  assert.match(out, /\/\* old:\n@import "\.\/a\.css";\n\*\//);
+  assert.equal(out.match(/\.a \{ color: red; \}/g)?.length ?? 0, 0);
+});

@@ -23,19 +23,32 @@ export function assemble(entry, { root }) {
 
   const read = (file, chain) => {
     if (chain.includes(file)) throw new Error(`import cycle: ${[...chain, file].map(rel).join(' → ')}`);
-    if (!existsSync(file)) throw new Error(`${rel(chain.at(-1))}: imported file not found: ${rel(file)}`);
+    if (!existsSync(file)) {
+      throw new Error(chain.length ? `${rel(chain.at(-1))}: imported file not found: ${rel(file)}` : `manifest not found: ${rel(file)}`);
+    }
     return readFileSync(file, 'utf8').replace(/\r\n?/g, '\n');
   };
 
   const inline = (file, chain) => {
     const text = read(file, chain);
     const lines = text.split('\n');
-    if (lines[0]?.startsWith('/* GENERATED')) lines.shift();
+    const skipped = lines[0]?.startsWith('/* GENERATED') ? 1 : 0;
+    if (skipped) lines.shift();
     const out = [];
-    for (const line of lines) {
-      const m = line.match(IMPORT_LINE);
-      out.push(m ? inline(resolve(dirname(file), m[2]), [...chain, file]) : line);
-    }
+    let inComment = false;
+    lines.forEach((line, n) => {
+      const m = !inComment && line.match(IMPORT_LINE);
+      if (m) {
+        out.push(inline(resolve(dirname(file), m[2]), [...chain, file]));
+      } else {
+        if (!inComment && /^\s*@import\b/.test(line)) {
+          throw new Error(`${rel(file)}:${n + 1 + skipped}: only whole-line @import "./file.css"; is supported`);
+        }
+        out.push(line);
+      }
+      // Track block comments so an @import inside one stays text.
+      for (const tok of line.match(/\/\*|\*\//g) ?? []) inComment = tok === '/*';
+    });
     return `${banner(rel(file))}\n${out.join('\n').replace(/\n+$/, '')}`;
   };
 
