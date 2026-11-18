@@ -20,7 +20,7 @@
   border-left: 1px solid var(--nw-line-chrome);
   display: flex; flex-direction: column;
   z-index: 46;
-  box-shadow: -10px 0 calc(40px * var(--nw-glow)) rgba(102, 153, 255, 0.1);
+  box-shadow: var(--nw-elevation-overlay);
   transform: translateX(100%);
   visibility: hidden; pointer-events: none;
   transition: transform var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);

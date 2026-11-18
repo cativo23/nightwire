@@ -346,11 +346,31 @@
       }
     },
     {
-      "id": "glow-scale-operator",
-      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so the blur scales by half. Archive is unchanged (0 → 0). Box shadows. Pinned to the component elements that read --nw-glow (drawer, command palette, steps, progress fill, LEDs, checkbox, radio and switch marks, segmented and AI-block text), to the state, and to shadow-shaped old and new values.",
+      "id": "overlay-elevation",
+      "description": "The command palette and the drawer drop their coloured blur for the neutral --nw-elevation-overlay (FR-013a, research R4, T039). The palette also loses its 1px blue ring layer. At every intensity both now read 0 24px 64px at black 0.7; v2.1.0 scaled a blue blur with the glow knob (0, 1 or 2.2). Pinned to the palette and the drawer and to the exact old and new shadows.",
       "match": {
         "prop": "^box-shadow$",
-        "path": "(div\\.(drawer|cmdk):nth-child\\(\\d+\\)|div\\.steps:nth-child\\(\\d+\\)>div\\.step:nth-child\\(\\d+\\)|div\\.nw-progress:nth-child\\(\\d+\\)>div\\.(nw-progress-fill|fill):nth-child\\(\\d+\\)|span\\.led:nth-child\\(\\d+\\)|label\\.check:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)|label\\.radio:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)::after|label\\.switch:nth-child\\(\\d+\\)>span\\.track:nth-child\\(\\d+\\)::after)$",
+        "path": "div\\.(cmdk|drawer):nth-child\\(\\d+\\)$",
+        "old": "^(rgba\\(102, 153, 255, 0\\.25\\) 0px 0px 0px 1px, rgba\\(102, 153, 255, 0\\.15\\) 0px (0|20|44)px (0|80|176)px 0px|rgba\\(102, 153, 255, 0\\.1\\) -10px 0px (0|40|88)px 0px)$",
+        "new": "^rgba\\(0, 0, 0, 0\\.7\\) 0px 24px 64px 0px$"
+      }
+    },
+    {
+      "id": "decor-removal-ai-block",
+      "description": "The AI-block heading loses its purple text-shadow (FR-013a, research R4, T039). The shadow inherits, so the heading's own spans (dot, LED, label) lose it too. Pinned to the heading and its child spans and to the exact old shadows (blur 0, 6 or 13.2px: the glow knob at archive, operator and combat) and the new none.",
+      "match": {
+        "prop": "^text-shadow$",
+        "path": "div\\.ai-block:nth-child\\(\\d+\\)>div\\.ai-block-head:nth-child\\(\\d+\\)(>span(\\.[\\w-]+)?:nth-child\\(\\d+\\))?$",
+        "old": "^rgba\\(178, 102, 224, 0\\.45\\) 0px 0px (0|6|13\\.2)px$",
+        "new": "^none$"
+      }
+    },
+    {
+      "id": "glow-scale-operator",
+      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so the blur scales by half. Archive is unchanged (0 → 0). Box shadows. Pinned to the component elements that still read --nw-glow (steps, progress fill, LEDs, checkbox, radio and switch marks, segmented text), to the state, and to shadow-shaped old and new values.",
+      "match": {
+        "prop": "^box-shadow$",
+        "path": "(div\\.steps:nth-child\\(\\d+\\)>div\\.step:nth-child\\(\\d+\\)|div\\.nw-progress:nth-child\\(\\d+\\)>div\\.(nw-progress-fill|fill):nth-child\\(\\d+\\)|span\\.led:nth-child\\(\\d+\\)|label\\.check:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)|label\\.radio:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)::after|label\\.switch:nth-child\\(\\d+\\)>span\\.track:nth-child\\(\\d+\\)::after)$",
         "state": "^(operator|none)\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
@@ -358,10 +378,10 @@
     },
     {
       "id": "glow-scale-text-operator",
-      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so the blur scales by half. Archive is unchanged (0 → 0). Text shadows. Pinned to the component elements that read --nw-glow (drawer, command palette, steps, progress fill, LEDs, checkbox, radio and switch marks, segmented and AI-block text), to the state, and to shadow-shaped old and new values.",
+      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so the blur scales by half. Archive is unchanged (0 → 0). Text shadows. Pinned to the component elements that read --nw-glow (the pressed segment text), to the state, and to shadow-shaped old and new values.",
       "match": {
         "prop": "^text-shadow$",
-        "path": "(div\\.seg:nth-child\\(\\d+\\)>button:nth-child\\(\\d+\\)|div\\.ai-block:nth-child\\(\\d+\\)>div\\.ai-block-head:nth-child\\(\\d+\\)(>span(\\.[\\w-]+)?:nth-child\\(\\d+\\))?)$",
+        "path": "(div\\.seg:nth-child\\(\\d+\\)>button:nth-child\\(\\d+\\))$",
         "state": "^(operator|none)\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
@@ -380,24 +400,13 @@
     },
     {
       "id": "glow-scale-combat",
-      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Box shadows. Pinned to the component elements that still read --nw-glow (drawer, command palette, LEDs, AI-block text); the control and progress state glows have their own category, glow-state-controls, to the state, and to shadow-shaped old and new values.",
+      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Box shadows. Pinned to the component elements that still read --nw-glow (LEDs); the control and progress state glows have their own category, glow-state-controls, to the state, and to shadow-shaped old and new values.",
       "match": {
         "prop": "^box-shadow$",
-        "path": "(div\\.(drawer|cmdk):nth-child\\(\\d+\\)|span\\.led:nth-child\\(\\d+\\))$",
+        "path": "(span\\.led:nth-child\\(\\d+\\))$",
         "state": "^combat\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
-      }
-    },
-    {
-      "id": "glow-scale-text-combat",
-      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Text shadows. Pinned to the component elements that read --nw-glow (the AI-block text; the pressed segment has glow-state-controls), to the state, and to shadow-shaped old and new values.",
-      "match": {
-        "prop": "^text-shadow$",
-        "path": "(div\\.ai-block:nth-child\\(\\d+\\)>div\\.ai-block-head:nth-child\\(\\d+\\)(>span(\\.[\\w-]+)?:nth-child\\(\\d+\\))?)$",
-        "state": "^combat\\|",
-        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
-        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
       }
     },
     {
@@ -494,14 +503,25 @@
       }
     },
     {
-      "id": "glow-decor-utility",
-      "description": "Consequence of glow-decor (FR-013a): on the synapse-ops example page a metric value also carries the .glow-green utility, which the hardcoded .m-value text-shadow used to override (specificity). With that shadow gone the utility shows through. T039 makes the utilities read --nw-glow. Pinned to the page, to the .m-value in a .metric-cell and to the old and new shadows.",
+      "id": "glow-utility-metric",
+      "description": "Consequence of glow-decor (FR-013a), settled by T039: on the synapse-ops example page a metric value also carries the .glow-green utility, which the hardcoded .m-value text-shadow used to override. With that shadow gone the utility shows, and since T039 it scales with --nw-glow and is weaker: 0.33 and 0.13 alpha at 4px and 8px at operator and combat (the v2.1.0 text-shadow was 0.4 and 0.15 at a fixed 6px and 12px), none at archive. Pinned to the page, to the .m-value in a .metric-cell, and to the exact old and new shadows.",
       "match": {
         "prop": "^text-shadow$",
         "path": "div\\.metric-cell:nth-child\\(\\d+\\)>div\\.m-value:nth-child\\(\\d+\\)$",
         "page": "examples/html/synapse-ops.html",
         "old": "^rgba\\(122, 237, 122, 0\\.4\\) 0px 0px 6px, rgba\\(122, 237, 122, 0\\.15\\) 0px 0px 12px$",
-        "new": "^rgba\\(122, 237, 122, 0\\.5\\) 0px 0px 8px, rgba\\(122, 237, 122, 0\\.2\\) 0px 0px 16px$"
+        "new": "^rgba\\(122, 237, 122, 0\\.33\\) 0px 0px (0|4)px, rgba\\(122, 237, 122, 0\\.13\\) 0px 0px (0|8)px$"
+      }
+    },
+    {
+      "id": "glow-utility-scale",
+      "description": "The .glow-* utilities stay opt-in but become restrained and scaled by --nw-glow (FR-013b, research R4, T039): the blurs are calc(8px * glow) and calc(16px * glow), and the alphas drop by about a third (0.5 to 0.33, 0.2 to 0.13, red 0.3 to 0.2). At operator and combat that is 4px and 8px, clearly weaker than v2.1.0's fixed 8px and 16px; at archive the blur is 0. Pinned to the coverage page spans that carry a .glow-* class, and to the exact old and new shadows.",
+      "match": {
+        "prop": "^text-shadow$",
+        "path": "section:nth-child\\(\\d+\\)>span\\.glow-(blue|cyan|purple|red|yellow):nth-child\\(\\d+\\)$",
+        "page": "scripts/parity/fixtures/coverage.html",
+        "old": "^rgba\\(\\d+, \\d+, \\d+, 0\\.5\\) 0px 0px 8px, rgba\\(\\d+, \\d+, \\d+, 0\\.(2|3)\\) 0px 0px 16px$",
+        "new": "^rgba\\(\\d+, \\d+, \\d+, 0\\.33\\) 0px 0px (0|4)px, rgba\\(\\d+, \\d+, \\d+, 0\\.(13|2)\\) 0px 0px (0|8)px$"
       }
     },
     {

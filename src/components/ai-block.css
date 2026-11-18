@@ -9,7 +9,6 @@
   letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--nw-ai);
   display: flex; align-items: center; gap: var(--sp-2);
-  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(178, 102, 224, 0.45);
 }
 .ai-block-body { margin-top: var(--sp-2); font-size: var(--text-sm); color: var(--nw-text-default); }
 .ai-block-body em { color: var(--nw-ai); font-style: normal; }

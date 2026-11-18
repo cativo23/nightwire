@@ -20,9 +20,7 @@
   border: 1px solid var(--nw-chrome-mute);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(102, 153, 255, 0.25),
-    0 calc(20px * var(--nw-glow)) calc(80px * var(--nw-glow)) rgba(102, 153, 255, 0.15);
+  box-shadow: var(--nw-elevation-overlay);
 }
 /* Scoped to the backdrop: a standalone .cmdk (no backdrop to open it) stays where it was in 2.x. */
 .cmdk-backdrop .cmdk {

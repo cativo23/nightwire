@@ -320,12 +320,12 @@ table {
 /* ── src/utilities/glow.css ────────────────────────────────────── */
 /* ── Glow ────────────────────────────────────────────────────── */
 
-.glow-green  { text-shadow: 0 0 8px rgba(122,237,122,0.5), 0 0 16px rgba(122,237,122,0.2); }
-.glow-blue   { text-shadow: 0 0 8px rgba(102,153,255,0.5), 0 0 16px rgba(102,153,255,0.2); }
-.glow-cyan   { text-shadow: 0 0 8px rgba(102,221,255,0.5), 0 0 16px rgba(102,221,255,0.2); }
-.glow-red    { text-shadow: 0 0 8px rgba(255,102,136,0.5), 0 0 16px rgba(255,102,136,0.3); }
-.glow-yellow { text-shadow: 0 0 8px rgba(232,153,58,0.5),  0 0 16px rgba(232,153,58,0.2); }
-.glow-purple { text-shadow: 0 0 8px rgba(178,102,224,0.5), 0 0 16px rgba(178,102,224,0.2); }
+.glow-green  { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(122,237,122,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(122,237,122,0.13); }
+.glow-blue   { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(102,153,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,153,255,0.13); }
+.glow-cyan   { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(102,221,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,221,255,0.13); }
+.glow-red    { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(255,102,136,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(255,102,136,0.2); }
+.glow-yellow { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(232,153,58,0.33),  0 0 calc(16px * var(--nw-glow)) rgba(232,153,58,0.13); }
+.glow-purple { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(178,102,224,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(178,102,224,0.13); }
 
 /* ── src/utilities/border.css ──────────────────────────────────── */
 /* ── Border ──────────────────────────────────────────────────── */
@@ -1393,7 +1393,7 @@ input::placeholder, textarea::placeholder {
   border-left: 1px solid var(--nw-line-chrome);
   display: flex; flex-direction: column;
   z-index: 46;
-  box-shadow: -10px 0 calc(40px * var(--nw-glow)) rgba(102, 153, 255, 0.1);
+  box-shadow: var(--nw-elevation-overlay);
   transform: translateX(100%);
   visibility: hidden; pointer-events: none;
   transition: transform var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
@@ -1432,9 +1432,7 @@ input::placeholder, textarea::placeholder {
   border: 1px solid var(--nw-chrome-mute);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(102, 153, 255, 0.25),
-    0 calc(20px * var(--nw-glow)) calc(80px * var(--nw-glow)) rgba(102, 153, 255, 0.15);
+  box-shadow: var(--nw-elevation-overlay);
 }
 /* Scoped to the backdrop: a standalone .cmdk (no backdrop to open it) stays where it was in 2.x. */
 .cmdk-backdrop .cmdk {
@@ -1587,7 +1585,6 @@ input::placeholder, textarea::placeholder {
   letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--nw-ai);
   display: flex; align-items: center; gap: var(--sp-2);
-  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(178, 102, 224, 0.45);
 }
 .ai-block-body { margin-top: var(--sp-2); font-size: var(--text-sm); color: var(--nw-text-default); }
 .ai-block-body em { color: var(--nw-ai); font-style: normal; }
