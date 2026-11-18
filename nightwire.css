@@ -1561,8 +1561,8 @@ input::placeholder, textarea::placeholder {
 /* ── v2 · AI block (purple-accented suggestion strip) ──────── */
 .ai-block {
   padding: var(--sp-3);
-  background: linear-gradient(180deg, rgba(178, 102, 224, 0.06), transparent 70%);
-  border-top: var(--nw-hairline) solid rgba(178, 102, 224, 0.25);
+  background: var(--nw-purple-fill);
+  border-top: var(--nw-hairline) solid var(--nw-line);
 }
 .ai-block-head {
   font-family: var(--font-stamp); font-size: 10px;

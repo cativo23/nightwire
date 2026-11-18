@@ -1008,6 +1008,26 @@
         "new": "^0px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
+    },
+    {
+      "id": "q-ai-block-fill",
+      "description": "Group A (T043): .ai-block swaps its purple-to-transparent gradient for the flat --nw-purple-fill (0.1), a subtle fill instead of a decorative gradient (direction rule 5, FR-013a). Pinned to .ai-block background-color and background-image.",
+      "match": {
+        "prop": "^background-(color|image)$",
+        "path": "div\\.ai-block:nth-child\\(\\d+\\)$",
+        "old": "^(rgba\\(0, 0, 0, 0\\)|linear-gradient\\(rgba\\(178, 102, 224, 0\\.06\\), rgba\\(0, 0, 0, 0\\) 70%\\))$",
+        "new": "^(rgba\\(178, 102, 224, 0\\.1\\)|none)$"
+      }
+    },
+    {
+      "id": "q-ai-block-rule",
+      "description": "Group A (T043): the .ai-block top rule goes from purple at 0.25 to the neutral --nw-line (direction rule 3). The purple stays in the label, the fill and the em text. Pinned to the top border colour of .ai-block.",
+      "match": {
+        "prop": "^border-(top|block-start)-color$",
+        "path": "div\\.ai-block:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(178, 102, 224, 0\\.25\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
     }
   ]
 }
