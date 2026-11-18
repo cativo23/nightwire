@@ -145,6 +145,7 @@
   --nw-pad-scale:     1;
   --nw-base-font:     var(--text-base);
   --nw-pulse-state:   running;
+  --nw-loop-state:    running;
   --nw-pulse-speed:   1.4s;
   --nw-panel-radius:  var(--radius-none);
   --nw-value-color:   var(--nw-data);
@@ -219,9 +220,13 @@
   --nw-header-pattern: repeating-linear-gradient(0deg, rgba(102, 153, 255, 0.05) 0 1px, transparent 1px 3px);
 }
 
-/* ── src/base/reduced-motion.css ───────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  :root { --nw-motion-scale: 0; --nw-pulse-state: paused; }
+  :root,
+  :root[data-intensity] {
+    --nw-motion-scale: 0;
+    --nw-pulse-state: paused;
+    --nw-loop-state: paused;
+  }
 }
 
 /* ── src/base/reset.css ────────────────────────────────────────── */
@@ -268,15 +273,22 @@ table {
 /* ── Accessibility ───────────────────────────────────────────── */
 
 :focus-visible {
-  outline: 2px solid var(--nw-primary);
+  outline: 2px solid var(--nw-focus-ring);
   outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
   /* Suppress the tactile press shift too — the universal rule only kills
-     the easing, not the transform itself. */
-  .btn:active, .btn-ghost:active, .btn-danger:active { transform: none; }
+     the easing, not the transform itself. !important for the same load-order
+     reason as .uplink below: this file loads before button.css, whose :active
+     rule has the same specificity and would win. */
+  .btn:active, .btn-ghost:active, .btn-danger:active { transform: none !important; }
+  /* .uplink children start at opacity 0 and only the animation reveals them. With
+     the animation gone they would stay invisible, so show them at their end state.
+     !important because this file loads before uplink.css, whose rule has the same
+     specificity and would win; the animation's forwards fill overrode it the same way. */
+  .uplink > * { opacity: 1 !important; transform: none !important; }
 }
 
 /* ── src/utilities/surface.css ─────────────────────────────────── */
@@ -373,7 +385,7 @@ table {
   border: 1px solid var(--nw-primary);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn:hover {
   background: var(--nw-primary-hot);
@@ -401,7 +413,7 @@ table {
   border: 1px solid var(--nw-primary-dim);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn-ghost:hover {
   background: var(--nw-primary-fill);
@@ -423,7 +435,7 @@ table {
   border: 1px solid var(--nw-red);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn-danger:hover {
   background: var(--nw-red-hot);
@@ -477,7 +489,8 @@ table {
   width: 10px; height: 10px; margin-right: 6px;
   border: 1.5px solid currentColor; border-right-color: transparent;
   border-radius: 50%;
-  animation: nw-spin 0.8s linear infinite;
+  animation: nw-spin var(--nw-loop-spin) linear infinite;
+  animation-play-state: var(--nw-loop-state);
   vertical-align: -1px;
 }
 @keyframes nw-spin { to { transform: rotate(360deg); } }
@@ -493,7 +506,7 @@ input, select, textarea {
   border: 1px solid var(--nw-text-line);
   border-radius: var(--radius-md);
   padding: var(--sp-2) var(--sp-3);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color var(--nw-tick), box-shadow var(--nw-tick);
 }
 input:focus, select:focus, textarea:focus {
   border-color: var(--nw-primary);
@@ -563,7 +576,7 @@ input::placeholder, textarea::placeholder {
 .led[data-state="info"]  { background: var(--nw-signal-info);  box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-info); }
 .led[data-state="ai"]    { background: var(--nw-ai);           box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-ai); }
 .led[data-pulse] {
-  animation: nw-pulse var(--nw-pulse-speed) ease-in-out infinite;
+  animation: nw-pulse calc(var(--nw-pulse-speed) / var(--nw-motion-scale)) ease-in-out infinite;
   animation-play-state: var(--nw-pulse-state);
 }
 @keyframes nw-pulse {
@@ -697,6 +710,16 @@ input::placeholder, textarea::placeholder {
   padding: var(--sp-3) var(--sp-4);
   font-size: var(--text-sm);
   color: var(--nw-text);
+  /* Open by default (no data-open, or "true"): enter curve. */
+  transition: opacity var(--nw-sweep), transform var(--nw-sweep), visibility 0s;
+}
+/* Closed only when data-open="false": exit curve, visibility dropped once the fade is done. */
+.toast[data-open="false"] {
+  opacity: 0;
+  transform: translateY(8px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--nw-sweep-out), transform var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
 .toast-success { border-left-color: var(--nw-success); }
 .toast-danger  { border-left-color: var(--nw-danger); }
@@ -799,17 +822,25 @@ input::placeholder, textarea::placeholder {
 .modal-backdrop {
   visibility: hidden;
   opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
 .modal-backdrop[data-open="true"] {
   visibility: visible;
   opacity: 1;
+  pointer-events: auto;
+  /* Open: show at once, enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
 }
 .modal-backdrop .modal {
   transform: scale(0.96);
+  transition: transform var(--nw-sweep-out);
+}
+.modal-backdrop[data-open="true"] .modal {
+  transform: scale(1);
   transition: transform var(--nw-sweep);
 }
-.modal-backdrop[data-open="true"] .modal { transform: scale(1); }
 
 /* ── src/components/tabs.css ───────────────────────────────────── */
 /* ── Tabs ────────────────────────────────────────────────────── */
@@ -832,7 +863,7 @@ input::placeholder, textarea::placeholder {
   border-bottom: 2px solid transparent;
   padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: color var(--nw-tick), border-color var(--nw-tick);
 }
 
 .tab:hover {
@@ -888,7 +919,7 @@ input::placeholder, textarea::placeholder {
   padding: var(--sp-2) var(--sp-4);
   border-left: 2px solid transparent;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  transition: color var(--nw-tick), background var(--nw-tick), border-color var(--nw-tick);
   text-decoration: none;
 }
 
@@ -922,6 +953,17 @@ input::placeholder, textarea::placeholder {
   border-radius: var(--radius-md);
   padding: var(--sp-1) 0;
   margin-top: var(--sp-1);
+  /* Open by default (no data-open, or "true"): enter curve. */
+  transition: opacity var(--nw-tick), transform var(--nw-tick), visibility 0s;
+}
+
+/* Closed only when data-open="false": exit curve, visibility dropped once the fade is done. */
+.dropdown[data-open="false"] .dropdown-menu {
+  opacity: 0;
+  transform: translateY(-4px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--nw-tick-out), transform var(--nw-tick-out), visibility 0s linear var(--nw-tick-out-duration);
 }
 
 .dropdown-item {
@@ -935,7 +977,7 @@ input::placeholder, textarea::placeholder {
   padding: var(--sp-2) var(--sp-3);
   text-align: left;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s;
+  transition: color var(--nw-tick), background var(--nw-tick);
 }
 
 .dropdown-item:hover {
@@ -965,7 +1007,7 @@ input::placeholder, textarea::placeholder {
 
 .breadcrumbs a {
   color: var(--nw-text-dim);
-  transition: color 0.15s;
+  transition: color var(--nw-tick);
 }
 
 .breadcrumbs a:hover { color: var(--nw-primary); }
@@ -999,12 +1041,22 @@ input::placeholder, textarea::placeholder {
   color: var(--nw-text);
   white-space: nowrap;
   pointer-events: none;
+  /* Closed by default: exit curve, visibility dropped once the fade is done. */
   opacity: 0;
-  transition: opacity 0.15s;
+  visibility: hidden;
+  transition: opacity var(--nw-tick-out), visibility 0s linear var(--nw-tick-out-duration);
 }
 
-.tooltip:hover .tooltip-content {
+/* Open on hover, keyboard focus inside, or data-open="true". data-open="false" must stay closed
+   even on hover, so the hover and focus-within rules exclude it with :not(). That keeps the
+   decision out of source order and out of a specificity race: a tooltip marked "false" matches
+   none of the open rules and simply keeps the closed rule above. */
+.tooltip:not([data-open="false"]):hover .tooltip-content,
+.tooltip:not([data-open="false"]):focus-within .tooltip-content,
+.tooltip[data-open="true"] .tooltip-content {
   opacity: 1;
+  visibility: visible;
+  transition: opacity var(--nw-tick), visibility 0s;
 }
 
 /* ── src/components/skeleton.css ───────────────────────────────── */
@@ -1030,7 +1082,8 @@ input::placeholder, textarea::placeholder {
     rgba(102, 153, 255, 0.08) 60%,
     transparent 100%
   );
-  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+  animation: skeleton-shimmer var(--nw-loop-shimmer) ease-in-out infinite;
+  animation-play-state: var(--nw-loop-state);
 }
 
 @keyframes skeleton-shimmer {
@@ -1188,6 +1241,17 @@ input::placeholder, textarea::placeholder {
   color: var(--nw-text-on-fill);
   text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(255, 255, 255, 0.5);
 }
+/* .seg clips with overflow: hidden, so the global offset outline would be cut off.
+   Draw the ring inside the segment instead. */
+.seg button:focus-visible {
+  outline: 2px solid var(--nw-focus-ring);
+  outline-offset: -2px;
+}
+/* The selected segment is filled with the same colour as the ring, which would hide
+   it. A void band inside the ring keeps the ring against a contrasting colour. */
+.seg button[aria-pressed="true"]:focus-visible {
+  box-shadow: inset 0 0 0 4px var(--nw-text-on-fill);
+}
 
 /* ── src/components/switch.css ─────────────────────────────────── */
 /* ── v2 · Switch ───────────────────────────────────────────── */
@@ -1215,6 +1279,11 @@ input::placeholder, textarea::placeholder {
   transform: translateX(16px);
   background: var(--nw-chrome);
   box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+}
+/* The input is visually hidden, so the track shows keyboard focus for it. */
+.switch input:focus-visible + .track {
+  outline: 2px solid var(--nw-focus-ring);
+  outline-offset: 2px;
 }
 .switch .lbl { font-size: var(--text-sm); }
 
@@ -1246,6 +1315,12 @@ input::placeholder, textarea::placeholder {
   transform: rotate(-45deg) translate(1px, -1px);
 }
 .radio input:checked + .box { border-color: var(--nw-chrome); }
+/* The input is visually hidden, so the box shows keyboard focus for it. */
+.check input:focus-visible + .box,
+.radio input:focus-visible + .box {
+  outline: 2px solid var(--nw-focus-ring);
+  outline-offset: 2px;
+}
 .radio input:checked + .box::after {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--nw-chrome);
@@ -1287,10 +1362,15 @@ input::placeholder, textarea::placeholder {
   position: fixed; inset: 0;
   background: rgba(0, 0, 0, 0.7);
   z-index: 45;
-  visibility: hidden; opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; opacity: 0; pointer-events: none;
+  /* Closed: fade out on the exit curve, then drop visibility once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.drawer-backdrop[data-open="true"] { visibility: visible; opacity: 1; }
+.drawer-backdrop[data-open="true"] {
+  visibility: visible; opacity: 1; pointer-events: auto;
+  /* Open: show at once, fade in on the enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
+}
 
 .drawer {
   position: fixed; top: 0; right: 0; height: 100vh;
@@ -1301,10 +1381,13 @@ input::placeholder, textarea::placeholder {
   z-index: 46;
   box-shadow: -10px 0 calc(40px * var(--nw-glow)) rgba(102, 153, 255, 0.1);
   transform: translateX(100%);
-  visibility: hidden;
-  transition: transform var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; pointer-events: none;
+  transition: transform var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.drawer[data-open="true"] { transform: translateX(0); visibility: visible; }
+.drawer[data-open="true"] {
+  transform: translateX(0); visibility: visible; pointer-events: auto;
+  transition: transform var(--nw-sweep), visibility 0s;
+}
 .drawer-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 16px;
@@ -1319,10 +1402,15 @@ input::placeholder, textarea::placeholder {
   background: rgba(0, 0, 0, 0.85);
   display: flex; align-items: flex-start; justify-content: center;
   padding-top: 12vh; z-index: 55;
-  visibility: hidden; opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; opacity: 0; pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.cmdk-backdrop[data-open="true"] { visibility: visible; opacity: 1; }
+.cmdk-backdrop[data-open="true"] {
+  visibility: visible; opacity: 1; pointer-events: auto;
+  /* Open: show at once, enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
+}
 
 .cmdk {
   width: min(560px, 92vw);
@@ -1334,14 +1422,25 @@ input::placeholder, textarea::placeholder {
     0 0 0 1px rgba(102, 153, 255, 0.25),
     0 calc(20px * var(--nw-glow)) calc(80px * var(--nw-glow)) rgba(102, 153, 255, 0.15);
 }
+/* Scoped to the backdrop: a standalone .cmdk (no backdrop to open it) stays where it was in 2.x. */
+.cmdk-backdrop .cmdk {
+  transform: translateY(-8px);
+  transition: transform var(--nw-sweep-out);
+}
+.cmdk-backdrop[data-open="true"] .cmdk {
+  /* none, not translateY(0): an identity transform would still make .cmdk a containing block. */
+  transform: none;
+  transition: transform var(--nw-sweep);
+}
 .cmdk input {
   width: 100%; background: transparent;
   border: 0; border-bottom: 1px solid var(--nw-line);
   color: var(--nw-text-strong);
   padding: 14px 16px;
   font-family: var(--font-sys); font-size: var(--text-base);
-  outline: none;
 }
+/* Inset: .cmdk has overflow: hidden, which would clip an outset ring. */
+.cmdk input:focus-visible { outline: 2px solid var(--nw-focus-ring); outline-offset: -2px; }
 .cmdk input::placeholder { color: var(--nw-text-mute); }
 .cmdk-section {
   font-family: var(--font-stamp); font-size: 9px;
@@ -1516,10 +1615,10 @@ input::placeholder, textarea::placeholder {
   opacity: 0; transform: translateY(4px);
   animation: nw-uplink var(--nw-uplink) forwards;
 }
-.uplink > *:nth-child(1) { animation-delay: 0s; }
-.uplink > *:nth-child(2) { animation-delay: 0.05s; }
-.uplink > *:nth-child(3) { animation-delay: 0.1s; }
-.uplink > *:nth-child(4) { animation-delay: 0.15s; }
-.uplink > *:nth-child(5) { animation-delay: 0.2s; }
-.uplink > *:nth-child(6) { animation-delay: 0.25s; }
+.uplink > *:nth-child(1) { animation-delay: calc(0 * var(--nw-stagger)); }
+.uplink > *:nth-child(2) { animation-delay: calc(1 * var(--nw-stagger)); }
+.uplink > *:nth-child(3) { animation-delay: calc(2 * var(--nw-stagger)); }
+.uplink > *:nth-child(4) { animation-delay: calc(3 * var(--nw-stagger)); }
+.uplink > *:nth-child(5) { animation-delay: calc(4 * var(--nw-stagger)); }
+.uplink > *:nth-child(6) { animation-delay: calc(5 * var(--nw-stagger)); }
 @keyframes nw-uplink { to { opacity: 1; transform: translateY(0); } }

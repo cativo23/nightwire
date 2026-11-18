@@ -76,6 +76,21 @@ Drop `SKILL.md` into your project as a skill. The agent can then generate Nightw
 
 **Accessibility** — All colors pass WCAG AA on black. Focus-visible outlines. Reduced-motion support.
 
+### Browser support
+
+The baseline is the latest 2 versions of Chrome, Edge, Firefox and Safari. They get the full open
+and close animations on drawer, modal, command palette, dropdown, toast and tooltip. Other
+browsers still open and close every component correctly, without the animation. Chrome and
+Firefox are tested; Safari is supported by declaration and has not been tested.
+
+### Reduced motion
+
+`prefers-reduced-motion: reduce` wins at every intensity, `archive` and `combat` included. It sets
+`--nw-motion-scale` to `0`, pauses the LED pulse and the loops (`--nw-pulse-state` and
+`--nw-loop-state`), and switches off every transition and animation, pseudo-elements included.
+`.uplink` content shows at its end state and the button press shift is removed. Overlays still
+open and close, instantly.
+
 ## Color Palette
 
 | Role | Color | Hex | Contrast on Black |
@@ -97,7 +112,7 @@ nightwire/
 ├── src/
 │   ├── tokens/tokens.json             <- Every design token, W3C DTCG format (the only token source)
 │   ├── index.css                      <- Ordered manifest: the cascade order
-│   ├── base/                          <- Reset, accessibility, reduced motion, typography
+│   ├── base/                          <- Reset, accessibility, typography
 │   ├── utilities/                     <- Surface, text, glow, border, layout classes
 │   └── components/                    <- One file per component
 ├── cli/                               <- `nightwire install` CLI source (TypeScript)
@@ -123,7 +138,15 @@ A `v2-alpha` branch is in flight with **100% additive** changes (zero rename, no
 - Layer 2 semantic tokens (`--nw-chrome`, `--nw-data`, `--nw-signal-*`, `--nw-ai`)
 - **Intensity system** via `<html data-intensity="archive|operator|combat">` — one attribute reconfigures glow, motion, density, kanji visibility, padding
 - New components: command palette (`.cmdk`), drawer, form suite (`.field`/`.switch`/`.check`/`.combo`), code/diff/steps, button & tag variants, layout primitives
-- Motion vocabulary (`--nw-tick`/`--nw-sweep`/`--nw-uplink`) + `prefers-reduced-motion` contract
+- Motion vocabulary: `--nw-tick`, `--nw-sweep` and `--nw-uplink` (enter), their `-out` composites
+  (exit), `-duration` and `-ease` longhands for both directions, `--nw-stagger`, and the loop
+  tokens `--nw-loop-spin`, `--nw-loop-shimmer` and `--nw-loop-state`. Everything scales with
+  `--nw-motion-scale`; loop cycles scale inversely. Plus the `prefers-reduced-motion` contract
+  above
+- Overlays take `data-open`: drawer, modal and command palette are closed unless `"true"`;
+  dropdown and toast are open unless `"false"`; a tooltip opens on hover and focus unless
+  `"false"`. An overlay added to the page already open does not animate in: mount it with
+  `data-open="false"` and set `"true"` two animation frames later. See [DESIGN.md](DESIGN.md)
 
 Preview the v2 workshop in `examples/html/workshop.html`. See `CHANGELOG.md` for the full additive surface.
 

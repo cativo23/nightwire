@@ -16,6 +16,17 @@
   border-radius: var(--radius-md);
   padding: var(--sp-1) 0;
   margin-top: var(--sp-1);
+  /* Open by default (no data-open, or "true"): enter curve. */
+  transition: opacity var(--nw-tick), transform var(--nw-tick), visibility 0s;
+}
+
+/* Closed only when data-open="false": exit curve, visibility dropped once the fade is done. */
+.dropdown[data-open="false"] .dropdown-menu {
+  opacity: 0;
+  transform: translateY(-4px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--nw-tick-out), transform var(--nw-tick-out), visibility 0s linear var(--nw-tick-out-duration);
 }
 
 .dropdown-item {
@@ -29,7 +40,7 @@
   padding: var(--sp-2) var(--sp-3);
   text-align: left;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s;
+  transition: color var(--nw-tick), background var(--nw-tick);
 }
 
 .dropdown-item:hover {

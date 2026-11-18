@@ -6,6 +6,16 @@
   padding: var(--sp-3) var(--sp-4);
   font-size: var(--text-sm);
   color: var(--nw-text);
+  /* Open by default (no data-open, or "true"): enter curve. */
+  transition: opacity var(--nw-sweep), transform var(--nw-sweep), visibility 0s;
+}
+/* Closed only when data-open="false": exit curve, visibility dropped once the fade is done. */
+.toast[data-open="false"] {
+  opacity: 0;
+  transform: translateY(8px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--nw-sweep-out), transform var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
 .toast-success { border-left-color: var(--nw-success); }
 .toast-danger  { border-left-color: var(--nw-danger); }

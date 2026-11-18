@@ -220,6 +220,8 @@ Rules:
 
 ### Other Components
 - `.toast` / `.toast-success` / `.toast-danger` / `.toast-info` — Notifications with 3px left border
+- `.dropdown` + `.dropdown-menu` / `.dropdown-item` / `.dropdown-divider` — Menu; `data-open="false"` on `.dropdown` closes it
+- `.tooltip` + `.tooltip-content` — Opens on hover and keyboard focus; `data-open` overrides (see Overlay open state)
 - `.sidebar` — 240px, void-warm bg, right border
 - `.sidebar-item` / `.sidebar-item.active` — Nav items
 - `.kv-row` — Key-value display with faint bottom border
@@ -261,9 +263,16 @@ All primary colors pass WCAG AA on black:
 | Text | `#ffffff` | 21:1 |
 
 ```css
-:focus-visible { outline: 2px solid var(--nw-primary); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+:focus-visible { outline: 2px solid var(--nw-focus-ring); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 ```
+
+Reduced motion wins at every intensity, `archive` and `combat` included: `--nw-motion-scale`
+becomes `0`, the LED pulse and the loops pause, `.uplink` content shows at its end state, the button
+press shift is gone, and overlays open and close instantly. Never add your own reduced-motion
+override for a knob, and never rely on motion to reveal content.
 
 ---
 
@@ -317,15 +326,76 @@ Set on `<html>` to retune glow, motion, density, kanji visibility:
 - **Button variants**: `.btn-success`, `.btn-ai`, `.btn-icon`, `.btn-xs`, `.btn-lg`, `.btn-loading`
 - **Banner**: system-wide notice strip
 
+### Overlay open state
+
+Overlays animate in and out and are driven by a `data-open` attribute. The value is a string
+(React's `data-open={bool}` renders `"true"` / `"false"`). Closed overlays are hidden, unclickable
+and unfocusable.
+
+| Component | Put `data-open` on | Attribute absent | `"true"` | `"false"` |
+|---|---|---|---|---|
+| Drawer | `.drawer` and `.drawer-backdrop` | closed | open | closed |
+| Modal | `.modal-backdrop` | closed | open | closed |
+| Command palette | `.cmdk-backdrop` | closed | open | closed |
+| Dropdown | `.dropdown` | open | open | closed |
+| Toast | `.toast` | open | open | closed |
+| Tooltip | `.tooltip` | closed; opens on `:hover` and `:focus-within` | open | closed, even on hover |
+
+- For drawer, modal and command palette, always set the attribute: `"true"` to show, `"false"` to hide.
+- For dropdown and toast, omit the attribute for plain always-visible markup. Set
+  `data-open="false"` to dismiss with an exit animation, and remove the element after the exit
+  finishes, not at the moment you set `"false"`: a closed toast keeps its layout box until you do.
+  Wait at least 350ms (the longest overlay exit, combat's sweep, is 315ms) with a timer, not
+  `transitionend`, which does not fire under reduced motion.
+- An element mounted already open never animates in: the first style does not transition. To
+  animate a toast or dropdown you add at runtime, mount it with `data-open="false"`, then set
+  `"true"` after two nested `requestAnimationFrame` calls.
+- A tooltip needs no attribute: it opens on hover and when focus is inside it. Use `data-open`
+  only to pin it open or keep it closed.
+- A closed tooltip is `visibility: hidden`, so its text is out of the accessibility tree. Give the
+  trigger `aria-describedby` pointing at the `.tooltip-content` `id`, and the content
+  `role="tooltip"`; `aria-describedby` still reads hidden content.
+
+```html
+<div class="dropdown" data-open="false">
+  <button class="btn-ghost btn-sm">Actions ▾</button>
+  <div class="dropdown-menu"><button class="dropdown-item">Edit</button></div>
+</div>
+```
+
 ### Motion vocabulary
 
-Use named timings instead of ad-hoc ms values:
+Use named timings instead of ad-hoc ms values. Never write a literal duration in a component.
 
-- `var(--nw-tick)` — clicks, toggles (150ms)
-- `var(--nw-sweep)` — panels, modal/drawer enter/exit (350ms)
-- `var(--nw-uplink)` — staggered reveal animations (400ms)
+Three steps, each with an enter and an exit variant. The bare name enters, `-out` exits (shorter,
+accelerating):
 
-All scale with `--nw-motion-scale` (0 in `prefers-reduced-motion`).
+| Step | Use | Enter | Exit |
+|---|---|---|---|
+| `tick` | clicks, toggles, hover and focus feedback | `var(--nw-tick)` (150ms) | `var(--nw-tick-out)` |
+| `sweep` | panels, modal, drawer, command palette, toast | `var(--nw-sweep)` (350ms) | `var(--nw-sweep-out)` |
+| `uplink` | data load reveal | `var(--nw-uplink)` (400ms) | `var(--nw-uplink-out)` |
+
+- **Composites** (`--nw-sweep`, `--nw-sweep-out`) fill the `transition` shorthand:
+  `transition: transform var(--nw-sweep)`.
+- **Longhands** (`--nw-sweep-duration`, `--nw-sweep-ease`, `--nw-sweep-out-duration`,
+  `--nw-sweep-out-ease`, and the same for `tick` and `uplink`) build a transition piece by piece.
+  A closing overlay uses the duration to delay its `visibility` flip until the exit is done:
+  `transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration)`.
+  Give the open state its own rule with the enter token and `visibility 0s`.
+- **Stagger**: `--nw-stagger` (50ms) is the delay step between items revealed in sequence:
+  `animation-delay: calc(2 * var(--nw-stagger))` for the third item.
+- **Loops**: `--nw-loop-spin` (800ms) and `--nw-loop-shimmer` (1200ms) are the spinner and skeleton
+  shimmer cycles; `--nw-pulse-speed` is the LED heartbeat. Pair a loop with
+  `animation-play-state: var(--nw-loop-state)` (the LED uses `--nw-pulse-state`), so reduced motion
+  can pause it.
+
+Durations scale with `--nw-motion-scale`; loop cycles scale inversely, so archive loops run slower
+and combat loops faster. The scale is a speed dial, not a switch: loops divide by it, so at `0` their
+duration clamps to the browser's largest finite time: they keep running, frozen on their first
+frame, not paused. Pause loops with `--nw-loop-state` and
+`--nw-pulse-state` set to `paused`. `prefers-reduced-motion` sets all three: the scale to `0` and
+both states to `paused`.
 
 ### When to use v2 vs v1
 

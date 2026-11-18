@@ -229,10 +229,24 @@ export const COMPONENTS_V2 = [
 ];
 
 export const MOTION_VOCAB = [
-  { token: '--nw-tick',   value: '150ms cubic-bezier(0.3, 0, 0.7, 1)',    use: 'Clicks, toggles, micro-feedback' },
-  { token: '--nw-sweep',  value: '350ms cubic-bezier(0.2, 0.8, 0.2, 1)',  use: 'Panels enter/exit, modal/drawer' },
-  { token: '--nw-uplink', value: '400ms cubic-bezier(0, 0.6, 0.4, 1)',    use: 'Data load reveal (staggered)' },
-  { token: '--nw-pulse',  value: '--nw-pulse-speed (1.4s default, 0.7s in combat)', use: 'LED heartbeat (state-driven)' },
+  // Enter composites: fill the `transition` / `animation` shorthand slot.
+  { token: '--nw-tick',   value: '150ms cubic-bezier(0.3, 0, 0.7, 1)',    use: 'Enter: clicks, toggles, micro-feedback' },
+  { token: '--nw-sweep',  value: '350ms cubic-bezier(0.2, 0.8, 0.2, 1)',  use: 'Enter: panels, modals, drawers' },
+  { token: '--nw-uplink', value: '400ms cubic-bezier(0, 0.6, 0.4, 1)',    use: 'Enter: data load reveal (staggered)' },
+  // Exit composites: shorter and accelerating. Provisional until the v3 direction board.
+  { token: '--nw-tick-out',   value: '112.5ms cubic-bezier(0.4, 0, 1, 1)', use: 'Exit: dropdowns, tooltips' },
+  { token: '--nw-sweep-out',  value: '262.5ms cubic-bezier(0.4, 0, 1, 1)', use: 'Exit: modals, drawers, command palette, toasts' },
+  { token: '--nw-uplink-out', value: '300ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: data load reveal' },
+  // Longhands: build a transition piece by piece, e.g. to delay `visibility` until an exit ends.
+  { token: '--nw-<step>-duration, --nw-<step>-ease', value: 'e.g. --nw-sweep-duration (350ms), --nw-sweep-ease', use: 'Enter longhands for tick, sweep and uplink' },
+  { token: '--nw-<step>-out-duration, --nw-<step>-out-ease', value: 'e.g. --nw-sweep-out-duration (262.5ms)', use: 'Exit longhands: delay visibility until the exit ends' },
+  // Stagger and loops.
+  { token: '--nw-stagger',        value: '50ms',  use: 'Delay step between items revealed in sequence; multiply by the item index' },
+  { token: '--nw-loop-spin',      value: '800ms (cycle)',  use: 'Spinner cycle; scales inversely with motion scale' },
+  { token: '--nw-loop-shimmer',   value: '1200ms (cycle)', use: 'Skeleton shimmer cycle; scales inversely with motion scale' },
+  { token: '--nw-loop-state',     value: 'running | paused', use: 'Play state of spinner and shimmer; paused by reduced motion' },
+  { token: '--nw-pulse-speed',    value: '1.4s default, 0.7s in combat', use: 'LED heartbeat cycle; scales inversely with motion scale' },
+  { token: '--nw-pulse-state',    value: 'running | paused', use: 'LED heartbeat play state; paused in archive and by reduced motion' },
 ];
 
 export type EventEntry = { time: string; type: string; detail: string; metric: string };

@@ -398,12 +398,52 @@ This file contains complete HTML examples for all Nightwire components and patte
 </div>
 ```
 
+A toast with no `data-open` is visible. Set `data-open="false"` on it to fade it out and hide it
+(then remove it after at least 350ms, which covers the combat sweep exit (315ms), using a timer rather than
+`transitionend`, which does not fire under reduced motion); `"true"` shows it again.
+
+A toast mounted already open does not animate in, because the first style never transitions. To
+animate one you add at runtime, mount it closed and open it two frames later:
+
+```js
+toast.dataset.open = 'false';
+container.append(toast);
+requestAnimationFrame(() => requestAnimationFrame(() => { toast.dataset.open = 'true'; }));
+```
+
+---
+
+## Dropdown and Tooltip
+
+```html
+<!-- Dropdown: visible without data-open; "false" closes it with an exit animation -->
+<div class="dropdown" data-open="false">
+  <button class="btn-ghost btn-sm">Actions ▾</button>
+  <div class="dropdown-menu">
+    <button class="dropdown-item">Edit</button>
+    <div class="dropdown-divider"></div>
+    <button class="dropdown-item danger">Delete</button>
+  </div>
+</div>
+
+<!-- Tooltip: opens on hover and when focus is inside; data-open="true" pins it open,
+     data-open="false" keeps it closed even on hover -->
+<span class="tooltip">
+  <button class="btn-ghost btn-sm" aria-describedby="tip-deploy">Deploy</button>
+  <span class="tooltip-content" id="tip-deploy" role="tooltip">Deploy the current branch</span>
+</span>
+```
+
+A closed tooltip is `visibility: hidden`, which takes its text out of the accessibility tree.
+`aria-describedby` on the trigger still reads it, so always pair the two as above.
+
 ---
 
 ## Modal Dialog
 
 ```html
-<div class="modal-backdrop">
+<!-- Closed unless data-open="true"; set it to "false" to close with an exit animation -->
+<div class="modal-backdrop" data-open="true">
   <div class="modal">
     <div class="modal-header">
       <span style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--nw-primary)">CONFIRM ACTION</span>

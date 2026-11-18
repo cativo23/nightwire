@@ -4,7 +4,12 @@ import { NewBadge } from '../components/NewBadge';
 import { makeEvent, type EventEntry } from '../data';
 
 type ToastKind = 'success' | 'info' | 'warning' | 'danger';
-type Toast = { id: number; kind: ToastKind; head: string; body: string };
+type Toast = { id: number; kind: ToastKind; head: string; body: string; open: boolean };
+
+// Longer than the slowest toast exit: --nw-sweep-out is 262.5ms at operator and 315ms at combat
+// (262.5ms * 1.2), the longest at any intensity. 350ms clears it. A timer rather than
+// transitionend, which never fires under reduced motion (transitions are off there).
+const TOAST_EXIT_MS = 350;
 
 export function FeedbackPage() {
   const [events] = useState<EventEntry[]>(() => Array.from({ length: 15 }, makeEvent));
@@ -13,11 +18,23 @@ export function FeedbackPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cmdkOpen, setCmdkOpen] = useState(false);
 
+  // Closing flips data-open to "false" so the toast animates out; it leaves the DOM afterwards.
+  const dismissToast = useCallback((id: number) => {
+    setToasts(prev => prev.map(t => (t.id === id ? { ...t, open: false } : t)));
+    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), TOAST_EXIT_MS);
+  }, []);
+
   const pushToast = useCallback((kind: ToastKind, head: string, body: string) => {
     const id = Date.now() + Math.random();
-    setToasts(prev => [...prev, { id, kind, head, body }]);
-    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 5000);
-  }, []);
+    // Mount closed, then open on the next frame: an element inserted already open has no previous
+    // style to transition from, so it would appear without the enter animation. Two frames, because
+    // one rAF can still run before the browser has computed the closed style.
+    setToasts(prev => [...prev, { id, kind, head, body, open: false }]);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      setToasts(prev => prev.map(t => (t.id === id ? { ...t, open: true } : t)));
+    }));
+    setTimeout(() => dismissToast(id), 5000);
+  }, [dismissToast]);
 
   // ⌘K / Esc bindings — only active on this page
   useEffect(() => {
@@ -60,7 +77,12 @@ export function FeedbackPage() {
         <CodeBlock>{`<div class="toast toast-success">Success message</div>
 <div class="toast toast-warning">Warning message</div>
 <div class="toast toast-danger">Error message</div>
-<div class="toast toast-info">Info message</div>`}</CodeBlock>
+<div class="toast toast-info">Info message</div>
+
+<!-- data-open="false" fades the toast out and hides it; "true" or no attribute shows it.
+     Toast added at runtime: mount it closed, open it on the next frame (double
+     requestAnimationFrame), and remove it 350ms after closing. -->
+<div class="toast toast-info" data-open="false">Dismissed</div>`}</CodeBlock>
       </div>
 
       {/* Banner — v2 */}
@@ -204,14 +226,15 @@ export function FeedbackPage() {
         style={{
           position: 'fixed', right: 16, top: 80,
           display: 'flex', flexDirection: 'column', gap: 8,
-          zIndex: 60, width: 320, pointerEvents: 'none',
+          zIndex: 60, width: 320,
         }}
       >
         {toasts.map(t => (
           <div
             key={t.id}
             className={`toast toast-${t.kind}`}
-            style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'flex-start', gap: 10 }}
+            data-open={t.open}
+            style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}
           >
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: 'var(--font-stamp)', fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--nw-chrome)', marginBottom: 2 }}>
@@ -220,7 +243,7 @@ export function FeedbackPage() {
               <div>{t.body}</div>
             </div>
             <button
-              onClick={() => setToasts(prev => prev.filter(x => x.id !== t.id))}
+              onClick={() => dismissToast(t.id)}
               style={{ cursor: 'pointer', color: 'var(--nw-text-mute)', background: 'none', border: 0, fontSize: 14 }}
               aria-label="Dismiss"
             >×</button>

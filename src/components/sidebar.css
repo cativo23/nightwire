@@ -37,7 +37,7 @@
   padding: var(--sp-2) var(--sp-4);
   border-left: 2px solid transparent;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  transition: color var(--nw-tick), background var(--nw-tick), border-color var(--nw-tick);
   text-decoration: none;
 }
 

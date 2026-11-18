@@ -17,10 +17,20 @@
   color: var(--nw-text);
   white-space: nowrap;
   pointer-events: none;
+  /* Closed by default: exit curve, visibility dropped once the fade is done. */
   opacity: 0;
-  transition: opacity 0.15s;
+  visibility: hidden;
+  transition: opacity var(--nw-tick-out), visibility 0s linear var(--nw-tick-out-duration);
 }
 
-.tooltip:hover .tooltip-content {
+/* Open on hover, keyboard focus inside, or data-open="true". data-open="false" must stay closed
+   even on hover, so the hover and focus-within rules exclude it with :not(). That keeps the
+   decision out of source order and out of a specificity race: a tooltip marked "false" matches
+   none of the open rules and simply keeps the closed rule above. */
+.tooltip:not([data-open="false"]):hover .tooltip-content,
+.tooltip:not([data-open="false"]):focus-within .tooltip-content,
+.tooltip[data-open="true"] .tooltip-content {
   opacity: 1;
+  visibility: visible;
+  transition: opacity var(--nw-tick), visibility 0s;
 }

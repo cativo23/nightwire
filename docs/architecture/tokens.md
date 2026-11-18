@@ -72,9 +72,9 @@ or `DESIGN.md` path.
 ### Reduced motion
 
 A token with `reducedMotion` gets a declaration in a generated block at the very end of
-`src/tokens/tokens.css`, after the intensity blocks, in token key order. No token carries
-`reducedMotion` yet, so the build emits no such block today. Once the motion knobs do (v3 motion
-phase), it looks like this:
+`src/tokens/tokens.css`, after the intensity blocks, in token key order. Three knobs carry it:
+`knob.motion-scale` (`0`), `knob.pulse-state` (`paused`) and `knob.loop-state` (`paused`). The
+build emits:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -82,6 +82,7 @@ phase), it looks like this:
   :root[data-intensity] {
     --nw-motion-scale: 0;
     --nw-pulse-state: paused;
+    --nw-loop-state: paused;
   }
 }
 ```
@@ -128,7 +129,7 @@ Every raw token today, and why it cannot be typed:
 | Token | Value | Emitted as | Why raw |
 |-------|-------|------------|---------|
 | `font.tracking.tight` / `normal` / `wide` / `ultra` | `-0.01em`, `0`, `0.06em`, `0.2em` | `--ls-*`, preset `letterSpacing.nw-*` (not `normal`) | `em` is not a DTCG dimension unit |
-| `knob.pulse-state` | `running` | `--nw-pulse-state` | CSS keyword |
+| `knob.pulse-state` / `loop-state` | `running` | `--nw-pulse-state`, `--nw-loop-state` | CSS keyword |
 | `knob.kanji-display` | `inline` | `--nw-kanji-display` | CSS keyword |
 | `knob.header-gradient` | `linear-gradient(180deg, rgba(102, 153, 255, 0.06), transparent 80%)` | `--nw-header-gradient` | CSS gradient |
 | `knob.header-pattern` | `none` | `--nw-header-pattern` | CSS keyword (combat sets a gradient) |

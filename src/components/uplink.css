@@ -3,10 +3,10 @@
   opacity: 0; transform: translateY(4px);
   animation: nw-uplink var(--nw-uplink) forwards;
 }
-.uplink > *:nth-child(1) { animation-delay: 0s; }
-.uplink > *:nth-child(2) { animation-delay: 0.05s; }
-.uplink > *:nth-child(3) { animation-delay: 0.1s; }
-.uplink > *:nth-child(4) { animation-delay: 0.15s; }
-.uplink > *:nth-child(5) { animation-delay: 0.2s; }
-.uplink > *:nth-child(6) { animation-delay: 0.25s; }
+.uplink > *:nth-child(1) { animation-delay: calc(0 * var(--nw-stagger)); }
+.uplink > *:nth-child(2) { animation-delay: calc(1 * var(--nw-stagger)); }
+.uplink > *:nth-child(3) { animation-delay: calc(2 * var(--nw-stagger)); }
+.uplink > *:nth-child(4) { animation-delay: calc(3 * var(--nw-stagger)); }
+.uplink > *:nth-child(5) { animation-delay: calc(4 * var(--nw-stagger)); }
+.uplink > *:nth-child(6) { animation-delay: calc(5 * var(--nw-stagger)); }
 @keyframes nw-uplink { to { opacity: 1; transform: translateY(0); } }

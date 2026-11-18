@@ -25,6 +25,12 @@
   transform: rotate(-45deg) translate(1px, -1px);
 }
 .radio input:checked + .box { border-color: var(--nw-chrome); }
+/* The input is visually hidden, so the box shows keyboard focus for it. */
+.check input:focus-visible + .box,
+.radio input:focus-visible + .box {
+  outline: 2px solid var(--nw-focus-ring);
+  outline-offset: 2px;
+}
 .radio input:checked + .box::after {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--nw-chrome);

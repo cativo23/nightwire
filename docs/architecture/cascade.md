@@ -8,14 +8,33 @@ manifest order is therefore part of the design system's behaviour, not just tidi
 
 | # | Files | Why here |
 |---|-------|----------|
-| 1 | `tokens/tokens.css` | Custom properties first; everything below reads them |
-| 2 | `base/reduced-motion.css` | Kept right after the tokens, where it always was (see K1 in [intensity.md](intensity.md)) |
-| 3 | `base/reset.css` | Element defaults before any class |
-| 4 | `base/accessibility.css` | Global focus ring and the reduced-motion animation kill switch |
-| 5 | `utilities/surface, text, glow, border, layout` | Single-purpose classes |
-| 6 | `base/typography.css` | `.compressed-title`, font-family utilities, `.kanji` |
-| 7 | `components/*` (v1 era) | button → form → badge → led → panel → table → metrics → progress → toast → card → modal → tabs → sidebar → dropdown → breadcrumbs → tooltip → skeleton → kv-row → avatar → divider → tag |
-| 8 | `components/*` (v2 era) | kbd → segmented → switch → check → combo → drawer → cmdk → banner → code → steps → empty → ai-block → stat → uplink |
+| 1 | `tokens/tokens.css` | Custom properties first; everything below reads them. It ends with the generated reduced-motion block (see below) |
+| 2 | `base/reset.css` | Element defaults before any class |
+| 3 | `base/accessibility.css` | Global focus ring and the reduced-motion animation kill switch (a backstop for anything the knobs do not reach) |
+| 4 | `utilities/surface, text, glow, border, layout` | Single-purpose classes |
+| 5 | `base/typography.css` | `.compressed-title`, font-family utilities, `.kanji` |
+| 6 | `components/*` (v1 era) | button → form → badge → led → panel → table → metrics → progress → toast → card → modal → tabs → sidebar → dropdown → breadcrumbs → tooltip → skeleton → kv-row → avatar → divider → tag |
+| 7 | `components/*` (v2 era) | kbd → segmented → switch → check → combo → drawer → cmdk → banner → code → steps → empty → ai-block → stat → uplink |
+
+## The reduced-motion block
+
+Reduced motion has to win over every intensity level (known issue K1). The block that does it is
+not a source file: `build:tokens` generates it from token data, at the very end of
+`tokens/tokens.css`, after the three intensity blocks. Every token with a `reducedMotion` value
+(today `--nw-motion-scale`, `--nw-pulse-state`, `--nw-loop-state`) gets one declaration:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  :root[data-intensity] { … }
+}
+```
+
+It wins by equal specificity and later order. `:root[data-intensity]` has the same specificity as
+`:root[data-intensity="combat"]`, and the block comes after the intensity blocks, so its values
+beat every level; `:root` covers a page with no `data-intensity`. Do not move the block, and do
+not add a hand-written reduced-motion override for a knob: flag the token in `tokens.json`
+instead ([tokens.md](tokens.md#reduced-motion)).
 
 Files appear in the order their first rule appeared in the original single file. Within a
 component file, v1 rules come first and v2 rules after them, each in their original relative

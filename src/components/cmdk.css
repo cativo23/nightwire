@@ -4,10 +4,15 @@
   background: rgba(0, 0, 0, 0.85);
   display: flex; align-items: flex-start; justify-content: center;
   padding-top: 12vh; z-index: 55;
-  visibility: hidden; opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; opacity: 0; pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.cmdk-backdrop[data-open="true"] { visibility: visible; opacity: 1; }
+.cmdk-backdrop[data-open="true"] {
+  visibility: visible; opacity: 1; pointer-events: auto;
+  /* Open: show at once, enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
+}
 
 .cmdk {
   width: min(560px, 92vw);
@@ -19,14 +24,25 @@
     0 0 0 1px rgba(102, 153, 255, 0.25),
     0 calc(20px * var(--nw-glow)) calc(80px * var(--nw-glow)) rgba(102, 153, 255, 0.15);
 }
+/* Scoped to the backdrop: a standalone .cmdk (no backdrop to open it) stays where it was in 2.x. */
+.cmdk-backdrop .cmdk {
+  transform: translateY(-8px);
+  transition: transform var(--nw-sweep-out);
+}
+.cmdk-backdrop[data-open="true"] .cmdk {
+  /* none, not translateY(0): an identity transform would still make .cmdk a containing block. */
+  transform: none;
+  transition: transform var(--nw-sweep);
+}
 .cmdk input {
   width: 100%; background: transparent;
   border: 0; border-bottom: 1px solid var(--nw-line);
   color: var(--nw-text-strong);
   padding: 14px 16px;
   font-family: var(--font-sys); font-size: var(--text-base);
-  outline: none;
 }
+/* Inset: .cmdk has overflow: hidden, which would clip an outset ring. */
+.cmdk input:focus-visible { outline: 2px solid var(--nw-focus-ring); outline-offset: -2px; }
 .cmdk input::placeholder { color: var(--nw-text-mute); }
 .cmdk-section {
   font-family: var(--font-stamp); font-size: 9px;

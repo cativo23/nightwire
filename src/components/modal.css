@@ -64,14 +64,22 @@
 .modal-backdrop {
   visibility: hidden;
   opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
 .modal-backdrop[data-open="true"] {
   visibility: visible;
   opacity: 1;
+  pointer-events: auto;
+  /* Open: show at once, enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
 }
 .modal-backdrop .modal {
   transform: scale(0.96);
+  transition: transform var(--nw-sweep-out);
+}
+.modal-backdrop[data-open="true"] .modal {
+  transform: scale(1);
   transition: transform var(--nw-sweep);
 }
-.modal-backdrop[data-open="true"] .modal { transform: scale(1); }
