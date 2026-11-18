@@ -2,7 +2,7 @@
 // Computed-style parity between two Nightwire stylesheets.
 //
 //   npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>]
-//                     [--max-lines N] [--expect <categories.json>]
+//                     [--max-lines N] [--expect <categories.json>] [--jobs N]
 //
 // --old defaults to git:main. With --expect and no --old it defaults to git:<baseline> instead,
 // where `baseline` is the optional top-level field of the category file (git:main when the file
@@ -14,6 +14,12 @@
 // ::placeholder, and every --* on :root. It does that in 8 states (intensity none/archive/
 // operator/combat × prefers-reduced-motion off/on) and again with :hover/:focus/
 // :focus-visible/:active forced on the elements each stateful selector targets.
+//
+// Captures run concurrently, one job per page x state (the old and the new stylesheet of a pair
+// are captured by the same job). --jobs N (or NW_PARITY_JOBS=N) sets how many run at once;
+// default min(6, cores - 2), at least 1. --jobs 1 is the strictly sequential run. Results are
+// merged in page/state order, so the output does not depend on N. While iterating, pass --pages
+// for the pages you touch; run the full set once before committing.
 //
 // Determinism: Math.random is seeded, the page clock is faked and advanced by a fixed amount,
 // requests outside the local server are blocked (fallback fonts on both sides), CSS
@@ -33,6 +39,7 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
+import { availableParallelism } from 'node:os';
 import { extractSelectors, analyzeSelectors } from './lib/selectors.mjs';
 import { snapshotKey, diffRecords, validateCategories } from './lib/diff.mjs';
 import { globToRegExp } from './lib/glob.mjs';
@@ -41,6 +48,7 @@ import { resolveOld } from './lib/baseline.mjs';
 import { loadSheet as loadSheetFrom, SheetError } from './lib/sheet.mjs';
 import { startServer as startServerAt } from './lib/server.mjs';
 import { routeAction } from './lib/route.mjs';
+import { runPool } from './lib/pool.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const COVERAGE_FIXTURE = 'scripts/parity/fixtures/coverage.html';
@@ -57,9 +65,21 @@ class UsageError extends Error {}
 
 function usage(message) {
   if (message) console.error(`parity: ${message}`);
-  console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N] [--expect <categories.json>]');
+  console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N] [--expect <categories.json>] [--jobs N]');
   console.error('  --old defaults to git:main, or to git:<baseline> of the --expect file when it has one');
+  console.error('  --jobs defaults to NW_PARITY_JOBS, else min(6, cores - 2), at least 1');
   process.exit(2);
+}
+
+/** Concurrency: --jobs, else NW_PARITY_JOBS, else min(6, cores - 2) and at least 1. */
+function resolveJobs(arg, env) {
+  const raw = arg ?? env;
+  if (raw === undefined || raw === '') return Math.max(1, Math.min(6, availableParallelism() - 2));
+  const n = Number(raw);
+  if (!/^\d+$/.test(String(raw).trim()) || !Number.isSafeInteger(n) || n < 1) {
+    usage(`${arg === undefined ? 'NW_PARITY_JOBS' : '--jobs'} must be a positive integer, got "${raw}"`);
+  }
+  return n;
 }
 
 function loadSheet(spec) {
@@ -326,11 +346,13 @@ async function main() {
     ({ values: args } = parseArgs({
       args: process.argv.slice(2),
       options: { old: { type: 'string' }, new: { type: 'string', default: 'nightwire.css' },
-        pages: { type: 'string' }, 'max-lines': { type: 'string', default: '200' }, expect: { type: 'string' } },
+        pages: { type: 'string' }, 'max-lines': { type: 'string', default: '200' }, expect: { type: 'string' }, jobs: { type: 'string' } },
     }));
   } catch (err) { usage(err.message); }
   const maxLines = Number(args['max-lines']);
   if (!Number.isInteger(maxLines) || maxLines < 0) usage('--max-lines must be a non-negative integer');
+
+  const jobs = resolveJobs(args.jobs, process.env.NW_PARITY_JOBS);
 
   const file = args.expect === undefined ? undefined : loadCategories(args.expect);
   const categories = file?.categories;
@@ -374,17 +396,20 @@ async function main() {
     const props = await probe.evaluate(() => Array.from(getComputedStyle(document.body)).filter((p) => !p.startsWith('--')).sort());
     await probe.close();
 
-    for (const pageName of pages) {
-      const url = `${origin}/${pageName}`;
-      for (const state of states) {
-        const common = { origin, url, intensity: state.intensity, reducedMotion: state.reducedMotion,
-          label: state.label, classes, attrs: attrStates };
-        const before = await captureState(browser, { ...common, css: oldCss }, props, stateful);
-        const after = await captureState(browser, { ...common, css: newCss }, props, stateful);
-        diffs.push(...compareCaptures(pageName, before.captures, after.captures, props));
-        after.coverage.classes.forEach((c) => coveredClasses.add(c));
-        after.coverage.attrs.forEach((a) => coveredAttrs.add(a));
-      }
+    // One job per page x state; the old and new capture of a pair stay in the same job. Every
+    // job builds its own options and results, so nothing is shared between concurrent jobs.
+    const jobList = pages.flatMap((pageName) => states.map((state) => ({ pageName, state })));
+    const results = await runPool(jobList, jobs, async ({ pageName, state }) => {
+      const common = { origin, url: `${origin}/${pageName}`, intensity: state.intensity, reducedMotion: state.reducedMotion,
+        label: state.label, classes, attrs: attrStates };
+      const before = await captureState(browser, { ...common, css: oldCss }, props, stateful);
+      const after = await captureState(browser, { ...common, css: newCss }, props, stateful);
+      return { diffs: compareCaptures(pageName, before.captures, after.captures, props), coverage: after.coverage };
+    });
+    for (const result of results) { // job order, so the report matches a sequential run
+      diffs.push(...result.diffs);
+      result.coverage.classes.forEach((c) => coveredClasses.add(c));
+      result.coverage.attrs.forEach((a) => coveredAttrs.add(a));
     }
   } finally {
     await browser.close();
