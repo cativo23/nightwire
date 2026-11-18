@@ -1,0 +1,45 @@
+/* ── v2 · Cmd K ────────────────────────────────────────────── */
+.cmdk-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 12vh; z-index: 55;
+  visibility: hidden; opacity: 0;
+  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+}
+.cmdk-backdrop[data-open="true"] { visibility: visible; opacity: 1; }
+
+.cmdk {
+  width: min(560px, 92vw);
+  background: var(--nw-surface-2);
+  border: 1px solid var(--nw-chrome-mute);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(102, 153, 255, 0.25),
+    0 calc(20px * var(--nw-glow)) calc(80px * var(--nw-glow)) rgba(102, 153, 255, 0.15);
+}
+.cmdk input {
+  width: 100%; background: transparent;
+  border: 0; border-bottom: 1px solid var(--nw-line);
+  color: var(--nw-text-strong);
+  padding: 14px 16px;
+  font-family: var(--font-sys); font-size: var(--text-base);
+  outline: none;
+}
+.cmdk input::placeholder { color: var(--nw-text-mute); }
+.cmdk-section {
+  font-family: var(--font-stamp); font-size: 9px;
+  letter-spacing: var(--ls-ultra); text-transform: uppercase;
+  color: var(--nw-chrome-mute);
+  padding: 10px 16px 4px;
+}
+.cmdk-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--sp-2) 16px; font-size: var(--text-sm);
+  color: var(--nw-text-default); cursor: pointer;
+}
+.cmdk-item:hover, .cmdk-item.active {
+  background: rgba(102, 153, 255, 0.1);
+  color: var(--nw-chrome);
+}

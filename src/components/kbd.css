@@ -1,0 +1,10 @@
+/* ── v2 · KBD ──────────────────────────────────────────────── */
+.kbd {
+  display: inline-block;
+  font-family: var(--font-sys); font-size: 10px;
+  padding: 1px 5px;
+  border: 1px solid var(--nw-line-strong);
+  background: var(--nw-surface-2);
+  color: var(--nw-text-mute);
+  border-radius: var(--radius-sm);
+}

@@ -1,0 +1,7 @@
+/* Fixture manifest
+   spans two lines */
+@import "./gen.css";
+@import "./a.css";
+
+/* second group */
+@import './sub/b.css';

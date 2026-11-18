@@ -1,0 +1,38 @@
+/* ── Reset ───────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  background: var(--void);
+  color: var(--nw-text);
+}
+
+body {
+  font-family: var(--font-sys);
+  font-size: var(--nw-base-font);
+  line-height: 1.5;
+  background: var(--void);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--nw-primary);
+  text-decoration: none;
+}
+a:hover { color: var(--nw-primary-hot); }
+
+code, pre {
+  font-family: var(--font-sys);
+  font-size: var(--text-sm);
+}
+pre {
+  background: var(--void-panel);
+  border: 1px solid var(--nw-text-faint);
+  padding: var(--sp-3);
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}

@@ -1,0 +1,30 @@
+/* comment with .not-a-class and [data-ignored] */
+:root { --x: 1; }
+:root[data-intensity="archive"] { --x: 0; }
+html, body { margin: 0; }
+.btn { color: red; }
+.btn:hover::before { content: "a"; }
+.tabs .tab:focus-visible { outline: 1px solid; }
+.card:hover .card-title { color: blue; }
+.x .y > .z { color: green; }
+.p:not(.q) { color: black; }
+.list :is(.item-a, .item-b) { color: white; }
+.modal-backdrop[data-open="true"] { display: flex; }
+.led[data-state='ok'] { color: lime; }
+.seg button[aria-pressed="true"] { color: cyan; }
+details[open] > summary { color: pink; }
+.btn:active, .btn:focus { color: orange; }
+.field input::placeholder { color: gray; }
+
+@media (prefers-reduced-motion: reduce) {
+  .uplink { animation: none; }
+}
+
+@supports (display: grid) {
+  .grid-2 { display: grid; }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  to { opacity: 0.5; }
+}

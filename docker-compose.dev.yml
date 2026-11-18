@@ -1,13 +1,15 @@
 services:
   docs:
     build:
-      context: ./docs
-      dockerfile: Dockerfile.dev
+      context: .
+      dockerfile: apps/docs/Dockerfile.dev
     ports:
       - "3001:5173"
     volumes:
-      - ./docs/src:/app/src
-      - ./docs/index.html:/app/index.html
-      - ./docs/public:/app/public
-      - ./examples:/app/public/examples
+      - ./apps/docs/src:/app/apps/docs/src
+      - ./apps/docs/index.html:/app/apps/docs/index.html
+      - ./apps/docs/public:/app/apps/docs/public
+      - ./examples:/app/examples
+      - ./nightwire.css:/app/nightwire.css
+      - ./tailwind.preset.js:/app/tailwind.preset.js
     restart: unless-stopped

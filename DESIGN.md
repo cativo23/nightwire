@@ -6,6 +6,7 @@ description: >
   soft neon palette, monospace typography. Inspired by Evangelion NERV operations
   centers and Ghost in the Shell. Dense, data-rich, zero decorative waste.
 
+# <generated:colors> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 colors:
   # Surfaces — elevation through tonal progression, never shadows
   void:             "#000000"
@@ -14,75 +15,77 @@ colors:
   void-raised:      "#1a1a1a"
 
   # Primary — blue for all UI chrome, headers, labels, focus
-  primary:          "#6699ff"      # CSS: --nw-primary
-  primary-dim:      "#4477cc"      # CSS: --nw-primary-dim
-  primary-hot:      "#99bbff"      # CSS: --nw-primary-hot
-  primary-fill:     "rgba(102,153,255,0.08)"  # CSS: --nw-primary-fill
+  primary:          "#6699ff"                    # CSS: --nw-primary
+  primary-dim:      "#4477cc"                    # CSS: --nw-primary-dim
+  primary-hot:      "#99bbff"                    # CSS: --nw-primary-hot
+  primary-fill:     "rgba(102, 153, 255, 0.08)"  # CSS: --nw-primary-fill
 
   # Success / Data — green for all data values and positive states
-  success:          "#7aed7a"      # CSS: --nw-green
-  success-dim:      "#5cb85c"      # CSS: --nw-green-dim
-  success-faint:    "rgba(122,237,122,0.06)"  # CSS: --nw-green-faint
-  success-fill:     "rgba(122,237,122,0.1)"   # CSS: --nw-green-fill
+  success:          "#7aed7a"                    # CSS: --nw-green
+  success-dim:      "#5cb85c"                    # CSS: --nw-green-dim
+  success-faint:    "rgba(122, 237, 122, 0.06)"  # CSS: --nw-green-faint
+  success-fill:     "rgba(122, 237, 122, 0.1)"   # CSS: --nw-green-fill
 
   # Info — cyan for metadata, secondary info, wireframes
-  info:             "#66ddff"      # CSS: --nw-cyan
-  info-dim:         "#44aacc"      # CSS: --nw-cyan-dim
-  info-glow:        "rgba(102,221,255,0.12)"  # CSS: --nw-cyan-glow
+  info:             "#66ddff"                    # CSS: --nw-cyan
+  info-dim:         "#44aacc"                    # CSS: --nw-cyan-dim
+  info-glow:        "rgba(102, 221, 255, 0.12)"  # CSS: --nw-cyan-glow
 
   # Danger — pink-red for errors, destructive actions, offline
-  danger:           "#ff6688"      # CSS: --nw-red
-  danger-dim:       "#cc4466"      # CSS: --nw-red-dim
-  danger-hot:       "#ff99aa"      # CSS: --nw-red-hot
-  danger-fill:      "rgba(255,102,136,0.15)"  # CSS: --nw-red-fill
+  danger:           "#ff6688"                    # CSS: --nw-red
+  danger-dim:       "#cc4466"                    # CSS: --nw-red-dim
+  danger-hot:       "#ff99aa"                    # CSS: --nw-red-hot
+  danger-fill:      "rgba(255, 102, 136, 0.15)"  # CSS: --nw-red-fill
 
   # Warning — amber for caution, pending, degraded
-  warning:          "#e8993a"                   # CSS: --nw-yellow (base) / --nw-warning (semantic alias)
-  warning-dim:      "#b8732a"                   # CSS: --nw-yellow-dim
-  warning-fill:     "rgba(232,153,58,0.1)"      # CSS: --nw-yellow-fill
+  warning:          "#e8993a"                    # CSS: --nw-yellow (base) / --nw-warning (semantic alias)
+  warning-dim:      "#b8732a"                    # CSS: --nw-yellow-dim
+  warning-fill:     "rgba(232, 153, 58, 0.1)"    # CSS: --nw-yellow-fill
 
   # Accent — purple for AI elements, highlights
-  accent:           "#b266e0"      # CSS: --nw-purple
-  accent-dim:       "#8844bb"      # CSS: --nw-purple-dim
-  accent-fill:      "rgba(178,102,224,0.1)"   # CSS: --nw-purple-fill
+  accent:           "#b266e0"                    # CSS: --nw-purple
+  accent-dim:       "#8844bb"                    # CSS: --nw-purple-dim
+  accent-fill:      "rgba(178, 102, 224, 0.1)"   # CSS: --nw-purple-fill
 
   # Text
-  on-surface:       "#ffffff"      # CSS: --nw-text
-  on-surface-dim:   "#aaaaaa"      # CSS: --nw-text-dim
-  on-surface-faint: "rgba(255,255,255,0.06)"  # CSS: --nw-text-faint
-  on-surface-line:  "rgba(255,255,255,0.12)"  # CSS: --nw-text-line
+  on-surface:       "#ffffff"                    # CSS: --nw-text
+  on-surface-dim:   "#aaaaaa"                    # CSS: --nw-text-dim
+  on-surface-faint: "rgba(255, 255, 255, 0.06)"  # CSS: --nw-text-faint
+  on-surface-line:  "rgba(255, 255, 255, 0.12)"  # CSS: --nw-text-line
+# </generated:colors>
 
+# <generated:typography> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 typography:
   # System / Data — all body text, data readouts, code
   sys:
     fontFamily: "'JetBrains Mono', 'Cascadia Mono', monospace"
-    fontSize: "14px"
+    fontSize:   "14px"
     fontWeight: 400
     lineHeight: 1.5
 
   # Display / Title — cinematic headings only, compressed with scaleX(0.82)
   title:
-    fontFamily: "'Noto Serif Display', 'Times New Roman', serif"
-    fontSize: "32px"
-    fontWeight: 900
-    lineHeight: 1.1
+    fontFamily:    "'Noto Serif Display', 'Times New Roman', serif"
+    fontSize:      "32px"
+    fontWeight:    900
+    lineHeight:    1.1
     letterSpacing: "0.2em"
-    transform: "scaleX(0.82)"
+    transform:     "scaleX(0.82)"
     textTransform: "uppercase"
 
   # Stamp — labels, badges, tags, button text
   stamp:
-    fontFamily: "'Saira Extra Condensed', 'Impact', sans-serif"
-    fontSize: "12px"
-    fontWeight: 700
-    lineHeight: 1
+    fontFamily:    "'Saira Extra Condensed', 'Impact', sans-serif"
+    fontSize:      "12px"
+    fontWeight:    700
+    lineHeight:    1
     letterSpacing: "0.06em"
     textTransform: "uppercase"
 
   # Mincho — Japanese accent characters only (decorative)
   mincho:
     fontFamily: "'Shippori Mincho B1', 'YuMincho', serif"
-    fontSize: "14px"
+    fontSize:   "14px"
     fontWeight: 800
 
   scale:
@@ -93,24 +96,29 @@ typography:
     xl:   "20px"
     2xl:  "24px"
     3xl:  "32px"
+# </generated:typography>
 
+# <generated:spacing> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 spacing:
-  sp-1:  "4px"
-  sp-2:  "8px"
-  sp-3:  "12px"
-  sp-4:  "16px"
-  sp-6:  "24px"
-  sp-8:  "32px"
-  sp-12: "48px"
-  sp-16: "64px"
+  sp-1:      "4px"
+  sp-2:      "8px"
+  sp-3:      "12px"
+  sp-4:      "16px"
+  sp-6:      "24px"
+  sp-8:      "32px"
+  sp-12:     "48px"
+  sp-16:     "64px"
   panel-gap: "2px"   # signature gap between adjacent panels
+# </generated:spacing>
 
+# <generated:rounded> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 rounded:
-  none: "0px"        # default — panels, tables, data containers
-  sm:   "2px"        # badges, tags
-  md:   "4px"        # buttons, inputs
-  lg:   "8px"        # cards, modals
-  full: "9999px"     # pills, avatars, LEDs
+  none: "0"       # default — panels, tables, data containers
+  sm:   "2px"     # badges, tags
+  md:   "4px"     # buttons, inputs
+  lg:   "8px"     # cards, modals
+  full: "9999px"  # pills, avatars, LEDs
+# </generated:rounded>
 
 components:
   panel:
@@ -289,12 +297,14 @@ breakpoints:
     - "dash-right becomes full-width below tablet"
     - "grid-2/3/4 collapse to single column below mobile"
 
+# <generated:motion> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 motion:
-  duration-fast:  "150ms"
-  duration-base:  "250ms"
-  duration-slow:  "400ms"
-  easing-standard: "cubic-bezier(0.4, 0.0, 0.2, 1)"
+  duration-fast:     "150ms"
+  duration-base:     "250ms"
+  duration-slow:     "400ms"
+  easing-standard:   "cubic-bezier(0.4, 0.0, 0.2, 1)"
   easing-decelerate: "cubic-bezier(0.0, 0.0, 0.2, 1)"
+# </generated:motion>
 
 animations:
   ticker-scroll:    { duration: "80s",   timing: "linear",     iteration: "infinite" }
@@ -589,7 +599,7 @@ No shadows. Depth through surface color only:
 
 Tailwind:
 ```js
-import nightwirePreset from 'nightwire/tailwind.preset.js'
+import nightwirePreset from '@cativo23/nightwire/tailwind.preset.js'
 export default { presets: [nightwirePreset] }
 ```
 

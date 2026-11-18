@@ -1,0 +1,13 @@
+/* ── Toast / Notification ────────────────────────────────────── */
+
+.toast {
+  background: var(--void-panel);
+  border-left: 3px solid var(--nw-primary);
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--text-sm);
+  color: var(--nw-text);
+}
+.toast-success { border-left-color: var(--nw-success); }
+.toast-danger  { border-left-color: var(--nw-danger); }
+.toast-warning { border-left-color: var(--nw-warning); }
+.toast-info    { border-left-color: var(--nw-info); }

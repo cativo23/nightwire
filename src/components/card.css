@@ -1,0 +1,27 @@
+/* ── Card ────────────────────────────────────────────────────── */
+
+.card {
+  background: var(--void-warm);
+  border: 1px solid var(--nw-text-faint);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.card-header {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--nw-text-faint);
+}
+
+.card-body {
+  padding: var(--sp-4);
+}
+
+.card-footer {
+  padding: var(--sp-3) var(--sp-4);
+  border-top: 1px solid var(--nw-text-faint);
+}

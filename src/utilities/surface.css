@@ -1,0 +1,6 @@
+/* ── Surface Classes ─────────────────────────────────────────── */
+
+.surface-0 { background: var(--void); }
+.surface-1 { background: var(--void-warm); }
+.surface-2 { background: var(--void-panel); }
+.surface-3 { background: var(--void-raised); }

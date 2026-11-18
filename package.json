@@ -14,13 +14,18 @@
     "skill/**/*"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build:tokens && npm run build:css && npm run build:cli",
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "build:css": "node scripts/build-css.mjs",
+    "build:cli": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
+    "test": "node --test",
+    "parity": "node scripts/parity/compare.mjs",
     "prepublishOnly": "npm run build",
-    "docs:dev": "cd docs && npm run dev",
-    "docs:build": "cd docs && npm run build",
-    "docs:preview": "cd docs && npm run preview"
+    "docs:dev": "cd apps/docs && npm run dev",
+    "docs:build": "cd apps/docs && npm run build",
+    "docs:preview": "cd apps/docs && npm run preview"
   },
   "repository": {
     "type": "git",
@@ -46,6 +51,7 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/prompts": "^2.4.9",
+    "playwright-core": "1.65.1",
     "typescript": "^5.7.0"
   }
 }

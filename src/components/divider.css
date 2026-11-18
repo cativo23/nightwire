@@ -1,0 +1,11 @@
+/* ── Divider ─────────────────────────────────────────────────── */
+
+.divider {
+  height: 1px;
+  background: var(--nw-text-faint);
+  margin: var(--sp-4) 0;
+}
+
+.divider-primary {
+  background: var(--nw-primary-dim);
+}

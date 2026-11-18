@@ -1,0 +1,114 @@
+{
+  "$extensions": {
+    "dev.cativo.nightwire": {
+      "cssComment": "/* ── Palette ── */",
+      "cssAlign": 12,
+      "intensity": {
+        "archive": {
+          "comment": "/* archive */",
+          "tokens": { "knob.glow": 0, "knob.radius": "{radius.sm}", "knob.state": "paused" }
+        },
+        "operator": {
+          "comment": "/* operator */",
+          "body": "/* base :root values apply */",
+          "tokens": {}
+        },
+        "combat": {
+          "comment": "/* combat */",
+          "tokens": { "knob.glow": 2.2 }
+        }
+      }
+    }
+  },
+  "color": {
+    "$type": "color",
+    "$description": "Primary colors",
+    "$extensions": { "dev.cativo.nightwire": { "cssComment": "/* Colors */", "designMdCssNote": true } },
+    "blue": {
+      "$value": { "colorSpace": "srgb", "components": [0.4, 0.6, 1], "hex": "#6699ff" },
+      "$extensions": { "dev.cativo.nightwire": { "css": "--blue", "tailwind": ["colors.blue.DEFAULT", "borderColor.blue"], "designMd": ["colors.blue"] } }
+    },
+    "fill": {
+      "$value": { "colorSpace": "srgb", "components": [0.4, 0.6, 1], "alpha": 0.08, "hex": "#6699ff" },
+      "$extensions": { "dev.cativo.nightwire": { "css": "--blue-fill", "designMd": ["colors.blue-fill"] } }
+    },
+    "chrome": {
+      "$value": "{color.blue}",
+      "$extensions": { "dev.cativo.nightwire": { "css": "--chrome", "tailwind": ["colors.chrome"] } }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "$extensions": { "dev.cativo.nightwire": { "cssComment": "/* Radius */", "cssAlign": 0 } },
+    "none": {
+      "$value": { "value": 0, "unit": "px" },
+      "$description": "default",
+      "$extensions": { "dev.cativo.nightwire": { "css": "--radius-none", "tailwind": ["borderRadius.none"], "designMd": ["rounded.none"] } }
+    },
+    "sm": {
+      "$value": { "value": 2, "unit": "px" },
+      "$extensions": { "dev.cativo.nightwire": { "css": "--radius-sm", "designMd": ["rounded.sm"] } }
+    }
+  },
+  "knob": {
+    "$extensions": { "dev.cativo.nightwire": { "cssComment": "/* Knobs */" } },
+    "glow": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": { "dev.cativo.nightwire": { "css": "--glow" } }
+    },
+    "radius": {
+      "$value": "{radius.none}",
+      "$extensions": { "dev.cativo.nightwire": { "css": "--panel-radius" } }
+    },
+    "state": {
+      "$value": "running",
+      "$extensions": { "dev.cativo.nightwire": { "css": "--state", "raw": true } }
+    }
+  },
+  "motion": {
+    "tick": {
+      "$value": "calc({motion.timing.duration} * var(--scale)) {motion.timing.easing}",
+      "$extensions": { "dev.cativo.nightwire": { "css": "--tick", "raw": true } }
+    },
+    "timing": {
+      "duration": {
+        "$type": "duration",
+        "$value": { "value": 150, "unit": "ms" },
+        "$extensions": { "dev.cativo.nightwire": { "tailwind": ["transitionDuration.tick"] } }
+      },
+      "easing": {
+        "$type": "cubicBezier",
+        "$value": [0.3, 0, 0.7, 1],
+        "$extensions": { "dev.cativo.nightwire": { "tailwind": ["transitionTimingFunction.tick"] } }
+      }
+    }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "sys": {
+      "$value": ["JetBrains Mono", "monospace"],
+      "$extensions": { "dev.cativo.nightwire": { "css": "--font-sys", "tailwind": ["fontFamily.sys"] } }
+    }
+  },
+  "shadow": {
+    "glow": {
+      "$value": "0 0 8px rgba(1,2,3,0.5)",
+      "$extensions": { "dev.cativo.nightwire": { "tailwind": ["boxShadow.glow"], "raw": true } }
+    }
+  },
+  "doc": {
+    "type": {
+      "$description": "System text",
+      "weight": {
+        "$type": "fontWeight",
+        "$value": 400,
+        "$extensions": { "dev.cativo.nightwire": { "designMd": ["typography.sys.fontWeight"] } }
+      },
+      "family": {
+        "$value": "{font.sys}",
+        "$extensions": { "dev.cativo.nightwire": { "designMd": ["typography.sys.fontFamily"] } }
+      }
+    }
+  }
+}

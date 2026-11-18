@@ -4,9 +4,10 @@ on:
   push:
     branches: [main]
     paths:
-      - 'docs/**'
+      - 'apps/docs/**'
       - 'examples/**'
       - 'nightwire.css'
+      - 'tailwind.preset.js'
       - 'package.json'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
@@ -44,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: ./docs/Dockerfile
+          file: ./apps/docs/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -65,9 +66,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "docs/compose.prod.yml"
+          source: "apps/docs/compose.prod.yml"
           target: "/home/cativo23/deploy/nightwire-docs/"
-          strip_components: 1
+          strip_components: 2
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3

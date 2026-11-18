@@ -1,0 +1,32 @@
+/* ── v2 · Checkbox / Radio ─────────────────────────────────── */
+.check, .radio {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  cursor: pointer; user-select: none; font-size: var(--text-sm);
+}
+.check input, .radio input { position: absolute; opacity: 0; }
+.check .box, .radio .box {
+  width: 14px; height: 14px;
+  background: var(--nw-surface-2);
+  border: 1px solid var(--nw-line-strong);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: border-color var(--nw-tick), background var(--nw-tick);
+}
+.check .box  { border-radius: var(--radius-sm); }
+.radio .box  { border-radius: 50%; }
+.check input:checked + .box {
+  background: var(--nw-chrome);
+  border-color: var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(102, 153, 255, 0.5);
+}
+.check input:checked + .box::after {
+  content: ""; width: 8px; height: 4px;
+  border-left: 1.5px solid var(--nw-text-on-fill);
+  border-bottom: 1.5px solid var(--nw-text-on-fill);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+.radio input:checked + .box { border-color: var(--nw-chrome); }
+.radio input:checked + .box::after {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+}

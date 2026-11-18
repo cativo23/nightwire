@@ -1,0 +1,18 @@
+/* ── Avatar ──────────────────────────────────────────────────── */
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--nw-primary-fill);
+  border: 1px solid var(--nw-primary-dim);
+  color: var(--nw-primary);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.avatar-sm { width: 24px; height: 24px; font-size: 10px; }
+.avatar-lg { width: 48px; height: 48px; font-size: var(--text-lg); }

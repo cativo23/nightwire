@@ -1,0 +1,45 @@
+/* ── v2 · Code inline / block / diff ───────────────────────── */
+.code-inline {
+  font-family: var(--font-sys); font-size: 0.9em;
+  background: var(--nw-surface-2);
+  color: var(--nw-data);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+}
+
+.code-block {
+  font-family: var(--font-sys); font-size: var(--text-sm);
+  background: var(--nw-surface-2);
+  color: var(--nw-text-default);
+  border: 1px solid var(--nw-line);
+  border-radius: var(--radius-md);
+  padding: 10px var(--sp-3);
+  white-space: pre;
+  overflow: auto;
+}
+.code-block .tok-k  { color: var(--nw-chrome); }
+.code-block .tok-s  { color: var(--nw-data); }
+.code-block .tok-c  { color: var(--nw-text-mute); font-style: italic; }
+.code-block .tok-n  { color: var(--nw-data); }
+.code-block .tok-fn { color: var(--nw-ai); }
+
+.diff {
+  font-family: var(--font-sys); font-size: var(--text-sm);
+  background: var(--nw-surface-2);
+  border: 1px solid var(--nw-line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.diff .ln { display: flex; border-left: 2px solid transparent; }
+.diff .ln .num {
+  width: 32px; text-align: right;
+  color: var(--nw-text-mute);
+  padding: 1px var(--sp-2); font-size: 10px;
+  user-select: none;
+  background: rgba(255, 255, 255, 0.02);
+}
+.diff .ln .code-content { padding: 1px var(--sp-3); flex: 1; white-space: pre; }
+.diff .ln.add { border-left-color: var(--nw-data); background: rgba(122, 237, 122, 0.06); }
+.diff .ln.del { border-left-color: var(--nw-signal-error); background: rgba(255, 102, 136, 0.06); }
+.diff .ln.add .num { color: var(--nw-data); }
+.diff .ln.del .num { color: var(--nw-signal-error); }

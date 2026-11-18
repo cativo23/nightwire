@@ -1,0 +1,29 @@
+/* ── v2 · Stat card (with sparkline support) ───────────────── */
+.stat {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: calc(14px * var(--nw-pad-scale));
+  border-right: 1px solid var(--nw-line);
+}
+.stat:last-child { border-right: 0; }
+.stat .stat-label {
+  font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
+  letter-spacing: var(--nw-label-spacing); text-transform: uppercase;
+  color: var(--nw-chrome);
+}
+.stat .stat-value {
+  font-family: var(--font-sys);
+  font-size: calc(28px * var(--nw-pad-scale));
+  font-weight: var(--nw-value-weight);
+  color: var(--nw-value-color);
+  line-height: 1; letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  text-shadow:
+    0 0 calc(8px * var(--nw-glow)) rgba(122, 237, 122, 0.55),
+    0 0 calc(20px * var(--nw-glow)) rgba(122, 237, 122, 0.25);
+}
+.stat .stat-delta { display: inline-flex; align-items: center; gap: 4px; font-size: var(--text-xs); }
+.stat .stat-delta.up   { color: var(--nw-data); }
+.stat .stat-delta.down { color: var(--nw-signal-error); }
+.stat .stat-spark { height: 24px; width: 100%; margin-top: 4px; display: block; }
+.stat-spark path { fill: none; stroke: var(--nw-data); stroke-width: 1.2; }
+.stat-spark .area { fill: var(--nw-data); opacity: 0.12; }

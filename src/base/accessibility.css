@@ -1,0 +1,13 @@
+/* ── Accessibility ───────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--nw-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  /* Suppress the tactile press shift too — the universal rule only kills
+     the easing, not the transform itself. */
+  .btn:active, .btn-ghost:active, .btn-danger:active { transform: none; }
+}

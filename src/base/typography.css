@@ -1,0 +1,24 @@
+/* ── Compressed Title ────────────────────────────────────────── */
+
+.compressed-title {
+  font-family: var(--font-title);
+  font-weight: 900;
+  transform: scaleX(0.82);
+  transform-origin: left center;
+  letter-spacing: var(--ls-ultra);
+  text-transform: uppercase;
+}
+
+/* ── Font Family Utilities ───────────────────────────────────── */
+
+.font-sys    { font-family: var(--font-sys); }
+.font-title  { font-family: var(--font-title); }
+.font-stamp  { font-family: var(--font-stamp); }
+.font-mincho { font-family: var(--font-mincho); }
+
+.kanji {
+  display: var(--nw-kanji-display);
+  font-family: var(--font-mincho);
+}
+
+.tabular { font-variant-numeric: tabular-nums; }

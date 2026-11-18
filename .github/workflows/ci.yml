@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-drift:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # 20 is the oldest Node contributors may use (CONTRIBUTING.md); 24 matches release and Docker.
+        node: [20, 24]
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm test
+
+      - run: npm run build
+
+      - name: Generated artifacts are up to date
+        run: |
+          git diff --exit-code --stat -- nightwire.css tailwind.preset.js DESIGN.md \
+            || (echo "::error::Generated artifacts are stale: run npm run build and commit."; exit 1)
+
+      # The docs site imports the root nightwire.css and tailwind.preset.js; build it so a
+      # broken apps/docs fails here instead of in the post-merge deploy.
+      - name: Docs site builds
+        if: matrix.node == 24
+        working-directory: apps/docs
+        run: |
+          npm ci
+          npm run build

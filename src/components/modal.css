@@ -1,0 +1,77 @@
+/* ── Modal / Dialog ──────────────────────────────────────────── */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--void-panel);
+  border: 1px solid var(--nw-primary-dim);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--nw-primary);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--nw-primary-dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-body {
+  padding: var(--sp-4);
+  color: var(--nw-text);
+  font-size: var(--text-base);
+}
+
+.modal-footer {
+  padding: var(--sp-3) var(--sp-4);
+  border-top: 1px solid var(--nw-text-faint);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+}
+
+/* ── v2 · Modal title (non-flex header label) ──────────────── */
+.modal-title {
+  font-family: var(--font-stamp); font-size: 10px; font-weight: 700;
+  letter-spacing: var(--ls-ultra); text-transform: uppercase;
+  color: var(--nw-chrome);
+}
+
+/* ── v2 · Modal show/hide via [data-open] attribute ──────────────
+   The v1 .modal-backdrop above is always visible (relies on DOM
+   add/remove). The patch below makes it controllable via attribute
+   so React/Vue consumers can keep the element mounted and toggle
+   data-open instead. v1 markup without data-open still works
+   (defaults to hidden — set data-open="true" on initial render or
+   render conditionally). */
+.modal-backdrop {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+}
+.modal-backdrop[data-open="true"] {
+  visibility: visible;
+  opacity: 1;
+}
+.modal-backdrop .modal {
+  transform: scale(0.96);
+  transition: transform var(--nw-sweep);
+}
+.modal-backdrop[data-open="true"] .modal { transform: scale(1); }

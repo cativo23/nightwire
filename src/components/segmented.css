@@ -1,0 +1,23 @@
+/* ── v2 · Segmented control ────────────────────────────────── */
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.seg button {
+  font-family: var(--font-stamp); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 5px 12px; background: transparent;
+  color: var(--nw-text-mute); border: 0;
+  border-right: 1px solid var(--nw-line);
+  cursor: pointer;
+  transition: background var(--nw-tick), color var(--nw-tick);
+}
+.seg button:last-child { border-right: 0; }
+.seg button:hover { color: var(--nw-text-default); }
+.seg button[aria-pressed="true"] {
+  background: var(--nw-chrome);
+  color: var(--nw-text-on-fill);
+  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(255, 255, 255, 0.5);
+}

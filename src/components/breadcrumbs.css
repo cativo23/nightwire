@@ -1,0 +1,25 @@
+/* ── Breadcrumbs ─────────────────────────────────────────────── */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-sm);
+  color: var(--nw-text-dim);
+}
+
+.breadcrumbs a {
+  color: var(--nw-text-dim);
+  transition: color 0.15s;
+}
+
+.breadcrumbs a:hover { color: var(--nw-primary); }
+
+.breadcrumbs .separator {
+  color: var(--nw-text-faint);
+  font-size: var(--text-xs);
+}
+
+.breadcrumbs .current {
+  color: var(--nw-text);
+}

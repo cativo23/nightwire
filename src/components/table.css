@@ -1,0 +1,28 @@
+/* ── Data Table ──────────────────────────────────────────────── */
+
+.nw-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.nw-table th {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 6px 10px;
+  color: var(--nw-primary);
+  border-bottom: 1px solid var(--nw-primary-dim);
+}
+
+.nw-table td {
+  padding: 5px 10px;
+  color: var(--nw-green);
+  border-bottom: 1px solid var(--nw-text-faint);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.nw-table tr:hover td { background: var(--nw-green-faint); }

@@ -1,0 +1,23 @@
+/* ── Key-Value Row ───────────────────────────────────────────── */
+
+.kv-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--sp-1) 0;
+  border-bottom: 1px solid var(--nw-text-faint);
+  font-size: var(--text-sm);
+}
+
+.kv-row .kv-label {
+  color: var(--nw-primary-dim);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  font-size: 10px;
+}
+
+.kv-row .kv-value {
+  color: var(--nw-green);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
