@@ -622,6 +622,79 @@
         "old": "^rgba\\(122, 237, 122, 0\\.06\\)$",
         "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
       }
+    },
+    {
+      "id": "round2-btn-bone",
+      "description": "The primary .btn is a bone solid (direction round 2): background and border go from --nw-primary (blue) to --nw-action (#e6e6e6). Pinned to buttons, to the fill and border colours, blue to #e6e6e6. The hover (--nw-action-hot, #99bbff) equals the v2.1.0 primary hover and does not differ.",
+      "match": {
+        "prop": "^(background-color|border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color)$",
+        "path": "(button|a)\\.btn(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "round2-btn-ghost-text",
+      "description": "The .btn-ghost label goes from blue to --nw-text-default (#e6e6e6), with what follows currentColor (outline, caret, decoration). Pinned to buttons, to the text-following colours, blue to #e6e6e6.",
+      "match": {
+        "prop": "^(column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "(button|a)\\.btn(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "round2-btn-ghost-hover-text",
+      "description": "The .btn-ghost hover label goes from blue to --nw-text-strong (white). Pinned to buttons, to the text-following colours, blue to white, in a forced hover.",
+      "match": {
+        "prop": "^(column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "(button|a)\\.btn(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "state": "\\|:hover@",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(255, 255, 255\\)$"
+      }
+    },
+    {
+      "id": "round2-btn-ghost-hover-fill",
+      "description": "The .btn-ghost hover no longer fills: the background goes from --nw-primary-fill (blue at 0.08) to transparent. Pinned to button background-color.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "(button|a)\\.btn(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(102, 153, 255, 0\\.08\\)$",
+        "new": "^rgba\\(0, 0, 0, 0\\)$"
+      }
+    },
+    {
+      "id": "round2-btn-outline-border",
+      "description": "Outline secondaries get a neutral boundary: the .btn-ghost, .btn-ai and .btn-success border goes from --nw-primary-dim, --nw-ai-mute and --nw-data-mute to --nw-line-strong (white at 0.36). Pinned to buttons, to the border colours, and to those three old colours.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "(button|a)\\.btn(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\((68, 119, 204|136, 68, 187|92, 184, 92)\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "round2-btn-ghost-hover-border",
+      "description": "The .btn-ghost hover border goes from --nw-primary (blue) to --nw-line-chrome (blue at 0.35). Pinned to buttons, to the border colours, in a forced hover.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "(button|a)\\.btn(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "state": "\\|:hover@",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgba\\(102, 153, 255, 0\\.35\\)$"
+      }
+    },
+    {
+      "id": "round2-btn-colour-hover-border",
+      "description": "The .btn-ai and .btn-success hover border takes the coloured mute border (--nw-ai-mute, --nw-data-mute); in v2.1.0 the .btn hover rule won and painted it --nw-primary-hot. Pinned to buttons, to the border colours, from the hot blue to those two colours, in a forced hover.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "(button|a)\\.btn(-[\\w-]+)?:nth-child\\(\\d+\\)$",
+        "state": "\\|:hover@",
+        "old": "^rgb\\(153, 187, 255\\)$",
+        "new": "^rgb\\((136, 68, 187|92, 184, 92)\\)$"
+      }
     }
   ]
 }

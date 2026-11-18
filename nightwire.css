@@ -392,16 +392,16 @@ table {
   font-weight: 700;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--void);
-  background: var(--nw-primary);
-  border: var(--nw-hairline) solid var(--nw-primary);
+  color: var(--nw-action-text);
+  background: var(--nw-action);
+  border: var(--nw-hairline) solid var(--nw-action);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn:hover {
-  background: var(--nw-primary-hot);
-  border-color: var(--nw-primary-hot);
+  background: var(--nw-action-hot);
+  border-color: var(--nw-action-hot);
 }
 /* Tactile press — expected on a terminal/console system. */
 .btn:active,
@@ -420,16 +420,17 @@ table {
   font-weight: 700;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-default);
   background: transparent;
-  border: var(--nw-hairline) solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn-ghost:hover {
-  background: var(--nw-primary-fill);
-  border-color: var(--nw-primary);
+  background: transparent;
+  border-color: var(--nw-line-chrome);
+  color: var(--nw-text-strong);
 }
 
 .btn-danger {
@@ -478,16 +479,16 @@ table {
 .btn-success {
   background: transparent;
   color: var(--nw-data);
-  border: var(--nw-hairline) solid var(--nw-data-mute);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
 }
-.btn-success:hover { background: var(--nw-green-fill); }
+.btn-success:hover { background: var(--nw-green-fill); border-color: var(--nw-data-mute); }
 
 .btn-ai {
   background: transparent;
   color: var(--nw-ai);
-  border: var(--nw-hairline) solid var(--nw-ai-mute);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
 }
-.btn-ai:hover { background: var(--nw-purple-fill); }
+.btn-ai:hover { background: var(--nw-purple-fill); border-color: var(--nw-ai-mute); }
 
 .btn-icon { padding: var(--sp-1) var(--sp-1); min-width: 28px; justify-content: center; }
 .btn-xs   { padding: 2px 6px; font-size: 9px; }
