@@ -12,7 +12,7 @@
   text-transform: uppercase;
   color: var(--void);
   background: var(--nw-primary);
-  border: 1px solid var(--nw-primary);
+  border: var(--nw-hairline) solid var(--nw-primary);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
@@ -40,7 +40,7 @@
   text-transform: uppercase;
   color: var(--nw-primary);
   background: transparent;
-  border: 1px solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-primary-dim);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
@@ -62,7 +62,7 @@
   text-transform: uppercase;
   color: var(--void);
   background: var(--nw-red);
-  border: 1px solid var(--nw-red);
+  border: var(--nw-hairline) solid var(--nw-red);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
@@ -96,14 +96,14 @@
 .btn-success {
   background: transparent;
   color: var(--nw-data);
-  border: 1px solid var(--nw-data-mute);
+  border: var(--nw-hairline) solid var(--nw-data-mute);
 }
 .btn-success:hover { background: var(--nw-green-fill); }
 
 .btn-ai {
   background: transparent;
   color: var(--nw-ai);
-  border: 1px solid var(--nw-ai-mute);
+  border: var(--nw-hairline) solid var(--nw-ai-mute);
 }
 .btn-ai:hover { background: var(--nw-purple-fill); }
 
@@ -115,7 +115,7 @@
 .btn-loading::before {
   content: ""; display: inline-block;
   width: 10px; height: 10px; margin-right: 6px;
-  border: 1.5px solid currentColor; border-right-color: transparent;
+  border: var(--nw-rule) solid currentColor; border-right-color: transparent;
   border-radius: 50%;
   animation: nw-spin var(--nw-loop-spin) linear infinite;
   animation-play-state: var(--nw-loop-state);

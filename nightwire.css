@@ -391,7 +391,7 @@ table {
   text-transform: uppercase;
   color: var(--void);
   background: var(--nw-primary);
-  border: 1px solid var(--nw-primary);
+  border: var(--nw-hairline) solid var(--nw-primary);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
@@ -419,7 +419,7 @@ table {
   text-transform: uppercase;
   color: var(--nw-primary);
   background: transparent;
-  border: 1px solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-primary-dim);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
@@ -441,7 +441,7 @@ table {
   text-transform: uppercase;
   color: var(--void);
   background: var(--nw-red);
-  border: 1px solid var(--nw-red);
+  border: var(--nw-hairline) solid var(--nw-red);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
@@ -475,14 +475,14 @@ table {
 .btn-success {
   background: transparent;
   color: var(--nw-data);
-  border: 1px solid var(--nw-data-mute);
+  border: var(--nw-hairline) solid var(--nw-data-mute);
 }
 .btn-success:hover { background: var(--nw-green-fill); }
 
 .btn-ai {
   background: transparent;
   color: var(--nw-ai);
-  border: 1px solid var(--nw-ai-mute);
+  border: var(--nw-hairline) solid var(--nw-ai-mute);
 }
 .btn-ai:hover { background: var(--nw-purple-fill); }
 
@@ -494,7 +494,7 @@ table {
 .btn-loading::before {
   content: ""; display: inline-block;
   width: 10px; height: 10px; margin-right: 6px;
-  border: 1.5px solid currentColor; border-right-color: transparent;
+  border: var(--nw-rule) solid currentColor; border-right-color: transparent;
   border-radius: 50%;
   animation: nw-spin var(--nw-loop-spin) linear infinite;
   animation-play-state: var(--nw-loop-state);
@@ -510,7 +510,7 @@ input, select, textarea {
   font-size: var(--text-base);
   color: var(--nw-text);
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-line);
+  border: var(--nw-hairline) solid var(--nw-text-line);
   border-radius: var(--radius-md);
   padding: var(--sp-2) var(--sp-3);
   transition: border-color var(--nw-tick), box-shadow var(--nw-tick);
@@ -596,7 +596,7 @@ input::placeholder, textarea::placeholder {
 
 .panel {
   background: var(--void-warm);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
   border-radius: var(--nw-panel-radius);
 }
 
@@ -607,7 +607,7 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-2) var(--sp-3) 7px;
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
   display: flex;
   justify-content: space-between;
 }
@@ -633,13 +633,13 @@ input::placeholder, textarea::placeholder {
   text-align: left;
   padding: 6px 10px;
   color: var(--nw-primary);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
 }
 
 .nw-table td {
   padding: 5px 10px;
   color: var(--nw-green);
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   font-variant-numeric: tabular-nums;
   font-weight: 500;
 }
@@ -652,7 +652,7 @@ input::placeholder, textarea::placeholder {
 .metrics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px;
+  gap: var(--nw-hairline);
   background: var(--nw-text-faint);
 }
 
@@ -774,7 +774,7 @@ input::placeholder, textarea::placeholder {
 
 .modal {
   background: var(--void-panel);
-  border: 1px solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-primary-dim);
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 480px;
@@ -789,7 +789,7 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -803,7 +803,7 @@ input::placeholder, textarea::placeholder {
 
 .modal-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: 1px solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-text-faint);
   display: flex;
   justify-content: flex-end;
   gap: var(--sp-2);
@@ -1587,7 +1587,7 @@ input::placeholder, textarea::placeholder {
 .stat {
   display: flex; flex-direction: column; gap: 6px;
   padding: calc(14px * var(--nw-pad-scale));
-  border-right: 1px solid var(--nw-line);
+  border-right: var(--nw-hairline) solid var(--nw-line);
 }
 .stat:last-child { border-right: 0; }
 .stat .stat-label {

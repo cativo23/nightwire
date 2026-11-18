@@ -14,13 +14,13 @@
   text-align: left;
   padding: 6px 10px;
   color: var(--nw-primary);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
 }
 
 .nw-table td {
   padding: 5px 10px;
   color: var(--nw-green);
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   font-variant-numeric: tabular-nums;
   font-weight: 500;
 }

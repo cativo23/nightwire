@@ -5,7 +5,7 @@ input, select, textarea {
   font-size: var(--text-base);
   color: var(--nw-text);
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-line);
+  border: var(--nw-hairline) solid var(--nw-text-line);
   border-radius: var(--radius-md);
   padding: var(--sp-2) var(--sp-3);
   transition: border-color var(--nw-tick), box-shadow var(--nw-tick);

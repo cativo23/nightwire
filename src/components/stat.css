@@ -2,7 +2,7 @@
 .stat {
   display: flex; flex-direction: column; gap: 6px;
   padding: calc(14px * var(--nw-pad-scale));
-  border-right: 1px solid var(--nw-line);
+  border-right: var(--nw-hairline) solid var(--nw-line);
 }
 .stat:last-child { border-right: 0; }
 .stat .stat-label {

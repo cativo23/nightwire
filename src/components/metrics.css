@@ -3,7 +3,7 @@
 .metrics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px;
+  gap: var(--nw-hairline);
   background: var(--nw-text-faint);
 }
 

@@ -12,7 +12,7 @@
 
 .modal {
   background: var(--void-panel);
-  border: 1px solid var(--nw-primary-dim);
+  border: var(--nw-hairline) solid var(--nw-primary-dim);
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 480px;
@@ -27,7 +27,7 @@
   text-transform: uppercase;
   color: var(--nw-primary);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-primary-dim);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,7 +41,7 @@
 
 .modal-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: 1px solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-text-faint);
   display: flex;
   justify-content: flex-end;
   gap: var(--sp-2);
