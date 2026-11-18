@@ -616,7 +616,8 @@ input::placeholder, textarea::placeholder {
   justify-content: space-between;
 }
 
-.panel-header .kanji {
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.panel-header .kanji) {
   color: var(--nw-text-default);
 }
 
@@ -804,7 +805,8 @@ input::placeholder, textarea::placeholder {
   align-items: center;
 }
 
-.modal-header .kanji {
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.modal-header .kanji) {
   color: var(--nw-text-default);
 }
 

@@ -565,12 +565,13 @@
     },
     {
       "id": "round2-kanji",
-      "description": "The kanji inside .panel-header and .modal-header is --nw-text-default (#e6e6e6), the one bright mark in a quiet header. Pinned to a .kanji under those headers, from the old #aaaaaa to #e6e6e6.",
+      "description": "A .kanji inside .panel-header or .modal-header with no colour of its own takes --nw-text-default (#e6e6e6), the one bright mark in a quiet header. The default is set inside :where(), so a colour utility on the kanji itself and inline styles still win; only a colour inherited from an ancestor loses to it. The one case in the parity pages is the workshop Fleet Pulse header, where the kanji inherited #aaaaaa from an inline-styled wrapper span. Pinned to a .kanji under those headers, to that page, from #aaaaaa to #e6e6e6.",
       "match": {
         "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|background-color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
         "path": "div\\.(panel|modal)-header:nth-child\\(\\d+\\)(>.*)?>span\\.kanji:nth-child\\(\\d+\\)$",
         "old": "^rgb\\(170, 170, 170\\)$",
-        "new": "^rgb\\(230, 230, 230\\)$"
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "examples/html/workshop.html"
       }
     },
     {

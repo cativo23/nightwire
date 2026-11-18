@@ -34,7 +34,8 @@
   align-items: center;
 }
 
-.modal-header .kanji {
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.modal-header .kanji) {
   color: var(--nw-text-default);
 }
 
