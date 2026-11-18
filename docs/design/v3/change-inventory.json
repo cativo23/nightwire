@@ -1148,6 +1148,56 @@
         "old": "^4px$",
         "new": "^2px$"
       }
+    },
+    {
+      "id": "q-combo-radius",
+      "description": "Group A (T043): square corners, .combo goes from --radius-md (4px) to --radius-sm (2px) (direction rule 4). The boundary (--nw-line-strong) and the focus ring are unchanged. Pinned to the corner radii of .combo.",
+      "match": {
+        "prop": "^border-(top|bottom)-(left|right)-radius$|^border-(start|end)-(start|end)-radius$",
+        "path": "div\\.combo:nth-child\\(\\d+\\)$",
+        "old": "^4px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "q-combo-chip-text",
+      "description": "Group A (T043): the .combo chip text goes from blue to --nw-text-default, the neutral chip of the approved mockup (direction rule 2). Pinned to blue to #e6e6e6 on .combo .chip.",
+      "match": {
+        "prop": "^(column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "span\\.chip:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "q-combo-chip-x",
+      "description": "Group A (T043): the chip remove mark (.x) follows the chip text colour, so its text and currentColor borders go from blue to #e6e6e6 with the chip. Pinned to .chip .x.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "span\\.chip:nth-child\\(\\d+\\)>span\\.x:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "q-combo-chip-edge",
+      "description": "Group A (T043): the .combo chip border goes from --nw-chrome-mute to --nw-line-strong (direction rule 3). Pinned to the border colours of .combo .chip.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "span\\.chip:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "q-combo-chip-fill",
+      "description": "Group A (T043): the .combo chip fill goes from blue at 0.12 to the neutral --nw-text-faint (white at 0.08) (direction rule 5). Pinned to .combo .chip background-color.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "span\\.chip:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(102, 153, 255, 0\\.12\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
+      }
     }
   ]
 }
