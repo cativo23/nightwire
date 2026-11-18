@@ -225,23 +225,103 @@
       }
     },
     {
-      "id": "refresh-values",
-      "description": "v3 direction values proposed on the board (T033, FR-013b, FR-014): --nw-glow 1 → 0.5 at operator and 2.2 → 0.5 at combat, --nw-pulse-speed 1.4s → 1.6s (combat override removed), --nw-text-faint 0.06 → 0.08, --nw-text-line and --nw-line 0.12 → 0.14, --nw-line-strong 0.18 → 0.36 (3:1 control boundary). Pinned to :root and to the old and new values.",
+      "id": "refresh-glow",
+      "description": "--nw-glow halves at operator (1 → 0.5) and no longer rises at combat (2.2 → 0.5) (FR-013a, FR-013b). Pinned to :root and to the old and new knob values.",
       "match": {
-        "prop": "^--nw-(glow|pulse-speed|text-faint|text-line|line|line-strong)$",
+        "prop": "^--nw-glow$",
         "path": "^:root$",
-        "old": "^(1|2\\.2|1\\.4s|0\\.7s|rgba\\(255, 255, 255, 0\\.(06|12|18)\\))$",
-        "new": "^(0\\.5|1\\.6s|rgba\\(255, 255, 255, 0\\.(08|14|36)\\))$"
+        "old": "^(1|2\\.2)$",
+        "new": "^0\\.5$"
       }
     },
     {
-      "id": "refresh-knobs",
-      "description": "New v3 knobs on :root (T033): --nw-led-glow, --nw-control-glow and --nw-progress-glow (default var(--nw-glow), doubled at combat), the line weights --nw-hairline, --nw-rule and --nw-accent-width, and --nw-elevation-overlay. They did not exist in v2.1.0.",
+      "id": "refresh-pulse",
+      "description": "--nw-pulse-speed 1.4s → 1.6s, with the combat override (0.7s) removed so combat is faster only through --nw-motion-scale (FR-013a). Pinned to :root and to the old and new speeds.",
       "match": {
-        "prop": "^--nw-(led-glow|control-glow|progress-glow|hairline|rule|accent-width|elevation-overlay)$",
+        "prop": "^--nw-pulse-speed$",
+        "path": "^:root$",
+        "old": "^(1\\.4s|0\\.7s)$",
+        "new": "^1\\.6s$"
+      }
+    },
+    {
+      "id": "refresh-line-faint",
+      "description": "--nw-text-faint 0.06 → 0.08: quiet dividers and panel edges read a little clearer. Pinned to :root and to the old and new colour.",
+      "match": {
+        "prop": "^--nw-text-faint$",
+        "path": "^:root$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
+      }
+    },
+    {
+      "id": "refresh-line",
+      "description": "--nw-text-line and --nw-line 0.12 → 0.14: the general line colour goes one step up. Pinned to :root and to the old and new colour.",
+      "match": {
+        "prop": "^--nw-(text-line|line)$",
+        "path": "^:root$",
+        "old": "^rgba\\(255, 255, 255, 0\\.12\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "refresh-line-strong",
+      "description": "--nw-line-strong 0.18 → 0.36: the control-boundary colour reaches 3:1 on --void, --void-warm and --void-panel (FR-014, WCAG 1.4.11). Pinned to :root and to the old and new colour.",
+      "match": {
+        "prop": "^--nw-line-strong$",
+        "path": "^:root$",
+        "old": "^rgba\\(255, 255, 255, 0\\.18\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "refresh-glow-knobs",
+      "description": "New per-surface glow knobs (T033): --nw-led-glow, --nw-control-glow and --nw-progress-glow default to var(--nw-glow) and double at combat, so they resolve to 0 at archive, 0.5 at operator and calc(0.5 * 2) at combat. They did not exist in v2.1.0. Pinned to :root, to <missing> and to those values.",
+      "match": {
+        "prop": "^--nw-(led-glow|control-glow|progress-glow)$",
         "path": "^:root$",
         "old": "^<missing>$",
-        "new": "^(0|0\\.5|1|calc\\(0\\.5 \\* 2\\)|1px|1\\.5px|2px|0 24px 64px rgba\\(0, 0, 0, 0\\.7\\))$"
+        "new": "^(0|0\\.5|calc\\(0\\.5 \\* 2\\))$"
+      }
+    },
+    {
+      "id": "refresh-hairline",
+      "description": "New --nw-hairline knob, 1px: the weight of every structural border. Did not exist in v2.1.0.",
+      "match": {
+        "prop": "^--nw-hairline$",
+        "path": "^:root$",
+        "old": "^<missing>$",
+        "new": "^1px$"
+      }
+    },
+    {
+      "id": "refresh-rule",
+      "description": "New --nw-rule knob, 1.5px: the weight of marks drawn inside controls. Did not exist in v2.1.0.",
+      "match": {
+        "prop": "^--nw-rule$",
+        "path": "^:root$",
+        "old": "^<missing>$",
+        "new": "^1\\.5px$"
+      }
+    },
+    {
+      "id": "refresh-accent-width",
+      "description": "New --nw-accent-width knob, 2px: one accent weight for tabs, sidebar, diff and toast. Did not exist in v2.1.0.",
+      "match": {
+        "prop": "^--nw-accent-width$",
+        "path": "^:root$",
+        "old": "^<missing>$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "refresh-elevation",
+      "description": "New --nw-elevation-overlay token: a neutral, non-coloured shadow for overlays. Did not exist in v2.1.0.",
+      "match": {
+        "prop": "^--nw-elevation-overlay$",
+        "path": "^:root$",
+        "old": "^<missing>$",
+        "new": "^0 24px 64px rgba\\(0, 0, 0, 0\\.7\\)$"
       }
     },
     {
@@ -257,9 +337,10 @@
     },
     {
       "id": "glow-scale-operator",
-      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so shadow blurs scale by half. Pinned to the operator and no-level states and to shadow-shaped old and new values; archive is unchanged (0 → 0).",
+      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so the blur scales by half. Archive is unchanged (0 → 0). Box shadows. Pinned to the component elements that read --nw-glow (drawer, command palette, steps, progress fill, LEDs, checkbox, radio and switch marks, segmented and AI-block text), to the state, and to shadow-shaped old and new values.",
       "match": {
         "prop": "^box-shadow$",
+        "path": "(div\\.(drawer|cmdk):nth-child\\(\\d+\\)|div\\.steps:nth-child\\(\\d+\\)>div\\.step:nth-child\\(\\d+\\)|div\\.nw-progress:nth-child\\(\\d+\\)>div\\.(nw-progress-fill|fill):nth-child\\(\\d+\\)|span\\.led:nth-child\\(\\d+\\)|label\\.check:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)|label\\.radio:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)::after|label\\.switch:nth-child\\(\\d+\\)>span\\.track:nth-child\\(\\d+\\)::after)$",
         "state": "^(operator|none)\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
@@ -267,9 +348,10 @@
     },
     {
       "id": "glow-scale-text-operator",
-      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so text-shadow blurs scale by half. Pinned to the operator and no-level states and to shadow-shaped old and new values; archive is unchanged (0 → 0).",
+      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so the blur scales by half. Archive is unchanged (0 → 0). Text shadows. Pinned to the component elements that read --nw-glow (drawer, command palette, steps, progress fill, LEDs, checkbox, radio and switch marks, segmented and AI-block text), to the state, and to shadow-shaped old and new values.",
       "match": {
         "prop": "^text-shadow$",
+        "path": "(div\\.seg:nth-child\\(\\d+\\)>button:nth-child\\(\\d+\\)|div\\.ai-block:nth-child\\(\\d+\\)>div\\.ai-block-head:nth-child\\(\\d+\\)(>span(\\.[\\w-]+)?:nth-child\\(\\d+\\))?)$",
         "state": "^(operator|none)\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
@@ -277,9 +359,10 @@
     },
     {
       "id": "glow-scale-combat",
-      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Pinned to the combat state and to shadow-shaped old and new values.",
+      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Box shadows. Pinned to the component elements that read --nw-glow (drawer, command palette, steps, progress fill, LEDs, checkbox, radio and switch marks, segmented and AI-block text), to the state, and to shadow-shaped old and new values.",
       "match": {
         "prop": "^box-shadow$",
+        "path": "(div\\.(drawer|cmdk):nth-child\\(\\d+\\)|div\\.steps:nth-child\\(\\d+\\)>div\\.step:nth-child\\(\\d+\\)|div\\.nw-progress:nth-child\\(\\d+\\)>div\\.(nw-progress-fill|fill):nth-child\\(\\d+\\)|span\\.led:nth-child\\(\\d+\\)|label\\.check:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)|label\\.radio:nth-child\\(\\d+\\)>span\\.box:nth-child\\(\\d+\\)::after|label\\.switch:nth-child\\(\\d+\\)>span\\.track:nth-child\\(\\d+\\)::after)$",
         "state": "^combat\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
@@ -287,12 +370,61 @@
     },
     {
       "id": "glow-scale-text-combat",
-      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Pinned to the combat state and to shadow-shaped old and new values.",
+      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Text shadows. Pinned to the component elements that read --nw-glow (drawer, command palette, steps, progress fill, LEDs, checkbox, radio and switch marks, segmented and AI-block text), to the state, and to shadow-shaped old and new values.",
       "match": {
         "prop": "^text-shadow$",
+        "path": "(div\\.seg:nth-child\\(\\d+\\)>button:nth-child\\(\\d+\\)|div\\.ai-block:nth-child\\(\\d+\\)>div\\.ai-block-head:nth-child\\(\\d+\\)(>span(\\.[\\w-]+)?:nth-child\\(\\d+\\))?)$",
         "state": "^combat\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
+      }
+    },
+    {
+      "id": "glow-scale-inline-operator",
+      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so the blur scales by half. Archive is unchanged (0 → 0). Box shadows. Pinned to the workshop example page, to its inline rules that read --nw-glow (sidebar accent, HUD, modal box, tab accent; brand mark, nav count, panel header label), to the state, and to shadow-shaped old and new values.",
+      "match": {
+        "prop": "^box-shadow$",
+        "path": "(aside\\.sidebar-nav:nth-child\\(\\d+\\)>div\\.nav-item:nth-child\\(\\d+\\)::before|>body:nth-child\\(\\d+\\)>div\\.hud:nth-child\\(\\d+\\)|div\\.modal-overlay:nth-child\\(\\d+\\)>div\\.modal-box:nth-child\\(\\d+\\)|div\\.tabs-bar:nth-child\\(\\d+\\)>button\\.tab-btn:nth-child\\(\\d+\\)::after)$",
+        "state": "^(operator|none)\\|",
+        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "glow-scale-inline-text-operator",
+      "description": "Every glow that reads --nw-glow halves at operator and when no level is set (FR-013b): the knob went 1 → 0.5, so the blur scales by half. Archive is unchanged (0 → 0). Text shadows. Pinned to the workshop example page, to its inline rules that read --nw-glow (sidebar accent, HUD, modal box, tab accent; brand mark, nav count, panel header label), to the state, and to shadow-shaped old and new values.",
+      "match": {
+        "prop": "^text-shadow$",
+        "path": "(div\\.brand:nth-child\\(\\d+\\)>span\\.mark:nth-child\\(\\d+\\)|div\\.nav-item:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)|div\\.panel-header:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\))$",
+        "state": "^(operator|none)\\|",
+        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "glow-scale-inline-combat",
+      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Box shadows. Pinned to the workshop example page, to its inline rules that read --nw-glow (sidebar accent, HUD, modal box, tab accent; brand mark, nav count, panel header label), to the state, and to shadow-shaped old and new values.",
+      "match": {
+        "prop": "^box-shadow$",
+        "path": "(aside\\.sidebar-nav:nth-child\\(\\d+\\)>div\\.nav-item:nth-child\\(\\d+\\)::before|>body:nth-child\\(\\d+\\)>div\\.hud:nth-child\\(\\d+\\)|div\\.modal-overlay:nth-child\\(\\d+\\)>div\\.modal-box:nth-child\\(\\d+\\)|div\\.tabs-bar:nth-child\\(\\d+\\)>button\\.tab-btn:nth-child\\(\\d+\\)::after)$",
+        "state": "^combat\\|",
+        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "glow-scale-inline-text-combat",
+      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Text shadows. Pinned to the workshop example page, to its inline rules that read --nw-glow (sidebar accent, HUD, modal box, tab accent; brand mark, nav count, panel header label), to the state, and to shadow-shaped old and new values.",
+      "match": {
+        "prop": "^text-shadow$",
+        "path": "(div\\.brand:nth-child\\(\\d+\\)>span\\.mark:nth-child\\(\\d+\\)|div\\.nav-item:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)|div\\.panel-header:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\))$",
+        "state": "^combat\\|",
+        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
+        "page": "examples/html/workshop.html"
       }
     },
     {
@@ -383,7 +515,7 @@
     },
     {
       "id": "placeholder-contrast",
-      "description": "Placeholder text reaches AA (FR-014): opacity 0.6 → 0.75 on the --nw-text-dim colour, 3.65:1 → 5.05:1 on --void-panel. Pinned to the ::placeholder pseudo-element and to the old and new opacity.",
+      "description": "Placeholder text reaches AA (FR-014): opacity 0.6 → 0.75 on the --nw-text-dim colour, 3.64:1 → 5.03:1 on --void-panel. Pinned to the ::placeholder pseudo-element and to the old and new opacity.",
       "match": {
         "prop": "^opacity$",
         "path": "::placeholder$",
@@ -392,13 +524,23 @@
       }
     },
     {
-      "id": "refresh-modal",
-      "description": "Modal elevation and open transform (direction table): .modal takes the neutral --nw-elevation-overlay shadow (it had none), and an open modal computes transform none instead of scale(1), like .cmdk. Pinned to .modal, to the old and new shadow and to the old and new transform.",
+      "id": "refresh-modal-elevation",
+      "description": ".modal takes the neutral --nw-elevation-overlay shadow (it had none). Pinned to .modal, to the old none and to the new shadow.",
       "match": {
-        "prop": "^(box-shadow|transform)$",
+        "prop": "^box-shadow$",
         "path": "div\\.modal:nth-child\\(\\d+\\)$",
-        "old": "^(none|matrix\\(1, 0, 0, 1, 0, 0\\))$",
-        "new": "^(rgba\\(0, 0, 0, 0\\.7\\) 0px 24px 64px 0px|none)$"
+        "old": "^none$",
+        "new": "^rgba\\(0, 0, 0, 0\\.7\\) 0px 24px 64px 0px$"
+      }
+    },
+    {
+      "id": "refresh-modal-transform",
+      "description": "An open modal computes transform none instead of scale(1), like .cmdk (no residual transform, crisp text). Pinned to .modal, to the old identity matrix and to none; the closed modal keeps scale(0.96).",
+      "match": {
+        "prop": "^transform$",
+        "path": "div\\.modal:nth-child\\(\\d+\\)$",
+        "old": "^matrix\\(1, 0, 0, 1, 0, 0\\)$",
+        "new": "^none$"
       }
     }
   ]
