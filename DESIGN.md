@@ -45,7 +45,7 @@ colors:
   # Accent — purple for AI elements, highlights
   accent:           "#b266e0"                    # CSS: --nw-purple
   accent-dim:       "#8844bb"                    # CSS: --nw-purple-dim
-  accent-fill:      "rgba(178, 102, 224, 0.1)"   # CSS: --nw-purple-fill
+  accent-fill:      "rgba(178, 102, 224, 0.06)"  # CSS: --nw-purple-fill
 
   # Text
   on-surface:       "#ffffff"                    # CSS: --nw-text

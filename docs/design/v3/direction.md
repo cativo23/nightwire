@@ -96,8 +96,22 @@ The check is repeatable: `npm run design:contrast` evaluates every pairing in
 `docs/design/v3/contrast-pairs.json` (text, labels, signal colours, button labels, tags,
 placeholders, focus rings and control boundaries, on each surface they sit on; value colours at
 all three intensities) against `src/tokens/tokens.css`, and `tests/contrast.test.mjs` fails the
-suite on any pairing below its threshold. No token needed to change to pass. The lowest margin is
-`--nw-line-strong` on `--void` at 3.13:1; the table below keeps the hand-computed examples.
+suite on any pairing below its threshold. Tinted fills (tags, `.ai-block`, the `.btn-success` and
+`.btn-ai` hover fills) are checked over all four component surfaces. `--nw-surface-4` is checked for
+body text, muted labels and control boundaries only: no component sits on it yet.
+
+One token changed to pass: `--nw-purple-fill` alpha 0.1 → 0.06. `--nw-ai` on that fill over
+`--void-raised` measured 4.32:1 (`.tag-ai`, `.ai-block` and the `.btn-ai` hover can sit in a
+dropdown, tooltip or raised panel). At 0.06 it is 4.55:1; 0.065 is the largest alpha that passes,
+and 0.06 leaves a margin for the browser's 8-bit rounding. The purple text colour is untouched. It
+is the only fill that failed, and it reaches `.tag-ai`, `.ai-block` and the `.btn-ai` hover fill.
+Parity categories `contrast-purple-fill-*` pin the rendered differences.
+
+The lowest margins are `--nw-line-strong` on `--void` at 3.13:1 and `--nw-ai` on `--void-raised`
+at 4.86:1. Two hover borders are not passing pairs (see `exempt` in the pairs file):
+`.btn-ghost:hover` (`--nw-line-chrome`, 1.74:1) is exempt because the label and the resting
+`--nw-line-strong` boundary identify the control, and `.btn-ai:hover` (`--nw-ai-mute`) is 2.97:1 on
+`--void-raised`, left open for the maintainer. The table below keeps the hand-computed examples.
 
 | Pair | Ratio | Result |
 |---|---|---|

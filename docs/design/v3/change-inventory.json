@@ -1491,6 +1491,47 @@
         "old": "^linear-gradient\\(90deg, rgba\\(0, 0, 0, 0\\) 0%, rgba\\(102, 153, 255, 0\\.08\\) 40%, rgba\\(102, 221, 255, 0\\.12\\) 50%, rgba\\(102, 153, 255, 0\\.08\\) 60%, rgba\\(0, 0, 0, 0\\) 100%\\)$",
         "new": "^linear-gradient\\(90deg, rgba\\(0, 0, 0, 0\\) 0%, rgba\\(255, 255, 255, 0\\.08\\) 40%, rgba\\(255, 255, 255, 0\\.14\\) 50%, rgba\\(255, 255, 255, 0\\.08\\) 60%, rgba\\(0, 0, 0, 0\\) 100%\\)$"
       }
+    },
+    {
+      "id": "contrast-purple-fill-token",
+      "description": "FR-014 (T046 fix round 1): --nw-purple-fill alpha 0.1 → 0.06 so the purple text (--nw-ai) on its fill reaches 4.5:1 on --void-raised too (4.32:1 at 0.1, 4.55:1 at 0.06). The text colour is untouched. Pinned to :root and to the old and new colour.",
+      "match": {
+        "prop": "^--nw-purple-fill$",
+        "path": "^:root$",
+        "old": "^rgba\\(178, 102, 224, 0\\.1\\)$",
+        "new": "^rgba\\(178, 102, 224, 0\\.06\\)$"
+      }
+    },
+    {
+      "id": "contrast-purple-fill-ai-block",
+      "description": "FR-014 (T046 fix round 1): the .ai-block fill, which q-ai-block-fill introduced at 0.1 over v2.1.0's transparent, is now the 0.06 --nw-purple-fill. Pinned to .ai-block background-color, from transparent to the new fill.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "div\\.ai-block:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(0, 0, 0, 0\\)$",
+        "new": "^rgba\\(178, 102, 224, 0\\.06\\)$"
+      }
+    },
+    {
+      "id": "contrast-purple-fill-tag",
+      "description": "FR-014 (T046 fix round 1): the .tag-ai fill follows --nw-purple-fill, 0.1 → 0.06. Pinned to span.tag background-color, to the old and new colour.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "span\\.tag:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(178, 102, 224, 0\\.1\\)$",
+        "new": "^rgba\\(178, 102, 224, 0\\.06\\)$"
+      }
+    },
+    {
+      "id": "contrast-purple-fill-btn-hover",
+      "description": "FR-014 (T046 fix round 1): the .btn-ai hover fill follows --nw-purple-fill, 0.1 → 0.06. Pinned to buttons' background-color in a forced hover, to the old and new colour.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "button\\.btn:nth-child\\(\\d+\\)$",
+        "state": "\\|:hover@",
+        "old": "^rgba\\(178, 102, 224, 0\\.1\\)$",
+        "new": "^rgba\\(178, 102, 224, 0\\.06\\)$"
+      }
     }
   ]
 }
