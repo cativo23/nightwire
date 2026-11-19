@@ -1,5 +1,5 @@
 /* ── Border ──────────────────────────────────────────────────── */
 
-.border         { border: 1px solid var(--nw-text-line); }
-.border-primary { border: 1px solid var(--nw-primary-dim); }
-.border-dim     { border: 1px solid var(--nw-text-faint); }
+.border         { border: var(--nw-hairline) solid var(--nw-text-line); }
+.border-primary { border: var(--nw-hairline) solid var(--nw-primary-dim); }
+.border-dim     { border: var(--nw-hairline) solid var(--nw-text-faint); }

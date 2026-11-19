@@ -1,7 +1,7 @@
 /* ── Divider ─────────────────────────────────────────────────── */
 
 .divider {
-  height: 1px;
+  height: var(--nw-hairline);
   background: var(--nw-line);
   margin: var(--sp-4) 0;
 }

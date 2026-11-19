@@ -52,7 +52,7 @@
 .dropdown-item.danger:hover { background: var(--nw-red-fill); }
 
 .dropdown-divider {
-  height: 1px;
+  height: var(--nw-hairline);
   background: var(--nw-line);
   margin: var(--sp-1) 0;
 }
