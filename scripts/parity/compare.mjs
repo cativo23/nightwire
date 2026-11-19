@@ -49,6 +49,7 @@ import { loadSheet as loadSheetFrom, SheetError } from './lib/sheet.mjs';
 import { startServer as startServerAt } from './lib/server.mjs';
 import { routeAction } from './lib/route.mjs';
 import { runPool } from './lib/pool.mjs';
+import { startPausedClock } from './lib/clock.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const COVERAGE_FIXTURE = 'scripts/parity/fixtures/coverage.html';
@@ -230,9 +231,9 @@ async function openPage(browser, { css, origin, url, intensity, reducedMotion })
   });
   await page.addInitScript(SEED_RANDOM);
   await page.addInitScript(PAGE_HELPERS);
-  await page.clock.install({ time: FIXED_TIME });
-  // install() lets time flow in real time; pause it so page timers only fire on runFor().
-  await page.clock.pauseAt(new Date(FIXED_TIME.getTime() + 1000));
+  // Paused from the start (see lib/clock.mjs): page timers only fire on runFor(), and nothing
+  // depends on how long the host takes between two calls.
+  await startPausedClock(page.clock, FIXED_TIME);
   const response = await page.goto(url, { waitUntil: 'load' });
   if (!response?.ok()) throw new UsageError(`${url} returned HTTP ${response?.status() ?? 'no response'}`);
   if (!substituted) throw new UsageError(`${url} never requested nightwire.css, so there is nothing to compare`);
