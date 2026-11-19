@@ -10,7 +10,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
     <aside className="sidebar" style={{ width: '100%', height: '100%', overflow: 'auto' }}>
       <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span className="compressed-title" style={{ fontSize: 14, color: 'var(--nw-primary)' }}>NIGHTWIRE</span>
-        <span style={{ fontFamily: 'var(--font-mincho)', fontSize: 11, fontWeight: 800, color: 'var(--nw-primary-dim)' }}>設計体系</span>
+        <span style={{ fontFamily: 'var(--font-mincho)', fontSize: 11, fontWeight: 800, color: 'var(--nw-text-dim)' }}>設計体系</span>
       </div>
 
       {SIDEBAR_GROUPS.map(group => (

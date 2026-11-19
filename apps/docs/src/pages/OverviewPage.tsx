@@ -5,7 +5,7 @@ export function OverviewPage() {
     <section id="overview">
       <div style={{ marginBottom: 16 }}>
         <div className="compressed-title" style={{ fontSize: 36, color: 'var(--nw-primary)', lineHeight: 1 }}>NIGHTWIRE</div>
-        <div style={{ fontFamily: 'var(--font-mincho)', fontSize: 16, fontWeight: 800, color: 'var(--nw-primary-dim)', marginTop: 2 }}>暗黒専用サイバーパンク設計体系</div>
+        <div style={{ fontFamily: 'var(--font-mincho)', fontSize: 16, fontWeight: 800, color: 'var(--nw-text-dim)', marginTop: 2 }}>暗黒専用サイバーパンク設計体系</div>
         <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, marginTop: 12, maxWidth: 600, lineHeight: 1.6 }}>
           A framework-agnostic, dark-mode-only UI design system optimized for AI-driven development.
           Built on the absolute void <code style={{ color: 'var(--nw-green)' }}>#000000</code> with semantic neon accents.
