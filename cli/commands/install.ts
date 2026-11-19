@@ -53,6 +53,7 @@ function printCSSSnippet(projectType: string): void {
 
 function printTailwindSnippet(): void {
   console.log('\n' + pc.dim('Tailwind config:'));
+  console.log(pc.cyan(`  // tailwind.config.mjs`));
   console.log(pc.cyan(`  import nightwirePreset from './nightwire.tailwind.preset.mjs'`));
   console.log(pc.cyan(`  export default { presets: [nightwirePreset] }`));
 }
