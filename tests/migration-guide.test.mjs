@@ -221,11 +221,25 @@ test('should_put_the_open_layout_in_the_checklist', () => {
   assert.ok(checklist.includes('nw-reticle'), 'checklist does not mention the frame opt-in');
 });
 
-test('should_flag_that_cativo_dev_is_not_yet_revalidated_for_the_mockup_look', () => {
+// FR-037 / T083: cativo.dev was re-validated against the open layout; the guide says what was
+// compared and what the site needs, and no longer says the validation is out of date.
+test('should_record_the_cativo_dev_revalidation_for_the_mockup_look', () => {
   const guide = read(GUIDE);
   const text = guide.slice(guide.indexOf('\n## cativo.dev'));
-  assert.ok(/`\.panel`/.test(text) && /`\.card`/.test(text), 'section does not name .panel and .card');
-  assert.ok(/re-?validat/i.test(text), 'section does not mention the re-validation');
+  assert.ok(!/has not been re-?validated/i.test(text), 'section still says it was not re-validated');
+  assert.ok(!/pending/i.test(text), 'cativo.dev section still says pending');
+  for (const item of [
+    '3a63a86',
+    'd15f27f',
+    '`.panel`',
+    '`.card`',
+    '`.kv-row`',
+    '`.kanji`',
+    'projects/[id].vue',
+    'gap-0.5',
+  ]) {
+    assert.ok(text.includes(item), `cativo.dev section does not mention ${item}`);
+  }
 });
 
 // FR-037 / T080: CHANGELOG [Unreleased] records the US5 look in lockstep with the guide.
