@@ -1,7 +1,9 @@
 import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -42,4 +44,41 @@ test('tailwind.preset.js loads as an ES module with no warning', () => {
   ]);
   assert.equal(r.stderr, '');
   assert.equal(r.status, 0);
+});
+
+// SC-013: the installer copies the preset as .mjs so it never warns MODULE_TYPELESS_PACKAGE_JSON
+// in a consumer project that has no "type": "module".
+test('the installer copies the preset as .mjs, prints a matching import, and it loads warning-free', async () => {
+  const require = createRequire(import.meta.url);
+  const prompts = require('prompts');
+  const { install } = require(path.join(root, 'dist/commands/install.js'));
+  const scratch = mkdtempSync(path.join(os.tmpdir(), 'nightwire-install-'));
+  const logged = [];
+  const realLog = console.log;
+  try {
+    writeFileSync(path.join(scratch, 'package.json'), '{}');
+    // confirm install, include Tailwind preset, skip the AI skill files
+    prompts.inject([true, true, false]);
+    console.log = (...a) => logged.push(a.join(' '));
+    await install(scratch);
+    console.log = realLog;
+
+    assert.equal(existsSync(path.join(scratch, 'nightwire.tailwind.preset.mjs')), true);
+    assert.equal(existsSync(path.join(scratch, 'nightwire.tailwind.preset.js')), false);
+    // eslint-disable-next-line no-control-regex
+    const out = logged.join('\n').replace(/\u001b\[[0-9;]*m/g, '');
+    assert.match(out, /import nightwirePreset from '\.\/nightwire\.tailwind\.preset\.mjs'/);
+
+    const r = spawnSync(
+      process.execPath,
+      ['--input-type=module', '-e',
+       "const m = await import('./nightwire.tailwind.preset.mjs'); if (!m.default.theme.extend) process.exit(2);"],
+      { cwd: scratch, encoding: 'utf8' },
+    );
+    assert.equal(r.stderr, '');
+    assert.equal(r.status, 0);
+  } finally {
+    console.log = realLog;
+    rmSync(scratch, { recursive: true, force: true });
+  }
 });
