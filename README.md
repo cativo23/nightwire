@@ -35,7 +35,7 @@ npx @cativo23/nightwire install
 ```
 
 Interactive prompts detect your project type (Next.js, Vite, Astro, plain HTML) and copy the right files:
-- `nightwire.css` — **35 pure CSS component stylesheets**, 130 design tokens (primitives, semantic roles, motion, intensity knobs)
+- `nightwire.css` — **46 pure CSS component stylesheets**, 134 design tokens (primitives, semantic roles, motion, intensity knobs)
 - `DESIGN.md` — AI-readable design spec (Google design.md standard)
 - `skill/nightwire/SKILL.md` — AI skill for Claude, Cursor, Copilot, v0
 
