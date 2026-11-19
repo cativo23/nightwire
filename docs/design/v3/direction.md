@@ -89,7 +89,15 @@ tokens (`nw.action.DEFAULT`, `nw.action.hot`, `nw.action.text`).
 ### Contrast (FR-014)
 
 WCAG contrast ratios, computed from the sRGB values (relative luminance, ratio of
-(L1 + 0.05) / (L2 + 0.05)). AA needs 4.5:1 for text.
+(L1 + 0.05) / (L2 + 0.05)). AA needs 4.5:1 for text, and 3:1 for large text and UI boundaries
+such as focus rings.
+
+The check is repeatable: `npm run design:contrast` evaluates every pairing in
+`docs/design/v3/contrast-pairs.json` (text, labels, signal colours, button labels, tags,
+placeholders, focus rings and control boundaries, on each surface they sit on; value colours at
+all three intensities) against `src/tokens/tokens.css`, and `tests/contrast.test.mjs` fails the
+suite on any pairing below its threshold. No token needed to change to pass. The lowest margin is
+`--nw-line-strong` on `--void` at 3.13:1; the table below keeps the hand-computed examples.
 
 | Pair | Ratio | Result |
 |---|---|---|
