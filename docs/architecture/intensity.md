@@ -104,6 +104,13 @@ the faint, line, `line-strong` and `line-chrome` colours) now multiply with an o
 `bg-nw-primary-fill/40` is 0.4 × 0.08, where 2.1.0 replaced the alpha. See
 [tokens.md](tokens.md#how-values-are-emitted).
 
+Known limit: `shadow-<colour>` no longer recolours `shadow-glow-*`. 2.1.0 had
+`--tw-shadow-colored: 0 0 8px var(--tw-shadow-color), 0 0 16px var(--tw-shadow-color)`. The v3
+value is `0 0 var(--tw-shadow-color), 0 0 var(--tw-shadow-color)`: Tailwind 3 does not read
+`calc(...)` as a length, so it drops the blur and the combination renders no glow (checked on
+Tailwind 3.4.19). Do not combine them: keep the default glow colour, or use an arbitrary
+`shadow-[…]` value.
+
 The 2.x problem, kept for the record: every preset value was a literal, so the utilities ignored
 the intensity level while the CSS classes followed it.
 

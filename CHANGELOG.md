@@ -142,6 +142,12 @@ All notable changes to this project will be documented in this file.
     `-green-fill`, `-cyan-glow`, `-red-fill`, and the faint, line, `line-strong` and `line-chrome`
     colours) multiply with an opacity modifier: `bg-nw-primary-fill/40` is 0.4 × 0.08, where v2
     replaced the alpha.
+  - **Known limit.** `shadow-<colour>` no longer recolours `shadow-glow-*`. 2.1.0 had
+    `--tw-shadow-colored: 0 0 8px var(--tw-shadow-color), 0 0 16px var(--tw-shadow-color)`. The
+    v3 value is `0 0 var(--tw-shadow-color), 0 0 var(--tw-shadow-color)`: Tailwind 3 does not read
+    `calc(...)` as a length, so it drops the blur and the combination renders no glow. Do not
+    combine them: keep the default glow colour, or use an arbitrary `shadow-[…]` value (checked on
+    Tailwind 3.4.19).
   - **Sub-tree overrides.** Colour tokens and `--nw-glow` follow when set on a sub-tree.
     `--nw-motion-scale` and alias tokens such as `--nw-chrome` resolve on `:root`: set them on
     `:root` or on the `data-intensity` element, or override the derived token itself.
