@@ -10,7 +10,7 @@ This file contains complete HTML examples for all Nightwire components and patte
 <div class="panel">
   <div class="panel-header">
     <span>SERVER STATUS</span>
-    <span class="tag">サーバー状態</span>
+    <span class="kanji">サーバー状態</span>
   </div>
   <table class="nw-table">
     <thead>
@@ -62,7 +62,7 @@ This file contains complete HTML examples for all Nightwire components and patte
 
 ```html
 <div class="panel">
-  <div class="panel-header"><span>NODE ALPHA</span><span class="tag">ノード</span></div>
+  <div class="panel-header"><span>NODE ALPHA</span><span class="kanji">ノード</span></div>
   <div style="padding:8px 10px">
     <div style="font-family:var(--font-title);font-size:12px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--nw-cyan);transform:scaleX(0.82);transform-origin:left">Cluster-Alpha — H100 x 512</div>
     <div style="font-family:var(--font-mincho);font-size:13px;font-weight:800;color:var(--nw-text);transform:scaleX(0.78);transform-origin:left;margin:2px 0 6px">深層学習訓練クラスタ</div>
@@ -83,13 +83,46 @@ This file contains complete HTML examples for all Nightwire components and patte
 
 ---
 
+## Open Panel, Framed Panel and Section Head
+
+A `.panel` has no fill and no outline in v3. Add `.nw-reticle` for a framed box. `data-idx` adds
+`01 // ` before the label, and the kanji is a `.kanji`, not a `.tag`.
+
+```html
+<!-- open: the content sits on the page -->
+<div class="panel">
+  <div class="panel-header" data-idx="01"><span>SIGNAL</span><span class="kanji">信号</span></div>
+  <div class="panel-body">…</div>
+</div>
+
+<!-- framed: a hairline box with corner arms -->
+<div class="panel nw-reticle">
+  <div class="panel-header" data-idx="02"><span>NODES</span><span class="kanji">指標</span></div>
+  <div class="panel-body">…</div>
+</div>
+
+<!-- a section head on its own -->
+<div class="nw-section-head" data-idx="03"><span>ARCHIVE</span><span class="kanji">記録</span></div>
+```
+
+A `.card` keeps a hairline outline and has no fill:
+
+```html
+<div class="card">
+  <div class="card-header"><span>RELEASE</span><span class="kanji">版</span></div>
+  <div class="card-body">3.0.0</div>
+</div>
+```
+
+---
+
 ## Metrics Grid
 
 ```html
 <div class="panel">
   <div class="panel-header">
     <span>SYSTEM METRICS</span>
-    <span class="tag">指標一覧</span>
+    <span class="kanji">指標一覧</span>
   </div>
   <div class="metrics-grid">
     <div class="metric-cell">
@@ -269,7 +302,7 @@ This file contains complete HTML examples for all Nightwire components and patte
 <div class="panel" style="max-width:480px">
   <div class="panel-header">
     <span>CONTACT FORM</span>
-    <span class="tag">連絡先</span>
+    <span class="kanji">連絡先</span>
   </div>
   <div class="panel-body">
     <form>
@@ -318,7 +351,7 @@ This file contains complete HTML examples for all Nightwire components and patte
 <div class="panel">
   <div class="panel-header">
     <span>SYSTEM INFO</span>
-    <span class="tag">情報</span>
+    <span class="kanji">情報</span>
   </div>
   <div style="padding:8px 10px">
     <div class="kv-row">
@@ -327,7 +360,7 @@ This file contains complete HTML examples for all Nightwire components and patte
     </div>
     <div class="kv-row">
       <span class="kv-label">UPTIME</span>
-      <span class="kv-value">99.9%</span>
+      <span class="kv-value">99.9%<span class="kv-note">last 30 days</span></span>
     </div>
     <div class="kv-row">
       <span class="kv-label">NODES</span>
@@ -336,6 +369,9 @@ This file contains complete HTML examples for all Nightwire components and patte
   </div>
 </div>
 ```
+
+`.kv-row` pads with `--nw-pad-scale`, aligns to the top and right-aligns the value. `.kv-note` is the
+optional mute line under it.
 
 ### Progress Bar
 
@@ -480,7 +516,7 @@ A closed tooltip is `visibility: hidden`, which takes its text out of the access
 <div class="panel">
   <div class="panel-header">
     <span>LOADING</span>
-    <span class="tag">読み込み中</span>
+    <span class="kanji">読み込み中</span>
   </div>
   <div class="panel-body">
     <div class="skeleton skeleton-heading" style="margin-bottom:12px"></div>

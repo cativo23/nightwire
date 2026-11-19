@@ -72,7 +72,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
         <div class="panel">
           <div class="panel-header">
             <span>SIGNAL ANALYSIS</span>
-            <span class="tag">信号解析</span>
+            <span class="kanji">信号解析</span>
           </div>
           <!-- canvas waveform or chart goes here -->
         </div>
@@ -80,7 +80,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
         <div class="panel">
           <div class="panel-header">
             <span>SYSTEM METRICS</span>
-            <span class="tag">指標一覧</span>
+            <span class="kanji">指標一覧</span>
           </div>
           <div class="metrics-grid">
             <div class="metric-cell">
@@ -102,7 +102,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
         <div class="panel">
           <div class="panel-header">
             <span>NODE REGISTRY</span>
-            <span class="tag">ノード登録</span>
+            <span class="kanji">ノード登録</span>
           </div>
           <table class="nw-table">
             <thead>
@@ -178,7 +178,7 @@ For personal sites, project showcases, and developer profiles.
 <section style="padding:var(--sp-12) var(--sp-8); max-width:1200px; margin:0 auto">
   <div class="panel-header" style="background:var(--void); margin-bottom:16px">
     <span>SELECTED WORK</span>
-    <span class="tag">プロジェクト</span>
+    <span class="kanji">プロジェクト</span>
   </div>
   <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px">
     <div class="card">
@@ -243,7 +243,7 @@ For articles, documentation pages, and long-form content.
 
     <!-- Code block -->
     <div class="panel" style="margin:24px 0">
-      <div class="panel-header"><span>CODE EXAMPLE</span><span class="tag">コード</span></div>
+      <div class="panel-header"><span>CODE EXAMPLE</span><span class="kanji">コード</span></div>
       <pre style="margin:0; padding:12px; font-size:13px; line-height:1.5; overflow-x:auto; background:transparent">const config = {
   void: '#000000',
   primary: '#6699ff'
@@ -287,11 +287,11 @@ For product pages, marketing sites, and feature announcements.
 <section style="padding:var(--sp-12) var(--sp-8); max-width:1100px; margin:0 auto">
   <div class="panel-header" style="background:var(--void); margin-bottom:24px; text-align:center">
     <span>FEATURES</span>
-    <span class="tag">機能</span>
+    <span class="kanji">機能</span>
   </div>
   <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2px">
     <div class="panel">
-      <div class="panel-header"><span>FEATURE ONE</span><span class="tag">機能一</span></div>
+      <div class="panel-header"><span>FEATURE ONE</span><span class="kanji">機能一</span></div>
       <div class="panel-body">
         <p style="font-size:13px; line-height:1.5; color:var(--nw-text-dim)">
           Feature description. Keep it short and benefit-focused.
@@ -351,7 +351,7 @@ For technical docs, API references, and component libraries.
 
       <!-- Live Preview -->
       <div class="panel" style="margin-bottom:2px">
-        <div class="panel-header"><span>PREVIEW</span><span class="tag">プレビュー</span></div>
+        <div class="panel-header"><span>PREVIEW</span><span class="kanji">プレビュー</span></div>
         <div class="panel-body" style="display:flex; gap:8px">
           <button class="btn">Primary</button>
           <button class="btn-ghost">Ghost</button>
@@ -361,7 +361,7 @@ For technical docs, API references, and component libraries.
 
       <!-- API Reference Table -->
       <div class="panel">
-        <div class="panel-header"><span>CSS CLASSES</span><span class="tag">クラス</span></div>
+        <div class="panel-header"><span>CSS CLASSES</span><span class="kanji">クラス</span></div>
         <table class="nw-table">
           <thead>
             <tr><th>Class</th><th>Description</th><th>Use For</th></tr>
