@@ -201,10 +201,6 @@ body { font-family: var(--font-sys); font-size: 13px; background: var(--void); c
 @keyframes toast-in  { from { opacity: 0; transform: translateX(16px); } }
 @keyframes toast-out { to   { opacity: 0; transform: translateX(16px); } }
 
-/* ── Command palette open state ─────────────────────────────── */
-.cmdk-backdrop { display: none; }
-.cmdk-backdrop.open { display: flex; }
-
 /* ── Boot overlay ───────────────────────────────────────────── */
 #boot {
   position: fixed; inset: 0; background: var(--void); z-index: 9000;
@@ -540,7 +536,7 @@ body { font-family: var(--font-sys); font-size: 13px; background: var(--void); c
 </div>
 
 <!-- ══ COMMAND PALETTE ══════════════════════════════════════════ -->
-<div class="cmdk-backdrop" id="cmdk-wrap" onclick="if(event.target===this)closeCmdk()">
+<div class="cmdk-backdrop" id="cmdk-wrap" data-open="false" onclick="if(event.target===this)closeCmdk()">
   <div class="cmdk">
     <input id="cmdk-in" type="text" placeholder="Type a command or search…" autocomplete="off">
     <div class="cmdk-section">
@@ -924,11 +920,11 @@ function scheduleToasts() {
 
 /* ── COMMAND PALETTE ─────────────────────────────────────────── */
 function openCmdk() {
-  document.getElementById('cmdk-wrap').classList.add('open');
+  document.getElementById('cmdk-wrap').dataset.open = 'true';
   setTimeout(() => document.getElementById('cmdk-in').focus(), 40);
 }
 function closeCmdk() {
-  document.getElementById('cmdk-wrap').classList.remove('open');
+  document.getElementById('cmdk-wrap').dataset.open = 'false';
 }
 document.addEventListener('keydown', e => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openCmdk(); }
