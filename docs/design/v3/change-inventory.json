@@ -1412,6 +1412,97 @@
         "old": "^rgb\\(68, 119, 204\\)$",
         "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
       }
+    },
+    {
+      "id": "q-dropdown-edge",
+      "description": "Group B (T044): the .dropdown-menu edge goes from --nw-text-line to --nw-line-strong, the neutral 3:1 boundary a floating panel has, like .modal (direction rule 3). Pinned to the border colours of .dropdown-menu.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "div\\.dropdown-menu:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.12\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "q-dropdown-radius",
+      "description": "Group B (T044): square corners, .dropdown-menu goes from --radius-md (4px) to --radius-sm (2px) (direction rule 4). Pinned to the corner radii of .dropdown-menu.",
+      "match": {
+        "prop": "^border-(top|bottom)-(left|right)-radius$|^border-(start|end)-(start|end)-radius$",
+        "path": "div\\.dropdown-menu:nth-child\\(\\d+\\)$",
+        "old": "^4px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "q-dropdown-item-label",
+      "description": "Group B (T044): the .dropdown-item label goes from --nw-text-dim to --nw-text-default: an item is content, not a quiet label (direction rule 1), and so does everything that follows its colour. Pinned to .dropdown-item, #aaaaaa to #e6e6e6. The .danger items keep their red.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "\\.dropdown-item:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(170, 170, 170\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "q-dropdown-item-hover-fill",
+      "description": "Group B (T044): a hovered .dropdown-item takes the subtle neutral fill --nw-text-faint instead of the blue tint (direction rules 2, 5). Pinned to .dropdown-item in the forced :hover state, so the .danger red fill is untouched.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "\\.dropdown-item:nth-child\\(\\d+\\)$",
+        "state": "\\|:hover@",
+        "old": "^rgba\\(102, 153, 255, 0\\.08\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
+      }
+    },
+    {
+      "id": "q-dropdown-divider",
+      "description": "Group B (T044): the .dropdown-divider goes from --nw-text-faint to --nw-line (direction rule 3). Pinned to .dropdown-divider.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "div\\.dropdown-divider:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "q-tooltip-edge",
+      "description": "Group B (T044): the .tooltip-content edge goes from --nw-text-line to --nw-line-strong, the neutral 3:1 boundary a floating panel has, like .modal (direction rule 3). Pinned to the border colours of .tooltip-content.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "span\\.tooltip-content:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.12\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "q-tooltip-radius",
+      "description": "Group B (T044): square corners, .tooltip-content goes from --radius-md (4px) to --radius-sm (2px) (direction rule 4). Pinned to the corner radii of .tooltip-content.",
+      "match": {
+        "prop": "^border-(top|bottom)-(left|right)-radius$|^border-(start|end)-(start|end)-radius$",
+        "path": "span\\.tooltip-content:nth-child\\(\\d+\\)$",
+        "old": "^4px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "q-tooltip-text",
+      "description": "Group B (T044): the .tooltip-content text goes from --nw-text to --nw-text-default, body text (direction rule 1), and so does everything that follows its colour. Pinned to .tooltip-content, #ffffff to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "span\\.tooltip-content:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "q-toast-text",
+      "description": "Group B (T044): the .toast text goes from --nw-text to --nw-text-default, body text (direction rule 1), and so does everything that follows its colour. The accent line colours are untouched: they are set explicitly. Pinned to .toast, #ffffff to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "div\\.toast:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
     }
   ]
 }

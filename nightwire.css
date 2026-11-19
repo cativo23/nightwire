@@ -709,10 +709,10 @@ input::placeholder, textarea::placeholder {
 
 .toast {
   background: var(--void-panel);
-  border-left: var(--nw-accent-width) solid var(--nw-primary);
+  border-left: var(--nw-accent-width) solid var(--nw-chrome);
   padding: var(--sp-3) var(--sp-4);
   font-size: var(--text-sm);
-  color: var(--nw-text);
+  color: var(--nw-text-default);
   /* Open by default (no data-open, or "true"): enter curve. */
   transition: opacity var(--nw-sweep), transform var(--nw-sweep), visibility 0s;
 }
@@ -964,8 +964,8 @@ input::placeholder, textarea::placeholder {
   z-index: 100;
   min-width: 180px;
   background: var(--void-raised);
-  border: var(--nw-hairline) solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-1) 0;
   margin-top: var(--sp-1);
   /* Open by default (no data-open, or "true"): enter curve. */
@@ -986,7 +986,7 @@ input::placeholder, textarea::placeholder {
   width: 100%;
   font-family: var(--font-sys);
   font-size: var(--text-sm);
-  color: var(--nw-text-dim);
+  color: var(--nw-text-default);
   background: transparent;
   border: none;
   padding: var(--sp-2) var(--sp-3);
@@ -996,8 +996,8 @@ input::placeholder, textarea::placeholder {
 }
 
 .dropdown-item:hover {
-  color: var(--nw-text);
-  background: var(--nw-primary-fill);
+  color: var(--nw-text-strong);
+  background: var(--nw-text-faint);
 }
 
 .dropdown-item.danger { color: var(--nw-red); }
@@ -1005,7 +1005,7 @@ input::placeholder, textarea::placeholder {
 
 .dropdown-divider {
   height: 1px;
-  background: var(--nw-text-faint);
+  background: var(--nw-line);
   margin: var(--sp-1) 0;
 }
 
@@ -1049,11 +1049,11 @@ input::placeholder, textarea::placeholder {
   left: 50%;
   transform: translateX(-50%);
   background: var(--void-raised);
-  border: var(--nw-hairline) solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-1) var(--sp-2);
   font-size: var(--text-xs);
-  color: var(--nw-text);
+  color: var(--nw-text-default);
   white-space: nowrap;
   pointer-events: none;
   /* Closed by default: exit curve, visibility dropped once the fade is done. */
