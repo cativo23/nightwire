@@ -129,11 +129,15 @@ loads without `MODULE_TYPELESS_PACKAGE_JSON`. The CLI is compiled to CommonJS, s
 not declared. The installer copies the preset as `nightwire.tailwind.preset.mjs`, which is ESM
 whatever the project's own `type` is.
 
-**Breaking for CommonJS configs.** On Node 20.19+ and 22.12+, `require('@cativo23/nightwire/tailwind.preset.js')`
-returns the module namespace, and Tailwind 3 silently ignores it ("No utility classes detected").
-Use `require('@cativo23/nightwire/tailwind.preset.js').default`, or switch the config to ESM. On
-Node older than 20.19 or 22.12, `require()` of an ES module throws `ERR_REQUIRE_ESM`, so the config
-must use `import` or a dynamic `import()`.
+**Breaking for CommonJS configs.** A CommonJS Tailwind config must use
+`require('@cativo23/nightwire/tailwind.preset.js').default`. A bare `require()` returns the module
+namespace, and Tailwind 3.4 drops it without an error, so no `nw-*` utility is generated (the "No
+utility classes" warning appears only when nothing else in the source matches). A dynamic
+`import()` cannot work in a CommonJS config, because Tailwind's `loadConfig` is synchronous: it
+tries `require` and falls back to jiti. Plain Node without `require()` of ES modules (before 20.19
+and 22.12) throws `ERR_REQUIRE_ESM`; Tailwind 3.4 catches it and loads the config through jiti,
+where `.default` also works. Checked on Node 24.15 with Tailwind 3.4.19, and with
+`--no-experimental-require-module` to simulate the older case, not on an older Node.
 
 The 2.x problem, kept for the record: the file used `export default` in a package with no module
 type, so plain Node printed `MODULE_TYPELESS_PACKAGE_JSON` and reparsed it as ESM.
