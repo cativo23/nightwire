@@ -3,8 +3,9 @@ version: "1.0"
 name: Nightwire
 description: >
   A dark-mode-only cyberpunk UI design system. Pure black backgrounds (#000000),
-  soft neon palette, monospace typography. Inspired by Evangelion NERV operations
-  centers and Ghost in the Shell. Dense, data-rich, zero decorative waste.
+  neutral-first colour with soft neon kept for meaning, monospace typography, square
+  corners and hairline edges. Inspired by Evangelion NERV operations centers and Ghost
+  in the Shell. Dense, data-rich, zero decorative waste.
 
 # <generated:colors> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 colors:
@@ -121,61 +122,71 @@ rounded:
 # </generated:rounded>
 
 components:
+  # Neutral-first: labels, borders and text sit on the grey ramp. Colour appears where it means
+  # something (data, state, focus, the selected item). The bone action fill is --nw-action.
   panel:
     background: "{colors.void-warm}"
-    border: "1px solid {colors.on-surface-faint}"
+    border: "1px solid {colors.on-surface-line}"
     borderRadius: "{rounded.none}"
-    headerFont: "10px uppercase {colors.primary}, letter-spacing 0.14em"
-    headerBorder: "1px solid {colors.primary-dim}"
+    headerFont: "10px uppercase {colors.on-surface-dim}, letter-spacing 0.14em"
+    headerBorder: "1px solid {colors.on-surface-line}"
 
   card:
     background: "{colors.void-warm}"
-    border: "1px solid {colors.on-surface-faint}"
-    borderRadius: "{rounded.lg}"
+    border: "1px solid {colors.on-surface-line}"
+    borderRadius: "{rounded.sm}"
 
   button-primary:
+    background: "#e6e6e6"                   # CSS: --nw-action (bone), hover --nw-action-hot #99bbff
+    color: "{colors.void}"                  # CSS: --nw-action-text
+    font: "{typography.stamp}"
+    borderRadius: "{rounded.sm}"
+    padding: "8px 16px"
+
+  button-chrome:
     background: "{colors.primary}"
     color: "{colors.void}"
-    font: "{typography.stamp}"
-    borderRadius: "{rounded.md}"
-    padding: "8px 16px"
+    borderRadius: "{rounded.sm}"
 
   button-ghost:
     background: "transparent"
-    color: "{colors.primary}"
-    border: "1px solid {colors.primary-dim}"
-    borderRadius: "{rounded.md}"
+    color: "#e6e6e6"                        # CSS: --nw-text-default
+    border: "1px solid rgba(255, 255, 255, 0.36)"  # CSS: --nw-line-strong
+    borderRadius: "{rounded.sm}"
 
   button-danger:
     background: "{colors.danger}"
     color: "{colors.void}"
-    borderRadius: "{rounded.md}"
+    borderRadius: "{rounded.sm}"
 
   metric-cell:
     background: "{colors.void-warm}"
     labelSize: "9px"
-    labelColor: "{colors.primary}"
+    labelColor: "{colors.on-surface-dim}"
     valueSize: "20px"
     valueColor: "{colors.success}"
-    valueGlow: "0 0 6px rgba(122,237,122,0.4)"
+    valueGlow: "none"
 
   led:
     size: "6px"
     shape: "circle"
-    green: "{colors.success} with glow"
-    blue:  "{colors.primary} with glow"
-    red:   "{colors.danger} with glow"
-    yellow: "{colors.warning} with glow"
+    ok:     "{colors.success} with state glow"
+    active: "{colors.primary} with state glow"
+    error:  "{colors.danger} with state glow"
+    warn:   "{colors.warning} with state glow"
+    info:   "{colors.info} with state glow"
+    ai:     "{colors.accent} with state glow"
+    glow:   "calc(8px * var(--nw-led-glow))"
 
   nw-table:
     headerSize: "9px"
-    headerColor: "{colors.primary}"
-    cellColor: "{colors.success}"
-    rowHover: "{colors.success-faint}"
+    headerColor: "{colors.on-surface-dim}"
+    cellColor: "#e6e6e6"                    # CSS: --nw-text-default
+    rowHover: "{colors.on-surface-faint}"
 
   skeleton:
     background: "{colors.void-panel}"
-    animation: "neon blue shimmer, var(--nw-loop-shimmer) ease-in-out infinite"
+    animation: "neutral shimmer, var(--nw-loop-shimmer) ease-in-out infinite"
 
   sidebar:
     width: "240px"
@@ -187,27 +198,30 @@ components:
 
   toast:
     background: "{colors.void-panel}"
-    borderLeftWidth: "3px"
+    border: "1px solid rgba(255, 255, 255, 0.36)"  # CSS: --nw-line-strong, as the modal
+    borderLeftWidth: "2px"                         # CSS: --nw-accent-width; the variant colour sits here
     padding: "{spacing.sp-3} {spacing.sp-4}"
     borderRadius: "{rounded.none}"
 
   modal:
     background: "{colors.void-panel}"
-    border: "1px solid {colors.primary-dim}"
+    border: "1px solid rgba(255, 255, 255, 0.36)"  # CSS: --nw-line-strong
     backdropColor: "rgba(0,0,0,0.8)"
     maxWidth: "480px"
-    borderRadius: "{rounded.lg}"
+    borderRadius: "{rounded.sm}"
+    elevation: "var(--nw-elevation-overlay)"       # 0 24px 64px rgba(0, 0, 0, 0.7)
 
   progress:
     height: "4px"
     background: "{colors.void-panel}"
+    border: "1px solid {colors.on-surface-line}"
     fillColor: "{colors.success}"
-    fillGlow: "0 0 4px rgba(122,237,122,0.3)"
+    fillGlow: "0 0 calc(4px * var(--nw-progress-glow)) rgba(122,237,122,0.3)"
 
   input:
     background: "{colors.void-panel}"
-    border: "1px solid {colors.on-surface-line}"
-    borderRadius: "{rounded.md}"
+    border: "1px solid rgba(255, 255, 255, 0.36)"  # CSS: --nw-line-strong (3:1 control boundary)
+    borderRadius: "{rounded.sm}"
     padding: "{spacing.sp-2} {spacing.sp-3}"
     focusBorder: "{colors.primary}"
     focusGlow: "0 0 0 3px {colors.primary-fill}"
@@ -252,7 +266,7 @@ components:
   event-log:
     background: "{colors.void-warm}"
     border: "1px solid {colors.on-surface-faint}"
-    headerFont: "8px uppercase {colors.primary}"
+    headerFont: "8px uppercase {colors.on-surface-dim}"
     bodyFont: "9px {typography.sys.fontFamily}"
     rowPadding: "1px 10px"
 
@@ -263,7 +277,7 @@ components:
     borderBottom: "1px solid {colors.on-surface-faint}"
     padding: "2px 0"
     fontSize: "9px"
-    color: "{colors.primary}"
+    color: "{colors.on-surface-dim}"
 
   org-mark:
     fontFamily: "{typography.title.fontFamily}"
@@ -327,7 +341,7 @@ motion:
 # </generated:motion>
 
 # Durations come from the motion tokens above, never from a literal: they follow the intensity level
-# and reduced motion.
+# and reduced motion. At operator, tick is 150ms and the shimmer cycle 1200ms.
 animations:
   skeleton-shimmer: { duration: "var(--nw-loop-shimmer)", timing: "ease-in-out",         iteration: "infinite" }
   transition-base:  { duration: "var(--nw-tick-duration)", timing: "var(--nw-tick-ease)", iteration: "1" }
@@ -340,6 +354,8 @@ animations:
 Nightwire is a **cyberpunk aesthetic system** that works at any information density and for any type of interface — portfolios, blogs, landing pages, SaaS products, documentation sites, dashboards, admin panels, and operations consoles.
 
 The aesthetic is consistent across all use cases. The layout adapts to the project. A personal portfolio uses the same tokens, fonts, and components as a dense monitoring dashboard — the difference is in how you arrange them.
+
+**The v3 look in one paragraph.** Neutral first: labels, hairlines and default text sit on the grey ramp, and colour appears only where it carries meaning (data values, state, focus, the selected item). Corners are square (`--radius-sm`, 2px, on every control; panels are 0). Edges are 1px hairlines. There is one solid action per view, in bone (`.btn`, `--nw-action`), and every other button is an outline. Nothing glows for decoration: glow is a state signal (LED, check, switch, segmented, steps, progress), it is off at `archive`, and it never rises at `combat` except on those signals. The four typefaces, the kanji labels, the compressed serif title and the three intensities are unchanged.
 
 **Emotional tone:** Calm precision. The quiet confidence of a system that knows exactly what it's doing.
 
@@ -359,12 +375,12 @@ The aesthetic is consistent across all use cases. The layout adapts to the proje
 ## Core Principles
 
 1. **Pure black void.** Background is always `#000000`. Never gray, never navy, never `#0d0d0d`.
-2. **Color = function.** Blue=UI chrome, Green=data values, Red=danger, Cyan=info. Never decorative.
+2. **Neutral first, colour = function.** Text and edges are neutral. Blue marks focus, accents and chrome actions, green marks data, red danger, cyan info, amber warning, purple AI. Never decorative.
 3. **2px panel gaps.** Adjacent panels are separated by exactly 2px. Not 8px, not 16px. 2px.
-4. **Sharp edges.** Panels and data containers have `border-radius: 0`. Cards may use `radius-lg`.
+4. **Square corners.** Panels and data containers have `border-radius: 0`. Controls, cards and modals use `--radius-sm` (2px). Round shapes (`--radius-full`) are for avatars, switches and spinners only.
 5. **Kanji as style.** Japanese characters appear as decorative tags on panel headers — not for translation, for aesthetic.
 6. **Compressed serif titles.** Display headings use Noto Serif Display with `scaleX(0.82)` compression.
-7. **No shadows.** Elevation is communicated through surface color progression only.
+7. **Elevation is tone, not shadow.** Surfaces rise through colour progression. The only drop shadow is the neutral `--nw-elevation-overlay` on overlays (modal, drawer, command palette). Glow is a state signal and nothing else.
 8. **Monospace everywhere.** All body text, data, labels use JetBrains Mono.
 
 ---
@@ -415,7 +431,7 @@ Full-viewport, no scroll on the outer wrapper. Dense panel grid with 2px gaps.
   </div>
 
   <div class="status-bar">
-    <span><span class="led green"></span> SYSTEM ONLINE</span>
+    <span><span class="led" data-state="ok"></span> SYSTEM ONLINE</span>
     <span>NODES: 42 │ UPTIME: 99.9%</span>
     <span>14:32:07 JST</span>
   </div>
@@ -425,14 +441,14 @@ Full-viewport, no scroll on the outer wrapper. Dense panel grid with 2px gaps.
 Operations Console CSS (add alongside nightwire.css):
 ```css
 .console-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-.nw-nav { display: flex; align-items: center; padding: 10px 16px; background: var(--void); border-bottom: 1px solid var(--nw-primary-dim); flex-shrink: 0; }
+.nw-nav { display: flex; align-items: center; padding: 10px 16px; background: var(--void); border-bottom: 1px solid var(--nw-line); flex-shrink: 0; }
 .dashboard { display: flex; gap: 2px; flex: 1; padding: 2px; min-height: 0; }
 .dash-left { flex: 1; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
 .dash-right { width: 370px; min-width: 370px; display: flex; flex-direction: column; gap: 2px; }
 .dash-row { display: grid; gap: 2px; flex-shrink: 0; }
 .dash-row.r1 { grid-template-columns: 1.2fr 1fr; min-height: 360px; }
 .dash-row.r2 { grid-template-columns: 1fr 1fr; }
-.status-bar { display: flex; justify-content: space-between; padding: 3px 12px; font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--nw-text-dim); border-top: 1px solid var(--nw-text-faint); flex-shrink: 0; }
+.status-bar { display: flex; justify-content: space-between; padding: 3px 12px; font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--nw-text-mute); border-top: 1px solid var(--nw-text-faint); flex-shrink: 0; }
 ```
 
 ---
@@ -440,9 +456,9 @@ Operations Console CSS (add alongside nightwire.css):
 ## Panel Header Pattern
 
 Every panel header follows this exact pattern:
-- 8-10px uppercase monospace label in `--nw-primary`
-- Japanese kanji tag on the right in `--nw-text-dim`
-- `1px solid --nw-primary-dim` bottom border
+- 8-10px uppercase monospace label in `--nw-text-mute` (neutral; blue is not used for labels)
+- Japanese kanji tag on the right; a `.kanji` inside the header is `--nw-text-default`, set with `:where()` so a colour utility on it still wins
+- `1px solid --nw-line` bottom border (a neutral hairline)
 
 ```html
 <div class="panel">
@@ -503,7 +519,7 @@ Every panel header follows this exact pattern:
     <div class="nc-name">深層学習訓練クラスタ</div>
     <div class="nc-row"><span class="lbl">STATUS</span><span class="val">Training</span></div>
     <div class="nc-row"><span class="lbl">GPU UTIL</span><span class="val">96.8%</span></div>
-    <div class="nc-status" style="color:var(--nw-green)"><span class="led green"></span> Operational</div>
+    <div class="nc-status" style="color:var(--nw-green)"><span class="led" data-state="ok"></span> Operational</div>
   </div>
 </div>
 ```
@@ -540,7 +556,7 @@ For long-form content (blogs, articles, documentation):
 | H3 | `--font-sys` | 16px | `--nw-primary` | uppercase, letter-spacing |
 | Body | `--font-sys` | 14-15px | `--nw-text-dim` | 1.6 line-height |
 | Caption | `--font-sys` | 11px | `--nw-text-dim` | uppercase, letter-spacing |
-| Code inline | `--font-sys` | 13px | `--nw-green` | void-panel bg |
+| Code inline | `--font-sys` | 13px | `--nw-text-default` | void-panel bg |
 | Blockquote | `--font-sys` | 14px | `--nw-text-dim` | primary-dim left border |
 
 ```html
@@ -550,7 +566,7 @@ For long-form content (blogs, articles, documentation):
 <h3 style="font-family:var(--font-sys); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary)">Subsection</h3>
 <p style="font-size:14px; line-height:1.6; color:var(--nw-text-dim)">Body paragraph text.</p>
 <blockquote style="border-left:3px solid var(--nw-primary-dim); padding-left:16px; color:var(--nw-text-dim); font-style:italic">Quoted text</blockquote>
-<code style="background:var(--void-panel); color:var(--nw-green); padding:2px 6px; font-family:var(--font-sys)">inline code</code>
+<code class="code-inline">inline code</code>
 ```
 
 ---
@@ -559,8 +575,11 @@ For long-form content (blogs, articles, documentation):
 
 | Color | Variable | Use ONLY for |
 |---|---|---|
-| Blue `#6699ff` | `--nw-primary` | Headers, labels, active states, links, UI chrome |
-| Green `#7aed7a` | `--nw-green` | Data values, success states, online indicators |
+| Bone `#e6e6e6` | `--nw-action` | The single solid action (`.btn`); hover `--nw-action-hot` (`#99bbff`), text `--nw-action-text` (`#000000`) |
+| Neutral `#aaaaaa` | `--nw-text-mute` | Labels: panel, card, modal and table headers, field labels, stat and metric labels |
+| Neutral `#e6e6e6` | `--nw-text-default` | Body and table text, kanji in headers, `.code-inline`, `.kv-value`, menu items |
+| Blue `#6699ff` | `--nw-primary` (`--nw-chrome`) | Focus rings, the selected-tab and current-item accent lines, links, compressed titles, `.btn-chrome`, `.tag-chrome`, `data-state="active"` |
+| Green `#7aed7a` | `--nw-green` | Data values (stat and metric values), success states, online indicators |
 | Cyan `#66ddff` | `--nw-cyan` | Metadata, secondary info, wireframe elements |
 | Red `#ff6688` | `--nw-red` | Errors, destructive actions, offline states |
 | Yellow `#e8993a` | `--nw-yellow` | Warnings, pending, degraded states |
@@ -574,21 +593,26 @@ For long-form content (blogs, articles, documentation):
 - Use `#000000` for all page backgrounds — never `#0d0d0d`, `#111`, or any gray
 - Use 2px gaps between adjacent panels — always
 - Add Japanese kanji tags to every panel header
-- Use green for all data values (numbers, percentages, metrics)
-- Use blue for all UI chrome (headers, labels, navigation)
+- Use green for data values (stat and metric numbers, percentages); table text is content and stays neutral
+- Keep labels and headers neutral (`--nw-text-mute`); keep blue for focus, accents and chrome actions
+- Offer one solid action per view (`.btn`, bone) and make the rest outlines (`.btn-ghost`, `.btn-success`, `.btn-ai`)
+- Put a glow only on state signals, and read the knob (`--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow`) instead of a literal blur
 - Use `scaleX(0.82)` on Noto Serif Display titles
 - Use `font-variant-numeric: tabular-nums` on all numeric data
 - Use uppercase + letter-spacing for all labels and UI chrome
 
 **DON'T:**
-- Use `box-shadow` for elevation — use surface color progression
-- Use `border-radius` on panels or data containers — sharp edges only
+- Use `box-shadow` for elevation — use surface colour progression. The one exception is `--nw-elevation-overlay` on overlays
+- Add a decorative glow or `text-shadow` to a heading, value or button — glow means state
+- Use `border-radius` on panels or data containers — sharp edges only; controls take `--radius-sm`, never `--radius-md` or `--radius-lg` (no component reads them in v3)
 - Use color decoratively — every color must carry semantic meaning
 - Use font sizes below 11px — readability is non-negotiable
 - Use gradients on backgrounds
 - Use CRT effects (scanlines, vignette, flicker)
 - Use harsh neon (`#00ff00`, `#0000ff`) — use soft neon (`#7aed7a`, `#6699ff`)
 - Mix sharp and rounded corners within the same component
+- Colour a label blue, or fill a default tag blue — blue is `.tag-chrome` and the accent lines
+- Use the removed v1 forms (`.led.green`, `.tag-warning`, `.stack`, `.nw-progress .fill`): see "v3 — The contract"
 - Use light mode — Nightwire is dark-only by design
 - Use whitespace for "breathing room" — embrace density
 
@@ -596,7 +620,7 @@ For long-form content (blogs, articles, documentation):
 
 ## Elevation System
 
-No shadows. Depth through surface color only:
+Depth is tone first. Surfaces rise through colour, and an overlay adds one neutral shadow:
 
 | Level | Token | Hex | Use |
 |---|---|---|---|
@@ -604,6 +628,20 @@ No shadows. Depth through surface color only:
 | 1 | `--void-warm` | `#0a0a0a` | Panels, cards |
 | 2 | `--void-panel` | `#111111` | Modals, inputs, raised panels |
 | 3 | `--void-raised` | `#1a1a1a` | Dropdowns, tooltips |
+| Overlay | `--nw-elevation-overlay` | `0 24px 64px rgba(0, 0, 0, 0.7)` | The modal, drawer and command palette panels |
+
+`--nw-elevation-overlay` is black at 0.7 alpha, not a colour and not a glow, so it does not change
+with intensity and it does not count as decoration. No other drop shadow exists. The only other
+`box-shadow` and `text-shadow` values in the stylesheet are state glow (the LED, check, radio,
+switch, segmented, steps and progress read `--nw-led-glow`, `--nw-control-glow` or
+`--nw-progress-glow`), the `.glow-*` utilities (which read `--nw-glow`), and focus rings.
+
+Edges are hairlines. `--nw-hairline` (1px) is every structural border, `--nw-rule` (1.5px) the marks
+drawn inside controls, `--nw-accent-width` (2px) the accent bars on tabs, sidebar items, diffs and
+toasts. Three greys carry them: `--nw-text-faint` for quiet dividers, `--nw-line` for panel and
+header edges, and `--nw-line-strong` for control boundaries (inputs, check, switch, segmented,
+combo, kbd, modal, toast), which keeps a 3:1 contrast on the black surfaces (WCAG 1.4.11).
+`npm run design:contrast` checks every pairing.
 
 ---
 
