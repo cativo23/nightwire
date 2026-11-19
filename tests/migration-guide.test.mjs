@@ -242,6 +242,34 @@ test('should_record_the_cativo_dev_revalidation_for_the_mockup_look', () => {
   }
 });
 
+// T090: cativo.dev was walked again on the polish tip; the guide records what was compared and
+// that nothing changed, with the numbers, and says what was still not checked.
+test('should_record_the_cativo_dev_revalidation_on_the_polish_tip', () => {
+  const guide = read(GUIDE);
+  const start = guide.indexOf('\n### Re-validation: the polish tip');
+  assert.notEqual(start, -1, 'guide has no "Re-validation: the polish tip" subsection');
+  const text = guide.slice(start);
+  assert.ok(guide.indexOf('\n### Re-validation: the open layout') < start, 'subsection is not after the open-layout one');
+  for (const item of [
+    '2026-11-19',
+    '`d15f27f`',
+    '`f950bfd`',
+    '0 broken',
+    '625 selectors',
+    '0 changed declarations',
+    '`.kv-row`',
+    '`.nw-reticle`',
+    '`.nw-accordion`',
+    '`.kanji`',
+    'Not checked',
+    'forced-colours',
+    'Optional follow-ups',
+  ]) {
+    assert.ok(text.includes(item), `polish-tip subsection does not mention ${item}`);
+  }
+  assert.ok(!/pending/i.test(text), 'subsection says pending');
+});
+
 // FR-037 / T080: CHANGELOG [Unreleased] records the US5 look in lockstep with the guide.
 test('should_record_the_mockup_look_in_the_changelog_unreleased_section', () => {
   const log = read('CHANGELOG.md');
