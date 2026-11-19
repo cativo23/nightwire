@@ -1048,7 +1048,7 @@
       }
     },
     {
-      "id": "examples-tag-default-fill",
+      "id": "refresh-tag-default-examples",
       "description": "SC-006 review, decision 1 (direction rule 2, a default look is neutral): the bare .tag fill goes from --nw-primary-fill (blue at 0.08) to --nw-text-faint (white at 0.08), and its text from --nw-primary to --nw-text-default. On the example pages every bare .tag sits in a .panel-header whose page-local rule already sets the text colour to --nw-text-mute, so only the fill changes. The parity fixture has no bare .tag (.tag-chrome and the other variants are unchanged). Pinned to the background of a .tag directly in a .panel-header on the example pages, to the exact old and new fill.",
       "match": {
         "prop": "^background-color$",
@@ -1263,24 +1263,74 @@
       }
     },
     {
-      "id": "v1-removal-stack-size",
-      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the height follows the lost gap. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values.",
+      "id": "v1-removal-stack-size-operator",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the height follows the lost gap. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values. Split per intensity so an old value never pairs with another level's new one: this one is pinned to operator (also the default, no data-intensity), 50px to 42px.",
       "match": {
         "prop": "^(height|block-size)$",
         "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
-        "old": "^(47|50|53)px$",
-        "new": "^(39|42|45)px$",
+        "state": "^(none|operator)\\|",
+        "old": "^50px$",
+        "new": "^42px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "v1-removal-stack-origin",
-      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the size-derived origins follow the height. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values.",
+      "id": "v1-removal-stack-size-archive",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the height follows the lost gap. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values. Split per intensity so an old value never pairs with another level's new one: this one is pinned to archive, 53px to 45px.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^53px$",
+        "new": "^45px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-stack-size-combat",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the height follows the lost gap. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values. Split per intensity so an old value never pairs with another level's new one: this one is pinned to combat, 47px to 39px.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^47px$",
+        "new": "^39px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-stack-origin-operator",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the size-derived origins follow the height. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values. Split per intensity so an old value never pairs with another level's new one: this one is pinned to operator (also the default, no data-intensity), 640px 25px to 640px 21px.",
       "match": {
         "prop": "^(transform|perspective)-origin$",
         "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
-        "old": "^640px (23\\.5|25|26\\.5)px$",
-        "new": "^640px (19\\.5|21|22\\.5)px$",
+        "state": "^(none|operator)\\|",
+        "old": "^640px 25px$",
+        "new": "^640px 21px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-stack-origin-archive",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the size-derived origins follow the height. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values. Split per intensity so an old value never pairs with another level's new one: this one is pinned to archive, 640px 26.5px to 640px 22.5px.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^640px 26\\.5px$",
+        "new": "^640px 22\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "v1-removal-stack-origin-combat",
+      "description": "The v1 .stack utility is removed (FR-016, research R10, T042); the v3 spelling is .nw-stack, which also honours --nw-density. An element that still carries only .stack is a plain block again: the size-derived origins follow the height. Pinned to the fixture's .fixture-v1 wrapper, with the exact old and new values. Split per intensity so an old value never pairs with another level's new one: this one is pinned to combat, 640px 23.5px to 640px 19.5px.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>div\\.stack:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^640px 23\\.5px$",
+        "new": "^640px 19\\.5px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
@@ -1846,46 +1896,170 @@
       }
     },
     {
-      "id": "refresh-toast-boundary-page-size",
-      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The fixture page grows by the section's 10px, which the intensity scales into the page height: html and body grow by 10px at every level (operator 1635.5px, archive 1678.25px, combat 1591.55px before). Pinned to html and body of the fixture, to the three exact old and new heights.",
+      "id": "refresh-toast-boundary-page-size-operator",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The fixture page grows by the section's 10px, which the intensity scales into the page height: html and body grow by 10px at every level (operator 1635.5px, archive 1678.25px, combat 1591.55px before). Pinned to html and body of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to operator (also the default, no data-intensity), 1635.5px to 1645.5px.",
       "match": {
         "prop": "^(height|block-size)$",
         "path": "^html(>body:nth-child\\(\\d+\\))?$",
-        "old": "^(1635\\.5|1678\\.25|1591\\.55)px$",
-        "new": "^(1645\\.5|1688\\.25|1601\\.55)px$",
+        "state": "^(none|operator)\\|",
+        "old": "^1635\\.5px$",
+        "new": "^1645\\.5px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "refresh-toast-boundary-main-size",
-      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. As refresh-toast-boundary-page-size, for the fixture's main element: +10px at every level (operator 1567.5px, archive 1610.25px, combat 1523.55px before). Pinned to main of the fixture.",
+      "id": "refresh-toast-boundary-page-size-archive",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The fixture page grows by the section's 10px, which the intensity scales into the page height: html and body grow by 10px at every level (operator 1635.5px, archive 1678.25px, combat 1591.55px before). Pinned to html and body of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to archive, 1678.25px to 1688.25px.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "state": "^archive\\|",
+        "old": "^1678\\.25px$",
+        "new": "^1688\\.25px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-page-size-combat",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The fixture page grows by the section's 10px, which the intensity scales into the page height: html and body grow by 10px at every level (operator 1635.5px, archive 1678.25px, combat 1591.55px before). Pinned to html and body of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to combat, 1591.55px to 1601.55px.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "state": "^combat\\|",
+        "old": "^1591\\.55px$",
+        "new": "^1601\\.55px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-main-size-operator",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. As refresh-toast-boundary-page-size, for the fixture's main element: +10px at every level (operator 1567.5px, archive 1610.25px, combat 1523.55px before). Pinned to main of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to operator (also the default, no data-intensity), 1567.5px to 1577.5px.",
       "match": {
         "prop": "^(height|block-size)$",
         "path": "^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)$",
-        "old": "^(1567\\.5|1610\\.25|1523\\.55)px$",
-        "new": "^(1577\\.5|1620\\.25|1533\\.55)px$",
+        "state": "^(none|operator)\\|",
+        "old": "^1567\\.5px$",
+        "new": "^1577\\.5px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "refresh-toast-boundary-page-origin",
-      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of html and body follow the 10px taller page: y +5px at every level (operator 817.75px, archive 839.125px, combat 795.766px for perspective and 795.773px for transform before). Pinned to html and body of the fixture.",
+      "id": "refresh-toast-boundary-main-size-archive",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. As refresh-toast-boundary-page-size, for the fixture's main element: +10px at every level (operator 1567.5px, archive 1610.25px, combat 1523.55px before). Pinned to main of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to archive, 1610.25px to 1620.25px.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^1610\\.25px$",
+        "new": "^1620\\.25px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-main-size-combat",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. As refresh-toast-boundary-page-size, for the fixture's main element: +10px at every level (operator 1567.5px, archive 1610.25px, combat 1523.55px before). Pinned to main of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to combat, 1523.55px to 1533.55px.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^1523\\.55px$",
+        "new": "^1533\\.55px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-page-origin-operator",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of html and body follow the 10px taller page: y +5px at every level (operator 817.75px, archive 839.125px, combat 795.766px for perspective and 795.773px for transform before). Pinned to html and body of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to operator (also the default, no data-intensity), 640px 817.75px to 640px 822.75px.",
       "match": {
         "prop": "^(transform|perspective)-origin$",
         "path": "^html(>body:nth-child\\(\\d+\\))?$",
-        "old": "^640px (817\\.75|839\\.125|795\\.766|795\\.773)px$",
-        "new": "^640px (822\\.75|844\\.125|800\\.766|800\\.773)px$",
+        "state": "^(none|operator)\\|",
+        "old": "^640px 817\\.75px$",
+        "new": "^640px 822\\.75px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "refresh-toast-boundary-main-origin",
-      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of main follow the 10px taller page: y +5px at every level (operator 783.75px, archive 805.125px, combat 761.766px for perspective and 761.773px for transform before). Pinned to main of the fixture.",
+      "id": "refresh-toast-boundary-page-origin-archive",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of html and body follow the 10px taller page: y +5px at every level (operator 817.75px, archive 839.125px, combat 795.766px for perspective and 795.773px for transform before). Pinned to html and body of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to archive, 640px 839.125px to 640px 844.125px.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "state": "^archive\\|",
+        "old": "^640px 839\\.125px$",
+        "new": "^640px 844\\.125px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-page-origin-combat-perspective",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of html and body follow the 10px taller page: y +5px at every level (operator 817.75px, archive 839.125px, combat 795.766px for perspective and 795.773px for transform before). Pinned to html and body of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to combat, 640px 795.766px to 640px 800.766px. Combat's perspective-origin and transform-origin differ in the third decimal, so they are separate categories.",
+      "match": {
+        "prop": "^perspective-origin$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "state": "^combat\\|",
+        "old": "^640px 795\\.766px$",
+        "new": "^640px 800\\.766px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-page-origin-combat-transform",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of html and body follow the 10px taller page: y +5px at every level (operator 817.75px, archive 839.125px, combat 795.766px for perspective and 795.773px for transform before). Pinned to html and body of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to combat, 640px 795.773px to 640px 800.773px. Combat's perspective-origin and transform-origin differ in the third decimal, so they are separate categories.",
+      "match": {
+        "prop": "^transform-origin$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "state": "^combat\\|",
+        "old": "^640px 795\\.773px$",
+        "new": "^640px 800\\.773px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-main-origin-operator",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of main follow the 10px taller page: y +5px at every level (operator 783.75px, archive 805.125px, combat 761.766px for perspective and 761.773px for transform before). Pinned to main of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to operator (also the default, no data-intensity), 640px 783.75px to 640px 788.75px.",
       "match": {
         "prop": "^(transform|perspective)-origin$",
         "path": "^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)$",
-        "old": "^640px (783\\.75|805\\.125|761\\.766|761\\.773)px$",
-        "new": "^640px (788\\.75|810\\.125|766\\.766|766\\.773)px$",
+        "state": "^(none|operator)\\|",
+        "old": "^640px 783\\.75px$",
+        "new": "^640px 788\\.75px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-main-origin-archive",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of main follow the 10px taller page: y +5px at every level (operator 783.75px, archive 805.125px, combat 761.766px for perspective and 761.773px for transform before). Pinned to main of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to archive, 640px 805.125px to 640px 810.125px.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^640px 805\\.125px$",
+        "new": "^640px 810\\.125px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-main-origin-combat-perspective",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of main follow the 10px taller page: y +5px at every level (operator 783.75px, archive 805.125px, combat 761.766px for perspective and 761.773px for transform before). Pinned to main of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to combat, 640px 761.766px to 640px 766.766px. Combat's perspective-origin and transform-origin differ in the third decimal, so they are separate categories.",
+      "match": {
+        "prop": "^perspective-origin$",
+        "path": "^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^640px 761\\.766px$",
+        "new": "^640px 766\\.766px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-main-origin-combat-transform",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of main follow the 10px taller page: y +5px at every level (operator 783.75px, archive 805.125px, combat 761.766px for perspective and 761.773px for transform before). Pinned to main of the fixture. Split per intensity so an old value never pairs with another level's new one: this one is pinned to combat, 640px 761.773px to 640px 766.773px. Combat's perspective-origin and transform-origin differ in the third decimal, so they are separate categories.",
+      "match": {
+        "prop": "^transform-origin$",
+        "path": "^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^640px 761\\.773px$",
+        "new": "^640px 766\\.773px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
