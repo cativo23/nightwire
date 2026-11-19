@@ -1470,7 +1470,7 @@
     },
     {
       "id": "refresh-panel-edge",
-      "description": "The .panel border goes from --nw-text-faint (0.06 in v2.1.0) to --nw-line (0.14), a neutral hairline that reads against the page. Pinned to .panel and the four sides, old and new colour. Serves FR-011, direction round 2.",
+      "description": "The reticle frame on a .panel (.panel.nw-reticle) draws its 1px border in --nw-line (0.14); the v2.1.0 .panel border it replaces was --nw-text-faint (0.06). A plain open .panel has no border since the open layout (FR-026), so only the fixture's .panel.nw-reticle reaches this pair. Pinned to .panel, the four sides, old and new colour. Serves FR-011, FR-028.",
       "match": {
         "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
         "path": "[a-z]+\\.panel:nth-child\\(\\d+\\)$",
@@ -2042,16 +2042,6 @@
         "path": "div\\.card-header:nth-child\\(\\d+\\)$",
         "old": "^rgb\\(102, 153, 255\\)$",
         "new": "^rgb\\(170, 170, 170\\)$"
-      }
-    },
-    {
-      "id": "refresh-card-header-rule",
-      "description": "Group A (T043): the .card-header bottom rule goes from --nw-text-faint to --nw-line (direction rule 3). Pinned to the bottom border colour of .card-header.",
-      "match": {
-        "prop": "^border-(bottom|block-end)-color$",
-        "path": "div\\.card-header:nth-child\\(\\d+\\)$",
-        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
-        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
       }
     },
     {
@@ -8509,9 +8499,9 @@
     },
     {
       "id": "cascade-us5-reticle-parts-fixture-coverage-all",
-      "description": "FR-038: the resolved offsets, size and origin of the two absolutely positioned reticle parts (.nw-reticle-stamp and .nw-reticle-vlabel) on the fixture's US5 wrapper: the browser resolves the offsets a part leaves unset (right, bottom, left or top: 50%) from the box of its .nw-reticle and from the width of its own text, which depends on the font of the machine running parity. The offsets the rules set themselves (right, top, left: 24px, 56px, 6px) are pinned in their own categories. Limited to the properties seen there. No value is pinned: the control run, which resets the parts to static, must report 0 unexpected differences.",
+      "description": "FR-038: the resolved offsets of the two absolutely positioned reticle parts (.nw-reticle-stamp and .nw-reticle-vlabel) on the fixture's US5 wrapper: the browser resolves the offsets a part leaves unset (right, bottom, left or top: 50%) from the box of its .nw-reticle and from the width of its own text, which depends on the font of the machine running parity. The offsets the rules set themselves (right, top, left: 24px, 56px, 6px) are pinned in their own categories. Limited to the offsets seen there: the size and origin of the two parts are already explained by the pieces category, which comes first, and the CASCADE-UNUSED check of a normal run fails if a listed property explains nothing. No value is pinned: the control run, which resets the parts to static, must report 0 unexpected differences.",
       "match": {
-        "prop": "^(top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|width|height|inline-size|block-size|transform-origin|perspective-origin)$",
+        "prop": "^(top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end)$",
         "path": "div\\.fixture-us5:nth-child\\(\\d+\\)>div\\.nw-reticle:nth-child\\(\\d+\\)>span\\.(nw-reticle-stamp|nw-reticle-vlabel):nth-child\\(\\d+\\)$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "scripts/parity/fixtures/coverage.html"

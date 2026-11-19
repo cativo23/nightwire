@@ -483,6 +483,12 @@ test('FR-038: the reticle parts that are absolutely positioned get their own cas
   assert.ok(at('nw-reticle-stamp-right') < at('cascade-us5-reticle-parts-fixture-coverage-all'), 'pinned before the cascade category');
 });
 
+test('FR-038: the reticle-parts category lists the offsets only; size and origin of the two parts are already explained by the pieces category, so listing them again would widen it for nothing', () => {
+  const { categories } = JSON.parse(read('docs/design/v3/change-inventory.json'));
+  const c = categories.find((x) => x.id === 'cascade-us5-reticle-parts-fixture-coverage-all');
+  assert.equal(c.match.prop, '^(top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end)$');
+});
+
 test('FR-028/FR-030/FR-031: every new T076 pseudo-element and piece has an old-to-new category pinned to one pair', () => {
   const { categories } = JSON.parse(read('docs/design/v3/change-inventory.json'));
   for (const id of ['nw-halftone-after-pseudo', 'nw-halftone-layer-after-pseudo', 'nw-grain-pseudo']) {
@@ -515,7 +521,16 @@ test('the coverage fixture has markup for every T076 class, inside the US5 wrapp
   assert.match(wrapper, /class="[^"]*\bpanel\b[^"]*\bnw-reticle\b/, 'a .panel.nw-reticle');
 });
 
-test('FR-038: every cascade category explains geometry only: page and path set, props that are all in CASCADE_PROPS, ancestors limited to height, origin and row tracks', () => {
+// A path that names one of these is about the opened components (or the US5 fixture wrapper); any
+// other path is an ancestor box. The shape of the path decides, not the id.
+const OPENED = /panel|card|kv-row|nw-section-head|fixture-us5/;
+// The only categories allowed to list all 19 properties: the two pages whose layout moves every kind
+// of geometry (offsets, columns, rows, aspect ratio). Any other category that widens to the full set
+// fails here; a new page that really needs it is added here on purpose.
+const FULL_SET = new Set(['cascade-open-layout-dashboard-all', 'cascade-open-layout-neural-ops-all']);
+const ANCESTOR_FORBIDDEN = /^(top|right|bottom|left|inset-.*|margin-.*|aspect-ratio|grid-template-columns|width|inline-size)$/;
+
+test('FR-038: every cascade category explains geometry only: page and a scoped path set, props that are all in CASCADE_PROPS, ancestors limited to height, origin and row tracks, no silent widening', () => {
   const { categories } = JSON.parse(read('docs/design/v3/change-inventory.json'));
   const cascade = categories.filter((c) => c.kind === 'cascade');
   assert.ok(cascade.length > 0);
@@ -525,10 +540,26 @@ test('FR-038: every cascade category explains geometry only: page and path set, 
     const names = c.match.prop.replace(/^\^\(?(?:\?:)?/, '').replace(/\)?\$$/, '').split('|');
     for (const n of names) assert.ok(CASCADE_PROPS.includes(n), `${c.id}: ${n} is not a geometric property`);
     assert.equal(new Set(names).size, names.length, `${c.id} lists a property twice`);
-    if (c.id.includes('page-box')) assert.ok(!names.some((n) => /^(top|right|bottom|left|inset-.*|margin-.*|aspect-ratio|grid-template-columns|width|inline-size)$/.test(n)), `${c.id}: an ancestor box only changes in height, origin and row tracks`);
-    else assert.ok(names.length <= CASCADE_PROPS.length);
+    if (OPENED.test(c.match.path)) {
+      // The opened components and what is inside them (subtree, `(>|::|$)`) or one named part (`$`).
+      assert.match(c.match.path, /(\(>\|::\|\$\)|\$)$/, `${c.id}: a path ends in $ or in the subtree group (>|::|$)`);
+      if (names.length === CASCADE_PROPS.length) assert.ok(FULL_SET.has(c.id), `${c.id} widened to all ${CASCADE_PROPS.length} properties: only ${[...FULL_SET].join(', ')} may`);
+    } else {
+      // Anything else is an ancestor box: one exact element, and only what an ancestor's layout moves.
+      assert.ok(c.match.path.endsWith('$'), `${c.id}: path ${c.match.path} names no opened component, so it is an ancestor and must end in $`);
+      assert.ok(!names.some((n) => ANCESTOR_FORBIDDEN.test(n)), `${c.id}: an ancestor box only changes in height, origin and row tracks`);
+    }
     assert.ok(!c.match.old && !c.match.new, `${c.id} pins no value`);
   }
+});
+
+test('the cascade scope check catches what it is for: a bare tag path, a page-wide path, a widened subtree', () => {
+  const scoped = (path) => OPENED.test(path) || path.endsWith('$');
+  assert.equal(scoped('div'), false, 'a bare tag is page-wide');
+  assert.equal(scoped('div\\.panel:nth-child\\(\\d+\\)(>|::|$)'), true);
+  assert.equal(scoped('^html$'), true);
+  assert.equal(ANCESTOR_FORBIDDEN.test('width'), true);
+  assert.equal(ANCESTOR_FORBIDDEN.test('height'), false);
 });
 
 test('the cascade prop reader catches what it is for', () => {
