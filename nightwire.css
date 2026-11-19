@@ -100,9 +100,10 @@
   --radius-full: 9999px;
 
   /* ═══════════════════════════════════════════════════════════
-     Nightwire v2 — Layer 2 Semantic Tokens (additive aliases)
-     v1 tokens above remain untouched. Layer 2 references Layer 1
-     so any v1 override propagates to v2 consumers.
+     Nightwire — Layer 2 Semantic Tokens
+     Layer 1 above holds the primitives. Layer 2 names the roles and
+     references Layer 1, so a Layer 1 override reaches every consumer
+     of the role.
      ─────────────────────────────────────────────────────────── */
 
   /* Surfaces */
