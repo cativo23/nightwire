@@ -143,3 +143,17 @@ it (constitution, principle IV).
 - **Not in this refresh:** the mockup's new pieces (grain, chips, section heads, spec sheets, kanji
   index, accordion, reticle, halftone, barcode, outline wordmark) are approved patterns, but they
   are new components, which spec 002 leaves to the next spec.
+
+## SC-006 review (2026-11-18)
+
+The maintainer reviewed the before and after renders of the 34 components at all three intensities
+and approved the refresh (SC-006) with six detail decisions, numbered as in the review.
+
+| # | Surface | Decision | Reason |
+|---|---|---|---|
+| 1 | `.tag` default | Changed: neutral, `--nw-text-default` on `--nw-text-faint` | Rule 2: a default look is neutral. Blue stays on `.tag-chrome`. |
+| 2 | `.code-inline`, `.kv-value` | Kept white | They are the values a reader scans for. |
+| 3 | `.dropdown-item` | Kept white | A menu is read and chosen from, so it uses body text, not a muted label. |
+| 4 | `.tab:hover`, `.sidebar-item:hover` | Changed: `--nw-text-strong` | Same as `.dropdown-item` and `.cmdk-item`, so hover reads the same on every list-like control. Backgrounds and active states unchanged. |
+| 5 | Skeleton shimmer | Kept neutral | A loading placeholder carries no signal, so it takes no colour. |
+| 6 | `.toast` | Changed: `1px solid --nw-line-strong` on top, right and bottom | Rule 3: a surface needs an edge, the modal's. The 2px left accent and the `.toast-*` variants still win. |
