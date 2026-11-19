@@ -151,3 +151,7 @@ test('should_keep_tag_where_it_is_a_status_or_a_label', () => {
   assert.match(read(`${SRC}/pages/QuickStartPage.tsx`), /tag tag-success">Online/);
 });
 
+test('should_not_describe_a_panel_as_filled_or_a_card_as_rounded', () => {
+  assert.deepEqual(offenders(/Panel fill|border-radius and are intended/), []);
+});
+

@@ -7,7 +7,7 @@ const nw = new TokenReader(tokens);
 
 export const COLORS = [
   { name: 'void', hex: '#000000', variable: '--void', desc: 'Primary background — absolute void' },
-  { name: 'void-warm', hex: '#0a0a0a', variable: '--void-warm', desc: 'Panel fill' },
+  { name: 'void-warm', hex: '#0a0a0a', variable: '--void-warm', desc: 'Metric cells, sidebar; the fill of your own box (a .panel has none)' },
   { name: 'void-panel', hex: '#111111', variable: '--void-panel', desc: 'Inset surfaces & inputs' },
   { name: 'void-raised', hex: '#1a1a1a', variable: '--void-raised', desc: 'Elevated elements' },
   { name: 'primary', hex: '#6699ff', variable: '--nw-primary', desc: 'Focus rings, accent lines & links (labels are neutral)' },
@@ -137,7 +137,7 @@ export const INTENSITY_MODES = [
 export const LAYER2_TOKENS = [
   // Surfaces
   { token: '--nw-surface-0', maps: '--void',         desc: 'Page background' },
-  { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Panels, cards' },
+  { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Metric cells, sidebar (a .panel itself has no fill)' },
   { token: '--nw-surface-2', maps: '--void-panel',   desc: 'Modals, inputs' },
   { token: '--nw-surface-3', maps: '--void-raised',  desc: 'Dropdowns, tooltips' },
   { token: '--nw-surface-4', maps: '#242424',        desc: 'Highest surface tier (no component uses it yet)' },

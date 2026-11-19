@@ -21,7 +21,7 @@ export function PanelsPage() {
           <div className="card-header">Card Component</div>
           <div className="card-body">
             <div style={{ color: 'var(--nw-text-dim)', fontSize: 11 }}>
-              Cards have a border-radius and are intended for isolated content blocks.
+              Cards keep a hairline outline and no fill; use them for isolated objects, and a panel for a section.
             </div>
           </div>
           <div className="card-footer" style={{ fontSize: 9, color: 'var(--nw-text-dim)' }}>Card Footer</div>
