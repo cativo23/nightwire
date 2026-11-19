@@ -86,7 +86,9 @@ so `bg-nw-chrome`, `shadow-glow-cyan` and `duration-nw-tick` follow `data-intens
 overrides. Colours are `color-mix(in srgb, var(--nw-x) calc(<alpha-value> * 100%), transparent)`,
 which keeps opacity modifiers such as `bg-nw-cyan/40` generating; a plain `var()` would drop them.
 Font families, sizes, letter spacing, spacing and radii stay literal, since no intensity changes
-them. See [tokens.md](tokens.md#how-values-are-emitted).
+them. Colour and motion utilities read their custom property where they are used, so an override
+on a sub-tree reaches them; the glow shadows carry `var(--nw-glow)` inline for the same reason.
+See [tokens.md](tokens.md#how-values-are-emitted).
 
 The 2.x problem, kept for the record: every preset value was a literal, so the utilities ignored
 the intensity level while the CSS classes followed it.

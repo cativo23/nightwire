@@ -112,13 +112,15 @@ The preset decides per tailwind target (FR-018, K3), in this order:
    own name, not the end of its alias chain, so overriding `--nw-chrome` reaches `nw-chrome`. The
    `calc(<alpha-value> * 100%)` is what keeps `bg-nw-cyan/40` generating; a plain `var()` colour
    silently loses its opacity variants (research R7).
-2. A target under `transitionDuration`, `transitionTimingFunction` or `boxShadow` becomes
-   `var(--css)`.
+2. A target under `transitionDuration` or `transitionTimingFunction` becomes `var(--css)`. A
+   `boxShadow` target becomes `var(--css)` when the token publishes one, and otherwise its value as
+   written, which the build accepts only if that value contains `var(--` (the glow shadows read
+   `--nw-glow` this way).
 3. Everything else is the literal: font families (arrays), dimensions and the raw `--ls-*` letter
    spacing, which publish a css name but stay literal because no intensity changes them.
 
-A token under rule 1 or 2 must have a `css` name, and the build fails otherwise, naming the token
-and FR-018. That is why the preset's duration and easing keys point at the `motion.longhand.*` and
+A colour or motion token must have a `css` name, and a shadow token needs one or a value that
+references a custom property; the build fails otherwise, naming the token and FR-018. That is why the preset's duration and easing keys point at the `motion.longhand.*` and
 `motion.longhand-out.*` tokens (which publish `--nw-*-duration`, `--nw-*-ease` and their `-out`
 forms) and not at the typed `motion.timing.*` tokens (which have no custom property).
 
@@ -153,7 +155,7 @@ Every raw token today, and why it cannot be typed:
 | `motion.exit.*`, `motion.longhand.*`, `motion.longhand-out.*` | the same shape over `out.*`, and the bare `calc()` duration or curve | `--nw-<step>-out`, `--nw-<step>-duration`, `--nw-<step>-ease`, `--nw-<step>-out-duration`, `--nw-<step>-out-ease` | `calc()` with a runtime `var()`; a bare curve interpolated from a typed token |
 | `motion.cycle.*` | `calc({motion.timing.stagger} * var(--nw-motion-scale))`; loops divide by `var(--nw-motion-scale)` | `--nw-stagger`, `--nw-loop-spin`, `--nw-loop-shimmer` | `calc()` with a runtime `var()` |
 | `shadow.elevation-overlay` | `0 24px 64px rgba(0, 0, 0, 0.7)` | `--nw-elevation-overlay` (CSS only) | Multi-value shadow |
-| `shadow.glow-green` / `blue` / `cyan` / `red` | `0 0 calc(8px * var(--nw-glow)) rgba(…,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(…,0.13)` (red: `0.2`) | `--nw-shadow-glow-*`, preset `boxShadow.glow-*` | `calc()` with a runtime `var()`; one value for the `.glow-*` text-shadows and the preset |
+| `shadow.glow-green` / `blue` / `cyan` / `red` | `0 0 calc(8px * var(--nw-glow)) rgba(…,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(…,0.13)` (red: `0.2`) | preset `boxShadow.glow-*` | `calc()` with a runtime `var()`; the same value as the `.glow-*` text-shadows, kept inline |
 | `doc.typography.title.transform` | `scaleX(0.82)` | `DESIGN.md` only | CSS transform |
 | `doc.typography.title.textTransform`, `doc.typography.stamp.textTransform` | `uppercase` | `DESIGN.md` only | CSS keyword |
 
@@ -182,10 +184,11 @@ removed in v3: panel headers have no gradient or scanlines at any level.
 
 Some values exist only in one output:
 
-- **Shared glow:** `shadow.glow-*` publish `--nw-shadow-glow-*`. `.glow-green`, `.glow-blue`,
-  `.glow-cyan` and `.glow-red` read them as `text-shadow`, and the preset's `boxShadow.glow-*` is
-  `var(--nw-shadow-glow-*)`, so both follow `--nw-glow` on `:root` (a `--nw-glow` set on one element
-  does not reach them). `.glow-yellow` and `.glow-purple` have no token and keep their own value.
+- **Preset-only:** `shadow.glow-*` (the `boxShadow.glow-*` utilities). They have no custom property
+  on purpose: a property declared on `:root` would substitute `var(--nw-glow)` there, and a
+  `--nw-glow` set on a sub-tree would reach neither the preset glow nor `.glow-*`. The value is
+  inline, the same string as `.glow-green|blue|cyan|red` in `src/utilities/glow.css` (a test keeps
+  them equal), so both read `--nw-glow` where they are used and a sub-tree override works.
 - **CSS-only:** `shadow.elevation-overlay` (`--nw-elevation-overlay` has no preset utility yet).
 - **Doc-only:** `doc.*` holds the `DESIGN.md` views. `doc.typography.*` mostly aliases the font and
   size tokens and adds weights and line heights. The `motion` region of `DESIGN.md` has no doc-only
