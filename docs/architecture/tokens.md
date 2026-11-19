@@ -119,6 +119,15 @@ The preset decides per tailwind target (FR-018, K3), in this order:
 3. Everything else is the literal: font families (arrays), dimensions and the raw `--ls-*` letter
    spacing, which publish a css name but stay literal because no intensity changes them.
 
+Where a custom property is resolved decides what an override reaches. A colour utility reads
+`var(--nw-x)` where it is used, so a sub-tree override of a colour token (`--nw-cyan`,
+`--nw-primary`, ...) and of `--nw-glow` reaches it. Root-derived values do not follow a sub-tree:
+`--nw-motion-scale` (the duration longhands are computed on `:root`) and alias tokens such as
+`--nw-chrome` (`var(--nw-primary)` resolved on `:root`). Override those on `:root` or on the
+`data-intensity` element, or override the derived token itself. A token that carries its own alpha
+(`--nw-primary-fill`, `--nw-text-faint`, `--nw-line`, ...) multiplies with an opacity modifier:
+`bg-nw-primary-fill/40` is 0.4 × 0.08, where 2.1.0 replaced the alpha.
+
 A colour or motion token must have a `css` name, and a shadow token needs one or a value that
 references a custom property; the build fails otherwise, naming the token and FR-018. That is why the preset's duration and easing keys point at the `motion.longhand.*` and
 `motion.longhand-out.*` tokens (which publish `--nw-*-duration`, `--nw-*-ease` and their `-out`

@@ -85,10 +85,24 @@ test in `npm test` fails if a component hardcodes a duration. The loops scale in
 so `bg-nw-chrome`, `shadow-glow-cyan` and `duration-nw-tick` follow `data-intensity` and runtime
 overrides. Colours are `color-mix(in srgb, var(--nw-x) calc(<alpha-value> * 100%), transparent)`,
 which keeps opacity modifiers such as `bg-nw-cyan/40` generating; a plain `var()` would drop them.
-Font families, sizes, letter spacing, spacing and radii stay literal, since no intensity changes
-them. Colour and motion utilities read their custom property where they are used, so an override
-on a sub-tree reaches them; the glow shadows carry `var(--nw-glow)` inline for the same reason.
-See [tokens.md](tokens.md#how-values-are-emitted).
+`duration-nw-*` and `ease-nw-*` are `var(--nw-*-duration)` and `var(--nw-*-ease)`, so they scale with
+`--nw-motion-scale` and drop to 0 under reduced motion; the `-out` forms
+(`duration-nw-{tick,sweep,uplink}-out`, `ease-nw-{tick,sweep,uplink}-out`) are new. `shadow-glow-*`
+use the same string as the `.glow-*` text classes, so they scale with `--nw-glow` (4px and 8px
+blur at operator, none at archive). **Breaking** for preset users: 2.1.0 had a fixed
+`0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)`. Font families, sizes, letter spacing, spacing and radii
+stay literal, since no intensity changes them.
+
+Colour utilities and the glow shadows read their custom property where they are used, so an
+override of a colour token (`--nw-cyan`, `--nw-primary`, ...) or of `--nw-glow` on a sub-tree
+reaches them. Two things resolve on `:root` and do not follow a sub-tree: `--nw-motion-scale`
+(the duration longhands are computed there) and alias tokens such as `--nw-chrome`, which is
+`var(--nw-primary)` resolved on `:root`. Override those on `:root` or on the `data-intensity`
+element, or override the derived token itself (`--nw-chrome`, `--nw-tick-duration`). Known limit:
+the tokens that carry their own alpha (the five `bg-nw-*` fill, faint and glow backgrounds, and
+the faint, line, `line-strong` and `line-chrome` colours) now multiply with an opacity modifier, so
+`bg-nw-primary-fill/40` is 0.4 × 0.08, where 2.1.0 replaced the alpha. See
+[tokens.md](tokens.md#how-values-are-emitted).
 
 The 2.x problem, kept for the record: every preset value was a literal, so the utilities ignored
 the intensity level while the CSS classes followed it.
@@ -105,9 +119,19 @@ knobs, not a literal blur.
 The 2.x problem, kept for the record: these pages declared token values inline and did not load the
 stylesheet, so the restructure could not change them and parity did not cover them.
 
-### K5. The preset is ESM in a package without `"type": "module"`
+### K5. The preset is ESM in a package without `"type": "module"` (resolved in v3)
 
-`tailwind.preset.js` uses `export default`, but `package.json` declares no module type. Tailwind's
-config loader handles it; plain Node prints `MODULE_TYPELESS_PACKAGE_JSON` and reparses the file as
-ESM. Adding `"type": "module"` or `exports` changes how every consumer resolves the package, so it
-waits for a major release. Owner: a future major.
+**Resolved.** `package.json` now declares `"type": "module"`, so `tailwind.preset.js` is an ES
+module for Node as well as for Tailwind, and `import preset from '@cativo23/nightwire/tailwind.preset.js'`
+loads without `MODULE_TYPELESS_PACKAGE_JSON`. The CLI is compiled to CommonJS, so
+`scripts/build-cli.mjs` writes `dist/package.json` (`{"type":"commonjs"}`) and Node keeps loading
+`dist/` as CommonJS. File names and locations are unchanged, and `exports` and `engines` are still
+not declared. The installer copies the preset as `nightwire.tailwind.preset.mjs`, which is ESM
+whatever the project's own `type` is.
+
+**Breaking for CommonJS configs.** On Node 20.19+ and 22.12+, `require('@cativo23/nightwire/tailwind.preset.js')`
+returns the module namespace, and Tailwind 3 silently ignores it ("No utility classes detected").
+Use `require('@cativo23/nightwire/tailwind.preset.js').default`, or switch the config to ESM.
+
+The 2.x problem, kept for the record: the file used `export default` in a package with no module
+type, so plain Node printed `MODULE_TYPELESS_PACKAGE_JSON` and reparsed it as ESM.
