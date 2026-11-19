@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <radialGradient id="moon" cx="38%" cy="34%" r="70%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".55" stop-color="#b8b8b8"/>
+      <stop offset="1" stop-color="#2a2a2a"/>
+    </radialGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000"/>
+      <stop offset="1" stop-color="#404040"/>
+    </linearGradient>
+    <linearGradient id="mtn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a0a0a0"/>
+      <stop offset="1" stop-color="#101010"/>
+    </linearGradient>
+    <linearGradient id="mtn2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#606060"/>
+      <stop offset="1" stop-color="#000"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#sky)"/>
+  <circle cx="245" cy="170" r="112" fill="url(#moon)"/>
+  <path d="M0 380 L70 300 L120 340 L190 245 L260 330 L310 290 L400 360 V500 H0Z" fill="url(#mtn)"/>
+  <path d="M0 435 L90 372 L160 412 L240 360 L330 422 L400 396 V500 H0Z" fill="url(#mtn2)"/>
+  <rect x="150" y="405" width="8" height="60" fill="#d0d0d0"/>
+  <rect x="200" y="405" width="8" height="60" fill="#d0d0d0"/>
+  <rect x="138" y="398" width="82" height="9" fill="#e0e0e0"/>
+  <rect x="146" y="414" width="66" height="5" fill="#c0c0c0"/>
+</svg>

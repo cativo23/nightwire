@@ -33,6 +33,7 @@ apps/docs/
 │   │   ├── DataPage.tsx
 │   │   ├── FeedbackPage.tsx
 │   │   ├── PanelsPage.tsx
+│   │   ├── PiecesPage.tsx
 │   │   ├── MoreComponentsPage.tsx
 │   │   ├── IntensityPage.tsx
 │   │   ├── TemplatesPage.tsx
@@ -71,7 +72,7 @@ The sidebar is driven by `SIDEBAR_GROUPS` in `src/data/index.ts` — four named 
 |---|---|---|
 | Getting Started | 入門 | Overview, Quick Start, Installation |
 | Foundation | 基礎 | Tokens, Colors, Typography, Surfaces, Spacing, Layer 2 Tokens |
-| Components | 部品 | Component Registry, Buttons, Data, Feedback, Panels, More Components |
+| Components | 部品 | Component Registry, Buttons, Data, Feedback, Panels, Mockup Pieces, More Components |
 | Patterns | 応用 | Intensity System, Templates, Live Examples |
 
 See `CHANGELOG.md` at the repo root for what changed in each release.

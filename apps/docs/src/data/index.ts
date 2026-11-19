@@ -27,8 +27,8 @@ export const FONTS = [
 
 export const COMPONENTS = [
   { name: '.btn', desc: 'Primary button (bone, the one solid action)', variants: '.btn-ghost, .btn-danger, .btn-chrome, .btn-sm' },
-  { name: '.panel', desc: 'Base container', variants: '.panel-header, .panel-body' },
-  { name: '.card', desc: 'Bordered container, square corners', variants: '.card-header, .card-body, .card-footer' },
+  { name: '.panel', desc: 'Open section (no fill, no outline); .nw-reticle gives it a frame', variants: '.panel-header, .panel-body, [data-idx]' },
+  { name: '.card', desc: 'Hairline outline, no fill, square corners', variants: '.card-header, .card-body, .card-footer' },
   { name: '.metrics-grid', desc: '2-col data grid', variants: '.metric-cell, .m-label, .m-value, .m-sub' },
   { name: '.nw-table', desc: 'Data table', variants: 'th, td, td.lbl' },
   { name: '.badge', desc: 'Inline badge', variants: '.badge-success, .badge-danger, .badge-warning' },
@@ -42,6 +42,17 @@ export const COMPONENTS = [
   { name: '.kv-row', desc: 'Key-value pair', variants: '.kv-label, .kv-value' },
   { name: '.skeleton', desc: 'Loading state', variants: '.skeleton-text, .skeleton-heading, .skeleton-block' },
   { name: '.compressed-title', desc: 'scaleX(0.82) serif', variants: 'standalone class' },
+  { name: '.nw-section-head', desc: 'Section head: index, label, rule and kanji', variants: '.nw-section-head-chrome, [data-idx]' },
+  { name: '.nw-display', desc: 'Page-top heading face, with a muted lead', variants: '.nw-lede' },
+  { name: '.nw-chip', desc: 'Small label or link with a hairline outline', variants: '.nw-chip-solid, .sq, .star' },
+  { name: '.nw-index', desc: 'Two-column kanji index', variants: '.nw-index-row, .kanji, .name, .count, .items' },
+  { name: '.nw-accordion', desc: 'FAQ on native details, no JavaScript', variants: 'details, summary, .answer' },
+  { name: '.nw-link-arrow', desc: 'Chrome label link with an arrow', variants: 'standalone class' },
+  { name: '.nw-reticle', desc: 'Opt-in frame with corner arms, alone or on a .panel', variants: '.nw-reticle-meta, -vlabel, -stamp, -foot' },
+  { name: '.nw-halftone', desc: 'Halftone treatment over any img', variants: '.nw-halftone-layer, -chrome, -data, -bone, -fine' },
+  { name: '.nw-barcode', desc: 'Decorative bar strip in the text colour', variants: 'standalone class' },
+  { name: '.nw-wordmark', desc: 'Outlined display word for footers and covers', variants: 'standalone class' },
+  { name: '.nw-grain', desc: 'Film grain over the page, on <body> only', variants: '--nw-grain knob' },
 ];
 
 // ── Sidebar structure ──────────────────────────────────────────────────────
@@ -94,6 +105,7 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
       { id: 'data',            label: 'Data Display',       kanji: 'データ' },
       { id: 'feedback',        label: 'Feedback & Status',  kanji: '応答' },
       { id: 'panels',          label: 'Panel Anatomy',      kanji: '構造' },
+      { id: 'pieces',          label: 'Mockup Pieces',      kanji: '新部品' },
       { id: 'more-components', label: 'More Components',    kanji: '追加部品' },
     ],
   },

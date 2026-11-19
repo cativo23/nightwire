@@ -160,3 +160,45 @@ test('should_not_hard_code_a_token_count_in_the_event_stream', () => {
   assert.doesNotMatch(data, /custom properties: \d+ active/);
   assert.match(data, /__NW_TOKEN_COUNT__/);
 });
+
+const PIECES = [
+  'nw-section-head', 'nw-section-head-chrome', 'nw-display', 'nw-lede', 'nw-chip', 'nw-chip-solid',
+  'nw-index', 'nw-index-row', 'nw-accordion', 'nw-link-arrow', 'nw-reticle', 'nw-halftone',
+  'nw-halftone-layer', 'nw-barcode', 'nw-wordmark', 'nw-grain',
+];
+
+test('should_route_a_page_for_the_new_pieces_and_list_it_in_the_sidebar', () => {
+  const page = `${SRC}/pages/PiecesPage.tsx`;
+  assert.equal(existsSync(path.join(root, page)), true, 'PiecesPage.tsx is missing');
+  const app = read(`${SRC}/App.tsx`);
+  assert.match(app, /import \{ PiecesPage \} from '\.\/pages\/PiecesPage'/);
+  assert.match(app, /path="\/pieces" element=\{<PiecesPage \/>\}/);
+  assert.match(read(`${SRC}/data/index.ts`), /id: 'pieces'/, 'the sidebar does not list the pieces page');
+  assert.match(read('apps/docs/README.md'), /PiecesPage\.tsx/, 'the README structure omits PiecesPage');
+});
+
+test('should_show_every_new_piece_on_the_pieces_page_and_in_the_registry', () => {
+  const page = read(`${SRC}/pages/PiecesPage.tsx`);
+  const registry = read(`${SRC}/data/index.ts`);
+  for (const cls of PIECES) {
+    assert.match(page, new RegExp(`(^|[^\\w-])${cls}([^\\w-]|$)`), `PiecesPage does not show .${cls}`);
+  }
+  for (const cls of ['nw-section-head', 'nw-display', 'nw-chip', 'nw-index', 'nw-accordion', 'nw-link-arrow', 'nw-reticle', 'nw-halftone', 'nw-barcode', 'nw-wordmark', 'nw-grain']) {
+    assert.match(registry, new RegExp(`name: '\\.${cls}`), `the registry does not list .${cls}`);
+  }
+});
+
+test('should_scope_the_grain_demo_and_leave_the_docs_body_without_grain', () => {
+  // .nw-grain belongs on <body>; the docs site keeps its own body clean and demos it in a box.
+  assert.doesNotMatch(read('apps/docs/index.html'), /nw-grain/);
+  assert.doesNotMatch(read(`${SRC}/main.tsx`), /nw-grain/);
+  const page = read(`${SRC}/pages/PiecesPage.tsx`);
+  assert.match(page, /<body class="nw-grain">/, 'the page does not show the body hook');
+  assert.doesNotMatch(page, /document\.body\.classList/, 'the demo must not put grain on the whole site');
+});
+
+test('should_ship_the_halftone_scene_inside_the_docs_app', () => {
+  const svg = path.join(root, SRC, 'assets/scene.svg');
+  assert.equal(existsSync(svg), true, 'scene.svg is not in apps/docs/src/assets');
+  assert.equal(readFileSync(svg, 'utf8'), read('docs/design/v3/scene.svg'), 'scene.svg drifted from docs/design/v3/scene.svg');
+});
