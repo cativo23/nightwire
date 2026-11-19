@@ -51,6 +51,8 @@
   font-size: inherit;
   letter-spacing: inherit;
   text-transform: inherit;
+  flex-shrink: 1;
+  white-space: normal;
 }
 
 /* The new header pseudo-elements (the hairline and the index) and the right-slot order */
@@ -86,6 +88,8 @@
   font-size: inherit;
   letter-spacing: inherit;
   text-transform: inherit;
+  flex-shrink: 1;
+  white-space: normal;
 }
 .nw-section-head::before, .nw-section-head[data-idx]::before,
 .nw-section-head::after,

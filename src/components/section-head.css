@@ -53,6 +53,8 @@
   font-size: 20px;
   letter-spacing: 0;
   text-transform: none;
+  flex-shrink: 0;       /* a long label wraps; the kanji keeps its width instead of stacking its glyphs */
+  white-space: nowrap;
 }
 
 /* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
@@ -66,4 +68,12 @@
 .nw-section-head-chrome > .kanji {
   color: var(--nw-chrome);
   text-shadow: 0 0 var(--nw-kanji-glow) var(--nw-chrome);   /* FR-034 exception: 0 at archive */
+}
+
+/* Forced colours replace background colours with Canvas, which would erase the hairline: paint it
+   with the text colour, as v2's border-bottom rule was. */
+@media (forced-colors: active) {
+  .nw-section-head::after,
+  .panel-header::after,
+  .card-header::after { background: CanvasText; }
 }

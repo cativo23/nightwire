@@ -1,11 +1,11 @@
 /* ── Panel ───────────────────────────────────────────────────── */
 
-/* Open at every intensity (FR-026): no fill, no outline. The frame is opt-in, with .nw-reticle.
-   The header look is in section-head.css. */
+/* Open at every intensity (FR-026): no fill, no outline, no radius. The frame is opt-in, with
+   .nw-reticle. The header look is in section-head.css. */
 .panel {
   background: none;
   border: 0;
-  border-radius: var(--nw-panel-radius);
+  border-radius: 0;
 }
 
 .panel-header {

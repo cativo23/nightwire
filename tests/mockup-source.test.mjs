@@ -93,6 +93,12 @@ test('FR-026: .panel renders open: no fill and no outline', () => {
   assert.ok(!d.has('box-shadow'), 'no ring drawn with box-shadow');
 });
 
+test('FR-026: a plain .panel has no radius at any intensity (direction: no fill, no outline, no radius), not the --nw-panel-radius knob', () => {
+  const d = declsOf(panel, '.panel');
+  assert.equal(d.get('border-radius'), '0');
+  assert.doesNotMatch(panel, /--nw-panel-radius/, 'panel.css no longer reads the archive radius knob');
+});
+
 test('FR-027: .card loses its fill and keeps a hairline outline', () => {
   const d = declsOf(card, '.card');
   assert.ok(NO_FILL(d.get('background')), `background: ${d.get('background')}`);
@@ -129,6 +135,25 @@ test('FR-030: .nw-section-head, .panel-header and .card-header share one selecto
     const hit = rules.find((r) => r.selector.split(/\s*,\s*/).filter((s) => s.includes(piece)).length === 3);
     assert.ok(hit, `one shared rule for ${piece}`);
   }
+});
+
+test('FR-026: the header kanji never shrinks or wraps: a long label gives way to it, not the other way round', () => {
+  const rules = parseRules(read('src/components/section-head.css'));
+  const kanji = rules.find((r) => r.selector.split(/\s*,\s*/).filter((s) => s.endsWith('> .kanji')).length === 3);
+  assert.ok(kanji, 'the shared > .kanji rule');
+  assert.equal(kanji.decls.find((d) => d.prop === 'flex-shrink')?.value, '0');
+  assert.equal(kanji.decls.find((d) => d.prop === 'white-space')?.value, 'nowrap');
+});
+
+test('FR-026: in forced colours the section-head hairline is painted with CanvasText, because the forced background would erase it', () => {
+  const css = read('src/components/section-head.css');
+  const forced = blockOf(css, '@media (forced-colors: active)');
+  assert.ok(forced, 'a forced-colors media block');
+  const rule = parseRules(forced.inner).find((r) => r.selector.split(/\s*,\s*/).includes('.nw-section-head::after'));
+  assert.ok(rule, 'the block restyles .nw-section-head::after');
+  assert.deepEqual(rule.selector.split(/\s*,\s*/), ['.nw-section-head::after', '.panel-header::after', '.card-header::after']);
+  assert.equal(rule.decls.find((d) => d.prop === 'background')?.value, 'CanvasText');
+  assert.doesNotMatch(forced.outer, /CanvasText/, 'only inside the block');
 });
 
 // ---- FR-029: spec sheet --------------------------------------------------------------------------
