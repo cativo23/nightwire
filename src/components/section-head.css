@@ -50,12 +50,18 @@
 .nw-section-head > .kanji,
 .panel-header > .kanji,
 .card-header > .kanji {
+  order: 2;             /* the right slot, also when the kanji is the first child (a bare-text label) */
   font-size: 20px;
   letter-spacing: 0;
   text-transform: none;
   flex-shrink: 0;       /* a long label wraps; the kanji keeps its width instead of stacking its glyphs */
   white-space: nowrap;
 }
+
+/* A kanji that is the first child is not a label: no "// " prefix before it. */
+.nw-section-head[data-idx] > .kanji:first-child::before,
+.panel-header[data-idx] > .kanji:first-child::before,
+.card-header[data-idx] > .kanji:first-child::before { content: none; }
 
 /* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
 :where(.nw-section-head .kanji, .panel-header .kanji, .card-header .kanji) {

@@ -145,6 +145,16 @@ test('FR-026: the header kanji never shrinks or wraps: a long label gives way to
   assert.equal(kanji.decls.find((d) => d.prop === 'white-space')?.value, 'nowrap');
 });
 
+test('FR-026: a header kanji sits in the right slot even when it is the first child (bare-text label), and gets no "// " prefix', () => {
+  const rules = parseRules(read('src/components/section-head.css'));
+  const kanji = rules.find((r) => r.selector.split(/\s*,\s*/).filter((s) => s.endsWith('> .kanji')).length === 3);
+  assert.equal(kanji.decls.find((d) => d.prop === 'order')?.value, '2', 'order 2, after the hairline (order 1)');
+  const prefix = rules.find((r) => r.selector.split(/\s*,\s*/).filter((s) => s.endsWith('> .kanji:first-child::before')).length === 3);
+  assert.ok(prefix, 'one shared rule for a first-child kanji');
+  assert.equal(prefix.decls.find((d) => d.prop === 'content')?.value, 'none');
+  assert.ok(rules.indexOf(prefix) > rules.findIndex((r) => r.selector.includes('[data-idx] > :first-child::before')), 'after the "// " rule, so it wins on equal or higher specificity');
+});
+
 test('FR-026: in forced colours the section-head hairline is painted with CanvasText, because the forced background would erase it', () => {
   const css = read('src/components/section-head.css');
   const forced = blockOf(css, '@media (forced-colors: active)');
