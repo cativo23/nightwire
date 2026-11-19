@@ -1,5 +1,5 @@
 import tokens from '../../../../src/tokens/tokens.json';
-import { TokenReader } from './tokens';
+import { TokenReader, KNOB_COLUMNS, motionVocab } from './tokens.mjs';
 
 // Motion and intensity values are read from src/tokens/tokens.json (Principle II); only the
 // human copy (use, desc) is written here.
@@ -109,35 +109,28 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
 ];
 
 
-// Which knobs each column shows is a display choice; the values come from the JSON. Archive and
-// combat list knobs the level overrides, operator lists the base `:root` values.
+// Which knobs each column shows (KNOB_COLUMNS) is a display choice; the values come from the JSON.
 export const INTENSITY_MODES = [
   {
     id: 'archive',
     label: 'Archive',
     kanji: '保管',
     desc: 'Docs, blogs. No glow, paused pulses, larger padding, no kanji, slower motion.',
-    knobs: nw.knobs('archive', [
-      'glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight',
-    ]),
+    knobs: nw.knobs('archive', KNOB_COLUMNS.archive),
   },
   {
     id: 'operator',
     label: 'Operator',
     kanji: '通常',
     desc: 'Default. Neutral look with a subtle state glow, comfortable density, kanji visible.',
-    knobs: nw.knobs('operator', [
-      'glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight',
-    ]),
+    knobs: nw.knobs('operator', KNOB_COLUMNS.operator),
   },
   {
     id: 'combat',
     label: 'Combat',
     kanji: '戦闘',
     desc: 'Ops console, dense. State signals glow twice as bright, faster pulses, denser padding.',
-    knobs: nw.knobs('combat', [
-      'led-glow', 'control-glow', 'progress-glow', 'motion-scale', 'density', 'pad-scale', 'base-font',
-    ]),
+    knobs: nw.knobs('combat', KNOB_COLUMNS.combat),
   },
 ];
 
@@ -216,30 +209,7 @@ export const COMPONENTS_V2 = [
   { name: '.nw-split',    category: 'layout',   desc: 'Sidebar + main grid (240px / 1fr)' },
 ];
 
-const combatPulse = parseFloat(
-  (nw.number('knob.pulse-speed') / nw.overrideNumber('combat', 'motion-scale')).toFixed(3),
-);
-
-export const MOTION_VOCAB = [
-  // Enter composites: fill the `transition` / `animation` shorthand slot.
-  { token: '--nw-tick',   value: nw.motion('tick', 'in'),   use: 'Enter: clicks, toggles, micro-feedback' },
-  { token: '--nw-sweep',  value: nw.motion('sweep', 'in'),  use: 'Enter: panels, modals, drawers' },
-  { token: '--nw-uplink', value: nw.motion('uplink', 'in'), use: 'Enter: data load reveal (staggered)' },
-  // Exit composites: shorter and accelerating. Final, approved on the v3 direction board.
-  { token: '--nw-tick-out',   value: nw.motion('tick', 'out'),   use: 'Exit: dropdowns, tooltips' },
-  { token: '--nw-sweep-out',  value: nw.motion('sweep', 'out'),  use: 'Exit: modals, drawers, command palette, toasts' },
-  { token: '--nw-uplink-out', value: nw.motion('uplink', 'out'), use: 'Exit: data load reveal' },
-  // Longhands: build a transition piece by piece, e.g. to delay `visibility` until an exit ends.
-  { token: '--nw-<step>-duration, --nw-<step>-ease', value: `e.g. --nw-sweep-duration (${nw.duration('sweep', 'in')}), --nw-sweep-ease`, use: 'Enter longhands for tick, sweep and uplink' },
-  { token: '--nw-<step>-out-duration, --nw-<step>-out-ease', value: `e.g. --nw-sweep-out-duration (${nw.duration('sweep', 'out')})`, use: 'Exit longhands: delay visibility until the exit ends' },
-  // Stagger and loops.
-  { token: '--nw-stagger',        value: nw.display('motion.timing.stagger'),  use: 'Delay step between items revealed in sequence; multiply by the item index' },
-  { token: '--nw-loop-spin',      value: `${nw.display('motion.timing.loop.spin')} (cycle)`,  use: 'Spinner cycle; scales inversely with motion scale' },
-  { token: '--nw-loop-shimmer',   value: `${nw.display('motion.timing.loop.shimmer')} (cycle)`, use: 'Skeleton shimmer cycle; scales inversely with motion scale' },
-  { token: '--nw-loop-state',     value: `${nw.display('knob.loop-state')} | ${nw.reducedMotion('loop-state')}`, use: 'Play state of spinner and shimmer; paused by reduced motion' },
-  { token: '--nw-pulse-speed',    value: `${nw.display('knob.pulse-speed')} (every level)`, use: `LED heartbeat cycle; scales inversely with motion scale, so combat runs at ${combatPulse}s` },
-  { token: '--nw-pulse-state',    value: `${nw.display('knob.pulse-state')} | ${nw.reducedMotion('pulse-state')}`, use: 'LED heartbeat play state; paused in archive and by reduced motion' },
-];
+export const MOTION_VOCAB = motionVocab(nw);
 
 export type EventEntry = { time: string; type: string; detail: string; metric: string };
 
