@@ -2721,6 +2721,193 @@
         "old": "^rgba\\(178, 102, 224, 0\\.1\\)$",
         "new": "^rgba\\(178, 102, 224, 0\\.06\\)$"
       }
+    },
+    {
+      "id": "cascade-open-layout-data-table-all",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/data-table.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/components/data-table.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-page-box-data-table-all",
+      "description": "FR-038: the open layout of the components on examples/html/components/data-table.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/components/data-table.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-open-layout-magi-oracle-all",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/magi-oracle.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/components/magi-oracle.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-page-box-magi-oracle-all",
+      "description": "FR-038: the open layout of the components on examples/html/components/magi-oracle.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/components/magi-oracle.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-open-layout-metrics-grid-all",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/metrics-grid.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/components/metrics-grid.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-page-box-metrics-grid-all",
+      "description": "FR-038: the open layout of the components on examples/html/components/metrics-grid.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/components/metrics-grid.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-open-layout-vault-card-all",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/vault-card.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/components/vault-card.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-page-box-vault-card-all",
+      "description": "FR-038: the open layout of the components on examples/html/components/vault-card.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/components/vault-card.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-open-layout-dashboard-all",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/dashboard.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/dashboard.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-page-box-dashboard-all",
+      "description": "FR-038: the open layout of the components on examples/html/dashboard.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body and the container of the panels. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^html(>body:nth-child\\(\\d+\\))?$|div\\.dash-left:nth-child\\(\\d+\\)>div\\.dash-row:nth-child\\(\\d+\\)$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/dashboard.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-open-layout-neural-ops-all",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/neural-ops.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/neural-ops.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-page-box-neural-ops-all",
+      "description": "FR-038: the open layout of the components on examples/html/neural-ops.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body and the container of the panels. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^html(>body:nth-child\\(\\d+\\))?$|div\\.dash-left:nth-child\\(\\d+\\)>div\\.dash-row:nth-child\\(\\d+\\)$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/neural-ops.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-open-layout-synapse-ops-all",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/synapse-ops.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/synapse-ops.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-open-layout-workshop-all",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/workshop.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/workshop.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-page-box-workshop-all",
+      "description": "FR-038: the open layout of the components on examples/html/workshop.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body and the container of the panels. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^html(>body:nth-child\\(\\d+\\))?$|div\\.dash-grid:nth-child\\(\\d+\\)$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "examples/html/workshop.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-open-layout-fixture-coverage-all",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on scripts/parity/fixtures/coverage.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "scripts/parity/fixtures/coverage.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-page-box-fixture-coverage-all",
+      "description": "FR-038: the open layout of the components on scripts/parity/fixtures/coverage.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body and the container of the panels. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "path": "(^html(>body:nth-child\\(\\d+\\))?$|^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)(>section:nth-child\\(\\d+\\))?$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "scripts/parity/fixtures/coverage.html"
+      },
+      "kind": "cascade"
     }
   ]
 }

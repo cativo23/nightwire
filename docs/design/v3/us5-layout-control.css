@@ -1,0 +1,95 @@
+/* US5 layout control sheet (FR-038, T072/T073).
+   Used only by the parity control run:
+     npm run parity -- --old git:v2.1.0 --expect docs/design/v3/change-inventory.json \
+       --control docs/design/v3/us5-layout-control.css
+   It is appended to nightwire.css, so it wins at equal specificity, and it restores the
+   layout-affecting declarations of the components US5 opened (.panel, .card, their headers and
+   bodies, .kv-row) to their values at 3a63a86, the tip before US5 (src/components/panel.css,
+   card.css and kv-row.css as they were there). The new section-head pseudo-elements and the
+   header's new `order` are neutralised. If this run reports unexpected=0 with the cascade
+   categories ignored, the open layout is the cause of every geometric difference those
+   categories absorb. Declarations only change box, text or flow geometry: colours, backgrounds
+   and glows are not restored, because they do not move anything. The border keeps its
+   pre-US5 hairline/solid/line shorthand because a border exists only with a style.
+   The classes US5 added (.nw-section-head, .kv-note) are restored to unset, which is their state
+   before US5, so that the size of their boxes is covered by the same proof. */
+
+/* Panel: the 1px frame, and the body padding */
+.panel { border: var(--nw-hairline) solid var(--nw-line); }
+.panel-body { padding: var(--sp-3); }
+
+/* Panel and card headers: the v2 type, box and flow */
+.panel-header,
+.card-header {
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
+  gap: normal;
+  align-items: normal;
+}
+.panel-header {
+  padding: var(--sp-2) var(--sp-3) 7px;
+  display: flex;
+  justify-content: space-between;
+}
+.card-header {
+  padding: var(--sp-3) var(--sp-4);
+  display: block;
+  justify-content: normal;
+}
+
+/* The header's kanji took no size or case of its own: it inherited the header's */
+.panel-header > .kanji,
+.card-header > .kanji {
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+/* The new header pseudo-elements (the hairline and the index) and the right-slot order */
+.panel-header::before, .panel-header[data-idx]::before,
+.panel-header::after,
+.card-header::before, .card-header[data-idx]::before,
+.card-header::after,
+.panel-header[data-idx] > :first-child::before,
+.card-header[data-idx] > :first-child::before { content: none; display: none; }
+.panel-header > :not(:first-child),
+.card-header > :not(:first-child) { order: 0; }
+
+/* Key-value row: the v2 padding, baseline alignment and label offset */
+.kv-row {
+  align-items: baseline;
+  padding: var(--sp-1) 0;
+}
+.kv-row .kv-label { padding-top: 0; }
+.kv-row .kv-value { text-align: start; }
+
+/* The classes US5 added. Before US5 they were unstyled, so "restored" means unset. */
+.nw-section-head {
+  display: block;
+  align-items: normal;
+  gap: normal;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.nw-section-head > .kanji {
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+.nw-section-head::before, .nw-section-head[data-idx]::before,
+.nw-section-head::after,
+.nw-section-head[data-idx] > :first-child::before { content: none; display: none; }
+.nw-section-head > :not(:first-child) { order: 0; }
+.kv-row .kv-note {
+  display: inline;
+  font-size: inherit;
+  font-weight: inherit;
+  margin-top: 0;
+}
