@@ -669,7 +669,7 @@ export default { presets: [nightwirePreset] }
 > v3 is a major release. It replaces the look of v2.1.0 everywhere (the visual identity above), adds
 > the motion system, and removes the v1 compatibility surfaces that v2 kept. The frontmatter and the
 > sections above describe v3. The last section, "The v3 contract", lists what changed for a
-> consumer; the migration guide ([docs/migration/v3.md](docs/migration/v3.md), written in a later
+> consumer; the migration guide (`docs/migration/v3.md` in the repository, written in a later
 > phase of this release) will walk through each change.
 
 ### Token architecture in 3 layers
@@ -726,7 +726,7 @@ Combat adds energy only through state signals (the three glow knobs double, so t
 operator's 0.5, still below v2.1.0's combat 2.2), the pulse and density. It does not thicken lines
 or add decoration, and the header gradient and scanline knobs that v2 had at combat are removed. The
 line knobs have no per-level overrides, but they exist so a level can set one later. Full table:
-[docs/architecture/intensity.md](docs/architecture/intensity.md).
+`docs/architecture/intensity.md` in the repository.
 
 ### Motion vocabulary
 
@@ -909,7 +909,7 @@ promises below hold within v3.x, where a minor release only adds.
 1. **The look.** Every component, at every intensity, moved to the visual identity above: neutral
    labels and hairlines, square corners, bone `.btn`, outline secondaries, no decorative glow, a
    neutral default `.tag`, a `.toast` with a hairline boundary and a 2px accent. The values and
-   reasons are in [docs/design/v3/direction.md](docs/design/v3/direction.md). Existing markup keeps
+   reasons are in `docs/design/v3/direction.md` in the repository. Existing markup keeps
    working and renders the new look.
 2. **Removed v1 surfaces (breaking).** Each has a v3 replacement:
 
@@ -923,7 +923,7 @@ promises below hold within v3.x, where a minor release only adds.
 
    `.led[data-state="active"]` is new (`--nw-chrome`); v1 `.led.blue` had no v2 equivalent. The
    migration is not pixel-identical: the v1 LED glow was `4px * --nw-glow`, the state glow is
-   `8px * --nw-led-glow`. [docs/design/v3/v1-inventory.md](docs/design/v3/v1-inventory.md) records
+   `8px * --nw-led-glow`. `docs/design/v3/v1-inventory.md` in the repository records
    each decision.
 3. **New tokens.** `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow`, `--nw-hairline`,
    `--nw-rule`, `--nw-accent-width`, `--nw-elevation-overlay`, `--nw-action`, `--nw-action-hot`,
