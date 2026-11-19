@@ -202,3 +202,12 @@ test('should_ship_the_halftone_scene_inside_the_docs_app', () => {
   assert.equal(existsSync(svg), true, 'scene.svg is not in apps/docs/src/assets');
   assert.equal(readFileSync(svg, 'utf8'), read('docs/design/v3/scene.svg'), 'scene.svg drifted from docs/design/v3/scene.svg');
 });
+
+test('should_opt_the_dense_console_demos_into_the_reticle', () => {
+  // The panel is open in v3; a demo that is a console tile keeps its box with .nw-reticle.
+  const examples = read(`${SRC}/pages/ExamplesPage.tsx`);
+  const panels = examples.match(/className="panel(?:\s[^"]*)?"/g) ?? [];
+  assert.ok(panels.length >= 4, 'ExamplesPage lost its console tiles');
+  assert.deepEqual(panels.filter((p) => !/nw-reticle/.test(p)), [], 'an ExamplesPage tile is not a .panel.nw-reticle');
+  assert.match(read(`${SRC}/pages/PanelsPage.tsx`), /panel nw-reticle/, 'PanelsPage does not show the opt-in frame');
+});

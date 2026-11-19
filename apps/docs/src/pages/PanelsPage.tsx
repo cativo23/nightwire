@@ -28,6 +28,20 @@ export function PanelsPage() {
         </div>
       </div>
 
+      <div className="panel nw-reticle" style={{ marginBottom: 2 }}>
+        <div className="panel-header"><span>Framed Panel</span><span className="kanji">枠付き</span></div>
+        <div className="panel-body">
+          <div style={{ color: 'var(--nw-text-dim)', fontSize: 11, lineHeight: 1.6, marginBottom: 8 }}>
+            A panel is open: no fill, no outline. A dense console where tiles would merge opts into the frame
+            with <code>nw-reticle</code>; see Mockup Pieces for the parts.
+          </div>
+          <CodeBlock>{`<div class="panel nw-reticle">
+  <div class="panel-header"><span>Title</span><span class="kanji">タグ</span></div>
+  <div class="panel-body">Content</div>
+</div>`}</CodeBlock>
+        </div>
+      </div>
+
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>Panel HTML</span><span className="tag">HTML</span></div>
         <div className="panel-body">

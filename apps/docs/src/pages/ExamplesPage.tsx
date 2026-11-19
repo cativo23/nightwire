@@ -4,9 +4,9 @@ export function ExamplesPage() {
   return (
     <section id="examples">
       <SectionTitle kanji="デモ">Live Examples</SectionTitle>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 2 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 2 }}>
 
-        <div className="panel">
+        <div className="panel nw-reticle">
           <div className="panel-header"><span>Alchemix V3 Dashboard</span><span className="kanji">デモ</span></div>
           <div className="node-card">
             <div className="nc-id">Dashboard Demo</div>
@@ -27,7 +27,7 @@ export function ExamplesPage() {
           </div>
         </div>
 
-        <div className="panel">
+        <div className="panel nw-reticle">
           <div className="panel-header"><span>Neural-Ops Center</span><span className="kanji">デモ</span></div>
           <div className="node-card">
             <div className="nc-id">Neural Ops Demo</div>
@@ -48,7 +48,7 @@ export function ExamplesPage() {
         </div>
 
         {/* Workshop */}
-        <div className="panel">
+        <div className="panel nw-reticle">
           <div className="panel-header">
             <span>Workshop — Operator Console</span>
             <span className="kanji">部品</span>
@@ -73,7 +73,7 @@ export function ExamplesPage() {
         </div>
 
         {/* SYNAPSE */}
-        <div className="panel">
+        <div className="panel nw-reticle">
           <div className="panel-header">
             <span>SYNAPSE — Neural Intelligence</span>
             <span className="kanji">デモ</span>
