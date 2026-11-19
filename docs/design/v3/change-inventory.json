@@ -101,12 +101,46 @@
       }
     },
     {
-      "id": "token-additions",
-      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles, and the --nw-loop-state knob (FR-001, FR-002, FR-006). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged. The exit composites and durations (--nw-*-out, --nw-*-out-duration) are pinned to their final values by motion-exit-tick, motion-exit-sweep and motion-exit-uplink, which come first. Pinned to :root and to the <missing> old value.",
+      "id": "token-additions-easing",
+      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles, and the --nw-loop-state knob (FR-001, FR-002, FR-006). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged. The exit composites and durations (--nw-*-out, --nw-*-out-duration) are pinned to their final values by motion-exit-tick, motion-exit-sweep and motion-exit-uplink, which come first. Pinned to :root and to the <missing> old value. Split by what depends on the intensity: the easing curves and the --nw-loop-state knob are the same at every level (this category)., with the exact old and new values observed.",
       "match": {
-        "prop": "^--nw-(tick|sweep|uplink)-(out|duration|ease|out-duration|out-ease)$|^--nw-(stagger|loop-spin|loop-shimmer)$|^--nw-loop-state$",
+        "prop": "^--nw-(tick|sweep|uplink)-(out-)?ease$|^--nw-loop-state$",
         "path": "^:root$",
-        "old": "^<missing>$"
+        "old": "^<missing>$",
+        "new": "^(cubic-bezier\\(0, 0\\.6, 0\\.4, 1\\)|cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\)|cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)|cubic-bezier\\(0\\.4, 0, 1, 1\\)|paused|running)$"
+      }
+    },
+    {
+      "id": "token-additions-scale-operator",
+      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles, and the --nw-loop-state knob (FR-001, FR-002, FR-006). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged. The exit composites and durations (--nw-*-out, --nw-*-out-duration) are pinned to their final values by motion-exit-tick, motion-exit-sweep and motion-exit-uplink, which come first. Pinned to :root and to the <missing> old value. The durations, stagger and loop cycles carry the level's --nw-motion-scale (1, 0.6 or 1.2) or 0 under reduced motion, so they are split per level., pinned to operator (also the default, no data-intensity), with the exact old and new values observed.",
+      "match": {
+        "prop": "^--nw-(tick|sweep|uplink)-duration$|^--nw-(stagger|loop-spin|loop-shimmer)$",
+        "path": "^:root$",
+        "state": "^(none|operator)\\|",
+        "old": "^<missing>$",
+        "new": "^(calc\\(1200ms / 0\\)|calc\\(1200ms / 1\\)|calc\\(150ms \\* 0\\)|calc\\(150ms \\* 1\\)|calc\\(350ms \\* 0\\)|calc\\(350ms \\* 1\\)|calc\\(400ms \\* 0\\)|calc\\(400ms \\* 1\\)|calc\\(50ms \\* 0\\)|calc\\(50ms \\* 1\\)|calc\\(800ms / 0\\)|calc\\(800ms / 1\\))$"
+      }
+    },
+    {
+      "id": "token-additions-scale-archive",
+      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles, and the --nw-loop-state knob (FR-001, FR-002, FR-006). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged. The exit composites and durations (--nw-*-out, --nw-*-out-duration) are pinned to their final values by motion-exit-tick, motion-exit-sweep and motion-exit-uplink, which come first. Pinned to :root and to the <missing> old value. The durations, stagger and loop cycles carry the level's --nw-motion-scale (1, 0.6 or 1.2) or 0 under reduced motion, so they are split per level., pinned to archive, with the exact old and new values observed.",
+      "match": {
+        "prop": "^--nw-(tick|sweep|uplink)-duration$|^--nw-(stagger|loop-spin|loop-shimmer)$",
+        "path": "^:root$",
+        "state": "^archive\\|",
+        "old": "^<missing>$",
+        "new": "^(calc\\(1200ms / 0\\)|calc\\(1200ms / 0\\.6\\)|calc\\(150ms \\* 0\\)|calc\\(150ms \\* 0\\.6\\)|calc\\(350ms \\* 0\\)|calc\\(350ms \\* 0\\.6\\)|calc\\(400ms \\* 0\\)|calc\\(400ms \\* 0\\.6\\)|calc\\(50ms \\* 0\\)|calc\\(50ms \\* 0\\.6\\)|calc\\(800ms / 0\\)|calc\\(800ms / 0\\.6\\))$"
+      }
+    },
+    {
+      "id": "token-additions-scale-combat",
+      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles, and the --nw-loop-state knob (FR-001, FR-002, FR-006). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged. The exit composites and durations (--nw-*-out, --nw-*-out-duration) are pinned to their final values by motion-exit-tick, motion-exit-sweep and motion-exit-uplink, which come first. Pinned to :root and to the <missing> old value. The durations, stagger and loop cycles carry the level's --nw-motion-scale (1, 0.6 or 1.2) or 0 under reduced motion, so they are split per level., pinned to combat, with the exact old and new values observed.",
+      "match": {
+        "prop": "^--nw-(tick|sweep|uplink)-duration$|^--nw-(stagger|loop-spin|loop-shimmer)$",
+        "path": "^:root$",
+        "state": "^combat\\|",
+        "old": "^<missing>$",
+        "new": "^(calc\\(1200ms / 0\\)|calc\\(1200ms / 1\\.2\\)|calc\\(150ms \\* 0\\)|calc\\(150ms \\* 1\\.2\\)|calc\\(350ms \\* 0\\)|calc\\(350ms \\* 1\\.2\\)|calc\\(400ms \\* 0\\)|calc\\(400ms \\* 1\\.2\\)|calc\\(50ms \\* 0\\)|calc\\(50ms \\* 1\\.2\\)|calc\\(800ms / 0\\)|calc\\(800ms / 1\\.2\\))$"
       }
     },
     {
@@ -280,19 +314,131 @@
       }
     },
     {
-      "id": "motion-overlay-transitions",
-      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition.",
+      "id": "motion-overlay-transitions-behavior",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition. Split by what depends on the intensity: this property is the same at every level., with the exact old and new values observed.",
       "match": {
-        "prop": "^transition-(property|duration|timing-function|delay|behavior)$",
-        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$"
+        "prop": "^transition-behavior$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^(normal, normal|normal, normal, normal)$"
       }
     },
     {
-      "id": "motion-transitions",
-      "description": "The dropdown item hover transition uses --nw-tick instead of a literal 0.15s (FR-003), so it scales with data-intensity and honours reduced motion, and takes the tick easing instead of the default ease.",
+      "id": "motion-overlay-transitions-property",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition. Split by what depends on the intensity: this property is the same at every level., with the exact old and new values observed.",
       "match": {
-        "prop": "^transition-(property|duration|timing-function|delay|behavior)$",
-        "path": "\\.dropdown-item:nth-child\\(\\d+\\)$"
+        "prop": "^transition-property$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "old": "^(all|opacity)$",
+        "new": "^(opacity, transform, visibility|opacity, visibility|transform)$"
+      }
+    },
+    {
+      "id": "motion-overlay-transitions-timing-function",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition. Split by what depends on the intensity: this property is the same at every level., with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-timing-function$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "old": "^(cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\)|cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\), cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\)|ease)$",
+        "new": "^(cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\)|cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\), cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\), ease|cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\), ease|cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\), cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\), ease|cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\), ease|cubic-bezier\\(0\\.4, 0, 1, 1\\)|cubic-bezier\\(0\\.4, 0, 1, 1\\), cubic-bezier\\(0\\.4, 0, 1, 1\\), linear|cubic-bezier\\(0\\.4, 0, 1, 1\\), linear)$"
+      }
+    },
+    {
+      "id": "motion-overlay-transitions-delay-operator",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition. This property carries the level's scaled exit and enter durations, so it is split per level., pinned to operator (also the default, no data-intensity), with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-delay$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^(0s|0s, 0s)$",
+        "new": "^(0s, 0\\.1s|0s, 0\\.25s|0s, 0s|0s, 0s, 0\\.1s|0s, 0s, 0\\.25s|0s, 0s, 0s)$"
+      }
+    },
+    {
+      "id": "motion-overlay-transitions-delay-archive",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition. This property carries the level's scaled exit and enter durations, so it is split per level., pinned to archive, with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-delay$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^(0s|0s, 0s)$",
+        "new": "^(0s, 0\\.06s|0s, 0\\.15s|0s, 0s|0s, 0s, 0\\.06s|0s, 0s, 0\\.15s|0s, 0s, 0s)$"
+      }
+    },
+    {
+      "id": "motion-overlay-transitions-delay-combat",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition. This property carries the level's scaled exit and enter durations, so it is split per level., pinned to combat, with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-delay$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^(0s|0s, 0s)$",
+        "new": "^(0s, 0\\.12s|0s, 0\\.3s|0s, 0s|0s, 0s, 0\\.12s|0s, 0s, 0\\.3s|0s, 0s, 0s)$"
+      }
+    },
+    {
+      "id": "motion-overlay-transitions-duration-operator",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition. This property carries the level's scaled exit and enter durations, so it is split per level., pinned to operator (also the default, no data-intensity), with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^(0\\.15s|0\\.35s|0\\.35s, 0\\.35s|0s)$",
+        "new": "^(0\\.15s, 0\\.15s, 0s|0\\.15s, 0s|0\\.1s, 0\\.1s, 0s|0\\.1s, 0s|0\\.25s|0\\.25s, 0\\.25s, 0s|0\\.25s, 0s|0\\.35s|0\\.35s, 0\\.35s, 0s|0\\.35s, 0s)$"
+      }
+    },
+    {
+      "id": "motion-overlay-transitions-duration-archive",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition. This property carries the level's scaled exit and enter durations, so it is split per level., pinned to archive, with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^(0\\.15s|0\\.21s|0\\.21s, 0\\.21s|0s)$",
+        "new": "^(0\\.06s, 0\\.06s, 0s|0\\.06s, 0s|0\\.09s, 0\\.09s, 0s|0\\.09s, 0s|0\\.15s|0\\.15s, 0\\.15s, 0s|0\\.15s, 0s|0\\.21s|0\\.21s, 0\\.21s, 0s|0\\.21s, 0s)$"
+      }
+    },
+    {
+      "id": "motion-overlay-transitions-duration-combat",
+      "description": "Overlays animate out as well as in (FR-004, FR-007): the overlay transitions now use the exit tokens when closed and the enter tokens when open, with visibility held back by --nw-*-out-duration on the way out. Before, the drawer, modal and command palette shared one --nw-sweep transition for both directions and animated visibility itself, the tooltip used a literal 0.15s, and the dropdown menu and toast had no transition. This property carries the level's scaled exit and enter durations, so it is split per level., pinned to combat, with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "(^|>)[a-z0-9]+\\.(drawer|drawer-backdrop|modal-backdrop|modal|cmdk-backdrop|cmdk|dropdown-menu|tooltip-content|toast):nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^(0\\.15s|0\\.42s|0\\.42s, 0\\.42s|0s)$",
+        "new": "^(0\\.12s, 0\\.12s, 0s|0\\.12s, 0s|0\\.18s, 0\\.18s, 0s|0\\.18s, 0s|0\\.3s|0\\.3s, 0\\.3s, 0s|0\\.3s, 0s|0\\.42s|0\\.42s, 0\\.42s, 0s|0\\.42s, 0s)$"
+      }
+    },
+    {
+      "id": "motion-transitions-timing-function",
+      "description": "The dropdown item hover transition uses --nw-tick instead of a literal 0.15s (FR-003), so it scales with data-intensity and honours reduced motion, and takes the tick easing instead of the default ease. Split by what depends on the intensity: the easing is the same at every level., with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-timing-function$",
+        "path": "\\.dropdown-item:nth-child\\(\\d+\\)$",
+        "old": "^ease, ease$",
+        "new": "^cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\), cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)$"
+      }
+    },
+    {
+      "id": "motion-transitions-duration-archive",
+      "description": "The dropdown item hover transition uses --nw-tick instead of a literal 0.15s (FR-003), so it scales with data-intensity and honours reduced motion, and takes the tick easing instead of the default ease. The duration scales with the level (nothing changes at operator), so it is split per level., pinned to archive, with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "\\.dropdown-item:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^0\\.15s, 0\\.15s$",
+        "new": "^0\\.09s, 0\\.09s$"
+      }
+    },
+    {
+      "id": "motion-transitions-duration-combat",
+      "description": "The dropdown item hover transition uses --nw-tick instead of a literal 0.15s (FR-003), so it scales with data-intensity and honours reduced motion, and takes the tick easing instead of the default ease. The duration scales with the level (nothing changes at operator), so it is split per level., pinned to combat, with the exact old and new values observed.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "\\.dropdown-item:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^0\\.15s, 0\\.15s$",
+        "new": "^0\\.18s, 0\\.18s$"
       }
     },
     {
