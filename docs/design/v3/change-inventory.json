@@ -1248,6 +1248,37 @@
         "old": "^rgb\\(122, 237, 122\\)$",
         "new": "^rgb\\(230, 230, 230\\)$"
       }
+    },
+    {
+      "id": "q-tabs-rule",
+      "description": "Group B (T044): the .tabs bottom rule goes from --nw-text-faint to --nw-line (direction rule 3). Pinned to the bottom border colour of .tabs.",
+      "match": {
+        "prop": "^border-(bottom|block-end)-color$",
+        "path": "div\\.tabs:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "q-tabs-active-label",
+      "description": "Group B (T044): the selected .tab label goes from blue to --nw-text-default; the blue stays on the underline, the selected indicator (direction rule 2). Includes the properties that follow the text colour. Pinned to .tab, #6699ff to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "button\\.tab:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "q-tabs-hover-label",
+      "description": "Group B (T044): an inactive .tab lifts to --nw-text-default on hover instead of --nw-text-strong, the label a selected tab has (direction rule 1). Includes the properties that follow the text colour. Pinned to .tab in the forced :hover state, #ffffff to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "button\\.tab:nth-child\\(\\d+\\)$",
+        "state": "\\|:hover@",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
     }
   ]
 }

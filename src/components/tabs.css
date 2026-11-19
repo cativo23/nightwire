@@ -2,7 +2,7 @@
 
 .tabs {
   display: flex;
-  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   gap: 0;
 }
 
@@ -12,7 +12,7 @@
   font-weight: 500;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   background: transparent;
   border: none;
   border-bottom: var(--nw-accent-width) solid transparent;
@@ -21,13 +21,15 @@
   transition: color var(--nw-tick), border-color var(--nw-tick);
 }
 
+/* Hover lifts a quiet label to the label a selected tab has. */
 .tab:hover {
-  color: var(--nw-text);
+  color: var(--nw-text-default);
 }
 
+/* The blue is the selected indicator, the underline; the label stays neutral. */
 .tab.active {
-  color: var(--nw-primary);
-  border-bottom-color: var(--nw-primary);
+  color: var(--nw-text-default);
+  border-bottom-color: var(--nw-chrome);
 }
 
 .tab-panel {
