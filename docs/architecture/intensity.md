@@ -31,6 +31,8 @@ themselves; they read the knobs.
 | `--nw-kanji-display` | `inline` | `none` | — | `.kanji` |
 | `--nw-hairline`, `--nw-rule`, `--nw-accent-width` | `1px`, `1.5px`, `2px` | — | — | structural borders (hairline), marks drawn inside controls (rule: check strokes, spinner ring), accent bars (tabs, sidebar, diff, toast). No per-level overrides in v3: combat energy comes from state glow, pulse and density, not heavier lines. The knobs exist so a level can set one later |
 | `--nw-label-spacing` | `var(--ls-ultra)` | `0.14em` | — | stat |
+| `--nw-grain` | `0.07` | `0` | `0.1` | `.nw-grain`: the opacity of the film grain. It has its own knob because `--nw-glow` is 0.5 at both operator and combat, so a glow-scaled grain would stay flat at combat |
+| `--nw-kanji-glow` | `calc(20px * var(--nw-glow))` | — (follows `--nw-glow`, so 0) | — (`--nw-glow` is 0.5 here too, so 10px) | the kanji glow of `.nw-section-head-chrome` and the hovered `.nw-index-row`; with grain and `.nw-halftone`, the approved exceptions to "glow is for state" (FR-034) |
 
 "—" means the level keeps the base value. The operator block is intentionally empty.
 

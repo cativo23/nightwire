@@ -40,15 +40,17 @@ test('should_build_every_intensity_column_from_the_knob_lists_the_page_uses', ()
   assert.deepEqual(col('archive'), {
     '--nw-glow': '0', '--nw-motion-scale': '0.6', '--nw-pad-scale': '1.35', '--nw-base-font': '15px',
     '--nw-pulse-state': 'paused', '--nw-kanji-display': 'none', '--nw-panel-radius': '2px', '--nw-value-weight': '400',
+    '--nw-grain': '0',
   });
   assert.deepEqual(col('operator'), {
     '--nw-glow': '0.5', '--nw-motion-scale': '1', '--nw-pad-scale': '1', '--nw-base-font': '14px',
     '--nw-pulse-state': 'running', '--nw-kanji-display': 'inline', '--nw-panel-radius': '0', '--nw-value-weight': '500',
+    '--nw-grain': '0.07',
   });
   assert.deepEqual(col('combat'), {
     '--nw-led-glow': 'calc(var(--nw-glow) * 2)', '--nw-control-glow': 'calc(var(--nw-glow) * 2)',
     '--nw-progress-glow': 'calc(var(--nw-glow) * 2)', '--nw-motion-scale': '1.2', '--nw-density': '0.85',
-    '--nw-pad-scale': '0.7', '--nw-base-font': '13px',
+    '--nw-pad-scale': '0.7', '--nw-base-font': '13px', '--nw-grain': '0.1',
   });
 });
 

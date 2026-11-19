@@ -14,9 +14,9 @@ const isObject = (v) => typeof v === 'object' && v !== null && !Array.isArray(v)
 /** Knobs listed in each column of the Intensity page. Archive and combat list knobs the level
  *  overrides; operator lists base `:root` values. */
 export const KNOB_COLUMNS = {
-  archive: ['glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight'],
-  operator: ['glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight'],
-  combat: ['led-glow', 'control-glow', 'progress-glow', 'motion-scale', 'density', 'pad-scale', 'base-font'],
+  archive: ['glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight', 'grain'],
+  operator: ['glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight', 'grain'],
+  combat: ['led-glow', 'control-glow', 'progress-glow', 'motion-scale', 'density', 'pad-scale', 'base-font', 'grain'],
 };
 
 /** Number of tokens that publish a CSS custom property (the `css` extension key). */
