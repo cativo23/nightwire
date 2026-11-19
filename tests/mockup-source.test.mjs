@@ -514,6 +514,27 @@ test('FR-038: the reticle-parts category lists the offsets only; size and origin
   assert.equal(c.match.prop, '^(top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end)$');
 });
 
+test('FR-026: the square panel and the unwrapped header kanji each have one narrow category pinned to the exact old-to-new pair', () => {
+  const { categories } = JSON.parse(read('docs/design/v3/change-inventory.json'));
+  const get = (id) => {
+    const c = categories.find((x) => x.id === id);
+    assert.ok(c, `${id} exists`);
+    assert.equal(c.kind, undefined, `${id} is not a cascade category`);
+    return c.match;
+  };
+  const radius = get('open-panel-radius-archive');
+  assert.equal(radius.prop, '^(border-top-left-radius|border-top-right-radius|border-bottom-left-radius|border-bottom-right-radius|border-start-start-radius|border-start-end-radius|border-end-start-radius|border-end-end-radius)$');
+  assert.equal(radius.state, '^archive\\|', 'only archive had a radius');
+  assert.equal(radius.old, '^2px$');
+  assert.equal(radius.new, '^0px$');
+  assert.match(radius.path, /panel/);
+  const shrink = get('nw-section-head-kanji-flex-shrink');
+  assert.deepEqual([shrink.prop, shrink.old, shrink.new], ['^flex-shrink$', '^1$', '^0$']);
+  const wrap = get('nw-section-head-kanji-nowrap');
+  assert.deepEqual([wrap.prop, wrap.old, wrap.new], ['^text-wrap-mode$', '^wrap$', '^nowrap$']);
+  for (const m of [shrink, wrap]) assert.match(m.path, /kanji/);
+});
+
 test('FR-028/FR-030/FR-031: every new T076 pseudo-element and piece has an old-to-new category pinned to one pair', () => {
   const { categories } = JSON.parse(read('docs/design/v3/change-inventory.json'));
   for (const id of ['nw-halftone-after-pseudo', 'nw-halftone-layer-after-pseudo', 'nw-grain-pseudo']) {

@@ -4287,6 +4287,28 @@
       }
     },
     {
+      "id": "nw-section-head-kanji-flex-shrink",
+      "description": "FR-026: the right-slot .kanji does not shrink, so a long label wraps instead of squeezing the kanji to one glyph: flex-shrink 1 to 0. The same at every intensity, so it is not split. Pinned to the fixture's .nw-section-head kanji and to the old and new value.",
+      "match": {
+        "prop": "^flex-shrink$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "old": "^1$",
+        "new": "^0$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-kanji-nowrap",
+      "description": "FR-026: the right-slot .kanji never wraps (white-space: nowrap), which computes as text-wrap-mode wrap to nowrap. The same at every intensity, so it is not split. Pinned to the fixture's .nw-section-head kanji and to the old and new value.",
+      "match": {
+        "prop": "^text-wrap-mode$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "old": "^wrap$",
+        "new": "^nowrap$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
       "id": "nw-section-head-kanji-order-archive",
       "description": "FR-030: the right-slot .kanji sits after the hairline: order 0 to 2. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
       "match": {
@@ -7319,6 +7341,17 @@
         "old": "^2px$",
         "new": "^0px$",
         "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "open-panel-radius-archive",
+      "description": "FR-026 (direction: no fill, no outline, no radius): a plain .panel is square at every intensity, border-radius 0px, instead of the 2px radius v2.1.0's .panel had at archive (0px at the other levels, so nothing differs there). The radius is invisible on the open panel, which has no border or fill. Split per intensity so a value from one level never stands for another's: this one is pinned to archive, to .panel and to the exact pair. The reticle panel has its own category above.",
+      "match": {
+        "prop": "^(border-top-left-radius|border-top-right-radius|border-bottom-left-radius|border-bottom-right-radius|border-start-start-radius|border-start-end-radius|border-end-start-radius|border-end-end-radius)$",
+        "path": "[a-z]+\\.panel:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^2px$",
+        "new": "^0px$"
       }
     },
     {
