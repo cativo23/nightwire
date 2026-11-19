@@ -121,6 +121,7 @@ A category file is `{ "baseline": "v2.1.0", "categories": [ … ] }`. Each categ
 | Field | Rule |
 |---|---|
 | `id` | Required, unique, kebab-case. |
+| `kind` | Optional. The only value is `"cascade"` (see "Cascade categories and the control run"). |
 | `description` | Why the change is intended; link the requirement. |
 | `match.prop` | Required regex, tested against the DIFF property (a CSS property, `--custom`, `@keyframes` name or `(element)`). |
 | `match.path` | Optional regex against the DOM path. |
@@ -149,6 +150,39 @@ each: the `state` anchors the intensity (`^combat\\|rm-off`, say), and `old` and
 old-to-new pair. A value seen at `archive` therefore cannot stand for the same category at
 `combat`, and a new value at any level fails until someone names it. When `--expect` reports an
 unexpected difference at one level, add or retune the category for that level, not a looser one.
+
+### Cascade categories and the control run
+
+An open layout in a container (v3's `.panel`, `.card`, their headers and `.kv-row`) changes the size
+of everything inside it, which would need one pinned category per old-to-new value. A category with
+`"kind": "cascade"` explains those geometric differences without pinning values, on two conditions
+(FR-038):
+
+1. **Validation.** `match.prop` may match nothing but `width`, `height`, `inline-size`,
+   `block-size`, `transform-origin` and `perspective-origin` (it is tested against every property
+   parity records, so `width` unanchored, `.*` or `^width|color$` are rejected), and it must match at
+   least one of them. `match.path` and `match.page` are both required. `match.old` and `match.new`
+   are optional. Any other `kind` is rejected, and a category without `kind` follows the rules above.
+2. **The control run.** `--control <css>` appends that sheet to the new stylesheet, so it wins at
+   equal specificity, and ignores every cascade category. Write the sheet to restore the pre-change
+   layout declarations of those components. If the run then reports `unexpected=0`, the open layout
+   is proven to be the cause of every difference the cascade categories absorb.
+
+```sh
+npm run parity -- --expect docs/design/v3/change-inventory.json                                # cascade categories count
+npm run parity -- --expect docs/design/v3/change-inventory.json --control path/to/control.css  # the proof
+```
+
+The control run prints one extra line before `RESULT`, and the exit codes are unchanged:
+
+```text
+CONTROL  sheet=<path>  cascade-categories-ignored=N
+```
+
+`--control` without `--expect`, or with a file that cannot be read, exits 2. With `--json`, `meta.control`
+is the sheet path, or `null` without the flag, and each difference's `category` is computed without
+the cascade categories. A cascade category states an expectation: write it by hand, never derive it
+from a run's output. Every non-geometric difference keeps a narrow category.
 
 ### Checking the glow rules
 
