@@ -6,9 +6,10 @@ All notable changes to this project will be documented in this file.
 
 > **Status:** v3 in progress on `next/v3`. Not released. This is a **major** release: it replaces the
 > look of every component and removes the v1 compatibility surfaces. Items marked **Breaking** need a
-> change in consuming code. The migration guide (`docs/migration/v3.md`) is written later in this
-> release; until then [docs/design/v3/v1-inventory.md](docs/design/v3/v1-inventory.md) lists each
-> removal with its replacement.
+> change in consuming code. The migration guide, [docs/migration/v3.md](docs/migration/v3.md), lists
+> every breaking change with its replacement and how to stay on v2;
+> [docs/design/v3/v1-inventory.md](docs/design/v3/v1-inventory.md) records why each v1 surface was
+> removed.
 
 ### Added
 
