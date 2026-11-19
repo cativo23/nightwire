@@ -3,7 +3,7 @@ export const COLORS = [
   { name: 'void-warm', hex: '#0a0a0a', variable: '--void-warm', desc: 'Panel fill' },
   { name: 'void-panel', hex: '#111111', variable: '--void-panel', desc: 'Inset surfaces & inputs' },
   { name: 'void-raised', hex: '#1a1a1a', variable: '--void-raised', desc: 'Elevated elements' },
-  { name: 'primary', hex: '#6699ff', variable: '--nw-primary', desc: 'Headers & focus rings' },
+  { name: 'primary', hex: '#6699ff', variable: '--nw-primary', desc: 'Focus rings, accent lines & links (labels are neutral)' },
   { name: 'green', hex: '#7aed7a', variable: '--nw-green', desc: 'Data & success states' },
   { name: 'cyan', hex: '#66ddff', variable: '--nw-cyan', desc: 'Wireframes & info' },
   { name: 'red', hex: '#ff6688', variable: '--nw-red', desc: 'Alerts & critical errors' },
@@ -162,15 +162,18 @@ export const LAYER2_TOKENS = [
   { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Panels, cards' },
   { token: '--nw-surface-2', maps: '--void-panel',   desc: 'Modals, inputs' },
   { token: '--nw-surface-3', maps: '--void-raised',  desc: 'Dropdowns, tooltips' },
-  { token: '--nw-surface-4', maps: '#242424',        desc: 'NEW — Overlays' },
+  { token: '--nw-surface-4', maps: '#242424',        desc: 'NEW — Highest surface tier (no component uses it yet)' },
   // Text tiers
   { token: '--nw-text-strong',   maps: '#ffffff', desc: 'Headings, critical values' },
-  { token: '--nw-text-default',  maps: '#e6e6e6', desc: 'Body text (NEW tier)' },
-  { token: '--nw-text-mute',     maps: '#aaaaaa', desc: 'Captions, sub-labels' },
+  { token: '--nw-text-default',  maps: '#e6e6e6', desc: 'Body and table text (NEW tier)' },
+  { token: '--nw-text-mute',     maps: '#aaaaaa', desc: 'Labels, headers, captions' },
   { token: '--nw-text-disabled', maps: '#5a5a5a', desc: 'Disabled (NEW tier)' },
   // Semantic roles
-  { token: '--nw-chrome',        maps: '--nw-primary',     desc: 'UI chrome, headers, focus' },
+  { token: '--nw-chrome',        maps: '--nw-primary',     desc: 'Focus, accent lines, chrome actions' },
   { token: '--nw-chrome-mute',   maps: '--nw-primary-dim', desc: 'Subdued chrome' },
+  { token: '--nw-action',        maps: '--nw-text-default', desc: 'The one solid action (.btn), bone' },
+  { token: '--nw-action-hot',    maps: '--nw-chrome-hot',   desc: 'Action hover' },
+  { token: '--nw-action-text',   maps: '--void',            desc: 'Text on the action fill' },
   { token: '--nw-data',          maps: '--nw-green',       desc: 'Data values, success' },
   { token: '--nw-data-mute',     maps: '--nw-green-dim',   desc: 'Subdued data' },
   { token: '--nw-signal-info',   maps: '--nw-cyan',        desc: 'Info, metadata' },
@@ -180,8 +183,11 @@ export const LAYER2_TOKENS = [
   { token: '--nw-ai-mute',       maps: '--nw-purple-dim',  desc: 'Subdued AI' },
   // Lines
   { token: '--nw-line',          maps: '--nw-text-line',                desc: 'Standard divider' },
-  { token: '--nw-line-strong',   maps: 'rgba(255,255,255,0.18)',        desc: 'Stronger divider' },
+  { token: '--nw-line-strong',   maps: 'rgba(255,255,255,0.36)',        desc: 'Control boundary (3:1)' },
   { token: '--nw-line-chrome',   maps: 'rgba(102,153,255,0.35)',        desc: 'Chrome-tinted divider' },
+  { token: '--nw-hairline',      maps: '1px',                           desc: 'Every structural border' },
+  { token: '--nw-rule',          maps: '1.5px',                         desc: 'Marks drawn inside controls' },
+  { token: '--nw-accent-width',  maps: '2px',                           desc: 'Accent bars: tabs, sidebar, diff, toast' },
 ];
 
 export const COMPONENTS_V2 = [
