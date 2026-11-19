@@ -173,13 +173,69 @@
       }
     },
     {
-      "id": "motion-transitions-tick",
-      "description": "Component transitions run on --nw-tick instead of literal 0.15s and 0.1s (FR-003, SC-003): buttons (colour, border and the press transform), form inputs, sidebar items, tabs and breadcrumb links. They now scale with data-intensity (0.09s archive, 0.18s combat), take the tick easing instead of the default ease, and the button press transform moves from 0.1s to the tick duration, so press timing joins the motion vocabulary. Property lists and order are unchanged. Under reduced motion nothing differs: the blanket transition: none already won. Pinned to the elements that owned those declarations and to the old and new values.",
+      "id": "motion-transitions-tick-ease",
+      "description": "Component transitions run on --nw-tick instead of literal 0.15s and 0.1s (FR-003, SC-003): buttons (colour, border and the press transform), form inputs, sidebar items, tabs and breadcrumb links. Property lists and order are unchanged. Under reduced motion nothing differs: the blanket transition: none already won. They take the tick easing instead of the default ease, at every level. Pinned to those elements, to reduced motion off, to transition-timing-function, and to ease to the tick curve.",
       "match": {
-        "prop": "^transition-(duration|timing-function)$",
+        "prop": "^transition-timing-function$",
         "path": "(^|>)((button|a)\\.(btn[a-z-]*|tab|sidebar-item)|(input|select|textarea)(\\.[\\w-]+)?|nav\\.breadcrumbs:nth-child\\(\\d+\\)>a):nth-child\\(\\d+\\)$",
-        "old": "^(0\\.1(5)?s(, 0\\.1(5)?s)*|ease(, ease)*)$",
-        "new": "^(0\\.(09|15|18)s(, 0\\.(09|15|18)s)*|cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)(, cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\))*)$"
+        "state": "\\|rm-off",
+        "old": "^ease(, ease)*$",
+        "new": "^cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)(, cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\))*$"
+      }
+    },
+    {
+      "id": "motion-transitions-tick-archive",
+      "description": "Component transitions run on --nw-tick instead of literal 0.15s and 0.1s (FR-003, SC-003): buttons (colour, border and the press transform), form inputs, sidebar items, tabs and breadcrumb links. Property lists and order are unchanged. Under reduced motion nothing differs: the blanket transition: none already won. At archive the duration scales to 0.09s: 0.15s to 0.09s on every transition of the element (buttons are the next category, because their press transform was 0.1s). Pinned to those elements, to archive with reduced motion off, and to the exact step.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "(^|>)((button|a)\\.(btn[a-z-]*|tab|sidebar-item)|(input|select|textarea)(\\.[\\w-]+)?|nav\\.breadcrumbs:nth-child\\(\\d+\\)>a):nth-child\\(\\d+\\)$",
+        "state": "^archive\\|rm-off",
+        "old": "^0\\.15s(, 0\\.15s)*$",
+        "new": "^0\\.09s(, 0\\.09s)*$"
+      }
+    },
+    {
+      "id": "motion-transitions-tick-combat",
+      "description": "Component transitions run on --nw-tick instead of literal 0.15s and 0.1s (FR-003, SC-003): buttons (colour, border and the press transform), form inputs, sidebar items, tabs and breadcrumb links. Property lists and order are unchanged. Under reduced motion nothing differs: the blanket transition: none already won. At combat the duration scales to 0.18s: 0.15s to 0.18s on every transition of the element. Pinned to those elements, to combat with reduced motion off, and to the exact step.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "(^|>)((button|a)\\.(btn[a-z-]*|tab|sidebar-item)|(input|select|textarea)(\\.[\\w-]+)?|nav\\.breadcrumbs:nth-child\\(\\d+\\)>a):nth-child\\(\\d+\\)$",
+        "state": "^combat\\|rm-off",
+        "old": "^0\\.15s(, 0\\.15s)*$",
+        "new": "^0\\.18s(, 0\\.18s)*$"
+      }
+    },
+    {
+      "id": "motion-transitions-tick-press-archive",
+      "description": "Component transitions run on --nw-tick instead of literal 0.15s and 0.1s (FR-003, SC-003): buttons (colour, border and the press transform), form inputs, sidebar items, tabs and breadcrumb links. Property lists and order are unchanged. Under reduced motion nothing differs: the blanket transition: none already won. The button list is colour, border, press transform (0.15s, 0.15s, 0.1s); the press transform joins the tick, so at archive all three are 0.09s. Pinned to buttons, to archive with reduced motion off, and to the exact list.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "button\\.btn[a-z-]*:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|rm-off",
+        "old": "^0\\.15s, 0\\.15s, 0\\.1s$",
+        "new": "^0\\.09s, 0\\.09s, 0\\.09s$"
+      }
+    },
+    {
+      "id": "motion-transitions-tick-press-combat",
+      "description": "Component transitions run on --nw-tick instead of literal 0.15s and 0.1s (FR-003, SC-003): buttons (colour, border and the press transform), form inputs, sidebar items, tabs and breadcrumb links. Property lists and order are unchanged. Under reduced motion nothing differs: the blanket transition: none already won. The button press transform joins the tick, so at combat all three transitions are 0.18s. Pinned to buttons, to combat with reduced motion off, and to the exact list.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "button\\.btn[a-z-]*:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|rm-off",
+        "old": "^0\\.15s, 0\\.15s, 0\\.1s$",
+        "new": "^0\\.18s, 0\\.18s, 0\\.18s$"
+      }
+    },
+    {
+      "id": "motion-transitions-tick-press-operator",
+      "description": "Component transitions run on --nw-tick instead of literal 0.15s and 0.1s (FR-003, SC-003): buttons (colour, border and the press transform), form inputs, sidebar items, tabs and breadcrumb links. Property lists and order are unchanged. Under reduced motion nothing differs: the blanket transition: none already won. The button press transform moves from 0.1s to the tick duration, so press timing joins the motion vocabulary: 0.15s at operator and when no level is set. Pinned to buttons, to those levels with reduced motion off, and to the exact list.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "button\\.btn[a-z-]*:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|rm-off",
+        "old": "^0\\.15s, 0\\.15s, 0\\.1s$",
+        "new": "^0\\.15s, 0\\.15s, 0\\.15s$"
       }
     },
     {
@@ -231,26 +287,74 @@
       }
     },
     {
-      "id": "motion-loops-stagger-archive",
-      "description": "The uplink stagger is a multiple of --nw-stagger instead of literal 0.05s steps (FR-003, SC-003), so it scales with data-intensity: 0.03s steps (0.05, 0.1 and 0.15s become 0.03, 0.06 and 0.09s) at archive, 0.05s steps (unchanged) at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to archive and to the three step values.",
+      "id": "motion-loops-stagger-archive-50ms",
+      "description": "The uplink stagger is a multiple of --nw-stagger instead of a literal 0.05s step (FR-003, SC-003), so it scales with data-intensity: 0.05s becomes 0.03s at archive, and 0.05s steps stay unchanged at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to archive, and to the exact 0.05s to 0.03s pair.",
       "match": {
         "prop": "^animation-delay$",
         "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
         "state": "^archive\\|rm-off",
-        "old": "^0\\.(05|1|15)s$",
-        "new": "^0\\.(03|06|09)s$",
+        "old": "^0\\.05s$",
+        "new": "^0\\.03s$",
         "page": "examples/html/workshop.html"
       }
     },
     {
-      "id": "motion-loops-stagger-combat",
-      "description": "The uplink stagger is a multiple of --nw-stagger instead of literal 0.05s steps (FR-003, SC-003), so it scales with data-intensity: 0.06s steps (0.05, 0.1 and 0.15s become 0.06, 0.12 and 0.18s) at combat, 0.05s steps (unchanged) at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to combat and to the three step values.",
+      "id": "motion-loops-stagger-archive-100ms",
+      "description": "The uplink stagger is a multiple of --nw-stagger instead of a literal 0.1s step (FR-003, SC-003), so it scales with data-intensity: 0.1s becomes 0.06s at archive, and 0.05s steps stay unchanged at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to archive, and to the exact 0.1s to 0.06s pair.",
+      "match": {
+        "prop": "^animation-delay$",
+        "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|rm-off",
+        "old": "^0\\.1s$",
+        "new": "^0\\.06s$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "motion-loops-stagger-archive-150ms",
+      "description": "The uplink stagger is a multiple of --nw-stagger instead of a literal 0.15s step (FR-003, SC-003), so it scales with data-intensity: 0.15s becomes 0.09s at archive, and 0.05s steps stay unchanged at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to archive, and to the exact 0.15s to 0.09s pair.",
+      "match": {
+        "prop": "^animation-delay$",
+        "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|rm-off",
+        "old": "^0\\.15s$",
+        "new": "^0\\.09s$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "motion-loops-stagger-combat-50ms",
+      "description": "The uplink stagger is a multiple of --nw-stagger instead of a literal 0.05s step (FR-003, SC-003), so it scales with data-intensity: 0.05s becomes 0.06s at combat, and 0.05s steps stay unchanged at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to combat, and to the exact 0.05s to 0.06s pair.",
       "match": {
         "prop": "^animation-delay$",
         "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
         "state": "^combat\\|rm-off",
-        "old": "^0\\.(05|1|15)s$",
-        "new": "^0\\.(06|12|18)s$",
+        "old": "^0\\.05s$",
+        "new": "^0\\.06s$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "motion-loops-stagger-combat-100ms",
+      "description": "The uplink stagger is a multiple of --nw-stagger instead of a literal 0.1s step (FR-003, SC-003), so it scales with data-intensity: 0.1s becomes 0.12s at combat, and 0.05s steps stay unchanged at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to combat, and to the exact 0.1s to 0.12s pair.",
+      "match": {
+        "prop": "^animation-delay$",
+        "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|rm-off",
+        "old": "^0\\.1s$",
+        "new": "^0\\.12s$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "motion-loops-stagger-combat-150ms",
+      "description": "The uplink stagger is a multiple of --nw-stagger instead of a literal 0.15s step (FR-003, SC-003), so it scales with data-intensity: 0.15s becomes 0.18s at combat, and 0.05s steps stay unchanged at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to combat, and to the exact 0.15s to 0.18s pair.",
+      "match": {
+        "prop": "^animation-delay$",
+        "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|rm-off",
+        "old": "^0\\.15s$",
+        "new": "^0\\.18s$",
         "page": "examples/html/workshop.html"
       }
     },
