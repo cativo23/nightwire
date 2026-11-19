@@ -95,6 +95,38 @@ test('should_copy_tokens_json_into_the_docs_images_that_now_import_it', () => {
   assert.match(read('docker-compose.dev.yml'), /src\/tokens\/tokens\.json/, 'dev compose does not mount tokens.json');
 });
 
+// The numbers a source file writes as text a reader sees: JSX text nodes and string or template
+// literals. Style objects (`fontSize: 36`), numeric props and comments are not text, so a count
+// that equals a style number does not collide. A number glued to a unit or word (`36px`, `46rem`)
+// is a size, not a count.
+function renderedNumbers(source) {
+  const spans = [
+    ...[...source.matchAll(/>([^<>]+)</g)].map((m) => m[1]),
+    ...[...source.matchAll(/'([^'\\\n]*)'|"([^"\\\n]*)"|`([^`]*)`/g)].map((m) => m[1] ?? m[2] ?? m[3]),
+  ];
+  return spans.flatMap((span) => [...span.matchAll(/(?<![\w.#$-])\d+(?![\w%]|\.\d)/g)].map((m) => Number(m[0])));
+}
+
+function hardCodedCounts(source, counts) {
+  const wanted = new Set([counts.tokens, counts.components]);
+  return renderedNumbers(source).filter((n) => wanted.has(n));
+}
+
+test('should_match_a_hard_coded_count_only_in_text_and_strings', () => {
+  const counts = { tokens: 134, components: 36 };
+  // A style number that equals a count is not a count.
+  assert.deepEqual(hardCodedCounts(`<div style={{ fontSize: 36, gap: 134 }}>NIGHTWIRE</div>`, counts), []);
+  assert.deepEqual(hardCodedCounts(`<div style={{ fontSize: '36px', width: '134%' }} />`, counts), []);
+  assert.deepEqual(hardCodedCounts(`// 36 components, 134 tokens\nconst a = 1;`, counts), []);
+  // A real count in JSX text, in a string and in a template literal is.
+  assert.deepEqual(hardCodedCounts(`<span>TOKENS: 134</span>`, counts), [134]);
+  assert.deepEqual(hardCodedCounts(`const x = '36 components';`, counts), [36]);
+  assert.deepEqual(hardCodedCounts('const x = `${a} of 134 tokens`;', counts), [134]);
+  assert.deepEqual(hardCodedCounts(`<b>{__NW_TOKEN_COUNT__} of 36</b>`, counts), [36]);
+  assert.deepEqual(hardCodedCounts(`<b>{134}</b>`, counts), [134]);
+  assert.deepEqual(hardCodedCounts(`<b>{__NW_TOKEN_COUNT__} tokens</b>`, counts), []);
+});
+
 // T058 fix 2 (Principle II): the token and component counts are computed at build time.
 test('should_compute_the_token_and_component_counts_instead_of_writing_them', () => {
   const counts = docsCounts(root);
@@ -108,7 +140,7 @@ test('should_compute_the_token_and_component_counts_instead_of_writing_them', ()
   for (const [file, defines] of Object.entries(users)) {
     const text = read(`${SRC}/${file}`);
     for (const d of defines) assert.match(text, new RegExp(d), `${file} does not use ${d}`);
-    assert.doesNotMatch(text, new RegExp(`\\b(${counts.tokens}|${counts.components})\\b`), `${file} hard-codes a count`);
+    assert.deepEqual(hardCodedCounts(text, counts), [], `${file} hard-codes a count`);
   }
   const vite = read('apps/docs/vite.config.ts');
   assert.match(vite, /__NW_TOKEN_COUNT__/);
