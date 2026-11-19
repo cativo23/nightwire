@@ -191,7 +191,7 @@ components:
   sidebar:
     width: "240px"
     background: "{colors.void-warm}"
-    border: "1px solid {colors.on-surface-faint}"
+    border: "1px solid {colors.on-surface-line}"
     itemPadding: "{spacing.sp-2} {spacing.sp-4}"
     activeBorderLeft: "2px solid {colors.primary}"
     activeBg: "{colors.primary-fill}"
@@ -377,7 +377,7 @@ The aesthetic is consistent across all use cases. The layout adapts to the proje
 1. **Pure black void.** Background is always `#000000`. Never gray, never navy, never `#0d0d0d`.
 2. **Neutral first, colour = function.** Text and edges are neutral. Blue marks focus, accents and chrome actions, green marks data, red danger, cyan info, amber warning, purple AI. Never decorative.
 3. **2px panel gaps.** Adjacent panels are separated by exactly 2px. Not 8px, not 16px. 2px.
-4. **Square corners.** Panels and data containers have `border-radius: 0`. Controls, cards and modals use `--radius-sm` (2px). Round shapes (`--radius-full`) are for avatars, switches and spinners only.
+4. **Square corners.** Panels and data containers have `border-radius: 0`. Controls, cards and modals use `--radius-sm` (2px). Round shapes (`--radius-full`) are for avatars, the skeleton avatar circle, switches and spinners only.
 5. **Kanji as style.** Japanese characters appear as decorative tags on panel headers — not for translation, for aesthetic.
 6. **Compressed serif titles.** Display headings use Noto Serif Display with `scaleX(0.82)` compression.
 7. **Elevation is tone, not shadow.** Surfaces rise through colour progression. The only drop shadow is the neutral `--nw-elevation-overlay` on overlays (modal, drawer, command palette). Glow is a state signal and nothing else.
