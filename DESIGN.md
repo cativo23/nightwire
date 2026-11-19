@@ -124,17 +124,30 @@ rounded:
 components:
   # Neutral-first: labels, borders and text sit on the grey ramp. Colour appears where it means
   # something (data, state, focus, the selected item). The bone action fill is --nw-action.
-  panel:
-    background: "{colors.void-warm}"
-    border: "1px solid {colors.on-surface-line}"
+  panel:                                    # open: no fill, no outline; the frame is .nw-reticle
+    background: "transparent"
+    border: "none"
     borderRadius: "{rounded.none}"
-    headerFont: "10px uppercase {colors.on-surface-dim}, letter-spacing 0.14em"
-    headerBorder: "1px solid {colors.on-surface-line}"
+    headerFont: "11px uppercase {colors.on-surface-dim}, letter-spacing 0.2em"   # CSS: shared section head
+    headerRule: "1px solid {colors.on-surface-line}, from the label to the right slot"
+    headerPadding: "0 0 {spacing.sp-3}"
+    bodyPadding: "{spacing.sp-3} 0"
 
-  card:
-    background: "{colors.void-warm}"
+  card:                                     # an object: hairline outline, no fill
+    background: "transparent"
     border: "1px solid {colors.on-surface-line}"
     borderRadius: "{rounded.sm}"
+
+  nw-reticle:                               # opt-in frame, alone or on .panel
+    border: "1px solid {colors.on-surface-line}"
+    padding: "{spacing.sp-4}"
+    arms: "14px hairline corner arms in --nw-line-chrome (--nw-reticle-arm, --nw-reticle-c)"
+
+  nw-chip:
+    border: "1px solid rgba(255, 255, 255, 0.18)"  # CSS: --nw-chip-line
+    borderRadius: "{rounded.sm}"
+    height: "24px"
+    solid: "bone fill, as button-primary (.nw-chip-solid)"
 
   button-primary:
     background: "#e6e6e6"                   # CSS: --nw-action (bone), hover --nw-action-hot #99bbff
@@ -355,7 +368,7 @@ Nightwire is a **cyberpunk aesthetic system** that works at any information dens
 
 The aesthetic is consistent across all use cases. The layout adapts to the project. A personal portfolio uses the same tokens, fonts, and components as a dense monitoring dashboard — the difference is in how you arrange them.
 
-**The v3 look in one paragraph.** Neutral first: labels, hairlines and default text sit on the grey ramp, and colour appears only where it carries meaning (data values, state, focus, the selected item). Corners are square (`--radius-sm`, 2px, on every control; panels are 0). Edges are 1px hairlines. There is one solid action per view, in bone (`.btn`, `--nw-action`), and every other button is an outline, except the two deliberate solids: `.btn-danger` (red, destructive) and `.btn-chrome` (blue, UI-chrome actions). Nothing glows for decoration: glow is a state signal (LED, check, switch, segmented, steps, progress), it is off at `archive`, and it never rises at `combat` except on those signals. The four typefaces, the kanji labels, the compressed serif title and the three intensities are unchanged.
+**The v3 look in one paragraph.** Neutral first: labels, hairlines and default text sit on the grey ramp, and colour appears only where it carries meaning (data values, state, focus, the selected item). Corners are square (`--radius-sm`, 2px, on every control; panels are 0). Edges are 1px hairlines. The layout is open: a `.panel` has no fill and no outline, a `.card` keeps a hairline outline and no fill (a card is an object, a panel is a section), and a dense console frames its panels with the opt-in `.nw-reticle`. Every section head, in a panel, a card or on its own, is the same piece: a mute label, a hairline that runs to the right slot, an optional `data-idx` and a 20px `.kanji`. There is one solid action per view, in bone (`.btn`, `--nw-action`), and every other button is an outline, except the two deliberate solids: `.btn-danger` (red, destructive) and `.btn-chrome` (blue, UI-chrome actions). Nothing glows for decoration: glow is a state signal (LED, check, switch, segmented, steps, progress), it is off at `archive`, and it never rises at `combat` except on those signals. The three approved exceptions are film grain (`.nw-grain`), the halftone image treatment (`.nw-halftone`) and the kanji glow of `.nw-section-head-chrome` and the hovered `.nw-index-row`. The four typefaces, the kanji labels, the compressed serif title and the three intensities are unchanged.
 
 **Emotional tone:** Calm precision. The quiet confidence of a system that knows exactly what it's doing.
 
@@ -376,7 +389,7 @@ The aesthetic is consistent across all use cases. The layout adapts to the proje
 
 1. **Pure black void.** Background is always `#000000`. Never gray, never navy, never `#0d0d0d`.
 2. **Neutral first, colour = function.** Text and edges are neutral. Blue marks focus, accents and chrome actions, green marks data, red danger, cyan info, amber warning, purple AI. Never decorative.
-3. **2px panel gaps.** Adjacent panels are separated by exactly 2px. Not 8px, not 16px. 2px.
+3. **2px gaps between framed panels.** In a dense grid, adjacent `.panel.nw-reticle` frames are separated by exactly 2px. Not 8px, not 16px. 2px. Open panels have no edge for a gap to separate, so landing pages and editorial layouts use a wide gap (`--sp-8`).
 4. **Square corners.** Panels and data containers have `border-radius: 0`. Controls, cards and modals use `--radius-sm` (2px). Round shapes (`--radius-full`) are for avatars, the skeleton avatar circle, switches and spinners only.
 5. **Kanji as style.** Japanese characters appear as decorative tags on panel headers — not for translation, for aesthetic.
 6. **Compressed serif titles.** Display headings use Noto Serif Display with `scaleX(0.82)` compression.
@@ -393,7 +406,7 @@ The aesthetic is consistent across all use cases. The layout adapts to the proje
 Use standard HTML flow. Apply Nightwire components (`.panel`, `.btn`, `.nw-table`) within your own layout.
 
 **2. Operations Console** (dashboards, admin panels, monitoring UIs)
-Full-viewport, no scroll on the outer wrapper. Dense panel grid with 2px gaps.
+Full-viewport, no scroll on the outer wrapper. Dense grid of framed panels (`class="panel nw-reticle"`) with 2px gaps.
 
 ```html
 <!-- Operations Console structure -->
@@ -416,7 +429,7 @@ Full-viewport, no scroll on the outer wrapper. Dense panel grid with 2px gaps.
   <div class="dashboard">
     <div class="dash-left">
       <div class="dash-row r1">
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>PANEL TITLE</span>
             <span class="tag">日本語</span>
@@ -456,15 +469,19 @@ Operations Console CSS (add alongside nightwire.css):
 ## Panel Header Pattern
 
 Every panel header follows this exact pattern:
-- 8-10px uppercase monospace label in `--nw-text-mute` (neutral; blue is not used for labels)
-- Japanese kanji tag on the right; a `.kanji` inside the header is `--nw-text-default`, set with `:where()` so a colour utility on it still wins
-- `1px solid --nw-line` bottom border (a neutral hairline)
+- 11px uppercase monospace label in `--nw-text-mute`, wide tracking (neutral; blue is not used for labels)
+- No bottom border: a `--nw-line` hairline (`::after`) runs from the label to the right slot
+- Japanese kanji on the right; a `.kanji` in the header is 20px and `--nw-text-default`, set with `:where()` so a colour utility on it still wins. Other right-slot content (a `.tag`, an LED and text) keeps its own look
+- Optional `data-idx="01"` on the header renders `01 // LABEL`, the index in `--nw-chrome`
+- The header is padded below only and the body above and below only, so the content sits flush with the head
+
+`.panel-header`, `.card-header` and `.nw-section-head` share one implementation.
 
 ```html
 <div class="panel">
-  <div class="panel-header">
+  <div class="panel-header" data-idx="01">
     <span>SECTION TITLE</span>
-    <span class="tag">日本語タグ</span>
+    <span class="kanji">日本語</span>
   </div>
   <div class="panel-body">
     <!-- content -->
@@ -592,8 +609,9 @@ For long-form content (blogs, articles, documentation):
 
 **DO:**
 - Use `#000000` for all page backgrounds — never `#0d0d0d`, `#111`, or any gray
-- Use 2px gaps between adjacent panels — always
-- Add Japanese kanji tags to every panel header
+- Use 2px gaps between adjacent framed panels (`.nw-reticle`) — always; open panels take a wide gap
+- Frame the panels of a dense console with `.nw-reticle` instead of writing a background or border on `.panel`
+- Add a Japanese `.kanji` to every panel header
 - Use green for data values (stat and metric numbers, percentages); table text is content and stays neutral
 - Keep labels and headers neutral (`--nw-text-mute`); keep blue for focus, accents and chrome actions
 - Offer one solid action per view (`.btn`, bone) and make the rest outlines (`.btn-ghost`, `.btn-success`, `.btn-ai`)
@@ -605,6 +623,7 @@ For long-form content (blogs, articles, documentation):
 **DON'T:**
 - Use `box-shadow` for elevation — use surface colour progression. The one exception is `--nw-elevation-overlay` on overlays
 - Add a decorative glow or `text-shadow` to a heading, value or button — glow means state
+- Write a `background` or `border` on `.panel` for a box — the panel is open; use `.nw-reticle`
 - Use `border-radius` on panels or data containers — sharp edges only; controls take `--radius-sm`, never `--radius-md` or `--radius-lg` (no component reads them in v3)
 - Use color decoratively — every color must carry semantic meaning
 - Use font sizes below 11px — readability is non-negotiable
@@ -626,7 +645,7 @@ Depth is tone first. Surfaces rise through colour, and an overlay adds one neutr
 | Level | Token | Hex | Use |
 |---|---|---|---|
 | 0 | `--void` | `#000000` | Page background |
-| 1 | `--void-warm` | `#0a0a0a` | Panels, cards |
+| 1 | `--void-warm` | `#0a0a0a` | Surfaces you fill yourself (`.panel` and `.card` have no fill in v3) |
 | 2 | `--void-panel` | `#111111` | Modals, inputs, raised panels |
 | 3 | `--void-raised` | `#1a1a1a` | Dropdowns, tooltips |
 | Overlay | `--nw-elevation-overlay` | `0 24px 64px rgba(0, 0, 0, 0.7)` | The modal, drawer and command palette panels |
@@ -721,6 +740,8 @@ knobs:
   --nw-panel-radius:   0          # softens to 2px in archive
   --nw-value-color:    var(--nw-data)  # --nw-green-dim in archive and combat
   --nw-kanji-display:  inline     # → none in archive
+  --nw-grain:          0.07       # film grain opacity of .nw-grain; 0 in archive, 0.1 in combat
+  --nw-kanji-glow:     calc(20px * var(--nw-glow))  # kanji glow of the chrome section head and the hovered index row; 0 in archive
   --nw-label-spacing:  0.2em      # → 0.14em in archive
 ```
 
@@ -893,6 +914,47 @@ components-v2:
   nw-split:        "sidebar + main grid"
 ```
 
+### Mockup pieces added in v3
+
+The open look and the pieces below come from the approved mockup (US5). All are additive and
+optional; the values are in `src/components/` and the reasons in `docs/design/v3/direction.md`.
+
+```yaml
+components-v3:
+  open-layout:
+    panel:           "no fill, no outline, no radius, at every intensity"
+    card:            "1px --nw-line outline, no fill, --radius-sm"
+    nw-reticle:      "{nw-reticle-meta, nw-reticle-vlabel, nw-reticle-stamp, nw-reticle-foot} frame with corner arms; keeps the element's own background"
+    kv-row:          "padding --sp-3 x --nw-pad-scale, top-aligned, right-aligned value; .kv-note and .kv-swap inside"
+  section-head:      "{nw-section-head, nw-section-head-chrome} the panel-header look on its own; chrome fades the hairline and glows a blue kanji"
+  nw-display:        "title face at weight 900, scaleX(0.82), uppercase, clamp(40px, 7vw, 76px)"
+  nw-lede:           "intro paragraph, --nw-text-mute, max 52ch"
+  nw-chip:           "{sq, star, nw-chip-solid} 24px outlined label or link; border --nw-chip-line"
+  nw-link-arrow:     "uppercase mono link in --nw-chrome, hover --nw-chrome-hot"
+  nw-index:          "{nw-index-row: kanji, name, count, items} two-column index; keeps its grid when the kanji is hidden"
+  nw-accordion:      "native details and summary, '+' and '−' marker, answers in .answer; animated on --nw-sweep where interpolate-size is supported"
+  nw-halftone:       "{nw-halftone-layer, -chrome, -data, -bone, -fine} halftone image; tint --nw-halftone-tint, dot --nw-halftone-dot"
+  nw-barcode:        "26px strip of bars in the current text colour"
+  nw-wordmark:       "outlined title face, hairline stroke, scaleX(0.82), fades towards the bottom"
+  nw-grain:          "on <body>: fixed film grain at --nw-grain; no pointer events; hidden under forced colours"
+```
+
+```html
+<body class="nw-grain">
+  <h1 class="nw-display">Nightwire</h1>
+  <p class="nw-lede">A dark-mode design system.</p>
+  <div class="panel nw-reticle">
+    <div class="panel-header" data-idx="02"><span>Specs</span><span class="kanji">仕様</span></div>
+    <div class="panel-body">...</div>
+  </div>
+</body>
+```
+
+Grain is 0 at `archive`, .07 at `operator` and .1 at `combat`. It has its own knob because
+`--nw-glow` is .5 at both operator and combat, so a glow-scaled grain would stay flat at combat. The
+halftone is image content, so it renders at every intensity. `--nw-bone` (`#d8d2c8`) is the tint of
+`.nw-halftone-bone`.
+
 ### Color-blind safety
 
 Nightwire gives **state + shape + label** redundancy rather than relying on color alone:
@@ -910,7 +972,8 @@ promises below hold within v3.x, where a minor release only adds.
 
 1. **The look.** Every component, at every intensity, moved to the visual identity above: neutral
    labels and hairlines, square corners, bone `.btn`, outline secondaries (`.btn-danger` and `.btn-chrome` stay solid), no decorative glow, a
-   neutral default `.tag`, a `.toast` with a hairline boundary and a 2px accent. The values and
+   neutral default `.tag`, a `.toast` with a hairline boundary and a 2px accent. The layout is open: `.panel` has no fill or outline (add `.nw-reticle` for a box),
+   `.card` keeps only its outline, and the section head is shared. The values and
    reasons are in `docs/design/v3/direction.md` in the repository. Existing markup keeps
    working and renders the new look.
 2. **Removed v1 surfaces (breaking).** Each has a v3 replacement:
@@ -929,7 +992,8 @@ promises below hold within v3.x, where a minor release only adds.
    each decision.
 3. **New tokens.** `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow`, `--nw-hairline`,
    `--nw-rule`, `--nw-accent-width`, `--nw-elevation-overlay`, `--nw-action`, `--nw-action-hot`,
-   `--nw-action-text`.
+   `--nw-action-text`, `--nw-grain`, `--nw-chip-line`, `--nw-bone`, `--nw-kanji-glow`. New classes
+   are listed in "Mockup pieces added in v3".
 4. **Changed token values.** `--nw-glow` 1 to 0.5 (combat 2.2 to 0.5), `--nw-pulse-speed` 1.4s to
    1.6s (combat 0.7s override removed), `--nw-text-faint` 0.06 to 0.08, `--nw-text-line` and
    `--nw-line` 0.12 to 0.14, `--nw-line-strong` 0.18 to 0.36, `--nw-purple-fill` 0.1 to 0.06. The
@@ -956,7 +1020,8 @@ promises below hold within v3.x, where a minor release only adds.
 **Rules the refresh holds, and the tooling checks.**
 
 - FR-013a: decorative sci-fi treatments (header gradients, scanlines, coloured ambient glow) are
-  gone at every intensity.
+  gone at every intensity. The approved exceptions are `.nw-grain`, `.nw-halftone` and the kanji glow
+  of the chrome section head and the hovered index row.
 - FR-013b: no glow at `archive`; at `operator` every remaining glow is weaker than in v2.1.0; at
   `combat` only state signals may exceed operator, and they stay below v2.1.0's combat.
   `scripts/parity/glow-check.mjs` enforces it over a parity run.
