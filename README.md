@@ -16,13 +16,28 @@ Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreat
 1. **Pure black void** — Background is always `#000000`. No gray, no navy.
 2. **Neutral first, color = function** — Text, labels and edges are neutral. Color appears where it means something: data, state, focus, the selected item. Don't use color decoratively.
 3. **Readable first** — 14px base font, 1.5 line-height. Legibility over density.
-4. **No CRT effects, no decorative glow** — No scanlines, no flicker, no vignette. Glow is a state signal only (LED, check, switch, progress) and is off in `archive`.
+4. **No CRT effects, no decorative glow** — No scanlines, no flicker, no vignette. Glow is a state signal only (LED, check, switch, segmented, steps, progress) and is off in `archive`. Three approved exceptions, all opt-in: film grain (`.nw-grain`, 0 at `archive`), halftone art (`.nw-halftone`, which renders at every intensity) and the kanji glow of `.nw-section-head-chrome` and the hovered `.nw-index-row` (0 at `archive`).
 5. **Soft neon** — Cyberpunk-inspired but not eye-burning. Vibrant, not harsh.
 6. **Square and quiet** — Square corners, 1px hairlines, one solid bone-colored action per view; every other button is an outline, except `.btn-danger` and `.btn-chrome`.
 
 ### What v3 looks like
 
 v3 replaces the v2.1.0 look in every component and every intensity: neutral labels and hairlines, square corners, a bone `.btn` with outline secondaries, a neutral default `.tag`, and glow that never decorates. Blue stays on focus rings and accent lines, green on data. The four typefaces, the kanji labels and the three intensities are unchanged. [`docs/design/v3/direction.md`](docs/design/v3/direction.md) records every value and the reason for it.
+
+The layout is open. The open `.panel` has no fill and no outline, and its header is a section head: a mute label, a hairline and a 20px `.kanji` in the right slot. A `.card` keeps a hairline outline and no fill (a card is an object, a panel is a section). A box is opt-in: add `.nw-reticle` to a panel (`.panel.nw-reticle`) for a hairline frame with corner arms, as a dense console does, or use it alone on any element. Framed panels sit 2px apart; open panels use the wide `--sp-8` gap.
+
+v3 adds opt-in `nw-` classes. Nothing changes on a page that does not use them:
+
+- `.nw-section-head` (+ `.nw-section-head-chrome`): the section head on its own
+- `.nw-display` and `.nw-lede`: a large compressed serif heading and an intro paragraph
+- `.nw-chip` (+ `.nw-chip-solid`): a small outlined label or link
+- `.nw-index` and `.nw-index-row`: a two-column kanji index
+- `.nw-accordion`: native `<details>` and `<summary>`, no JavaScript
+- `.nw-link-arrow`: an uppercase mono link in the primary colour
+- `.nw-reticle` (+ `.nw-reticle-meta`, `.nw-reticle-vlabel`, `.nw-reticle-stamp`, `.nw-reticle-foot`): the frame and its parts
+- `.nw-halftone` (+ `.nw-halftone-chrome`, `.nw-halftone-data`, `.nw-halftone-bone`, `.nw-halftone-fine`): a halftone image treatment
+- `.nw-barcode` and `.nw-wordmark`: decorative pieces; hide them from assistive tech with `aria-hidden="true"`
+- `.nw-grain`: film grain over the page, on `<body>` (`--nw-grain`: 0 at `archive`, .07 at `operator`, .1 at `combat`)
 
 v3 is a major release and removes the v1 compatibility surfaces that v2 kept: `.led.green|blue|red|yellow` (use `.led[data-state="ok|active|error|warn"]`), `.tag-warning` (`.tag-warn`), `.nw-progress .fill` (`.nw-progress-fill`), `.stack` (`.nw-stack`) and the `--nw-header-gradient` and `--nw-header-pattern` tokens. The migration guide, [`docs/migration/v3.md`](docs/migration/v3.md), lists every breaking change with its reason and how to adapt, and how to stay on v2; [`docs/design/v3/v1-inventory.md`](docs/design/v3/v1-inventory.md) records why each surface was removed.
 
@@ -84,7 +99,7 @@ Drop `SKILL.md` into your project as a skill. The agent can then generate Nightw
 
 **Utility classes** — Text color, glow effects, surface levels, borders, grid layouts.
 
-**Component styles** — Buttons, cards, panels, modals, drawers, command palette, tabs, sidebar nav, dropdowns, breadcrumbs, tooltips, data tables, metrics grids, stats, badges, tags, status LEDs, avatars, key-value rows, form controls, progress bars, steps, skeleton loaders, toasts, dividers.
+**Component styles** — Buttons, cards, panels (open by default, framed with `.nw-reticle`), section heads, accordions, chips, kanji index, halftone images, barcode and wordmark, modals, modals, drawers, command palette, tabs, sidebar nav, dropdowns, breadcrumbs, tooltips, data tables, metrics grids, stats, badges, tags, status LEDs, avatars, key-value rows, form controls, progress bars, steps, skeleton loaders, toasts, dividers.
 
 **Tailwind preset** — All tokens mapped to Tailwind's config (colors, fonts, spacing, radius, shadows, motion). Colour, glow and motion utilities reference the CSS custom properties, so they follow `data-intensity` and runtime overrides, and opacity modifiers such as `bg-nw-cyan/40` keep working.
 
