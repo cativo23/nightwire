@@ -63,12 +63,20 @@ test('operator: a new neutral black elevation shadow is an exception, however la
   assert.equal(r.operator.violations.length, 0);
 });
 
-test('operator: a coloured glow with no old counterpart is a violation unless the path is accepted', () => {
-  const unknown = checkGlow([rec({ path: 'html>body>div.card:nth-child(1)', old: 'none', new: glow(4) })]);
+test('operator: a coloured glow with no old counterpart is a violation unless it is the new active LED', () => {
+  const unknown = checkGlow([rec({ path: 'html>body>div.card:nth-child(1)', old: 'none', new: glow(4, 'rgb(102, 153, 255)') })]);
   assert.equal(unknown.operator.violations.length, 1);
-  const led = checkGlow([rec({ old: 'none', new: glow(4) })]);
-  assert.equal(led.operator['new-signal'], 1);
-  assert.equal(led.operator.violations.length, 0);
+  const active = checkGlow([rec({ old: 'none', new: glow(4, 'rgb(102, 153, 255)') })]);
+  assert.equal(active.operator['new-signal'], 1);
+  assert.equal(active.operator.violations.length, 0);
+});
+
+test('operator: a plain or other-state .led that gains a glow fails; only the active LED colour (--nw-chrome) is new', () => {
+  // parity paths carry no attributes, so the colour of the glow is what identifies data-state="active"
+  const green = checkGlow([rec({ old: 'none', new: glow(4) })]);
+  assert.equal(green.operator.violations.length, 1);
+  const chromeMixed = checkGlow([rec({ old: 'none', new: `${glow(4, 'rgb(102, 153, 255)')}, ${glow(4)}` })]);
+  assert.equal(chromeMixed.operator.violations.length, 1);
 });
 
 test('operator: layers are compared one by one, so a second layer that grows fails', () => {

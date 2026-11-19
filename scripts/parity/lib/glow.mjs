@@ -47,11 +47,20 @@ const STATE_SIGNAL = [
 ];
 export const isStateSignalPath = (path) => STATE_SIGNAL.some((re) => re.test(plain(path)));
 
-// A glow that did not exist in v2.1.0 is acceptable on a state that is new in v3.
+// A glow that did not exist in v2.1.0 is acceptable on a state that is new in v3: the active LED.
+// Parity paths carry no attributes, so the state is recognised by the glow colour, which is
+// --nw-chrome (#6699ff) for data-state="active" and the colour of no other LED state. Every layer
+// must have it, so a plain .led or another state that gains a glow still fails.
+const CHROME = { r: 102, g: 153, b: 255 };
+const isChrome = (l) => l.color !== null && l.color.r === CHROME.r && l.color.g === CHROME.g && l.color.b === CHROME.b;
 const NEW_SIGNAL = [
-  { re: /(^|>)span\.led$/, reason: '.led[data-state="active"] is new in v3 (T042); it glows like the other LED states, at --nw-led-glow' },
+  {
+    re: /(^|>)span\.led$/,
+    layers: (glows) => glows.every(isChrome),
+    reason: '.led[data-state="active"] is new in v3 (T042); it glows like the other LED states, at --nw-led-glow',
+  },
 ];
-const newSignalReason = (path) => NEW_SIGNAL.find(({ re }) => re.test(plain(path)))?.reason;
+const newSignalReason = (path, glows) => NEW_SIGNAL.find(({ re, layers }) => re.test(plain(path)) && layers(glows))?.reason;
 
 const operatorState = (state) => /^(none|operator)\|/.test(state);
 
@@ -66,7 +75,7 @@ function judgeOperator(record) {
   }
   if (glows.every(({ layer, old }) => old && layer.blur < old.blur)) return { kind: 'smaller' };
   if (glows.some(({ layer, old }) => old && layer.blur >= old.blur)) return { kind: 'violation', reason: 'blur is not smaller than in v2.1.0' };
-  const reason = newSignalReason(record.path);
+  const reason = newSignalReason(record.path, glows.map(({ layer }) => layer));
   if (reason) return { kind: 'new-signal', reason };
   return { kind: 'violation', reason: 'a glow with no v2.1.0 counterpart' };
 }
