@@ -340,6 +340,14 @@ test('FR-032: the accordion is native <details>/<summary>: no script hook, the 2
   assert.doesNotMatch(accordion, /\[data-(open|state)|aria-expanded|:target/, 'no attribute a script would have to set');
 });
 
+test('FR-032: the accordion marker is decoration: each content declaration is a pair with an empty alt text, fallback first', () => {
+  const rules = parseRules(piece('accordion'));
+  for (const [sel, glyph] of [['.nw-accordion summary::after', '+'], ['.nw-accordion details[open] summary::after', '\u2212']]) {
+    const contents = rules.find((r) => r.selector === sel).decls.filter((d) => d.prop === 'content').map((d) => d.value);
+    assert.deepEqual(contents, [`'${glyph}'`, `'${glyph}' / ''`], `${sel}: fallback, then the alt-text form`);
+  }
+});
+
 test('FR-032: the accordion animates only inside @supports (interpolate-size), on the shared sweep tokens, and is instant elsewhere', () => {
   const accordion = piece('accordion');
   const supports = blockOf(accordion, '@supports (interpolate-size: allow-keywords)');

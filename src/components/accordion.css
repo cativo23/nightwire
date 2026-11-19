@@ -27,12 +27,16 @@
 
 .nw-accordion summary::after {
   content: '+';
+  content: '+' / '';   /* the marker is decoration: empty alt text keeps it out of the accessible name */
   font-family: var(--font-sys);
   font-size: 16px;
   color: var(--nw-chrome);
 }
 
-.nw-accordion details[open] summary::after { content: '−'; }
+.nw-accordion details[open] summary::after {
+  content: '−';
+  content: '−' / '';
+}
 
 .nw-accordion summary:hover { color: var(--nw-text-strong); }
 
