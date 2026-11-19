@@ -57,8 +57,7 @@ function printTailwindSnippet(): void {
   console.log(pc.cyan(`  export default { presets: [nightwirePreset] }`));
 }
 
-export async function install(): Promise<void> {
-  const cwd = process.cwd();
+export async function install(cwd: string = process.cwd()): Promise<void> {
   const projectType = detectProjectType(cwd);
 
   console.log(pc.blue([
