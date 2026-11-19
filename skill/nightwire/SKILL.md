@@ -21,6 +21,8 @@ package is an ES module; a CommonJS config needs `require(...).default`; the ins
 `duration-nw-*` and `ease-nw-*` scale with `--nw-motion-scale` (the `-out` forms exist:
 `duration-nw-tick-out`, `ease-nw-sweep-out`, ...), and `shadow-glow-{green,blue,cyan,red}` scale
 with `--nw-glow`, so they vanish at archive. Use them for state only, like the `.glow-*` classes.
+Do not combine `shadow-glow-*` with a `shadow-<colour>` utility: Tailwind 3 drops the blur, so it
+renders no glow (keep the default colour, or write an arbitrary `shadow-[…]` value).
 
 ---
 
@@ -338,8 +340,10 @@ Glow is `--nw-glow` (0 at archive, 0.5 at operator and combat). The three state-
 `--nw-led-glow`, `--nw-control-glow` and `--nw-progress-glow` follow it and double at combat, so
 only state signals glow brighter there. Never add a glow to a non-state element.
 
-An override of a colour token or of `--nw-glow` on a sub-tree reaches both the classes and the
-Tailwind utilities. `--nw-motion-scale` and alias tokens such as `--nw-chrome` resolve on `:root`, so
+A colour-token override on a sub-tree reaches the Tailwind colour utilities, and a `--nw-glow`
+override on a sub-tree reaches `shadow-glow-*` and the `.glow-*` classes. Neither reaches the LED,
+control and progress glow: set `--nw-led-glow`, `--nw-control-glow` or `--nw-progress-glow` on that
+element instead. `--nw-motion-scale` and alias tokens such as `--nw-chrome` resolve on `:root`, so
 override those on `:root` or on the `data-intensity` element, or override the derived token itself.
 
 ### Layer 2 semantic tokens (use these when forking palette)

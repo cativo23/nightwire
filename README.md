@@ -24,7 +24,7 @@ Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreat
 
 v3 replaces the v2.1.0 look in every component and every intensity: neutral labels and hairlines, square corners, a bone `.btn` with outline secondaries, a neutral default `.tag`, and glow that never decorates. Blue stays on focus rings and accent lines, green on data. The four typefaces, the kanji labels and the three intensities are unchanged. [`docs/design/v3/direction.md`](docs/design/v3/direction.md) records every value and the reason for it.
 
-v3 is a major release and removes the v1 compatibility surfaces that v2 kept: `.led.green|blue|red|yellow` (use `.led[data-state="ok|active|error|warn"]`), `.tag-warning` (`.tag-warn`), `.nw-progress .fill` (`.nw-progress-fill`), `.stack` (`.nw-stack`) and the `--nw-header-gradient` and `--nw-header-pattern` tokens. [`docs/design/v3/v1-inventory.md`](docs/design/v3/v1-inventory.md) lists each one; the migration guide, `docs/migration/v3.md`, is written later in this release.
+v3 is a major release and removes the v1 compatibility surfaces that v2 kept: `.led.green|blue|red|yellow` (use `.led[data-state="ok|active|error|warn"]`), `.tag-warning` (`.tag-warn`), `.nw-progress .fill` (`.nw-progress-fill`), `.stack` (`.nw-stack`) and the `--nw-header-gradient` and `--nw-header-pattern` tokens. The migration guide, [`docs/migration/v3.md`](docs/migration/v3.md), lists every breaking change with its reason and how to adapt, and how to stay on v2; [`docs/design/v3/v1-inventory.md`](docs/design/v3/v1-inventory.md) records why each surface was removed.
 
 ## Installation
 

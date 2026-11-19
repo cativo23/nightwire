@@ -34,8 +34,8 @@ export default function App() {
           onClick={() => setMobileOpen(true)}
           style={{
             display: 'none',
-            background: 'none', border: '1px solid var(--nw-primary-dim)',
-            color: 'var(--nw-primary)', cursor: 'pointer',
+            background: 'none', border: '1px solid var(--nw-line-strong)',
+            color: 'var(--nw-text)', cursor: 'pointer',
             padding: '4px 8px', fontFamily: 'var(--font-sys)', fontSize: 12,
             marginRight: 12, flexShrink: 0,
           }}
@@ -74,7 +74,7 @@ export default function App() {
         style={{
           position: 'fixed', top: 0, left: 0, bottom: 0, width: 260,
           zIndex: 201, background: 'var(--void-warm)',
-          borderRight: '1px solid var(--nw-primary-dim)',
+          borderRight: '1px solid var(--nw-text-faint)',
           transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
           transition: 'transform 0.25s ease',
           display: 'none',
@@ -117,7 +117,7 @@ export default function App() {
               <Route path="/more-components" element={<MoreComponentsPage />} />
               <Route path="/templates" element={<TemplatesPage />} />
               <Route path="/examples" element={<ExamplesPage />} />
-              {/* v2 transversal docs */}
+              {/* Cross-cutting docs */}
               <Route path="/intensity" element={<IntensityPage />} />
               <Route path="/layer2-tokens" element={<Layer2TokensPage />} />
             </Routes>

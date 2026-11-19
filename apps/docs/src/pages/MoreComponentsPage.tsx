@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { SectionTitle, CodeBlock } from '../components/CodeBlock';
-import { NewBadge } from '../components/NewBadge';
 
 export function MoreComponentsPage() {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -12,9 +11,9 @@ export function MoreComponentsPage() {
         Additional components available in <code style={{ color: 'var(--nw-cyan)' }}>nightwire.css</code>. All are plain CSS; overlays open and close by toggling a <code style={{ color: 'var(--nw-cyan)' }}>data-open</code> attribute.
       </p>
 
-      {/* Form Suite — v2 */}
+      {/* Form Suite */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Form Suite <NewBadge /></span><span className="tag">入力</span></div>
+        <div className="panel-header"><span>Form Suite</span><span className="tag">入力</span></div>
         <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div className="field">
             <label className="field-label">Node ID <span className="req">*</span></label>

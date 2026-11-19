@@ -1,3 +1,10 @@
+import tokens from '../../../../src/tokens/tokens.json';
+import { TokenReader, KNOB_COLUMNS, motionVocab } from './tokens.mjs';
+
+// Motion and intensity values are read from src/tokens/tokens.json (Principle II); only the
+// human copy (use, desc) is written here.
+const nw = new TokenReader(tokens);
+
 export const COLORS = [
   { name: 'void', hex: '#000000', variable: '--void', desc: 'Primary background — absolute void' },
   { name: 'void-warm', hex: '#0a0a0a', variable: '--void-warm', desc: 'Panel fill' },
@@ -43,15 +50,11 @@ export const COMPONENTS = [
 // Grouping follows a Foundation / Components / Patterns model, inspired by Polaris, Geist and
 // Atlassian.
 //
-// v2-alpha additions get an inline `isNewV2` flag so the Sidebar can pin a small
-// "v2" chip next to the label, and NewBadge renders the full "NEW IN V2" pill —
-// together they form a two-tier visual system (chip for sidebar, badge for page headers).
 
 export type SidebarItem = {
   id: string;
   label: string;
   kanji: string;
-  isNewV2?: boolean;
 };
 
 export type SidebarGroup = {
@@ -79,7 +82,7 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
       { id: 'typography',    label: 'Typography',        kanji: 'タイポ' },
       { id: 'surfaces',      label: 'Surface Hierarchy', kanji: 'サーフェス' },
       { id: 'spacing',       label: 'Spacing Scale',     kanji: 'スペース' },
-      { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層', isNewV2: true },
+      { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層' },
     ],
   },
   {
@@ -98,7 +101,7 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
     section: 'Patterns',
     kanji: '応用',
     items: [
-      { id: 'intensity', label: 'Intensity System', kanji: '強度', isNewV2: true },
+      { id: 'intensity', label: 'Intensity System', kanji: '強度' },
       { id: 'templates', label: 'Layout Templates', kanji: '型紙' },
       { id: 'examples',  label: 'Live Examples',    kanji: 'デモ' },
     ],
@@ -106,53 +109,28 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
 ];
 
 
+// Which knobs each column shows (KNOB_COLUMNS) is a display choice; the values come from the JSON.
 export const INTENSITY_MODES = [
   {
     id: 'archive',
     label: 'Archive',
     kanji: '保管',
     desc: 'Docs, blogs. No glow, paused pulses, larger padding, no kanji, slower motion.',
-    knobs: {
-      '--nw-glow': '0',
-      '--nw-motion-scale': '0.6',
-      '--nw-pad-scale': '1.35',
-      '--nw-base-font': '15px',
-      '--nw-pulse-state': 'paused',
-      '--nw-kanji-display': 'none',
-      '--nw-panel-radius': '2px',
-      '--nw-value-weight': '400',
-    },
+    knobs: nw.knobs('archive', KNOB_COLUMNS.archive),
   },
   {
     id: 'operator',
     label: 'Operator',
     kanji: '通常',
     desc: 'Default. Neutral look with a subtle state glow, comfortable density, kanji visible.',
-    knobs: {
-      '--nw-glow': '0.5',
-      '--nw-motion-scale': '1',
-      '--nw-pad-scale': '1',
-      '--nw-base-font': '14px',
-      '--nw-pulse-state': 'running',
-      '--nw-kanji-display': 'inline',
-      '--nw-panel-radius': '0',
-      '--nw-value-weight': '500',
-    },
+    knobs: nw.knobs('operator', KNOB_COLUMNS.operator),
   },
   {
     id: 'combat',
     label: 'Combat',
     kanji: '戦闘',
     desc: 'Ops console, dense. State signals glow twice as bright, faster pulses, denser padding.',
-    knobs: {
-      '--nw-led-glow': 'calc(var(--nw-glow) * 2)',
-      '--nw-control-glow': 'calc(var(--nw-glow) * 2)',
-      '--nw-progress-glow': 'calc(var(--nw-glow) * 2)',
-      '--nw-motion-scale': '1.2',
-      '--nw-density': '0.85',
-      '--nw-pad-scale': '0.7',
-      '--nw-base-font': '13px',
-    },
+    knobs: nw.knobs('combat', KNOB_COLUMNS.combat),
   },
 ];
 
@@ -162,12 +140,12 @@ export const LAYER2_TOKENS = [
   { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Panels, cards' },
   { token: '--nw-surface-2', maps: '--void-panel',   desc: 'Modals, inputs' },
   { token: '--nw-surface-3', maps: '--void-raised',  desc: 'Dropdowns, tooltips' },
-  { token: '--nw-surface-4', maps: '#242424',        desc: 'NEW — Highest surface tier (no component uses it yet)' },
+  { token: '--nw-surface-4', maps: '#242424',        desc: 'Highest surface tier (no component uses it yet)' },
   // Text tiers
   { token: '--nw-text-strong',   maps: '#ffffff', desc: 'Headings, critical values' },
-  { token: '--nw-text-default',  maps: '#e6e6e6', desc: 'Body and table text (NEW tier)' },
+  { token: '--nw-text-default',  maps: '#e6e6e6', desc: 'Body and table text' },
   { token: '--nw-text-mute',     maps: '#aaaaaa', desc: 'Labels, headers, captions' },
-  { token: '--nw-text-disabled', maps: '#5a5a5a', desc: 'Disabled (NEW tier)' },
+  { token: '--nw-text-disabled', maps: '#5a5a5a', desc: 'Disabled' },
   // Semantic roles
   { token: '--nw-chrome',        maps: '--nw-primary',     desc: 'Focus, accent lines, chrome actions' },
   { token: '--nw-chrome-mute',   maps: '--nw-primary-dim', desc: 'Subdued chrome' },
@@ -231,26 +209,7 @@ export const COMPONENTS_V2 = [
   { name: '.nw-split',    category: 'layout',   desc: 'Sidebar + main grid (240px / 1fr)' },
 ];
 
-export const MOTION_VOCAB = [
-  // Enter composites: fill the `transition` / `animation` shorthand slot.
-  { token: '--nw-tick',   value: '150ms cubic-bezier(0.3, 0, 0.7, 1)',    use: 'Enter: clicks, toggles, micro-feedback' },
-  { token: '--nw-sweep',  value: '350ms cubic-bezier(0.2, 0.8, 0.2, 1)',  use: 'Enter: panels, modals, drawers' },
-  { token: '--nw-uplink', value: '400ms cubic-bezier(0, 0.6, 0.4, 1)',    use: 'Enter: data load reveal (staggered)' },
-  // Exit composites: shorter and accelerating. Final, approved on the v3 direction board.
-  { token: '--nw-tick-out',   value: '100ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: dropdowns, tooltips' },
-  { token: '--nw-sweep-out',  value: '250ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: modals, drawers, command palette, toasts' },
-  { token: '--nw-uplink-out', value: '300ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: data load reveal' },
-  // Longhands: build a transition piece by piece, e.g. to delay `visibility` until an exit ends.
-  { token: '--nw-<step>-duration, --nw-<step>-ease', value: 'e.g. --nw-sweep-duration (350ms), --nw-sweep-ease', use: 'Enter longhands for tick, sweep and uplink' },
-  { token: '--nw-<step>-out-duration, --nw-<step>-out-ease', value: 'e.g. --nw-sweep-out-duration (250ms)', use: 'Exit longhands: delay visibility until the exit ends' },
-  // Stagger and loops.
-  { token: '--nw-stagger',        value: '50ms',  use: 'Delay step between items revealed in sequence; multiply by the item index' },
-  { token: '--nw-loop-spin',      value: '800ms (cycle)',  use: 'Spinner cycle; scales inversely with motion scale' },
-  { token: '--nw-loop-shimmer',   value: '1200ms (cycle)', use: 'Skeleton shimmer cycle; scales inversely with motion scale' },
-  { token: '--nw-loop-state',     value: 'running | paused', use: 'Play state of spinner and shimmer; paused by reduced motion' },
-  { token: '--nw-pulse-speed',    value: '1.6s (every level)', use: 'LED heartbeat cycle; scales inversely with motion scale, so combat runs at 1.333s' },
-  { token: '--nw-pulse-state',    value: 'running | paused', use: 'LED heartbeat play state; paused in archive and by reduced motion' },
-];
+export const MOTION_VOCAB = motionVocab(nw);
 
 export type EventEntry = { time: string; type: string; detail: string; metric: string };
 

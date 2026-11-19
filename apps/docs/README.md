@@ -8,7 +8,7 @@ Live at: https://nightwire.cativo.dev
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173 (default Vite port)
+npm run dev      # http://localhost:5173 (default Vite port); from the repo root: npm run docs:dev
 npm run build    # production build to dist/
 npm run preview  # serve dist/
 ```
@@ -27,18 +27,18 @@ apps/docs/
 │   │   ├── TypographyPage.tsx
 │   │   ├── SurfacesPage.tsx
 │   │   ├── SpacingPage.tsx
-│   │   ├── Layer2TokensPage.tsx  (v2)
+│   │   ├── Layer2TokensPage.tsx
 │   │   ├── ComponentsPage.tsx
 │   │   ├── ButtonsPage.tsx
 │   │   ├── DataPage.tsx
 │   │   ├── FeedbackPage.tsx
 │   │   ├── PanelsPage.tsx
 │   │   ├── MoreComponentsPage.tsx
-│   │   ├── IntensityPage.tsx     (v2)
+│   │   ├── IntensityPage.tsx
 │   │   ├── TemplatesPage.tsx
 │   │   └── ExamplesPage.tsx
-│   ├── components/      Shared UI (Sidebar, StatusBar, NewBadge, etc.)
-│   └── data/            Single source for COLORS, FONTS, COMPONENTS, SIDEBAR_GROUPS
+│   ├── components/      Shared UI (Sidebar, StatusBar, Ticker, etc.)
+│   └── data/            COLORS, FONTS, COMPONENTS, SIDEBAR_GROUPS; tokens.mjs reads tokens.json
 ├── tailwind.config.js   Uses the root ../../tailwind.preset.js
 └── vite.config.ts       Aliases @nightwire/css to the root ../../nightwire.css
 ```
@@ -46,10 +46,21 @@ apps/docs/
 The app keeps no copy of the stylesheet or the preset: both are the generated files at the repo
 root. Run `npm run build` at the root after changing `src/`.
 
+## Token values
+
+The Motion vocabulary table (Layer 2 Tokens page) and the Knobs by mode table (Intensity page)
+are not written by hand. `src/data/index.ts` imports `../../../../src/tokens/tokens.json` and
+`src/data/tokens.mjs` formats the durations, curves and per-level knobs from it, so a token change
+shows up on the site with no docs edit. Only the human copy (`use`, `desc`) and the choice of which
+knobs each column lists live in `index.ts`. If a listed knob is no longer overridden by a level, the
+page throws on load instead of showing a stale row. The Docker images copy `tokens.json` and
+`src/components/` next to `nightwire.css` for the same reason. Colours, fonts, the component registry and the Layer 2
+`maps` column are still written in `index.ts`.
+
 ## Adding a new page
 
 1. Create `src/pages/NewPage.tsx` exporting a default React component.
-2. Add an entry to the appropriate group in `src/data/index.ts` `SIDEBAR_GROUPS`. Set `isNewV2: true` on the item if it belongs to the v2 surface (the Sidebar renders a small "v2" chip next to the label automatically).
+2. Add an entry to the appropriate group in `src/data/index.ts` `SIDEBAR_GROUPS`.
 3. Register the route in `App.tsx` (pages are imported directly there — no barrel file).
 
 ## Sidebar structure
@@ -63,10 +74,8 @@ The sidebar is driven by `SIDEBAR_GROUPS` in `src/data/index.ts` — four named 
 | Components | 部品 | Component Registry, Buttons, Data, Feedback, Panels, More Components |
 | Patterns | 応用 | Intensity System, Templates, Live Examples |
 
-Items with `isNewV2: true` get a small "v2" chip rendered inline by `Sidebar.tsx`. Currently `Layer2TokensPage` (Foundation) and `IntensityPage` (Patterns) carry that flag.
-
-See `CHANGELOG.md` at the repo root for the full v2 surface.
+See `CHANGELOG.md` at the repo root for what changed in each release.
 
 ## Tailwind config
 
-The docs site imports the root `tailwind.preset.js`, which is generated from `src/tokens/tokens.json`. To see new v2 semantic tokens (`bg-nw-chrome`, `text-nw-ai`, `border-nw-line-strong`), run `npm run build` at the repo root after editing the tokens.
+The docs site imports the root `tailwind.preset.js`, which is generated from `src/tokens/tokens.json`. To see the semantic tokens (`bg-nw-chrome`, `text-nw-ai`, `border-nw-line-strong`), run `npm run build` at the repo root after editing the tokens.

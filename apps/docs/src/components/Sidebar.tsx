@@ -10,7 +10,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
     <aside className="sidebar" style={{ width: '100%', height: '100%', overflow: 'auto' }}>
       <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span className="compressed-title" style={{ fontSize: 14, color: 'var(--nw-primary)' }}>NIGHTWIRE</span>
-        <span style={{ fontFamily: 'var(--font-mincho)', fontSize: 11, fontWeight: 800, color: 'var(--nw-primary-dim)' }}>設計体系</span>
+        <span style={{ fontFamily: 'var(--font-mincho)', fontSize: 11, fontWeight: 800, color: 'var(--nw-text-dim)' }}>設計体系</span>
       </div>
 
       {SIDEBAR_GROUPS.map(group => (
@@ -41,24 +41,6 @@ export function Sidebar({ onNavigate }: SidebarProps) {
             >
               <span style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
                 {item.label}
-                {item.isNewV2 && (
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-stamp)',
-                      fontSize: 7,
-                      fontWeight: 700,
-                      letterSpacing: '0.16em',
-                      color: 'var(--nw-purple)',
-                      border: '1px solid var(--nw-purple-dim)',
-                      background: 'rgba(178,102,224,0.08)',
-                      padding: '0 3px',
-                      lineHeight: 1.4,
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    v2
-                  </span>
-                )}
               </span>
               <span style={{ fontSize: 7, color: 'var(--nw-text-dim)', fontFamily: 'var(--font-mincho)' }}>{item.kanji}</span>
             </NavLink>

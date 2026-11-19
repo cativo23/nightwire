@@ -93,7 +93,7 @@ export function IntensityPage() {
         </div>
         <div className="panel-body">
           <p style={{ fontSize: 13, color: 'var(--nw-text-dim)', marginTop: 0, marginBottom: 12, lineHeight: 1.6 }}>
-            Set the attribute at the root. All v2 components and any consumer that reads <code style={{ color: 'var(--nw-green)' }}>--nw-*</code> knobs will
+            Set the attribute at the root. Every component and any consumer that reads <code style={{ color: 'var(--nw-green)' }}>--nw-*</code> knobs will
             respond automatically.
           </p>
           <CodeBlock>{`<!-- Docs site, blog post -->

@@ -1,5 +1,4 @@
 import { SectionTitle } from '../components/CodeBlock';
-import { NewBadge } from '../components/NewBadge';
 
 export function ExamplesPage() {
   return (
@@ -48,14 +47,14 @@ export function ExamplesPage() {
           </div>
         </div>
 
-        {/* v2 — Workshop */}
+        {/* Workshop */}
         <div className="panel">
           <div className="panel-header">
             <span>Workshop — Operator Console</span>
-            <span style={{ display: 'inline-flex', gap: 4 }}><NewBadge /><span className="tag">部品</span></span>
+            <span className="tag">部品</span>
           </div>
           <div className="node-card">
-            <div className="nc-id">v2 Operator Console</div>
+            <div className="nc-id">Operator Console</div>
             <div className="nc-name">部品工房 — 強度切替</div>
             <div className="nc-row"><span className="lbl">Intensity</span><span className="val">Archive · Operator · Combat</span></div>
             <div className="nc-row"><span className="lbl">Forms</span><span className="val">.field · .switch · .combo</span></div>
@@ -73,14 +72,14 @@ export function ExamplesPage() {
           </div>
         </div>
 
-        {/* v2.0.1 — SYNAPSE */}
+        {/* SYNAPSE */}
         <div className="panel">
           <div className="panel-header">
             <span>SYNAPSE — Neural Intelligence</span>
-            <span style={{ display: 'inline-flex', gap: 4 }}><NewBadge /><span className="tag">デモ</span></span>
+            <span className="tag">デモ</span>
           </div>
           <div className="node-card">
-            <div className="nc-id">v2 Ops Center</div>
+            <div className="nc-id">Ops Center</div>
             <div className="nc-name">神経監視センター</div>
             <div className="nc-row"><span className="lbl">Intensity</span><span className="val">Archive · Operator · Combat</span></div>
             <div className="nc-row"><span className="lbl">Live</span><span className="val">SVG Waveform · Metrics</span></div>

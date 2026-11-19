@@ -1,5 +1,4 @@
 import { SectionTitle, CodeBlock } from '../components/CodeBlock';
-import { NewBadge } from '../components/NewBadge';
 
 export function DataPage() {
   return (
@@ -32,7 +31,7 @@ export function DataPage() {
         <div className="panel">
           <div className="panel-header"><span>Key-Value</span><span className="tag">KV対</span></div>
           <div className="panel-body">
-            <div className="kv-row"><span className="kv-label">System</span><span className="kv-value">Nightwire v1.0</span></div>
+            <div className="kv-row"><span className="kv-label">System</span><span className="kv-value">Nightwire v{__NW_VERSION__}</span></div>
             <div className="kv-row"><span className="kv-label">Status</span><span className="kv-value" style={{ color: 'var(--nw-green)' }}>Operational</span></div>
             <div className="kv-row"><span className="kv-label">Framework</span><span className="kv-value">Agnostic</span></div>
             <div className="kv-row"><span className="kv-label">Theme</span><span className="kv-value" style={{ color: 'var(--nw-red)' }}>Dark Only</span></div>
@@ -58,7 +57,7 @@ export function DataPage() {
 
       <div className="panel" style={{ marginBottom: 2, marginTop: 2 }}>
         <div className="panel-header">
-          <span>Stat Card with Sparkline <NewBadge /></span>
+          <span>Stat Card with Sparkline</span>
           <span className="tag">指標カード</span>
         </div>
         <div className="panel-body" style={{ padding: 0 }}>
@@ -96,7 +95,7 @@ export function DataPage() {
 
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
-          <span>Code Block with Syntax Tokens <NewBadge /></span>
+          <span>Code Block with Syntax Tokens</span>
           <span className="tag">コード</span>
         </div>
         <div className="panel-body">
@@ -122,7 +121,7 @@ export function DataPage() {
 
       <div className="panel">
         <div className="panel-header">
-          <span>Diff View <NewBadge /></span>
+          <span>Diff View</span>
           <span className="tag">差分</span>
         </div>
         <div className="panel-body">

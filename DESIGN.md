@@ -671,8 +671,8 @@ export default { presets: [nightwirePreset] }
 > v3 is a major release. It replaces the look of v2.1.0 everywhere (the visual identity above), adds
 > the motion system, and removes the v1 compatibility surfaces that v2 kept. The frontmatter and the
 > sections above describe v3. The last section, "The v3 contract", lists what changed for a
-> consumer; the migration guide (`docs/migration/v3.md` in the repository, written in a later
-> phase of this release) will walk through each change.
+> consumer; the migration guide (`docs/migration/v3.md` in the repository) walks through each
+> change, how to adapt and how to stay on v2.
 
 ### Token architecture in 3 layers
 
