@@ -8,7 +8,7 @@ description: >
 
 # <generated:colors> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 colors:
-  # Surfaces — elevation through tonal progression, never shadows
+  # Surfaces — elevation through tonal progression; only overlays take the neutral --nw-elevation-overlay shadow
   void:             "#000000"
   void-warm:        "#0a0a0a"
   void-panel:       "#111111"
@@ -114,10 +114,10 @@ spacing:
 # <generated:rounded> — from src/tokens/tokens.json via `npm run build:tokens`. Do not edit.
 rounded:
   none: "0"       # default — panels, tables, data containers
-  sm:   "2px"     # badges, tags
-  md:   "4px"     # buttons, inputs
-  lg:   "8px"     # cards, modals
-  full: "9999px"  # pills, avatars, LEDs
+  sm:   "2px"     # the v3 corner: buttons, inputs, tags, badges, cards, modals, code
+  md:   "4px"     # no component reads it in v3; kept for consumers
+  lg:   "8px"     # no component reads it in v3; kept for consumers
+  full: "9999px"  # avatars, switches, skeleton circles
 # </generated:rounded>
 
 components:
