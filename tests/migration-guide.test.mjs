@@ -84,3 +84,23 @@ test('should_link_the_guide_from_readme_and_changelog', () => {
 test('should_state_the_shadow_colour_limit_in_the_skill', () => {
   assert.ok(read('skill/nightwire/SKILL.md').includes('shadow-<colour>'));
 });
+
+// FR-021 / T056: the cativo.dev validation is recorded in the guide, not left as a placeholder.
+test('should_record_the_cativo_dev_validation', () => {
+  const guide = read(GUIDE);
+  const start = guide.indexOf('\n## cativo.dev');
+  assert.notEqual(start, -1, 'guide has no "## cativo.dev" section');
+  const section = guide.slice(start);
+  assert.ok(!/pending/i.test(section), 'cativo.dev section still says pending');
+  for (const text of [
+    '2026-11-19',
+    '021ae0c',
+    'data-state="ok"',
+    'StatusIndicator.vue',
+    'Footer.vue',
+    'border-nw-text-faint/30',
+    'shadow-[0_0_5px_theme(colors.nw.cyan.DEFAULT)]',
+  ]) {
+    assert.ok(section.includes(text), `cativo.dev section does not mention ${text}`);
+  }
+});
