@@ -131,7 +131,9 @@ whatever the project's own `type` is.
 
 **Breaking for CommonJS configs.** On Node 20.19+ and 22.12+, `require('@cativo23/nightwire/tailwind.preset.js')`
 returns the module namespace, and Tailwind 3 silently ignores it ("No utility classes detected").
-Use `require('@cativo23/nightwire/tailwind.preset.js').default`, or switch the config to ESM.
+Use `require('@cativo23/nightwire/tailwind.preset.js').default`, or switch the config to ESM. On
+Node older than 20.19 or 22.12, `require()` of an ES module throws `ERR_REQUIRE_ESM`, so the config
+must use `import` or a dynamic `import()`.
 
 The 2.x problem, kept for the record: the file used `export default` in a package with no module
 type, so plain Node printed `MODULE_TYPELESS_PACKAGE_JSON` and reparsed it as ESM.

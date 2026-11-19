@@ -151,7 +151,8 @@ All notable changes to this project will be documented in this file.
   `MODULE_TYPELESS_PACKAGE_JSON` warning. A CommonJS config that does
   `require('@cativo23/nightwire/tailwind.preset.js')` gets the module namespace on Node 20.19+ and
   22.12+, and Tailwind 3 silently ignores it ("No utility classes detected"). Use
-  `require(...).default` or switch the config to ESM. File names and locations are unchanged.
+  `require(...).default` or switch the config to ESM. On older Node, `require()` of an ES module
+  throws `ERR_REQUIRE_ESM`, so the config must use `import` or a dynamic `import()`. File names and locations are unchanged.
 - **Breaking for re-installs: the installer copies the preset as `nightwire.tailwind.preset.mjs`**
   (was `.js`). A `.mjs` file is always ES module, so there is no module-type warning even in a
   project without `"type": "module"`. Re-running the installer in an old project leaves the old

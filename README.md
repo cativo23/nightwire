@@ -47,7 +47,8 @@ npm i @cativo23/nightwire
 
 Then import `@cativo23/nightwire/nightwire.css` and, for Tailwind,
 `@cativo23/nightwire/tailwind.preset.js`. Without npm, copy `nightwire.css` (and
-`tailwind.preset.js`) from the repository root.
+`tailwind.preset.js`, saved as `.mjs` in a project without `"type": "module"`, as the installer does,
+to avoid the `MODULE_TYPELESS_PACKAGE_JSON` warning) from the repository root.
 
 ## Quick Start
 
@@ -64,7 +65,8 @@ export default { presets: [nightwirePreset] };
 ```
 
 The package is an ES module. A CommonJS config needs the default export:
-`presets: [require('@cativo23/nightwire/tailwind.preset.js').default]`. The installer copies the
+`presets: [require('@cativo23/nightwire/tailwind.preset.js').default]` (on Node older than 20.19 or
+22.12, `require()` of an ES module throws `ERR_REQUIRE_ESM`: use `import` or a dynamic `import()`). The installer copies the
 preset as `nightwire.tailwind.preset.mjs`, so import that file instead when you use it.
 
 ### Fonts
