@@ -402,6 +402,8 @@ it frames the panels of the grid.
 | `.nw-barcode`, `.nw-wordmark` | Decorative barcode strip; large outlined wordmark |
 | `.nw-grain` | On `<body>`: film grain, strength from `--nw-grain` (0 archive, .07 operator, .1 combat) |
 
+Put `aria-hidden="true"` on the decorative pieces: `.nw-barcode`, `.nw-wordmark`, `.nw-reticle-stamp` and `.nw-reticle-vlabel`.
+
 Tokens: `--nw-grain`, `--nw-chip-line` (chip border, white at 0.18), `--nw-bone` (`#d8d2c8`, the bone
 halftone tint) and `--nw-kanji-glow` (`calc(20px * --nw-glow)`: the glow of the chrome section-head
 kanji and the hovered index kanji, 0 at `archive`). Grain, the halftone and that glow are the
