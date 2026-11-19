@@ -393,7 +393,7 @@ it frames the panels of the grid.
 |---|---|
 | `.nw-section-head` (+ `.nw-section-head-chrome`) | A section head outside a panel: `data-idx`, label, hairline, `.kanji`. `-chrome` fades the hairline and glows a blue kanji |
 | `.nw-display`, `.nw-lede` | Large compressed serif heading; intro paragraph (mute, 52ch) |
-| `.nw-chip` (+ `.nw-chip-solid`) | Small outlined label or link; `-solid` is the bone fill |
+| `.nw-chip` (+ `.nw-chip-solid`) | Small outlined label or link; `-solid` is the `--nw-action` fill (as `.btn`) |
 | `.nw-index` + `.nw-index-row` | Kanji index: each row has `.kanji`, `.name`, `.count`, `.items`. Keeps its grid at `archive`, where the kanji is hidden |
 | `.nw-accordion` | A group of native `<details>` / `<summary>`, no JavaScript. Answers go in `.answer` |
 | `.nw-link-arrow` | Uppercase mono link in the primary colour |

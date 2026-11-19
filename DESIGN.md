@@ -147,7 +147,7 @@ components:
     border: "1px solid rgba(255, 255, 255, 0.18)"  # CSS: --nw-chip-line
     borderRadius: "{rounded.sm}"
     height: "24px"
-    solid: "bone fill, as button-primary (.nw-chip-solid)"
+    solid: "the --nw-action fill, as button-primary (.nw-chip-solid)"
 
   button-primary:
     background: "#e6e6e6"                   # CSS: --nw-action (bone), hover --nw-action-hot #99bbff
