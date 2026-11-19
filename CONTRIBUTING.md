@@ -167,7 +167,10 @@ of everything inside it, which would need one pinned category per old-to-new val
    else (colours, fonts, padding, border widths, other margins) is rejected (`width` unanchored, `.*`, `^width|color$`,
    `^(width|--nw-glow)$`). `match.path` and `match.page` are both required, and `match.path` must not
    match `:root` or `@keyframes` (where custom properties and keyframes are recorded), so `.` is
-   rejected. Scope `path` to the opened components: `.panel`, `.card`, their headers and `.kv-row`.
+   rejected. Scope `path` to the opened components (`.panel`, `.card`, their headers and `.kv-row`, and what is
+   inside them) or, when an ancestor's size follows them, to that ancestor only: the page box (`html`,
+   `body`) or the row or grid that holds the panels. Cut `match.prop` to the properties seen on that
+   page and path; a category that accepts all of them says nothing.
    `match.old` and `match.new` are optional. Any other `kind` is rejected, and a category without
    `kind` follows the rules above.
 2. **The control run.** `--control <css>` appends that sheet to the new stylesheet, so it wins at

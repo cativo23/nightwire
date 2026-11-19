@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { CASCADE_PROPS } from '../scripts/parity/lib/diff.mjs';
 
 // US5 (spec 002, T069-T076): v3 looks like the approved mockup. Guards on the checked-in sources
 // that carry it. The later tasks add their piece files to US5_FILES; the same rules apply to each.
@@ -100,17 +101,24 @@ test('FR-027: .card loses its fill and keeps a hairline outline', () => {
 
 // ---- FR-030: one section-head implementation -------------------------------------------------------
 
-const HEAD = /^(\.panel-header|\.card-header)(?![\w-])/;
+const HEAD = /^(\.panel-header|\.card-header|\.nw-section-head)(?![\w-])/;
 
-test('FR-030: the section-head look is in section-head.css only; panel.css and card.css keep the header padding and nothing else', () => {
+// Every stylesheet source, not just the three that used to own the old header rules.
+const sources = ['src/base/', 'src/components/', 'src/utilities/'].flatMap((dir) =>
+  readdirSync(new URL(dir, root)).filter((f) => f.endsWith('.css')).map((f) => `${dir}${f}`));
+
+test('FR-030: the section-head look is in section-head.css only; elsewhere in src, panel.css and card.css keep the header padding and nothing else', () => {
+  assert.ok(sources.includes('src/components/section-head.css') && sources.length > 30, 'the scan covers every source');
   const offenders = [];
-  for (const [file, text] of [['panel.css', panel], ['card.css', card], ['kv-row.css', kvRow]]) {
-    for (const rule of parseRules(text)) {
+  for (const file of sources.filter((f) => f !== 'src/components/section-head.css')) {
+    for (const rule of parseRules(read(file))) {
       if (!rule.selector.split(/\s*,\s*/).some((s) => HEAD.test(s))) continue;
       for (const d of rule.decls.filter((x) => x.prop !== 'padding')) offenders.push(`${file}:${d.line}  ${rule.selector} { ${d.prop} }`);
     }
   }
   assert.deepEqual(offenders, [], `header rules outside section-head.css:\n${offenders.join('\n')}`);
+  const padded = sources.filter((f) => parseRules(read(f)).some((r) => r.selector.split(/\s*,\s*/).some((s) => HEAD.test(s))));
+  assert.deepEqual(padded, ['src/components/card.css', 'src/components/panel.css', 'src/components/section-head.css']);
 });
 
 test('FR-030: .nw-section-head, .panel-header and .card-header share one selector list in section-head.css', () => {
@@ -202,12 +210,25 @@ test('FR-038: the layout control sheet exists, says which commit it restores and
   }
 });
 
-test('FR-038: every cascade category is scoped to a page and a path and explains geometry only', () => {
+test('FR-038: every cascade category explains geometry only: page and path set, props that are all in CASCADE_PROPS, ancestors limited to height, origin and row tracks', () => {
   const { categories } = JSON.parse(read('docs/design/v3/change-inventory.json'));
   const cascade = categories.filter((c) => c.kind === 'cascade');
   assert.ok(cascade.length > 0);
   for (const c of cascade) {
     assert.ok(c.match.page && c.match.path, `${c.id} has page and path`);
     assert.ok(c.match.path !== '.', `${c.id} path is not a catch-all`);
+    const names = c.match.prop.replace(/^\^\(?(?:\?:)?/, '').replace(/\)?\$$/, '').split('|');
+    for (const n of names) assert.ok(CASCADE_PROPS.includes(n), `${c.id}: ${n} is not a geometric property`);
+    assert.equal(new Set(names).size, names.length, `${c.id} lists a property twice`);
+    if (c.id.includes('page-box')) assert.ok(!names.some((n) => /^(top|right|bottom|left|inset-.*|margin-.*|aspect-ratio|grid-template-columns|width|inline-size)$/.test(n)), `${c.id}: an ancestor box only changes in height, origin and row tracks`);
+    else assert.ok(names.length <= CASCADE_PROPS.length);
+    assert.ok(!c.match.old && !c.match.new, `${c.id} pins no value`);
   }
+});
+
+test('the cascade prop reader catches what it is for', () => {
+  const read2 = (p) => p.replace(/^\^\(?(?:\?:)?/, '').replace(/\)?\$$/, '').split('|');
+  assert.deepEqual(read2('^width$'), ['width']);
+  assert.deepEqual(read2('^(width|height)$'), ['width', 'height']);
+  assert.deepEqual(read2('^(?:top|left)$'), ['top', 'left']);
 });

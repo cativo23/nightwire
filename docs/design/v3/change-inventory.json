@@ -2724,9 +2724,9 @@
     },
     {
       "id": "cascade-open-layout-data-table-all",
-      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/data-table.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/data-table.html. Limited to the properties seen on this page. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin)$",
         "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/components/data-table.html"
@@ -2735,9 +2735,9 @@
     },
     {
       "id": "cascade-page-box-data-table-all",
-      "description": "FR-038: the open layout of the components on examples/html/components/data-table.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of the components on examples/html/components/data-table.html changes how tall html and body are: an ancestor whose size follows the opened components. Limited to the properties seen there (height, block-size, transform-origin, perspective-origin). No value is pinned: the control run must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(height|block-size|transform-origin|perspective-origin)$",
         "path": "^html(>body:nth-child\\(\\d+\\))?$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/components/data-table.html"
@@ -2746,9 +2746,9 @@
     },
     {
       "id": "cascade-open-layout-magi-oracle-all",
-      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/magi-oracle.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size, origin and resolved margins of the element and of everything inside it on examples/html/components/magi-oracle.html. Limited to the properties seen on this page. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|margin-left|margin-inline-start)$",
         "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/components/magi-oracle.html"
@@ -2757,9 +2757,9 @@
     },
     {
       "id": "cascade-page-box-magi-oracle-all",
-      "description": "FR-038: the open layout of the components on examples/html/components/magi-oracle.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of the components on examples/html/components/magi-oracle.html changes how tall html and body are: an ancestor whose size follows the opened components. Limited to the properties seen there (height, block-size, transform-origin, perspective-origin). No value is pinned: the control run must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(height|block-size|transform-origin|perspective-origin)$",
         "path": "^html(>body:nth-child\\(\\d+\\))?$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/components/magi-oracle.html"
@@ -2768,9 +2768,9 @@
     },
     {
       "id": "cascade-open-layout-metrics-grid-all",
-      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/metrics-grid.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size, origin and grid tracks of the element and of everything inside it on examples/html/components/metrics-grid.html. Limited to the properties seen on this page. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|grid-template-columns)$",
         "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/components/metrics-grid.html"
@@ -2779,9 +2779,9 @@
     },
     {
       "id": "cascade-page-box-metrics-grid-all",
-      "description": "FR-038: the open layout of the components on examples/html/components/metrics-grid.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of the components on examples/html/components/metrics-grid.html changes how tall html and body are: an ancestor whose size follows the opened components. Limited to the properties seen there (height, block-size, transform-origin, perspective-origin). No value is pinned: the control run must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(height|block-size|transform-origin|perspective-origin)$",
         "path": "^html(>body:nth-child\\(\\d+\\))?$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/components/metrics-grid.html"
@@ -2790,9 +2790,9 @@
     },
     {
       "id": "cascade-open-layout-vault-card-all",
-      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/vault-card.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/components/vault-card.html. Limited to the properties seen on this page. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin)$",
         "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/components/vault-card.html"
@@ -2801,9 +2801,9 @@
     },
     {
       "id": "cascade-page-box-vault-card-all",
-      "description": "FR-038: the open layout of the components on examples/html/components/vault-card.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of the components on examples/html/components/vault-card.html changes how tall html and body are: an ancestor whose size follows the opened components. Limited to the properties seen there (height, block-size, transform-origin, perspective-origin). No value is pinned: the control run must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(height|block-size|transform-origin|perspective-origin)$",
         "path": "^html(>body:nth-child\\(\\d+\\))?$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/components/vault-card.html"
@@ -2812,7 +2812,7 @@
     },
     {
       "id": "cascade-open-layout-dashboard-all",
-      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/dashboard.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size, origin, offsets, resolved margins, grid tracks and aspect ratio of the element and of everything inside it on examples/html/dashboard.html. Limited to the properties seen on this page. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences.",
       "match": {
         "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
         "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
@@ -2823,10 +2823,10 @@
     },
     {
       "id": "cascade-page-box-dashboard-all",
-      "description": "FR-038: the open layout of the components on examples/html/dashboard.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body and the container of the panels. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of the components on examples/html/dashboard.html changes how tall the grid row that holds the panels is (and its row tracks): an ancestor whose size follows the opened components. Limited to the properties seen there (height, block-size, transform-origin, perspective-origin, grid-template-rows). No value is pinned: the control run must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
-        "path": "(^html(>body:nth-child\\(\\d+\\))?$|div\\.dash-left:nth-child\\(\\d+\\)>div\\.dash-row:nth-child\\(\\d+\\)$)",
+        "prop": "^(height|block-size|transform-origin|perspective-origin|grid-template-rows)$",
+        "path": "div\\.dash-left:nth-child\\(\\d+\\)>div\\.dash-row:nth-child\\(\\d+\\)$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/dashboard.html"
       },
@@ -2834,7 +2834,7 @@
     },
     {
       "id": "cascade-open-layout-neural-ops-all",
-      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/neural-ops.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size, origin, offsets, resolved margins, grid tracks and aspect ratio of the element and of everything inside it on examples/html/neural-ops.html. Limited to the properties seen on this page. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences.",
       "match": {
         "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
         "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
@@ -2845,10 +2845,10 @@
     },
     {
       "id": "cascade-page-box-neural-ops-all",
-      "description": "FR-038: the open layout of the components on examples/html/neural-ops.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body and the container of the panels. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of the components on examples/html/neural-ops.html changes how tall the grid row that holds the panels is (and its row tracks): an ancestor whose size follows the opened components. Limited to the properties seen there (height, block-size, transform-origin, perspective-origin, grid-template-rows). No value is pinned: the control run must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
-        "path": "(^html(>body:nth-child\\(\\d+\\))?$|div\\.dash-left:nth-child\\(\\d+\\)>div\\.dash-row:nth-child\\(\\d+\\)$)",
+        "prop": "^(height|block-size|transform-origin|perspective-origin|grid-template-rows)$",
+        "path": "div\\.dash-left:nth-child\\(\\d+\\)>div\\.dash-row:nth-child\\(\\d+\\)$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/neural-ops.html"
       },
@@ -2856,9 +2856,9 @@
     },
     {
       "id": "cascade-open-layout-synapse-ops-all",
-      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/synapse-ops.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size, origin and grid tracks of the element and of everything inside it on examples/html/synapse-ops.html. Limited to the properties seen on this page. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|grid-template-columns)$",
         "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/synapse-ops.html"
@@ -2867,9 +2867,9 @@
     },
     {
       "id": "cascade-open-layout-workshop-all",
-      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on examples/html/workshop.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size, origin and grid tracks of the element and of everything inside it on examples/html/workshop.html. Limited to the properties seen on this page. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|grid-template-columns)$",
         "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/workshop.html"
@@ -2878,10 +2878,10 @@
     },
     {
       "id": "cascade-page-box-workshop-all",
-      "description": "FR-038: the open layout of the components on examples/html/workshop.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body and the container of the panels. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of the components on examples/html/workshop.html changes how tall the grid that holds the panels is (and its row tracks): an ancestor whose size follows the opened components. Limited to the properties seen there (height, block-size, transform-origin, perspective-origin, grid-template-rows). No value is pinned: the control run must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
-        "path": "(^html(>body:nth-child\\(\\d+\\))?$|div\\.dash-grid:nth-child\\(\\d+\\)$)",
+        "prop": "^(height|block-size|transform-origin|perspective-origin|grid-template-rows)$",
+        "path": "div\\.dash-grid:nth-child\\(\\d+\\)$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "examples/html/workshop.html"
       },
@@ -2889,9 +2889,9 @@
     },
     {
       "id": "cascade-open-layout-fixture-coverage-all",
-      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on scripts/parity/fixtures/coverage.html. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of .panel, .card, their headers and .kv-row (no frame, no panel side padding, section-head header, spec-sheet rows) changes the size and origin of the element and of everything inside it on scripts/parity/fixtures/coverage.html. Limited to the properties seen on this page. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which restores those components' layout declarations) must report 0 unexpected differences.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin)$",
         "path": "(^|>)[a-z]+\\.(panel|card|panel-header|card-header|kv-row|nw-section-head):nth-child\\(\\d+\\)(>|::|$)",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "scripts/parity/fixtures/coverage.html"
@@ -2900,10 +2900,10 @@
     },
     {
       "id": "cascade-page-box-fixture-coverage-all",
-      "description": "FR-038: the open layout of the components on scripts/parity/fixtures/coverage.html changes how tall the page, and the containers that size to their panels, are: the size and origin of html, body and the container of the panels. No value is pinned: the control run must report 0 unexpected differences. Split per intensity so a value from one level never stands for another's: this one is pinned to all levels.",
+      "description": "FR-038: the open layout of the components on scripts/parity/fixtures/coverage.html changes how tall html, body, main and the section that holds the rows are: an ancestor whose size follows the opened components. Limited to the properties seen there (height, block-size, transform-origin, perspective-origin). No value is pinned: the control run must report 0 unexpected differences. The fixture page height also moves with US5, so the pinned refresh-toast-boundary-page-* and -main-* categories (which pin the toast boundary alone) now fire only in the control run.",
       "match": {
-        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|margin-left|margin-inline-start|grid-template-columns|grid-template-rows|aspect-ratio)$",
-        "path": "(^html(>body:nth-child\\(\\d+\\))?$|^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)(>section:nth-child\\(\\d+\\))?$)",
+        "prop": "^(height|block-size|transform-origin|perspective-origin)$",
+        "path": "^html(>body:nth-child\\(\\d+\\)(>main:nth-child\\(\\d+\\)(>section:nth-child\\(\\d+\\))?)?)?$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "scripts/parity/fixtures/coverage.html"
       },
@@ -3588,36 +3588,75 @@
       }
     },
     {
-      "id": "section-head-panel-letter-spacing-8px-operator",
-      "description": "FR-026: on the pages that size their own panel header at 8px (dashboard, neural-ops) the tracking goes from 0.14em to 0.2em of 8px: 1.12px to 1.6px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "id": "section-head-panel-letter-spacing-8px-dashboard-operator",
+      "description": "FR-026: examples/html/dashboard.html sizes its own panel header at 8px, so the tracking goes from 0.14em to 0.2em of 8px: 1.12px to 1.6px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
       "match": {
         "prop": "^letter-spacing$",
         "path": "\\.(panel|card)-header:nth-child\\(\\d+\\)(>|$)",
         "state": "^(none|operator)\\|",
         "old": "^1\\.12px$",
-        "new": "^1\\.6px$"
+        "new": "^1\\.6px$",
+        "page": "examples/html/dashboard.html"
       }
     },
     {
-      "id": "section-head-panel-letter-spacing-8px-archive",
-      "description": "FR-026: on the pages that size their own panel header at 8px (dashboard, neural-ops) the tracking goes from 0.14em to 0.2em of 8px: 1.12px to 1.6px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "id": "section-head-panel-letter-spacing-8px-dashboard-archive",
+      "description": "FR-026: examples/html/dashboard.html sizes its own panel header at 8px, so the tracking goes from 0.14em to 0.2em of 8px: 1.12px to 1.6px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
       "match": {
         "prop": "^letter-spacing$",
         "path": "\\.(panel|card)-header:nth-child\\(\\d+\\)(>|$)",
         "state": "^archive\\|",
         "old": "^1\\.12px$",
-        "new": "^1\\.6px$"
+        "new": "^1\\.6px$",
+        "page": "examples/html/dashboard.html"
       }
     },
     {
-      "id": "section-head-panel-letter-spacing-8px-combat",
-      "description": "FR-026: on the pages that size their own panel header at 8px (dashboard, neural-ops) the tracking goes from 0.14em to 0.2em of 8px: 1.12px to 1.6px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "id": "section-head-panel-letter-spacing-8px-dashboard-combat",
+      "description": "FR-026: examples/html/dashboard.html sizes its own panel header at 8px, so the tracking goes from 0.14em to 0.2em of 8px: 1.12px to 1.6px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
       "match": {
         "prop": "^letter-spacing$",
         "path": "\\.(panel|card)-header:nth-child\\(\\d+\\)(>|$)",
         "state": "^combat\\|",
         "old": "^1\\.12px$",
-        "new": "^1\\.6px$"
+        "new": "^1\\.6px$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "section-head-panel-letter-spacing-8px-neural-ops-operator",
+      "description": "FR-026: examples/html/neural-ops.html sizes its own panel header at 8px, so the tracking goes from 0.14em to 0.2em of 8px: 1.12px to 1.6px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": "\\.(panel|card)-header:nth-child\\(\\d+\\)(>|$)",
+        "state": "^(none|operator)\\|",
+        "old": "^1\\.12px$",
+        "new": "^1\\.6px$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "section-head-panel-letter-spacing-8px-neural-ops-archive",
+      "description": "FR-026: examples/html/neural-ops.html sizes its own panel header at 8px, so the tracking goes from 0.14em to 0.2em of 8px: 1.12px to 1.6px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": "\\.(panel|card)-header:nth-child\\(\\d+\\)(>|$)",
+        "state": "^archive\\|",
+        "old": "^1\\.12px$",
+        "new": "^1\\.6px$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "section-head-panel-letter-spacing-8px-neural-ops-combat",
+      "description": "FR-026: examples/html/neural-ops.html sizes its own panel header at 8px, so the tracking goes from 0.14em to 0.2em of 8px: 1.12px to 1.6px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": "\\.(panel|card)-header:nth-child\\(\\d+\\)(>|$)",
+        "state": "^combat\\|",
+        "old": "^1\\.12px$",
+        "new": "^1\\.6px$",
+        "page": "examples/html/neural-ops.html"
       }
     },
     {
@@ -3885,146 +3924,326 @@
       }
     },
     {
-      "id": "nw-section-head-flex-operator",
-      "description": "FR-030: .nw-section-head is a flex row (display block to flex, align-items center, gap var(--sp-3) = 12px), the same implementation as .panel-header. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "id": "nw-section-head-display-operator",
+      "description": "FR-030: .nw-section-head is a flex row, the same implementation as .panel-header: display block to flex. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
       "match": {
-        "prop": "^(display|align-items|column-gap|row-gap)$",
+        "prop": "^display$",
         "path": ">div\\.nw-section-head:nth-child\\(\\d+\\)$",
         "state": "^(none|operator)\\|",
-        "old": "^(block|normal)$",
-        "new": "^(flex|center|12px)$",
+        "old": "^block$",
+        "new": "^flex$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-flex-archive",
-      "description": "FR-030: .nw-section-head is a flex row (display block to flex, align-items center, gap var(--sp-3) = 12px), the same implementation as .panel-header. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "id": "nw-section-head-display-archive",
+      "description": "FR-030: .nw-section-head is a flex row, the same implementation as .panel-header: display block to flex. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
       "match": {
-        "prop": "^(display|align-items|column-gap|row-gap)$",
+        "prop": "^display$",
         "path": ">div\\.nw-section-head:nth-child\\(\\d+\\)$",
         "state": "^archive\\|",
-        "old": "^(block|normal)$",
-        "new": "^(flex|center|12px)$",
+        "old": "^block$",
+        "new": "^flex$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-flex-combat",
-      "description": "FR-030: .nw-section-head is a flex row (display block to flex, align-items center, gap var(--sp-3) = 12px), the same implementation as .panel-header. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "id": "nw-section-head-display-combat",
+      "description": "FR-030: .nw-section-head is a flex row, the same implementation as .panel-header: display block to flex. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
       "match": {
-        "prop": "^(display|align-items|column-gap|row-gap)$",
+        "prop": "^display$",
         "path": ">div\\.nw-section-head:nth-child\\(\\d+\\)$",
         "state": "^combat\\|",
-        "old": "^(block|normal)$",
-        "new": "^(flex|center|12px)$",
+        "old": "^block$",
+        "new": "^flex$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-type-operator",
-      "description": "FR-030: the new section head sets the label type: letter-spacing normal to 2.2px (0.2em), text-transform none to uppercase, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "id": "nw-section-head-align-operator",
+      "description": "FR-030: .nw-section-head centres its items: align-items normal to center. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
       "match": {
-        "prop": "^(letter-spacing|text-transform)$",
+        "prop": "^align-items$",
+        "path": ">div\\.nw-section-head:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^normal$",
+        "new": "^center$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-align-archive",
+      "description": "FR-030: .nw-section-head centres its items: align-items normal to center. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^align-items$",
+        "path": ">div\\.nw-section-head:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^normal$",
+        "new": "^center$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-align-combat",
+      "description": "FR-030: .nw-section-head centres its items: align-items normal to center. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^align-items$",
+        "path": ">div\\.nw-section-head:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^normal$",
+        "new": "^center$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-gap-operator",
+      "description": "FR-030: .nw-section-head spaces its items by var(--sp-3): column and row gap normal to 12px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^(column|row)-gap$",
+        "path": ">div\\.nw-section-head:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^normal$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-gap-archive",
+      "description": "FR-030: .nw-section-head spaces its items by var(--sp-3): column and row gap normal to 12px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^(column|row)-gap$",
+        "path": ">div\\.nw-section-head:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^normal$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-gap-combat",
+      "description": "FR-030: .nw-section-head spaces its items by var(--sp-3): column and row gap normal to 12px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^(column|row)-gap$",
+        "path": ">div\\.nw-section-head:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^normal$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-letter-spacing-operator",
+      "description": "FR-030: the new section head tracks its label by --ls-ultra, 0.2em: letter-spacing normal to 2.2px, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^letter-spacing$",
         "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
         "state": "^(none|operator)\\|",
-        "old": "^(normal|none)$",
-        "new": "^(2\\.2px|uppercase)$",
+        "old": "^normal$",
+        "new": "^2\\.2px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-type-archive",
-      "description": "FR-030: the new section head sets the label type: letter-spacing normal to 2.2px (0.2em), text-transform none to uppercase, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "id": "nw-section-head-letter-spacing-archive",
+      "description": "FR-030: the new section head tracks its label by --ls-ultra, 0.2em: letter-spacing normal to 2.2px, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
       "match": {
-        "prop": "^(letter-spacing|text-transform)$",
+        "prop": "^letter-spacing$",
         "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
         "state": "^archive\\|",
-        "old": "^(normal|none)$",
-        "new": "^(2\\.2px|uppercase)$",
+        "old": "^normal$",
+        "new": "^2\\.2px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-type-combat",
-      "description": "FR-030: the new section head sets the label type: letter-spacing normal to 2.2px (0.2em), text-transform none to uppercase, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "id": "nw-section-head-letter-spacing-combat",
+      "description": "FR-030: the new section head tracks its label by --ls-ultra, 0.2em: letter-spacing normal to 2.2px, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
       "match": {
-        "prop": "^(letter-spacing|text-transform)$",
+        "prop": "^letter-spacing$",
         "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
         "state": "^combat\\|",
-        "old": "^(normal|none)$",
-        "new": "^(2\\.2px|uppercase)$",
+        "old": "^normal$",
+        "new": "^2\\.2px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-size-operator",
-      "description": "FR-030: the new section head is --text-xs, 11px with a 16.5px line, instead of the 14px page text size of operator, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "id": "nw-section-head-uppercase-operator",
+      "description": "FR-030: the new section head sets its label in capitals: text-transform none to uppercase, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
       "match": {
-        "prop": "^(font-size|line-height)$",
+        "prop": "^text-transform$",
         "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
         "state": "^(none|operator)\\|",
-        "old": "^(14px|21px)$",
-        "new": "^(11px|16\\.5px)$",
+        "old": "^none$",
+        "new": "^uppercase$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-kanji-size-operator",
-      "description": "FR-030: the right-slot .kanji is 20px with a 30px line, instead of the 14px page text size of operator, and it sits after the hairline (order 2). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "id": "nw-section-head-uppercase-archive",
+      "description": "FR-030: the new section head sets its label in capitals: text-transform none to uppercase, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
       "match": {
-        "prop": "^(font-size|line-height|order)$",
+        "prop": "^text-transform$",
+        "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
+        "state": "^archive\\|",
+        "old": "^none$",
+        "new": "^uppercase$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-uppercase-combat",
+      "description": "FR-030: the new section head sets its label in capitals: text-transform none to uppercase, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^text-transform$",
+        "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
+        "state": "^combat\\|",
+        "old": "^none$",
+        "new": "^uppercase$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-font-size-operator",
+      "description": "FR-030: the new section head is --text-xs: font-size goes from the 14px page text size of operator to 11px, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-line-height-operator",
+      "description": "FR-030: the new section head is 11px, so its normal line height goes from 21px (14px text at operator) to 16.5px, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-kanji-font-size-operator",
+      "description": "FR-030: the right-slot .kanji is 20px, instead of the 14px page text size of operator. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
         "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
         "state": "^(none|operator)\\|",
-        "old": "^(14px|21px|0)$",
-        "new": "^(20px|30px|2)$",
+        "old": "^14px$",
+        "new": "^20px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-size-archive",
-      "description": "FR-030: the new section head is --text-xs, 11px with a 16.5px line, instead of the 15px page text size of archive, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "id": "nw-section-head-kanji-line-height-operator",
+      "description": "FR-030: the right-slot .kanji is 20px, so its normal line height goes from 21px (14px text at operator) to 30px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
       "match": {
-        "prop": "^(font-size|line-height)$",
+        "prop": "^line-height$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^30px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-font-size-archive",
+      "description": "FR-030: the new section head is --text-xs: font-size goes from the 15px page text size of archive to 11px, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
         "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
         "state": "^archive\\|",
-        "old": "^(15px|22\\.5px)$",
-        "new": "^(11px|16\\.5px)$",
+        "old": "^15px$",
+        "new": "^11px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-kanji-size-archive",
-      "description": "FR-030: the right-slot .kanji is 20px with a 30px line, instead of the 15px page text size of archive, and it sits after the hairline (order 2). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "id": "nw-section-head-line-height-archive",
+      "description": "FR-030: the new section head is 11px, so its normal line height goes from 22.5px (15px text at archive) to 16.5px, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
       "match": {
-        "prop": "^(font-size|line-height|order)$",
+        "prop": "^line-height$",
+        "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-kanji-font-size-archive",
+      "description": "FR-030: the right-slot .kanji is 20px, instead of the 15px page text size of archive. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
         "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
         "state": "^archive\\|",
-        "old": "^(15px|22\\.5px|0)$",
-        "new": "^(20px|30px|2)$",
+        "old": "^15px$",
+        "new": "^20px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-size-combat",
-      "description": "FR-030: the new section head is --text-xs, 11px with a 16.5px line, instead of the 13px page text size of combat, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "id": "nw-section-head-kanji-line-height-archive",
+      "description": "FR-030: the right-slot .kanji is 20px, so its normal line height goes from 22.5px (15px text at archive) to 30px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
       "match": {
-        "prop": "^(font-size|line-height)$",
+        "prop": "^line-height$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^30px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-font-size-combat",
+      "description": "FR-030: the new section head is --text-xs: font-size goes from the 13px page text size of combat to 11px, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
         "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
         "state": "^combat\\|",
-        "old": "^(13px|19\\.5px)$",
-        "new": "^(11px|16\\.5px)$",
+        "old": "^13px$",
+        "new": "^11px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-kanji-size-combat",
-      "description": "FR-030: the right-slot .kanji is 20px with a 30px line, instead of the 13px page text size of combat, and it sits after the hairline (order 2). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "id": "nw-section-head-line-height-combat",
+      "description": "FR-030: the new section head is 11px, so its normal line height goes from 19.5px (13px text at combat) to 16.5px, on the head and its label. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
       "match": {
-        "prop": "^(font-size|line-height|order)$",
+        "prop": "^line-height$",
+        "path": "(>div\\.nw-section-head:nth-child\\(\\d+\\)$|\\.nw-section-head:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)$)",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-kanji-font-size-combat",
+      "description": "FR-030: the right-slot .kanji is 20px, instead of the 13px page text size of combat. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
         "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
         "state": "^combat\\|",
-        "old": "^(13px|19\\.5px|0)$",
-        "new": "^(20px|30px|2)$",
+        "old": "^13px$",
+        "new": "^20px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-kanji-line-height-combat",
+      "description": "FR-030: the right-slot .kanji is 20px, so its normal line height goes from 19.5px (13px text at combat) to 30px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^30px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
@@ -4065,38 +4284,110 @@
       }
     },
     {
-      "id": "nw-section-head-items-operator",
-      "description": "FR-030: the children of a flex section head are blockified (display inline to block) and their automatic minimum size is now auto instead of 0px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "id": "nw-section-head-kanji-order-operator",
+      "description": "FR-030: the right-slot .kanji sits after the hairline: order 0 to 2. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
       "match": {
-        "prop": "^(display|min-width|min-height|min-inline-size|min-block-size)$",
+        "prop": "^order$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^0$",
+        "new": "^2$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-kanji-order-archive",
+      "description": "FR-030: the right-slot .kanji sits after the hairline: order 0 to 2. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^order$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^0$",
+        "new": "^2$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-kanji-order-combat",
+      "description": "FR-030: the right-slot .kanji sits after the hairline: order 0 to 2. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^order$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^0$",
+        "new": "^2$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-items-blockified-operator",
+      "description": "FR-030: the children of a flex section head are blockified: display inline to block. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^display$",
         "path": "\\.nw-section-head:nth-child\\(\\d+\\)>[a-z]+(\\.[a-z-]+)?:nth-child\\(\\d+\\)$",
         "state": "^(none|operator)\\|",
-        "old": "^(inline|0px)$",
-        "new": "^(block|auto)$",
+        "old": "^inline$",
+        "new": "^block$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-items-archive",
-      "description": "FR-030: the children of a flex section head are blockified (display inline to block) and their automatic minimum size is now auto instead of 0px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "id": "nw-section-head-items-blockified-archive",
+      "description": "FR-030: the children of a flex section head are blockified: display inline to block. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
       "match": {
-        "prop": "^(display|min-width|min-height|min-inline-size|min-block-size)$",
+        "prop": "^display$",
         "path": "\\.nw-section-head:nth-child\\(\\d+\\)>[a-z]+(\\.[a-z-]+)?:nth-child\\(\\d+\\)$",
         "state": "^archive\\|",
-        "old": "^(inline|0px)$",
-        "new": "^(block|auto)$",
+        "old": "^inline$",
+        "new": "^block$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "nw-section-head-items-combat",
-      "description": "FR-030: the children of a flex section head are blockified (display inline to block) and their automatic minimum size is now auto instead of 0px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "id": "nw-section-head-items-blockified-combat",
+      "description": "FR-030: the children of a flex section head are blockified: display inline to block. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
       "match": {
-        "prop": "^(display|min-width|min-height|min-inline-size|min-block-size)$",
+        "prop": "^display$",
         "path": "\\.nw-section-head:nth-child\\(\\d+\\)>[a-z]+(\\.[a-z-]+)?:nth-child\\(\\d+\\)$",
         "state": "^combat\\|",
-        "old": "^(inline|0px)$",
-        "new": "^(block|auto)$",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-items-min-size-operator",
+      "description": "FR-030: the children of a flex section head have an automatic minimum size: min-width, min-height and their logical forms go from 0px to auto. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>[a-z]+(\\.[a-z-]+)?:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-items-min-size-archive",
+      "description": "FR-030: the children of a flex section head have an automatic minimum size: min-width, min-height and their logical forms go from 0px to auto. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>[a-z]+(\\.[a-z-]+)?:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-section-head-items-min-size-combat",
+      "description": "FR-030: the children of a flex section head have an automatic minimum size: min-width, min-height and their logical forms go from 0px to auto. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "\\.nw-section-head:nth-child\\(\\d+\\)>[a-z]+(\\.[a-z-]+)?:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^0px$",
+        "new": "^auto$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
@@ -4377,38 +4668,110 @@
       }
     },
     {
-      "id": "kv-note-type-operator",
-      "description": "FR-029: the optional .kv-note is --text-xs and regular weight: font-size 12px to 11px, font-weight 500 to 400, line-height 18px to 16.5px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "id": "kv-note-font-size-operator",
+      "description": "FR-029: the optional .kv-note is --text-xs: font-size 12px to 11px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
       "match": {
-        "prop": "^(font-size|font-weight|line-height)$",
+        "prop": "^font-size$",
         "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
         "state": "^(none|operator)\\|",
-        "old": "^(12px|500|18px)$",
-        "new": "^(11px|400|16\\.5px)$",
+        "old": "^12px$",
+        "new": "^11px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "kv-note-type-archive",
-      "description": "FR-029: the optional .kv-note is --text-xs and regular weight: font-size 12px to 11px, font-weight 500 to 400, line-height 18px to 16.5px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "id": "kv-note-font-size-archive",
+      "description": "FR-029: the optional .kv-note is --text-xs: font-size 12px to 11px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
       "match": {
-        "prop": "^(font-size|font-weight|line-height)$",
+        "prop": "^font-size$",
         "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
         "state": "^archive\\|",
-        "old": "^(12px|500|18px)$",
-        "new": "^(11px|400|16\\.5px)$",
+        "old": "^12px$",
+        "new": "^11px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
-      "id": "kv-note-type-combat",
-      "description": "FR-029: the optional .kv-note is --text-xs and regular weight: font-size 12px to 11px, font-weight 500 to 400, line-height 18px to 16.5px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "id": "kv-note-font-size-combat",
+      "description": "FR-029: the optional .kv-note is --text-xs: font-size 12px to 11px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
       "match": {
-        "prop": "^(font-size|font-weight|line-height)$",
+        "prop": "^font-size$",
         "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
         "state": "^combat\\|",
-        "old": "^(12px|500|18px)$",
-        "new": "^(11px|400|16\\.5px)$",
+        "old": "^12px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-font-weight-operator",
+      "description": "FR-029: the optional .kv-note is regular weight: font-weight 500 to 400. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-weight$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^500$",
+        "new": "^400$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-font-weight-archive",
+      "description": "FR-029: the optional .kv-note is regular weight: font-weight 500 to 400. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-weight$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^500$",
+        "new": "^400$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-font-weight-combat",
+      "description": "FR-029: the optional .kv-note is regular weight: font-weight 500 to 400. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-weight$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^500$",
+        "new": "^400$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-line-height-operator",
+      "description": "FR-029: the optional .kv-note is 11px, so its normal line height goes from 18px to 16.5px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^18px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-line-height-archive",
+      "description": "FR-029: the optional .kv-note is 11px, so its normal line height goes from 18px to 16.5px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^18px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-line-height-combat",
+      "description": "FR-029: the optional .kv-note is 11px, so its normal line height goes from 18px to 16.5px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^18px$",
+        "new": "^16\\.5px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },
