@@ -51,7 +51,7 @@
   background: var(--nw-text-faint);
 }
 
-/* The blue is the current-item indicator, the accent line; the label stays neutral. */
+/* Blue is the accent line only; the label stays neutral. */
 .sidebar-item.active {
   color: var(--nw-text-default);
   border-left-color: var(--nw-chrome);

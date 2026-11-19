@@ -21,12 +21,11 @@
   transition: color var(--nw-tick), border-color var(--nw-tick);
 }
 
-/* Hover lifts a quiet label to the label a selected tab has. */
 .tab:hover {
   color: var(--nw-text-default);
 }
 
-/* The blue is the selected indicator, the underline; the label stays neutral. */
+/* Blue is the underline only; the label stays neutral. */
 .tab.active {
   color: var(--nw-text-default);
   border-bottom-color: var(--nw-chrome);

@@ -21,20 +21,16 @@
   color: var(--nw-text-on-fill);
   text-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(255, 255, 255, 0.5);
 }
-/* .seg clips with overflow: hidden, so the global offset outline would be cut off.
-   Draw the ring inside the segment instead, set in from the edge by a 2px band of
-   --nw-text-on-fill. The band is what keeps the ring distinguishable: without it the ring sat
-   on the segment edge, and next to the selected segment it merged with that segment's
-   --nw-chrome fill, at rest and under reduced motion. WCAG 1.4.11 needs the ring at 3:1 against
-   the colours beside it, so every side of the ring is --nw-text-on-fill, and --nw-chrome on
-   that is well over 3:1. */
+/* .seg clips with overflow: hidden, so draw the ring inside the segment, 2px in from the edge.
+   The --nw-text-on-fill band outside it keeps the ring off a neighbouring selected segment's
+   --nw-chrome fill, which it merged with. WCAG 1.4.11: the ring needs 3:1 against both
+   neighbours, and --nw-chrome on --nw-text-on-fill is well above that. */
 .seg button:focus-visible {
   outline: 2px solid var(--nw-focus-ring);
   outline-offset: -4px;
   box-shadow: inset 0 0 0 2px var(--nw-text-on-fill);
 }
-/* The selected segment is filled with the same colour as the ring, so a second band inside
-   the ring keeps the ring off the fill. */
+/* The selected fill is the ring colour, so a second band inside the ring keeps them apart. */
 .seg button[aria-pressed="true"]:focus-visible {
   box-shadow: inset 0 0 0 6px var(--nw-text-on-fill);
 }

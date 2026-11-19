@@ -57,8 +57,7 @@
   background: var(--nw-text-faint);
   color: var(--nw-text-strong);
 }
-/* The blue is the active-item indicator; it follows the hover rule above, so it wins on a hovered
-   active item. */
+/* After :hover, so the active blue wins on a hovered active item. */
 .cmdk-item.active {
   background: var(--nw-primary-fill);
   color: var(--nw-chrome);
