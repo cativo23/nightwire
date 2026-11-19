@@ -129,9 +129,10 @@ Where a custom property is resolved decides what an override reaches. A colour u
 `bg-nw-primary-fill/40` is 0.4 × 0.08, where 2.1.0 replaced the alpha.
 
 A colour or motion token must have a `css` name, and a shadow token needs one or a value that
-references a custom property; the build fails otherwise, naming the token and FR-018. That is why the preset's duration and easing keys point at the `motion.longhand.*` and
-`motion.longhand-out.*` tokens (which publish `--nw-*-duration`, `--nw-*-ease` and their `-out`
-forms) and not at the typed `motion.timing.*` tokens (which have no custom property).
+references a custom property; the build fails otherwise, naming the token and FR-018. That is why
+the preset's duration and easing keys point at the `motion.longhand.*` and `motion.longhand-out.*`
+tokens (which publish `--nw-*-duration`, `--nw-*-ease` and their `-out` forms) and not at the typed
+`motion.timing.*` tokens (which have no custom property).
 
 Aliases stay `var()` in CSS on purpose. `--nw-surface-0: var(--void)` means overriding `--void`
 at runtime still reaches every v2 consumer. `DESIGN.md` needs concrete values, so it gets the
