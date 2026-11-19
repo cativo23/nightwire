@@ -82,12 +82,13 @@ All notable changes to this project will be documented in this file.
   strength knob: 0 at archive, .07 at operator, .1 at combat. `--nw-chip-line` is the `.nw-chip`
   border (white at 0.18; `--nw-line-strong` is 0.36). `--nw-bone` is `#d8d2c8`, the tint of
   `.nw-halftone-bone`. `--nw-kanji-glow` is `calc(20px * var(--nw-glow))`: 0 at archive, 10px at
-  operator and combat. Grain and the kanji glow of `.nw-section-head-chrome` and of
-  `.nw-index-row` on hover are the approved exceptions to "glow is for state".
+  operator and combat. Grain, the halftone and the kanji glow of `.nw-section-head-chrome` and of
+  `.nw-index-row` on hover are the approved exceptions to "no decorative effects". Grain and the
+  kanji glow are 0 at archive; the halftone is image content and renders at every intensity.
 - **`data-idx` on `.panel-header`, `.card-header` and `.nw-section-head`.** It shows the index in
   front of the label: `data-idx="01"` renders `01 // LABEL`.
 - **`.kv-note` and `.kv-swap`** inside `.kv-row`: a mute note under the value, and a glyph in the
-  accent colour.
+  chrome (blue) colour.
 
 ### Changed
 

@@ -301,3 +301,11 @@ test('should_say_halftone_renders_at_every_intensity', () => {
 test('should_not_leave_two_blank_lines_in_the_guide', () => {
   assert.ok(!/\n\n\n/.test(read(GUIDE)));
 });
+
+test('should_list_halftone_among_the_decorative_exceptions_in_the_changelog', () => {
+  const log = read('CHANGELOG.md');
+  const start = log.indexOf('\n## [Unreleased]');
+  const unreleased = log.slice(start, log.indexOf('\n## [', start + 1));
+  assert.ok(/halftone[\s\S]{0,300}every intensity/i.test(unreleased), 'changelog halftone ruling missing');
+  assert.ok(/`\.kv-swap`[\s\S]{0,200}chrome \(blue\)/.test(unreleased), 'changelog kv-swap colour missing');
+});
