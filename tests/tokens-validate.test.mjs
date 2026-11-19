@@ -34,8 +34,8 @@ test('V-T1: a token with no target is valid when a raw value interpolates it', (
 
 test('V-T1: a token with no target is valid when another token aliases it', () => {
   const t = sample();
-  t.color.hidden = { $value: { colorSpace: 'srgb', components: [0, 0, 0], hex: '#000000' } };
-  t.color.shown = { $value: '{color.hidden}', $extensions: { [NS]: { tailwind: ['colors.shown'] } } };
+  t.radius.hidden = { $value: { value: 8, unit: 'px' } };
+  t.radius.shown = { $value: '{radius.hidden}', $extensions: { [NS]: { tailwind: ['borderRadius.shown'] } } };
   assert.doesNotThrow(() => validate(t));
 });
 

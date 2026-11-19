@@ -4,7 +4,8 @@
 // resolve(tree, p) the literal CSS-form value of a token (aliases followed to the end)
 // emitCss(tree)    the :root block, the three intensity blocks and the reduced-motion block
 //                  (src/tokens/tokens.css)
-// emitPreset(tree) the Tailwind preset module (tailwind.preset.js)
+// emitPreset(tree) the Tailwind preset module (tailwind.preset.js); colour, motion and shadow
+//                  values reference the custom properties (FR-018)
 //
 // Nightwire metadata lives under $extensions["dev.cativo.nightwire"]. See
 // docs/architecture/tokens.md for every key and for the documented deviation (raw tokens).
@@ -18,6 +19,8 @@ const GROUP_PROPS = new Set(['$type', '$description', '$extensions', '$deprecate
 const GENERIC_FAMILIES = new Set(['serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui',
   'ui-serif', 'ui-sans-serif', 'ui-monospace', 'ui-rounded', 'emoji', 'math', 'fangsong']);
 const CSS_NAME = /^--[a-z][a-z0-9-]*$/;
+// Preset targets whose value is a var() instead of a literal (FR-018). Colours are decided by type.
+const VAR_TARGETS = new Set(['transitionDuration', 'transitionTimingFunction', 'boxShadow']);
 const WHOLE_ALIAS = /^\{([^{}]+)\}$/;
 const ANY_ALIAS = /\{([^{}]+)\}/g;
 
@@ -114,8 +117,16 @@ function makeResolver(tokens) {
     return formatTyped(typeOf(path), value);
   };
 
-  /** Preset form: fontFamily stays an array, everything else is the literal string. */
-  const presetValue = (path) => {
+  /**
+   * Preset form for one tailwind target of the token at `path` (FR-018):
+   * a colour is color-mix over its OWN custom property (so `/NN` opacity keeps generating),
+   * a motion or shadow target is var(css), and everything else is the literal
+   * (fontFamily stays an array).
+   */
+  const presetValue = (path, target) => {
+    const css = tokens.get(path).ext.css;
+    if (typeOf(path) === 'color') return `color-mix(in srgb, var(${css}) calc(<alpha-value> * 100%), transparent)`;
+    if (VAR_TARGETS.has(target.split('.')[0])) return `var(${css})`;
     let p = path;
     for (let target; (target = !tokens.get(p).ext.raw && wholeAlias(tokens.get(p).node.$value));) p = target;
     const t = tokens.get(p);
@@ -275,6 +286,13 @@ export function validate(tree) {
   checkTargets(tokens, 'tailwind');
   checkTargets(tokens, 'designMd');
 
+  for (const { path, ext } of tokens.values()) {
+    if (ext.css) continue;
+    const isColor = ext.tailwind?.length && r.typeOf(path) === 'color';
+    const target = ext.tailwind?.find((p) => isColor || VAR_TARGETS.has(p.split('.')[0]));
+    if (target) fail(path, `tailwind target ${target} needs a css name, since the preset references the custom property (FR-018)`);
+  }
+
   const intensity = extOf(tree).intensity ?? {};
   for (const [level, set] of Object.entries(intensity)) {
     const where = `intensity.${level}`;
@@ -389,7 +407,7 @@ export function emitPreset(tree) {
       const segs = p.split('.');
       let node = extend;
       for (const s of segs.slice(0, -1)) node = node[s] ??= {};
-      node[segs.at(-1)] = r.presetValue(t.path);
+      node[segs.at(-1)] = r.presetValue(t.path, p);
     }
   }
   return [
