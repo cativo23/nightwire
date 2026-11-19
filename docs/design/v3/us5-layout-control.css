@@ -11,8 +11,11 @@
    categories absorb. Declarations only change box, text or flow geometry: colours, backgrounds
    and glows are not restored, because they do not move anything. A border is restored by its
    width and style only (a border exists only with a style); its colour stays the computed one.
-   The classes US5 added (.nw-section-head, .kv-note) are restored to unset, which is their state
-   before US5, so that the size of their boxes is covered by the same proof. */
+   The classes US5 added (.nw-section-head, .kv-note, and the pieces .nw-display, .nw-lede, .nw-chip,
+   .nw-link-arrow, .nw-index, .nw-index-row and .nw-accordion) are restored to unset, which is their
+   state before US5, so that the size of their boxes is covered by the same proof. For the pieces
+   that means the display, size, spacing, type and flow of an unstyled <div>, <p>, <a>, <span> or
+   <details>: the same limits apply (no colour, background, transform or glow is restored). */
 
 /* Panel: the 1px frame, and the body padding */
 .panel { border: var(--nw-hairline) solid; }
@@ -92,4 +95,108 @@
   font-size: inherit;
   font-weight: inherit;
   margin-top: 0;
+}
+
+/* .nw-display and .nw-lede: the type, spacing, measure and transform origin of an unstyled <div> and <p> */
+.nw-display {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  margin: 0;
+  transform-origin: 50% 50%;
+}
+.nw-lede {
+  max-width: none;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* .nw-chip and its parts: an unstyled inline <a> with no border and no padding */
+.nw-chip {
+  display: inline;
+  align-items: normal;
+  gap: normal;
+  height: auto;
+  padding: 0;
+  border-width: 0;
+  border-style: none;
+  font-size: inherit;
+  line-height: inherit;
+  font-variant-numeric: normal;
+}
+.nw-chip-solid {
+  font-weight: inherit;
+  letter-spacing: normal;
+}
+.nw-chip .sq {
+  width: auto;
+  height: auto;
+}
+
+/* .nw-link-arrow: an unstyled inline <a> */
+.nw-link-arrow {
+  display: inline;
+  margin-top: 0;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* .nw-index and .nw-index-row: a block, and a block with no grid, no padding and no top edge */
+.nw-index {
+  display: block;
+  column-gap: normal;
+  grid-template-columns: none;
+}
+.nw-index-row {
+  display: block;
+  grid-template-columns: none;
+  column-gap: normal;
+  row-gap: normal;
+  align-items: normal;
+  padding: 0;
+  border-top-width: 0;
+  border-top-style: none;
+}
+.nw-index-row .kanji,
+.nw-index-row .name,
+.nw-index-row .count,
+.nw-index-row .items {
+  font-size: inherit;
+}
+.nw-index-row .count { font-variant-numeric: normal; }
+.nw-index-row .items {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* .nw-accordion: a plain <details> with its UA <summary> (a list item with an inside marker) */
+.nw-accordion details,
+.nw-accordion details:last-child {
+  border-top-width: 0;
+  border-top-style: none;
+  border-bottom-width: 0;
+  border-bottom-style: none;
+}
+.nw-accordion summary {
+  display: list-item;
+  justify-content: normal;
+  align-items: normal;
+  gap: normal;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  list-style: revert;
+}
+.nw-accordion summary::after { content: none; display: none; }
+.nw-accordion .answer {
+  padding: 0;
+  max-width: none;
+  line-height: inherit;
 }

@@ -4846,6 +4846,2334 @@
         "new": "^rgb\\(102, 153, 255\\)$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
+    },
+    {
+      "id": "nw-display-font-family",
+      "description": "FR-030: .nw-display is the page-top display face: the title font instead of the page font.",
+      "match": {
+        "prop": "^font-family$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "old": "^\"JetBrains Mono\", \"Cascadia Mono\", monospace$",
+        "new": "^\"Noto Serif Display\", \"Times New Roman\", serif$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-font-weight",
+      "description": "FR-030: .nw-display is the page-top display face: weight 900 instead of 400.",
+      "match": {
+        "prop": "^font-weight$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "old": "^400$",
+        "new": "^900$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-font-size-operator",
+      "description": "FR-030: .nw-display is the page-top display face: clamp(40px, 7vw, 76px) is 76px at the 1280px parity viewport, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^76px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-font-size-archive",
+      "description": "FR-030: .nw-display is the page-top display face: clamp(40px, 7vw, 76px) is 76px at the 1280px parity viewport, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^76px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-font-size-combat",
+      "description": "FR-030: .nw-display is the page-top display face: clamp(40px, 7vw, 76px) is 76px at the 1280px parity viewport, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^76px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-line-height-operator",
+      "description": "FR-030: .nw-display is the page-top display face: line-height .95 of the 76px size is 72.2px, instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^72\\.2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-line-height-archive",
+      "description": "FR-030: .nw-display is the page-top display face: line-height .95 of the 76px size is 72.2px, instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^72\\.2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-line-height-combat",
+      "description": "FR-030: .nw-display is the page-top display face: line-height .95 of the 76px size is 72.2px, instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^72\\.2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-letter-spacing",
+      "description": "FR-030: .nw-display is the page-top display face: letter-spacing .02em of 76px is 1.52px, instead of normal.",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^1\\.52px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-uppercase",
+      "description": "FR-030: .nw-display is the page-top display face: text-transform none to uppercase.",
+      "match": {
+        "prop": "^text-transform$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^uppercase$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-margin-top",
+      "description": "FR-030: .nw-display is the page-top display face: margin-top var(--sp-6), 0px to 24px.",
+      "match": {
+        "prop": "^(margin-top|margin-block-start)$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^24px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-margin-bottom",
+      "description": "FR-030: .nw-display is the page-top display face: margin-bottom var(--sp-3), 0px to 12px.",
+      "match": {
+        "prop": "^(margin-bottom|margin-block-end)$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-display-transform",
+      "description": "FR-030: .nw-display is the page-top display face: transform scaleX(.82), none to the matrix that scales the x axis by .82.",
+      "match": {
+        "prop": "^transform$",
+        "path": ">div\\.nw-display:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^matrix\\(0\\.82, 0, 0, 1, 0, 0\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-lede-max-width",
+      "description": "FR-030: .nw-lede is the muted lead paragraph: max-width 52ch, none to a length in px. The ch unit resolves against the fallback monospace font of the machine running parity, so the number is not pinned.",
+      "match": {
+        "prop": "^(max-width|max-inline-size)$",
+        "path": ">p\\.nw-lede:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^\\d+(\\.\\d+)?px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-lede-font-size-archive",
+      "description": "FR-030: .nw-lede is the muted lead paragraph: var(--text-base), 14px, instead of the page size of the level (nothing changes at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">p\\.nw-lede:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^14px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-lede-font-size-combat",
+      "description": "FR-030: .nw-lede is the muted lead paragraph: var(--text-base), 14px, instead of the page size of the level (nothing changes at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">p\\.nw-lede:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^14px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-lede-line-height-operator",
+      "description": "FR-030: .nw-lede is the muted lead paragraph: line-height 1.6 of 14px is 22.4px, instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">p\\.nw-lede:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^22\\.4px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-lede-line-height-archive",
+      "description": "FR-030: .nw-lede is the muted lead paragraph: line-height 1.6 of 14px is 22.4px, instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">p\\.nw-lede:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^22\\.4px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-lede-line-height-combat",
+      "description": "FR-030: .nw-lede is the muted lead paragraph: line-height 1.6 of 14px is 22.4px, instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">p\\.nw-lede:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^22\\.4px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-lede-colour",
+      "description": "FR-030: .nw-lede is the muted lead paragraph: --nw-text-mute, rgb(170, 170, 170), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": ">p\\.nw-lede:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-display",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: display inline to inline-flex.",
+      "match": {
+        "prop": "^display$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "old": "^inline$",
+        "new": "^inline-flex$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-align",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: align-items normal to center.",
+      "match": {
+        "prop": "^align-items$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "old": "^normal$",
+        "new": "^center$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-gap",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: gap 6px, normal to 6px on both axes.",
+      "match": {
+        "prop": "^(column-gap|row-gap)$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "old": "^normal$",
+        "new": "^6px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-padding",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: padding 0 var(--sp-2): the inline padding goes from 0px to 8px.",
+      "match": {
+        "prop": "^(padding-left|padding-right|padding-inline-start|padding-inline-end)$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "old": "^0px$",
+        "new": "^8px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-border-width",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: a 1px hairline on every side, 0px to 1px.",
+      "match": {
+        "prop": "^(border-top-width|border-right-width|border-bottom-width|border-left-width|border-block-start-width|border-block-end-width|border-inline-start-width|border-inline-end-width)$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "old": "^0px$",
+        "new": "^1px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-border-style",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: a solid border, none to solid, on every side.",
+      "match": {
+        "prop": "^(border-top-style|border-right-style|border-bottom-style|border-left-style|border-block-start-style|border-block-end-style|border-inline-start-style|border-inline-end-style)$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "old": "^none$",
+        "new": "^solid$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-radius",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: var(--radius-sm), 0px to 2px, on every corner.",
+      "match": {
+        "prop": "^(border-top-left-radius|border-top-right-radius|border-bottom-left-radius|border-bottom-right-radius|border-start-start-radius|border-start-end-radius|border-end-start-radius|border-end-end-radius)$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "old": "^0px$",
+        "new": "^2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-font-size-operator",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-font-size-archive",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-font-size-combat",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-line-height-operator",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: 11px, so the normal line height is 16.5px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-line-height-archive",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: 11px, so the normal line height is 16.5px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-line-height-combat",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: 11px, so the normal line height is 16.5px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-tabular",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: tabular numerals, font-variant normal to tabular-nums.",
+      "match": {
+        "prop": "^(font-variant|font-variant-numeric)$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "old": "^normal$",
+        "new": "^tabular-nums$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-colour",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: text and everything that follows it are --nw-text-mute, rgb(170, 170, 170), instead of the link blue (--nw-primary).",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">a\\.nw-chip:nth-child\\(8\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-border-colour",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: the border reads --nw-chip-line, rgba(255, 255, 255, 0.18), instead of the link blue it took from currentColor.",
+      "match": {
+        "prop": "^(border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": ">a\\.nw-chip:nth-child\\(8\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.18\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-transition-property",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: transition border-color and color on --nw-tick. transition-property all to the two properties. Reduced motion resets the transition on both sides.",
+      "match": {
+        "prop": "^transition-property$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "\\|rm-off",
+        "old": "^all$",
+        "new": "^border-color, color$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-transition-timing",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: transition border-color and color on --nw-tick. The tick easing, on both. Reduced motion resets the transition on both sides.",
+      "match": {
+        "prop": "^transition-timing-function$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "\\|rm-off",
+        "old": "^ease$",
+        "new": "^cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\), cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-transition-delay",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: transition border-color and color on --nw-tick. transition-delay 0s, twice. Reduced motion resets the transition on both sides.",
+      "match": {
+        "prop": "^transition-delay$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "\\|rm-off",
+        "old": "^0s$",
+        "new": "^0s, 0s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-transition-behavior",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: transition border-color and color on --nw-tick. transition-behavior normal, twice. Reduced motion resets the transition on both sides.",
+      "match": {
+        "prop": "^transition-behavior$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "\\|rm-off",
+        "old": "^normal$",
+        "new": "^normal, normal$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-transition-duration-operator",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: transition border-color and color on --nw-tick. The duration scales with the level. Reduced motion resets the transition on both sides. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "^(none|operator)\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.15s, 0\\.15s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-transition-duration-archive",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: transition border-color and color on --nw-tick. The duration scales with the level. Reduced motion resets the transition on both sides. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "^archive\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.09s, 0\\.09s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-transition-duration-combat",
+      "description": "FR-030: .nw-chip is an inline-flex outlined label: transition border-color and color on --nw-tick. The duration scales with the level. Reduced motion resets the transition on both sides. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": ">a\\.nw-chip:nth-child\\([89]\\)$",
+        "state": "^combat\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.18s, 0\\.18s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-solid-background",
+      "description": "FR-030: .nw-chip-solid is the bone solid of .btn (--nw-action): background --nw-action, rgb(230, 230, 230), instead of none.",
+      "match": {
+        "prop": "^background-color$",
+        "path": ">a\\.nw-chip:nth-child\\(9\\)$",
+        "old": "^rgba\\(0, 0, 0, 0\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-solid-colour",
+      "description": "FR-030: .nw-chip-solid is the bone solid of .btn (--nw-action): text --nw-action-text, black, instead of the link blue.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">a\\.nw-chip:nth-child\\(9\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(0, 0, 0\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-solid-border-colour",
+      "description": "FR-030: .nw-chip-solid is the bone solid of .btn (--nw-action): the border takes --nw-action, rgb(230, 230, 230), instead of the link blue.",
+      "match": {
+        "prop": "^(border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": ">a\\.nw-chip:nth-child\\(9\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-solid-weight",
+      "description": "FR-030: .nw-chip-solid is the bone solid of .btn (--nw-action): weight 700 instead of 400.",
+      "match": {
+        "prop": "^font-weight$",
+        "path": ">a\\.nw-chip:nth-child\\(9\\)$",
+        "old": "^400$",
+        "new": "^700$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-solid-letter-spacing",
+      "description": "FR-030: .nw-chip-solid is the bone solid of .btn (--nw-action): --ls-wide, .06em of 11px, 0.66px instead of normal.",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": ">a\\.nw-chip:nth-child\\(9\\)$",
+        "old": "^normal$",
+        "new": "^0\\.66px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-hover-colour",
+      "description": "FR-030: on hover, .nw-chip text is --nw-text-default, rgb(230, 230, 230), instead of the hot link blue of a:hover.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">a\\.nw-chip:nth-child\\(8\\)$",
+        "state": ":hover@.*a\\.nw-chip:nth-child\\(8\\)$",
+        "old": "^rgb\\(153, 187, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-hover-border-colour",
+      "description": "FR-030: on hover, .nw-chip border is --nw-line-chrome, rgba(102, 153, 255, 0.35), instead of the hot link blue of a:hover.",
+      "match": {
+        "prop": "^(border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": ">a\\.nw-chip:nth-child\\(8\\)$",
+        "state": ":hover@.*a\\.nw-chip:nth-child\\(8\\)$",
+        "old": "^rgb\\(153, 187, 255\\)$",
+        "new": "^rgba\\(102, 153, 255, 0\\.35\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-hover-sq-colour",
+      "description": "FR-030: on hover, the .sq of the hovered .nw-chip follows the chip: --nw-text-default, instead of the hot link blue.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "a\\.nw-chip:nth-child\\(8\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "state": ":hover@.*a\\.nw-chip:nth-child\\(8\\)$",
+        "old": "^rgb\\(153, 187, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-hover-sq-background",
+      "description": "FR-030: on hover, the .sq of the hovered .nw-chip is filled with currentColor: --nw-text-default, instead of the mute grey it has otherwise.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "a\\.nw-chip:nth-child\\(8\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "state": ":hover@.*a\\.nw-chip:nth-child\\(8\\)$",
+        "old": "^rgba\\(0, 0, 0, 0\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-hover-star-colour",
+      "description": "FR-030: on hover, the .star of the hovered .nw-chip stays --nw-signal-warn, rgb(232, 153, 58), instead of the hot link blue.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "a\\.nw-chip:nth-child\\(8\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "state": ":hover@.*a\\.nw-chip:nth-child\\(8\\)$",
+        "old": "^rgb\\(153, 187, 255\\)$",
+        "new": "^rgb\\(232, 153, 58\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-solid-hover-colour",
+      "description": "FR-030: on hover, .nw-chip-solid keeps --nw-action-text, black, because the rule sets it itself: a:hover would make it the hot link blue.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">a\\.nw-chip:nth-child\\(9\\)$",
+        "state": ":hover@.*a\\.nw-chip:nth-child\\(9\\)$",
+        "old": "^rgb\\(153, 187, 255\\)$",
+        "new": "^rgb\\(0, 0, 0\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-solid-hover-background",
+      "description": "FR-030: on hover, .nw-chip-solid fills with --nw-action-hot, rgb(153, 187, 255), instead of no background.",
+      "match": {
+        "prop": "^background-color$",
+        "path": ">a\\.nw-chip:nth-child\\(9\\)$",
+        "state": ":hover@.*a\\.nw-chip:nth-child\\(9\\)$",
+        "old": "^rgba\\(0, 0, 0, 0\\)$",
+        "new": "^rgb\\(153, 187, 255\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-display",
+      "description": "FR-030: the .sq inside .nw-chip is a flex item of an inline-flex parent: it is blockified, display inline to block.",
+      "match": {
+        "prop": "^display$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-min-size",
+      "description": "FR-030: the .sq inside .nw-chip is a flex item of an inline-flex parent: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-font-size-operator",
+      "description": "FR-030: the .sq inside .nw-chip is a flex item of an inline-flex parent: it inherits the chip's --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-font-size-archive",
+      "description": "FR-030: the .sq inside .nw-chip is a flex item of an inline-flex parent: it inherits the chip's --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-font-size-combat",
+      "description": "FR-030: the .sq inside .nw-chip is a flex item of an inline-flex parent: it inherits the chip's --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-line-height-operator",
+      "description": "FR-030: the .sq inside .nw-chip is a flex item of an inline-flex parent: 11px gives a 16.5px normal line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-line-height-archive",
+      "description": "FR-030: the .sq inside .nw-chip is a flex item of an inline-flex parent: 11px gives a 16.5px normal line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-line-height-combat",
+      "description": "FR-030: the .sq inside .nw-chip is a flex item of an inline-flex parent: 11px gives a 16.5px normal line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-tabular",
+      "description": "FR-030: the .sq inside .nw-chip is a flex item of an inline-flex parent: it inherits tabular numerals, font-variant normal to tabular-nums.",
+      "match": {
+        "prop": "^(font-variant|font-variant-numeric)$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^tabular-nums$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-display",
+      "description": "FR-030: the .star inside .nw-chip is a flex item of an inline-flex parent: it is blockified, display inline to block.",
+      "match": {
+        "prop": "^display$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-min-size",
+      "description": "FR-030: the .star inside .nw-chip is a flex item of an inline-flex parent: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-font-size-operator",
+      "description": "FR-030: the .star inside .nw-chip is a flex item of an inline-flex parent: it inherits the chip's --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-font-size-archive",
+      "description": "FR-030: the .star inside .nw-chip is a flex item of an inline-flex parent: it inherits the chip's --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-font-size-combat",
+      "description": "FR-030: the .star inside .nw-chip is a flex item of an inline-flex parent: it inherits the chip's --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-line-height-operator",
+      "description": "FR-030: the .star inside .nw-chip is a flex item of an inline-flex parent: 11px gives a 16.5px normal line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-line-height-archive",
+      "description": "FR-030: the .star inside .nw-chip is a flex item of an inline-flex parent: 11px gives a 16.5px normal line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-line-height-combat",
+      "description": "FR-030: the .star inside .nw-chip is a flex item of an inline-flex parent: 11px gives a 16.5px normal line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-tabular",
+      "description": "FR-030: the .star inside .nw-chip is a flex item of an inline-flex parent: it inherits tabular numerals, font-variant normal to tabular-nums.",
+      "match": {
+        "prop": "^(font-variant|font-variant-numeric)$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^tabular-nums$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-colour",
+      "description": "FR-030: the .sq inside .nw-chip takes the chip text colour, --nw-text-mute, rgb(170, 170, 170), instead of the link blue.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-sq-background",
+      "description": "FR-030: the .sq inside .nw-chip is a square filled with currentColor, --nw-text-mute, instead of no background.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.sq:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(0, 0, 0, 0\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-chip-star-colour",
+      "description": "FR-030: the .star inside .nw-chip is --nw-signal-warn, rgb(232, 153, 58), instead of the link blue.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "a\\.nw-chip:nth-child\\(\\d+\\)>span\\.star:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(232, 153, 58\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-display",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: display inline to inline-block.",
+      "match": {
+        "prop": "^display$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "old": "^inline$",
+        "new": "^inline-block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-margin",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: margin-top var(--sp-3), 0px to 12px.",
+      "match": {
+        "prop": "^(margin-top|margin-block-start)$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-font-size-operator",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-font-size-archive",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-font-size-combat",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-line-height-operator",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: 11px gives a 16.5px normal line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-line-height-archive",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: 11px gives a 16.5px normal line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-line-height-combat",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: 11px gives a 16.5px normal line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-letter-spacing",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: --ls-ultra, .2em of 11px, 2.2px instead of normal.",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^2\\.2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-uppercase",
+      "description": "FR-030: .nw-link-arrow is a chrome label link: text-transform none to uppercase.",
+      "match": {
+        "prop": "^text-transform$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^uppercase$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-transition-property",
+      "description": "FR-030: .nw-link-arrow transitions its colour on --nw-tick. Reduced motion resets the transition on both sides. transition-property all to color.",
+      "match": {
+        "prop": "^transition-property$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-off",
+        "old": "^all$",
+        "new": "^color$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-transition-timing",
+      "description": "FR-030: .nw-link-arrow transitions its colour on --nw-tick. Reduced motion resets the transition on both sides. The tick easing instead of ease.",
+      "match": {
+        "prop": "^transition-timing-function$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-off",
+        "old": "^ease$",
+        "new": "^cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-transition-duration-operator",
+      "description": "FR-030: .nw-link-arrow transitions its colour on --nw-tick. Reduced motion resets the transition on both sides. The duration scales with the level. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.15s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-transition-duration-archive",
+      "description": "FR-030: .nw-link-arrow transitions its colour on --nw-tick. Reduced motion resets the transition on both sides. The duration scales with the level. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.09s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-link-arrow-transition-duration-combat",
+      "description": "FR-030: .nw-link-arrow transitions its colour on --nw-tick. Reduced motion resets the transition on both sides. The duration scales with the level. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": ">a\\.nw-link-arrow:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.18s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-display",
+      "description": "FR-030: .nw-index is a grid, display block to grid.",
+      "match": {
+        "prop": "^display$",
+        "path": ">div\\.nw-index:nth-child\\(\\d+\\)$",
+        "old": "^block$",
+        "new": "^grid$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-column-gap",
+      "description": "FR-030: .nw-index spaces its two columns by var(--sp-8), column-gap normal to 32px.",
+      "match": {
+        "prop": "^column-gap$",
+        "path": ">div\\.nw-index:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^32px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-row-display",
+      "description": "FR-030, FR-033: .nw-index-row is a three-track grid: display block to grid.",
+      "match": {
+        "prop": "^display$",
+        "path": ">div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^block$",
+        "new": "^grid$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-row-column-gap",
+      "description": "FR-030, FR-033: .nw-index-row is a three-track grid: column-gap var(--sp-3), normal to 12px.",
+      "match": {
+        "prop": "^column-gap$",
+        "path": ">div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-row-row-gap",
+      "description": "FR-030, FR-033: .nw-index-row is a three-track grid: row-gap 2px, normal to 2px.",
+      "match": {
+        "prop": "^row-gap$",
+        "path": ">div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-row-align",
+      "description": "FR-030, FR-033: .nw-index-row is a three-track grid: align-items normal to baseline.",
+      "match": {
+        "prop": "^align-items$",
+        "path": ">div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^baseline$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-row-padding",
+      "description": "FR-030, FR-033: .nw-index-row is a three-track grid: block padding var(--sp-3), 0px to 12px.",
+      "match": {
+        "prop": "^(padding-top|padding-bottom|padding-block-start|padding-block-end)$",
+        "path": ">div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-row-border-width",
+      "description": "FR-030, FR-033: .nw-index-row is a three-track grid: a hairline on the top edge, 0px to 1px.",
+      "match": {
+        "prop": "^(border-top-width|border-block-start-width)$",
+        "path": ">div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^1px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-row-border-style",
+      "description": "FR-030, FR-033: .nw-index-row is a three-track grid: a solid top edge, none to solid.",
+      "match": {
+        "prop": "^(border-top-style|border-block-start-style)$",
+        "path": ">div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^solid$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-row-border-colour",
+      "description": "FR-030, FR-033: .nw-index-row is a three-track grid: the top edge is --nw-line, rgba(255, 255, 255, 0.14), instead of the page white it took from currentColor.",
+      "match": {
+        "prop": "^(border-top-color|border-block-start-color)$",
+        "path": ">div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-row-min-size",
+      "description": "FR-030, FR-033: .nw-index-row is a three-track grid: a grid item of .nw-index has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": ">div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-display-operator",
+      "description": "FR-030, FR-033: .nw-index-row .kanji is a grid item: it is blockified, display inline to block (display none at archive on both sides, so nothing changes there). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^display$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-display-combat",
+      "description": "FR-030, FR-033: .nw-index-row .kanji is a grid item: it is blockified, display inline to block (display none at archive on both sides, so nothing changes there). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^display$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-min-size-operator",
+      "description": "FR-030, FR-033: .nw-index-row .kanji is a grid item: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto (not at archive: the hidden kanji is no grid item). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-min-size-combat",
+      "description": "FR-030, FR-033: .nw-index-row .kanji is a grid item: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto (not at archive: the hidden kanji is no grid item). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-column-start",
+      "description": "FR-030, FR-033: .nw-index-row .kanji is a grid item: it names its own grid line, grid-column-start auto to 1, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-column-start$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^1$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-row-start",
+      "description": "FR-030, FR-033: .nw-index-row .kanji is a grid item: it names its own grid line, grid-row-start auto to 1, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-row-start$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^1$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-row-end",
+      "description": "FR-030, FR-033: .nw-index-row .kanji is a grid item: it names its own grid line, grid-row-end auto to span 2, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-row-end$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^span 2$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-name-display",
+      "description": "FR-030, FR-033: .nw-index-row .name is a grid item: it is blockified, display inline to block.",
+      "match": {
+        "prop": "^display$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.name:nth-child\\(\\d+\\)$",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-name-min-size",
+      "description": "FR-030, FR-033: .nw-index-row .name is a grid item: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.name:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-name-column-start",
+      "description": "FR-030, FR-033: .nw-index-row .name is a grid item: it names its own grid line, grid-column-start auto to 2, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-column-start$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.name:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^2$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-name-row-start",
+      "description": "FR-030, FR-033: .nw-index-row .name is a grid item: it names its own grid line, grid-row-start auto to 1, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-row-start$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.name:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^1$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-display",
+      "description": "FR-030, FR-033: .nw-index-row .count is a grid item: it is blockified, display inline to block.",
+      "match": {
+        "prop": "^display$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-min-size",
+      "description": "FR-030, FR-033: .nw-index-row .count is a grid item: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-column-start",
+      "description": "FR-030, FR-033: .nw-index-row .count is a grid item: it names its own grid line, grid-column-start auto to 3, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-column-start$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^3$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-row-start",
+      "description": "FR-030, FR-033: .nw-index-row .count is a grid item: it names its own grid line, grid-row-start auto to 1, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-row-start$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^1$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-display",
+      "description": "FR-030, FR-033: .nw-index-row .items is a grid item: it is blockified, display inline to block.",
+      "match": {
+        "prop": "^display$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-min-size",
+      "description": "FR-030, FR-033: .nw-index-row .items is a grid item: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-column-start",
+      "description": "FR-030, FR-033: .nw-index-row .items is a grid item: it names its own grid line, grid-column-start auto to 2, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-column-start$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^2$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-column-end",
+      "description": "FR-030, FR-033: .nw-index-row .items is a grid item: it names its own grid line, grid-column-end auto to 4, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-column-end$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^4$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-row-start",
+      "description": "FR-030, FR-033: .nw-index-row .items is a grid item: it names its own grid line, grid-row-start auto to 2, so that a hidden kanji leaves the grid as it was.",
+      "match": {
+        "prop": "^grid-row-start$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^2$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-font-size-operator",
+      "description": "FR-030: the index kanji is 20px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^20px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-font-size-archive",
+      "description": "FR-030: the index kanji is 20px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^20px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-font-size-combat",
+      "description": "FR-030: the index kanji is 20px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^20px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-line-height-operator",
+      "description": "FR-030: the index kanji is 20px, so its normal line height is 30px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^30px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-line-height-archive",
+      "description": "FR-030: the index kanji is 20px, so its normal line height is 30px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^30px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-line-height-combat",
+      "description": "FR-030: the index kanji is 20px, so its normal line height is 30px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^30px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-colour",
+      "description": "FR-030: the index kanji is --nw-text-default, rgb(230, 230, 230), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-name-font-size-archive",
+      "description": "FR-030: the index name is --text-base, 14px, instead of the page size of the level (nothing changes at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.name:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^14px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-name-font-size-combat",
+      "description": "FR-030: the index name is --text-base, 14px, instead of the page size of the level (nothing changes at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.name:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^14px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-name-line-height-archive",
+      "description": "FR-030: the index name is 14px, so its line height is 21px instead of 1.5 times the page size of the level (nothing changes at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.name:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^21px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-name-line-height-combat",
+      "description": "FR-030: the index name is 14px, so its line height is 21px instead of 1.5 times the page size of the level (nothing changes at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.name:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^21px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-name-colour",
+      "description": "FR-030: the index name is --nw-text-default, rgb(230, 230, 230), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.name:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-font-size-operator",
+      "description": "FR-030: the index count is --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-font-size-archive",
+      "description": "FR-030: the index count is --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-font-size-combat",
+      "description": "FR-030: the index count is --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-line-height-operator",
+      "description": "FR-030: the index count is 11px, so its normal line height is 16.5px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-line-height-archive",
+      "description": "FR-030: the index count is 11px, so its normal line height is 16.5px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-line-height-combat",
+      "description": "FR-030: the index count is 11px, so its normal line height is 16.5px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-colour",
+      "description": "FR-030: the index count is --nw-text-mute, rgb(170, 170, 170), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-font-size-operator",
+      "description": "FR-030: the index items is --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-font-size-archive",
+      "description": "FR-030: the index items is --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-font-size-combat",
+      "description": "FR-030: the index items is --text-xs, 11px, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^11px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-line-height-operator",
+      "description": "FR-030: the index items is 11px, so its normal line height is 16.5px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-line-height-archive",
+      "description": "FR-030: the index items is 11px, so its normal line height is 16.5px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-line-height-combat",
+      "description": "FR-030: the index items is 11px, so its normal line height is 16.5px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^16\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-colour",
+      "description": "FR-030: the index items is --nw-text-mute, rgb(170, 170, 170), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-count-tabular",
+      "description": "FR-030: the index count uses tabular numerals, font-variant normal to tabular-nums.",
+      "match": {
+        "prop": "^(font-variant|font-variant-numeric)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.count:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^tabular-nums$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-overflow",
+      "description": "FR-030: the index items line is clipped, overflow visible to hidden on both axes.",
+      "match": {
+        "prop": "^(overflow-x|overflow-y|overflow-block|overflow-inline)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "old": "^visible$",
+        "new": "^hidden$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-text-overflow",
+      "description": "FR-030: the index items line ends in an ellipsis, text-overflow clip to ellipsis.",
+      "match": {
+        "prop": "^text-overflow$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "old": "^clip$",
+        "new": "^ellipsis$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-items-nowrap",
+      "description": "FR-030: the index items line does not wrap, text-wrap-mode wrap to nowrap.",
+      "match": {
+        "prop": "^text-wrap-mode$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.items:nth-child\\(\\d+\\)$",
+        "old": "^wrap$",
+        "new": "^nowrap$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-transition-property",
+      "description": "FR-030: the index kanji transitions its colour and glow on --nw-tick. Reduced motion resets the transition on both sides. transition-property all to color, text-shadow.",
+      "match": {
+        "prop": "^transition-property$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-off",
+        "old": "^all$",
+        "new": "^color, text-shadow$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-transition-timing",
+      "description": "FR-030: the index kanji transitions its colour and glow on --nw-tick. Reduced motion resets the transition on both sides. The tick easing, twice.",
+      "match": {
+        "prop": "^transition-timing-function$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-off",
+        "old": "^ease$",
+        "new": "^cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\), cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-transition-delay",
+      "description": "FR-030: the index kanji transitions its colour and glow on --nw-tick. Reduced motion resets the transition on both sides. transition-delay 0s, twice.",
+      "match": {
+        "prop": "^transition-delay$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-off",
+        "old": "^0s$",
+        "new": "^0s, 0s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-transition-behavior",
+      "description": "FR-030: the index kanji transitions its colour and glow on --nw-tick. Reduced motion resets the transition on both sides. transition-behavior normal, twice.",
+      "match": {
+        "prop": "^transition-behavior$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-off",
+        "old": "^normal$",
+        "new": "^normal, normal$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-transition-duration-operator",
+      "description": "FR-030: the index kanji transitions its colour and glow on --nw-tick. Reduced motion resets the transition on both sides. The duration scales with the level. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.15s, 0\\.15s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-transition-duration-archive",
+      "description": "FR-030: the index kanji transitions its colour and glow on --nw-tick. Reduced motion resets the transition on both sides. The duration scales with the level. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.09s, 0\\.09s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-transition-duration-combat",
+      "description": "FR-030: the index kanji transitions its colour and glow on --nw-tick. Reduced motion resets the transition on both sides. The duration scales with the level. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.18s, 0\\.18s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-hover-colour",
+      "description": "FR-030: on row hover the index kanji is the accent, --nw-chrome rgb(102, 153, 255), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": ":hover@.*div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(102, 153, 255\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-hover-glow-operator",
+      "description": "FR-034 exception: on row hover the index kanji glows by calc(var(--nw-kanji-glow) * .8): --nw-kanji-glow is calc(20px * var(--nw-glow)), so the blur is 8px at operator and combat (glow .5) and 0px at archive (glow 0). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^text-shadow$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|.*:hover@.*div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^rgb\\(102, 153, 255\\) 0px 0px 8px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-hover-glow-archive",
+      "description": "FR-034 exception: on row hover the index kanji glows by calc(var(--nw-kanji-glow) * .8): --nw-kanji-glow is calc(20px * var(--nw-glow)), so the blur is 8px at operator and combat (glow .5) and 0px at archive (glow 0). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^text-shadow$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|.*:hover@.*div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^rgb\\(102, 153, 255\\) 0px 0px 0px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-index-kanji-hover-glow-combat",
+      "description": "FR-034 exception: on row hover the index kanji glows by calc(var(--nw-kanji-glow) * .8): --nw-kanji-glow is calc(20px * var(--nw-glow)), so the blur is 8px at operator and combat (glow .5) and 0px at archive (glow 0). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^text-shadow$",
+        "path": "div\\.nw-index-row:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|.*:hover@.*div\\.nw-index-row:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^rgb\\(102, 153, 255\\) 0px 0px 8px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-details-border-top-width",
+      "description": "FR-032: .nw-accordion is native <details>: a hairline above every item, border-top-width 0px to 1px.",
+      "match": {
+        "prop": "^(border-top-width|border-block-start-width)$",
+        "path": "div\\.nw-accordion:nth-child\\(\\d+\\)>details:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^1px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-details-border-top-style",
+      "description": "FR-032: .nw-accordion is native <details>: a solid line above every item, none to solid.",
+      "match": {
+        "prop": "^(border-top-style|border-block-start-style)$",
+        "path": "div\\.nw-accordion:nth-child\\(\\d+\\)>details:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^solid$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-details-border-top-colour",
+      "description": "FR-032: .nw-accordion is native <details>: the line above an item is --nw-line, rgba(255, 255, 255, 0.14), instead of the page white it took from currentColor.",
+      "match": {
+        "prop": "^(border-top-color|border-block-start-color)$",
+        "path": "div\\.nw-accordion:nth-child\\(\\d+\\)>details:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-details-border-bottom-width",
+      "description": "FR-032: .nw-accordion is native <details>: the last item also has a hairline below, border-bottom-width 0px to 1px.",
+      "match": {
+        "prop": "^(border-bottom-width|border-block-end-width)$",
+        "path": "div\\.nw-accordion:nth-child\\(\\d+\\)>details:nth-child\\(2\\)$",
+        "old": "^0px$",
+        "new": "^1px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-details-border-bottom-style",
+      "description": "FR-032: .nw-accordion is native <details>: the last item has a solid line below, none to solid.",
+      "match": {
+        "prop": "^(border-bottom-style|border-block-end-style)$",
+        "path": "div\\.nw-accordion:nth-child\\(\\d+\\)>details:nth-child\\(2\\)$",
+        "old": "^none$",
+        "new": "^solid$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-details-border-bottom-colour",
+      "description": "FR-032: .nw-accordion is native <details>: the line below the last item is --nw-line, rgba(255, 255, 255, 0.14), instead of the page white it took from currentColor.",
+      "match": {
+        "prop": "^(border-bottom-color|border-block-end-color)$",
+        "path": "div\\.nw-accordion:nth-child\\(\\d+\\)>details:nth-child\\(2\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-interpolate-size",
+      "description": "FR-032: .nw-accordion is native <details>: where the browser supports it, interpolate-size allow-keywords lets the answer animate to its auto height. The property is inherited, so the summary and the answer carry it too.",
+      "match": {
+        "prop": "^interpolate-size$",
+        "path": "div\\.nw-accordion:nth-child\\(\\d+\\)>details:nth-child\\(\\d+\\)(>[a-z]+(\\.[a-z-]+)?:nth-child\\(\\d+\\))?$",
+        "old": "^numeric-only$",
+        "new": "^allow-keywords$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-display",
+      "description": "FR-032: .nw-accordion summary is the item heading: a flex row, display list-item to flex.",
+      "match": {
+        "prop": "^display$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^list-item$",
+        "new": "^flex$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-justify",
+      "description": "FR-032: .nw-accordion summary is the item heading: justify-content normal to space-between.",
+      "match": {
+        "prop": "^justify-content$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^space-between$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-align",
+      "description": "FR-032: .nw-accordion summary is the item heading: align-items normal to center.",
+      "match": {
+        "prop": "^align-items$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^center$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-gap",
+      "description": "FR-032: .nw-accordion summary is the item heading: gap var(--sp-4), normal to 16px on both axes.",
+      "match": {
+        "prop": "^(column-gap|row-gap)$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^16px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-padding",
+      "description": "FR-032: .nw-accordion summary is the item heading: block padding var(--sp-4), 0px to 16px.",
+      "match": {
+        "prop": "^(padding-top|padding-bottom|padding-block-start|padding-block-end)$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^16px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-cursor",
+      "description": "FR-032: .nw-accordion summary is the item heading: cursor pointer instead of the automatic cursor.",
+      "match": {
+        "prop": "^cursor$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^pointer$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-font-family",
+      "description": "FR-032: .nw-accordion summary is the item heading: the title font instead of the page font.",
+      "match": {
+        "prop": "^font-family$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^\"JetBrains Mono\", \"Cascadia Mono\", monospace$",
+        "new": "^\"Noto Serif Display\", \"Times New Roman\", serif$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-font-weight",
+      "description": "FR-032: .nw-accordion summary is the item heading: weight 700 instead of 400.",
+      "match": {
+        "prop": "^font-weight$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^400$",
+        "new": "^700$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-font-size-operator",
+      "description": "FR-032: .nw-accordion summary is the item heading: 22px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^22px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-font-size-archive",
+      "description": "FR-032: .nw-accordion summary is the item heading: 22px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^22px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-font-size-combat",
+      "description": "FR-032: .nw-accordion summary is the item heading: 22px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^22px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-line-height-operator",
+      "description": "FR-032: .nw-accordion summary is the item heading: 22px, so the line height is 33px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^33px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-line-height-archive",
+      "description": "FR-032: .nw-accordion summary is the item heading: 22px, so the line height is 33px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^33px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-line-height-combat",
+      "description": "FR-032: .nw-accordion summary is the item heading: 22px, so the line height is 33px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^33px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-colour",
+      "description": "FR-032: .nw-accordion summary is the item heading: --nw-text-default, rgb(230, 230, 230), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-marker-open",
+      "description": "FR-032: .nw-accordion summary is the item heading: the marker is removed, list-style-type disclosure-open (open item) to none.",
+      "match": {
+        "prop": "^list-style-type$",
+        "path": "details:nth-child\\(1\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^disclosure-open$",
+        "new": "^none$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-marker-closed",
+      "description": "FR-032: .nw-accordion summary is the item heading: the marker is removed, list-style-type disclosure-closed (closed item) to none.",
+      "match": {
+        "prop": "^list-style-type$",
+        "path": "details:nth-child\\(2\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^disclosure-closed$",
+        "new": "^none$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-marker-position",
+      "description": "FR-032: .nw-accordion summary is the item heading: list-style none also resets the marker position, inside to outside.",
+      "match": {
+        "prop": "^list-style-position$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^inside$",
+        "new": "^outside$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-transition-property",
+      "description": "FR-032: .nw-accordion summary is the item heading, with a colour transition on --nw-tick. Reduced motion resets the transition on both sides. transition-property all to color.",
+      "match": {
+        "prop": "^transition-property$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-off",
+        "old": "^all$",
+        "new": "^color$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-transition-timing",
+      "description": "FR-032: .nw-accordion summary is the item heading, with a colour transition on --nw-tick. Reduced motion resets the transition on both sides. The tick easing instead of ease.",
+      "match": {
+        "prop": "^transition-timing-function$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-off",
+        "old": "^ease$",
+        "new": "^cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-transition-duration-operator",
+      "description": "FR-032: .nw-accordion summary is the item heading, with a colour transition on --nw-tick. Reduced motion resets the transition on both sides. The duration scales with the level. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.15s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-transition-duration-archive",
+      "description": "FR-032: .nw-accordion summary is the item heading, with a colour transition on --nw-tick. Reduced motion resets the transition on both sides. The duration scales with the level. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.09s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-transition-duration-combat",
+      "description": "FR-032: .nw-accordion summary is the item heading, with a colour transition on --nw-tick. Reduced motion resets the transition on both sides. The duration scales with the level. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^transition-duration$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|rm-off",
+        "old": "^0s$",
+        "new": "^0\\.18s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-summary-focus-offset",
+      "description": "FR-032: a focused summary moves the global 2px focus ring out by 4px; the width stays 2px. outline-offset 2px to 4px.",
+      "match": {
+        "prop": "^outline-offset$",
+        "path": "details:nth-child\\(1\\)>summary:nth-child\\(\\d+\\)$",
+        "state": ":focus-visible@.*details:nth-child\\(1\\)>summary:nth-child\\(\\d+\\)$",
+        "old": "^2px$",
+        "new": "^4px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-marker-pseudo",
+      "description": "FR-032: the summary draws its \"+\" or \"−\" with a new ::after, a pseudo-element that did not exist in v2.1.0. The same in every intensity.",
+      "match": {
+        "prop": "^\\(element\\)$",
+        "path": "details:nth-child\\(\\d+\\)>summary:nth-child\\(\\d+\\)::after$",
+        "old": "^<missing>$",
+        "new": "^present$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-answer-padding",
+      "description": "FR-032: .nw-accordion .answer is the muted answer text: padding-bottom var(--sp-6), 0px to 24px.",
+      "match": {
+        "prop": "^(padding-bottom|padding-block-end)$",
+        "path": "details:nth-child\\(\\d+\\)>div\\.answer:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^24px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-answer-max-width",
+      "description": "FR-032: .nw-accordion .answer is the muted answer text: max-width 62ch, none to a length in px. The ch unit resolves against the fallback monospace font of the machine running parity, so the number is not pinned.",
+      "match": {
+        "prop": "^(max-width|max-inline-size)$",
+        "path": "details:nth-child\\(\\d+\\)>div\\.answer:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^\\d+(\\.\\d+)?px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-answer-line-height-operator",
+      "description": "FR-032: .nw-accordion .answer is the muted answer text: line-height 1.65 of the page size, instead of 1.5 times it (21px to 23.1px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "details:nth-child\\(\\d+\\)>div\\.answer:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^23\\.1px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-answer-line-height-archive",
+      "description": "FR-032: .nw-accordion .answer is the muted answer text: line-height 1.65 of the page size, instead of 1.5 times it (21px to 23.1px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "details:nth-child\\(\\d+\\)>div\\.answer:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^24\\.75px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-answer-line-height-combat",
+      "description": "FR-032: .nw-accordion .answer is the muted answer text: line-height 1.65 of the page size, instead of 1.5 times it (21px to 23.1px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "details:nth-child\\(\\d+\\)>div\\.answer:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^21\\.45px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-accordion-answer-colour",
+      "description": "FR-032: .nw-accordion .answer is the muted answer text: --nw-text-mute, rgb(170, 170, 170), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "details:nth-child\\(\\d+\\)>div\\.answer:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "cascade-us5-pieces-fixture-coverage-all",
+      "description": "FR-038: the size, origin and grid tracks of the pieces US5 added (.nw-display, .nw-lede, .nw-chip, .nw-link-arrow, .nw-index, .nw-accordion and everything inside them) on the fixture's US5 wrapper (div.fixture-us5): their own declarations (height, padding, font size, display, grid tracks) make the browser resolve a different width, height, origin and track list than the unstyled element had. Limited to the properties seen there. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which resets those classes to their state before US5) must report 0 unexpected differences.",
+      "match": {
+        "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|grid-template-columns|grid-template-rows)$",
+        "path": "div\\.fixture-us5:nth-child\\(\\d+\\)>(.*>)?[a-z0-9]+\\.(nw-display|nw-lede|nw-chip|nw-link-arrow|nw-index|nw-index-row|nw-accordion):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "scripts/parity/fixtures/coverage.html"
+      },
+      "kind": "cascade"
     }
   ]
 }
