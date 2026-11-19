@@ -1279,6 +1279,57 @@
         "old": "^rgb\\(255, 255, 255\\)$",
         "new": "^rgb\\(230, 230, 230\\)$"
       }
+    },
+    {
+      "id": "q-sidebar-edge",
+      "description": "Group B (T044): the .sidebar right edge goes from --nw-text-faint to --nw-line (direction rule 3), like the panel edge. Pinned to the right border colour of .sidebar.",
+      "match": {
+        "prop": "^border-(right|inline-end)-color$",
+        "path": "aside\\.sidebar:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "q-sidebar-header-label",
+      "description": "Group B (T044): the .sidebar-header label goes from blue to --nw-text-mute, like .panel-header (direction rule 1), and so does everything that follows its colour. Pinned to .sidebar-header, #6699ff to #aaaaaa.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "div\\.sidebar-header:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$"
+      }
+    },
+    {
+      "id": "q-sidebar-header-rule",
+      "description": "Group B (T044): the .sidebar-header bottom rule goes from --nw-primary-dim to --nw-line (direction rule 3). Pinned to the bottom border colour of .sidebar-header.",
+      "match": {
+        "prop": "^border-(bottom|block-end)-color$",
+        "path": "div\\.sidebar-header:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "q-sidebar-active-label",
+      "description": "Group B (T044): the current .sidebar-item label goes from blue to --nw-text-default; the blue stays on its accent line, the current-item indicator (direction rule 2). Includes the properties that follow the text colour (not the accent line, which sets its own colour). Pinned to .sidebar-item, #6699ff to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "a\\.sidebar-item:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "q-sidebar-hover-label",
+      "description": "Group B (T044): a .sidebar-item lifts to --nw-text-default on hover instead of --nw-text-strong, the label the current item has (direction rule 1). Includes the properties that follow the text colour. Pinned to .sidebar-item in the forced :hover state, #ffffff to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "a\\.sidebar-item:nth-child\\(\\d+\\)$",
+        "state": "\\|:hover@",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$"
+      }
     }
   ]
 }
