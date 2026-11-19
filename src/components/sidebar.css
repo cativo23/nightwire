@@ -47,7 +47,7 @@
 }
 
 .sidebar-item:hover {
-  color: var(--nw-text-default);
+  color: var(--nw-text-strong);
   background: var(--nw-text-faint);
 }
 

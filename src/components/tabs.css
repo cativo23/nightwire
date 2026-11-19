@@ -22,7 +22,7 @@
 }
 
 .tab:hover {
-  color: var(--nw-text-default);
+  color: var(--nw-text-strong);
 }
 
 /* Blue is the underline only; the label stays neutral. */
