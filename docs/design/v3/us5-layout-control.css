@@ -9,13 +9,13 @@
    header's new `order` are neutralised. If this run reports unexpected=0 with the cascade
    categories ignored, the open layout is the cause of every geometric difference those
    categories absorb. Declarations only change box, text or flow geometry: colours, backgrounds
-   and glows are not restored, because they do not move anything. The border keeps its
-   pre-US5 hairline/solid/line shorthand because a border exists only with a style.
+   and glows are not restored, because they do not move anything. A border is restored by its
+   width and style only (a border exists only with a style); its colour stays the computed one.
    The classes US5 added (.nw-section-head, .kv-note) are restored to unset, which is their state
    before US5, so that the size of their boxes is covered by the same proof. */
 
 /* Panel: the 1px frame, and the body padding */
-.panel { border: var(--nw-hairline) solid var(--nw-line); }
+.panel { border: var(--nw-hairline) solid; }
 .panel-body { padding: var(--sp-3); }
 
 /* Panel and card headers: the v2 type, box and flow */
@@ -26,7 +26,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  border-bottom: var(--nw-hairline) solid var(--nw-line);
+  border-bottom: var(--nw-hairline) solid;
   gap: normal;
   align-items: normal;
 }
