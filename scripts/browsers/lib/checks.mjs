@@ -70,7 +70,6 @@ const OV = {
   toast:    { toggle: ['#toast'], sels: ['#toast'], props: { '#toast': ['o', 't'] }, hit: ['#toast', '#toast-btn'] },
   tooltip:  { toggle: ['#tt'], sels: ['#tt-content'], props: { '#tt-content': ['o'] }, hit: ['#tt-content', '#tt-inner'] },
 };
-const ALL_SELS = [...new Set(Object.values(OV).flatMap(o => o.sels))];
 const HIT_SELS = [...new Set(Object.values(OV).flatMap(o => o.hit))];
 const CLOSED_FOCUSABLE = ['drawer-btn', 'drawer-in', 'modal-btn', 'cmdk-in', 'dd-item', 'toast-btn', 'tt-inner'];
 const setAll = (page, v) => page.evaluate(`T.set(${JSON.stringify(Object.values(OV).flatMap(o => o.toggle))}, ${JSON.stringify(v)})`);
@@ -240,7 +239,7 @@ async function check7(page) {
   // a: no attribute
   await go(page, 'page-v2.html');
   await page.mouse.move(990, 690); await T(page, 'sleep(400)');
-  let s = await tipState(page); const c0 = tipClosed(s);
+  let s = await tipState(page);
   const r = await rectOf(page, '#tt-trigger');
   await page.mouse.move(r.x, r.y); await T(page, 'sleep(500)'); const sh = await tipState(page);
   await page.mouse.move(990, 690); await T(page, 'sleep(500)'); const sa = await tipState(page);
@@ -265,7 +264,6 @@ async function check7(page) {
 async function check8(page) {
   await go(page, 'page-v2.html');
   const st = await page.evaluate(() => Object.fromEntries(['#dd-menu', '#toast'].map(s => { const c = getComputedStyle(document.querySelector(s)); return [s, { o: c.opacity, v: c.visibility, pe: c.pointerEvents }]; })));
-  const hit = await T(page, `hits(${JSON.stringify([])})`);
   const rm = await T(page, 'rects(["#dd-item","#toast-btn"])');
   // hit test: element at centre of item must be the item (positive)
   const pos = await page.evaluate(([a, b]) => [document.elementFromPoint(a.x, a.y).id, document.elementFromPoint(b.x, b.y).id], [rm['#dd-item'], rm['#toast-btn']]);
