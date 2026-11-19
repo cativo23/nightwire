@@ -21,6 +21,8 @@ package is an ES module; a CommonJS config needs `require(...).default`; the ins
 `duration-nw-*` and `ease-nw-*` scale with `--nw-motion-scale` (the `-out` forms exist:
 `duration-nw-tick-out`, `ease-nw-sweep-out`, ...), and `shadow-glow-{green,blue,cyan,red}` scale
 with `--nw-glow`, so they vanish at archive. Use them for state only, like the `.glow-*` classes.
+Do not combine `shadow-glow-*` with a `shadow-<colour>` utility: Tailwind 3 drops the blur, so it
+renders no glow (keep the default colour, or write an arbitrary `shadow-[…]` value).
 
 ---
 
