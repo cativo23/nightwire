@@ -59,6 +59,8 @@ test('should_not_show_stale_package_or_version_strings', () => {
   assert.deepEqual(offenders(/Nightwire v1\.0|DESIGN SYSTEM v1\.0/), [], 'stale v1.0 label');
   const ticker = read(`${SRC}/components/Ticker.tsx`);
   assert.doesNotMatch(ticker, /COMPONENTS: 24\+|TOKENS: 42/, 'ticker counts are stale');
+  const overview = read(`${SRC}/pages/OverviewPage.tsx`);
+  assert.doesNotMatch(overview, /m-value">(42|24\+)</, 'overview counts are stale');
   const quick = read(`${SRC}/pages/QuickStartPage.tsx`);
   assert.match(quick, /npm install @cativo23\/nightwire/, 'quick start does not name the published package');
 });
