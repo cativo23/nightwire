@@ -408,6 +408,14 @@ test('FR-028: .nw-reticle draws its frame with background-image only, so a .pane
   assert.equal(declsOf(reticle, '.panel.nw-reticle').get('border-radius'), '0');
 });
 
+test('FR-028: .nw-reticle sets position inside :where(), so class="drawer nw-reticle" keeps position: fixed', () => {
+  const reticle = piece('reticle');
+  const rules = parseRules(reticle);
+  assert.equal(declsOf(reticle, ':where(.nw-reticle)').get('position'), 'relative');
+  const own = rules.find((r) => r.selector === '.nw-reticle');
+  assert.ok(own && !own.decls.some((d) => d.prop === 'position'), '.nw-reticle itself does not set position');
+});
+
 test('FR-028: the reticle arms and the frame use --nw-hairline and --nw- custom properties only', () => {
   const reticle = piece('reticle');
   assert.doesNotMatch(stripComments(reticle), /(?<![\w.-])1px/, 'no literal 1px: the hairline token');
