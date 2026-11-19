@@ -159,3 +159,75 @@ intensities and approved the refresh (SC-006) with six detail decisions, numbere
 | 4 | `.tab:hover`, `.sidebar-item:hover` | Changed: `--nw-text-strong` | Same as `.dropdown-item` and `.cmdk-item`, so hover reads the same on every list-like control. Backgrounds and active states unchanged. |
 | 5 | Skeleton shimmer | Kept neutral | A loading placeholder carries no signal, so it takes no colour. |
 | 6 | `.toast` | Changed: `1px solid --nw-line-strong` on top, right and bottom | Rule 3: a surface needs an edge, the modal's. The 2px left accent and the `.toast-*` variants still win. |
+
+## US5: the approved mockup in v3 (2026-11-19)
+
+Status: approved (2026-11-19, direction gate T067)
+
+The maintainer decided on 2026-11-19 that v3 does not ship without the mockup's look
+(`ryoku-inspo.html`, 2026-11-13). This reverses the "Not in this refresh" line above.
+
+- **Open by default, box opt-in:**
+  - `.panel` loses its fill and outline;
+  - `.card` keeps a hairline outline;
+  - dense consoles opt into `.nw-reticle`.
+- **Gate:** `docs/design/v3/mockup.html` is a replica of the mockup built with v3 classes. It
+  loads `nightwire.css` and the proposal `docs/design/v3/mockup-proposal.css`, and is served next
+  to the original on localhost.
+
+### Values and why
+
+| Piece | Value | Why |
+|---|---|---|
+| `--nw-grain` (knob) | archive 0, operator .07, combat .10 | .07 is the mockup's operator value. It needs its own knob because v3's `--nw-glow` is .5 at both operator and combat, so the mockup's `.07 × glow` would halve it and stay flat at combat. |
+| `--nw-chip-line` | `rgba(255,255,255,.18)` | The mockup's chip border was `--nw-line-strong` at v2 (.18). In v3 that token is .36, which doubles the border. |
+| `--nw-kanji-glow` | `calc(20px × --nw-glow)`: 0 / 10px / 10px | 10px is the mockup's value at operator. The FR-034 exception: `.nw-section-head-chrome` kanji, plus the `.nw-index-row:hover` kanji at 0.8×. |
+| `--nw-bone` | `#d8d2c8` | The mockup's bone halftone tint. No v3 token carries it. |
+| Section head on `.panel-header` / `.card-header` | Same markup. The hairline is drawn by `::after`; `data-idx` adds `01 //`; a `.kanji` in the slot is 20px. | FR-026, with one implementation shared with `.nw-section-head`. |
+| `.panel` | No fill, no outline, no radius. Header padding `0 0 sp-3`, body `sp-3 0`. | Open layout: content sits flush with the section head, like the mockup. |
+| `.card` | Fill removed, hairline kept | The maintainer's choice: a card is an object, a panel is a section. |
+| `.kv-row` | Padding `sp-3 × --nw-pad-scale`, top-aligned, right-aligned value | The mockup's spec sheet. It follows density, so archive is airier and combat compact. |
+| `.kv-note`, `.nw-index-row .items`, `.nw-reticle-vlabel` | `--nw-text-mute` instead of `--nw-text-disabled` | AA: disabled is 3.04:1 and reserved for disabled states. These read slightly brighter than in the mockup. |
+| `.nw-index-row` | Explicit grid columns | At archive the kanji is hidden. In the original mockup the name then falls into the kanji column and the counts drop to a new line; the replica keeps the grid. |
+| `.nw-accordion` | Global 2px focus (offset 4px). Animates `<details>` with `--nw-sweep` / `--nw-sweep-out` under `@supports (interpolate-size)`. | The mockup weakened focus to 1px (FR-015). The maintainer asked for accordions that open and close smoothly. |
+
+### Unchanged shared values
+
+The mockup used v2 values for `--nw-line` (.12) and `--nw-text-faint` (.06). v3 has .14 and .08
+(US2, approved). This proposal keeps the v3 values, so the hairlines are 2% more opaque.
+
+### Pre-show comparison (T066, headless Chrome 1280 px, full page)
+
+At operator, the mockup's pieces match. Pixel difference, 3% fuzz:
+- 0.05% in the top 1000 px;
+- 0.3% in the next 1000 px (the brighter `.kv-note`).
+
+Intended differences:
+1. `.tag` in the "vs .tag actual" row is neutral, as approved in US2; the mockup shows v2's blue pill.
+2. The left `.kv-row` column now has the spec rhythm.
+3. The notes and the index `items` lines are brighter (AA).
+4. At archive, the index keeps its grid.
+5. At combat, `.kv-row` is compact.
+6. New section E shows existing components with the open layout.
+
+Measured in the replica:
+
+| Value | archive | operator | combat |
+|---|---|---|---|
+| Grain | 0 | .07 | .10 |
+| Kanji glow | 0 | 10px | 10px |
+
+- At all 3 intensities: `.panel` is transparent with no border, `.card` is transparent with a
+  1px .14 border, and the chip border is .18.
+- Accordion: the focus ring is 2px; the open animation runs in Chrome.
+
+### Approval (T067)
+
+- **Approver:** Carlos Cativo (maintainer).
+- **Date:** 2026-11-19.
+- **Reviewed:** the replica next to the original on localhost, and side-by-side renders at the
+  three intensities.
+- **Outcome:** approved as proposed, including the six intended differences and section E.
+- **Note:** everything in the repository is in English. The replica's demo copy was translated
+  from the mockup's Spanish before the commit. The `lo quiero` buttons were dropped. The version
+  chips read v3.
