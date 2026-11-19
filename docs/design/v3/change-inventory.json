@@ -7165,11 +7165,1353 @@
       }
     },
     {
+      "id": "nw-reticle-background-image",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel) draws its eight corner arms as background-images of --nw-line-chrome: eight one-colour gradients instead of none.",
+      "match": {
+        "prop": "^background-image$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^none$",
+        "new": "^linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-background-repeat",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): the arms do not repeat, no-repeat eight times instead of repeat.",
+      "match": {
+        "prop": "^background-repeat$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^repeat$",
+        "new": "^no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-background-position",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): one arm pair per corner (top left, top right, bottom left, bottom right), eight positions instead of 0% 0%.",
+      "match": {
+        "prop": "^background-position$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^0% 0%$",
+        "new": "^0% 0%, 0% 0%, 100% 0%, 100% 0%, 0% 100%, 0% 100%, 100% 100%, 100% 100%$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-background-size",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): an arm is --nw-reticle-arm (14px) long and --nw-hairline (1px) thick, eight sizes instead of auto.",
+      "match": {
+        "prop": "^background-size$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^auto$",
+        "new": "^14px 1px, 1px 14px, 14px 1px, 1px 14px, 14px 1px, 1px 14px, 14px 1px, 1px 14px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-background-attachment",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): a layer list of eight, so the longhands that default per layer repeat: background-attachment scroll eight times.",
+      "match": {
+        "prop": "^background-attachment$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^scroll$",
+        "new": "^scroll, scroll, scroll, scroll, scroll, scroll, scroll, scroll$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-background-blend-mode",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): background-blend-mode normal eight times.",
+      "match": {
+        "prop": "^background-blend-mode$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^normal$",
+        "new": "^normal, normal, normal, normal, normal, normal, normal, normal$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-background-clip",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): background-clip border-box eight times.",
+      "match": {
+        "prop": "^background-clip$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^border-box$",
+        "new": "^border-box, border-box, border-box, border-box, border-box, border-box, border-box, border-box$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-background-origin",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): background-origin padding-box eight times.",
+      "match": {
+        "prop": "^background-origin$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^padding-box$",
+        "new": "^padding-box, padding-box, padding-box, padding-box, padding-box, padding-box, padding-box, padding-box$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-position",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel) is the containing block of its parts: position static to relative.",
+      "match": {
+        "prop": "^position$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^static$",
+        "new": "^relative$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-offsets",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel) is position relative, so the computed offsets go from auto to 0px.",
+      "match": {
+        "prop": "^(bottom|inset-block-end|inset-block-start|inset-inline-end|inset-inline-start|left|right|top)$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^auto$",
+        "new": "^0px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-padding",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): padding var(--sp-4), 0px to 16px on every side.",
+      "match": {
+        "prop": "^(padding-block-end|padding-block-start|padding-bottom|padding-inline-end|padding-inline-start|padding-left|padding-right|padding-top)$",
+        "path": ">div\\.(nw-reticle|panel):nth-child\\((13|14)\\)$",
+        "old": "^0px$",
+        "new": "^16px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-border-width",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): a --nw-hairline outline on every side, 0px to 1px (.nw-reticle alone).",
+      "match": {
+        "prop": "^(border-top-width|border-right-width|border-bottom-width|border-left-width|border-block-start-width|border-block-end-width|border-inline-start-width|border-inline-end-width)$",
+        "path": ">div\\.nw-reticle:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^1px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-border-style",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): a solid outline on every side, none to solid (.nw-reticle alone).",
+      "match": {
+        "prop": "^(border-top-style|border-right-style|border-bottom-style|border-left-style|border-block-start-style|border-block-end-style|border-inline-start-style|border-inline-end-style)$",
+        "path": ">div\\.nw-reticle:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^solid$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-border-colour",
+      "description": "FR-028: the .nw-reticle frame (alone, and on a .panel): the outline is --nw-line, rgba(255, 255, 255, 0.14), instead of the page white it took from currentColor (.nw-reticle alone).",
+      "match": {
+        "prop": "^(border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": ">div\\.nw-reticle:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-panel-radius-archive",
+      "description": "FR-028: .panel.nw-reticle is square, border-radius 0px, instead of the 2px radius of v2.1.0's .panel at archive (0px at the other levels). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^(border-top-left-radius|border-top-right-radius|border-bottom-left-radius|border-bottom-right-radius|border-start-start-radius|border-start-end-radius|border-end-start-radius|border-end-end-radius)$",
+        "path": ">div\\.panel:nth-child\\(14\\)$",
+        "state": "^archive\\|",
+        "old": "^2px$",
+        "new": "^0px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-colour",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: --nw-text-mute, rgb(170, 170, 170), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-display",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: a flex row, display block to flex.",
+      "match": {
+        "prop": "^display$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "old": "^block$",
+        "new": "^flex$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-justify",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: justify-content normal to space-between.",
+      "match": {
+        "prop": "^justify-content$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^space-between$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-font-size-operator",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: 10px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^10px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-font-size-archive",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: 10px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^10px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-font-size-combat",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: 10px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^10px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-line-height-operator",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: 10px gives a 15px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^15px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-line-height-archive",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: 10px gives a 15px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^15px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-line-height-combat",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: 10px gives a 15px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^15px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-letter-spacing",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: --ls-ultra, .2em of 10px, 2px instead of normal.",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-margin",
+      "description": "FR-028: .nw-reticle-meta is the muted meta line of an art card: margin-bottom var(--sp-3), 0px to 12px.",
+      "match": {
+        "prop": "^(margin-bottom|margin-block-end)$",
+        "path": ">div\\.nw-reticle-meta:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-colour",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row and follows its muted colour: --nw-text-mute, rgb(170, 170, 170), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-display",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row: it is blockified, display inline to block.",
+      "match": {
+        "prop": "^display$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-min-size",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-font-size-operator",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row: it inherits 10px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^10px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-font-size-archive",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row: it inherits 10px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^10px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-font-size-combat",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row: it inherits 10px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^10px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-line-height-operator",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row: it inherits a 15px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^15px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-line-height-archive",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row: it inherits a 15px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^15px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-line-height-combat",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row: it inherits a 15px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^15px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-meta-span-letter-spacing",
+      "description": "FR-028: a span of .nw-reticle-meta is a flex item of the meta row: it inherits 2px letter-spacing instead of normal.",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": "div\\.nw-reticle-meta:nth-child\\(\\d+\\)>span:nth-child\\([12]\\)$",
+        "old": "^normal$",
+        "new": "^2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-colour",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: --nw-text-mute, rgb(170, 170, 170), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-writing-mode",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: it runs top to bottom, writing-mode horizontal-tb to vertical-rl.",
+      "match": {
+        "prop": "^(-webkit-writing-mode|writing-mode)$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "old": "^horizontal-tb$",
+        "new": "^vertical-rl$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-display",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: it is absolutely positioned, so blockified: display inline to block.",
+      "match": {
+        "prop": "^display$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-position",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: position static to absolute.",
+      "match": {
+        "prop": "^position$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "old": "^static$",
+        "new": "^absolute$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-left",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: left 6px, auto to 6px (the logical inset-block-end of a vertical-rl box).",
+      "match": {
+        "prop": "^(left|inset-block-end)$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^6px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-font-size-operator",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: 9px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^9px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-font-size-archive",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: 9px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^9px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-font-size-combat",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: 9px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^9px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-line-height-operator",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: 9px gives a 13.5px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^13\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-line-height-archive",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: 9px gives a 13.5px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^13\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-line-height-combat",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: 9px gives a 13.5px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^13\\.5px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-letter-spacing",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: --ls-ultra, .2em of 9px, 1.8px instead of normal.",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^1\\.8px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-vlabel-transform",
+      "description": "FR-028: .nw-reticle-vlabel is the vertical label on the left edge of an art card: translateY(-50%) rotate(180deg): a half turn, shifted up by half the label's own length. That length is the width of the text in the fallback font of the machine running parity, so the shift is not pinned.",
+      "match": {
+        "prop": "^transform$",
+        "path": ">span\\.nw-reticle-vlabel:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^matrix\\(-1, 0, 0, -1, 0, -\\d+(\\.\\d+)?\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-display-operator",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: it is absolutely positioned, so blockified: display inline to block (display var(--nw-kanji-display), so none at archive like every kanji). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^display$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-display-archive",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: it is absolutely positioned, so blockified: display inline to block (display var(--nw-kanji-display), so none at archive like every kanji). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^display$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^inline$",
+        "new": "^none$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-display-combat",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: it is absolutely positioned, so blockified: display inline to block (display var(--nw-kanji-display), so none at archive like every kanji). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^display$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-writing-mode",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: it runs top to bottom, writing-mode horizontal-tb to vertical-rl.",
+      "match": {
+        "prop": "^(-webkit-writing-mode|writing-mode)$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "old": "^horizontal-tb$",
+        "new": "^vertical-rl$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-font-family",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: the mincho font instead of the page font.",
+      "match": {
+        "prop": "^font-family$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "old": "^\"JetBrains Mono\", \"Cascadia Mono\", monospace$",
+        "new": "^\"Shippori Mincho B1\", YuMincho, serif$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-font-weight",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: weight 800 instead of 400.",
+      "match": {
+        "prop": "^font-weight$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "old": "^400$",
+        "new": "^800$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-font-size-operator",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: 44px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^44px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-font-size-archive",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: 44px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^44px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-font-size-combat",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: 44px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^44px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-line-height-operator",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: line-height 1.05 of 44px is 46.2px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^46\\.2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-line-height-archive",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: line-height 1.05 of 44px is 46.2px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^46\\.2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-line-height-combat",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: line-height 1.05 of 44px is 46.2px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^46\\.2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-blend",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: mix-blend-mode normal to difference.",
+      "match": {
+        "prop": "^mix-blend-mode$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^difference$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-position",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: position static to absolute.",
+      "match": {
+        "prop": "^position$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "old": "^static$",
+        "new": "^absolute$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-right",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: right var(--sp-6), auto to 24px (the logical inset-block-start of a vertical-rl box).",
+      "match": {
+        "prop": "^(right|inset-block-start)$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^24px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-stamp-top",
+      "description": "FR-028: .nw-reticle-stamp is the kanji stamp of an art card: top 56px, auto to 56px (the logical inset-inline-start of a vertical-rl box).",
+      "match": {
+        "prop": "^(top|inset-inline-start)$",
+        "path": ">span\\.nw-reticle-stamp:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^56px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-display",
+      "description": "FR-028: .nw-reticle-foot is the foot row of an art card: a flex row, display block to flex.",
+      "match": {
+        "prop": "^display$",
+        "path": ">div\\.nw-reticle-foot:nth-child\\(\\d+\\)$",
+        "old": "^block$",
+        "new": "^flex$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-justify",
+      "description": "FR-028: .nw-reticle-foot is the foot row of an art card: justify-content normal to space-between.",
+      "match": {
+        "prop": "^justify-content$",
+        "path": ">div\\.nw-reticle-foot:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^space-between$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-align",
+      "description": "FR-028: .nw-reticle-foot is the foot row of an art card: align-items normal to flex-end.",
+      "match": {
+        "prop": "^align-items$",
+        "path": ">div\\.nw-reticle-foot:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^flex-end$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-gap",
+      "description": "FR-028: .nw-reticle-foot is the foot row of an art card: gap var(--sp-3), normal to 12px on both axes.",
+      "match": {
+        "prop": "^(column-gap|row-gap)$",
+        "path": ">div\\.nw-reticle-foot:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-colour",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: --nw-text-default, rgb(230, 230, 230), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-display-operator",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: it is blockified, display inline to block (display none at archive on both sides, so nothing changes there). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^display$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-display-combat",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: it is blockified, display inline to block (display none at archive on both sides, so nothing changes there). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^display$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-min-size-operator",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto (not at archive: the hidden kanji is no flex item). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-min-size-combat",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: it has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto (not at archive: the hidden kanji is no flex item). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-font-size-operator",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: 24px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^24px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-font-size-archive",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: 24px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^24px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-font-size-combat",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: 24px instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^24px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-line-height-operator",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: 24px gives a 36px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^36px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-line-height-archive",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: 24px gives a 36px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^36px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-reticle-foot-kanji-line-height-combat",
+      "description": "FR-028: the .kanji in .nw-reticle-foot is a flex item, 24px in the default text colour: 24px gives a 36px line height instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^36px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-barcode-colour",
+      "description": "FR-030: .nw-barcode is a strip of bars drawn in the current text colour: --nw-text-default, rgb(230, 230, 230), instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>div\\.nw-barcode:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-barcode-background-image",
+      "description": "FR-030: .nw-barcode is a strip of bars drawn in the current text colour: a repeating 90deg gradient of eight stops in that colour, 15px per period, instead of none.",
+      "match": {
+        "prop": "^background-image$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>div\\.nw-barcode:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^repeating-linear-gradient\\(90deg, rgb\\(230, 230, 230\\) 0px, rgb\\(230, 230, 230\\) 2px, rgba\\(0, 0, 0, 0\\) 2px, rgba\\(0, 0, 0, 0\\) 3px, rgb\\(230, 230, 230\\) 3px, rgb\\(230, 230, 230\\) 4px, rgba\\(0, 0, 0, 0\\) 4px, rgba\\(0, 0, 0, 0\\) 7px, rgb\\(230, 230, 230\\) 7px, rgb\\(230, 230, 230\\) 10px, rgba\\(0, 0, 0, 0\\) 10px, rgba\\(0, 0, 0, 0\\) 11px, rgb\\(230, 230, 230\\) 11px, rgb\\(230, 230, 230\\) 12px, rgba\\(0, 0, 0, 0\\) 12px, rgba\\(0, 0, 0, 0\\) 15px\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-barcode-margin-top",
+      "description": "FR-030: .nw-barcode is a strip of bars drawn in the current text colour: margin-top var(--sp-3), 0px to 12px.",
+      "match": {
+        "prop": "^(margin-top|margin-block-start)$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>div\\.nw-barcode:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^12px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-barcode-flex-grow",
+      "description": "FR-030: .nw-barcode is a strip of bars drawn in the current text colour: .nw-reticle-foot .nw-barcode takes the free width of the foot, flex-grow 0 to 1.",
+      "match": {
+        "prop": "^flex-grow$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>div\\.nw-barcode:nth-child\\(\\d+\\)$",
+        "old": "^0$",
+        "new": "^1$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-barcode-flex-basis",
+      "description": "FR-030: .nw-barcode is a strip of bars drawn in the current text colour: flex 1 sets the basis to 0%, flex-basis auto to 0%.",
+      "match": {
+        "prop": "^flex-basis$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>div\\.nw-barcode:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^0%$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-barcode-min-size",
+      "description": "FR-030: .nw-barcode is a strip of bars drawn in the current text colour: a flex item of the foot has an automatic minimum size, min-width, min-height and their logical forms from 0px to auto.",
+      "match": {
+        "prop": "^(min-width|min-height|min-inline-size|min-block-size)$",
+        "path": "div\\.nw-reticle-foot:nth-child\\(\\d+\\)>div\\.nw-barcode:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^auto$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-position",
+      "description": "FR-030: .nw-halftone is the clipping frame of a halftone image: position static to relative.",
+      "match": {
+        "prop": "^position$",
+        "path": ">div\\.nw-halftone:nth-child\\(\\d+\\)$",
+        "old": "^static$",
+        "new": "^relative$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-offsets",
+      "description": "FR-030: .nw-halftone is the clipping frame of a halftone image: position relative, so the computed offsets go from auto to 0px.",
+      "match": {
+        "prop": "^(bottom|inset-block-end|inset-block-start|inset-inline-end|inset-inline-start|left|right|top)$",
+        "path": ">div\\.nw-halftone:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^0px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-overflow",
+      "description": "FR-030: .nw-halftone is the clipping frame of a halftone image: overflow visible to hidden on both axes.",
+      "match": {
+        "prop": "^(overflow-block|overflow-inline|overflow-x|overflow-y)$",
+        "path": ">div\\.nw-halftone:nth-child\\(\\d+\\)$",
+        "old": "^visible$",
+        "new": "^hidden$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-isolation",
+      "description": "FR-030: .nw-halftone is the clipping frame of a halftone image: isolation auto to isolate, so the multiply tint stays inside it.",
+      "match": {
+        "prop": "^isolation$",
+        "path": ">div\\.nw-halftone:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^isolate$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-layer-position",
+      "description": "FR-030: .nw-halftone-layer is the grey image layer of a halftone: position static to relative.",
+      "match": {
+        "prop": "^position$",
+        "path": "div\\.nw-halftone:nth-child\\(\\d+\\)>div\\.nw-halftone-layer:nth-child\\(\\d+\\)$",
+        "old": "^static$",
+        "new": "^relative$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-layer-offsets",
+      "description": "FR-030: .nw-halftone-layer is the grey image layer of a halftone: position relative, so the computed offsets go from auto to 0px.",
+      "match": {
+        "prop": "^(bottom|inset-block-end|inset-block-start|inset-inline-end|inset-inline-start|left|right|top)$",
+        "path": "div\\.nw-halftone:nth-child\\(\\d+\\)>div\\.nw-halftone-layer:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^0px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-layer-background",
+      "description": "FR-030: .nw-halftone-layer is the grey image layer of a halftone: a black mask behind the image, background-color transparent to black.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "div\\.nw-halftone:nth-child\\(\\d+\\)>div\\.nw-halftone-layer:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(0, 0, 0, 0\\)$",
+        "new": "^rgb\\(0, 0, 0\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-layer-filter",
+      "description": "FR-030: .nw-halftone-layer is the grey image layer of a halftone: grayscale(1) contrast(22), the high-contrast grey, instead of none.",
+      "match": {
+        "prop": "^filter$",
+        "path": "div\\.nw-halftone:nth-child\\(\\d+\\)>div\\.nw-halftone-layer:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^grayscale\\(1\\) contrast\\(22\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-img-display",
+      "description": "FR-030: the <img> of a halftone layer fills it and is softened: display inline to block.",
+      "match": {
+        "prop": "^display$",
+        "path": "div\\.nw-halftone-layer:nth-child\\(\\d+\\)>img:nth-child\\(\\d+\\)$",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-img-filter",
+      "description": "FR-030: the <img> of a halftone layer fills it and is softened: blur(1.2px) instead of none.",
+      "match": {
+        "prop": "^filter$",
+        "path": "div\\.nw-halftone-layer:nth-child\\(\\d+\\)>img:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^blur\\(1\\.2px\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-after-pseudo",
+      "description": "FR-030: .nw-halftone draws the tint, multiplied over the image with a new ::after, a pseudo-element that did not exist in v2.1.0. The same in every intensity.",
+      "match": {
+        "prop": "^\\(element\\)$",
+        "path": ">div\\.nw-halftone:nth-child\\(\\d+\\)::after$",
+        "old": "^<missing>$",
+        "new": "^present$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-halftone-layer-after-pseudo",
+      "description": "FR-030: .nw-halftone draws the dot pattern, laid over the image with a new ::after, a pseudo-element that did not exist in v2.1.0. The same in every intensity.",
+      "match": {
+        "prop": "^\\(element\\)$",
+        "path": "div\\.nw-halftone:nth-child\\(\\d+\\)>div\\.nw-halftone-layer:nth-child\\(\\d+\\)::after$",
+        "old": "^<missing>$",
+        "new": "^present$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-colour",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: color transparent, so the fill is clear and everything that follows the text colour is rgba(0, 0, 0, 0) instead of the page white.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color|border-top-color|border-right-color|border-bottom-color|border-left-color|border-block-start-color|border-block-end-color|border-inline-start-color|border-inline-end-color)$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgba\\(0, 0, 0, 0\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-stroke-colour",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: the outline is --nw-line-chrome, rgba(102, 153, 255, 0.35), instead of the page white.",
+      "match": {
+        "prop": "^-webkit-text-stroke-color$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgba\\(102, 153, 255, 0\\.35\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-stroke-width",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: the outline is --nw-hairline, 0px to 1px.",
+      "match": {
+        "prop": "^-webkit-text-stroke-width$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^1px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-font-family",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: the title font instead of the page font.",
+      "match": {
+        "prop": "^font-family$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^\"JetBrains Mono\", \"Cascadia Mono\", monospace$",
+        "new": "^\"Noto Serif Display\", \"Times New Roman\", serif$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-font-weight",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: weight 900 instead of 400.",
+      "match": {
+        "prop": "^font-weight$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^400$",
+        "new": "^900$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-font-size-operator",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: clamp(56px, 12.5vw, 190px) is 160px at the 1280px parity viewport, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^14px$",
+        "new": "^160px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-font-size-archive",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: clamp(56px, 12.5vw, 190px) is 160px at the 1280px parity viewport, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^15px$",
+        "new": "^160px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-font-size-combat",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: clamp(56px, 12.5vw, 190px) is 160px at the 1280px parity viewport, instead of the page size of the level (14px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^font-size$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^13px$",
+        "new": "^160px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-line-height-operator",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: line-height .85 of 160px is 136px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^21px$",
+        "new": "^136px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-line-height-archive",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: line-height .85 of 160px is 136px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^22\\.5px$",
+        "new": "^136px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-line-height-combat",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: line-height .85 of 160px is 136px instead of 1.5 times the page size of the level (21px at operator). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^line-height$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^19\\.5px$",
+        "new": "^136px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-letter-spacing",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: letter-spacing .01em of 160px is 1.6px instead of normal.",
+      "match": {
+        "prop": "^letter-spacing$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^1\\.6px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-uppercase",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: text-transform none to uppercase.",
+      "match": {
+        "prop": "^text-transform$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^uppercase$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-text-align",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: text-align start to center.",
+      "match": {
+        "prop": "^text-align$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^start$",
+        "new": "^center$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-nowrap",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: white-space nowrap, text-wrap-mode wrap to nowrap.",
+      "match": {
+        "prop": "^text-wrap-mode$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^wrap$",
+        "new": "^nowrap$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-user-select",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: user-select auto to none.",
+      "match": {
+        "prop": "^user-select$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^none$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-transform",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: transform scaleX(.82), none to the matrix that scales the x axis by .82.",
+      "match": {
+        "prop": "^transform$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^matrix\\(0\\.82, 0, 0, 1, 0, 0\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-wordmark-mask",
+      "description": "FR-030: .nw-wordmark is the outlined footer word: it fades out towards the bottom, mask-image none to a 180deg gradient from black at 30% to transparent.",
+      "match": {
+        "prop": "^mask-image$",
+        "path": ">div\\.nw-wordmark:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^linear-gradient\\(rgb\\(0, 0, 0\\) 30%, rgba\\(0, 0, 0, 0\\) 100%\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "nw-grain-pseudo",
+      "description": "FR-031: .nw-grain draws the film grain with a new ::before, a pseudo-element that did not exist in v2.1.0. Its strength is the --nw-grain knob, 0 at archive; the layer is there at every intensity.",
+      "match": {
+        "prop": "^\\(element\\)$",
+        "path": ">div\\.nw-grain:nth-child\\(\\d+\\)::before$",
+        "old": "^<missing>$",
+        "new": "^present$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
       "id": "cascade-us5-pieces-fixture-coverage-all",
-      "description": "FR-038: the size, origin and grid tracks of the pieces US5 added (.nw-display, .nw-lede, .nw-chip, .nw-link-arrow, .nw-index, .nw-accordion and everything inside them) on the fixture's US5 wrapper (div.fixture-us5): their own declarations (height, padding, font size, display, grid tracks) make the browser resolve a different width, height, origin and track list than the unstyled element had. Limited to the properties seen there. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which resets those classes to their state before US5) must report 0 unexpected differences.",
+      "description": "FR-038: the size, origin and grid tracks of the pieces US5 added (.nw-display, .nw-lede, .nw-chip, .nw-link-arrow, .nw-index, .nw-accordion, .nw-reticle, .nw-halftone, .nw-wordmark and everything inside them) on the fixture's US5 wrapper (div.fixture-us5): their own declarations (height, padding, border, font size, display, flex and grid tracks, an image scaled to its container) make the browser resolve a different width, height, origin and track list than the unstyled element had. Limited to the properties seen there. No value is pinned: the control run (docs/design/v3/us5-layout-control.css, which resets those classes to their state before US5) must report 0 unexpected differences.",
       "match": {
         "prop": "^(width|height|inline-size|block-size|transform-origin|perspective-origin|grid-template-columns|grid-template-rows)$",
-        "path": "div\\.fixture-us5:nth-child\\(\\d+\\)>(.*>)?[a-z0-9]+\\.(nw-display|nw-lede|nw-chip|nw-link-arrow|nw-index|nw-index-row|nw-accordion):nth-child\\(\\d+\\)(>|::|$)",
+        "path": "div\\.fixture-us5:nth-child\\(\\d+\\)>(.*>)?[a-z0-9]+\\.(nw-display|nw-lede|nw-chip|nw-link-arrow|nw-index|nw-index-row|nw-accordion|nw-reticle|nw-halftone|nw-wordmark):nth-child\\(\\d+\\)(>|::|$)",
+        "state": "^(none|operator|archive|combat)\\|",
+        "page": "scripts/parity/fixtures/coverage.html"
+      },
+      "kind": "cascade"
+    },
+    {
+      "id": "cascade-us5-reticle-parts-fixture-coverage-all",
+      "description": "FR-038: the resolved offsets, size and origin of the two absolutely positioned reticle parts (.nw-reticle-stamp and .nw-reticle-vlabel) on the fixture's US5 wrapper: the browser resolves the offsets a part leaves unset (right, bottom, left or top: 50%) from the box of its .nw-reticle and from the width of its own text, which depends on the font of the machine running parity. The offsets the rules set themselves (right, top, left: 24px, 56px, 6px) are pinned in their own categories. Limited to the properties seen there. No value is pinned: the control run, which resets the parts to static, must report 0 unexpected differences.",
+      "match": {
+        "prop": "^(top|right|bottom|left|inset-block-start|inset-block-end|inset-inline-start|inset-inline-end|width|height|inline-size|block-size|transform-origin|perspective-origin)$",
+        "path": "div\\.fixture-us5:nth-child\\(\\d+\\)>div\\.nw-reticle:nth-child\\(\\d+\\)>span\\.(nw-reticle-stamp|nw-reticle-vlabel):nth-child\\(\\d+\\)$",
         "state": "^(none|operator|archive|combat)\\|",
         "page": "scripts/parity/fixtures/coverage.html"
       },

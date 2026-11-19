@@ -12,7 +12,8 @@
    and glows are not restored, because they do not move anything. A border is restored by its
    width and style only (a border exists only with a style); its colour stays the computed one.
    The classes US5 added (.nw-section-head, .kv-note, and the pieces .nw-display, .nw-lede, .nw-chip,
-   .nw-link-arrow, .nw-index, .nw-index-row and .nw-accordion) are restored to unset, which is their
+   .nw-link-arrow, .nw-index, .nw-index-row and .nw-accordion, and T076's .nw-reticle with its parts,
+   .nw-halftone, .nw-barcode and .nw-wordmark) are restored to unset, which is their
    state before US5, so that the size of their boxes is covered by the same proof. For the pieces
    that means the display, size, spacing, type and flow of an unstyled <div>, <p>, <a>, <span> or
    <details>: the same limits apply (no colour, background, transform or glow is restored). */
@@ -199,4 +200,95 @@
   padding: 0;
   max-width: none;
   line-height: inherit;
+}
+
+/* .nw-reticle and its parts: an unstyled <div> and <span>s, in flow, with no border and no padding.
+   A .panel.nw-reticle keeps the 1px frame of v2.1.0's .panel. The two absolutely positioned parts also
+   lose their offsets, their display (the stamp's follows the kanji knob) and, for the label, the
+   transform that moves it with its own box, so that their resolved boxes are the unstyled ones. */
+.nw-reticle {
+  position: static;
+  padding: 0;
+  border-width: 0;
+  border-style: none;
+}
+.panel.nw-reticle {
+  border-width: var(--nw-hairline);
+  border-style: solid;
+  border-radius: 0;
+}
+.nw-reticle-meta {
+  display: block;
+  justify-content: normal;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: normal;
+  margin-bottom: 0;
+}
+.nw-reticle-vlabel {
+  position: static;
+  top: auto;
+  left: auto;
+  transform: none;
+  writing-mode: horizontal-tb;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: normal;
+}
+.nw-reticle-stamp {
+  position: static;
+  display: inline;
+  top: auto;
+  right: auto;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  writing-mode: horizontal-tb;
+}
+.nw-reticle-foot {
+  display: block;
+  justify-content: normal;
+  align-items: normal;
+  gap: normal;
+}
+.nw-reticle-foot .nw-barcode {
+  flex-grow: 0;
+  flex-basis: auto;
+}
+.nw-reticle-foot .kanji { font-size: inherit; }
+
+/* .nw-halftone: an unstyled <div> and its <img>, with no clipping and no stacking context */
+.nw-halftone {
+  position: static;
+  overflow: visible;
+  isolation: auto;
+}
+.nw-halftone-layer {
+  position: static;
+  filter: none;
+}
+.nw-halftone-layer img {
+  display: inline;
+  width: auto;
+  filter: none;
+}
+.nw-halftone-layer::after { content: none; display: none; }
+.nw-halftone::after { content: none; display: none; }
+
+/* .nw-barcode and .nw-wordmark: an unstyled <div> */
+.nw-barcode {
+  height: auto;
+  margin-top: 0;
+}
+.nw-wordmark {
+  font-family: inherit;
+  font-weight: inherit;
+  text-transform: none;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+  text-align: start;
+  white-space: normal;
+  transform-origin: 50% 50%;
 }

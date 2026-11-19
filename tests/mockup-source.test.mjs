@@ -155,10 +155,22 @@ const PIECES = {
   linkArrow: 'src/components/link-arrow.css',
   kanjiIndex: 'src/components/kanji-index.css',
   accordion: 'src/components/accordion.css',
+  reticle: 'src/components/reticle.css',
+  halftone: 'src/components/halftone.css',
+  barcode: 'src/components/barcode.css',
+  wordmark: 'src/components/wordmark.css',
+  grain: 'src/components/grain.css',
 };
 const US5_FILES = ['src/components/section-head.css', ...Object.values(PIECES)];
 
 const COLOUR_LITERAL = /#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\(/i;
+// The only literals a US5 file may carry: the halftone's black and white are a mask, not palette
+// (FR-030), and the wordmark's fade is a luminance-free alpha mask that needs one opaque stop.
+const MASK_LITERAL = /#(?:000|fff)\b/gi;
+const MASK_ALLOWED = {
+  'src/components/halftone.css': (prop) => ['background', 'background-image'].includes(prop),
+  'src/components/wordmark.css': (prop) => ['-webkit-mask-image', 'mask-image'].includes(prop),
+};
 const NAMED_COLOUR = /(?<![\w-])(?:white|black|red|green|blue|yellow|orange|purple|gray|grey|cyan|magenta|pink|silver|gold)(?![\w-])/i;
 // Custom properties a US5 file may read: the --nw- tokens, plus the v1 scales that v3 keeps and that
 // the mockup uses as they are (spacing, type scale, fonts, letter spacing, radius).
@@ -175,7 +187,8 @@ test('US5 files use no colour literal, read only system custom properties and de
     for (const rule of parseRules(read(file))) {
       for (const d of rule.decls) {
         if (d.prop.startsWith('--') && !d.prop.startsWith('--nw-')) hits.push(`${file}:${d.line}  declares ${d.prop}`);
-        if (COLOUR_LITERAL.test(d.value) || NAMED_COLOUR.test(d.value)) hits.push(`${file}:${d.line}  colour literal in ${d.prop}: ${d.value}`);
+        const value = MASK_ALLOWED[file]?.(d.prop) ? d.value.replace(MASK_LITERAL, '') : d.value;
+        if (COLOUR_LITERAL.test(value) || NAMED_COLOUR.test(value)) hits.push(`${file}:${d.line}  colour literal in ${d.prop}: ${d.value}`);
       }
     }
     for (const m of code.matchAll(/var\(\s*(--[\w-]+)/g)) {
@@ -205,6 +218,8 @@ test('the colour and outline scans catch what they are for', () => {
   assert.ok(NAMED_COLOUR.test('1px solid red'));
   assert.ok(!NAMED_COLOUR.test('var(--nw-text-default)'));
   assert.ok(READABLE.test('--sp-3') && READABLE.test('--nw-hairline') && !READABLE.test('--void'));
+  assert.ok(COLOUR_LITERAL.test('#000') && '#000 30%'.replace(MASK_LITERAL, '') === ' 30%', 'only #000 and #fff are masks');
+  assert.ok(COLOUR_LITERAL.test('#d8d2c8'.replace(MASK_LITERAL, '')), 'a palette hex is never a mask');
 });
 
 // ---- T074/T075: display, chip, arrow link, kanji index, accordion ----------------------------------
@@ -332,6 +347,88 @@ test('Constitution V: the reduced-motion block zeroes the scale that every share
   }
 });
 
+// ---- T076: reticle, halftone, barcode, wordmark, grain ---------------------------------------------
+
+const T076 = ['reticle', 'halftone', 'barcode', 'wordmark', 'grain'];
+
+test('FR-028/FR-030/FR-031: src/index.css imports reticle, halftone, barcode, wordmark and grain once each', () => {
+  const imports = [...read('src/index.css').matchAll(/@import\s+"\.\/(components\/[\w-]+\.css)";/g)].map((m) => m[1]);
+  for (const key of T076) {
+    const rel = PIECES[key].replace('src/', '');
+    assert.equal(imports.filter((f) => f === rel).length, 1, `${rel} imported once`);
+  }
+});
+
+test('FR-028: .nw-reticle draws its frame with background-image only, so a .panel keeps its background colour', () => {
+  const reticle = piece('reticle');
+  const rules = parseRules(reticle).filter((r) => r.selector.split(/\s*,\s*/).some((s) => /^\.nw-reticle(?![\w-])/.test(s)) || /^\.panel\.nw-reticle/.test(r.selector));
+  assert.ok(rules.length > 0, 'the reticle rules exist');
+  for (const r of rules) {
+    const bad = r.decls.filter((d) => d.prop === 'background' || d.prop === 'background-color');
+    assert.deepEqual(bad.map((d) => `${r.selector} { ${d.prop} }`), [], 'no background shorthand or colour');
+  }
+  const d = declsOf(reticle, '.nw-reticle');
+  assert.ok(d.has('background-image'), 'the corners are a background-image');
+  assert.match(d.get('border') ?? '', /var\(--nw-hairline\) solid var\(--nw-line\)/);
+  assert.equal(declsOf(reticle, '.panel.nw-reticle').get('border-radius'), '0');
+});
+
+test('FR-028: the reticle arms and the frame use --nw-hairline and --nw- custom properties only', () => {
+  const reticle = piece('reticle');
+  assert.doesNotMatch(stripComments(reticle), /(?<![\w.-])1px/, 'no literal 1px: the hairline token');
+  for (const rule of parseRules(reticle)) {
+    for (const d of rule.decls.filter((x) => x.prop.startsWith('--'))) assert.match(d.prop, /^--nw-reticle-/, `${d.prop} is a --nw-reticle- property`);
+  }
+  const d = declsOf(reticle, '.nw-reticle');
+  assert.ok(d.has('--nw-reticle-c') && d.has('--nw-reticle-arm'));
+});
+
+test('FR-028: the reticle parts ship as .nw-reticle-meta, -vlabel, -stamp and -foot; the stamp leaves with the kanji at archive', () => {
+  const reticle = piece('reticle');
+  for (const part of ['meta', 'vlabel', 'stamp', 'foot']) assert.ok(declsOf(reticle, `.nw-reticle-${part}`).size > 0, `.nw-reticle-${part}`);
+  assert.equal(declsOf(reticle, '.nw-reticle-stamp').get('display'), 'var(--nw-kanji-display)');
+  assert.equal(declsOf(reticle, '.nw-reticle-meta').get('color'), 'var(--nw-text-mute)');
+  assert.equal(declsOf(reticle, '.nw-reticle-vlabel').get('color'), 'var(--nw-text-mute)');
+});
+
+test('FR-030: the halftone has a grey layer, three tints and a fine size; the bone tint reads --nw-bone', () => {
+  const halftone = piece('halftone');
+  assert.ok(declsOf(halftone, '.nw-halftone').size > 0 && declsOf(halftone, '.nw-halftone-layer').size > 0);
+  assert.equal(declsOf(halftone, '.nw-halftone-chrome').get('--nw-halftone-tint'), 'var(--nw-chrome)');
+  assert.equal(declsOf(halftone, '.nw-halftone-data').get('--nw-halftone-tint'), 'var(--nw-data)');
+  assert.equal(declsOf(halftone, '.nw-halftone-bone').get('--nw-halftone-tint'), 'var(--nw-bone)');
+  assert.equal(declsOf(halftone, '.nw-halftone-fine .nw-halftone-layer').get('--nw-halftone-dot'), '4px');
+  assert.equal(declsOf(halftone, '.nw-halftone-layer').get('--nw-halftone-dot'), '6px');
+});
+
+test('FR-030: the halftone carries no colour literal except the #000 and #fff of its masks', () => {
+  const literals = [...stripComments(piece('halftone')).matchAll(/#[0-9a-f]{3,8}\b/gi)].map((m) => m[0].toLowerCase());
+  assert.ok(literals.length > 0, 'the masks are there');
+  assert.deepEqual(literals.filter((l) => l !== '#000' && l !== '#fff'), []);
+});
+
+test('FR-030: .nw-barcode and .nw-wordmark read the text and line tokens; the wordmark outline is a hairline', () => {
+  const barcode = declsOf(piece('barcode'), '.nw-barcode');
+  assert.equal(barcode.get('color'), 'var(--nw-text-default)');
+  assert.match(barcode.get('background') ?? '', /repeating-linear-gradient\(90deg/);
+  const wordmark = declsOf(piece('wordmark'), '.nw-wordmark');
+  assert.equal(wordmark.get('color'), 'transparent');
+  assert.equal(wordmark.get('-webkit-text-stroke'), 'var(--nw-hairline) var(--nw-line-chrome)');
+  assert.equal(wordmark.get('font-family'), 'var(--font-title)');
+});
+
+test('FR-031: .nw-grain::before never takes pointer events, reads --nw-grain, and forced colours hides it', () => {
+  const grain = piece('grain');
+  const d = declsOf(grain, '.nw-grain::before');
+  assert.equal(d.get('pointer-events'), 'none');
+  assert.equal(d.get('opacity'), 'var(--nw-grain)');
+  assert.equal(d.get('position'), 'fixed');
+  const forced = blockOf(grain, '@media (forced-colors: active)');
+  assert.ok(forced, 'a forced-colors media block');
+  assert.equal(declsOf(forced.inner, '.nw-grain::before').get('display'), 'none');
+  assert.doesNotMatch(forced.outer, /display:\s*none/, 'the hiding is only inside the block');
+});
+
 // ---- FR-038: the layout control sheet --------------------------------------------------------------
 
 test('FR-038: the layout control sheet exists, says which commit it restores and restores each opened component', () => {
@@ -352,6 +449,15 @@ test('FR-038: the control sheet also resets every piece T074/T075 added, one sel
   ]) assert.ok(restored(selector), `restores ${selector}`);
 });
 
+test('FR-038: the control sheet also resets the T076 pieces (reticle and its parts, halftone, barcode, wordmark)', () => {
+  const sheet = parseRules(read('docs/design/v3/us5-layout-control.css'));
+  const restored = (selector) => sheet.some((r) => r.selector.split(/\s*,\s*/).includes(selector));
+  for (const selector of [
+    '.nw-reticle', '.panel.nw-reticle', '.nw-reticle-meta', '.nw-reticle-vlabel', '.nw-reticle-stamp', '.nw-reticle-foot',
+    '.nw-halftone', '.nw-halftone-layer', '.nw-halftone-layer img', '.nw-barcode', '.nw-wordmark',
+  ]) assert.ok(restored(selector), `restores ${selector}`);
+});
+
 test('FR-038: the cascade category for the new pieces pins no value, names only geometry and is scoped to the US5 wrapper of the fixture', () => {
   const { categories } = JSON.parse(read('docs/design/v3/change-inventory.json'));
   const c = categories.find((x) => x.id === 'cascade-us5-pieces-fixture-coverage-all');
@@ -359,7 +465,35 @@ test('FR-038: the cascade category for the new pieces pins no value, names only 
   assert.equal(c.kind, 'cascade');
   assert.equal(c.match.page, 'scripts/parity/fixtures/coverage.html');
   assert.match(c.match.path, /fixture-us5/);
-  for (const piece of ['nw-display', 'nw-lede', 'nw-chip', 'nw-link-arrow', 'nw-index', 'nw-index-row', 'nw-accordion']) assert.ok(c.match.path.includes(piece), `path names ${piece}`);
+  for (const piece of ['nw-display', 'nw-lede', 'nw-chip', 'nw-link-arrow', 'nw-index', 'nw-index-row', 'nw-accordion', 'nw-reticle', 'nw-halftone', 'nw-wordmark']) assert.ok(c.match.path.includes(piece), `path names ${piece}`);
+});
+
+test('FR-038: the reticle parts that are absolutely positioned get their own cascade category for resolved offsets, scoped to those two parts; the offsets the rules set are pinned', () => {
+  const { categories } = JSON.parse(read('docs/design/v3/change-inventory.json'));
+  const c = categories.find((x) => x.id === 'cascade-us5-reticle-parts-fixture-coverage-all');
+  assert.ok(c, 'the category exists');
+  assert.equal(c.kind, 'cascade');
+  assert.match(c.match.path, /nw-reticle-stamp\|nw-reticle-vlabel/);
+  assert.doesNotMatch(c.match.path, /nw-chip|nw-display|nw-halftone|nw-wordmark/, 'scoped to the two parts only');
+  const pinned = (id) => categories.find((x) => x.id === id);
+  assert.equal(pinned('nw-reticle-stamp-right').match.new, '^24px$');
+  assert.equal(pinned('nw-reticle-stamp-top').match.new, '^56px$');
+  assert.equal(pinned('nw-reticle-vlabel-left').match.new, '^6px$');
+  const at = (id) => categories.findIndex((x) => x.id === id);
+  assert.ok(at('nw-reticle-stamp-right') < at('cascade-us5-reticle-parts-fixture-coverage-all'), 'pinned before the cascade category');
+});
+
+test('FR-028/FR-030/FR-031: every new T076 pseudo-element and piece has an old-to-new category pinned to one pair', () => {
+  const { categories } = JSON.parse(read('docs/design/v3/change-inventory.json'));
+  for (const id of ['nw-halftone-after-pseudo', 'nw-halftone-layer-after-pseudo', 'nw-grain-pseudo']) {
+    const c = categories.find((x) => x.id === id);
+    assert.ok(c, `${id} exists`);
+    assert.equal(c.match.old, '^<missing>$');
+    assert.equal(c.match.new, '^present$');
+  }
+  const t076 = categories.filter((c) => /^nw-(reticle|halftone|barcode|wordmark|grain)/.test(c.id) && !c.kind);
+  assert.ok(t076.length > 90, 'the T076 facts are there');
+  for (const c of t076) assert.ok(c.match.old && c.match.new && c.match.path && c.match.page, `${c.id} pins old, new, path and page`);
 });
 
 test('the coverage fixture has markup for every class the new pieces add, inside the US5 wrapper', () => {
@@ -369,6 +503,16 @@ test('the coverage fixture has markup for every class the new pieces add, inside
     assert.match(wrapper, new RegExp(`class="[^"]*\\b${cls}\\b`), `.${cls} is on the fixture`);
   }
   assert.equal((wrapper.match(/<details/g) ?? []).length >= 2 && /<details open>/.test(wrapper) && /<details>/.test(wrapper), true, 'one open and one closed <details>');
+});
+
+test('the coverage fixture has markup for every T076 class, inside the US5 wrapper', () => {
+  const html = read('scripts/parity/fixtures/coverage.html');
+  const wrapper = html.slice(html.indexOf('class="fixture-us5"'));
+  for (const cls of [
+    'nw-reticle', 'nw-reticle-meta', 'nw-reticle-vlabel', 'nw-reticle-stamp', 'nw-reticle-foot', 'nw-halftone', 'nw-halftone-layer',
+    'nw-halftone-chrome', 'nw-halftone-data', 'nw-halftone-bone', 'nw-halftone-fine', 'nw-barcode', 'nw-wordmark', 'nw-grain',
+  ]) assert.match(wrapper, new RegExp(`class="[^"]*\\b${cls}\\b`), `.${cls} is on the fixture`);
+  assert.match(wrapper, /class="[^"]*\bpanel\b[^"]*\bnw-reticle\b/, 'a .panel.nw-reticle');
 });
 
 test('FR-038: every cascade category explains geometry only: page and path set, props that are all in CASCADE_PROPS, ancestors limited to height, origin and row tracks', () => {
