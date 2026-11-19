@@ -312,11 +312,9 @@ For HTML examples, see [references/examples.md](references/examples.md)
 
 ## Intensity, Layer 2 Tokens and the v2 Components
 
-> v3 is a major release. It restyled every component (the look above) and removed the v1
-> compatibility surfaces: `.led.<colour>`, `.tag-warning`, `.nw-progress .fill`, `.stack`, and the
-> `--nw-header-gradient` and `--nw-header-pattern` tokens. Never generate those; use the forms in
-> the component reference. The v1 primitive tokens (`--nw-primary`, `--nw-green`, `--void-warm`)
-> keep their names.
+> v3 is a major release: it restyled every component and removed the v1 forms listed in the
+> anti-pattern table. The v1 primitive tokens (`--nw-primary`, `--nw-green`, `--void-warm`) keep
+> their names.
 
 ### Intensity attribute
 
