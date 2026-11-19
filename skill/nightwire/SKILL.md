@@ -14,6 +14,14 @@ A dark-mode-only design system with a modern cyberpunk aesthetic. Works for **an
 
 **Usage:** Include `nightwire.css` for vanilla CSS, or use `tailwind.preset.js` with Tailwind CSS.
 
+**Tailwind:** `import preset from '@cativo23/nightwire/tailwind.preset.js'` and `presets: [preset]` (the
+package is an ES module; a CommonJS config needs `require(...).default`; the installer copies it as
+`nightwire.tailwind.preset.mjs`). The utilities reference the CSS custom properties, so they follow
+`data-intensity` and runtime overrides, and opacity modifiers like `bg-nw-cyan/40` work.
+`duration-nw-*` and `ease-nw-*` scale with `--nw-motion-scale` (the `-out` forms exist:
+`duration-nw-tick-out`, `ease-nw-sweep-out`, ...), and `shadow-glow-{green,blue,cyan,red}` scale
+with `--nw-glow`, so they vanish at archive. Use them for state only, like the `.glow-*` classes.
+
 ---
 
 ## When to Use
@@ -329,6 +337,10 @@ Set on `<html>` to retune glow, motion, density, kanji visibility:
 Glow is `--nw-glow` (0 at archive, 0.5 at operator and combat). The three state-glow knobs
 `--nw-led-glow`, `--nw-control-glow` and `--nw-progress-glow` follow it and double at combat, so
 only state signals glow brighter there. Never add a glow to a non-state element.
+
+An override of a colour token or of `--nw-glow` on a sub-tree reaches both the classes and the
+Tailwind utilities. `--nw-motion-scale` and alias tokens such as `--nw-chrome` resolve on `:root`, so
+override those on `:root` or on the `data-intensity` element, or override the derived token itself.
 
 ### Layer 2 semantic tokens (use these when forking palette)
 
