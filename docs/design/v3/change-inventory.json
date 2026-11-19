@@ -981,6 +981,39 @@
       }
     },
     {
+      "id": "token-additions-glow-operator",
+      "description": "New shadow custom properties on :root: --nw-shadow-glow-green, -blue, -cyan and -red (FR-018, T050). They did not exist in v2.1.0, where the preset's boxShadow.glow-* held the glow as literal values. The .glow-green, .glow-blue, .glow-cyan and .glow-red text-shadows now read them, and the computed text-shadow of every element is unchanged (the glow-decor-utility categories cover the v2.1.0 to v3 change). Each value is the v3 two-layer glow with the blurs scaled by the level's --nw-glow (0.5), so both layers are 4px and 8px blurs. Pinned to :root and to the <missing> old value, and split per intensity so a value from one level never stands for another's: this category is pinned to operator (also the default, no data-intensity), with the exact new values observed there.",
+      "match": {
+        "prop": "^--nw-shadow-glow-(green|blue|cyan|red)$",
+        "path": "^:root$",
+        "state": "^(none|operator)\\|",
+        "old": "^<missing>$",
+        "new": "^(0 0 calc\\(8px \\* 0\\.5\\) rgba\\(102,153,255,0\\.33\\), 0 0 calc\\(16px \\* 0\\.5\\) rgba\\(102,153,255,0\\.13\\)|0 0 calc\\(8px \\* 0\\.5\\) rgba\\(102,221,255,0\\.33\\), 0 0 calc\\(16px \\* 0\\.5\\) rgba\\(102,221,255,0\\.13\\)|0 0 calc\\(8px \\* 0\\.5\\) rgba\\(122,237,122,0\\.33\\), 0 0 calc\\(16px \\* 0\\.5\\) rgba\\(122,237,122,0\\.13\\)|0 0 calc\\(8px \\* 0\\.5\\) rgba\\(255,102,136,0\\.33\\), 0 0 calc\\(16px \\* 0\\.5\\) rgba\\(255,102,136,0\\.2\\))$"
+      }
+    },
+    {
+      "id": "token-additions-glow-archive",
+      "description": "New shadow custom properties on :root: --nw-shadow-glow-green, -blue, -cyan and -red (FR-018, T050). They did not exist in v2.1.0, where the preset's boxShadow.glow-* held the glow as literal values. The .glow-green, .glow-blue, .glow-cyan and .glow-red text-shadows now read them, and the computed text-shadow of every element is unchanged (the glow-decor-utility categories cover the v2.1.0 to v3 change). Each value is the v3 two-layer glow with the blurs scaled by the level's --nw-glow (0), so both layers are 0 blurs. Pinned to :root and to the <missing> old value, and split per intensity so a value from one level never stands for another's: this category is pinned to archive, with the exact new values observed there.",
+      "match": {
+        "prop": "^--nw-shadow-glow-(green|blue|cyan|red)$",
+        "path": "^:root$",
+        "state": "^archive\\|",
+        "old": "^<missing>$",
+        "new": "^(0 0 calc\\(8px \\* 0\\) rgba\\(102,153,255,0\\.33\\), 0 0 calc\\(16px \\* 0\\) rgba\\(102,153,255,0\\.13\\)|0 0 calc\\(8px \\* 0\\) rgba\\(102,221,255,0\\.33\\), 0 0 calc\\(16px \\* 0\\) rgba\\(102,221,255,0\\.13\\)|0 0 calc\\(8px \\* 0\\) rgba\\(122,237,122,0\\.33\\), 0 0 calc\\(16px \\* 0\\) rgba\\(122,237,122,0\\.13\\)|0 0 calc\\(8px \\* 0\\) rgba\\(255,102,136,0\\.33\\), 0 0 calc\\(16px \\* 0\\) rgba\\(255,102,136,0\\.2\\))$"
+      }
+    },
+    {
+      "id": "token-additions-glow-combat",
+      "description": "New shadow custom properties on :root: --nw-shadow-glow-green, -blue, -cyan and -red (FR-018, T050). They did not exist in v2.1.0, where the preset's boxShadow.glow-* held the glow as literal values. The .glow-green, .glow-blue, .glow-cyan and .glow-red text-shadows now read them, and the computed text-shadow of every element is unchanged (the glow-decor-utility categories cover the v2.1.0 to v3 change). Each value is the v3 two-layer glow with the blurs scaled by the level's --nw-glow (0.5), so both layers are 4px and 8px blurs. Pinned to :root and to the <missing> old value, and split per intensity so a value from one level never stands for another's: this category is pinned to combat, with the exact new values observed there.",
+      "match": {
+        "prop": "^--nw-shadow-glow-(green|blue|cyan|red)$",
+        "path": "^:root$",
+        "state": "^combat\\|",
+        "old": "^<missing>$",
+        "new": "^(0 0 calc\\(8px \\* 0\\.5\\) rgba\\(102,153,255,0\\.33\\), 0 0 calc\\(16px \\* 0\\.5\\) rgba\\(102,153,255,0\\.13\\)|0 0 calc\\(8px \\* 0\\.5\\) rgba\\(102,221,255,0\\.33\\), 0 0 calc\\(16px \\* 0\\.5\\) rgba\\(102,221,255,0\\.13\\)|0 0 calc\\(8px \\* 0\\.5\\) rgba\\(122,237,122,0\\.33\\), 0 0 calc\\(16px \\* 0\\.5\\) rgba\\(122,237,122,0\\.13\\)|0 0 calc\\(8px \\* 0\\.5\\) rgba\\(255,102,136,0\\.33\\), 0 0 calc\\(16px \\* 0\\.5\\) rgba\\(255,102,136,0\\.2\\))$"
+      }
+    },
+    {
       "id": "refresh-action-tokens",
       "description": "New role tokens --nw-action (the primary action fill), --nw-action-hot (its hover) and --nw-action-text (text on the fill), round 2 of the direction. They did not exist in v2.1.0; their values are the neutral default text colour, the hot chrome blue and void. Serves FR-010, FR-011.",
       "match": {
