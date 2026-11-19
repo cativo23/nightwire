@@ -49,6 +49,9 @@ All notable changes to this project will be documented in this file.
   bars read; `--nw-elevation-overlay` (`0 24px 64px rgba(0, 0, 0, 0.7)`, the neutral overlay shadow);
   and the role tokens `--nw-action` (bone `#e6e6e6`), `--nw-action-hot` (`#99bbff`) and
   `--nw-action-text` (`#000000`), with Tailwind mappings `nw.action.DEFAULT`, `.hot` and `.text`.
+- **Preset `-out` keys.** `duration-nw-{tick,sweep,uplink}-out` and
+  `ease-nw-{tick,sweep,uplink}-out`, the exit counterparts of the existing `duration-nw-*` and
+  `ease-nw-*` keys.
 - **`.led[data-state="active"]`** (`--nw-chrome`), the replacement for `.led.blue`, which v2 had no
   state for.
 - **Tooling.**
@@ -125,6 +128,34 @@ All notable changes to this project will be documented in this file.
   - **Motion values.** `--nw-pulse-speed` is 1.6s (was 1.4s) with no combat override (was 0.7s);
     combat pulses in 1.333s through the motion scale. The exit tokens are new in v3 (see Added): 100ms,
     250ms and 300ms, so the longest overlay exit at combat is 300ms.
+- **The Tailwind preset follows the custom properties (K3, FR-018).** Colours are
+  `color-mix(in srgb, var(--nw-x) calc(<alpha-value> * 100%), transparent)`, so utilities follow
+  `data-intensity`, runtime overrides and sub-tree overrides of colour tokens, and opacity
+  modifiers such as `bg-nw-cyan/40` keep generating. `duration-nw-*` and `ease-nw-*` are
+  `var(--nw-*-duration)` and `var(--nw-*-ease)`, so they scale with `--nw-motion-scale` and drop to
+  0 under reduced motion. Font families, sizes, letter spacing, spacing and radii stay literal.
+  - **Breaking: `shadow-glow-{green,blue,cyan,red}` change value.** They use the same string as the
+    `.glow-*` classes, `0 0 calc(8px * var(--nw-glow)) rgba(…,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(…,0.13)`
+    (red's second layer is 0.2): 4px and 8px blur at operator, none at archive. 2.1.0 had a fixed
+    `0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)`.
+  - **Known limit.** The tokens that carry their own alpha (`bg-nw-primary-fill`, `-green-faint`,
+    `-green-fill`, `-cyan-glow`, `-red-fill`, and the faint, line, `line-strong` and `line-chrome`
+    colours) multiply with an opacity modifier: `bg-nw-primary-fill/40` is 0.4 × 0.08, where v2
+    replaced the alpha.
+  - **Sub-tree overrides.** Colour tokens and `--nw-glow` follow when set on a sub-tree.
+    `--nw-motion-scale` and alias tokens such as `--nw-chrome` resolve on `:root`: set them on
+    `:root` or on the `data-intensity` element, or override the derived token itself.
+- **Breaking: the package is an ES module (K5, FR-019).** `package.json` has `"type": "module"`, and
+  `dist/package.json` (`{"type":"commonjs"}`, written by `scripts/build-cli.mjs`) keeps the CLI
+  CommonJS. `import preset from '@cativo23/nightwire/tailwind.preset.js'` loads without a
+  `MODULE_TYPELESS_PACKAGE_JSON` warning. A CommonJS config that does
+  `require('@cativo23/nightwire/tailwind.preset.js')` gets the module namespace on Node 20.19+ and
+  22.12+, and Tailwind 3 silently ignores it ("No utility classes detected"). Use
+  `require(...).default` or switch the config to ESM. File names and locations are unchanged.
+- **Breaking for re-installs: the installer copies the preset as `nightwire.tailwind.preset.mjs`**
+  (was `.js`). A `.mjs` file is always ES module, so there is no module-type warning even in a
+  project without `"type": "module"`. Re-running the installer in an old project leaves the old
+  `.js` copy behind; point the Tailwind config at the `.mjs` one and delete the old file.
 - **Identity unchanged (FR-012):** the four typefaces, kanji labels, compressed title and the three
   intensities.
 - **The example pages load `nightwire.css`.** `dashboard.html`, `neural-ops.html` and the five pages
@@ -161,7 +192,7 @@ All notable changes to this project will be documented in this file.
   it was, at opacity 0). Give the trigger `aria-describedby` pointing at the content's `id`, and the
   content `role="tooltip"`: `aria-describedby` still reads hidden content, so the description
   survives.
-- `docs/architecture/intensity.md`: known issues K1, K2 and K4 are marked resolved.
+- `docs/architecture/intensity.md`: known issues K1, K2, K3, K4 and K5 are marked resolved.
 
 ### Removed
 
