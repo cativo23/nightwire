@@ -48,7 +48,7 @@ test('tailwind.preset.js loads as an ES module with no warning', () => {
 
 // SC-013: the installer copies the preset as .mjs so it never warns MODULE_TYPELESS_PACKAGE_JSON
 // in a consumer project that has no "type": "module".
-test('the installer copies the preset as .mjs, prints a matching import, and it loads warning-free', async () => {
+test('the installer copies the preset as .mjs, prints a matching import, and it loads warning-free', { timeout: 30_000 }, async () => {
   const require = createRequire(import.meta.url);
   const prompts = require('prompts');
   const { install } = require(path.join(root, 'dist/commands/install.js'));
