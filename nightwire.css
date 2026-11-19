@@ -709,6 +709,8 @@ input::placeholder, textarea::placeholder {
 
 .toast {
   background: var(--void-panel);
+  /* The modal's boundary on all sides; the accent line below overrides the left. */
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-left: var(--nw-accent-width) solid var(--nw-chrome);
   padding: var(--sp-3) var(--sp-4);
   font-size: var(--text-sm);

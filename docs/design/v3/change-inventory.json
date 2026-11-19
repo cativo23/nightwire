@@ -1760,12 +1760,133 @@
     },
     {
       "id": "refresh-toast-text",
-      "description": "Group B (T044): the .toast text goes from --nw-text to --nw-text-default, body text (direction rule 1), and so does everything that follows its colour. The accent line colours are untouched: they are set explicitly. Pinned to .toast, #ffffff to #e6e6e6.",
+      "description": "Group B (T044): the .toast text goes from --nw-text to --nw-text-default, body text (direction rule 1), and so does everything that follows its colour. The accent line colours are untouched: they are set explicitly. Pinned to .toast, #ffffff to #e6e6e6. Since the SC-006 review the toast's top, right and bottom borders are --nw-line-strong rather than the text colour, so the border colours are no longer part of this category (see refresh-toast-boundary-colour).",
       "match": {
-        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "prop": "^(column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
         "path": "div\\.toast:nth-child\\(\\d+\\)$",
         "old": "^rgb\\(255, 255, 255\\)$",
         "new": "^rgb\\(230, 230, 230\\)$"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-width",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. Pinned to the top, right and bottom border widths of .toast (the left accent width is unchanged), 0px to 1px.",
+      "match": {
+        "prop": "^border-(top|right|bottom|block-start|block-end|inline-end)-width$",
+        "path": "div\\.toast:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^1px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-style",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. Pinned to the top, right and bottom border styles of .toast, none to solid.",
+      "match": {
+        "prop": "^border-(top|right|bottom|block-start|block-end|inline-end)-style$",
+        "path": "div\\.toast:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^solid$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-colour",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. Pinned to the top, right and bottom border colours of .toast: they followed the text colour (white) and are now --nw-line-strong (white at 0.36). Consequence of refresh-toast-text no longer reaching them.",
+      "match": {
+        "prop": "^border-(top|right|bottom|block-start|block-end|inline-end)-color$",
+        "path": "div\\.toast:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(255, 255, 255\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-size",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The two new 1px borders make each toast 2px taller, 42px to 44px, and so the closed-toast wrapper that holds one. Pinned to .toast and to .fixture-closed in the fixture.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": ">(div\\.fixture-closed:nth-child\\(\\d+\\)(>div\\.toast:nth-child\\(\\d+\\))?|div\\.toast:nth-child\\(\\d+\\))$",
+        "old": "^42px$",
+        "new": "^44px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-origin",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins follow the 2px taller toast, y from 21px to 22px. Pinned to .toast and to .fixture-closed in the fixture.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": ">(div\\.fixture-closed:nth-child\\(\\d+\\)(>div\\.toast:nth-child\\(\\d+\\))?|div\\.toast:nth-child\\(\\d+\\))$",
+        "old": "^640px 21px$",
+        "new": "^640px 22px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-section-size",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The fixture section that holds the four toasts and the closed wrapper grows by their 2px each, 210px to 220px. Pinned to that section (the fourth in the fixture).",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "main:nth-child\\(\\d+\\)>section:nth-child\\(4\\)$",
+        "old": "^210px$",
+        "new": "^220px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-section-origin",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of that section follow, y from 105px to 110px. Pinned to the fourth section of the fixture.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "main:nth-child\\(\\d+\\)>section:nth-child\\(4\\)$",
+        "old": "^640px 105px$",
+        "new": "^640px 110px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-page-size",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The fixture page grows by the section's 10px, which the intensity scales into the page height: html and body grow by 10px at every level (operator 1635.5px, archive 1678.25px, combat 1591.55px before). Pinned to html and body of the fixture, to the three exact old and new heights.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "old": "^(1635\\.5|1678\\.25|1591\\.55)px$",
+        "new": "^(1645\\.5|1688\\.25|1601\\.55)px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-main-size",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. As refresh-toast-boundary-page-size, for the fixture's main element: +10px at every level (operator 1567.5px, archive 1610.25px, combat 1523.55px before). Pinned to main of the fixture.",
+      "match": {
+        "prop": "^(height|block-size)$",
+        "path": "^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)$",
+        "old": "^(1567\\.5|1610\\.25|1523\\.55)px$",
+        "new": "^(1577\\.5|1620\\.25|1533\\.55)px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-page-origin",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of html and body follow the 10px taller page: y +5px at every level (operator 817.75px, archive 839.125px, combat 795.766px for perspective and 795.773px for transform before). Pinned to html and body of the fixture.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "^html(>body:nth-child\\(\\d+\\))?$",
+        "old": "^640px (817\\.75|839\\.125|795\\.766|795\\.773)px$",
+        "new": "^640px (822\\.75|844\\.125|800\\.766|800\\.773)px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "refresh-toast-boundary-main-origin",
+      "description": "SC-006 review, decision 6 (direction rule 3, a surface boundary is --nw-line-strong like the modal): the .toast gains a 1px --nw-line-strong border on its top, right and bottom sides; the left side keeps the 2px accent line. The size-derived origins of main follow the 10px taller page: y +5px at every level (operator 783.75px, archive 805.125px, combat 761.766px for perspective and 761.773px for transform before). Pinned to main of the fixture.",
+      "match": {
+        "prop": "^(transform|perspective)-origin$",
+        "path": "^html>body:nth-child\\(\\d+\\)>main:nth-child\\(\\d+\\)$",
+        "old": "^640px (783\\.75|805\\.125|761\\.766|761\\.773)px$",
+        "new": "^640px (788\\.75|810\\.125|766\\.766|766\\.773)px$",
+        "page": "scripts/parity/fixtures/coverage.html"
       }
     },
     {
