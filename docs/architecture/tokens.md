@@ -154,8 +154,10 @@ raw in the same way.
 | `shadow.elevation-overlay` | `--nw-elevation-overlay` | `0 24px 64px rgba(0, 0, 0, 0.7)` | Modal, drawer and command palette panels. CSS only |
 
 The action tokens map to Tailwind as `colors.nw.action.DEFAULT`, `.hot` and `.text`, like the
-chrome tokens. The glow knobs are aliases of `knob.glow`, so a consumer override of `--nw-glow`
-reaches every one of them at every intensity. `knob.header-gradient` and `knob.header-pattern` were
+chrome tokens. The glow knobs are declared as `var(--nw-glow)` on `:root`, so a consumer override of
+`--nw-glow` on `:root` (or the element that carries `data-intensity`) reaches every one of them at
+every intensity; an override on a single element does not, so tune that element with the
+per-component knob. `knob.header-gradient` and `knob.header-pattern` were
 removed in v3: panel headers have no gradient or scanlines at any level.
 
 ## Preset-only and doc-only tokens

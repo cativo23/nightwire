@@ -16,7 +16,7 @@ themselves; they read the knobs.
 
 | Knob | Operator (base) | Archive | Combat | Read by |
 |------|-----------------|---------|--------|---------|
-| `--nw-glow` | `0.5` | `0` | — (no combat override; see [direction.md](../design/v3/direction.md)) | the `.glow-*` utilities, and the three state-glow knobs below, which are aliases of it |
+| `--nw-glow` | `0.5` | `0` | — (no combat override; see [direction.md](../design/v3/direction.md)) | the `.glow-*` utilities, which read it wherever it is set; the three state-glow knobs below take its value from `:root` (see the note under this table) |
 | `--nw-density` | `1` | — | `0.85` | layout primitives |
 | `--nw-motion-scale` | `1` | `0.6` | `1.2` | every motion token (`--nw-tick`, `--nw-sweep`, `--nw-uplink`, `-out`, longhands, `--nw-stagger`; the loop cycles inversely) |
 | `--nw-pad-scale` | `1` | `1.35` | `0.7` | stat |
@@ -33,6 +33,12 @@ themselves; they read the knobs.
 | `--nw-label-spacing` | `var(--ls-ultra)` | `0.14em` | — | stat |
 
 "—" means the level keeps the base value. The operator block is intentionally empty.
+
+The state-glow knobs are declared as `var(--nw-glow)` on `:root`, so they follow `--nw-glow` when it
+is set on `:root` or on the element that carries `data-intensity`. A `--nw-glow` set on a single
+element does not reach the LED, check, switch or progress inside it (v2.1.0's `.led` read
+`--nw-glow` directly, so it did); to tune one element, set `--nw-led-glow`, `--nw-control-glow` or
+`--nw-progress-glow` on it. The `.glow-*` utilities still read `--nw-glow` where they are used.
 
 Combat is still different from operator without decoration. Only state signals glow brighter (1
 against 0.5, and below v2.1.0's combat 2.2), the pulse runs faster through the motion scale, and

@@ -44,7 +44,7 @@ All notable changes to this project will be documented in this file.
   categories (`docs/design/v3/change-inventory.json`) and fails only on differences no category
   explains. Without `--expect`, the output and exit codes are unchanged.
 - **New tokens.** `--nw-led-glow`, `--nw-control-glow` and `--nw-progress-glow` (per-component state
-  glow, aliases of `--nw-glow`; combat doubles each); `--nw-hairline` (1px), `--nw-rule` (1.5px) and
+  glow, declared as `var(--nw-glow)` on `:root`; combat doubles each); `--nw-hairline` (1px), `--nw-rule` (1.5px) and
   `--nw-accent-width` (2px), the line-weight knobs that structural borders, drawn marks and accent
   bars read; `--nw-elevation-overlay` (`0 24px 64px rgba(0, 0, 0, 0.7)`, the neutral overlay shadow);
   and the role tokens `--nw-action` (bone `#e6e6e6`), `--nw-action-hot` (`#99bbff`) and
@@ -77,6 +77,11 @@ All notable changes to this project will be documented in this file.
     `.btn-success` and `.btn-ai` resting shadow, the `.stat-value`, `.m-value` and AI-block glyph
     `text-shadow`, and the panel header gradient and scanlines. The `.glow-*` utilities now read
     `--nw-glow` and are weaker (alpha 0.33 and 0.13, was 0.5 and 0.2; red's second layer is 0.2).
+    **Behaviour change:** the LED, control and progress glow read their own knob, and each knob is
+    `var(--nw-glow)` resolved on `:root`. A `--nw-glow` override on `:root` (or on the element with
+    `data-intensity`) still reaches them, but one on a single element no longer does, where in
+    2.1.0 `.led` read `--nw-glow` directly. Set `--nw-led-glow`, `--nw-control-glow` or
+    `--nw-progress-glow` on that element instead.
   - **Lines.** `--nw-text-faint` is 0.08 (was 0.06), `--nw-text-line` and `--nw-line` 0.14 (was
     0.12), and `--nw-line-strong` 0.36 (was 0.18), the 3:1 control boundary, now used by form
     controls, check, switch, segmented, combo, kbd, modal, dropdown, tooltip and toast. Placeholder
