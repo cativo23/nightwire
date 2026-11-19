@@ -1048,6 +1048,17 @@
       }
     },
     {
+      "id": "examples-tag-default-fill",
+      "description": "SC-006 review, decision 1 (direction rule 2, a default look is neutral): the bare .tag fill goes from --nw-primary-fill (blue at 0.08) to --nw-text-faint (white at 0.08), and its text from --nw-primary to --nw-text-default. On the example pages every bare .tag sits in a .panel-header whose page-local rule already sets the text colour to --nw-text-mute, so only the fill changes. The parity fixture has no bare .tag (.tag-chrome and the other variants are unchanged). Pinned to the background of a .tag directly in a .panel-header on the example pages, to the exact old and new fill.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "div\\.panel-header:nth-child\\(\\d+\\)>span\\.tag:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(102, 153, 255, 0\\.08\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.08\\)$",
+        "page": "examples/html/**"
+      }
+    },
+    {
       "id": "refresh-radius-modal",
       "description": "Square corners: .modal goes from --radius-lg (8px) to --radius-sm (2px). Pinned to the corner radii of .modal, 8px to 2px. Serves FR-011, direction round 2.",
       "match": {
@@ -1209,12 +1220,12 @@
     },
     {
       "id": "v1-removal-tag-warning",
-      "description": "The v1 .tag-warning is removed (FR-016, research R10, T042); the v3 spelling is .tag-warn. A tag that still carries only .tag-warning falls back to the base .tag colours (primary on primary-fill), so every colour derived from color follows. Pinned to the fixture's .fixture-v1 wrapper, to the old warning yellow and to the new primary blue.",
+      "description": "The v1 .tag-warning is removed (FR-016, research R10, T042); the v3 spelling is .tag-warn. A tag that still carries only .tag-warning falls back to the base .tag colours (neutral --nw-text-default on --nw-text-faint since the SC-006 review), so every colour derived from color follows. Pinned to the fixture's .fixture-v1 wrapper, to the old warning yellow and to the new neutral text (#e6e6e6) or fill (white at 0.08).",
       "match": {
         "prop": "^(color|background-color|-webkit-text-(fill|stroke)-color|border-[a-z-]+-color|caret-color|(column|row)-rule-color|outline-color|text-decoration-color|text-emphasis-color)$",
         "path": "div\\.fixture-v1:nth-child\\(\\d+\\)>span\\.tag:nth-child\\(\\d+\\)$",
         "old": "^rgba?\\(232, 153, 58",
-        "new": "^rgba?\\(102, 153, 255",
+        "new": "^rgba?\\((230, 230, 230|255, 255, 255, 0\\.08)\\)$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
     },

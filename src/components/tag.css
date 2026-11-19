@@ -11,8 +11,8 @@
   text-transform: uppercase;
   padding: 0 var(--sp-2);
   border-radius: var(--radius-sm);
-  color: var(--nw-primary);
-  background: var(--nw-primary-fill);
+  color: var(--nw-text-default);
+  background: var(--nw-text-faint);
 }
 
 .tag-success { color: var(--nw-success); background: var(--nw-green-faint); }
