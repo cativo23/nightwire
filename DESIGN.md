@@ -930,8 +930,8 @@ promises below hold within v3.x, where a minor release only adds.
    `--nw-action-text`.
 4. **Changed token values.** `--nw-glow` 1 to 0.5 (combat 2.2 to 0.5), `--nw-pulse-speed` 1.4s to
    1.6s (combat 0.7s override removed), `--nw-text-faint` 0.06 to 0.08, `--nw-text-line` and
-   `--nw-line` 0.12 to 0.14, `--nw-line-strong` 0.18 to 0.36, `--nw-purple-fill` 0.1 to 0.06, exit
-   durations 112.5/262.5/300ms to 100/250/300ms.
+   `--nw-line` 0.12 to 0.14, `--nw-line-strong` 0.18 to 0.36, `--nw-purple-fill` 0.1 to 0.06. The
+   exit durations are 100, 250 and 300ms (tick, sweep, uplink), each shorter than its enter.
 
 **What stays.**
 

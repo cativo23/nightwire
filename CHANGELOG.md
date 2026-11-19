@@ -107,8 +107,8 @@ All notable changes to this project will be documented in this file.
     `--nw-purple-fill` is 0.06 alpha (was 0.1) so purple text passes AA on raised surfaces;
     `.nw-progress` has a `--nw-line` edge; every structural border reads `--nw-hairline`.
   - **Motion values.** `--nw-pulse-speed` is 1.6s (was 1.4s) with no combat override (was 0.7s);
-    combat pulses in 1.333s through the motion scale. The exit durations are 100ms and 250ms (were
-    112.5ms and 262.5ms); the longest overlay exit at combat is 300ms (was 315ms).
+    combat pulses in 1.333s through the motion scale. The exit tokens are new in v3 (see Added): 100ms,
+    250ms and 300ms, so the longest overlay exit at combat is 300ms.
 - **Identity unchanged (FR-012):** the four typefaces, kanji labels, compressed title and the three
   intensities.
 - **The example pages load `nightwire.css`.** `dashboard.html`, `neural-ops.html` and the five pages
