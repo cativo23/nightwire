@@ -28,7 +28,7 @@ export function ColorsPage() {
           {COLORS.filter(c => !c.name.startsWith('void')).map(c => (
             <div className="metric-cell" key={c.name}>
               <div className="m-label">{c.name}</div>
-              <div className="m-value" style={{ color: c.hex, textShadow: `0 0 6px ${c.hex}40` }}>{c.hex}</div>
+              <div className="m-value" style={{ color: c.hex }}>{c.hex}</div>
               <div className="m-sub">{c.desc}</div>
             </div>
           ))}

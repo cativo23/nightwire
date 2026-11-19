@@ -6,7 +6,7 @@ export function StatusBar() {
   return (
     <div className="status-bar">
       <span><span className="led" data-state="ok" /> NIGHTWIRE DOCS — ONLINE</span>
-      <span>COMPONENTS: 24 &nbsp;│&nbsp; TOKENS: 42 &nbsp;│&nbsp; CSS CLASSES: 60+</span>
+      <span>COMPONENTS: 35 &nbsp;│&nbsp; TOKENS: 130</span>
       <span>{time.toLocaleTimeString('en-US', { hour12: false })} JST</span>
     </div>
   );
