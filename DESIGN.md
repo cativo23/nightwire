@@ -717,7 +717,7 @@ knobs:
   --nw-rule:           1.5px      # marks drawn inside controls: check strokes, spinner ring
   --nw-accent-width:   2px        # accent bars: tabs, sidebar, diff, toast
   --nw-panel-radius:   0          # softens to 2px in archive
-  --nw-value-color:    var(--nw-data)  # dims in archive, brightens in combat
+  --nw-value-color:    var(--nw-data)  # --nw-green-dim in archive and combat
   --nw-kanji-display:  inline     # → none in archive
   --nw-label-spacing:  0.2em      # → 0.14em in archive
 ```
