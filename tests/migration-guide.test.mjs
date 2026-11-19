@@ -227,3 +227,39 @@ test('should_flag_that_cativo_dev_is_not_yet_revalidated_for_the_mockup_look', (
   assert.ok(/`\.panel`/.test(text) && /`\.card`/.test(text), 'section does not name .panel and .card');
   assert.ok(/re-?validat/i.test(text), 'section does not mention the re-validation');
 });
+
+// FR-037 / T080: CHANGELOG [Unreleased] records the US5 look in lockstep with the guide.
+test('should_record_the_mockup_look_in_the_changelog_unreleased_section', () => {
+  const log = read('CHANGELOG.md');
+  const start = log.indexOf('\n## [Unreleased]');
+  assert.notEqual(start, -1, 'CHANGELOG has no [Unreleased] section');
+  const end = log.indexOf('\n## [', start + 1);
+  const unreleased = log.slice(start, end);
+  for (const text of [
+    '`.panel`',
+    '`.nw-reticle`',
+    '`.card`',
+    '`.kv-row`',
+    '`.kv-note`',
+    '`.kanji`',
+    'data-idx',
+    '`.nw-section-head`',
+    '`.nw-display`',
+    '`.nw-lede`',
+    '`.nw-chip`',
+    '`.nw-index`',
+    '`.nw-accordion`',
+    '`.nw-link-arrow`',
+    '`.nw-halftone`',
+    '`.nw-barcode`',
+    '`.nw-wordmark`',
+    '`.nw-grain`',
+    '`--nw-grain`',
+    '`--nw-chip-line`',
+    '`--nw-bone`',
+    '`--nw-kanji-glow`',
+    'docs/migration/v3.md#open-layout',
+  ]) {
+    assert.ok(unreleased.includes(text), `[Unreleased] does not mention ${text}`);
+  }
+});
