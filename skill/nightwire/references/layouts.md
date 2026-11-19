@@ -351,7 +351,7 @@ For technical docs, API references, and component libraries.
       </div>
 
       <!-- Live Preview -->
-      <div class="panel" style="margin-bottom:2px">
+      <div class="panel nw-reticle" style="margin-bottom:2px">
         <div class="panel-header"><span>PREVIEW</span><span class="kanji">プレビュー</span></div>
         <div class="panel-body" style="display:flex; gap:8px">
           <button class="btn">Primary</button>

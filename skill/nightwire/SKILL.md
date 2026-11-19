@@ -74,7 +74,7 @@ labels, the compressed title and the three intensities are unchanged.
 
 1. **Background is ALWAYS `#000000`** — NEVER use `#0d0d0d`, `#111`, `#1a1a2e`, or any gray/navy. If you generate anything other than pure black `#000000`, you are violating this rule.
 
-2. **2px gaps between adjacent panels** — ALWAYS `gap: 2px`. NEVER 8px, 16px, 1rem, or any other value. This is the signature Nightwire spacing. Panels in a dense grid are framed: `class="panel nw-reticle"`, because a bare `.panel` is open and has no edge for the gap to separate. Open panels (landing pages, editorial layouts) have no frame, so they use a wide gap (`--sp-8`) instead.
+2. **2px gaps between adjacent framed panels** — framed panels (`class="panel nw-reticle"`, as in a dense grid) are ALWAYS `gap: 2px` apart. NEVER 8px, 16px, 1rem, or any other value between them. This is the signature Nightwire spacing. A bare `.panel` is open and has no edge for the gap to separate, so NEVER put open panels 2px apart: open panels (landing pages, editorial layouts) use a wide gap (`--sp-8`) instead.
 
 3. **Square corners** — ALWAYS `border-radius: 0` on `.panel`, `.nw-table`, and all data containers. Controls, cards and modals use `--radius-sm` (2px). NEVER round a panel, and never use `--radius-md` or `--radius-lg` (no component reads them in v3).
 
@@ -280,7 +280,8 @@ Set the state with `data-state` on `.led`; the glow is the state glow (`--nw-led
 | `border-radius: 4px` on panels, or round buttons and tags | `border-radius: 0` on panels; `--radius-sm` on controls | Square corners everywhere |
 | Blue labels or a blue default `.tag` | `--nw-text-mute` labels; `.tag-chrome` for blue | Neutral first, blue marks focus and accents |
 | `.led.green`, `.led.blue`, `.led.red`, `.led.yellow`, `.tag-warning`, `.nw-progress .fill`, `.stack` | `.led[data-state="ok\|active\|error\|warn"]`, `.tag-warn`, `.nw-progress-fill`, `.nw-stack` | Removed in v3 |
-| `gap: 16px` between panels | `gap: 2px` | Signature tight spacing |
+| `gap: 16px` between framed panels (`panel nw-reticle`) | `gap: 2px` | Signature tight spacing |
+| `gap: 2px` between bare (open) `.panel`s | `gap: var(--sp-8)`, or frame them with `nw-reticle` | An open panel has no edge, so 2px would merge them |
 | `font-family: sans-serif` for titles | `font-family: var(--font-title)` + `transform: scaleX(0.82)` | Compressed serif is required |
 | `text-transform: capitalize` on labels | `text-transform: uppercase` + `letter-spacing: 0.1em` | Labels are always uppercase |
 | Pastel colors like `#b8e6b8` | Soft neon: `#7aed7a` | Use exact palette colors |
