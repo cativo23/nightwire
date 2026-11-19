@@ -4171,6 +4171,318 @@
         "new": "^rgb\\(102, 153, 255\\) 0px 0px 10px$",
         "page": "scripts/parity/fixtures/coverage.html"
       }
+    },
+    {
+      "id": "kv-row-padding-operator",
+      "description": "FR-029: .kv-row pads calc(var(--sp-3) * var(--nw-pad-scale)) 0: block padding goes from 4px to 12px times the scale (operator 12px, archive 1.35 gives 16.2px, combat 0.7 gives 8.4px). Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^padding-(top|bottom|block-start|block-end)$",
+        "path": ">div\\.kv-row:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^4px$",
+        "new": "^12px$"
+      }
+    },
+    {
+      "id": "kv-row-padding-archive",
+      "description": "FR-029: .kv-row pads calc(var(--sp-3) * var(--nw-pad-scale)) 0: block padding goes from 4px to 12px times the scale (operator 12px, archive 1.35 gives 16.2px, combat 0.7 gives 8.4px). Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^padding-(top|bottom|block-start|block-end)$",
+        "path": ">div\\.kv-row:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^4px$",
+        "new": "^16\\.2px$"
+      }
+    },
+    {
+      "id": "kv-row-padding-combat",
+      "description": "FR-029: .kv-row pads calc(var(--sp-3) * var(--nw-pad-scale)) 0: block padding goes from 4px to 12px times the scale (operator 12px, archive 1.35 gives 16.2px, combat 0.7 gives 8.4px). Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^padding-(top|bottom|block-start|block-end)$",
+        "path": ">div\\.kv-row:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^4px$",
+        "new": "^8\\.4px$"
+      }
+    },
+    {
+      "id": "kv-row-align-operator",
+      "description": "FR-029: .kv-row aligns its items to the top: align-items baseline to flex-start. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^align-items$",
+        "path": ">div\\.kv-row:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^baseline$",
+        "new": "^flex-start$"
+      }
+    },
+    {
+      "id": "kv-row-align-archive",
+      "description": "FR-029: .kv-row aligns its items to the top: align-items baseline to flex-start. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^align-items$",
+        "path": ">div\\.kv-row:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^baseline$",
+        "new": "^flex-start$"
+      }
+    },
+    {
+      "id": "kv-row-align-combat",
+      "description": "FR-029: .kv-row aligns its items to the top: align-items baseline to flex-start. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^align-items$",
+        "path": ">div\\.kv-row:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^baseline$",
+        "new": "^flex-start$"
+      }
+    },
+    {
+      "id": "kv-row-label-offset-operator",
+      "description": "FR-029: .kv-label gets padding-top 2px so its small caps sit on the value baseline. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^padding-(top|block-start)$",
+        "path": ">span\\.kv-label:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^0px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "kv-row-label-offset-archive",
+      "description": "FR-029: .kv-label gets padding-top 2px so its small caps sit on the value baseline. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^padding-(top|block-start)$",
+        "path": ">span\\.kv-label:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^0px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "kv-row-label-offset-combat",
+      "description": "FR-029: .kv-label gets padding-top 2px so its small caps sit on the value baseline. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^padding-(top|block-start)$",
+        "path": ">span\\.kv-label:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^0px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "kv-row-value-right-operator",
+      "description": "FR-029: .kv-value is right-aligned, and so is what inherits from it (.kv-note, .kv-swap): text-align start to right. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^text-align$",
+        "path": "\\.kv-row:nth-child\\(\\d+\\)>span\\.kv-value:nth-child\\(\\d+\\)(>[^>]*)?$",
+        "state": "^(none|operator)\\|",
+        "old": "^start$",
+        "new": "^right$"
+      }
+    },
+    {
+      "id": "kv-row-value-right-archive",
+      "description": "FR-029: .kv-value is right-aligned, and so is what inherits from it (.kv-note, .kv-swap): text-align start to right. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^text-align$",
+        "path": "\\.kv-row:nth-child\\(\\d+\\)>span\\.kv-value:nth-child\\(\\d+\\)(>[^>]*)?$",
+        "state": "^archive\\|",
+        "old": "^start$",
+        "new": "^right$"
+      }
+    },
+    {
+      "id": "kv-row-value-right-combat",
+      "description": "FR-029: .kv-value is right-aligned, and so is what inherits from it (.kv-note, .kv-swap): text-align start to right. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^text-align$",
+        "path": "\\.kv-row:nth-child\\(\\d+\\)>span\\.kv-value:nth-child\\(\\d+\\)(>[^>]*)?$",
+        "state": "^combat\\|",
+        "old": "^start$",
+        "new": "^right$"
+      }
+    },
+    {
+      "id": "kv-note-block-operator",
+      "description": "FR-029: the optional .kv-note sits under the value: display inline to block, margin-top 0 to 2px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^display$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-block-archive",
+      "description": "FR-029: the optional .kv-note sits under the value: display inline to block, margin-top 0 to 2px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^display$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-block-combat",
+      "description": "FR-029: the optional .kv-note sits under the value: display inline to block, margin-top 0 to 2px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^display$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^inline$",
+        "new": "^block$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-margin-operator",
+      "description": "FR-029: the optional .kv-note sits 2px under the value: margin-top 0px to 2px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^margin-(top|block-start)$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^0px$",
+        "new": "^2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-margin-archive",
+      "description": "FR-029: the optional .kv-note sits 2px under the value: margin-top 0px to 2px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^margin-(top|block-start)$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^0px$",
+        "new": "^2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-margin-combat",
+      "description": "FR-029: the optional .kv-note sits 2px under the value: margin-top 0px to 2px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^margin-(top|block-start)$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^0px$",
+        "new": "^2px$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-type-operator",
+      "description": "FR-029: the optional .kv-note is --text-xs and regular weight: font-size 12px to 11px, font-weight 500 to 400, line-height 18px to 16.5px. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^(font-size|font-weight|line-height)$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^(12px|500|18px)$",
+        "new": "^(11px|400|16\\.5px)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-type-archive",
+      "description": "FR-029: the optional .kv-note is --text-xs and regular weight: font-size 12px to 11px, font-weight 500 to 400, line-height 18px to 16.5px. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^(font-size|font-weight|line-height)$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^(12px|500|18px)$",
+        "new": "^(11px|400|16\\.5px)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-type-combat",
+      "description": "FR-029: the optional .kv-note is --text-xs and regular weight: font-size 12px to 11px, font-weight 500 to 400, line-height 18px to 16.5px. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^(font-size|font-weight|line-height)$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^(12px|500|18px)$",
+        "new": "^(11px|400|16\\.5px)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-colour-operator",
+      "description": "FR-029: the optional .kv-note is --nw-text-mute, rgb(170, 170, 170), instead of the value colour it inherited. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-colour-archive",
+      "description": "FR-029: the optional .kv-note is --nw-text-mute, rgb(170, 170, 170), instead of the value colour it inherited. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-note-colour-combat",
+      "description": "FR-029: the optional .kv-note is --nw-text-mute, rgb(170, 170, 170), instead of the value colour it inherited. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">span\\.kv-note:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-swap-colour-operator",
+      "description": "FR-029: the optional .kv-swap glyph is the accent, --nw-chrome rgb(102, 153, 255), instead of the value colour it inherited. Split per intensity so a value from one level never stands for another's: this one is pinned to operator (also the default, no data-intensity, and none).",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">span\\.kv-swap:nth-child\\(\\d+\\)$",
+        "state": "^(none|operator)\\|",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(102, 153, 255\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-swap-colour-archive",
+      "description": "FR-029: the optional .kv-swap glyph is the accent, --nw-chrome rgb(102, 153, 255), instead of the value colour it inherited. Split per intensity so a value from one level never stands for another's: this one is pinned to archive.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">span\\.kv-swap:nth-child\\(\\d+\\)$",
+        "state": "^archive\\|",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(102, 153, 255\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "kv-swap-colour-combat",
+      "description": "FR-029: the optional .kv-swap glyph is the accent, --nw-chrome rgb(102, 153, 255), instead of the value colour it inherited. Split per intensity so a value from one level never stands for another's: this one is pinned to combat.",
+      "match": {
+        "prop": "^(-webkit-text-fill-color|-webkit-text-stroke-color|border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|caret-color|color|column-rule-color|outline-color|row-rule-color|text-decoration-color|text-emphasis-color)$",
+        "path": ">span\\.kv-swap:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(102, 153, 255\\)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
     }
   ]
 }

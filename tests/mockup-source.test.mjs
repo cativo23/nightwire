@@ -66,6 +66,7 @@ function declsOf(text, selector) {
 
 const panel = read('src/components/panel.css');
 const card = read('src/components/card.css');
+const kvRow = read('src/components/kv-row.css');
 
 // ---- Manifest ------------------------------------------------------------------------------------
 
@@ -103,7 +104,7 @@ const HEAD = /^(\.panel-header|\.card-header)(?![\w-])/;
 
 test('FR-030: the section-head look is in section-head.css only; panel.css and card.css keep the header padding and nothing else', () => {
   const offenders = [];
-  for (const [file, text] of [['panel.css', panel], ['card.css', card]]) {
+  for (const [file, text] of [['panel.css', panel], ['card.css', card], ['kv-row.css', kvRow]]) {
     for (const rule of parseRules(text)) {
       if (!rule.selector.split(/\s*,\s*/).some((s) => HEAD.test(s))) continue;
       for (const d of rule.decls.filter((x) => x.prop !== 'padding')) offenders.push(`${file}:${d.line}  ${rule.selector} { ${d.prop} }`);
@@ -120,6 +121,21 @@ test('FR-030: .nw-section-head, .panel-header and .card-header share one selecto
     const hit = rules.find((r) => r.selector.split(/\s*,\s*/).filter((s) => s.includes(piece)).length === 3);
     assert.ok(hit, `one shared rule for ${piece}`);
   }
+});
+
+// ---- FR-029: spec sheet --------------------------------------------------------------------------
+
+test('FR-029: .kv-note is never --nw-text-disabled (it must stay AA on black)', () => {
+  const hits = parseRules(kvRow).filter((r) => /\.kv-note/.test(r.selector) && r.decls.some((d) => d.value.includes('--nw-text-disabled')));
+  assert.deepEqual(hits.map((r) => r.selector), []);
+});
+
+test('FR-029: .kv-row pads by --nw-pad-scale, aligns to the top, right-aligns the value and tints .kv-swap with the accent', () => {
+  assert.match(declsOf(kvRow, '.kv-row').get('padding') ?? '', /var\(--nw-pad-scale\)/);
+  assert.equal(declsOf(kvRow, '.kv-row').get('align-items'), 'flex-start');
+  assert.equal(declsOf(kvRow, '.kv-row .kv-value').get('text-align'), 'right');
+  assert.equal(declsOf(kvRow, '.kv-row .kv-note').get('color'), 'var(--nw-text-mute)');
+  assert.equal(declsOf(kvRow, '.kv-row .kv-swap').get('color'), 'var(--nw-chrome)');
 });
 
 // ---- Every US5 file: tokens only, no thin outline --------------------------------------------------
@@ -181,7 +197,7 @@ test('the colour and outline scans catch what they are for', () => {
 test('FR-038: the layout control sheet exists, says which commit it restores and restores each opened component', () => {
   const sheet = read('docs/design/v3/us5-layout-control.css');
   assert.match(sheet, /3a63a86/, 'names the pre-US5 tip it restores');
-  for (const selector of ['.panel', '.panel-body', '.panel-header', '.card-header', '.nw-section-head']) {
+  for (const selector of ['.panel', '.panel-body', '.panel-header', '.card-header', '.kv-row', '.nw-section-head']) {
     assert.ok(parseRules(sheet).some((r) => r.selector.split(/\s*,\s*/).includes(selector)), `restores ${selector}`);
   }
 });

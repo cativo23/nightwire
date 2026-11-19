@@ -1186,12 +1186,14 @@ input::placeholder, textarea::placeholder {
 
 /* ── src/components/kv-row.css ─────────────────────────────────── */
 /* ── Key-Value Row ───────────────────────────────────────────── */
+/* Spec-sheet look (FR-029): top-aligned rows scaled by --nw-pad-scale, a right-aligned value, an
+   optional .kv-note under it and an optional .kv-swap glyph in the accent. */
 
 .kv-row {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  padding: var(--sp-1) 0;
+  align-items: flex-start;
+  padding: calc(var(--sp-3) * var(--nw-pad-scale)) 0;
   border-bottom: var(--nw-hairline) solid var(--nw-line);
   font-size: var(--text-sm);
 }
@@ -1201,12 +1203,26 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   letter-spacing: var(--ls-wide);
   font-size: 10px;
+  padding-top: 2px;
 }
 
 .kv-row .kv-value {
   color: var(--nw-text-default);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.kv-row .kv-note {
+  display: block;
+  color: var(--nw-text-mute);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.kv-row .kv-swap {
+  color: var(--nw-chrome);
 }
 
 /* ── src/components/avatar.css ─────────────────────────────────── */
