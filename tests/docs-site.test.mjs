@@ -281,3 +281,9 @@ test('should_hide_the_decorative_pieces_from_assistive_tech_on_the_pieces_page',
     'PiecesPage does not tell the reader to hide the decorative pieces',
   );
 });
+
+test('should_not_export_the_unused_v2_component_registry', () => {
+  // T058 left COMPONENTS_V2 for Polish: nothing imports it and its rows are the v2-era registry.
+  const offenders = sources.filter((f) => /COMPONENTS_V2/.test(read(f)));
+  assert.deepEqual(offenders, [], 'COMPONENTS_V2 is still defined or imported');
+});

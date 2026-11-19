@@ -188,47 +188,6 @@ export const LAYER2_TOKENS = [
   { token: '--nw-kanji-glow',        maps: 'calc(20px * var(--nw-glow))',    desc: 'Kanji glow of the chrome section head and the hovered index row; 0 at archive' },
 ];
 
-export const COMPONENTS_V2 = [
-  // Forms
-  { name: '.field',       category: 'forms',    desc: 'Form field wrapper', variants: '.field.error, .field.success' },
-  { name: '.switch',      category: 'forms',    desc: 'Toggle switch',      variants: '.track, .lbl' },
-  { name: '.check',       category: 'forms',    desc: 'Checkbox',           variants: '.box' },
-  { name: '.radio',       category: 'forms',    desc: 'Radio button',       variants: '.box' },
-  { name: '.combo',       category: 'forms',    desc: 'Multiselect with chips', variants: '.chip, .x' },
-  { name: '.kbd',         category: 'forms',    desc: 'Keyboard chip',      variants: 'inline' },
-  { name: '.seg',         category: 'forms',    desc: 'Segmented control',  variants: 'aria-pressed' },
-  // Overlays
-  { name: '.drawer',      category: 'overlays', desc: 'Right slide-in detail panel', variants: '.drawer-backdrop, .drawer-header, .drawer-body' },
-  { name: '.cmdk',        category: 'overlays', desc: 'Command palette',    variants: '.cmdk-backdrop, .cmdk-section, .cmdk-item' },
-  { name: '.modal-title', category: 'overlays', desc: 'Non-flex header label',  variants: 'companion to modal-header' },
-  // Data display
-  { name: '.code-block',  category: 'data',     desc: 'Syntax-highlighted code', variants: '.tok-k, .tok-s, .tok-c, .tok-n, .tok-fn' },
-  { name: '.code-inline', category: 'data',     desc: 'Inline code chip',   variants: 'inline' },
-  { name: '.diff',        category: 'data',     desc: 'Add/del diff view',  variants: '.ln.add, .ln.del, .num, .code-content' },
-  { name: '.steps',       category: 'data',     desc: 'Stepper bar',        variants: '.step.done, .step.current' },
-  { name: '.stat',        category: 'data',     desc: 'Stat card with sparkline', variants: '.stat-label, .stat-value, .stat-delta, .stat-spark' },
-  // State & feedback
-  { name: '.empty',       category: 'feedback', desc: 'Empty state',        variants: '.glyph, .head, .sub' },
-  { name: '.ai-block',    category: 'feedback', desc: 'Purple-accented suggestion strip', variants: '.ai-block-head, .ai-block-body' },
-  { name: '.banner',      category: 'feedback', desc: 'System-wide notice', variants: '.banner-tag' },
-  { name: '.led[data-state]', category: 'feedback', desc: 'LED with state attribute', variants: 'ok | warn | error | info | active | ai · [data-pulse]' },
-  // Tag & button variants
-  { name: '.tag-chrome',  category: 'variants', desc: 'System/UI tag (blue)' },
-  { name: '.tag-warn',    category: 'variants', desc: 'Degraded tag (amber)' },
-  { name: '.tag-ai',      category: 'variants', desc: 'AI/oracle tag (purple)' },
-  { name: '.btn-success', category: 'variants', desc: 'Green outline button' },
-  { name: '.btn-ai',      category: 'variants', desc: 'Purple outline button' },
-  { name: '.btn-icon',    category: 'variants', desc: 'Square icon-only button' },
-  { name: '.btn-xs',      category: 'variants', desc: 'Extra small button' },
-  { name: '.btn-lg',      category: 'variants', desc: 'Large button' },
-  { name: '.btn-loading', category: 'variants', desc: 'Spinner-prefixed button' },
-  // Layout primitives
-  { name: '.nw-frame',    category: 'layout',   desc: '100vh flex column with overflow hidden' },
-  { name: '.nw-stack',    category: 'layout',   desc: 'Vertical flex with density-aware gap' },
-  { name: '.nw-cluster',  category: 'layout',   desc: 'Horizontal wrapping flex' },
-  { name: '.nw-split',    category: 'layout',   desc: 'Sidebar + main grid (240px / 1fr)' },
-];
-
 export const MOTION_VOCAB = motionVocab(nw);
 
 export type EventEntry = { time: string; type: string; detail: string; metric: string };
