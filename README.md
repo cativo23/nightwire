@@ -14,10 +14,17 @@ Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreat
 ## Design Principles
 
 1. **Pure black void** — Background is always `#000000`. No gray, no navy.
-2. **Color = function** — Every color has a semantic role. Don't use color decoratively.
+2. **Neutral first, color = function** — Text, labels and edges are neutral. Color appears where it means something: data, state, focus, the selected item. Don't use color decoratively.
 3. **Readable first** — 14px base font, 1.5 line-height. Legibility over density.
-4. **No CRT effects** — No scanlines, no flicker, no vignette. Clean modern look.
+4. **No CRT effects, no decorative glow** — No scanlines, no flicker, no vignette. Glow is a state signal only (LED, check, switch, progress) and is off in `archive`.
 5. **Soft neon** — Cyberpunk-inspired but not eye-burning. Vibrant, not harsh.
+6. **Square and quiet** — Square corners, 1px hairlines, one solid bone-colored action per view; every other button is an outline.
+
+### What v3 looks like
+
+v3 replaces the v2.1.0 look in every component and every intensity: neutral labels and hairlines, square corners, a bone `.btn` with outline secondaries, a neutral default `.tag`, and glow that never decorates. Blue stays on focus rings and accent lines, green on data. The four typefaces, the kanji labels and the three intensities are unchanged. [`docs/design/v3/direction.md`](docs/design/v3/direction.md) records every value and the reason for it.
+
+v3 is a major release and removes the v1 compatibility surfaces that v2 kept: `.led.green|blue|red|yellow` (use `.led[data-state="ok|active|error|warn"]`), `.tag-warning` (`.tag-warn`), `.nw-progress .fill` (`.nw-progress-fill`), `.stack` (`.nw-stack`) and the `--nw-header-gradient` and `--nw-header-pattern` tokens. [`docs/design/v3/v1-inventory.md`](docs/design/v3/v1-inventory.md) lists each one; the migration guide, `docs/migration/v3.md`, is written later in this release.
 
 ## Installation
 
@@ -28,7 +35,7 @@ npx @cativo23/nightwire install
 ```
 
 Interactive prompts detect your project type (Next.js, Vite, Astro, plain HTML) and copy the right files:
-- `nightwire.css` — **50+ pure CSS components**, 60+ design tokens (v1 + v2 Layer 2)
+- `nightwire.css` — **35 pure CSS component stylesheets**, 130 design tokens (primitives, semantic roles, motion, intensity knobs)
 - `DESIGN.md` — AI-readable design spec (Google design.md standard)
 - `skill/nightwire/SKILL.md` — AI skill for Claude, Cursor, Copilot, v0
 
@@ -70,11 +77,11 @@ Drop `SKILL.md` into your project as a skill. The agent can then generate Nightw
 
 **Utility classes** — Text color, glow effects, surface levels, borders, grid layouts.
 
-**Component styles** — Buttons, cards, panels, modals, tabs, sidebar nav, dropdowns, breadcrumbs, tooltips, data tables, metrics grids, badges, tags, status LEDs, avatars, key-value rows, progress bars, skeleton loaders, toasts, dividers.
+**Component styles** — Buttons, cards, panels, modals, drawers, command palette, tabs, sidebar nav, dropdowns, breadcrumbs, tooltips, data tables, metrics grids, stats, badges, tags, status LEDs, avatars, key-value rows, form controls, progress bars, steps, skeleton loaders, toasts, dividers.
 
 **Tailwind preset** — All tokens mapped to Tailwind's config (colors, fonts, spacing, radius, shadows).
 
-**Accessibility** — All colors pass WCAG AA on black. Focus-visible outlines. Reduced-motion support.
+**Accessibility** — Text pairings pass WCAG AA on the black surfaces and control boundaries keep 3:1 (`npm run design:contrast` checks every pairing). Focus-visible outlines. Reduced-motion support.
 
 ### Browser support
 
@@ -119,7 +126,7 @@ nightwire/
 ├── skill/nightwire/
 │   ├── SKILL.md                       <- AI skill (full design system spec)
 │   └── references/                    <- Examples & layout docs
-├── examples/html/                     <- Full demos, v2 workshop and component snippets
+├── examples/html/                     <- Full demos, workshop and component snippets (all load nightwire.css)
 ├── apps/docs/                         <- Docs site (React + Vite + Tailwind)
 ├── docs/                              <- Architecture notes, proposals, roadmap
 ├── scripts/                           <- Build scripts and the parity tool
@@ -129,15 +136,13 @@ nightwire/
 `nightwire.css`, `tailwind.preset.js` and the paths above stay where consumers expect them. To
 work on Nightwire itself, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## v2-alpha — preview
+## What v2 added, still here in v3
 
-See [`examples/html/workshop.html`](examples/html/workshop.html) or the live [`/intensity`](#) / [`/layer2-tokens`](#) pages.
+See [`examples/html/workshop.html`](examples/html/workshop.html) for a live tour.
 
-A `v2-alpha` branch is in flight with **100% additive** changes (zero rename, no breaking):
-
-- Layer 2 semantic tokens (`--nw-chrome`, `--nw-data`, `--nw-signal-*`, `--nw-ai`)
-- **Intensity system** via `<html data-intensity="archive|operator|combat">` — one attribute reconfigures glow, motion, density, kanji visibility, padding
-- New components: command palette (`.cmdk`), drawer, form suite (`.field`/`.switch`/`.check`/`.combo`), code/diff/steps, button & tag variants, layout primitives
+- Layer 2 semantic tokens (`--nw-chrome`, `--nw-data`, `--nw-signal-*`, `--nw-ai`) and the role tokens `--nw-action`, `--nw-action-hot` and `--nw-action-text` behind the bone `.btn`
+- **Intensity system** via `<html data-intensity="archive|operator|combat">` — one attribute reconfigures glow, motion, density, kanji visibility, padding. Operator is the default
+- Components: command palette (`.cmdk`), drawer, form suite (`.field`/`.switch`/`.check`/`.combo`), code/diff/steps, button & tag variants, layout primitives
 - Motion vocabulary: `--nw-tick`, `--nw-sweep` and `--nw-uplink` (enter), their `-out` composites
   (exit), `-duration` and `-ease` longhands for both directions, `--nw-stagger`, and the loop
   tokens `--nw-loop-spin`, `--nw-loop-shimmer` and `--nw-loop-state`. Everything scales with
@@ -148,7 +153,7 @@ A `v2-alpha` branch is in flight with **100% additive** changes (zero rename, no
   `"false"`. An overlay added to the page already open does not animate in: mount it with
   `data-open="false"` and set `"true"` two animation frames later. See [DESIGN.md](DESIGN.md)
 
-Preview the v2 workshop in `examples/html/workshop.html`. See `CHANGELOG.md` for the full additive surface.
+See `CHANGELOG.md` for the full list of changes.
 
 ## Credits
 
