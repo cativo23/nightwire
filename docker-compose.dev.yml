@@ -12,4 +12,5 @@ services:
       - ./examples:/app/examples
       - ./nightwire.css:/app/nightwire.css
       - ./tailwind.preset.js:/app/tailwind.preset.js
+      - ./src/tokens/tokens.json:/app/src/tokens/tokens.json
     restart: unless-stopped

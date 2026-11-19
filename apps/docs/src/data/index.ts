@@ -1,3 +1,10 @@
+import tokens from '../../../../src/tokens/tokens.json';
+import { TokenReader } from './tokens';
+
+// Motion and intensity values are read from src/tokens/tokens.json (Principle II); only the
+// human copy (use, desc) is written here.
+const nw = new TokenReader(tokens);
+
 export const COLORS = [
   { name: 'void', hex: '#000000', variable: '--void', desc: 'Primary background — absolute void' },
   { name: 'void-warm', hex: '#0a0a0a', variable: '--void-warm', desc: 'Panel fill' },
@@ -102,53 +109,35 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
 ];
 
 
+// Which knobs each column shows is a display choice; the values come from the JSON. Archive and
+// combat list knobs the level overrides, operator lists the base `:root` values.
 export const INTENSITY_MODES = [
   {
     id: 'archive',
     label: 'Archive',
     kanji: '保管',
     desc: 'Docs, blogs. No glow, paused pulses, larger padding, no kanji, slower motion.',
-    knobs: {
-      '--nw-glow': '0',
-      '--nw-motion-scale': '0.6',
-      '--nw-pad-scale': '1.35',
-      '--nw-base-font': '15px',
-      '--nw-pulse-state': 'paused',
-      '--nw-kanji-display': 'none',
-      '--nw-panel-radius': '2px',
-      '--nw-value-weight': '400',
-    },
+    knobs: nw.knobs('archive', [
+      'glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight',
+    ]),
   },
   {
     id: 'operator',
     label: 'Operator',
     kanji: '通常',
     desc: 'Default. Neutral look with a subtle state glow, comfortable density, kanji visible.',
-    knobs: {
-      '--nw-glow': '0.5',
-      '--nw-motion-scale': '1',
-      '--nw-pad-scale': '1',
-      '--nw-base-font': '14px',
-      '--nw-pulse-state': 'running',
-      '--nw-kanji-display': 'inline',
-      '--nw-panel-radius': '0',
-      '--nw-value-weight': '500',
-    },
+    knobs: nw.knobs('operator', [
+      'glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight',
+    ]),
   },
   {
     id: 'combat',
     label: 'Combat',
     kanji: '戦闘',
     desc: 'Ops console, dense. State signals glow twice as bright, faster pulses, denser padding.',
-    knobs: {
-      '--nw-led-glow': 'calc(var(--nw-glow) * 2)',
-      '--nw-control-glow': 'calc(var(--nw-glow) * 2)',
-      '--nw-progress-glow': 'calc(var(--nw-glow) * 2)',
-      '--nw-motion-scale': '1.2',
-      '--nw-density': '0.85',
-      '--nw-pad-scale': '0.7',
-      '--nw-base-font': '13px',
-    },
+    knobs: nw.knobs('combat', [
+      'led-glow', 'control-glow', 'progress-glow', 'motion-scale', 'density', 'pad-scale', 'base-font',
+    ]),
   },
 ];
 
@@ -227,25 +216,29 @@ export const COMPONENTS_V2 = [
   { name: '.nw-split',    category: 'layout',   desc: 'Sidebar + main grid (240px / 1fr)' },
 ];
 
+const combatPulse = parseFloat(
+  (nw.number('knob.pulse-speed') / nw.overrideNumber('combat', 'motion-scale')).toFixed(3),
+);
+
 export const MOTION_VOCAB = [
   // Enter composites: fill the `transition` / `animation` shorthand slot.
-  { token: '--nw-tick',   value: '150ms cubic-bezier(0.3, 0, 0.7, 1)',    use: 'Enter: clicks, toggles, micro-feedback' },
-  { token: '--nw-sweep',  value: '350ms cubic-bezier(0.2, 0.8, 0.2, 1)',  use: 'Enter: panels, modals, drawers' },
-  { token: '--nw-uplink', value: '400ms cubic-bezier(0, 0.6, 0.4, 1)',    use: 'Enter: data load reveal (staggered)' },
+  { token: '--nw-tick',   value: nw.motion('tick', 'in'),   use: 'Enter: clicks, toggles, micro-feedback' },
+  { token: '--nw-sweep',  value: nw.motion('sweep', 'in'),  use: 'Enter: panels, modals, drawers' },
+  { token: '--nw-uplink', value: nw.motion('uplink', 'in'), use: 'Enter: data load reveal (staggered)' },
   // Exit composites: shorter and accelerating. Final, approved on the v3 direction board.
-  { token: '--nw-tick-out',   value: '100ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: dropdowns, tooltips' },
-  { token: '--nw-sweep-out',  value: '250ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: modals, drawers, command palette, toasts' },
-  { token: '--nw-uplink-out', value: '300ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: data load reveal' },
+  { token: '--nw-tick-out',   value: nw.motion('tick', 'out'),   use: 'Exit: dropdowns, tooltips' },
+  { token: '--nw-sweep-out',  value: nw.motion('sweep', 'out'),  use: 'Exit: modals, drawers, command palette, toasts' },
+  { token: '--nw-uplink-out', value: nw.motion('uplink', 'out'), use: 'Exit: data load reveal' },
   // Longhands: build a transition piece by piece, e.g. to delay `visibility` until an exit ends.
-  { token: '--nw-<step>-duration, --nw-<step>-ease', value: 'e.g. --nw-sweep-duration (350ms), --nw-sweep-ease', use: 'Enter longhands for tick, sweep and uplink' },
-  { token: '--nw-<step>-out-duration, --nw-<step>-out-ease', value: 'e.g. --nw-sweep-out-duration (250ms)', use: 'Exit longhands: delay visibility until the exit ends' },
+  { token: '--nw-<step>-duration, --nw-<step>-ease', value: `e.g. --nw-sweep-duration (${nw.duration('sweep', 'in')}), --nw-sweep-ease`, use: 'Enter longhands for tick, sweep and uplink' },
+  { token: '--nw-<step>-out-duration, --nw-<step>-out-ease', value: `e.g. --nw-sweep-out-duration (${nw.duration('sweep', 'out')})`, use: 'Exit longhands: delay visibility until the exit ends' },
   // Stagger and loops.
-  { token: '--nw-stagger',        value: '50ms',  use: 'Delay step between items revealed in sequence; multiply by the item index' },
-  { token: '--nw-loop-spin',      value: '800ms (cycle)',  use: 'Spinner cycle; scales inversely with motion scale' },
-  { token: '--nw-loop-shimmer',   value: '1200ms (cycle)', use: 'Skeleton shimmer cycle; scales inversely with motion scale' },
-  { token: '--nw-loop-state',     value: 'running | paused', use: 'Play state of spinner and shimmer; paused by reduced motion' },
-  { token: '--nw-pulse-speed',    value: '1.6s (every level)', use: 'LED heartbeat cycle; scales inversely with motion scale, so combat runs at 1.333s' },
-  { token: '--nw-pulse-state',    value: 'running | paused', use: 'LED heartbeat play state; paused in archive and by reduced motion' },
+  { token: '--nw-stagger',        value: nw.display('motion.timing.stagger'),  use: 'Delay step between items revealed in sequence; multiply by the item index' },
+  { token: '--nw-loop-spin',      value: `${nw.display('motion.timing.loop.spin')} (cycle)`,  use: 'Spinner cycle; scales inversely with motion scale' },
+  { token: '--nw-loop-shimmer',   value: `${nw.display('motion.timing.loop.shimmer')} (cycle)`, use: 'Skeleton shimmer cycle; scales inversely with motion scale' },
+  { token: '--nw-loop-state',     value: `${nw.display('knob.loop-state')} | ${nw.reducedMotion('loop-state')}`, use: 'Play state of spinner and shimmer; paused by reduced motion' },
+  { token: '--nw-pulse-speed',    value: `${nw.display('knob.pulse-speed')} (every level)`, use: `LED heartbeat cycle; scales inversely with motion scale, so combat runs at ${combatPulse}s` },
+  { token: '--nw-pulse-state',    value: `${nw.display('knob.pulse-state')} | ${nw.reducedMotion('pulse-state')}`, use: 'LED heartbeat play state; paused in archive and by reduced motion' },
 ];
 
 export type EventEntry = { time: string; type: string; detail: string; metric: string };

@@ -7,6 +7,7 @@ COPY apps/docs/package*.json ./
 RUN npm ci
 COPY apps/docs/ ./
 COPY package.json nightwire.css tailwind.preset.js /app/
+COPY src/tokens/tokens.json /app/src/tokens/tokens.json
 COPY examples/ /app/examples/
 EXPOSE 5173
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
