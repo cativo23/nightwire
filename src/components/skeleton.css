@@ -15,9 +15,9 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(102, 153, 255, 0.08) 40%,
-    rgba(102, 221, 255, 0.12) 50%,
-    rgba(102, 153, 255, 0.08) 60%,
+    var(--nw-text-faint) 40%,
+    var(--nw-line) 50%,
+    var(--nw-text-faint) 60%,
     transparent 100%
   );
   animation: skeleton-shimmer var(--nw-loop-shimmer) ease-in-out infinite;

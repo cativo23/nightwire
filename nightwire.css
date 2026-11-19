@@ -694,13 +694,13 @@ input::placeholder, textarea::placeholder {
 .nw-progress {
   height: 4px;
   background: var(--void-panel);
-  border: var(--nw-hairline) solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line);
   overflow: hidden;
 }
 
 .nw-progress-fill {
   height: 100%;
-  background: var(--nw-green);
+  background: var(--nw-data);
   box-shadow: 0 0 calc(4px * var(--nw-progress-glow)) rgba(122,237,122,0.3);
 }
 
@@ -1092,9 +1092,9 @@ input::placeholder, textarea::placeholder {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(102, 153, 255, 0.08) 40%,
-    rgba(102, 221, 255, 0.12) 50%,
-    rgba(102, 153, 255, 0.08) 60%,
+    var(--nw-text-faint) 40%,
+    var(--nw-line) 50%,
+    var(--nw-text-faint) 60%,
     transparent 100%
   );
   animation: skeleton-shimmer var(--nw-loop-shimmer) ease-in-out infinite;

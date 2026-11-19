@@ -1503,6 +1503,26 @@
         "old": "^rgb\\(255, 255, 255\\)$",
         "new": "^rgb\\(230, 230, 230\\)$"
       }
+    },
+    {
+      "id": "q-progress-track-edge",
+      "description": "Group B (T044): the .nw-progress track edge goes from --nw-text-faint to --nw-line, like the panel edge (direction rule 3). The fill keeps its data green and its glow knob. Pinned to the border colours of .nw-progress.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "div\\.nw-progress:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(255, 255, 255, 0\\.06\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
+    },
+    {
+      "id": "q-skeleton-shimmer",
+      "description": "Group B (T044): the .skeleton shimmer highlight goes from a blue and cyan tint to neutral white at the same alphas (--nw-text-faint, --nw-line): a loading placeholder is not a signal, so no blue (direction rule 2). The sweep, its timing and its reduced-motion state are untouched. Pinned to the ::after of .skeleton and its variants, to the old and new gradients.",
+      "match": {
+        "prop": "^background-image$",
+        "path": "div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after$",
+        "old": "^linear-gradient\\(90deg, rgba\\(0, 0, 0, 0\\) 0%, rgba\\(102, 153, 255, 0\\.08\\) 40%, rgba\\(102, 221, 255, 0\\.12\\) 50%, rgba\\(102, 153, 255, 0\\.08\\) 60%, rgba\\(0, 0, 0, 0\\) 100%\\)$",
+        "new": "^linear-gradient\\(90deg, rgba\\(0, 0, 0, 0\\) 0%, rgba\\(255, 255, 255, 0\\.08\\) 40%, rgba\\(255, 255, 255, 0\\.14\\) 50%, rgba\\(255, 255, 255, 0\\.08\\) 60%, rgba\\(0, 0, 0, 0\\) 100%\\)$"
+      }
     }
   ]
 }
