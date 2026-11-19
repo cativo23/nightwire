@@ -159,19 +159,37 @@ test('should_copy_the_component_stylesheets_into_the_docs_images_that_count_them
 // The docs site follows the mockup look: the kanji in a header is a `.kanji`, not a `.tag`; a
 // dense console demo opts into `.nw-reticle`; the new pieces have a page; counts follow the build.
 
-const CJK = '[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}ー・\\s]';
-
+const JP = '[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}ー・]';
 test('should_write_the_header_kanji_as_kanji_and_not_as_a_tag', () => {
-  // `.tag` is a status. A tag that holds only Japanese is the kanji of a header.
-  const re = new RegExp(`class(?:Name)?="tag"[^>]*>${CJK}+</span>`, 'u');
+  // `.tag` is a status or a latin label. A tag that holds any Japanese, alone (`日本語`) or mixed
+  // with latin (`構造CSS`, `KV対`), is the kanji of a header.
+  const re = new RegExp(`class(?:Name)?="tag"[^>]*>[^<]*${JP}[^<]*</span>`, 'u');
   const hits = sources.filter((f) => f.endsWith('.tsx') && re.test(read(f)));
-  assert.deepEqual(hits, [], 'a .tag holds only kanji; use .kanji');
+  assert.deepEqual(hits, [], 'a .tag holds kanji; use .kanji');
   // The two places that take the kanji as a value.
   assert.match(read(`${SRC}/components/CodeBlock.tsx`), /className="kanji">\{kanji\}/, 'SectionTitle does not render a .kanji');
   assert.match(read(`${SRC}/pages/Layer2TokensPage.tsx`), /className="kanji">\{kanji\}/, 'Layer2TokensPage does not render a .kanji');
   assert.doesNotMatch(read(`${SRC}/components/CodeBlock.tsx`), /className="tag"/, 'SectionTitle still renders a .tag');
   // The same switch in the HTML the pages teach.
   assert.doesNotMatch(read(`${SRC}/pages/PanelsPage.tsx`), /class="tag">日本語タグ/, 'PanelsPage teaches the .tag kanji');
+});
+
+test('should_teach_the_two_pixel_gap_for_framed_panels_only', () => {
+  const panels = read(`${SRC}/pages/PanelsPage.tsx`);
+  assert.doesNotMatch(panels, /8px uppercase headers/, 'PanelsPage still teaches 8px headers');
+  assert.doesNotMatch(panels, /2px gaps are standard/, 'PanelsPage still says 2px gaps are standard');
+  assert.doesNotMatch(panels, /8px font header/, 'PanelsPage still says 8px font header');
+  assert.match(panels, /11px/, 'PanelsPage does not state the 11px header');
+  assert.match(panels, /framed/i);
+  assert.match(panels, /--sp-8/, 'PanelsPage does not name the open-panel gap');
+  // The open panel next to the card is not set 2px apart in the live sample either.
+  assert.doesNotMatch(panels, /className="grid-2" style=\{\{ gap: 2,/, 'open panel and card sit 2px apart');
+});
+
+test('should_frame_the_panels_of_the_dense_console_sample', () => {
+  const templates = read(`${SRC}/pages/TemplatesPage.tsx`);
+  assert.doesNotMatch(templates, /class="panel"/, 'the dense console sample has a bare open panel in a 2px grid');
+  assert.ok((templates.match(/class="panel nw-reticle"/g) ?? []).length >= 3, 'the sample panels do not opt into nw-reticle');
 });
 
 test('should_keep_tag_where_it_is_a_status_or_a_label', () => {

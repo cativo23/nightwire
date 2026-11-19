@@ -5,15 +5,15 @@ export function PanelsPage() {
     <section id="panels">
       <SectionTitle kanji="構造">Panel Anatomy</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
-        Panels are the primary structural element. 8px uppercase headers, Japanese stylistic tags, and 2px gaps are standard.
+        Panels are the primary structural element. A panel is open: its 11px uppercase header is a section head with a Japanese kanji in the right slot, and open panels sit a wide gap apart (--sp-8). The 2px gap is for framed panels (.panel.nw-reticle), where it separates the frames.
       </p>
 
-      <div className="grid-2" style={{ gap: 2, marginBottom: 2 }}>
+      <div className="grid-2" style={{ gap: 'var(--sp-8)', marginBottom: 2 }}>
         <div className="panel">
-          <div className="panel-header"><span>Standard Panel</span><span className="kanji">日本語タグ</span></div>
+          <div className="panel-header"><span>Open Panel</span><span className="kanji">日本語タグ</span></div>
           <div className="panel-body">
             <div style={{ color: 'var(--nw-text-dim)', fontSize: 11 }}>
-              Standard panel body. 8px font header, Japanese tags, 2px gaps between panels.
+              Open panel body. 11px header, a kanji in the right slot, no fill and no outline.
             </div>
           </div>
         </div>
