@@ -635,7 +635,9 @@ Depth is tone first. Surfaces rise through colour, and an overlay adds one neutr
 with intensity and it does not count as decoration. No other drop shadow exists. The only other
 `box-shadow` and `text-shadow` values in the stylesheet are state glow (the LED, check, radio,
 switch, segmented, steps and progress read `--nw-led-glow`, `--nw-control-glow` or
-`--nw-progress-glow`), the `.glow-*` utilities (which read `--nw-glow`), and focus rings.
+`--nw-progress-glow`), the `.glow-*` utilities (which read `--nw-glow`), the segmented control's inset marks (selected
+indicator, plus its state glow on `--nw-control-glow`), and focus rings, which include the
+`.field` input and `.combo` focus and status rings (primary, error, success).
 
 Edges are hairlines. `--nw-hairline` (1px) is every structural border, `--nw-rule` (1.5px) the marks
 drawn inside controls, `--nw-accent-width` (2px) the accent bars on tabs, sidebar items, diffs and
