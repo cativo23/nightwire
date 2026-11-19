@@ -49,7 +49,7 @@ export function PanelsPage() {
           <div className="nc-row"><span className="lbl">Model</span><span className="val">CORTEX-7B v4.2</span></div>
           <div className="nc-row"><span className="lbl">Status</span><span className="val">Training</span></div>
           <div className="nc-row"><span className="lbl">GPU Util</span><span className="val">96.8%</span></div>
-          <div className="nc-status" style={{ color: 'var(--nw-green)' }}><span className="led green" /> Operational</div>
+          <div className="nc-status" style={{ color: 'var(--nw-green)' }}><span className="led" data-state="ok" /> Operational</div>
         </div>
       </div>
 
@@ -65,7 +65,7 @@ export function PanelsPage() {
       <span class="lbl">Label</span>
       <span class="val">Value</span>
     </div>
-    <div class="nc-status"><span class="led green"></span> Status</div>
+    <div class="nc-status"><span class="led" data-state="ok"></span> Status</div>
   </div>
 </div>`}</CodeBlock>
         </div>

@@ -19,18 +19,18 @@ export const FONTS = [
 ];
 
 export const COMPONENTS = [
-  { name: '.btn', desc: 'Primary button', variants: '.btn-ghost, .btn-danger, .btn-sm' },
+  { name: '.btn', desc: 'Primary button (bone, the one solid action)', variants: '.btn-ghost, .btn-danger, .btn-chrome, .btn-sm' },
   { name: '.panel', desc: 'Base container', variants: '.panel-header, .panel-body' },
-  { name: '.card', desc: 'Rounded container', variants: '.card-header, .card-body, .card-footer' },
+  { name: '.card', desc: 'Bordered container, square corners', variants: '.card-header, .card-body, .card-footer' },
   { name: '.metrics-grid', desc: '2-col data grid', variants: '.metric-cell, .m-label, .m-value, .m-sub' },
   { name: '.nw-table', desc: 'Data table', variants: 'th, td, td.lbl' },
   { name: '.badge', desc: 'Inline badge', variants: '.badge-success, .badge-danger, .badge-warning' },
-  { name: '.tag', desc: 'Status tag', variants: '.tag-success, .tag-danger, .tag-warning, .tag-info' },
-  { name: '.led', desc: 'Status indicator', variants: '.green, .blue, .red, .yellow, .blink' },
+  { name: '.tag', desc: 'Status tag', variants: '.tag-success, .tag-danger, .tag-warn, .tag-info, .tag-chrome' },
+  { name: '.led', desc: 'Status indicator', variants: '[data-state=ok|active|error|warn|info|ai], [data-pulse]' },
   { name: '.toast', desc: 'Notification', variants: '.toast-success, .toast-danger, .toast-warning' },
   { name: '.sidebar', desc: 'Side navigation', variants: '.sidebar-header, .sidebar-section, .sidebar-item' },
   { name: '.tabs', desc: 'Tab bar', variants: '.tab, .tab.active, .tab-panel' },
-  { name: '.nw-progress', desc: 'Progress bar', variants: '.fill' },
+  { name: '.nw-progress', desc: 'Progress bar', variants: '.nw-progress-fill' },
   { name: '.modal', desc: 'Dialog overlay', variants: '.modal-backdrop, .modal-header, .modal-body' },
   { name: '.kv-row', desc: 'Key-value pair', variants: '.kv-label, .kv-value' },
   { name: '.skeleton', desc: 'Loading state', variants: '.skeleton-text, .skeleton-heading, .skeleton-block' },
@@ -111,7 +111,7 @@ export const INTENSITY_MODES = [
     id: 'archive',
     label: 'Archive',
     kanji: '保管',
-    desc: 'Docs, blogs, low-glow. Glow off, paused pulses, larger padding, no kanji, slower motion.',
+    desc: 'Docs, blogs. No glow, paused pulses, larger padding, no kanji, slower motion.',
     knobs: {
       '--nw-glow': '0',
       '--nw-motion-scale': '0.6',
@@ -127,9 +127,9 @@ export const INTENSITY_MODES = [
     id: 'operator',
     label: 'Operator',
     kanji: '通常',
-    desc: 'Default. Identical to v1 Nightwire look. Subtle glow, comfortable density, kanji visible.',
+    desc: 'Default. Neutral look with a subtle state glow, comfortable density, kanji visible.',
     knobs: {
-      '--nw-glow': '1',
+      '--nw-glow': '0.5',
       '--nw-motion-scale': '1',
       '--nw-pad-scale': '1',
       '--nw-base-font': '14px',
@@ -143,14 +143,15 @@ export const INTENSITY_MODES = [
     id: 'combat',
     label: 'Combat',
     kanji: '戦闘',
-    desc: 'Ops console, high glow, dense. Extra glow, faster pulses, denser padding.',
+    desc: 'Ops console, dense. State signals glow twice as bright, faster pulses, denser padding.',
     knobs: {
-      '--nw-glow': '2.2',
+      '--nw-led-glow': 'calc(var(--nw-glow) * 2)',
+      '--nw-control-glow': 'calc(var(--nw-glow) * 2)',
+      '--nw-progress-glow': 'calc(var(--nw-glow) * 2)',
       '--nw-motion-scale': '1.2',
       '--nw-density': '0.85',
       '--nw-pad-scale': '0.7',
       '--nw-base-font': '13px',
-      '--nw-pulse-speed': '0.7s',
     },
   },
 ];
@@ -206,7 +207,7 @@ export const COMPONENTS_V2 = [
   { name: '.empty',       category: 'feedback', desc: 'Empty state',        variants: '.glyph, .head, .sub' },
   { name: '.ai-block',    category: 'feedback', desc: 'Purple-accented suggestion strip', variants: '.ai-block-head, .ai-block-body' },
   { name: '.banner',      category: 'feedback', desc: 'System-wide notice', variants: '.banner-tag' },
-  { name: '.led[data-state]', category: 'feedback', desc: 'LED with state attribute', variants: 'ok | warn | error | info | ai · [data-pulse]' },
+  { name: '.led[data-state]', category: 'feedback', desc: 'LED with state attribute', variants: 'ok | warn | error | info | active | ai · [data-pulse]' },
   // Tag & button variants
   { name: '.tag-chrome',  category: 'variants', desc: 'System/UI tag (blue)' },
   { name: '.tag-warn',    category: 'variants', desc: 'Degraded tag (amber)' },
@@ -229,19 +230,19 @@ export const MOTION_VOCAB = [
   { token: '--nw-tick',   value: '150ms cubic-bezier(0.3, 0, 0.7, 1)',    use: 'Enter: clicks, toggles, micro-feedback' },
   { token: '--nw-sweep',  value: '350ms cubic-bezier(0.2, 0.8, 0.2, 1)',  use: 'Enter: panels, modals, drawers' },
   { token: '--nw-uplink', value: '400ms cubic-bezier(0, 0.6, 0.4, 1)',    use: 'Enter: data load reveal (staggered)' },
-  // Exit composites: shorter and accelerating. Provisional until the v3 direction board.
-  { token: '--nw-tick-out',   value: '112.5ms cubic-bezier(0.4, 0, 1, 1)', use: 'Exit: dropdowns, tooltips' },
-  { token: '--nw-sweep-out',  value: '262.5ms cubic-bezier(0.4, 0, 1, 1)', use: 'Exit: modals, drawers, command palette, toasts' },
+  // Exit composites: shorter and accelerating. Final, approved on the v3 direction board.
+  { token: '--nw-tick-out',   value: '100ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: dropdowns, tooltips' },
+  { token: '--nw-sweep-out',  value: '250ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: modals, drawers, command palette, toasts' },
   { token: '--nw-uplink-out', value: '300ms cubic-bezier(0.4, 0, 1, 1)',   use: 'Exit: data load reveal' },
   // Longhands: build a transition piece by piece, e.g. to delay `visibility` until an exit ends.
   { token: '--nw-<step>-duration, --nw-<step>-ease', value: 'e.g. --nw-sweep-duration (350ms), --nw-sweep-ease', use: 'Enter longhands for tick, sweep and uplink' },
-  { token: '--nw-<step>-out-duration, --nw-<step>-out-ease', value: 'e.g. --nw-sweep-out-duration (262.5ms)', use: 'Exit longhands: delay visibility until the exit ends' },
+  { token: '--nw-<step>-out-duration, --nw-<step>-out-ease', value: 'e.g. --nw-sweep-out-duration (250ms)', use: 'Exit longhands: delay visibility until the exit ends' },
   // Stagger and loops.
   { token: '--nw-stagger',        value: '50ms',  use: 'Delay step between items revealed in sequence; multiply by the item index' },
   { token: '--nw-loop-spin',      value: '800ms (cycle)',  use: 'Spinner cycle; scales inversely with motion scale' },
   { token: '--nw-loop-shimmer',   value: '1200ms (cycle)', use: 'Skeleton shimmer cycle; scales inversely with motion scale' },
   { token: '--nw-loop-state',     value: 'running | paused', use: 'Play state of spinner and shimmer; paused by reduced motion' },
-  { token: '--nw-pulse-speed',    value: '1.4s default, 0.7s in combat', use: 'LED heartbeat cycle; scales inversely with motion scale' },
+  { token: '--nw-pulse-speed',    value: '1.6s (every level)', use: 'LED heartbeat cycle; scales inversely with motion scale, so combat runs at 1.333s' },
   { token: '--nw-pulse-state',    value: 'running | paused', use: 'LED heartbeat play state; paused in archive and by reduced motion' },
 ];
 

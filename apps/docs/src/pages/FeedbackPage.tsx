@@ -6,8 +6,8 @@ import { makeEvent, type EventEntry } from '../data';
 type ToastKind = 'success' | 'info' | 'warning' | 'danger';
 type Toast = { id: number; kind: ToastKind; head: string; body: string; open: boolean };
 
-// Longer than the slowest toast exit: --nw-sweep-out is 262.5ms at operator and 315ms at combat
-// (262.5ms * 1.2), the longest at any intensity. 350ms clears it. A timer rather than
+// Longer than the slowest toast exit: --nw-sweep-out is 250ms at operator and 300ms at combat
+// (250ms * 1.2), the longest at any intensity. 350ms clears it. A timer rather than
 // transitionend, which never fires under reduced motion (transitions are off there).
 const TOAST_EXIT_MS = 350;
 

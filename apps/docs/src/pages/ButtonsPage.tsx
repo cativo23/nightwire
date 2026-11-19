@@ -94,7 +94,7 @@ export function ButtonsPage() {
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
             <span className="tag tag-success">Operational</span>
             <span className="tag tag-danger">Offline</span>
-            <span className="tag tag-warning">Degraded</span>
+            <span className="tag tag-warn">Degraded</span>
             <span className="tag tag-info">Metadata</span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               <span className="tag tag-chrome">System</span><NewBadge tight />
@@ -108,10 +108,10 @@ export function ButtonsPage() {
           </div>
           <CodeBlock>{`<span class="tag tag-success">Operational</span>
 <span class="tag tag-danger">Offline</span>
-<span class="tag tag-warning">Degraded</span>
+<span class="tag tag-warn">Degraded</span>
 <span class="tag tag-info">Metadata</span>
 <span class="tag tag-chrome">System</span>   <!-- new -->
-<span class="tag tag-warn">Warn</span>       <!-- new (alias of warning) -->
+<span class="tag tag-warn">Warn</span>       <!-- new -->
 <span class="tag tag-ai">Oracle</span>       <!-- new -->`}</CodeBlock>
           <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '12px 0 6px' }}>Badges</div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
@@ -130,32 +130,25 @@ export function ButtonsPage() {
       <div className="panel">
         <div className="panel-header"><span>Status LEDs</span><span className="tag">LED</span></div>
         <div className="panel-body">
-          <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>v1 — color classes</div>
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>
-            <span><span className="led green" /> Green</span>
-            <span><span className="led blue" /> Blue</span>
-            <span><span className="led red" /> Red</span>
-            <span><span className="led yellow" /> Yellow</span>
-            <span><span className="led green blink" /> Blinking</span>
-          </div>
           <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
-            data-state attribute <NewBadge />
+            data-state attribute
           </div>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>
             <span><span className="led" data-state="ok" /> ok</span>
-            <span><span className="led" data-state="warn" /> warn</span>
+            <span><span className="led" data-state="active" /> active</span>
             <span><span className="led" data-state="error" /> error</span>
+            <span><span className="led" data-state="warn" /> warn</span>
             <span><span className="led" data-state="info" /> info</span>
             <span><span className="led" data-state="ai" /> ai</span>
             <span><span className="led" data-state="ok" data-pulse /> pulse</span>
           </div>
-          <CodeBlock>{`<!-- v1 (still works) -->
-<span class="led green"></span>
-<span class="led green blink"></span>
-
-<!-- v2 — state-driven, includes 'ai' for purple oracle surfaces -->
-<span class="led" data-state="ok"></span>
-<span class="led" data-state="error" data-pulse></span>`}</CodeBlock>
+          <CodeBlock>{`<!-- State-driven. The v1 .led.green/.blue/.red/.yellow classes are gone in v3. -->
+<span class="led" data-state="ok"></span>      <!-- was .led.green -->
+<span class="led" data-state="active"></span>  <!-- was .led.blue -->
+<span class="led" data-state="error"></span>   <!-- was .led.red -->
+<span class="led" data-state="warn"></span>    <!-- was .led.yellow -->
+<span class="led" data-state="ai"></span>      <!-- purple, oracle surfaces -->
+<span class="led" data-state="error" data-pulse></span>  <!-- pulsing -->`}</CodeBlock>
         </div>
       </div>
     </section>
