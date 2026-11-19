@@ -56,7 +56,7 @@ At the root, `cssComment` (printed above `:root`), `cssAlign`, and `intensity`:
 "intensity": {
   "archive":  { "comment": "/* … */", "tokens": { "knob.glow": 0, "knob.panel-radius": "{radius.sm}" } },
   "operator": { "comment": "/* … */", "body": "/* base :root values apply */", "tokens": {} },
-  "combat":   { "comment": "/* … */", "tokens": { "knob.glow": 2.2 } }
+  "combat":   { "comment": "/* … */", "tokens": { "knob.led-glow": "calc(var(--nw-glow) * 2)" } }
 }
 ```
 
@@ -139,8 +139,24 @@ Every raw token today, and why it cannot be typed:
 | `doc.typography.title.transform` | `scaleX(0.82)` | `DESIGN.md` only | CSS transform |
 | `doc.typography.title.textTransform`, `doc.typography.stamp.textTransform` | `uppercase` | `DESIGN.md` only | CSS keyword |
 
-Intensity overrides that are strings (`paused`, `none`, the combat gradients, `0.14em`) are raw in
-the same way.
+Intensity overrides that are strings (`paused`, `none`, `calc(var(--nw-glow) * 2)`, `0.14em`) are
+raw in the same way.
+
+## Role and knob tokens added in v3
+
+| Token | CSS | Value | Use |
+|-------|-----|-------|-----|
+| `semantic.role.action` | `--nw-action` | alias of `semantic.text.default` (`#e6e6e6`) | The one solid action fill: `.btn` background and border |
+| `semantic.role.action-hot` | `--nw-action-hot` | alias of `semantic.role.chrome-hot` (`#99bbff`) | `.btn:hover` |
+| `semantic.role.action-text` | `--nw-action-text` | alias of `color.void.base` (`#000000`) | Text on the action fill |
+| `knob.led-glow`, `knob.control-glow`, `knob.progress-glow` | `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow` | alias of `knob.glow`; combat overrides each to `calc(var(--nw-glow) * 2)` | State glow of the LED; of check, radio, switch, segmented and steps; of the progress fill |
+| `knob.hairline`, `knob.rule`, `knob.accent-width` | `--nw-hairline`, `--nw-rule`, `--nw-accent-width` | `1px`, `1.5px`, `2px` | Structural borders, marks drawn inside controls, accent bars. No per-level overrides |
+| `shadow.elevation-overlay` | `--nw-elevation-overlay` | `0 24px 64px rgba(0, 0, 0, 0.7)` | Modal, drawer and command palette panels. CSS only |
+
+The action tokens map to Tailwind as `colors.nw.action.DEFAULT`, `.hot` and `.text`, like the
+chrome tokens. The glow knobs are aliases of `knob.glow`, so a consumer override of `--nw-glow`
+reaches every one of them at every intensity. `knob.header-gradient` and `knob.header-pattern` were
+removed in v3: panel headers have no gradient or scanlines at any level.
 
 ## Preset-only and doc-only tokens
 
