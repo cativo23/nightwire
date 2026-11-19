@@ -218,7 +218,7 @@ export function makeEvent(): EventEntry {
   const details = [
     'Component tree reconciled', 'Token palette validated', 'Panel layout recalculated',
     'Waveform buffer flushed', 'Metrics grid recomputed', 'Font stack loaded: 4/4',
-    'CSS custom properties: 42 active', 'Design token sync complete', 'Surface hierarchy verified',
+    `CSS custom properties: ${__NW_TOKEN_COUNT__} active`, 'Design token sync complete', 'Surface hierarchy verified',
     'Glow shader compiled', 'DOM elements mounted',
   ];
   const t = types[Math.floor(Math.random() * types.length)];

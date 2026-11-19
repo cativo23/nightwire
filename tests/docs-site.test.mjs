@@ -155,3 +155,8 @@ test('should_not_describe_a_panel_as_filled_or_a_card_as_rounded', () => {
   assert.deepEqual(offenders(/Panel fill|border-radius and are intended/), []);
 });
 
+test('should_not_hard_code_a_token_count_in_the_event_stream', () => {
+  const data = read(`${SRC}/data/index.ts`);
+  assert.doesNotMatch(data, /custom properties: \d+ active/);
+  assert.match(data, /__NW_TOKEN_COUNT__/);
+});
