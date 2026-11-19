@@ -25,7 +25,7 @@ themselves; they read the knobs.
 | `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow` | `var(--nw-glow)` | — (follows `--nw-glow`, so 0) | `calc(var(--nw-glow) * 2)`, effective 1 | state glow only, never decoration: led reads the first, check, radio, switch, segmented and steps the second, progress the third |
 | `--nw-pulse-speed` | `1.6s` | — | — (no combat override; the motion scale divides it, so combat pulses in 1.333s) | led |
 | `--nw-loop-state` | `running` | — | — | button spinner, skeleton shimmer |
-| `--nw-panel-radius` | `var(--radius-none)` | `var(--radius-sm)` | — | panel |
+| `--nw-panel-radius` | `var(--radius-none)` | `var(--radius-sm)` | — | none: `.panel` is square at every level since the open layout (FR-026), so the knob is for a consumer's own box |
 | `--nw-value-color` | `var(--nw-data)` | `var(--nw-green-dim)` | `var(--nw-green-dim)` | stat |
 | `--nw-value-weight` | `500` | `400` | — | stat |
 | `--nw-kanji-display` | `inline` | `none` | — | `.kanji` |

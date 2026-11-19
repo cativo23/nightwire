@@ -737,7 +737,7 @@ knobs:
   --nw-hairline:       1px        # every structural border (no per-level overrides)
   --nw-rule:           1.5px      # marks drawn inside controls: check strokes, spinner ring
   --nw-accent-width:   2px        # accent bars: tabs, sidebar, diff, toast
-  --nw-panel-radius:   0          # softens to 2px in archive
+  --nw-panel-radius:   0          # 2px in archive; .panel itself is square at every level, so this is for your own boxes
   --nw-value-color:    var(--nw-data)  # --nw-green-dim in archive and combat
   --nw-kanji-display:  inline     # → none in archive
   --nw-grain:          0.07       # film grain opacity of .nw-grain; 0 in archive, 0.1 in combat
