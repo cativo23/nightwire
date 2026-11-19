@@ -18,7 +18,7 @@ Built on top of [nerv-ui](https://github.com/TheGreatGildo/nerv-ui) by [TheGreat
 3. **Readable first** — 14px base font, 1.5 line-height. Legibility over density.
 4. **No CRT effects, no decorative glow** — No scanlines, no flicker, no vignette. Glow is a state signal only (LED, check, switch, progress) and is off in `archive`.
 5. **Soft neon** — Cyberpunk-inspired but not eye-burning. Vibrant, not harsh.
-6. **Square and quiet** — Square corners, 1px hairlines, one solid bone-colored action per view; every other button is an outline.
+6. **Square and quiet** — Square corners, 1px hairlines, one solid bone-colored action per view; every other button is an outline, except `.btn-danger` and `.btn-chrome`.
 
 ### What v3 looks like
 

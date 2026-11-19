@@ -355,7 +355,7 @@ Nightwire is a **cyberpunk aesthetic system** that works at any information dens
 
 The aesthetic is consistent across all use cases. The layout adapts to the project. A personal portfolio uses the same tokens, fonts, and components as a dense monitoring dashboard — the difference is in how you arrange them.
 
-**The v3 look in one paragraph.** Neutral first: labels, hairlines and default text sit on the grey ramp, and colour appears only where it carries meaning (data values, state, focus, the selected item). Corners are square (`--radius-sm`, 2px, on every control; panels are 0). Edges are 1px hairlines. There is one solid action per view, in bone (`.btn`, `--nw-action`), and every other button is an outline. Nothing glows for decoration: glow is a state signal (LED, check, switch, segmented, steps, progress), it is off at `archive`, and it never rises at `combat` except on those signals. The four typefaces, the kanji labels, the compressed serif title and the three intensities are unchanged.
+**The v3 look in one paragraph.** Neutral first: labels, hairlines and default text sit on the grey ramp, and colour appears only where it carries meaning (data values, state, focus, the selected item). Corners are square (`--radius-sm`, 2px, on every control; panels are 0). Edges are 1px hairlines. There is one solid action per view, in bone (`.btn`, `--nw-action`), and every other button is an outline, except the two deliberate solids: `.btn-danger` (red, destructive) and `.btn-chrome` (blue, UI-chrome actions). Nothing glows for decoration: glow is a state signal (LED, check, switch, segmented, steps, progress), it is off at `archive`, and it never rises at `combat` except on those signals. The four typefaces, the kanji labels, the compressed serif title and the three intensities are unchanged.
 
 **Emotional tone:** Calm precision. The quiet confidence of a system that knows exactly what it's doing.
 
@@ -909,7 +909,7 @@ promises below hold within v3.x, where a minor release only adds.
 **What changed against v2.1.0.**
 
 1. **The look.** Every component, at every intensity, moved to the visual identity above: neutral
-   labels and hairlines, square corners, bone `.btn`, outline secondaries, no decorative glow, a
+   labels and hairlines, square corners, bone `.btn`, outline secondaries (`.btn-danger` and `.btn-chrome` stay solid), no decorative glow, a
    neutral default `.tag`, a `.toast` with a hairline boundary and a 2px accent. The values and
    reasons are in `docs/design/v3/direction.md` in the repository. Existing markup keeps
    working and renders the new look.

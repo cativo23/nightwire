@@ -50,7 +50,7 @@ Nightwire is a **cyberpunk aesthetic system** that works at any information dens
 **The v3 look:** neutral first. Labels, hairlines and default text are grey; colour appears only where
 it means something (data, state, focus, the selected item). Corners are square: panels 0, every
 control, card and modal `--radius-sm` (2px). Edges are 1px hairlines. There is **one solid action
-per view**, the bone `.btn`; every other button is an outline. Nothing glows for decoration. Glow is
+per view**, the bone `.btn`; every other button is an outline, except the deliberate solids `.btn-danger` (red) and `.btn-chrome` (blue). Nothing glows for decoration. Glow is
 a state signal (LED, check, switch, segmented, steps, progress), off at `archive`. Typefaces, kanji
 labels, the compressed title and the three intensities are unchanged.
 
