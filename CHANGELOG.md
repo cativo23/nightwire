@@ -138,9 +138,9 @@ All notable changes to this project will be documented in this file.
   resolved. The generated `DESIGN.md` `rounded`, `colors` and `typography` comments are corrected
   at their source in `tokens.json` (the radius steps and surfaces as v3 uses them, buttons in the
   system font). Direction approval, the SC-006 review and the v1 inventory are recorded under
-  `docs/design/v3/`. SC-006: the maintainer approved the 34 components at all three intensities,
-  with the default `.tag` neutral, the `.tab` and `.sidebar-item` hover at `--nw-text-strong`, and
-  the toast boundary above; `.code-inline`, `.kv-value` and `.dropdown-item` at `--nw-text-default`
+  `docs/design/v3/`. SC-006: the maintainer approved the refresh across the 35 component
+  stylesheets at all three intensities, with the default `.tag` neutral, the `.tab` and
+  `.sidebar-item` hover at `--nw-text-strong`, and the toast boundary above; `.code-inline`, `.kv-value` and `.dropdown-item` at `--nw-text-default`
   (were green, green and `--nw-text-dim`) and the skeleton shimmer neutral (was blue).
 - `DESIGN.md`: the generated `motion` region lists the real motion custom properties instead of
   the doc-only `duration-*` and `easing-*` names, and the `ticker-scroll` and `led-blink`

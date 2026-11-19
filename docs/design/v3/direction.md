@@ -148,8 +148,8 @@ it (constitution, principle IV).
 
 ## SC-006 review (2026-11-18)
 
-The maintainer reviewed the before and after renders of the 34 components at all three intensities
-and approved the refresh (SC-006) with six detail decisions, numbered as in the review.
+The maintainer reviewed the before and after renders of the 35 component stylesheets at all three
+intensities and approved the refresh (SC-006) with six detail decisions, numbered as in the review.
 
 | # | Surface | Decision | Reason |
 |---|---|---|---|
