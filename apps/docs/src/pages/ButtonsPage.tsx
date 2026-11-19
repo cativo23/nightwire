@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { SectionTitle, CodeBlock } from '../components/CodeBlock';
-import { NewBadge } from '../components/NewBadge';
 
 export function ButtonsPage() {
   const [segMode, setSegMode] = useState('day');
@@ -16,25 +15,21 @@ export function ButtonsPage() {
             <button className="btn-ghost">Ghost</button>
             <button className="btn-danger">Danger</button>
             <button className="btn btn-sm">Small</button>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <button className="btn btn-success">Success</button><NewBadge tight />
-            </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <button className="btn btn-ai">AI</button><NewBadge tight />
-            </span>
+            <button className="btn btn-success">Success</button>
+            <button className="btn btn-ai">AI</button>
           </div>
           <CodeBlock>{`<button class="btn">Primary</button>
 <button class="btn-ghost">Ghost</button>
 <button class="btn-danger">Danger</button>
 <button class="btn btn-sm">Small</button>
-<button class="btn btn-success">Success</button>  <!-- new -->
-<button class="btn btn-ai">AI</button>            <!-- new -->`}</CodeBlock>
+<button class="btn btn-success">Success</button>
+<button class="btn btn-ai">AI</button>`}</CodeBlock>
         </div>
       </div>
 
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
-          <span>Sizes & States <NewBadge /></span>
+          <span>Sizes & States</span>
           <span className="tag">寸法</span>
         </div>
         <div className="panel-body">
@@ -61,7 +56,7 @@ export function ButtonsPage() {
 
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
-          <span>Segmented Control <NewBadge /></span>
+          <span>Segmented Control</span>
           <span className="tag">区分</span>
         </div>
         <div className="panel-body">
@@ -96,23 +91,17 @@ export function ButtonsPage() {
             <span className="tag tag-danger">Offline</span>
             <span className="tag tag-warn">Degraded</span>
             <span className="tag tag-info">Metadata</span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-              <span className="tag tag-chrome">System</span><NewBadge tight />
-            </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-              <span className="tag tag-warn">Warn</span><NewBadge tight />
-            </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-              <span className="tag tag-ai">Oracle</span><NewBadge tight />
-            </span>
+            <span className="tag tag-chrome">System</span>
+            <span className="tag tag-warn">Warn</span>
+            <span className="tag tag-ai">Oracle</span>
           </div>
           <CodeBlock>{`<span class="tag tag-success">Operational</span>
 <span class="tag tag-danger">Offline</span>
 <span class="tag tag-warn">Degraded</span>
 <span class="tag tag-info">Metadata</span>
-<span class="tag tag-chrome">System</span>   <!-- new -->
-<span class="tag tag-warn">Warn</span>       <!-- new -->
-<span class="tag tag-ai">Oracle</span>       <!-- new -->`}</CodeBlock>
+<span class="tag tag-chrome">System</span>
+<span class="tag tag-warn">Warn</span>
+<span class="tag tag-ai">Oracle</span>`}</CodeBlock>
           <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '12px 0 6px' }}>Badges</div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
             <span className="badge">Default</span>

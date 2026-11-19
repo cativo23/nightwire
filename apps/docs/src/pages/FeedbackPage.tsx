@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
 import { SectionTitle, CodeBlock } from '../components/CodeBlock';
-import { NewBadge } from '../components/NewBadge';
 import { makeEvent, type EventEntry } from '../data';
 
 type ToastKind = 'success' | 'info' | 'warning' | 'danger';
@@ -66,7 +65,7 @@ export function FeedbackPage() {
           <div className="toast toast-danger">Connection to core server lost. Attempting reconnection.</div>
         </div>
         <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '12px 0 6px' }}>
-          Live trigger <NewBadge />
+          Live trigger
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
           <button className="btn btn-success" onClick={() => pushToast('success', 'Operation complete', '12 nodes synced')}>Success</button>
@@ -85,9 +84,9 @@ export function FeedbackPage() {
 <div class="toast toast-info" data-open="false">Dismissed</div>`}</CodeBlock>
       </div>
 
-      {/* Banner — v2 */}
+      {/* Banner */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Banner <NewBadge /></span><span className="tag">告知</span></div>
+        <div className="panel-header"><span>Banner</span><span className="tag">告知</span></div>
         <div className="banner" style={{ marginBottom: 12 }}>
           <span className="banner-tag">Notice</span>
           Scheduled maintenance on edge nodes <span className="data tabular" style={{ color: 'var(--nw-green)' }}>2026-05-20 22:00 UTC</span> · expected 12m downtime.
@@ -99,9 +98,9 @@ export function FeedbackPage() {
 </div>`}</CodeBlock>
       </div>
 
-      {/* Stepper — v2 */}
+      {/* Stepper */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Stepper <NewBadge /></span><span className="tag">段階</span></div>
+        <div className="panel-header"><span>Stepper</span><span className="tag">段階</span></div>
         <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div style={{ fontSize: 11, color: 'var(--nw-text-dim)' }}>Multi-step progress — 3 of 5 complete</div>
           <div className="steps">
@@ -121,9 +120,9 @@ export function FeedbackPage() {
         </div>
       </div>
 
-      {/* Empty state — v2 */}
+      {/* Empty state */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Empty State <NewBadge /></span><span className="tag">空</span></div>
+        <div className="panel-header"><span>Empty State</span><span className="tag">空</span></div>
         <div className="panel-body">
           <div className="empty" style={{ background: 'var(--nw-surface-1)', border: '1px solid var(--nw-line)' }}>
             <div className="glyph">⌬</div>
@@ -140,9 +139,9 @@ export function FeedbackPage() {
         </div>
       </div>
 
-      {/* AI block — v2 */}
+      {/* AI block */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>AI Block <NewBadge /></span><span className="tag">予言</span></div>
+        <div className="panel-header"><span>AI Block</span><span className="tag">予言</span></div>
         <div className="panel-body" style={{ padding: 0 }}>
           <div className="ai-block">
             <div className="ai-block-head">
@@ -169,9 +168,9 @@ export function FeedbackPage() {
         </div>
       </div>
 
-      {/* Modal / Drawer / Cmd K — v2 interactive */}
+      {/* Modal / Drawer / Cmd K */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Overlays — Modal · Drawer · Cmd K <NewBadge /></span><span className="tag">重ね</span></div>
+        <div className="panel-header"><span>Overlays — Modal · Drawer · Cmd K</span><span className="tag">重ね</span></div>
         <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button className="btn btn-ghost" onClick={() => setModalOpen(true)}>Open modal</button>

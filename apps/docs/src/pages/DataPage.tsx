@@ -1,5 +1,4 @@
 import { SectionTitle, CodeBlock } from '../components/CodeBlock';
-import { NewBadge } from '../components/NewBadge';
 
 export function DataPage() {
   return (
@@ -58,7 +57,7 @@ export function DataPage() {
 
       <div className="panel" style={{ marginBottom: 2, marginTop: 2 }}>
         <div className="panel-header">
-          <span>Stat Card with Sparkline <NewBadge /></span>
+          <span>Stat Card with Sparkline</span>
           <span className="tag">指標カード</span>
         </div>
         <div className="panel-body" style={{ padding: 0 }}>
@@ -96,7 +95,7 @@ export function DataPage() {
 
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
-          <span>Code Block with Syntax Tokens <NewBadge /></span>
+          <span>Code Block with Syntax Tokens</span>
           <span className="tag">コード</span>
         </div>
         <div className="panel-body">
@@ -122,7 +121,7 @@ export function DataPage() {
 
       <div className="panel">
         <div className="panel-header">
-          <span>Diff View <NewBadge /></span>
+          <span>Diff View</span>
           <span className="tag">差分</span>
         </div>
         <div className="panel-body">

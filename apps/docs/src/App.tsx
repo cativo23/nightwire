@@ -117,7 +117,7 @@ export default function App() {
               <Route path="/more-components" element={<MoreComponentsPage />} />
               <Route path="/templates" element={<TemplatesPage />} />
               <Route path="/examples" element={<ExamplesPage />} />
-              {/* v2 transversal docs */}
+              {/* Cross-cutting docs */}
               <Route path="/intensity" element={<IntensityPage />} />
               <Route path="/layer2-tokens" element={<Layer2TokensPage />} />
             </Routes>

@@ -43,15 +43,11 @@ export const COMPONENTS = [
 // Grouping follows a Foundation / Components / Patterns model, inspired by Polaris, Geist and
 // Atlassian.
 //
-// v2-alpha additions get an inline `isNewV2` flag so the Sidebar can pin a small
-// "v2" chip next to the label, and NewBadge renders the full "NEW IN V2" pill —
-// together they form a two-tier visual system (chip for sidebar, badge for page headers).
 
 export type SidebarItem = {
   id: string;
   label: string;
   kanji: string;
-  isNewV2?: boolean;
 };
 
 export type SidebarGroup = {
@@ -79,7 +75,7 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
       { id: 'typography',    label: 'Typography',        kanji: 'タイポ' },
       { id: 'surfaces',      label: 'Surface Hierarchy', kanji: 'サーフェス' },
       { id: 'spacing',       label: 'Spacing Scale',     kanji: 'スペース' },
-      { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層', isNewV2: true },
+      { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層' },
     ],
   },
   {
@@ -98,7 +94,7 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
     section: 'Patterns',
     kanji: '応用',
     items: [
-      { id: 'intensity', label: 'Intensity System', kanji: '強度', isNewV2: true },
+      { id: 'intensity', label: 'Intensity System', kanji: '強度' },
       { id: 'templates', label: 'Layout Templates', kanji: '型紙' },
       { id: 'examples',  label: 'Live Examples',    kanji: 'デモ' },
     ],
