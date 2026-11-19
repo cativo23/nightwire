@@ -74,7 +74,7 @@ typography:
     transform:     "scaleX(0.82)"
     textTransform: "uppercase"
 
-  # Stamp — labels, badges, tags, button text
+  # Stamp — labels, badges, tags (buttons use the system font, bold uppercase)
   stamp:
     fontFamily:    "'Saira Extra Condensed', 'Impact', sans-serif"
     fontSize:      "12px"
@@ -139,7 +139,7 @@ components:
   button-primary:
     background: "#e6e6e6"                   # CSS: --nw-action (bone), hover --nw-action-hot #99bbff
     color: "{colors.void}"                  # CSS: --nw-action-text
-    font: "{typography.stamp}"
+    font: "{typography.sys} bold, uppercase"
     borderRadius: "{rounded.sm}"
     padding: "8px 16px"
 
@@ -532,7 +532,8 @@ Every panel header follows this exact pattern:
 |---|---|---|
 | All body text, data | JetBrains Mono | `var(--font-sys)` |
 | Page/section titles | Noto Serif Display + scaleX(0.82) | `.compressed-title` |
-| Buttons, badges, tags | Saira Extra Condensed | `var(--font-stamp)` |
+| Badges, tags, field and stat labels | Saira Extra Condensed | `var(--font-stamp)` |
+| Buttons | JetBrains Mono, bold uppercase | `var(--font-sys)` |
 | Japanese decorative text | Shippori Mincho B1 | `var(--font-mincho)` |
 
 Compressed title usage:
