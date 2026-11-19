@@ -21,13 +21,13 @@ This file contains complete HTML examples for all Nightwire components and patte
         <td>node-01</td>
         <td>42%</td>
         <td>68%</td>
-        <td><span class="led green"></span> OK</td>
+        <td><span class="led" data-state="ok"></span> OK</td>
       </tr>
       <tr>
         <td>node-02</td>
         <td>87%</td>
         <td>91%</td>
-        <td><span class="led yellow"></span> Degraded</td>
+        <td><span class="led" data-state="warn"></span> Degraded</td>
       </tr>
     </tbody>
   </table>
@@ -67,15 +67,15 @@ This file contains complete HTML examples for all Nightwire components and patte
     <div style="font-family:var(--font-title);font-size:12px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--nw-cyan);transform:scaleX(0.82);transform-origin:left">Cluster-Alpha — H100 x 512</div>
     <div style="font-family:var(--font-mincho);font-size:13px;font-weight:800;color:var(--nw-text);transform:scaleX(0.78);transform-origin:left;margin:2px 0 6px">深層学習訓練クラスタ</div>
     <div style="display:flex;justify-content:space-between;font-size:9px;padding:2px 0;border-bottom:1px solid var(--nw-text-faint)">
-      <span style="color:var(--nw-primary-dim);text-transform:uppercase;font-size:8px">STATUS</span>
+      <span style="color:var(--nw-text-mute);text-transform:uppercase;font-size:8px">STATUS</span>
       <span style="color:var(--nw-green);font-weight:500">Training</span>
     </div>
     <div style="display:flex;justify-content:space-between;font-size:9px;padding:2px 0;border-bottom:1px solid var(--nw-text-faint)">
-      <span style="color:var(--nw-primary-dim);text-transform:uppercase;font-size:8px">GPU UTIL</span>
+      <span style="color:var(--nw-text-mute);text-transform:uppercase;font-size:8px">GPU UTIL</span>
       <span style="color:var(--nw-green);font-weight:500">96.8%</span>
     </div>
     <div style="margin-top:4px;font-family:var(--font-stamp);font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--nw-green)">
-      <span class="led green"></span> Operational
+      <span class="led" data-state="ok"></span> Operational
     </div>
   </div>
 </div>
@@ -121,8 +121,8 @@ This file contains complete HTML examples for all Nightwire components and patte
 ## Event Log
 
 ```html
-<div style="background:var(--void-warm);border:1px solid var(--nw-text-faint);display:flex;flex-direction:column;height:400px;">
-  <div style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--nw-primary);padding:6px 10px 5px;border-bottom:1px solid var(--nw-primary-dim);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+<div style="background:var(--void-warm);border:1px solid var(--nw-line);display:flex;flex-direction:column;height:400px;">
+  <div style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--nw-text-mute);padding:6px 10px 5px;border-bottom:1px solid var(--nw-line);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
     <span>EVENT LOG</span>
     <span style="font-size:7px;color:var(--nw-green)">42 entries</span>
   </div>
@@ -157,7 +157,7 @@ This file contains complete HTML examples for all Nightwire components and patte
 
 ```html
 <div style="margin-bottom:16px">
-  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:6px">
+  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-mute); margin-bottom:6px">
     EMAIL ADDRESS
   </label>
   <input type="email" placeholder="user@example.com"
@@ -169,7 +169,7 @@ This file contains complete HTML examples for all Nightwire components and patte
 
 ```html
 <div style="margin-bottom:16px">
-  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:6px">
+  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-mute); margin-bottom:6px">
     MESSAGE
   </label>
   <textarea rows="4" placeholder="Your message..."
@@ -181,7 +181,7 @@ This file contains complete HTML examples for all Nightwire components and patte
 
 ```html
 <div style="margin-bottom:16px">
-  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:6px">
+  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-mute); margin-bottom:6px">
     CATEGORY
   </label>
   <select style="width:100%; padding:8px 12px; background:var(--void-panel); border:1px solid var(--nw-text-line); color:var(--nw-text); font-family:var(--font-sys); font-size:14px">
@@ -206,7 +206,7 @@ This file contains complete HTML examples for all Nightwire components and patte
 
 ```html
 <div style="margin-bottom:16px">
-  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:8px">
+  <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-mute); margin-bottom:8px">
     DEPLOYMENT TARGET
   </label>
   <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:8px">
@@ -274,7 +274,7 @@ This file contains complete HTML examples for all Nightwire components and patte
   <div class="panel-body">
     <form>
       <div style="margin-bottom:16px">
-        <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:6px">
+        <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-mute); margin-bottom:6px">
           NAME
         </label>
         <input type="text" placeholder="Your name"
@@ -282,7 +282,7 @@ This file contains complete HTML examples for all Nightwire components and patte
       </div>
 
       <div style="margin-bottom:16px">
-        <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:6px">
+        <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-mute); margin-bottom:6px">
           EMAIL
         </label>
         <input type="email" placeholder="your@email.com"
@@ -290,7 +290,7 @@ This file contains complete HTML examples for all Nightwire components and patte
       </div>
 
       <div style="margin-bottom:16px">
-        <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary); margin-bottom:6px">
+        <label style="display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-mute); margin-bottom:6px">
           MESSAGE
         </label>
         <textarea rows="4" placeholder="Your message..."
@@ -342,11 +342,11 @@ This file contains complete HTML examples for all Nightwire components and patte
 ```html
 <div style="margin-bottom:12px">
   <div style="display:flex; justify-content:space-between; margin-bottom:4px">
-    <span style="font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-primary)">UPLOAD PROGRESS</span>
+    <span style="font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nw-text-mute)">UPLOAD PROGRESS</span>
     <span style="font-size:10px; color:var(--nw-green); font-weight:700">68%</span>
   </div>
   <div class="nw-progress">
-    <div class="fill" style="width:68%"></div>
+    <div class="nw-progress-fill" style="width:68%"></div>
   </div>
 </div>
 ```
@@ -369,7 +369,7 @@ This file contains complete HTML examples for all Nightwire components and patte
   <span class="tag">Default</span>
   <span class="tag-success">Active</span>
   <span class="tag-danger">Offline</span>
-  <span class="tag-warning">Pending</span>
+  <span class="tag-warn">Pending</span>
   <span class="tag-info">Beta</span>
 </div>
 ```
@@ -399,7 +399,7 @@ This file contains complete HTML examples for all Nightwire components and patte
 ```
 
 A toast with no `data-open` is visible. Set `data-open="false"` on it to fade it out and hide it
-(then remove it after at least 350ms, which covers the combat sweep exit (315ms), using a timer rather than
+(then remove it after at least 350ms, which covers the combat sweep exit (300ms), using a timer rather than
 `transitionend`, which does not fire under reduced motion); `"true"` shows it again.
 
 A toast mounted already open does not animate in, because the first style never transitions. To
@@ -416,7 +416,17 @@ requestAnimationFrame(() => requestAnimationFrame(() => { toast.dataset.open = '
 ## Dropdown and Tooltip
 
 ```html
-<!-- Dropdown: visible without data-open; "false" closes it with an exit animation -->
+<!-- Dropdown, open: visible with data-open="true" (and also with no data-open at all) -->
+<div class="dropdown" data-open="true">
+  <button class="btn-ghost btn-sm">Actions ▾</button>
+  <div class="dropdown-menu">
+    <button class="dropdown-item">Edit</button>
+    <div class="dropdown-divider"></div>
+    <button class="dropdown-item danger">Delete</button>
+  </div>
+</div>
+
+<!-- Dropdown, closed: data-open="false" hides it with an exit animation -->
 <div class="dropdown" data-open="false">
   <button class="btn-ghost btn-sm">Actions ▾</button>
   <div class="dropdown-menu">
@@ -446,7 +456,7 @@ A closed tooltip is `visibility: hidden`, which takes its text out of the access
 <div class="modal-backdrop" data-open="true">
   <div class="modal">
     <div class="modal-header">
-      <span style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--nw-primary)">CONFIRM ACTION</span>
+      <span style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase">CONFIRM ACTION</span>
       <button style="background:transparent; border:none; color:var(--nw-text-dim); cursor:pointer; font-size:20px">&times;</button>
     </div>
     <div class="modal-body">
@@ -483,7 +493,7 @@ A closed tooltip is `visibility: hidden`, which takes its text out of the access
 
 ---
 
-## v2-alpha examples (additive)
+## Command palette, forms, overlays and data display
 
 ### Command palette (Cmd K)
 
@@ -638,6 +648,7 @@ Toggle with `document.getElementById('cmdk').dataset.open = 'true'` (or `false`)
 <span class="led" data-state="ok" data-pulse></span>     <!-- green pulsing -->
 <span class="led" data-state="warn"></span>              <!-- amber static -->
 <span class="led" data-state="error" data-pulse></span>  <!-- red pulsing -->
+<span class="led" data-state="active"></span>            <!-- blue static: active / processing -->
 <span class="led" data-state="ai"></span>                <!-- purple static -->
 ```
 
