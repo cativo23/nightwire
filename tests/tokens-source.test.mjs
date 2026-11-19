@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
-import { NS } from '../scripts/lib/tokens.mjs';
+import { NS, emitCss } from '../scripts/lib/tokens.mjs';
 
 // Guards on the checked-in sources (src/tokens/tokens.json, src/components/*.css,
 // src/utilities/*.css), as opposed to tokens-validate/-emit, which feed the build fixtures.
@@ -385,4 +385,34 @@ test('.modal-backdrop is declared once, closed by default, with its open state o
   assert.equal(props.visibility, 'hidden');
   assert.equal(props.opacity, '0');
   assert.equal(props['pointer-events'], 'none');
+});
+
+// ---- FR-030 / FR-031: the mockup tokens and the grain knob ---------------------------------------
+
+// The intensity block of the emitted stylesheet: `:root[data-intensity="<level>"] { ... }`.
+const intensityBlock = (css, level) =>
+  new RegExp(`:root\\[data-intensity="${level}"\\]\\s*\\{([^}]*)\\}`).exec(css)?.[1] ?? '';
+
+test('knob.grain is the --nw-grain knob: 0.07 at operator, 0 at archive, 0.1 at combat (FR-031)', () => {
+  const grain = allTokens.find(({ path }) => path === 'knob.grain');
+  assert.ok(grain, 'knob.grain exists');
+  assert.equal(ext(grain.node).css, '--nw-grain');
+  assert.equal(grain.node.$value, 0.07, 'the base value is the operator value');
+  const levels = ext(tokens).intensity;
+  assert.equal(levels.archive.tokens['knob.grain'], 0);
+  assert.equal(levels.combat.tokens['knob.grain'], 0.1);
+  assert.ok(!('knob.grain' in levels.operator.tokens), 'operator takes the base value');
+});
+
+test('the emitted stylesheet declares the grain knob and the mockup piece tokens (FR-030, FR-031)', () => {
+  const css = emitCss(tokens);
+  assert.match(css, /--nw-grain:\s*0\.07;/, 'operator grain on :root');
+  assert.match(intensityBlock(css, 'archive'), /--nw-grain:\s*0;/, 'archive grain');
+  assert.match(intensityBlock(css, 'combat'), /--nw-grain:\s*0\.1;/, 'combat grain');
+  assert.match(css, /--nw-chip-line:\s*rgba\(255, 255, 255, 0\.18\);/, 'chip border keeps the mockup alpha');
+  assert.match(css, /--nw-bone:\s*#d8d2c8;/, 'halftone bone tint');
+  assert.match(css, /--nw-kanji-glow:\s*calc\(20px \* var\(--nw-glow\)\);/, 'kanji glow is derived from --nw-glow');
+  for (const level of ['archive', 'combat']) {
+    assert.doesNotMatch(intensityBlock(css, level), /--nw-kanji-glow/, `${level} does not override the derived kanji glow`);
+  }
 });

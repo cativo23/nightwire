@@ -52,6 +52,7 @@
   --nw-text-dim:      #aaaaaa;
   --nw-text-faint:    rgba(255, 255, 255, 0.08);
   --nw-text-line:     rgba(255, 255, 255, 0.14);
+  --nw-bone:          #d8d2c8;
 
   /* ── Semantic Roles ──────────────────────────────────────── */
   --nw-success:       var(--nw-green);
@@ -136,6 +137,7 @@
   /* Lines */
   --nw-line:          var(--nw-text-line);
   --nw-line-strong:   rgba(255, 255, 255, 0.36);
+  --nw-chip-line:     rgba(255, 255, 255, 0.18);
   --nw-line-chrome:   rgba(102, 153, 255, 0.35);
 
   /* Focus */
@@ -161,6 +163,8 @@
   --nw-value-weight:  500;
   --nw-kanji-display: inline;
   --nw-label-spacing:   var(--ls-ultra);
+  --nw-grain:         0.07;
+  --nw-kanji-glow:    calc(20px * var(--nw-glow));
 
   /* ── Motion vocabulary ──────────────────────────────────── */
   --nw-tick:   calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1);
@@ -207,6 +211,7 @@
   --nw-value-weight: 400;
   --nw-kanji-display: none;
   --nw-label-spacing: 0.14em;
+  --nw-grain: 0;
 }
 
 /* ── Intensity: operator (default — same as base :root) ── */
@@ -225,6 +230,7 @@
   --nw-led-glow: calc(var(--nw-glow) * 2);
   --nw-control-glow: calc(var(--nw-glow) * 2);
   --nw-progress-glow: calc(var(--nw-glow) * 2);
+  --nw-grain: 0.1;
 }
 
 @media (prefers-reduced-motion: reduce) {

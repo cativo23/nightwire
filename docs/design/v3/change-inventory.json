@@ -144,6 +144,39 @@
       }
     },
     {
+      "id": "token-additions-mockup-operator",
+      "description": "New custom properties on :root for the approved mockup look (FR-030, FR-031): the grain knob --nw-grain, the chip border --nw-chip-line, the halftone tint --nw-bone and the derived --nw-kanji-glow. Declaring them changes no rendered style by itself. --nw-grain and --nw-kanji-glow depend on the intensity (grain 0, 0.07 or 0.1; kanji glow 20px times the level's --nw-glow), so this category is pinned to operator (also the default, no data-intensity), with the exact old and new values observed.",
+      "match": {
+        "prop": "^--nw-(grain|chip-line|bone|kanji-glow)$",
+        "path": "^:root$",
+        "state": "^(none|operator)\\|",
+        "old": "^<missing>$",
+        "new": "^(0\\.07|rgba\\(255, 255, 255, 0\\.18\\)|#d8d2c8|calc\\(20px \\* 0\\.5\\))$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-archive",
+      "description": "New custom properties on :root for the approved mockup look (FR-030, FR-031): the grain knob --nw-grain, the chip border --nw-chip-line, the halftone tint --nw-bone and the derived --nw-kanji-glow. Declaring them changes no rendered style by itself. --nw-grain and --nw-kanji-glow depend on the intensity (grain 0, 0.07 or 0.1; kanji glow 20px times the level's --nw-glow), so this category is pinned to archive, with the exact old and new values observed.",
+      "match": {
+        "prop": "^--nw-(grain|chip-line|bone|kanji-glow)$",
+        "path": "^:root$",
+        "state": "^archive\\|",
+        "old": "^<missing>$",
+        "new": "^(0|rgba\\(255, 255, 255, 0\\.18\\)|#d8d2c8|calc\\(20px \\* 0\\))$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-combat",
+      "description": "New custom properties on :root for the approved mockup look (FR-030, FR-031): the grain knob --nw-grain, the chip border --nw-chip-line, the halftone tint --nw-bone and the derived --nw-kanji-glow. Declaring them changes no rendered style by itself. --nw-grain and --nw-kanji-glow depend on the intensity (grain 0, 0.07 or 0.1; kanji glow 20px times the level's --nw-glow), so this category is pinned to combat, with the exact old and new values observed.",
+      "match": {
+        "prop": "^--nw-(grain|chip-line|bone|kanji-glow)$",
+        "path": "^:root$",
+        "state": "^combat\\|",
+        "old": "^<missing>$",
+        "new": "^(0\\.1|rgba\\(255, 255, 255, 0\\.18\\)|#d8d2c8|calc\\(20px \\* 0\\.5\\))$"
+      }
+    },
+    {
       "id": "motion-reduced-archive",
       "description": "Reduced motion now wins over every intensity level (FR-006, known issue K1): under prefers-reduced-motion, --nw-motion-scale resolves to 0 and --nw-pulse-state and --nw-loop-state to paused, even with data-intensity set. Before, the intensity block won. Split per intensity so a value from one level never stands for another's: this category is pinned to archive, with the exact old and new values observed there.",
       "match": {
