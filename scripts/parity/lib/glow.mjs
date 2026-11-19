@@ -73,17 +73,24 @@ const NEW_SIGNAL = [
 const newSignalReason = (path, glows) => NEW_SIGNAL.find(({ re, layers }) => re.test(plain(path)) && layers(glows))?.reason;
 
 // FR-034: the decorative glows approved with the mockup, each scaled by a knob and 0 at archive.
-// This task adds the kanji glow of .nw-section-head-chrome (--nw-kanji-glow). Parity paths name only
-// the first class of an element, so the chrome variant is told from a plain .nw-section-head by the
-// glow colour, --nw-chrome, as the active LED is above; the kanji of .panel-header and .card-header
-// has no glow and is not listed. The exception is for text-shadow only and for a glow with no
-// v2.1.0 counterpart: an existing glow is still compared against its old blur.
+// Two so far, both on --nw-kanji-glow: the kanji of .nw-section-head-chrome, and the kanji of
+// .nw-index-row on hover. Parity paths name only the first class of an element, so the chrome
+// variant is told from a plain .nw-section-head by the glow colour, --nw-chrome, as the active LED
+// is above; the kanji of .panel-header and .card-header has no glow and is not listed. The
+// exception is for text-shadow only and for a glow with no v2.1.0 counterpart: an existing glow is
+// still compared against its old blur.
 const FR034 = [
   {
     re: /(^|>)[a-z0-9]+\.nw-section-head(-chrome)?>[a-z0-9]+\.kanji$/,
     prop: 'text-shadow',
     layers: (glows) => glows.every(isChrome),
     reason: 'FR-034: the kanji of .nw-section-head-chrome glows at --nw-kanji-glow (10px at operator, 0 at archive)',
+  },
+  {
+    re: /(^|>)[a-z0-9]+\.nw-index-row>[a-z0-9]+\.kanji$/,
+    prop: 'text-shadow',
+    layers: (glows) => glows.every(isChrome),
+    reason: 'FR-034: the kanji of .nw-index-row glows on hover at --nw-kanji-glow x .8 (8px at operator, 0 at archive)',
   },
 ];
 const fr034For = (record, glows) => FR034.find(({ re, prop, layers }) => prop === record.prop && re.test(plain(record.path)) && layers(glows));

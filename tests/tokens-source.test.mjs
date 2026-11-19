@@ -305,10 +305,10 @@ const STATE_GLOW = [
 const stateGlowFor = (file, selector) => STATE_GLOW.find((s) => s.file === file && s.selector.test(selector));
 
 // FR-034: the decorative glows approved with the mockup, an allowlist of its own so that the test
-// below still fails for any other new glow. Each reads its own knob, which is 0 at archive. Later
-// US5 tasks add the index-row hover glow here.
+// below still fails for any other new glow. Each reads its own knob, which is 0 at archive.
 const FR034_GLOW = [
   { file: 'src/components/section-head.css', selector: /^\.nw-section-head-chrome > \.kanji$/, knob: '--nw-kanji-glow' },
+  { file: 'src/components/kanji-index.css', selector: /^\.nw-index-row:hover \.kanji$/, knob: '--nw-kanji-glow' },
 ];
 const fr034GlowFor = (file, selector) => FR034_GLOW.find((s) => s.file === file && s.selector.test(selector));
 

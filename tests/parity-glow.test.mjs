@@ -255,3 +255,52 @@ test('FR-034: the exception is narrow: another path, another prop, another colou
   ]);
   assert.equal(combat.combat.violations.length, 1);
 });
+
+// ---- FR-034: the kanji of .nw-index-row glows on hover ----------------------------------------------
+// The mockup lights the index kanji on hover (--nw-kanji-glow x .8: 8px at operator, 0 at archive).
+// Parity paths name only the first class: `div.nw-index-row>span.kanji`. The row has no glow in
+// v2.1.0, so it is a new glow, accepted only as a text-shadow in --nw-chrome.
+
+const ROW_KANJI = 'html>body>main:nth-child(1)>div.fixture-us5:nth-child(1)>div.nw-index:nth-child(4)>div.nw-index-row:nth-child(1)>span.kanji:nth-child(1)';
+const HOVER = (level) => `${level}|rm-off|:hover@${ROW_KANJI}`;
+const rowKanji = (over) => rec({ path: ROW_KANJI, prop: 'text-shadow', old: 'none', state: HOVER('operator'), ...over });
+
+test('FR-034: the index-row kanji glow on hover is an exception at operator and in the none state, with the reason', () => {
+  const r = checkGlow([
+    rowKanji({ new: chromeGlow(8) }),
+    rowKanji({ state: HOVER('none'), new: chromeGlow(16) }),
+  ]);
+  assert.equal(r.operator.checked, 2);
+  assert.equal(r.operator['fr-034'], 2);
+  assert.equal(r.operator.violations.length, 0);
+  assert.match(r.operator.exceptions[0].reason, /FR-034.*nw-index-row/);
+});
+
+test('FR-034: the index-row kanji glow is accepted at combat, even when it rises above operator, and archive is still a violation', () => {
+  const combat = checkGlow([
+    rowKanji({ new: chromeGlow(8) }),
+    rowKanji({ state: HOVER('combat'), new: chromeGlow(8) }),
+  ]);
+  assert.equal(combat.combat.checked, 1);
+  assert.equal(combat.combat.violations.length, 0);
+  const rising = checkGlow([
+    rowKanji({ new: chromeGlow(8) }),
+    rowKanji({ state: HOVER('combat'), new: chromeGlow(19) }),
+  ]);
+  assert.equal(rising.combat['fr-034'], 1, 'a new decorative glow may be larger at combat only through the exception');
+  assert.equal(rising.combat.violations.length, 0);
+  const archive = checkGlow([rowKanji({ state: HOVER('archive'), new: chromeGlow(8) })]);
+  assert.equal(archive.archive.violations.length, 1);
+});
+
+test('FR-034: the index-row exception is narrow: a box-shadow, another colour, another element or an old glow still fail', () => {
+  const r = checkGlow([
+    rowKanji({ prop: 'box-shadow', new: chromeGlow(8) }),
+    rowKanji({ new: glow(8) }),
+    rowKanji({ path: ROW_KANJI.replace('span.kanji', 'span.name'), new: chromeGlow(8) }),
+    rowKanji({ path: ROW_KANJI.replace('div.nw-index-row', 'div.nw-index-cell'), new: chromeGlow(8) }),
+    rowKanji({ old: chromeGlow(8), new: chromeGlow(8) }),
+  ]);
+  assert.equal(r.operator.checked, 5);
+  assert.equal(r.operator.violations.length, 5);
+});
