@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseBoardArgs, outputName, parseForce, INTENSITIES } from '../scripts/design/lib/board.mjs';
+import { parseBoardArgs, outputName, parseForce, isInside, INTENSITIES } from '../scripts/design/lib/board.mjs';
 
 const TMP = '/tmp-x';
 const parse = (...argv) => parseBoardArgs(argv, { tmpdir: TMP });
@@ -85,4 +85,16 @@ test('parseForce drops duplicates and treats an empty value as no forced state',
 test('parseForce rejects pseudo-classes it does not know, naming the offender', () => {
   assert.throws(() => parseForce(':hover :visited'), /unsupported pseudo-class ":visited"/);
   assert.throws(() => parseForce('hover'), /unsupported pseudo-class "hover"/);
+});
+
+test('isInside accepts a path under the root and rejects a sibling that shares the root as a prefix', () => {
+  assert.equal(isInside('/work/nightwire', '/work/nightwire/docs/board.html'), true);
+  assert.equal(isInside('/work/nightwire', '/work/nightwire-evil/board.html'), false);
+  assert.equal(isInside('/work/nightwire', '/work/nightwire/../secret.html'), false);
+  assert.equal(isInside('/work/nightwire', '/etc/passwd'), false);
+});
+
+test('isInside rejects the root itself, which is not a page, and keeps a dotted file name inside', () => {
+  assert.equal(isInside('/work/nightwire', '/work/nightwire'), false);
+  assert.equal(isInside('/work/nightwire', '/work/nightwire/..board.html'), true);
 });

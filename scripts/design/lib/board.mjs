@@ -2,7 +2,7 @@
 // No browser and no filesystem, so they are unit-tested directly.
 
 import { parseArgs } from 'node:util';
-import { join } from 'node:path';
+import { join, relative, isAbsolute, sep } from 'node:path';
 
 export const INTENSITIES = ['archive', 'operator', 'combat'];
 
@@ -67,4 +67,10 @@ export function parseForce(value) {
     if (!out.includes(name)) out.push(name);
   }
   return out;
+}
+
+/** True when `target` is a path strictly under `root`. `/repo-evil` is not inside `/repo`. */
+export function isInside(root, target) {
+  const rel = relative(root, target);
+  return rel !== '' && rel !== '..' && !rel.startsWith(`..${sep}`) && !isAbsolute(rel);
 }

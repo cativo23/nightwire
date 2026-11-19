@@ -27,7 +27,7 @@ import { fileURLToPath } from 'node:url';
 import { startServer } from '../parity/lib/server.mjs';
 import { loadSheet, SheetError } from '../parity/lib/sheet.mjs';
 import { routeAction } from '../parity/lib/route.mjs';
-import { parseBoardArgs, outputName, parseForce, INTENSITIES } from './lib/board.mjs';
+import { parseBoardArgs, outputName, parseForce, isInside, INTENSITIES } from './lib/board.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const FONT_ORIGINS = ['https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
@@ -102,7 +102,7 @@ async function main() {
   try { args = parseBoardArgs(process.argv.slice(2), { tmpdir: tmpdir() }); } catch (err) { usage(err.message); }
   const outDir = resolve(args.out);
   const pagePath = args.page.split('\\').join('/').replace(/^\/+/, '');
-  if (!resolve(ROOT, pagePath).startsWith(ROOT)) usage(`--page must be inside the repository: ${args.page}`);
+  if (!isInside(ROOT, resolve(ROOT, pagePath))) usage(`--page must be inside the repository: ${args.page}`);
 
   let sheets;
   try {
