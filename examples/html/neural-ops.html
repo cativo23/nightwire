@@ -1588,7 +1588,7 @@ function updateMetrics() {
       ctx.stroke();
     });
 
-    var activation = 0.7 + Math.sin(t * 0.4) * 0.15 + Math.random() * 0.03;
+    var activation = 0.7 + Math.sin(t * 0.4) * 0.15 + Math.sin(t * 17.3) * 0.015;
     var readoutEl = document.getElementById('activationReadout');
     if (readoutEl) readoutEl.textContent = activation.toFixed(3);
 
