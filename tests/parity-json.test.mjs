@@ -62,3 +62,23 @@ test('buildJsonReport without categories gives every difference a null category 
   assert.equal(json.meta.unexpected, undefined);
   assert.equal(json.meta.differences, 1);
 });
+
+test('writeJsonReport writes the JSON to the file', async () => {
+  const { mkdtempSync, readFileSync, rmSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const { writeJsonReport } = await import('../scripts/parity/lib/report.mjs');
+  const dir = mkdtempSync(join(tmpdir(), 'nw-json-'));
+  try {
+    writeJsonReport(join(dir, 'out.json'), { meta: { differences: 0 }, diffs: [], shadows: [] });
+    assert.deepEqual(JSON.parse(readFileSync(join(dir, 'out.json'), 'utf8')).meta, { differences: 0 });
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('writeJsonReport turns a write failure into an error that names the file and the cause', async () => {
+  const { writeJsonReport } = await import('../scripts/parity/lib/report.mjs');
+  assert.throws(
+    () => writeJsonReport('/nonexistent-dir-nw/out.json', {}),
+    (err) => /cannot write --json file \/nonexistent-dir-nw\/out\.json: .*ENOENT/.test(err.message),
+  );
+});

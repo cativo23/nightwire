@@ -28,7 +28,8 @@
 //
 // With --json <file>, the run is also written as JSON: `meta`, every difference with its category
 // (null when none explains it) and `shadows`, every element with a box-shadow or text-shadow on
-// either side, changed or not. `node scripts/parity/glow-check.mjs <file>` reads it (FR-013b).
+// either side, changed or not. `node scripts/parity/glow-check.mjs <file>` reads it (FR-013b). The
+// JSON line is printed before the report, so RESULT stays last; a write failure exits 2.
 //
 // With --expect <file>, differences are classified against the change categories in that file
 // (docs/design/v3/change-inventory.json): one CATEGORY line per category, and only the
@@ -36,10 +37,11 @@
 //
 // Exit codes: 0 = no differences (with --expect: none unexpected) and full coverage,
 // 1 = differences (with --expect: unexpected ones) or coverage < 100%,
-// 2 = usage error (including an unreadable or invalid --expect file) or browser launch failure.
+// 2 = usage error (including an unreadable or invalid --expect file, or a --json file that cannot be
+// written) or browser launch failure.
 // See CONTRIBUTING.md.
 
-import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
@@ -47,7 +49,7 @@ import { availableParallelism } from 'node:os';
 import { extractSelectors, analyzeSelectors } from './lib/selectors.mjs';
 import { snapshotKey, diffRecords, validateCategories } from './lib/diff.mjs';
 import { globToRegExp } from './lib/glob.mjs';
-import { buildReport, buildJsonReport } from './lib/report.mjs';
+import { buildReport, buildJsonReport, writeJsonReport } from './lib/report.mjs';
 import { collectShadows } from './lib/shadows.mjs';
 import { resolveOld } from './lib/baseline.mjs';
 import { loadSheet as loadSheetFrom, SheetError } from './lib/sheet.mjs';
@@ -432,12 +434,19 @@ async function main() {
     ...attrStates.filter((a) => !coveredAttrs.has(a))];
   const coverageLine = `COVERAGE  classes=${coveredClasses.size}/${classes.length}  attr-states=${coveredAttrs.size}/${attrStates.length}  uncovered=${uncovered.length ? uncovered.join(' ') : 'none'}`;
   const report = buildReport({ diffs, categories, maxLines, coverageLine, uncovered: uncovered.length });
-  report.lines.forEach((l) => console.log(l));
+  // The JSON goes out before the report so RESULT stays the last line, and a write failure exits 2
+  // instead of passing for unexpected differences.
   if (args.json !== undefined) {
     const json = buildJsonReport({ oldSpec, newSpec: args.new, pages, states: states.map((s) => s.label), diffs, shadows, categories });
-    writeFileSync(resolve(args.json), JSON.stringify(json));
+    try {
+      writeJsonReport(resolve(args.json), json);
+    } catch (err) {
+      console.error(`parity: ${err.message}`);
+      process.exit(2);
+    }
     console.log(`JSON  ${args.json}  differences=${diffs.length}  shadows=${shadows.length}`);
   }
+  report.lines.forEach((l) => console.log(l));
   process.exit(report.exitCode);
 }
 

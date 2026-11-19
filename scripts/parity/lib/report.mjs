@@ -1,4 +1,5 @@
 // Builds the parity report lines and exit code from structured differences. Pure.
+import { writeFileSync } from 'node:fs';
 import { formatDiff, classify, matchCategory } from './diff.mjs';
 
 /**
@@ -49,4 +50,16 @@ export function buildJsonReport({ oldSpec, newSpec, pages, states, diffs, shadow
     meta.unexpected = tagged.filter((d) => d.category === null).length;
   }
   return { meta, diffs: tagged, shadows };
+}
+
+/**
+ * Write the `--json` file. A failure becomes an Error naming the file and the cause, so the caller
+ * can exit 2 (usage or environment error) instead of looking like unexpected differences.
+ */
+export function writeJsonReport(file, json) {
+  try {
+    writeFileSync(file, JSON.stringify(json));
+  } catch (err) {
+    throw new Error(`cannot write --json file ${file}: ${err.message}`);
+  }
 }
