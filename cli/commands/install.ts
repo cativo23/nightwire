@@ -8,7 +8,7 @@ const NIGHTWIRE_ROOT = __dirname;
 
 const FILES_TO_COPY = [
   { src: '../../nightwire.css', dest: 'nightwire.css', label: 'Core CSS' },
-  { src: '../../tailwind.preset.js', dest: 'nightwire.tailwind.preset.js', label: 'Tailwind preset' },
+  { src: '../../tailwind.preset.js', dest: 'nightwire.tailwind.preset.mjs', label: 'Tailwind preset' },
   { src: '../../DESIGN.md', dest: 'DESIGN.md', label: 'Design spec (AI context)' },
   { src: '../../skill/nightwire/SKILL.md', dest: 'skill/nightwire/SKILL.md', label: 'AI skill' },
   { src: '../../skill/nightwire/references/layouts.md', dest: 'skill/nightwire/references/layouts.md', label: 'Layout templates' },
@@ -53,7 +53,7 @@ function printCSSSnippet(projectType: string): void {
 
 function printTailwindSnippet(): void {
   console.log('\n' + pc.dim('Tailwind config:'));
-  console.log(pc.cyan(`  import nightwirePreset from './nightwire.tailwind.preset.js'`));
+  console.log(pc.cyan(`  import nightwirePreset from './nightwire.tailwind.preset.mjs'`));
   console.log(pc.cyan(`  export default { presets: [nightwirePreset] }`));
 }
 
