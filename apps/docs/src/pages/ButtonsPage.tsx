@@ -131,11 +131,11 @@ export function ButtonsPage() {
             <span><span className="led" data-state="ai" /> ai</span>
             <span><span className="led" data-state="ok" data-pulse /> pulse</span>
           </div>
-          <CodeBlock>{`<!-- State-driven. The v1 .led.green/.blue/.red/.yellow classes are gone in v3. -->
-<span class="led" data-state="ok"></span>      <!-- was .led.green -->
-<span class="led" data-state="active"></span>  <!-- was .led.blue -->
-<span class="led" data-state="error"></span>   <!-- was .led.red -->
-<span class="led" data-state="warn"></span>    <!-- was .led.yellow -->
+          <CodeBlock>{`<!-- State-driven: the data-state attribute picks the colour. -->
+<span class="led" data-state="ok"></span>      <!-- green -->
+<span class="led" data-state="active"></span>  <!-- blue -->
+<span class="led" data-state="error"></span>   <!-- red -->
+<span class="led" data-state="warn"></span>    <!-- amber -->
 <span class="led" data-state="ai"></span>      <!-- purple, oracle surfaces -->
 <span class="led" data-state="error" data-pulse></span>  <!-- pulsing -->`}</CodeBlock>
         </div>

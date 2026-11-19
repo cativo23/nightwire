@@ -147,12 +147,12 @@ export const LAYER2_TOKENS = [
   { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Panels, cards' },
   { token: '--nw-surface-2', maps: '--void-panel',   desc: 'Modals, inputs' },
   { token: '--nw-surface-3', maps: '--void-raised',  desc: 'Dropdowns, tooltips' },
-  { token: '--nw-surface-4', maps: '#242424',        desc: 'NEW — Highest surface tier (no component uses it yet)' },
+  { token: '--nw-surface-4', maps: '#242424',        desc: 'Highest surface tier (no component uses it yet)' },
   // Text tiers
   { token: '--nw-text-strong',   maps: '#ffffff', desc: 'Headings, critical values' },
-  { token: '--nw-text-default',  maps: '#e6e6e6', desc: 'Body and table text (NEW tier)' },
+  { token: '--nw-text-default',  maps: '#e6e6e6', desc: 'Body and table text' },
   { token: '--nw-text-mute',     maps: '#aaaaaa', desc: 'Labels, headers, captions' },
-  { token: '--nw-text-disabled', maps: '#5a5a5a', desc: 'Disabled (NEW tier)' },
+  { token: '--nw-text-disabled', maps: '#5a5a5a', desc: 'Disabled' },
   // Semantic roles
   { token: '--nw-chrome',        maps: '--nw-primary',     desc: 'Focus, accent lines, chrome actions' },
   { token: '--nw-chrome-mute',   maps: '--nw-primary-dim', desc: 'Subdued chrome' },

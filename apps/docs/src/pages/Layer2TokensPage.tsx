@@ -42,9 +42,10 @@ export function Layer2TokensPage() {
     <section id="layer2-tokens">
       <SectionTitle tag="意味層">Layer 2 Semantic Tokens</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, margin: '8px 0 16px', lineHeight: 1.6 }}>
-        v1 mixes primitives and semantics in one layer (<code style={{ color: 'var(--nw-green)' }}>--nw-primary</code> is both
-        "the blue" and "the chrome and focus color"). v2 separates concerns. Layer 2 tokens reference Layer 1, so a v1 override
-        propagates to v2 consumers automatically. <strong>Zero rename</strong> — Layer 1 names stay untouched.
+        Layer 1 holds the primitives (<code style={{ color: 'var(--nw-green)' }}>--nw-primary</code> is "the blue"). Layer 2
+        names the roles (<code style={{ color: 'var(--nw-green)' }}>--nw-chrome</code> is "the focus and accent color") and
+        references Layer 1, so overriding a primitive reaches every consumer of the role automatically.
+        Reach for a Layer 2 token in your own CSS; Layer 1 names stay available.
       </p>
 
       {renderTable('Surfaces', 'サーフェス', surfaces)}
@@ -77,13 +78,13 @@ export function Layer2TokensPage() {
         <div className="panel-body">
           <CodeBlock>{`/* Prefer semantic over primitive */
 .my-button {
-  background: var(--nw-chrome);          /* was: var(--nw-primary)     */
-  color:      var(--nw-text-on-fill);    /* was: var(--void)           */
-  transition: background var(--nw-tick); /* was: 150ms ease            */
+  background: var(--nw-chrome);
+  color:      var(--nw-text-on-fill);
+  transition: background var(--nw-tick);
 }
 
 .my-stat {
-  color: var(--nw-data);                 /* was: var(--nw-green)       */
+  color: var(--nw-data);
 }
 
 .my-alert {
