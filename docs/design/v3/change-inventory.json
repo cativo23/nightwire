@@ -1330,6 +1330,88 @@
         "old": "^rgb\\(255, 255, 255\\)$",
         "new": "^rgb\\(230, 230, 230\\)$"
       }
+    },
+    {
+      "id": "q-cmdk-edge",
+      "description": "Group B (T044): the .cmdk edge goes from --nw-chrome-mute to --nw-line-strong, the neutral 3:1 boundary a floating panel has, like .modal (direction rule 3). Pinned to the border colours of .cmdk.",
+      "match": {
+        "prop": "^border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color$",
+        "path": "div\\.cmdk:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "q-cmdk-radius",
+      "description": "Group B (T044): square corners, .cmdk goes from --radius-lg (8px) to --radius-sm (2px) (direction rule 4). Pinned to the corner radii of .cmdk.",
+      "match": {
+        "prop": "^border-(top|bottom)-(left|right)-radius$|^border-(start|end)-(start|end)-radius$",
+        "path": "div\\.cmdk:nth-child\\(\\d+\\)$",
+        "old": "^8px$",
+        "new": "^2px$"
+      }
+    },
+    {
+      "id": "q-cmdk-section-label",
+      "description": "Group B (T044): the .cmdk-section label goes from --nw-chrome-mute to --nw-text-mute (direction rule 1; the blue-dim label was also under 4.5:1 at 9px), and so does everything that follows its colour. Pinned to .cmdk-section, #4477cc to #aaaaaa.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "div\\.cmdk-section:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgb\\(170, 170, 170\\)$"
+      }
+    },
+    {
+      "id": "q-cmdk-item-hover-fill",
+      "description": "Group B (T044): a hovered .cmdk-item takes the subtle neutral fill --nw-text-faint instead of the blue tint (direction rules 2, 5). The active item keeps a blue fill, see q-cmdk-active-fill. Pinned to .cmdk-item in the forced :hover state.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "div\\.cmdk-item:nth-child\\(\\d+\\)$",
+        "state": "\\|:hover@",
+        "old": "^rgba\\(102, 153, 255, 0\\.1\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.08\\)$"
+      }
+    },
+    {
+      "id": "q-cmdk-item-hover-label",
+      "description": "Group B (T044): a hovered .cmdk-item goes from blue text to --nw-text-strong; blue now marks only the active item (direction rule 2). Includes the properties that follow the text colour and the item's descendants, which inherit it. Pinned to .cmdk-item and below in the forced :hover state, #6699ff to #ffffff.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": "div\\.cmdk-item:nth-child\\(\\d+\\)(>[^>]+)*$",
+        "state": "\\|:hover@",
+        "old": "^rgb\\(102, 153, 255\\)$",
+        "new": "^rgb\\(255, 255, 255\\)$"
+      }
+    },
+    {
+      "id": "q-cmdk-active-fill",
+      "description": "Group B (T044): the active .cmdk-item fill reads --nw-primary-fill (0.08) instead of a literal 0.1 blue tint, the same indicator a notch quieter (direction rule 5). Pinned to .cmdk-item, in every state.",
+      "match": {
+        "prop": "^background-color$",
+        "path": "div\\.cmdk-item:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(102, 153, 255, 0\\.1\\)$",
+        "new": "^rgba\\(102, 153, 255, 0\\.08\\)$"
+      }
+    },
+    {
+      "id": "q-drawer-edge",
+      "description": "Group B (T044): the .drawer edge goes from --nw-line-chrome to --nw-line-strong, the neutral 3:1 boundary a floating panel has, like .modal (direction rule 3). Pinned to the left border colour of .drawer.",
+      "match": {
+        "prop": "^border-(left|inline-start)-color$",
+        "path": "div\\.drawer:nth-child\\(\\d+\\)$",
+        "old": "^rgba\\(102, 153, 255, 0\\.35\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.36\\)$"
+      }
+    },
+    {
+      "id": "q-drawer-header-rule",
+      "description": "Group B (T044): the .drawer-header bottom rule goes from --nw-chrome-mute to --nw-line (direction rule 3). Pinned to the bottom border colour of .drawer-header.",
+      "match": {
+        "prop": "^border-(bottom|block-end)-color$",
+        "path": "div\\.drawer-header:nth-child\\(\\d+\\)$",
+        "old": "^rgb\\(68, 119, 204\\)$",
+        "new": "^rgba\\(255, 255, 255, 0\\.14\\)$"
+      }
     }
   ]
 }

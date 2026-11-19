@@ -1393,7 +1393,7 @@ input::placeholder, textarea::placeholder {
   position: fixed; top: 0; right: 0; height: 100vh;
   width: min(440px, 92vw);
   background: var(--nw-surface-1);
-  border-left: var(--nw-hairline) solid var(--nw-line-chrome);
+  border-left: var(--nw-hairline) solid var(--nw-line-strong);
   display: flex; flex-direction: column;
   z-index: 46;
   box-shadow: var(--nw-elevation-overlay);
@@ -1408,7 +1408,7 @@ input::placeholder, textarea::placeholder {
 .drawer-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: var(--nw-hairline) solid var(--nw-chrome-mute);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
 }
 .drawer-body { flex: 1; overflow: auto; padding: var(--sp-4); }
 
@@ -1432,8 +1432,8 @@ input::placeholder, textarea::placeholder {
 .cmdk {
   width: min(560px, 92vw);
   background: var(--nw-surface-2);
-  border: var(--nw-hairline) solid var(--nw-chrome-mute);
-  border-radius: var(--radius-lg);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   box-shadow: var(--nw-elevation-overlay);
 }
@@ -1460,7 +1460,7 @@ input::placeholder, textarea::placeholder {
 .cmdk-section {
   font-family: var(--font-stamp); font-size: 9px;
   letter-spacing: var(--ls-ultra); text-transform: uppercase;
-  color: var(--nw-chrome-mute);
+  color: var(--nw-text-mute);
   padding: 10px 16px 4px;
 }
 .cmdk-item {
@@ -1468,8 +1468,14 @@ input::placeholder, textarea::placeholder {
   padding: var(--sp-2) 16px; font-size: var(--text-sm);
   color: var(--nw-text-default); cursor: pointer;
 }
-.cmdk-item:hover, .cmdk-item.active {
-  background: rgba(102, 153, 255, 0.1);
+.cmdk-item:hover {
+  background: var(--nw-text-faint);
+  color: var(--nw-text-strong);
+}
+/* The blue is the active-item indicator; it follows the hover rule above, so it wins on a hovered
+   active item. */
+.cmdk-item.active {
+  background: var(--nw-primary-fill);
   color: var(--nw-chrome);
 }
 
