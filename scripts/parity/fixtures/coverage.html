@@ -152,6 +152,17 @@
   <section>
     <div class="kv-row"><span class="kv-label">Key</span><span class="kv-value">Value</span></div>
   </section>
+
+  <!-- US5 pieces. Out of the flow, at a fixed size, so that adding them does not move the
+       height of main, body and html that change-inventory.json pins for the fixture. -->
+  <div class="fixture-us5" style="position: absolute; top: 0; left: 0; width: 600px; height: 400px; overflow: hidden">
+    <div class="nw-section-head" data-idx="01"><span>Section head</span></div>
+    <div class="nw-section-head nw-section-head-chrome"><span>Chrome section head</span><span class="kanji">&#27010;</span></div>
+    <div class="panel">
+      <div class="panel-header" data-idx="02"><span>Panel header</span><span>Right slot</span></div>
+      <div class="panel-body">Panel body</div>
+    </div>
+  </div>
 </main>
 
 <!-- Overlays: one closed and one open copy of each, so both states are measured. -->

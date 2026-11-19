@@ -304,6 +304,14 @@ const STATE_GLOW = [
 ];
 const stateGlowFor = (file, selector) => STATE_GLOW.find((s) => s.file === file && s.selector.test(selector));
 
+// FR-034: the decorative glows approved with the mockup, an allowlist of its own so that the test
+// below still fails for any other new glow. Each reads its own knob, which is 0 at archive. Later
+// US5 tasks add the index-row hover glow here.
+const FR034_GLOW = [
+  { file: 'src/components/section-head.css', selector: /^\.nw-section-head-chrome > \.kanji$/, knob: '--nw-kanji-glow' },
+];
+const fr034GlowFor = (file, selector) => FR034_GLOW.find((s) => s.file === file && s.selector.test(selector));
+
 /** Every glow layer in src/components with the rule that declares it. */
 function componentGlow() {
   const found = [];
@@ -319,9 +327,22 @@ function componentGlow() {
 
 test('no box-shadow or text-shadow glow in src/components outside the state-glow selectors (spread-only rings and neutral elevation excluded)', () => {
   const hits = componentGlow()
-    .filter((g) => !stateGlowFor(g.file, g.selector))
+    .filter((g) => !stateGlowFor(g.file, g.selector) && !fr034GlowFor(g.file, g.selector))
     .map((g) => `${g.file}:${g.line}  ${g.selector}  { ${g.prop}: ${g.layer} }`);
-  assert.deepEqual(hits, [], `${hits.length} decorative glow layer(s); state glow is listed in research R4:\n${hits.join('\n')}`);
+  assert.deepEqual(hits, [], `${hits.length} decorative glow layer(s); state glow is listed in research R4, the mockup exceptions in FR-034:\n${hits.join('\n')}`);
+});
+
+test('FR-034: each mockup glow exists, reads its own knob and never --nw-glow directly', () => {
+  const found = componentGlow();
+  const hits = [];
+  for (const entry of FR034_GLOW) {
+    const layers = found.filter((g) => fr034GlowFor(g.file, g.selector) === entry);
+    if (!layers.length) hits.push(`${entry.file}  ${entry.selector}  has no glow layer: remove it from FR034_GLOW`);
+    for (const g of layers) {
+      if (!g.layer.includes(`var(${entry.knob})`) || g.layer.includes('var(--nw-glow)')) hits.push(`${g.file}:${g.line}  ${g.selector}  { ${g.prop}: ${g.layer} }  (want ${entry.knob})`);
+    }
+  }
+  assert.deepEqual(hits, [], hits.join('\n'));
 });
 
 test('state glow reads its own component knob, not --nw-glow directly (led, control, progress)', () => {

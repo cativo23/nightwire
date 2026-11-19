@@ -1,25 +1,15 @@
 /* ── Card ────────────────────────────────────────────────────── */
 
+/* A hairline outline on black, no fill (FR-027). The header look is in section-head.css. */
 .card {
-  background: var(--void-warm);
+  background: none;
   border: var(--nw-hairline) solid var(--nw-line);
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
 .card-header {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: var(--nw-hairline) solid var(--nw-line);
-}
-
-/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
-:where(.card-header .kanji) {
-  color: var(--nw-text-default);
 }
 
 .card-body {
