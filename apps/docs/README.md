@@ -38,7 +38,7 @@ apps/docs/
 │   │   ├── TemplatesPage.tsx
 │   │   └── ExamplesPage.tsx
 │   ├── components/      Shared UI (Sidebar, StatusBar, Ticker, etc.)
-│   └── data/            COLORS, FONTS, COMPONENTS, SIDEBAR_GROUPS; tokens.ts reads tokens.json
+│   └── data/            COLORS, FONTS, COMPONENTS, SIDEBAR_GROUPS; tokens.mjs reads tokens.json
 ├── tailwind.config.js   Uses the root ../../tailwind.preset.js
 └── vite.config.ts       Aliases @nightwire/css to the root ../../nightwire.css
 ```
@@ -50,11 +50,11 @@ root. Run `npm run build` at the root after changing `src/`.
 
 The Motion vocabulary table (Layer 2 Tokens page) and the Knobs by mode table (Intensity page)
 are not written by hand. `src/data/index.ts` imports `../../../../src/tokens/tokens.json` and
-`src/data/tokens.ts` formats the durations, curves and per-level knobs from it, so a token change
+`src/data/tokens.mjs` formats the durations, curves and per-level knobs from it, so a token change
 shows up on the site with no docs edit. Only the human copy (`use`, `desc`) and the choice of which
 knobs each column lists live in `index.ts`. If a listed knob is no longer overridden by a level, the
-page throws on load instead of showing a stale row. The Docker images copy `tokens.json` next to
-`nightwire.css` for the same reason. Colours, fonts, the component registry and the Layer 2
+page throws on load instead of showing a stale row. The Docker images copy `tokens.json` and
+`src/components/` next to `nightwire.css` for the same reason. Colours, fonts, the component registry and the Layer 2
 `maps` column are still written in `index.ts`.
 
 ## Adding a new page
