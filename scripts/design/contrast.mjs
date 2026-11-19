@@ -3,7 +3,8 @@
 //
 //   npm run design:contrast -- [--pairs <file>] [--css <file>] [--quiet]
 //
-// Reads docs/design/v3/contrast-pairs.json and the built tokens (src/tokens/tokens.css), prints one
+// Reads docs/design/v3/contrast-pairs.json and the tokens emitted in memory from
+// src/tokens/tokens.json (--css <file> reads a stylesheet instead), prints one
 // line per pairing (PASS|FAIL id ratio required), then a summary. Exits 1 when any pairing fails,
 // 2 on a usage or data error. Exempt entries (disabled controls, decoration) are listed, not checked.
 
@@ -11,11 +12,12 @@ import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { evaluatePairs } from './lib/contrast.mjs';
+import { tokenCssFromSource } from './lib/token-css.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 function parseArgs(argv) {
-  const opts = { pairs: resolve(ROOT, 'docs/design/v3/contrast-pairs.json'), css: resolve(ROOT, 'src/tokens/tokens.css'), quiet: false };
+  const opts = { pairs: resolve(ROOT, 'docs/design/v3/contrast-pairs.json'), css: null, quiet: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--quiet') opts.quiet = true;
@@ -37,7 +39,7 @@ function main() {
   try {
     opts = parseArgs(process.argv.slice(2));
     spec = JSON.parse(readFileSync(opts.pairs, 'utf8'));
-    results = evaluatePairs(spec, readFileSync(opts.css, 'utf8'));
+    results = evaluatePairs(spec, opts.css ? readFileSync(opts.css, 'utf8') : tokenCssFromSource());
   } catch (err) {
     console.error(`design:contrast: ${err.message}`);
     process.exit(2);

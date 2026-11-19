@@ -95,7 +95,7 @@ such as focus rings.
 The check is repeatable: `npm run design:contrast` evaluates every pairing in
 `docs/design/v3/contrast-pairs.json` (text, labels, signal colours, button labels, tags,
 placeholders, focus rings and control boundaries, on each surface they sit on; value colours at
-all three intensities) against `src/tokens/tokens.css`, and `tests/contrast.test.mjs` fails the
+all three intensities) against the tokens emitted from `src/tokens/tokens.json`, and `tests/contrast.test.mjs` fails the
 suite on any pairing below its threshold. Tinted fills (tags, `.ai-block`, the `.btn-success` and
 `.btn-ai` hover fills) are checked over all four component surfaces. `--nw-surface-4` is checked for
 body text, muted labels and control boundaries only: no component sits on it yet.

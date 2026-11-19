@@ -1,6 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { emitCss } from '../scripts/lib/tokens.mjs';
+import { tokenCssFromSource } from '../scripts/design/lib/token-css.mjs';
 import {
   parseColor,
   composite,
@@ -226,7 +231,33 @@ test('evaluatePairs rejects a bad kind, a duplicate id, and a missing field', ()
 // built tokens. This is the guard that keeps a future token edit from silently dropping below it.
 const ROOT = new URL('..', import.meta.url);
 const pairsFile = JSON.parse(readFileSync(new URL('docs/design/v3/contrast-pairs.json', ROOT), 'utf8'));
-const tokenCss = readFileSync(new URL('src/tokens/tokens.css', ROOT), 'utf8');
+// Built in memory from the source of truth: src/tokens/tokens.css is generated and git-ignored, so
+// a clean checkout (CI runs `npm test` before `npm run build`) does not have it, and a local copy
+// can be stale.
+const tokenCss = tokenCssFromSource();
+
+test('the token CSS is emitted from tokens.json, not read from the generated tokens.css', () => {
+  const tree = JSON.parse(readFileSync(new URL('src/tokens/tokens.json', ROOT), 'utf8'));
+  assert.equal(tokenCss, emitCss(tree));
+  assert.equal(tokenCssFromSource(new URL('src/tokens/tokens.json', ROOT)), emitCss(tree));
+});
+
+test('design:contrast without --css ignores a stale src/tokens/tokens.css, and --css still overrides', () => {
+  const script = new URL('scripts/design/contrast.mjs', ROOT).pathname;
+  const run = (...args) => spawnSync(process.execPath, [script, '--quiet', ...args], { encoding: 'utf8' });
+  const dir = mkdtempSync(join(tmpdir(), 'nw-contrast-'));
+  try {
+    const stale = join(dir, 'stale.css');
+    writeFileSync(stale, tokenCss.replace(/(--nw-text-strong:\s*)[^;]+;/, '$1#111111;'));
+    const def = run();
+    assert.equal(def.status, 0, def.stdout + def.stderr);
+    assert.match(def.stdout, /0 fail/);
+    const overridden = run('--css', stale);
+    assert.equal(overridden.status, 1, 'a CSS file with a failing colour must fail the run');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
 
 test('the pairs file covers every category the plan lists', () => {
   const ids = pairsFile.pairs.map((p) => p.id).join(' ');

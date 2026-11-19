@@ -178,8 +178,8 @@ npm run design:contrast -- --pairs <file> --css <file>
 
 `docs/design/v3/contrast-pairs.json` lists each pairing (text, labels, signal colours, button
 labels, tags, placeholders, focus rings and control boundaries, on each surface they sit on). The
-script resolves the colours from the built `src/tokens/tokens.css` (run `npm run build` first) and
-checks WCAG: 4.5:1 for text, 3:1 for large text and UI boundaries. `tests/contrast.test.mjs` runs it
+script emits the tokens in memory from `src/tokens/tokens.json`, so it needs no build and cannot read
+a stale `tokens.css` (`--css <file>` checks a stylesheet instead), and checks WCAG: 4.5:1 for text, 3:1 for large text and UI boundaries. `tests/contrast.test.mjs` runs it
 inside `npm test` and also fails when a colour token used by a component has no pair. Pairings
 marked `exempt` in the file (disabled controls, hover borders) are listed, not checked. Exit code 1
 means a pairing fails; 2 means a usage or data error. A new colour on a component needs a pair in
