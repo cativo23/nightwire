@@ -323,3 +323,19 @@ test('should_list_halftone_among_the_decorative_exceptions_in_the_changelog', ()
   assert.ok(/halftone[\s\S]{0,300}every intensity/i.test(unreleased), 'changelog halftone ruling missing');
   assert.ok(/`\.kv-swap`[\s\S]{0,200}chrome \(blue\)/.test(unreleased), 'changelog kv-swap colour missing');
 });
+
+// M10: two colours were called "bone": the --nw-action fill (#e6e6e6) and the --nw-bone halftone
+// tint (#d8d2c8). The chip's solid fill is the first one, so it is named by its token.
+test('should_name_the_chip_solid_fill_by_its_token_not_as_bone', () => {
+  for (const file of [GUIDE, 'skill/nightwire/SKILL.md', 'DESIGN.md', 'CHANGELOG.md']) {
+    const lines = read(file).split('\n').filter((l) => /chip-solid/.test(l));
+    assert.ok(lines.length > 0, `${file} does not mention .nw-chip-solid`);
+    for (const line of lines) {
+      assert.ok(!/bone/i.test(line), `${file} calls the chip-solid fill bone: ${line.trim()}`);
+    }
+  }
+  for (const file of [GUIDE, 'skill/nightwire/SKILL.md']) {
+    const row = read(file).split('\n').find((l) => /\.nw-chip` \(\+/.test(l));
+    assert.ok(row && row.includes('`--nw-action`'), `${file} chip row does not name --nw-action`);
+  }
+});
