@@ -14,7 +14,7 @@ Use standard HTML flow. Apply Nightwire components (`.panel`, `.btn`, `.nw-table
 
 ## Operations Console Layout
 
-Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire layout for dashboards, monitoring UIs, and admin panels.
+Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire layout for dashboards, monitoring UIs, and admin panels. A `.panel` is open in v3 (no fill, no outline), so the dense grid puts `nw-reticle` on every panel (`class="panel nw-reticle"`): the hairline frame is what the 2px gap separates.
 
 ```html
 <!DOCTYPE html>
@@ -69,7 +69,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
       <!-- Row 1: Waveform + Metrics -->
       <div class="dash-row r1">
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>SIGNAL ANALYSIS</span>
             <span class="kanji">信号解析</span>
@@ -77,7 +77,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
           <!-- canvas waveform or chart goes here -->
         </div>
 
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>SYSTEM METRICS</span>
             <span class="kanji">指標一覧</span>
@@ -99,7 +99,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
       <!-- Row 2: Data table -->
       <div class="dash-row r2">
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>NODE REGISTRY</span>
             <span class="kanji">ノード登録</span>
@@ -289,7 +289,8 @@ For product pages, marketing sites, and feature announcements.
     <span>FEATURES</span>
     <span class="kanji">機能</span>
   </div>
-  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2px">
+  <!-- Open look: no frame. The 2px gap only works between framed panels, so an open grid uses a wide gap. -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:var(--sp-8)">
     <div class="panel">
       <div class="panel-header"><span>FEATURE ONE</span><span class="kanji">機能一</span></div>
       <div class="panel-body">
@@ -502,18 +503,18 @@ Combine with `data-intensity="archive"` on `<html>` to drop glow and increase pa
   <header>...</header>
   <div class="nw-stack" style="flex:1; gap:2px; padding:2px">
     <div class="nw-cluster" style="gap:2px; grid-template-columns:1.6fr 1fr">
-      <div class="panel">stat strip</div>
+      <div class="panel nw-reticle">stat strip</div>
     </div>
     <div style="display:grid; grid-template-columns:1.6fr 1fr; gap:2px; flex:1; min-height:0">
-      <div class="panel">events table</div>
-      <div class="panel">oracle</div>
+      <div class="panel nw-reticle">events table</div>
+      <div class="panel nw-reticle">oracle</div>
     </div>
   </div>
   <footer>...</footer>
 </div>
 ```
 
-Combine with `data-intensity="combat"` on `<html>` for high-density ops feel.
+Combine with `data-intensity="combat"` on `<html>` for high-density ops feel. The panels carry `nw-reticle` because a bare `.panel` has no edge: without it the 2px gaps separate nothing.
 
 ### Density-aware gaps
 

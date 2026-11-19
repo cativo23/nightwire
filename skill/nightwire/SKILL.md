@@ -5,7 +5,7 @@ description: >
   dashboards, admin panels, dev tools, monitoring UIs, portfolios, landing pages, blogs, or any
   interface that lives on a pure black background. Provides design tokens, semantic color roles,
   component classes, layout templates, and complete HTML examples. Version 3: neutral-first,
-  square-cornered, bone primary action.
+  square-cornered, open layout (panels have no box unless they opt into nw-reticle), bone primary action.
 ---
 
 # Nightwire — Cyberpunk UI System
@@ -74,7 +74,7 @@ labels, the compressed title and the three intensities are unchanged.
 
 1. **Background is ALWAYS `#000000`** — NEVER use `#0d0d0d`, `#111`, `#1a1a2e`, or any gray/navy. If you generate anything other than pure black `#000000`, you are violating this rule.
 
-2. **2px gaps between adjacent panels** — ALWAYS `gap: 2px`. NEVER 8px, 16px, 1rem, or any other value. This is the signature Nightwire spacing.
+2. **2px gaps between adjacent panels** — ALWAYS `gap: 2px`. NEVER 8px, 16px, 1rem, or any other value. This is the signature Nightwire spacing. Panels in a dense grid are framed: `class="panel nw-reticle"`, because a bare `.panel` is open and has no edge for the gap to separate. Open panels (landing pages, editorial layouts) have no frame, so they use a wide gap (`--sp-8`) instead.
 
 3. **Square corners** — ALWAYS `border-radius: 0` on `.panel`, `.nw-table`, and all data containers. Controls, cards and modals use `--radius-sm` (2px). NEVER round a panel, and never use `--radius-md` or `--radius-lg` (no component reads them in v3).
 
@@ -90,7 +90,7 @@ labels, the compressed title and the three intensities are unchanged.
 
 9. **Compressed serif titles** — Display headings MUST use Noto Serif Display with `transform: scaleX(0.82)` and the `.compressed-title` class. Never use regular serif without compression.
 
-10. **NO CRT effects** — No scanlines, no vignette, no flicker, no glitch effects. Clean and modern only. The one opt-in texture is film grain, `<body class="nw-grain">`, and it is 0 at `archive`.
+10. **NO CRT effects** — No scanlines, no vignette, no flicker, no glitch effects. Clean and modern only. The approved exceptions are opt-in: film grain (`<body class="nw-grain">`, 0 at `archive`), halftone images (`.nw-halftone`) and the kanji glow of `.nw-section-head-chrome` and the hovered `.nw-index-row` (0 at `archive`).
 
 ---
 
@@ -261,7 +261,7 @@ Set the state with `data-state` on `.led`; the glow is the state glow (`--nw-led
 - `.sidebar` — 240px, void-warm bg, right border
 - `.sidebar-item` / `.sidebar-item.active` — Nav items; hover reads `--nw-text-strong`, the active item keeps a blue accent line and a neutral label
 - `.tab` / `.tab.active` — Tabs; hover reads `--nw-text-strong`, the selected tab keeps a blue underline and a neutral label
-- `.kv-row` — Key-value spec sheet: faint bottom border, `sp-3` padding scaled by `--nw-pad-scale`, top-aligned, right-aligned `.kv-value`; optional `.kv-note` (mute line under the value) and `.kv-swap` (accent glyph)
+- `.kv-row` — Key-value spec sheet: faint bottom border, `sp-3` padding scaled by `--nw-pad-scale`, top-aligned, right-aligned `.kv-value`; optional `.kv-note` (mute line under the value) and `.kv-swap` (glyph in `--nw-chrome`, blue)
 - `.nw-progress` — 4px height progress bar with a `--nw-line` edge; the fill is `.nw-progress-fill` (green, state glow via `--nw-progress-glow`)
 - `.skeleton` / `.skeleton-text` / `.skeleton-heading` / `.skeleton-block` — Loading states
 - `.modal` / `.modal-backdrop` / `.modal-header` / `.modal-body` / `.modal-footer` — Dialog system; `--nw-line-strong` border, `--radius-sm`, `--nw-elevation-overlay`
@@ -385,7 +385,8 @@ override those on `:root` or on the `data-intensity` element, or override the de
 ### Mockup pieces (v3)
 
 Open-layout pieces from the approved mockup. All are optional and additive. Use them for editorial
-pages, landing pages and section structure; a dense console rarely needs them.
+pages, landing pages and section structure. `.nw-reticle` is the one a dense console always needs:
+it frames the panels of the grid.
 
 | Class | Use |
 |---|---|
@@ -402,8 +403,9 @@ pages, landing pages and section structure; a dense console rarely needs them.
 
 Tokens: `--nw-grain`, `--nw-chip-line` (chip border, white at 0.18), `--nw-bone` (`#d8d2c8`, the bone
 halftone tint) and `--nw-kanji-glow` (`calc(20px * --nw-glow)`: the glow of the chrome section-head
-kanji and the hovered index kanji, 0 at `archive`). Grain and that glow are the only decorative
-effects; everything else keeps "glow is for state".
+kanji and the hovered index kanji, 0 at `archive`). Grain, the halftone and that glow are the
+only decorative effects; everything else keeps "glow is for state". Grain and the glow are 0 at
+`archive`; the halftone is image content and renders at every intensity.
 
 ```html
 <body class="nw-grain">
@@ -510,7 +512,7 @@ both states to `paused`.
 |---|---|
 | Blog post, portfolio, docs | `data-intensity="archive"` + `.panel`, `.card`, `.nw-table`, `.code-block`; the mockup pieces (`.nw-display`, `.nw-accordion`) |
 | Default look | No attribute or `data-intensity="operator"`; mix components freely |
-| Ops console, monitoring dashboard | `data-intensity="combat"` + `.cmdk`, `.drawer`, `.stat`, `.steps`, `.led[data-state]` |
+| Ops console, monitoring dashboard | `data-intensity="combat"` + `.panel nw-reticle` (framed panels), `.cmdk`, `.drawer`, `.stat`, `.steps`, `.led[data-state]` |
 | Forms-heavy admin panel | v2 form suite (`.field`, `.switch`, `.check`, `.combo`) |
 | AI-generated suggestions/oracle UIs | `.ai-block` + `.tag-ai` + `.btn-ai` + `.led[data-state="ai"]` |
 
