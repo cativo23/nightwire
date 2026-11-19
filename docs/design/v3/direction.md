@@ -109,9 +109,9 @@ Parity categories `contrast-purple-fill-*` pin the rendered differences.
 
 The lowest margins are `--nw-line-strong` on `--void` at 3.13:1 and `--nw-ai` on `--void-raised`
 at 4.86:1. Two hover borders are not passing pairs (see `exempt` in the pairs file):
-`.btn-ghost:hover` (`--nw-line-chrome`, 1.74:1) is exempt because the label and the resting
-`--nw-line-strong` boundary identify the control, and `.btn-ai:hover` (`--nw-ai-mute`) is 2.97:1 on
-`--void-raised`, left open for the maintainer. The table below keeps the hand-computed examples.
+`.btn-ghost:hover` (`--nw-line-chrome`, 1.74:1) and `.btn-ai:hover` on `--void-raised`
+(`--nw-ai-mute`, 2.97:1) are exempt: hover is not a state the control needs to be identified by,
+because the label and the resting `--nw-line-strong` boundary (3:1) already identify it. The table below keeps the hand-computed examples.
 
 | Pair | Ratio | Result |
 |---|---|---|
