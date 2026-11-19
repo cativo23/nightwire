@@ -34,8 +34,8 @@ test('V-T1: a token with no target is valid when a raw value interpolates it', (
 
 test('V-T1: a token with no target is valid when another token aliases it', () => {
   const t = sample();
-  t.color.hidden = { $value: { colorSpace: 'srgb', components: [0, 0, 0], hex: '#000000' } };
-  t.color.shown = { $value: '{color.hidden}', $extensions: { [NS]: { tailwind: ['colors.shown'] } } };
+  t.radius.hidden = { $value: { value: 8, unit: 'px' } };
+  t.radius.shown = { $value: '{radius.hidden}', $extensions: { [NS]: { tailwind: ['borderRadius.shown'] } } };
   assert.doesNotThrow(() => validate(t));
 });
 
@@ -137,8 +137,8 @@ test('V-T6: $type may be inherited from a group', () => {
 
 test('intensity overrides must target a token with css', () => {
   const t1 = sample();
-  ext(t1).intensity.archive.tokens['shadow.glow'] = 'none';
-  rejects(t1, 'archive', 'shadow.glow', /no css/);
+  ext(t1).intensity.archive.tokens['motion.timing.duration'] = 'none';
+  rejects(t1, 'archive', 'motion.timing.duration', /no css/);
 
   const t2 = sample();
   ext(t2).intensity.combat.tokens['knob.nope'] = 1;
@@ -155,7 +155,7 @@ test('reducedMotion is accepted on a token with css, with or without motion: tru
 
 test('reducedMotion needs css on its token', () => {
   const t = sample();
-  ext(t.motion.timing.duration).reducedMotion = { value: 0, unit: 'ms' };
+  t.motion.timing.duration.$extensions = { [NS]: { reducedMotion: { value: 0, unit: 'ms' } } };
   rejects(t, 'motion.timing.duration', 'reducedMotion', /css/);
 });
 
@@ -247,4 +247,57 @@ test('a DESIGN.md path needs a region and a key (at least two segments)', () => 
   const t = sample();
   ext(t.doc.type.weight).designMd = ['version'];
   rejects(t, 'doc.type.weight', 'version', /two segments/);
+});
+
+test('FR-018: a colour tailwind target needs a css name', () => {
+  const t = sample();
+  delete ext(t.color.fill).css;
+  rejects(t, 'color.fill', 'colors.fill', 'css', 'FR-018');
+});
+
+test('FR-018: an alias colour target needs its own css name, the alias target having one is not enough', () => {
+  const t = sample();
+  delete ext(t.color.chrome).css;
+  rejects(t, 'color.chrome', 'colors.chrome', 'FR-018');
+});
+
+test('FR-018: a duration, easing or shadow tailwind target needs a css name', () => {
+  const t1 = sample();
+  delete ext(t1.motion.longhand['tick-duration']).css;
+  rejects(t1, 'motion.longhand.tick-duration', 'transitionDuration.tick', 'FR-018');
+
+  const t2 = sample();
+  delete ext(t2.motion.longhand['tick-ease']).css;
+  rejects(t2, 'motion.longhand.tick-ease', 'transitionTimingFunction.tick', 'FR-018');
+
+  const t3 = sample();
+  delete ext(t3.shadow.glow).css;
+  rejects(t3, 'shadow.glow', 'boxShadow.glow', 'FR-018');
+});
+
+test('FR-018: a raw shadow without a css name is valid when its value references a custom property', () => {
+  const t = sample();
+  t.shadow.glow.$value = '0 0 calc(8px * var(--glow)) rgba(1,2,3,0.33)';
+  delete ext(t.shadow.glow).css;
+  assert.doesNotThrow(() => validate(t));
+});
+
+test('FR-018: a raw shadow without a css name and without a var() is rejected', () => {
+  const t = sample();
+  delete ext(t.shadow.glow).css;
+  rejects(t, 'shadow.glow', 'boxShadow.glow', 'FR-018');
+});
+
+test('FR-018: a typed duration with a transitionDuration target needs a css name too', () => {
+  const t = sample();
+  t.motion.timing.duration.$extensions = { [NS]: { tailwind: ['transitionDuration.typed'] } };
+  rejects(t, 'motion.timing.duration', 'transitionDuration.typed', 'FR-018');
+});
+
+test('FR-018: fontFamily, dimension and letter-spacing targets need no css name', () => {
+  const t = sample();
+  t.radius.md = { $value: { value: 4, unit: 'px' }, $extensions: { [NS]: { tailwind: ['borderRadius.md'] } } };
+  delete ext(t.font.sys).css;
+  delete ext(t.font.tracking.wide).css;
+  assert.doesNotThrow(() => validate(t));
 });

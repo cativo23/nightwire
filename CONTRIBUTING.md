@@ -238,7 +238,10 @@ would not start.
 
 Nightwire follows semver strictly. A minor release only adds; anything that changes default
 rendering, renames or removes a class or token, or changes how the package resolves (`exports`,
-`type`, `engines`) waits for a major. [docs/roadmap.md](docs/roadmap.md) has the details.
+`type`, `engines`) waits for a major. v3 is that major for `type`: `package.json` is
+`"type": "module"` (K5), with `dist/package.json` keeping the CLI CommonJS. `exports` and `engines`
+are still not declared, and adding them is a consumer-facing change that needs its own decision
+(see AGENTS.md). [docs/roadmap.md](docs/roadmap.md) has the details.
 
 ## Releases
 

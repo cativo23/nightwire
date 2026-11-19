@@ -20,7 +20,8 @@ export function InstallPage() {
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>Tailwind Preset</span><span className="tag">TW</span></div>
         <div className="panel-body">
-          <CodeBlock>{'presets: [require("@cativo23/nightwire/tailwind.preset.js")]'}</CodeBlock>
+          <CodeBlock>{`import nightwirePreset from '@cativo23/nightwire/tailwind.preset.js'
+export default { presets: [nightwirePreset] }`}</CodeBlock>
         </div>
       </div>
       <div className="panel">

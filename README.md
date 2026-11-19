@@ -46,8 +46,9 @@ npm i @cativo23/nightwire
 ```
 
 Then import `@cativo23/nightwire/nightwire.css` and, for Tailwind,
-`@cativo23/nightwire/tailwind.preset.js`. Without npm, copy `nightwire.css` (and
-`tailwind.preset.js`) from the repository root.
+`@cativo23/nightwire/tailwind.preset.js`. Without npm, copy `nightwire.css` and
+`tailwind.preset.js` from the repository root. In a project without `"type": "module"`, save the
+preset as `.mjs`, as the installer does, to avoid the `MODULE_TYPELESS_PACKAGE_JSON` warning.
 
 ## Quick Start
 
@@ -59,9 +60,15 @@ Then import `@cativo23/nightwire/nightwire.css` and, for Tailwind,
 ### Tailwind CSS
 ```js
 // tailwind.config.js
-import nightwirePreset from './tailwind.preset.js';
+import nightwirePreset from '@cativo23/nightwire/tailwind.preset.js';
 export default { presets: [nightwirePreset] };
 ```
+
+The package is an ES module. In a CommonJS config, take the default export:
+`presets: [require('@cativo23/nightwire/tailwind.preset.js').default]`. A bare `require(...)`
+returns the module namespace, and Tailwind drops it without an error: no `nw-*` utility is
+generated. The installer copies the preset as `nightwire.tailwind.preset.mjs`; import that file when
+you use it.
 
 ### Fonts
 ```html
@@ -79,7 +86,7 @@ Drop `SKILL.md` into your project as a skill. The agent can then generate Nightw
 
 **Component styles** — Buttons, cards, panels, modals, drawers, command palette, tabs, sidebar nav, dropdowns, breadcrumbs, tooltips, data tables, metrics grids, stats, badges, tags, status LEDs, avatars, key-value rows, form controls, progress bars, steps, skeleton loaders, toasts, dividers.
 
-**Tailwind preset** — All tokens mapped to Tailwind's config (colors, fonts, spacing, radius, shadows).
+**Tailwind preset** — All tokens mapped to Tailwind's config (colors, fonts, spacing, radius, shadows, motion). Colour, glow and motion utilities reference the CSS custom properties, so they follow `data-intensity` and runtime overrides, and opacity modifiers such as `bg-nw-cyan/40` keep working.
 
 **Accessibility** — Text pairings pass WCAG AA on the black surfaces and control boundaries keep 3:1 (`npm run design:contrast` checks every pairing). Focus-visible outlines. Reduced-motion support.
 

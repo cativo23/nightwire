@@ -2,6 +2,7 @@
   "name": "@cativo23/nightwire",
   "version": "2.1.0",
   "description": "CLI installer for the Nightwire cyberpunk UI design system",
+  "type": "module",
   "main": "dist/index.js",
   "bin": {
     "nightwire": "dist/index.js"
@@ -17,7 +18,7 @@
     "build": "npm run build:tokens && npm run build:css && npm run build:cli",
     "build:tokens": "node scripts/build-tokens.mjs",
     "build:css": "node scripts/build-css.mjs",
-    "build:cli": "tsc",
+    "build:cli": "node scripts/build-cli.mjs",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
     "test": "node --test",
