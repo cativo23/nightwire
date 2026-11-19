@@ -1,5 +1,6 @@
 {
   "baseline": "v2.1.0",
+  "control": "docs/design/v3/us5-layout-control.css",
   "categories": [
     {
       "id": "motion-exit-tick-operator",

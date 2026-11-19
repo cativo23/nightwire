@@ -116,7 +116,9 @@ Exit code 0 means `unexpected=0` and full coverage; 1 means unexpected differenc
 coverage; 2 means the file cannot be read, is not valid JSON, or fails validation (the message
 names the category and field). Without `--expect` the output and exit codes are unchanged.
 
-A category file is `{ "baseline": "v2.1.0", "categories": [ … ] }`. Each category has:
+A category file is `{ "baseline": "v2.1.0", "control": "<sheet>", "categories": [ … ] }`; `control` is
+optional and names the control sheet that proves the file's cascade categories (see "Cascade
+categories and the control run"). Each category has:
 
 | Field | Rule |
 |---|---|
@@ -188,6 +190,23 @@ The control run prints one extra line before `RESULT`, and the exit codes are un
 ```text
 CONTROL  sheet=<path>  cascade-categories-ignored=N
 ```
+
+A normal run with cascade categories active prints a reminder before `RESULT` (the exit code does not
+change), naming the sheet the category file declares in `control`:
+
+```text
+CASCADE  N categories active, not proven by this run: also run --control <sheet>
+```
+
+A run with cascade categories is evidence only together with its control run: `width`, `height`,
+offsets and grid tracks are also properties people declare, so a normal run absorbs a changed
+declaration inside an opened component without saying so, and only the control run catches it.
+Both runs must end `unexpected=0` before a phase closes.
+
+A normal run also checks that each cascade category was needed for everything it lists: for every
+category whose `page` glob matched a page of the run, a property it allows that explained no
+difference (first match, as in the counts) prints `CASCADE-UNUSED  <id>  <props>` and fails the run.
+Drop those properties from `match.prop`.
 
 `--control` without `--expect`, or with a file that cannot be read, exits 2. With `--json`, `meta.control`
 is the sheet path, or `null` without the flag, and each difference's `category` is computed without

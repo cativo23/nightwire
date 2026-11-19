@@ -59,8 +59,10 @@ const KINDS = new Set(['cascade']);
 /**
  * Validate a parsed change-inventory file and compile it once.
  *
- * Input:  `{ baseline?, categories: [{ id, kind?, description?, match: { prop, path?, page?, state?, old?, new? } }] }`
- * Output: `{ baseline, categories: Compiled[] }`, in file order, where
+ * Input:  `{ baseline?, control?, categories: [{ id, kind?, description?, match: { prop, path?, page?, state?, old?, new? } }] }`
+ * Output: `{ baseline, control?, categories: Compiled[] }`, in file order, where `control` is the optional
+ *         top-level path of the control sheet that proves the file's cascade categories (FR-038),
+ *         so the run can name it in its CASCADE hint; and where
  *         `Compiled = { id, description, kind?, match: { prop: RegExp, path?: RegExp, state?: RegExp,
  *                     old?: RegExp, new?: RegExp, page?: RegExp } }`.
  *         `match.page` is the glob already translated to an anchored RegExp. This compiled
@@ -78,6 +80,10 @@ export function validateCategories(file) {
   const categories = file == null ? undefined : file.categories;
   if (!Array.isArray(categories)) {
     throw new Error('change categories: "categories" must be an array');
+  }
+  const control = file.control;
+  if (control !== undefined && (typeof control !== 'string' || control === '')) {
+    throw new Error('change categories: "control" must be a non-empty string (the control sheet that proves the cascade categories)');
   }
   const seen = new Set();
   const compiled = categories.map((raw, index) => {
@@ -135,7 +141,7 @@ export function validateCategories(file) {
     }
     return category;
   });
-  return { baseline: file.baseline, categories: compiled };
+  return { baseline: file.baseline, control, categories: compiled };
 }
 
 // The shape a cascade `match.prop` must have: `^name$`, `^(name|name…)$` or `^(?:name|name…)$`,
@@ -146,6 +152,11 @@ const CASCADE_NAME = CASCADE_PROPS.map((n) => n.replace(/-/g, '\\-')).join('|');
 const CASCADE_PROP_FORM = new RegExp(`^\\^(?:(?:${CASCADE_NAME})|\\((?:\\?:)?(?:${CASCADE_NAME})(?:\\|(?:${CASCADE_NAME}))*\\))\\$$`);
 // Records that are not element geometry: custom properties on :root and @keyframes rules.
 const NON_GEOMETRY_PATHS = [':root', '@keyframes'];
+
+/** The property names a compiled cascade category lists, read back from its closed-form `match.prop`. */
+export function cascadeProps(category) {
+  return category.match.prop.source.replace(/^\^\(?(?:\?:)?/, '').replace(/\)?\$$/, '').split('|').map((n) => n.replace(/\\-/g, '-'));
+}
 
 /** The extra rules of `kind: "cascade"`. `rawProp` is the `match.prop` source. Throws naming the category. */
 function assertCascade(id, rawProp, match) {
@@ -184,17 +195,21 @@ export function matchCategory(diff, category) {
  * With `{ control: true }` (the `--control` run) the `kind: "cascade"` categories are skipped: they
  * match nothing and have no entry in `counts`, so what they explain shows up as unexpected unless
  * the control sheet removed it.
- * @returns {{ counts: Map<string, number>, unexpected: object[] }} counts has every
- *          active category, in order, 0 when unused.
+ * @returns {{ counts: Map<string, number>, unexpected: object[], used: Map<string, Set<string>> }}
+ *          counts has every active category, in order, 0 when unused; `used` has the same keys and
+ *          the set of properties of the differences each one explained (first match only).
  */
 export function classify(diffs, categories, { control = false } = {}) {
   const active = control ? categories.filter((c) => c.kind !== 'cascade') : categories;
   const counts = new Map(active.map((c) => [c.id, 0]));
+  const used = new Map(active.map((c) => [c.id, new Set()]));
   const unexpected = [];
   for (const d of diffs) {
     const hit = active.find((c) => matchCategory(d, c));
-    if (hit) counts.set(hit.id, counts.get(hit.id) + 1);
-    else unexpected.push(d);
+    if (hit) {
+      counts.set(hit.id, counts.get(hit.id) + 1);
+      used.get(hit.id).add(d.prop);
+    } else unexpected.push(d);
   }
-  return { counts, unexpected };
+  return { counts, unexpected, used };
 }

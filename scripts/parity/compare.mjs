@@ -41,6 +41,12 @@
 // reports unexpected=0 proves the cascade categories name the real cause. A `CONTROL  sheet=…
 // cascade-categories-ignored=N` line is printed before RESULT; the exit codes do not change.
 //
+// A normal --expect run with active cascade categories prints `CASCADE  N categories active, not
+// proven by this run: also run --control <sheet>` before RESULT (the sheet is the category file's
+// top-level "control"): those categories are evidence only together with the control run. It also
+// prints `CASCADE-UNUSED  <id>  <props>` for each cascade category (whose page was in the run) that
+// lists a property that explained no difference, and that fails the run (exit 1).
+//
 // Exit codes: 0 = no differences (with --expect: none unexpected) and full coverage,
 // 1 = differences (with --expect: unexpected ones) or coverage < 100%,
 // 2 = usage error (including an unreadable or invalid --expect file, --control without --expect or an
@@ -440,7 +446,7 @@ async function main() {
   const uncovered = [...classes.filter((c) => !coveredClasses.has(c)).map((c) => '.' + c),
     ...attrStates.filter((a) => !coveredAttrs.has(a))];
   const coverageLine = `COVERAGE  classes=${coveredClasses.size}/${classes.length}  attr-states=${coveredAttrs.size}/${attrStates.length}  uncovered=${uncovered.length ? uncovered.join(' ') : 'none'}`;
-  const report = buildReport({ diffs, categories, control: control !== null, maxLines, coverageLine, uncovered: uncovered.length });
+  const report = buildReport({ diffs, categories, control: control !== null, pages, controlSheet: file?.control, maxLines, coverageLine, uncovered: uncovered.length });
   if (control) {
     // Before RESULT, which stays last.
     const ignored = categories.filter((c) => c.kind === 'cascade').length;

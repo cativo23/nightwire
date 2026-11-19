@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, rmSync, readFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { validateCategories, classify, CASCADE_PROPS } from '../scripts/parity/lib/diff.mjs';
@@ -10,6 +10,7 @@ import { loadControl, withControl, ControlError } from '../scripts/parity/lib/co
 
 const SCRIPT = new URL('../scripts/parity/compare.mjs', import.meta.url).pathname;
 const INVENTORY = new URL('../docs/design/v3/change-inventory.json', import.meta.url).pathname;
+const read = (rel) => readFileSync(new URL('../' + rel, import.meta.url), 'utf8');
 const run = (...args) => spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8' });
 
 const rec = (over = {}) => ({ page: 'p.html', state: 'operator|rm-off', path: 'html>body>div.panel:nth-child(1)>table', prop: 'width', old: '100px', new: '120px', ...over });
@@ -163,6 +164,81 @@ test('buildReport without control is unchanged by the option being absent', () =
   const { lines, exitCode } = buildReport({ diffs: [rec()], categories, maxLines: 200, coverageLine: COVERAGE, uncovered: 0 });
   assert.deepEqual(lines.filter((l) => l.startsWith('CATEGORY')), ['CATEGORY  panel-open-layout  1']);
   assert.equal(exitCode, 0);
+});
+
+// --- S1: a run with cascade categories says it is not proven without its control run ----------
+
+test('a normal run with active cascade categories prints one CASCADE hint before RESULT and still exits 0', () => {
+  const categories = compile(cascade(), cascade({ id: 'second-open-layout' }), { id: 'colours', match: { prop: '^color$' } });
+  const { lines, exitCode } = buildReport({ diffs: [rec()], categories, maxLines: 200, coverageLine: COVERAGE, uncovered: 0 });
+  const hint = lines.filter((l) => l.startsWith('CASCADE  '));
+  assert.deepEqual(hint, ['CASCADE  2 categories active, not proven by this run: also run --control <css>']);
+  assert.equal(lines.at(-2), hint[0]);
+  assert.equal(lines.at(-1), 'RESULT  differences=1  unexpected=0');
+  assert.equal(exitCode, 0);
+});
+
+test('the CASCADE hint names the control sheet when the category file declares one, and says "1 category" for one', () => {
+  const categories = compile(cascade());
+  const { lines } = buildReport({ diffs: [], categories, controlSheet: 'docs/design/v3/us5-layout-control.css', maxLines: 200, coverageLine: COVERAGE, uncovered: 0 });
+  assert.ok(lines.includes('CASCADE  1 category active, not proven by this run: also run --control docs/design/v3/us5-layout-control.css'));
+});
+
+test('no CASCADE hint under --control, without cascade categories, or without --expect', () => {
+  const categories = compile(cascade());
+  const hint = (input) => buildReport({ maxLines: 200, coverageLine: COVERAGE, uncovered: 0, ...input }).lines.some((l) => l.startsWith('CASCADE  '));
+  assert.equal(hint({ diffs: [rec()], categories, control: true }), false);
+  assert.equal(hint({ diffs: [rec()], categories: compile({ id: 'colours', match: { prop: '^color$' } }) }), false);
+  assert.equal(hint({ diffs: [rec()] }), false);
+});
+
+test('validateCategories passes an optional top-level control sheet through and rejects a non-string one', () => {
+  assert.equal(validateCategories({ control: 'a/control.css', categories: [] }).control, 'a/control.css');
+  assert.equal(validateCategories({ categories: [] }).control, undefined);
+  assert.throws(() => validateCategories({ control: 3, categories: [] }), /control/);
+  assert.throws(() => validateCategories({ control: '', categories: [] }), /control/);
+});
+
+test('the change inventory names the control sheet that proves its cascade categories, and the file exists', () => {
+  const file = JSON.parse(read('docs/design/v3/change-inventory.json'));
+  assert.equal(file.control, 'docs/design/v3/us5-layout-control.css');
+  assert.ok(existsSync(new URL('../' + file.control, import.meta.url)));
+});
+
+// --- S2: a cascade category lists only the properties it was seen to explain ----------------
+
+test('classify reports the properties each active category explained, first match only', () => {
+  const categories = compile(cascade({ id: 'first' }, { prop: '^(width|height)$' }), cascade({ id: 'second' }, { prop: '^(width|height|top)$' }));
+  const { used } = classify([rec(), rec({ prop: 'top' })], categories);
+  assert.deepEqual([...used.get('first')], ['width']);
+  assert.deepEqual([...used.get('second')], ['top']);
+});
+
+test('CASCADE-UNUSED lists the properties a cascade category allows and never explained, and fails the run', () => {
+  const categories = compile(cascade({}, { prop: '^(width|height|top)$' }));
+  const { lines, exitCode } = buildReport({ diffs: [rec()], categories, pages: ['p.html'], maxLines: 200, coverageLine: COVERAGE, uncovered: 0 });
+  assert.ok(lines.includes('CASCADE-UNUSED  panel-open-layout  height top'), lines.join('\n'));
+  assert.equal(lines.at(-1), 'RESULT  differences=1  unexpected=0');
+  assert.equal(exitCode, 1);
+});
+
+test('CASCADE-UNUSED stays quiet when every listed property explained something, and for a category whose page was not in the run', () => {
+  const used = compile(cascade({}, { prop: '^(width|top)$' }));
+  const a = buildReport({ diffs: [rec(), rec({ prop: 'top' })], categories: used, pages: ['p.html'], maxLines: 200, coverageLine: COVERAGE, uncovered: 0 });
+  assert.equal(a.lines.some((l) => l.startsWith('CASCADE-UNUSED')), false);
+  assert.equal(a.exitCode, 0);
+  const elsewhere = compile(cascade({}, { prop: '^(width|top)$', page: 'other/*.html' }));
+  const b = buildReport({ diffs: [], categories: elsewhere, pages: ['p.html'], maxLines: 200, coverageLine: COVERAGE, uncovered: 0 });
+  assert.equal(b.lines.some((l) => l.startsWith('CASCADE-UNUSED')), false);
+  assert.equal(b.exitCode, 0);
+});
+
+test('CASCADE-UNUSED is not checked under --control (cascade categories are ignored there) or when no pages are given', () => {
+  const categories = compile(cascade({}, { prop: '^(width|height|top)$' }));
+  const c = buildReport({ diffs: [], categories, pages: ['p.html'], control: true, maxLines: 200, coverageLine: COVERAGE, uncovered: 0 });
+  assert.equal(c.lines.some((l) => l.startsWith('CASCADE-UNUSED')), false);
+  const d = buildReport({ diffs: [], categories, maxLines: 200, coverageLine: COVERAGE, uncovered: 0 });
+  assert.equal(d.lines.some((l) => l.startsWith('CASCADE-UNUSED')), false);
 });
 
 test('buildJsonReport records control in meta, null when there is none, and tags diffs without cascade categories under control', () => {
