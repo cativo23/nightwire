@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import {
   parseColor,
   composite,
@@ -249,4 +249,20 @@ test('exempt entries carry a reason and are not in the checked pairs', () => {
     assert.ok(e.reason && e.reason.length > 10, `${e.id} needs a reason`);
     assert.ok(!checked.has(e.id), `${e.id} is both checked and exempt`);
   }
+});
+
+test('every token a component sets as `color:` is checked as an fg, or exempt by name', () => {
+  const dir = new URL('src/components/', ROOT);
+  const used = new Map();
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.css'))) {
+    const css = readFileSync(new URL(file, dir), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    for (const [, value] of css.matchAll(/(?:^|[\s;{])color\s*:\s*([^;}]+)/g)) {
+      for (const [, token] of value.matchAll(/var\(\s*(--[\w-]+)/g)) used.set(token, `${used.get(token) ?? ''} ${file}`.trim());
+    }
+  }
+  assert.ok(used.size >= 15, `only ${used.size} colour tokens found in src/components`);
+  const checked = new Set(pairsFile.pairs.map((p) => p.fg));
+  const exempt = new Set(pairsFile.exempt.flatMap((e) => e.tokens ?? []));
+  const unchecked = [...used].filter(([t]) => !checked.has(t) && !exempt.has(t)).map(([t, f]) => `${t} (${f})`);
+  assert.deepEqual(unchecked, [], 'add each to contrast-pairs.json as an fg, or to an exempt entry\'s tokens with a reason');
 });
