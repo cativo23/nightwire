@@ -1912,12 +1912,12 @@
     },
     {
       "id": "refresh-ai-block-fill",
-      "description": "Group A (T043): .ai-block swaps its purple-to-transparent gradient for the flat --nw-purple-fill (0.1), a subtle fill instead of a decorative gradient (direction rule 5, FR-013a). Pinned to .ai-block background-color and background-image.",
+      "description": "Group A (T043): .ai-block swaps its purple-to-transparent gradient for the flat --nw-purple-fill, a subtle fill instead of a decorative gradient (direction rule 5, FR-013a). Pinned to the gradient going to none on .ai-block; the fill colour itself (0.06, see refresh-contrast-purple-fill-token) is pinned by refresh-contrast-purple-fill-ai-block.",
       "match": {
         "prop": "^background-(color|image)$",
         "path": "div\\.ai-block:nth-child\\(\\d+\\)$",
         "old": "^(rgba\\(0, 0, 0, 0\\)|linear-gradient\\(rgba\\(178, 102, 224, 0\\.06\\), rgba\\(0, 0, 0, 0\\) 70%\\))$",
-        "new": "^(rgba\\(178, 102, 224, 0\\.1\\)|none)$"
+        "new": "^none$"
       }
     },
     {
@@ -2640,7 +2640,7 @@
     },
     {
       "id": "refresh-skeleton-shimmer",
-      "description": "Group B (T044): the .skeleton shimmer highlight goes from a blue and cyan tint to neutral white at the same alphas (--nw-text-faint, --nw-line): a loading placeholder is not a signal, so no blue (direction rule 2). The sweep, its timing and its reduced-motion state are untouched. Pinned to the ::after of .skeleton and its variants, to the old and new gradients.",
+      "description": "Group B (T044): the .skeleton shimmer highlight goes from a blue and cyan tint to neutral white (--nw-text-faint, 0.08, on the outer stops and --nw-line, 0.14, at the centre: the centre alpha was 0.12): a loading placeholder is not a signal, so no blue (direction rule 2). The sweep, its timing and its reduced-motion state are untouched. Pinned to the ::after of .skeleton and its variants, to the old and new gradients.",
       "match": {
         "prop": "^background-image$",
         "path": "div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after$",
