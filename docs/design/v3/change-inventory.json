@@ -8531,6 +8531,325 @@
       "kind": "cascade"
     },
     {
+      "id": "nw-reticle-console-dashboard-background-attachment",
+      "description": "T084 (FR-028): dashboard.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-attachment: the .nw-reticle frame (alone, and on a .panel): a layer list of eight, so the longhands that default per layer repeat: background-attachment scroll eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-attachment$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^scroll$",
+        "new": "^scroll, scroll, scroll, scroll, scroll, scroll, scroll, scroll$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-dashboard-background-blend-mode",
+      "description": "T084 (FR-028): dashboard.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-blend-mode: the .nw-reticle frame (alone, and on a .panel): background-blend-mode normal eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-blend-mode$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^normal, normal, normal, normal, normal, normal, normal, normal$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-dashboard-background-clip",
+      "description": "T084 (FR-028): dashboard.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-clip: the .nw-reticle frame (alone, and on a .panel): background-clip border-box eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-clip$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^border-box$",
+        "new": "^border-box, border-box, border-box, border-box, border-box, border-box, border-box, border-box$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-dashboard-background-image",
+      "description": "T084 (FR-028): dashboard.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-image: the .nw-reticle frame (alone, and on a .panel) draws its eight corner arms as background-images of --nw-line-chrome: eight one-colour gradients instead of none. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-image$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\)$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-dashboard-background-origin",
+      "description": "T084 (FR-028): dashboard.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-origin: the .nw-reticle frame (alone, and on a .panel): background-origin padding-box eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-origin$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^padding-box$",
+        "new": "^padding-box, padding-box, padding-box, padding-box, padding-box, padding-box, padding-box, padding-box$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-dashboard-background-position",
+      "description": "T084 (FR-028): dashboard.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-position: the .nw-reticle frame (alone, and on a .panel): one arm pair per corner (top left, top right, bottom left, bottom right), eight positions instead of 0% 0%. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-position$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^0% 0%$",
+        "new": "^0% 0%, 0% 0%, 100% 0%, 100% 0%, 0% 100%, 0% 100%, 100% 100%, 100% 100%$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-dashboard-background-repeat",
+      "description": "T084 (FR-028): dashboard.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-repeat: the .nw-reticle frame (alone, and on a .panel): the arms do not repeat, no-repeat eight times instead of repeat. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-repeat$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^repeat$",
+        "new": "^no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-dashboard-background-size",
+      "description": "T084 (FR-028): dashboard.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-size: the .nw-reticle frame (alone, and on a .panel): an arm is --nw-reticle-arm (14px) long and --nw-hairline (1px) thick, eight sizes instead of auto. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-size$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^14px 1px, 1px 14px, 14px 1px, 1px 14px, 14px 1px, 1px 14px, 14px 1px, 1px 14px$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-dashboard-padding",
+      "description": "T084 (FR-028): dashboard.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-padding: the .nw-reticle frame (alone, and on a .panel): padding var(--sp-4), 0px to 16px on every side. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^(padding-block-end|padding-block-start|padding-bottom|padding-inline-end|padding-inline-start|padding-left|padding-right|padding-top)$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^16px$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-neural-ops-background-attachment",
+      "description": "T084 (FR-028): neural-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-attachment: the .nw-reticle frame (alone, and on a .panel): a layer list of eight, so the longhands that default per layer repeat: background-attachment scroll eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-attachment$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^scroll$",
+        "new": "^scroll, scroll, scroll, scroll, scroll, scroll, scroll, scroll$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-neural-ops-background-blend-mode",
+      "description": "T084 (FR-028): neural-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-blend-mode: the .nw-reticle frame (alone, and on a .panel): background-blend-mode normal eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-blend-mode$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^normal, normal, normal, normal, normal, normal, normal, normal$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-neural-ops-background-clip",
+      "description": "T084 (FR-028): neural-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-clip: the .nw-reticle frame (alone, and on a .panel): background-clip border-box eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-clip$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^border-box$",
+        "new": "^border-box, border-box, border-box, border-box, border-box, border-box, border-box, border-box$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-neural-ops-background-image",
+      "description": "T084 (FR-028): neural-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-image: the .nw-reticle frame (alone, and on a .panel) draws its eight corner arms as background-images of --nw-line-chrome: eight one-colour gradients instead of none. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-image$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\)$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-neural-ops-background-origin",
+      "description": "T084 (FR-028): neural-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-origin: the .nw-reticle frame (alone, and on a .panel): background-origin padding-box eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-origin$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^padding-box$",
+        "new": "^padding-box, padding-box, padding-box, padding-box, padding-box, padding-box, padding-box, padding-box$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-neural-ops-background-position",
+      "description": "T084 (FR-028): neural-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-position: the .nw-reticle frame (alone, and on a .panel): one arm pair per corner (top left, top right, bottom left, bottom right), eight positions instead of 0% 0%. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-position$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^0% 0%$",
+        "new": "^0% 0%, 0% 0%, 100% 0%, 100% 0%, 0% 100%, 0% 100%, 100% 100%, 100% 100%$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-neural-ops-background-repeat",
+      "description": "T084 (FR-028): neural-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-repeat: the .nw-reticle frame (alone, and on a .panel): the arms do not repeat, no-repeat eight times instead of repeat. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-repeat$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^repeat$",
+        "new": "^no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-neural-ops-background-size",
+      "description": "T084 (FR-028): neural-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-size: the .nw-reticle frame (alone, and on a .panel): an arm is --nw-reticle-arm (14px) long and --nw-hairline (1px) thick, eight sizes instead of auto. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-size$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^14px 1px, 1px 14px, 14px 1px, 1px 14px, 14px 1px, 1px 14px, 14px 1px, 1px 14px$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-neural-ops-padding",
+      "description": "T084 (FR-028): neural-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-padding: the .nw-reticle frame (alone, and on a .panel): padding var(--sp-4), 0px to 16px on every side. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^(padding-block-end|padding-block-start|padding-bottom|padding-inline-end|padding-inline-start|padding-left|padding-right|padding-top)$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^16px$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-background-attachment",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-attachment: the .nw-reticle frame (alone, and on a .panel): a layer list of eight, so the longhands that default per layer repeat: background-attachment scroll eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-attachment$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^scroll$",
+        "new": "^scroll, scroll, scroll, scroll, scroll, scroll, scroll, scroll$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-background-blend-mode",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-blend-mode: the .nw-reticle frame (alone, and on a .panel): background-blend-mode normal eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-blend-mode$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^normal$",
+        "new": "^normal, normal, normal, normal, normal, normal, normal, normal$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-background-clip",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-clip: the .nw-reticle frame (alone, and on a .panel): background-clip border-box eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-clip$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^border-box$",
+        "new": "^border-box, border-box, border-box, border-box, border-box, border-box, border-box, border-box$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-background-image",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-image: the .nw-reticle frame (alone, and on a .panel) draws its eight corner arms as background-images of --nw-line-chrome: eight one-colour gradients instead of none. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-image$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^none$",
+        "new": "^linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\), linear-gradient\\(rgba\\(102, 153, 255, 0\\.35\\), rgba\\(102, 153, 255, 0\\.35\\)\\)$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-background-origin",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-origin: the .nw-reticle frame (alone, and on a .panel): background-origin padding-box eight times. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-origin$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^padding-box$",
+        "new": "^padding-box, padding-box, padding-box, padding-box, padding-box, padding-box, padding-box, padding-box$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-background-position",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-position: the .nw-reticle frame (alone, and on a .panel): one arm pair per corner (top left, top right, bottom left, bottom right), eight positions instead of 0% 0%. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-position$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^0% 0%$",
+        "new": "^0% 0%, 0% 0%, 100% 0%, 100% 0%, 0% 100%, 0% 100%, 100% 100%, 100% 100%$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-background-repeat",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-repeat: the .nw-reticle frame (alone, and on a .panel): the arms do not repeat, no-repeat eight times instead of repeat. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-repeat$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^repeat$",
+        "new": "^no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-background-size",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-background-size: the .nw-reticle frame (alone, and on a .panel): an arm is --nw-reticle-arm (14px) long and --nw-hairline (1px) thick, eight sizes instead of auto. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^background-size$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^14px 1px, 1px 14px, 14px 1px, 1px 14px, 14px 1px, 1px 14px, 14px 1px, 1px 14px$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-padding",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-padding: the .nw-reticle frame (alone, and on a .panel): padding var(--sp-4), 0px to 16px on every side. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^(padding-block-end|padding-block-start|padding-bottom|padding-inline-end|padding-inline-start|padding-left|padding-right|padding-top)$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^0px$",
+        "new": "^16px$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-position",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-position: the .nw-reticle frame (alone, and on a .panel) is the containing block of its parts: position static to relative. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^position$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^static$",
+        "new": "^relative$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
+      "id": "nw-reticle-console-synapse-ops-offsets",
+      "description": "T084 (FR-028): synapse-ops.html frames its .panel elements with .nw-reticle. Same pair as the fixture's nw-reticle-offsets: the .nw-reticle frame (alone, and on a .panel) is position relative, so the computed offsets go from auto to 0px. Pinned to this page and to a .panel element.",
+      "match": {
+        "prop": "^(bottom|inset-block-end|inset-block-start|inset-inline-end|inset-inline-start|left|right|top)$",
+        "path": ">div\\.panel:nth-child\\(\\d+\\)$",
+        "old": "^auto$",
+        "new": "^0px$",
+        "page": "examples/html/synapse-ops.html"
+      }
+    },
+    {
       "id": "cascade-us5-reticle-parts-fixture-coverage-all",
       "description": "FR-038: the resolved offsets of the two absolutely positioned reticle parts (.nw-reticle-stamp and .nw-reticle-vlabel) on the fixture's US5 wrapper: the browser resolves the offsets a part leaves unset (right, bottom, left or top: 50%) from the box of its .nw-reticle and from the width of its own text, which depends on the font of the machine running parity. The offsets the rules set themselves (right, top, left: 24px, 56px, 6px) are pinned in their own categories. Limited to the offsets seen there: the size and origin of the two parts are already explained by the pieces category, which comes first, and the CASCADE-UNUSED check of a normal run fails if a listed property explains nothing. No value is pinned: the control run, which resets the parts to static, must report 0 unexpected differences.",
       "match": {
