@@ -5,7 +5,7 @@ description: >
   dashboards, admin panels, dev tools, monitoring UIs, portfolios, landing pages, blogs, or any
   interface that lives on a pure black background. Provides design tokens, semantic color roles,
   component classes, layout templates, and complete HTML examples. Version 3: neutral-first,
-  square-cornered, bone primary action.
+  square-cornered, open layout (panels have no box unless they opt into nw-reticle), bone primary action.
 ---
 
 # Nightwire — Cyberpunk UI System
@@ -59,7 +59,9 @@ Nightwire is a **cyberpunk aesthetic system** that works at any information dens
 
 **The v3 look:** neutral first. Labels, hairlines and default text are grey; colour appears only where
 it means something (data, state, focus, the selected item). Corners are square: panels 0, every
-control, card and modal `--radius-sm` (2px). Edges are 1px hairlines. There is **one solid action
+control, card and modal `--radius-sm` (2px). Edges are 1px hairlines. Layout is open: a `.panel` has
+no fill and no outline, and its header is a section head (label, hairline, kanji). A box is opt-in
+with `.nw-reticle`. There is **one solid action
 per view**, the bone `.btn`; every other button is an outline, except the deliberate solids `.btn-danger` (red) and `.btn-chrome` (blue). Nothing glows for decoration. Glow is
 a state signal (LED, check, switch, segmented, steps, progress), off at `archive`. Typefaces, kanji
 labels, the compressed title and the three intensities are unchanged.
@@ -72,11 +74,11 @@ labels, the compressed title and the three intensities are unchanged.
 
 1. **Background is ALWAYS `#000000`** — NEVER use `#0d0d0d`, `#111`, `#1a1a2e`, or any gray/navy. If you generate anything other than pure black `#000000`, you are violating this rule.
 
-2. **2px gaps between adjacent panels** — ALWAYS `gap: 2px`. NEVER 8px, 16px, 1rem, or any other value. This is the signature Nightwire spacing.
+2. **2px gaps between adjacent framed panels** — framed panels (`class="panel nw-reticle"`, as in a dense grid) are ALWAYS `gap: 2px` apart. NEVER 8px, 16px, 1rem, or any other value between them. This is the signature Nightwire spacing. A bare `.panel` is open and has no edge for the gap to separate, so NEVER put open panels 2px apart: open panels (landing pages, editorial layouts) use a wide gap (`--sp-8`) instead.
 
 3. **Square corners** — ALWAYS `border-radius: 0` on `.panel`, `.nw-table`, and all data containers. Controls, cards and modals use `--radius-sm` (2px). NEVER round a panel, and never use `--radius-md` or `--radius-lg` (no component reads them in v3).
 
-4. **Kanji tags on EVERY panel header** — Japanese characters are decorative style elements, not translations. Every `<div class="panel-header">` MUST include a `<span class="tag">` with Japanese text.
+4. **A kanji on EVERY panel header** — Japanese characters are decorative style elements, not translations. Every `<div class="panel-header">` MUST include a `<span class="kanji">` with Japanese text, in the right slot. It is a `.kanji`, not a `.tag`: the header gives `.kanji` its 20px section-head size, while a `.tag` keeps the tag look.
 
 5. **Green for data values** — Stat and metric numbers, percentages and readouts use `--nw-green` (`--nw-data`). Table text is content, not a readout, and stays `--nw-text-default`.
 
@@ -88,7 +90,7 @@ labels, the compressed title and the three intensities are unchanged.
 
 9. **Compressed serif titles** — Display headings MUST use Noto Serif Display with `transform: scaleX(0.82)` and the `.compressed-title` class. Never use regular serif without compression.
 
-10. **NO CRT effects** — No scanlines, no vignette, no flicker, no glitch effects. Clean and modern only.
+10. **NO CRT effects** — No scanlines, no vignette, no flicker, no glitch effects. Clean and modern only. The approved exceptions are opt-in: film grain (`<body class="nw-grain">`, 0 at `archive`), halftone images (`.nw-halftone`) and the kanji glow of `.nw-section-head-chrome` and the hovered `.nw-index-row` (0 at `archive`).
 
 ---
 
@@ -128,7 +130,7 @@ Each role has `-dim` (muted), `-hot` (bright), `-fill` (translucent bg) variants
 | Level | Token | Hex | Use |
 |---|---|---|---|
 | 0 | `--void` | `#000000` | Page background — always |
-| 1 | `--void-warm` | `#0a0a0a` | Panels, cards |
+| 1 | `--void-warm` | `#0a0a0a` | Metric cells, sidebar. `.panel` and `.card` have no fill in v3 |
 | 2 | `--void-panel` | `#111111` | Modals, inputs, raised panels |
 | 3 | `--void-raised` | `#1a1a1a` | Dropdowns, tooltips |
 | Overlay | `--nw-elevation-overlay` | `0 24px 64px rgba(0,0,0,0.7)` | Modal, drawer and command palette panels only |
@@ -187,9 +189,9 @@ Google Fonts:
 
 ```html
 <div class="panel">
-  <div class="panel-header">
+  <div class="panel-header" data-idx="01">
     <span>SECTION TITLE</span>
-    <span class="tag">日本語タグ</span>
+    <span class="kanji">日本語</span>
   </div>
   <div class="panel-body">
     <!-- content -->
@@ -197,12 +199,14 @@ Google Fonts:
 </div>
 ```
 
-Rules:
-- Header text: 8-10px, uppercase, `--nw-text-mute`, letter-spacing 0.14em
-- Japanese tag: right-aligned, `--font-mincho`; a `.kanji` inside a header is `--nw-text-default` (set with `:where()`, so a colour utility on it wins)
-- Bottom border: `1px solid --nw-line`
+Renders `01 // SECTION TITLE ──────── 日本語`. `data-idx` is optional.
 
----
+Rules:
+- Header text: 11px, regular weight, uppercase, wide tracking, `--nw-text-mute`. No bottom border: a hairline (`--nw-line`) runs from the label to the right slot
+- Kanji: right slot, `<span class="kanji">`, 20px, `--font-mincho`, `--nw-text-default` (set with `:where()`, so a colour utility on it wins)
+- Anything else in the right slot (a `.tag`, an LED and text) keeps its own look. Do not use a `.tag` for the kanji
+- The same markup works on `.card-header`, and `.nw-section-head` is the standalone version
+- `.panel` is open: no fill, no outline. For a box, write `<div class="panel nw-reticle">`
 
 ## Component Reference
 
@@ -214,11 +218,11 @@ Rules:
 - `.btn-sm` — Small size modifier
 
 ### Panel & Card
-- `.panel` — void-warm bg, `--nw-line` border, NO radius
-- `.panel-header` — 10px uppercase `--nw-text-mute`, `--nw-line` bottom border
-- `.panel-body` — sp-3 padding
-- `.card` — void-warm bg, `--nw-line` border, `--radius-sm`
-- `.card-header` — Uppercase `--nw-text-mute` label
+- `.panel` — Open: no fill, no outline, NO radius. Add `.nw-reticle` for a framed box
+- `.panel-header` — Section head: 11px uppercase `--nw-text-mute` label, hairline to the right slot, optional `data-idx`, `.kanji` in the right slot
+- `.panel-body` — sp-3 vertical padding
+- `.card` — No fill, `--nw-line` hairline outline, `--radius-sm`
+- `.card-header` — Same section-head look as `.panel-header`
 - `.card-body` — sp-4 padding
 - `.card-footer` — `--nw-line` top border
 
@@ -257,7 +261,7 @@ Set the state with `data-state` on `.led`; the glow is the state glow (`--nw-led
 - `.sidebar` — 240px, void-warm bg, right border
 - `.sidebar-item` / `.sidebar-item.active` — Nav items; hover reads `--nw-text-strong`, the active item keeps a blue accent line and a neutral label
 - `.tab` / `.tab.active` — Tabs; hover reads `--nw-text-strong`, the selected tab keeps a blue underline and a neutral label
-- `.kv-row` — Key-value display with faint bottom border
+- `.kv-row` — Key-value spec sheet: faint bottom border, `sp-3` padding scaled by `--nw-pad-scale`, top-aligned, right-aligned `.kv-value`; optional `.kv-note` (mute line under the value) and `.kv-swap` (glyph in `--nw-chrome`, blue)
 - `.nw-progress` — 4px height progress bar with a `--nw-line` edge; the fill is `.nw-progress-fill` (green, state glow via `--nw-progress-glow`)
 - `.skeleton` / `.skeleton-text` / `.skeleton-heading` / `.skeleton-block` — Loading states
 - `.modal` / `.modal-backdrop` / `.modal-header` / `.modal-body` / `.modal-footer` — Dialog system; `--nw-line-strong` border, `--radius-sm`, `--nw-elevation-overlay`
@@ -276,13 +280,16 @@ Set the state with `data-state` on `.led`; the glow is the state glow (`--nw-led
 | `border-radius: 4px` on panels, or round buttons and tags | `border-radius: 0` on panels; `--radius-sm` on controls | Square corners everywhere |
 | Blue labels or a blue default `.tag` | `--nw-text-mute` labels; `.tag-chrome` for blue | Neutral first, blue marks focus and accents |
 | `.led.green`, `.led.blue`, `.led.red`, `.led.yellow`, `.tag-warning`, `.nw-progress .fill`, `.stack` | `.led[data-state="ok\|active\|error\|warn"]`, `.tag-warn`, `.nw-progress-fill`, `.nw-stack` | Removed in v3 |
-| `gap: 16px` between panels | `gap: 2px` | Signature tight spacing |
+| `gap: 16px` between framed panels (`panel nw-reticle`) | `gap: 2px` | Signature tight spacing |
+| `gap: 2px` between bare (open) `.panel`s | `gap: var(--sp-8)`, or frame them with `nw-reticle` | An open panel has no edge, so 2px would merge them |
 | `font-family: sans-serif` for titles | `font-family: var(--font-title)` + `transform: scaleX(0.82)` | Compressed serif is required |
 | `text-transform: capitalize` on labels | `text-transform: uppercase` + `letter-spacing: 0.1em` | Labels are always uppercase |
 | Pastel colors like `#b8e6b8` | Soft neon: `#7aed7a` | Use exact palette colors |
 | Harsh neon `#00ff00`, `#0000ff` | `#7aed7a`, `#6699ff` | Soft neon, not harsh |
 | `filter: blur()` or scanline overlays | Clean, no effects | No CRT aesthetics |
-| Panel headers without kanji | Every panel header MUST have `<span class="tag">日本語</span>` | Non-negotiable style element |
+| Panel headers without kanji | Every panel header MUST have `<span class="kanji">日本語</span>` | Non-negotiable style element |
+| `<span class="tag">日本語</span>` as the header kanji | `<span class="kanji">日本語</span>` | A `.tag` keeps the tag look; `.kanji` gets the section-head size |
+| `background` or `border` written on `.panel` for a box | `class="panel nw-reticle"` | The panel is open in v3; the frame is opt-in |
 
 ---
 
@@ -376,6 +383,52 @@ override those on `:root` or on the `data-intensity` element, or override the de
 - **Button variants**: `.btn-chrome` (blue solid), `.btn-success`, `.btn-ai`, `.btn-icon`, `.btn-xs`, `.btn-lg`, `.btn-loading`
 - **Banner**: system-wide notice strip
 
+### Mockup pieces (v3)
+
+Open-layout pieces from the approved mockup. All are optional and additive. Use them for editorial
+pages, landing pages and section structure. `.nw-reticle` is the one a dense console always needs:
+it frames the panels of the grid.
+
+| Class | Use |
+|---|---|
+| `.nw-section-head` (+ `.nw-section-head-chrome`) | A section head outside a panel: `data-idx`, label, hairline, `.kanji`. `-chrome` fades the hairline and glows a blue kanji |
+| `.nw-display`, `.nw-lede` | Large compressed serif heading; intro paragraph (mute, 52ch) |
+| `.nw-chip` (+ `.nw-chip-solid`) | Small outlined label or link; `-solid` is the bone fill |
+| `.nw-index` + `.nw-index-row` | Kanji index: each row has `.kanji`, `.name`, `.count`, `.items`. Keeps its grid at `archive`, where the kanji is hidden |
+| `.nw-accordion` | A group of native `<details>` / `<summary>`, no JavaScript. Answers go in `.answer` |
+| `.nw-link-arrow` | Uppercase mono link in the primary colour |
+| `.nw-reticle` (+ `.nw-reticle-meta`, `-vlabel`, `-stamp`, `-foot`) | Frame with corner arms, alone or on `.panel`, and its parts |
+| `.nw-halftone` (+ `-chrome`, `-data`, `-bone`, `-fine`) | Halftone image: put the `img` in a `.nw-halftone-layer` |
+| `.nw-barcode`, `.nw-wordmark` | Decorative barcode strip; large outlined wordmark |
+| `.nw-grain` | On `<body>`: film grain, strength from `--nw-grain` (0 archive, .07 operator, .1 combat) |
+
+Tokens: `--nw-grain`, `--nw-chip-line` (chip border, white at 0.18), `--nw-bone` (`#d8d2c8`, the bone
+halftone tint) and `--nw-kanji-glow` (`calc(20px * --nw-glow)`: the glow of the chrome section-head
+kanji and the hovered index kanji, 0 at `archive`). Grain, the halftone and that glow are the
+only decorative effects; everything else keeps "glow is for state". Grain and the glow are 0 at
+`archive`; the halftone is image content and renders at every intensity.
+
+```html
+<body class="nw-grain">
+  <h1 class="nw-display">Nightwire</h1>
+  <p class="nw-lede">A dark-mode design system.</p>
+  <a class="nw-chip" href="#">v3</a>
+  <a class="nw-link-arrow" href="#">Read more →</a>
+
+  <div class="panel nw-reticle">
+    <div class="panel-header" data-idx="02"><span>Specs</span><span class="kanji">仕様</span></div>
+    <div class="kv-row">
+      <span class="kv-label">Build</span>
+      <span class="kv-value">3.0.0<span class="kv-note">from main</span></span>
+    </div>
+  </div>
+
+  <div class="nw-accordion">
+    <details><summary>What is it?</summary><div class="answer">A CSS design system.</div></details>
+  </div>
+</body>
+```
+
 ### Overlay open state
 
 Overlays animate in and out and are driven by a `data-open` attribute. The value is a string
@@ -458,9 +511,9 @@ both states to `paused`.
 
 | Use case | Recommendation |
 |---|---|
-| Blog post, portfolio, docs | `data-intensity="archive"` + `.panel`, `.card`, `.nw-table`, `.code-block` |
+| Blog post, portfolio, docs | `data-intensity="archive"` + `.panel`, `.card`, `.nw-table`, `.code-block`; the mockup pieces (`.nw-display`, `.nw-accordion`) |
 | Default look | No attribute or `data-intensity="operator"`; mix components freely |
-| Ops console, monitoring dashboard | `data-intensity="combat"` + `.cmdk`, `.drawer`, `.stat`, `.steps`, `.led[data-state]` |
+| Ops console, monitoring dashboard | `data-intensity="combat"` + `.panel nw-reticle` (framed panels), `.cmdk`, `.drawer`, `.stat`, `.steps`, `.led[data-state]` |
 | Forms-heavy admin panel | v2 form suite (`.field`, `.switch`, `.check`, `.combo`) |
 | AI-generated suggestions/oracle UIs | `.ai-block` + `.tag-ai` + `.btn-ai` + `.led[data-state="ai"]` |
 

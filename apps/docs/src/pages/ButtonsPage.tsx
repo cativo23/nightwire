@@ -5,10 +5,10 @@ export function ButtonsPage() {
   const [segMode, setSegMode] = useState('day');
   return (
     <section id="buttons">
-      <SectionTitle tag="操作">Buttons & Actions</SectionTitle>
+      <SectionTitle kanji="操作">Buttons & Actions</SectionTitle>
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Button Variants</span><span className="tag">ボタン</span></div>
+        <div className="panel-header"><span>Button Variants</span><span className="kanji">ボタン</span></div>
         <div className="panel-body">
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
             <button className="btn">Primary</button>
@@ -30,7 +30,7 @@ export function ButtonsPage() {
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
           <span>Sizes & States</span>
-          <span className="tag">寸法</span>
+          <span className="kanji">寸法</span>
         </div>
         <div className="panel-body">
           <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>Sizes</div>
@@ -57,7 +57,7 @@ export function ButtonsPage() {
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
           <span>Segmented Control</span>
-          <span className="tag">区分</span>
+          <span className="kanji">区分</span>
         </div>
         <div className="panel-body">
           <div className="seg" role="group" aria-label="Range" style={{ marginBottom: 12 }}>
@@ -83,7 +83,7 @@ export function ButtonsPage() {
       </div>
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Tags & Badges</span><span className="tag">標識</span></div>
+        <div className="panel-header"><span>Tags & Badges</span><span className="kanji">標識</span></div>
         <div className="panel-body">
           <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>Status Tags</div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>

@@ -3,12 +3,12 @@ import { SectionTitle, CodeBlock } from '../components/CodeBlock';
 export function TokensPage() {
   return (
     <section id="tokens">
-      <SectionTitle tag="設計変数">Design Tokens</SectionTitle>
+      <SectionTitle kanji="設計変数">Design Tokens</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         All styles are defined by CSS variables. Framework-agnostic and easy to consume for AI agents.
       </p>
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Token Registry</span><span className="tag">全変数</span></div>
+        <div className="panel-header"><span>Token Registry</span><span className="kanji">全変数</span></div>
         <div className="panel-body" style={{ padding: 0 }}>
           <table className="nw-table">
             <thead><tr><th>Token</th><th>Value</th><th>Usage</th></tr></thead>
@@ -31,7 +31,7 @@ export function TokensPage() {
         </div>
       </div>
       <div className="panel">
-        <div className="panel-header"><span>Usage</span><span className="tag">使用例</span></div>
+        <div className="panel-header"><span>Usage</span><span className="kanji">使用例</span></div>
         <div className="panel-body">
           <CodeBlock>{`/* Reference tokens in your CSS */
 .my-component {

@@ -111,3 +111,215 @@ test('should_record_the_cativo_dev_validation', () => {
     assert.ok(section.includes(text), `cativo.dev section does not mention ${text}`);
   }
 });
+
+// FR-037 / T080: the guide documents the US5 mockup look. The open-layout section is found by
+// its heading so the assertions read the prose that explains the change, not a stray mention.
+function section(heading) {
+  const guide = read(GUIDE);
+  const start = guide.indexOf(`\n${heading}\n`);
+  assert.notEqual(start, -1, `guide has no "${heading}" heading`);
+  const level = heading.match(/^#+/)[0].length;
+  const rest = guide.slice(start + heading.length + 2);
+  const next = rest.search(new RegExp(`^#{1,${level}} `, 'm'));
+  return next === -1 ? rest : rest.slice(0, next);
+}
+
+test('should_document_the_open_panel_and_both_ways_to_get_boxes_back', () => {
+  const text = section('### Open layout');
+  for (const needle of [
+    '.panel',
+    'no fill',
+    'no outline',
+    '.nw-reticle',
+    '<div class="panel nw-reticle">',
+    'your own CSS',
+  ]) {
+    assert.ok(text.includes(needle), `open layout section does not mention ${needle}`);
+  }
+});
+
+test('should_document_the_card_outline', () => {
+  const text = section('### Open layout');
+  assert.ok(/`\.card`[^.]*hairline outline[^.]*fill/.test(text), 'card outline not described');
+});
+
+test('should_document_the_section_head_look_and_data_idx', () => {
+  const text = section('### Open layout');
+  for (const needle of [
+    '.panel-header',
+    '.card-header',
+    '11px',
+    'data-idx="01"',
+    '01 // LABEL',
+    '20px',
+  ]) {
+    assert.ok(text.includes(needle), `open layout section does not mention ${needle}`);
+  }
+});
+
+test('should_tell_headers_to_use_kanji_instead_of_tag', () => {
+  const text = section('### Open layout');
+  assert.ok(text.includes('<span class="tag">日本語</span>'), 'old kanji markup not shown');
+  assert.ok(text.includes('<span class="kanji">日本語</span>'), 'new kanji markup not shown');
+  assert.ok(/nothing breaks/i.test(text), 'guide does not say the switch is optional');
+});
+
+test('should_document_the_kv_row_rhythm', () => {
+  const text = section('### Open layout');
+  for (const needle of ['.kv-row', '--nw-pad-scale', '.kv-note', '.kv-swap', 'right-aligned']) {
+    assert.ok(text.includes(needle), `open layout section does not mention ${needle}`);
+  }
+});
+
+test('should_list_every_new_us5_class_and_knob', () => {
+  const text = section('## New classes and knobs');
+  for (const needle of [
+    '.nw-section-head',
+    '.nw-section-head-chrome',
+    '.nw-display',
+    '.nw-lede',
+    '.nw-chip',
+    '.nw-chip-solid',
+    '.nw-index',
+    '.nw-index-row',
+    '.nw-accordion',
+    '.nw-link-arrow',
+    '.nw-reticle',
+    '.nw-reticle-meta',
+    '.nw-reticle-vlabel',
+    '.nw-reticle-stamp',
+    '.nw-reticle-foot',
+    '.nw-halftone',
+    '.nw-halftone-chrome',
+    '.nw-halftone-data',
+    '.nw-halftone-bone',
+    '.nw-halftone-fine',
+    '.nw-barcode',
+    '.nw-wordmark',
+    '.nw-grain',
+    '--nw-grain',
+    '--nw-chip-line',
+    '--nw-bone',
+    '--nw-kanji-glow',
+  ]) {
+    assert.ok(text.includes(needle), `new classes section does not mention ${needle}`);
+  }
+});
+
+test('should_give_the_grain_values_per_intensity', () => {
+  const text = section('## New classes and knobs');
+  assert.ok(/--nw-grain[^\n]*0[^\n]*archive[^\n]*\.07[^\n]*operator[^\n]*\.1[^\n]*combat/i.test(text));
+  assert.ok(text.includes('<body class="nw-grain">'), 'grain opt-in snippet missing');
+});
+
+test('should_put_the_open_layout_in_the_checklist', () => {
+  const guide = read(GUIDE);
+  const start = guide.indexOf('\n## Checklist');
+  const end = guide.indexOf('\n## ', start + 1);
+  const checklist = guide.slice(start, end);
+  assert.ok(checklist.includes('#open-layout'), 'checklist does not link the open layout');
+  assert.ok(checklist.includes('nw-reticle'), 'checklist does not mention the frame opt-in');
+});
+
+// FR-037 / T083: cativo.dev was re-validated against the open layout; the guide says what was
+// compared and what the site needs, and no longer says the validation is out of date.
+test('should_record_the_cativo_dev_revalidation_for_the_mockup_look', () => {
+  const guide = read(GUIDE);
+  const text = guide.slice(guide.indexOf('\n## cativo.dev'));
+  assert.ok(!/has not been re-?validated/i.test(text), 'section still says it was not re-validated');
+  assert.ok(!/pending/i.test(text), 'cativo.dev section still says pending');
+  for (const item of [
+    '3a63a86',
+    'd15f27f',
+    '`.panel`',
+    '`.card`',
+    '`.kv-row`',
+    '`.kanji`',
+    'projects/[id].vue',
+    'gap-0.5',
+  ]) {
+    assert.ok(text.includes(item), `cativo.dev section does not mention ${item}`);
+  }
+});
+
+// FR-037 / T080: CHANGELOG [Unreleased] records the US5 look in lockstep with the guide.
+test('should_record_the_mockup_look_in_the_changelog_unreleased_section', () => {
+  const log = read('CHANGELOG.md');
+  const start = log.indexOf('\n## [Unreleased]');
+  assert.notEqual(start, -1, 'CHANGELOG has no [Unreleased] section');
+  const end = log.indexOf('\n## [', start + 1);
+  const unreleased = log.slice(start, end);
+  for (const text of [
+    '`.panel`',
+    '`.nw-reticle`',
+    '`.card`',
+    '`.kv-row`',
+    '`.kv-note`',
+    '`.kanji`',
+    'data-idx',
+    '`.nw-section-head`',
+    '`.nw-display`',
+    '`.nw-lede`',
+    '`.nw-chip`',
+    '`.nw-index`',
+    '`.nw-accordion`',
+    '`.nw-link-arrow`',
+    '`.nw-halftone`',
+    '`.nw-barcode`',
+    '`.nw-wordmark`',
+    '`.nw-grain`',
+    '`--nw-grain`',
+    '`--nw-chip-line`',
+    '`--nw-bone`',
+    '`--nw-kanji-glow`',
+    'docs/migration/v3.md#open-layout',
+  ]) {
+    assert.ok(unreleased.includes(text), `[Unreleased] does not mention ${text}`);
+  }
+});
+
+// Fix round 1 (review AJ): markup for the two pieces that need structure, the real colour of
+// .kv-swap, what .nw-reticle adds, and the halftone ruling (image content, every intensity).
+test('should_show_the_halftone_and_accordion_markup', () => {
+  const text = section('## New classes and knobs');
+  for (const needle of [
+    '<div class="nw-halftone nw-halftone-chrome">',
+    '<div class="nw-halftone-layer">',
+    '<div class="nw-accordion">',
+    '<details><summary>',
+    '<div class="answer">',
+  ]) {
+    assert.ok(text.includes(needle), `new classes section does not show ${needle}`);
+  }
+});
+
+test('should_name_the_kv_swap_colour_as_chrome_blue', () => {
+  const text = section('### Open layout');
+  assert.ok(/`\.kv-swap`[^.]*chrome \(blue\)/.test(text), '.kv-swap colour not named');
+  assert.ok(!/accent colour/.test(text), 'guide still calls the kv-swap colour "accent"');
+});
+
+test('should_say_what_the_reticle_adds_to_the_element', () => {
+  const text = section('### Open layout');
+  assert.ok(!/does not touch[^.]*layout/.test(text), 'guide still says the reticle leaves layout alone');
+  for (const needle of ['position: relative', 'padding', '--sp-4', 'background colour']) {
+    assert.ok(text.includes(needle), `open layout section does not mention ${needle}`);
+  }
+});
+
+test('should_say_halftone_renders_at_every_intensity', () => {
+  const text = section('## New classes and knobs');
+  assert.ok(/halftone[^.]*image content[^.]*every intensity/i.test(text), 'halftone ruling missing');
+});
+
+test('should_not_leave_two_blank_lines_in_the_guide', () => {
+  assert.ok(!/\n\n\n/.test(read(GUIDE)));
+});
+
+test('should_list_halftone_among_the_decorative_exceptions_in_the_changelog', () => {
+  const log = read('CHANGELOG.md');
+  const start = log.indexOf('\n## [Unreleased]');
+  const unreleased = log.slice(start, log.indexOf('\n## [', start + 1));
+  assert.ok(/halftone[\s\S]{0,300}every intensity/i.test(unreleased), 'changelog halftone ruling missing');
+  assert.ok(/`\.kv-swap`[\s\S]{0,200}chrome \(blue\)/.test(unreleased), 'changelog kv-swap colour missing');
+});

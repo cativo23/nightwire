@@ -1,0 +1,61 @@
+/* ── Accordion ───────────────────────────────────────────────────
+   Native <details>/<summary>, no JavaScript (FR-032). The marker is replaced by a "+" that
+   becomes "−" when open. The focus ring stays the global 2px one; only its offset moves.
+   Where the browser can animate <details> (interpolate-size), the answer opens on --nw-sweep and
+   closes on --nw-sweep-out. Everywhere else it opens and closes at once. Both tokens multiply
+   --nw-motion-scale, which prefers-reduced-motion sets to 0, so reduced motion is instant too. */
+
+.nw-accordion details { border-top: var(--nw-hairline) solid var(--nw-line); }
+.nw-accordion details:last-child { border-bottom: var(--nw-hairline) solid var(--nw-line); }
+
+.nw-accordion summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--nw-text-default);
+  transition: color var(--nw-tick);
+}
+
+.nw-accordion summary::-webkit-details-marker { display: none; }
+
+.nw-accordion summary::after {
+  content: '+';
+  font-family: var(--font-sys);
+  font-size: 16px;
+  color: var(--nw-chrome);
+}
+
+.nw-accordion details[open] summary::after { content: '−'; }
+
+.nw-accordion summary:hover { color: var(--nw-text-strong); }
+
+.nw-accordion summary:focus-visible { outline-offset: 4px; }   /* width stays the global 2px */
+
+.nw-accordion .answer {
+  padding: 0 0 var(--sp-6);
+  max-width: 62ch;
+  color: var(--nw-text-mute);
+  line-height: 1.65;
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .nw-accordion details { interpolate-size: allow-keywords; }
+
+  .nw-accordion details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size var(--nw-sweep-out), content-visibility var(--nw-sweep-out) allow-discrete;
+  }
+
+  .nw-accordion details[open]::details-content {
+    block-size: auto;
+    transition: block-size var(--nw-sweep), content-visibility var(--nw-sweep) allow-discrete;
+  }
+}

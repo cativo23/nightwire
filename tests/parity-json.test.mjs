@@ -50,7 +50,7 @@ test('buildJsonReport lists every difference with its category (null when none) 
   ];
   const shadows = [{ page: 'p.html', state: 'none|rm-off', path: 'a', prop: 'box-shadow', old: 'none', new: 'x' }];
   const json = buildJsonReport({ oldSpec: 'git:v2.1.0', newSpec: 'nightwire.css', pages: ['p.html'], states: ['none|rm-off'], diffs, shadows, categories });
-  assert.deepEqual(json.meta, { old: 'git:v2.1.0', new: 'nightwire.css', pages: ['p.html'], states: ['none|rm-off'], differences: 2, unexpected: 1 });
+  assert.deepEqual(json.meta, { old: 'git:v2.1.0', new: 'nightwire.css', pages: ['p.html'], states: ['none|rm-off'], differences: 2, control: null, unexpected: 1 });
   assert.deepEqual(json.diffs.map((d) => d.category), ['colours', null]);
   assert.deepEqual(json.shadows, shadows);
 });

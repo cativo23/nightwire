@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
-import { NS } from '../scripts/lib/tokens.mjs';
+import { NS, emitCss } from '../scripts/lib/tokens.mjs';
 
 // Guards on the checked-in sources (src/tokens/tokens.json, src/components/*.css,
 // src/utilities/*.css), as opposed to tokens-validate/-emit, which feed the build fixtures.
@@ -304,6 +304,14 @@ const STATE_GLOW = [
 ];
 const stateGlowFor = (file, selector) => STATE_GLOW.find((s) => s.file === file && s.selector.test(selector));
 
+// FR-034: the decorative glows approved with the mockup, an allowlist of its own so that the test
+// below still fails for any other new glow. Each reads its own knob, which is 0 at archive.
+const FR034_GLOW = [
+  { file: 'src/components/section-head.css', selector: /^\.nw-section-head-chrome > \.kanji$/, knob: '--nw-kanji-glow' },
+  { file: 'src/components/kanji-index.css', selector: /^\.nw-index-row:hover \.kanji$/, knob: '--nw-kanji-glow' },
+];
+const fr034GlowFor = (file, selector) => FR034_GLOW.find((s) => s.file === file && s.selector.test(selector));
+
 /** Every glow layer in src/components with the rule that declares it. */
 function componentGlow() {
   const found = [];
@@ -319,9 +327,22 @@ function componentGlow() {
 
 test('no box-shadow or text-shadow glow in src/components outside the state-glow selectors (spread-only rings and neutral elevation excluded)', () => {
   const hits = componentGlow()
-    .filter((g) => !stateGlowFor(g.file, g.selector))
+    .filter((g) => !stateGlowFor(g.file, g.selector) && !fr034GlowFor(g.file, g.selector))
     .map((g) => `${g.file}:${g.line}  ${g.selector}  { ${g.prop}: ${g.layer} }`);
-  assert.deepEqual(hits, [], `${hits.length} decorative glow layer(s); state glow is listed in research R4:\n${hits.join('\n')}`);
+  assert.deepEqual(hits, [], `${hits.length} decorative glow layer(s); state glow is listed in research R4, the mockup exceptions in FR-034:\n${hits.join('\n')}`);
+});
+
+test('FR-034: each mockup glow exists, reads its own knob and never --nw-glow directly', () => {
+  const found = componentGlow();
+  const hits = [];
+  for (const entry of FR034_GLOW) {
+    const layers = found.filter((g) => fr034GlowFor(g.file, g.selector) === entry);
+    if (!layers.length) hits.push(`${entry.file}  ${entry.selector}  has no glow layer: remove it from FR034_GLOW`);
+    for (const g of layers) {
+      if (!g.layer.includes(`var(${entry.knob})`) || g.layer.includes('var(--nw-glow)')) hits.push(`${g.file}:${g.line}  ${g.selector}  { ${g.prop}: ${g.layer} }  (want ${entry.knob})`);
+    }
+  }
+  assert.deepEqual(hits, [], hits.join('\n'));
 });
 
 test('state glow reads its own component knob, not --nw-glow directly (led, control, progress)', () => {
@@ -385,4 +406,34 @@ test('.modal-backdrop is declared once, closed by default, with its open state o
   assert.equal(props.visibility, 'hidden');
   assert.equal(props.opacity, '0');
   assert.equal(props['pointer-events'], 'none');
+});
+
+// ---- FR-030 / FR-031: the mockup tokens and the grain knob ---------------------------------------
+
+// The intensity block of the emitted stylesheet: `:root[data-intensity="<level>"] { ... }`.
+const intensityBlock = (css, level) =>
+  new RegExp(`:root\\[data-intensity="${level}"\\]\\s*\\{([^}]*)\\}`).exec(css)?.[1] ?? '';
+
+test('knob.grain is the --nw-grain knob: 0.07 at operator, 0 at archive, 0.1 at combat (FR-031)', () => {
+  const grain = allTokens.find(({ path }) => path === 'knob.grain');
+  assert.ok(grain, 'knob.grain exists');
+  assert.equal(ext(grain.node).css, '--nw-grain');
+  assert.equal(grain.node.$value, 0.07, 'the base value is the operator value');
+  const levels = ext(tokens).intensity;
+  assert.equal(levels.archive.tokens['knob.grain'], 0);
+  assert.equal(levels.combat.tokens['knob.grain'], 0.1);
+  assert.ok(!('knob.grain' in levels.operator.tokens), 'operator takes the base value');
+});
+
+test('the emitted stylesheet declares the grain knob and the mockup piece tokens (FR-030, FR-031)', () => {
+  const css = emitCss(tokens);
+  assert.match(css, /--nw-grain:\s*0\.07;/, 'operator grain on :root');
+  assert.match(intensityBlock(css, 'archive'), /--nw-grain:\s*0;/, 'archive grain');
+  assert.match(intensityBlock(css, 'combat'), /--nw-grain:\s*0\.1;/, 'combat grain');
+  assert.match(css, /--nw-chip-line:\s*rgba\(255, 255, 255, 0\.18\);/, 'chip border keeps the mockup alpha');
+  assert.match(css, /--nw-bone:\s*#d8d2c8;/, 'halftone bone tint');
+  assert.match(css, /--nw-kanji-glow:\s*calc\(20px \* var\(--nw-glow\)\);/, 'kanji glow is derived from --nw-glow');
+  for (const level of ['archive', 'combat']) {
+    assert.doesNotMatch(intensityBlock(css, level), /--nw-kanji-glow/, `${level} does not override the derived kanji glow`);
+  }
 });

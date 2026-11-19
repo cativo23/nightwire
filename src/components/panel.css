@@ -1,28 +1,17 @@
 /* ── Panel ───────────────────────────────────────────────────── */
 
+/* Open at every intensity (FR-026): no fill, no outline, no radius. The frame is opt-in, with
+   .nw-reticle. The header look is in section-head.css. */
 .panel {
-  background: var(--void-warm);
-  border: var(--nw-hairline) solid var(--nw-line);
-  border-radius: var(--nw-panel-radius);
+  background: none;
+  border: 0;
+  border-radius: 0;
 }
 
 .panel-header {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--nw-text-mute);
-  padding: var(--sp-2) var(--sp-3) 7px;
-  border-bottom: var(--nw-hairline) solid var(--nw-line);
-  display: flex;
-  justify-content: space-between;
-}
-
-/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
-:where(.panel-header .kanji) {
-  color: var(--nw-text-default);
+  padding: 0 0 var(--sp-3);
 }
 
 .panel-body {
-  padding: var(--sp-3);
+  padding: var(--sp-3) 0;
 }

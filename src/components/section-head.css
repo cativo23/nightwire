@@ -1,0 +1,79 @@
+/* ── Section head ────────────────────────────────────────────────
+   One implementation for .nw-section-head, .panel-header and .card-header (FR-026, FR-030):
+   a mute label, no bottom border, a hairline that runs from the label to the right slot, and a
+   .kanji in the right slot at the section-head size. Any other right-slot content (a .tag, an LED
+   and text) keeps its own look. data-idx shows an index in the accent colour before the label.
+   Loaded after panel.css and card.css, which keep the header padding only. */
+
+.nw-section-head,
+.panel-header,
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-sys);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: var(--ls-ultra);
+  text-transform: uppercase;
+  color: var(--nw-text-mute);
+  border-bottom: 0;
+}
+
+/* The hairline from the label to the right slot. */
+.nw-section-head::after,
+.panel-header::after,
+.card-header::after {
+  content: '';
+  order: 1;
+  flex: 1;
+  height: var(--nw-hairline);
+  background: var(--nw-line);
+}
+
+.nw-section-head > :not(:first-child),
+.panel-header > :not(:first-child),
+.card-header > :not(:first-child) { order: 2; }
+
+/* data-idx: "01 // LABEL" */
+.nw-section-head[data-idx]::before,
+.panel-header[data-idx]::before,
+.card-header[data-idx]::before {
+  content: attr(data-idx);
+  color: var(--nw-chrome);
+}
+
+.nw-section-head[data-idx] > :first-child::before,
+.panel-header[data-idx] > :first-child::before,
+.card-header[data-idx] > :first-child::before { content: '// '; }
+
+.nw-section-head > .kanji,
+.panel-header > .kanji,
+.card-header > .kanji {
+  font-size: 20px;
+  letter-spacing: 0;
+  text-transform: none;
+  flex-shrink: 0;       /* a long label wraps; the kanji keeps its width instead of stacking its glyphs */
+  white-space: nowrap;
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.nw-section-head .kanji, .panel-header .kanji, .card-header .kanji) {
+  color: var(--nw-text-default);
+}
+
+/* Chrome variant: a hairline that fades out, and a kanji in the accent. */
+.nw-section-head-chrome::after { background: linear-gradient(90deg, var(--nw-line-chrome), transparent); }
+
+.nw-section-head-chrome > .kanji {
+  color: var(--nw-chrome);
+  text-shadow: 0 0 var(--nw-kanji-glow) var(--nw-chrome);   /* FR-034 exception: 0 at archive */
+}
+
+/* Forced colours replace background colours with Canvas, which would erase the hairline: paint it
+   with the text colour, as v2's border-bottom rule was. */
+@media (forced-colors: active) {
+  .nw-section-head::after,
+  .panel-header::after,
+  .card-header::after { background: CanvasText; }
+}

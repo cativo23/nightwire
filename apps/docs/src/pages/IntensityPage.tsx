@@ -16,7 +16,7 @@ export function IntensityPage() {
 
   return (
     <section id="intensity">
-      <SectionTitle tag="強度">Intensity System</SectionTitle>
+      <SectionTitle kanji="強度">Intensity System</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, margin: '8px 0 20px', lineHeight: 1.6 }}>
         A single attribute on <code style={{ color: 'var(--nw-green)' }}>&lt;html&gt;</code> reconfigures glow, motion,
         density, padding, kanji visibility, and pulse state across the whole document. Toggle below to see the
@@ -27,7 +27,7 @@ export function IntensityPage() {
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
           <span>Try it</span>
-          <span className="tag">体験</span>
+          <span className="kanji">体験</span>
         </div>
         <div className="panel-body">
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -52,7 +52,7 @@ export function IntensityPage() {
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
           <span>Knobs by mode</span>
-          <span className="tag">変数</span>
+          <span className="kanji">変数</span>
         </div>
         <div className="panel-body" style={{ padding: 0 }}>
           <table className="nw-table">
@@ -89,7 +89,7 @@ export function IntensityPage() {
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
           <span>Usage</span>
-          <span className="tag">使用例</span>
+          <span className="kanji">使用例</span>
         </div>
         <div className="panel-body">
           <p style={{ fontSize: 13, color: 'var(--nw-text-dim)', marginTop: 0, marginBottom: 12, lineHeight: 1.6 }}>
@@ -111,7 +111,7 @@ export function IntensityPage() {
       <div className="panel">
         <div className="panel-header">
           <span>When to use which</span>
-          <span className="tag">指針</span>
+          <span className="kanji">指針</span>
         </div>
         <div className="panel-body" style={{ padding: 0 }}>
           <table className="nw-table">

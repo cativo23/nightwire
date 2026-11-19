@@ -7,7 +7,7 @@ const nw = new TokenReader(tokens);
 
 export const COLORS = [
   { name: 'void', hex: '#000000', variable: '--void', desc: 'Primary background — absolute void' },
-  { name: 'void-warm', hex: '#0a0a0a', variable: '--void-warm', desc: 'Panel fill' },
+  { name: 'void-warm', hex: '#0a0a0a', variable: '--void-warm', desc: 'Metric cells, sidebar; the fill of your own box (a .panel has none)' },
   { name: 'void-panel', hex: '#111111', variable: '--void-panel', desc: 'Inset surfaces & inputs' },
   { name: 'void-raised', hex: '#1a1a1a', variable: '--void-raised', desc: 'Elevated elements' },
   { name: 'primary', hex: '#6699ff', variable: '--nw-primary', desc: 'Focus rings, accent lines & links (labels are neutral)' },
@@ -27,8 +27,8 @@ export const FONTS = [
 
 export const COMPONENTS = [
   { name: '.btn', desc: 'Primary button (bone, the one solid action)', variants: '.btn-ghost, .btn-danger, .btn-chrome, .btn-sm' },
-  { name: '.panel', desc: 'Base container', variants: '.panel-header, .panel-body' },
-  { name: '.card', desc: 'Bordered container, square corners', variants: '.card-header, .card-body, .card-footer' },
+  { name: '.panel', desc: 'Open section (no fill, no outline); .nw-reticle gives it a frame', variants: '.panel-header, .panel-body, [data-idx]' },
+  { name: '.card', desc: 'Hairline outline, no fill, square corners', variants: '.card-header, .card-body, .card-footer' },
   { name: '.metrics-grid', desc: '2-col data grid', variants: '.metric-cell, .m-label, .m-value, .m-sub' },
   { name: '.nw-table', desc: 'Data table', variants: 'th, td, td.lbl' },
   { name: '.badge', desc: 'Inline badge', variants: '.badge-success, .badge-danger, .badge-warning' },
@@ -42,6 +42,17 @@ export const COMPONENTS = [
   { name: '.kv-row', desc: 'Key-value pair', variants: '.kv-label, .kv-value' },
   { name: '.skeleton', desc: 'Loading state', variants: '.skeleton-text, .skeleton-heading, .skeleton-block' },
   { name: '.compressed-title', desc: 'scaleX(0.82) serif', variants: 'standalone class' },
+  { name: '.nw-section-head', desc: 'Section head: index, label, rule and kanji', variants: '.nw-section-head-chrome, [data-idx]' },
+  { name: '.nw-display', desc: 'Page-top heading face, with a muted lead', variants: '.nw-lede' },
+  { name: '.nw-chip', desc: 'Small label or link with a hairline outline', variants: '.nw-chip-solid, .sq, .star' },
+  { name: '.nw-index', desc: 'Two-column kanji index', variants: '.nw-index-row, .kanji, .name, .count, .items' },
+  { name: '.nw-accordion', desc: 'FAQ on native details, no JavaScript', variants: 'details, summary, .answer' },
+  { name: '.nw-link-arrow', desc: 'Chrome label link with an arrow', variants: 'standalone class' },
+  { name: '.nw-reticle', desc: 'Opt-in frame with corner arms, alone or on a .panel', variants: '.nw-reticle-meta, -vlabel, -stamp, -foot' },
+  { name: '.nw-halftone', desc: 'Halftone treatment over any img', variants: '.nw-halftone-layer, -chrome, -data, -bone, -fine' },
+  { name: '.nw-barcode', desc: 'Decorative bar strip in the text colour', variants: 'standalone class' },
+  { name: '.nw-wordmark', desc: 'Outlined display word for footers and covers', variants: 'standalone class' },
+  { name: '.nw-grain', desc: 'Film grain over the page, on <body> only', variants: '--nw-grain knob' },
 ];
 
 // ── Sidebar structure ──────────────────────────────────────────────────────
@@ -94,6 +105,7 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
       { id: 'data',            label: 'Data Display',       kanji: 'データ' },
       { id: 'feedback',        label: 'Feedback & Status',  kanji: '応答' },
       { id: 'panels',          label: 'Panel Anatomy',      kanji: '構造' },
+      { id: 'pieces',          label: 'Mockup Pieces',      kanji: '新部品' },
       { id: 'more-components', label: 'More Components',    kanji: '追加部品' },
     ],
   },
@@ -137,7 +149,7 @@ export const INTENSITY_MODES = [
 export const LAYER2_TOKENS = [
   // Surfaces
   { token: '--nw-surface-0', maps: '--void',         desc: 'Page background' },
-  { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Panels, cards' },
+  { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Metric cells, sidebar (a .panel itself has no fill)' },
   { token: '--nw-surface-2', maps: '--void-panel',   desc: 'Modals, inputs' },
   { token: '--nw-surface-3', maps: '--void-raised',  desc: 'Dropdowns, tooltips' },
   { token: '--nw-surface-4', maps: '#242424',        desc: 'Highest surface tier (no component uses it yet)' },
@@ -218,7 +230,7 @@ export function makeEvent(): EventEntry {
   const details = [
     'Component tree reconciled', 'Token palette validated', 'Panel layout recalculated',
     'Waveform buffer flushed', 'Metrics grid recomputed', 'Font stack loaded: 4/4',
-    'CSS custom properties: 42 active', 'Design token sync complete', 'Surface hierarchy verified',
+    `CSS custom properties: ${__NW_TOKEN_COUNT__} active`, 'Design token sync complete', 'Surface hierarchy verified',
     'Glow shader compiled', 'DOM elements mounted',
   ];
   const t = types[Math.floor(Math.random() * types.length)];

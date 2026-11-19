@@ -14,7 +14,7 @@ Use standard HTML flow. Apply Nightwire components (`.panel`, `.btn`, `.nw-table
 
 ## Operations Console Layout
 
-Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire layout for dashboards, monitoring UIs, and admin panels.
+Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire layout for dashboards, monitoring UIs, and admin panels. A `.panel` is open in v3 (no fill, no outline), so the dense grid puts `nw-reticle` on every panel (`class="panel nw-reticle"`): the hairline frame is what the 2px gap separates.
 
 ```html
 <!DOCTYPE html>
@@ -69,18 +69,18 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
       <!-- Row 1: Waveform + Metrics -->
       <div class="dash-row r1">
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>SIGNAL ANALYSIS</span>
-            <span class="tag">信号解析</span>
+            <span class="kanji">信号解析</span>
           </div>
           <!-- canvas waveform or chart goes here -->
         </div>
 
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>SYSTEM METRICS</span>
-            <span class="tag">指標一覧</span>
+            <span class="kanji">指標一覧</span>
           </div>
           <div class="metrics-grid">
             <div class="metric-cell">
@@ -99,10 +99,10 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
       <!-- Row 2: Data table -->
       <div class="dash-row r2">
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>NODE REGISTRY</span>
-            <span class="tag">ノード登録</span>
+            <span class="kanji">ノード登録</span>
           </div>
           <table class="nw-table">
             <thead>
@@ -178,7 +178,7 @@ For personal sites, project showcases, and developer profiles.
 <section style="padding:var(--sp-12) var(--sp-8); max-width:1200px; margin:0 auto">
   <div class="panel-header" style="background:var(--void); margin-bottom:16px">
     <span>SELECTED WORK</span>
-    <span class="tag">プロジェクト</span>
+    <span class="kanji">プロジェクト</span>
   </div>
   <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px">
     <div class="card">
@@ -243,7 +243,7 @@ For articles, documentation pages, and long-form content.
 
     <!-- Code block -->
     <div class="panel" style="margin:24px 0">
-      <div class="panel-header"><span>CODE EXAMPLE</span><span class="tag">コード</span></div>
+      <div class="panel-header"><span>CODE EXAMPLE</span><span class="kanji">コード</span></div>
       <pre style="margin:0; padding:12px; font-size:13px; line-height:1.5; overflow-x:auto; background:transparent">const config = {
   void: '#000000',
   primary: '#6699ff'
@@ -287,11 +287,12 @@ For product pages, marketing sites, and feature announcements.
 <section style="padding:var(--sp-12) var(--sp-8); max-width:1100px; margin:0 auto">
   <div class="panel-header" style="background:var(--void); margin-bottom:24px; text-align:center">
     <span>FEATURES</span>
-    <span class="tag">機能</span>
+    <span class="kanji">機能</span>
   </div>
-  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2px">
+  <!-- Open look: no frame. The 2px gap only works between framed panels, so an open grid uses a wide gap. -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:var(--sp-8)">
     <div class="panel">
-      <div class="panel-header"><span>FEATURE ONE</span><span class="tag">機能一</span></div>
+      <div class="panel-header"><span>FEATURE ONE</span><span class="kanji">機能一</span></div>
       <div class="panel-body">
         <p style="font-size:13px; line-height:1.5; color:var(--nw-text-dim)">
           Feature description. Keep it short and benefit-focused.
@@ -350,8 +351,8 @@ For technical docs, API references, and component libraries.
       </div>
 
       <!-- Live Preview -->
-      <div class="panel" style="margin-bottom:2px">
-        <div class="panel-header"><span>PREVIEW</span><span class="tag">プレビュー</span></div>
+      <div class="panel nw-reticle" style="margin-bottom:2px">
+        <div class="panel-header"><span>PREVIEW</span><span class="kanji">プレビュー</span></div>
         <div class="panel-body" style="display:flex; gap:8px">
           <button class="btn">Primary</button>
           <button class="btn-ghost">Ghost</button>
@@ -361,7 +362,7 @@ For technical docs, API references, and component libraries.
 
       <!-- API Reference Table -->
       <div class="panel">
-        <div class="panel-header"><span>CSS CLASSES</span><span class="tag">クラス</span></div>
+        <div class="panel-header"><span>CSS CLASSES</span><span class="kanji">クラス</span></div>
         <table class="nw-table">
           <thead>
             <tr><th>Class</th><th>Description</th><th>Use For</th></tr>
@@ -502,18 +503,18 @@ Combine with `data-intensity="archive"` on `<html>` to drop glow and increase pa
   <header>...</header>
   <div class="nw-stack" style="flex:1; gap:2px; padding:2px">
     <div class="nw-cluster" style="gap:2px; grid-template-columns:1.6fr 1fr">
-      <div class="panel">stat strip</div>
+      <div class="panel nw-reticle">stat strip</div>
     </div>
     <div style="display:grid; grid-template-columns:1.6fr 1fr; gap:2px; flex:1; min-height:0">
-      <div class="panel">events table</div>
-      <div class="panel">oracle</div>
+      <div class="panel nw-reticle">events table</div>
+      <div class="panel nw-reticle">oracle</div>
     </div>
   </div>
   <footer>...</footer>
 </div>
 ```
 
-Combine with `data-intensity="combat"` on `<html>` for high-density ops feel.
+Combine with `data-intensity="combat"` on `<html>` for high-density ops feel. The panels carry `nw-reticle` because a bare `.panel` has no edge: without it the 2px gaps separate nothing.
 
 ### Density-aware gaps
 

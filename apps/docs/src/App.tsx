@@ -16,6 +16,7 @@ import { ButtonsPage } from './pages/ButtonsPage';
 import { DataPage } from './pages/DataPage';
 import { FeedbackPage } from './pages/FeedbackPage';
 import { PanelsPage } from './pages/PanelsPage';
+import { PiecesPage } from './pages/PiecesPage';
 import { MoreComponentsPage } from './pages/MoreComponentsPage';
 import { TemplatesPage } from './pages/TemplatesPage';
 import { ExamplesPage } from './pages/ExamplesPage';
@@ -114,6 +115,7 @@ export default function App() {
               <Route path="/data" element={<DataPage />} />
               <Route path="/feedback" element={<FeedbackPage />} />
               <Route path="/panels" element={<PanelsPage />} />
+              <Route path="/pieces" element={<PiecesPage />} />
               <Route path="/more-components" element={<MoreComponentsPage />} />
               <Route path="/templates" element={<TemplatesPage />} />
               <Route path="/examples" element={<ExamplesPage />} />

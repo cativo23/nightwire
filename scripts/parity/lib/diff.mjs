@@ -45,15 +45,34 @@ const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const REGEX_FIELDS = ['prop', 'path', 'state', 'old', 'new'];
 const MATCH_KEYS = new Set([...REGEX_FIELDS, 'page']);
 
+// A `kind: "cascade"` category may only explain the geometric properties the browser resolves from
+// layout (FR-038): size, origin, offsets, resolved horizontal margins, grid track sizes and the
+// aspect ratio of replaced elements. An ancestor's layout moves them without any declaration on the
+// element itself. Colours, fonts, padding, border widths and the like are never in this set.
+export const CASCADE_PROPS = Object.freeze([
+  'width', 'height', 'inline-size', 'block-size', 'transform-origin', 'perspective-origin',
+  'top', 'right', 'bottom', 'left', 'inset-block-start', 'inset-block-end', 'inset-inline-start', 'inset-inline-end',
+  'margin-left', 'margin-inline-start', 'grid-template-columns', 'grid-template-rows', 'aspect-ratio',
+]);
+const KINDS = new Set(['cascade']);
+
 /**
  * Validate a parsed change-inventory file and compile it once.
  *
- * Input:  `{ baseline?, categories: [{ id, description?, match: { prop, path?, page?, state?, old?, new? } }] }`
- * Output: `{ baseline, categories: Compiled[] }`, in file order, where
- *         `Compiled = { id, description, match: { prop: RegExp, path?: RegExp, state?: RegExp,
+ * Input:  `{ baseline?, control?, categories: [{ id, kind?, description?, match: { prop, path?, page?, state?, old?, new? } }] }`
+ * Output: `{ baseline, control?, categories: Compiled[] }`, in file order, where `control` is the optional
+ *         top-level path of the control sheet that proves the file's cascade categories (FR-038),
+ *         so the run can name it in its CASCADE hint; and where
+ *         `Compiled = { id, description, kind?, match: { prop: RegExp, path?: RegExp, state?: RegExp,
  *                     old?: RegExp, new?: RegExp, page?: RegExp } }`.
  *         `match.page` is the glob already translated to an anchored RegExp. This compiled
  *         form is what `matchCategory` and `classify` take.
+ *
+ * `kind` is optional; the only value is `"cascade"` (FR-038), for geometry that an ancestor's layout
+ * moves. Such a category must set `match.path` and `match.page`; its `match.path` may not match
+ * `:root` or `@keyframes`; and its `match.prop` must be exactly `^name$`, `^(name|name…)$` or
+ * `^(?:name|name…)$` with each name one of CASCADE_PROPS (size, origin, offsets,
+ * resolved horizontal margins, grid track sizes, aspect ratio). `old` and `new` are optional for it. `kind` is copied to the compiled form only when it is `"cascade"`.
  *
  * @throws {Error} with a message naming the category (and field) on any invalid input.
  */
@@ -61,6 +80,10 @@ export function validateCategories(file) {
   const categories = file == null ? undefined : file.categories;
   if (!Array.isArray(categories)) {
     throw new Error('change categories: "categories" must be an array');
+  }
+  const control = file.control;
+  if (control !== undefined && (typeof control !== 'string' || control === '')) {
+    throw new Error('change categories: "control" must be a non-empty string (the control sheet that proves the cascade categories)');
   }
   const seen = new Set();
   const compiled = categories.map((raw, index) => {
@@ -75,6 +98,11 @@ export function validateCategories(file) {
       throw new Error(`change categories: duplicate id "${id}"`);
     }
     seen.add(id);
+
+    const kind = raw.kind;
+    if (kind !== undefined && !KINDS.has(kind)) {
+      throw new Error(`change category "${id}": unknown kind ${JSON.stringify(kind)} (allowed: ${[...KINDS].map((k) => JSON.stringify(k)).join(', ')}, or none)`);
+    }
 
     const match = raw.match;
     if (match == null || typeof match !== 'object' || match.prop === undefined) {
@@ -106,9 +134,44 @@ export function validateCategories(file) {
         throw new Error(`change category "${id}": match.${field} is not a valid regex /${value}/: ${err.message}`);
       }
     }
-    return { id, description: raw.description, match: out };
+    const category = { id, description: raw.description, match: out };
+    if (kind === 'cascade') {
+      assertCascade(id, match.prop, out);
+      category.kind = kind;
+    }
+    return category;
   });
-  return { baseline: file.baseline, categories: compiled };
+  return { baseline: file.baseline, control, categories: compiled };
+}
+
+// The shape a cascade `match.prop` must have: `^name$`, `^(name|name…)$` or `^(?:name|name…)$`,
+// every name one of CASCADE_PROPS. A closed form instead of probing a property list, because the
+// snapshot also records custom properties and @keyframes names under their own names, which no
+// fixed list can enumerate.
+const CASCADE_NAME = CASCADE_PROPS.map((n) => n.replace(/-/g, '\\-')).join('|');
+const CASCADE_PROP_FORM = new RegExp(`^\\^(?:(?:${CASCADE_NAME})|\\((?:\\?:)?(?:${CASCADE_NAME})(?:\\|(?:${CASCADE_NAME}))*\\))\\$$`);
+// Records that are not element geometry: custom properties on :root and @keyframes rules.
+const NON_GEOMETRY_PATHS = [':root', '@keyframes'];
+
+/** The property names a compiled cascade category lists, read back from its closed-form `match.prop`. */
+export function cascadeProps(category) {
+  return category.match.prop.source.replace(/^\^\(?(?:\?:)?/, '').replace(/\)?\$$/, '').split('|').map((n) => n.replace(/\\-/g, '-'));
+}
+
+/** The extra rules of `kind: "cascade"`. `rawProp` is the `match.prop` source. Throws naming the category. */
+function assertCascade(id, rawProp, match) {
+  for (const field of ['path', 'page']) {
+    if (match[field] === undefined) {
+      throw new Error(`change category "${id}": a cascade category requires match.${field} (it may only explain geometry in a named place)`);
+    }
+  }
+  if (!CASCADE_PROP_FORM.test(rawProp)) {
+    throw new Error(`change category "${id}": a cascade category's match.prop must be ^name$ or ^(name|name)$ with each name one of ${CASCADE_PROPS.join(', ')}, got ${JSON.stringify(rawProp)}`);
+  }
+  const caught = NON_GEOMETRY_PATHS.find((where) => match.path.test(where));
+  if (caught !== undefined) {
+    throw new Error(`change category "${id}": a cascade category's match.path /${match.path.source}/ also matches "${caught}", which holds custom properties or @keyframes, not geometry; scope it to the opened components`);
+  }
 }
 
 /**
@@ -128,16 +191,25 @@ export function matchCategory(diff, category) {
  * Split differences into per-category counts and the unexpected rest. A difference
  * counts toward the FIRST matching category only, so the counts plus
  * `unexpected.length` always equal `diffs.length`.
- * @returns {{ counts: Map<string, number>, unexpected: object[] }} counts has every
- *          category, in order, 0 when unused.
+ *
+ * With `{ control: true }` (the `--control` run) the `kind: "cascade"` categories are skipped: they
+ * match nothing and have no entry in `counts`, so what they explain shows up as unexpected unless
+ * the control sheet removed it.
+ * @returns {{ counts: Map<string, number>, unexpected: object[], used: Map<string, Set<string>> }}
+ *          counts has every active category, in order, 0 when unused; `used` has the same keys and
+ *          the set of properties of the differences each one explained (first match only).
  */
-export function classify(diffs, categories) {
-  const counts = new Map(categories.map((c) => [c.id, 0]));
+export function classify(diffs, categories, { control = false } = {}) {
+  const active = control ? categories.filter((c) => c.kind !== 'cascade') : categories;
+  const counts = new Map(active.map((c) => [c.id, 0]));
+  const used = new Map(active.map((c) => [c.id, new Set()]));
   const unexpected = [];
   for (const d of diffs) {
-    const hit = categories.find((c) => matchCategory(d, c));
-    if (hit) counts.set(hit.id, counts.get(hit.id) + 1);
-    else unexpected.push(d);
+    const hit = active.find((c) => matchCategory(d, c));
+    if (hit) {
+      counts.set(hit.id, counts.get(hit.id) + 1);
+      used.get(hit.id).add(d.prop);
+    } else unexpected.push(d);
   }
-  return { counts, unexpected };
+  return { counts, unexpected, used };
 }

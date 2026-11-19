@@ -6,14 +6,14 @@ export function MoreComponentsPage() {
 
   return (
     <section id="more-components">
-      <SectionTitle tag="追加部品">More Components</SectionTitle>
+      <SectionTitle kanji="追加部品">More Components</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         Additional components available in <code style={{ color: 'var(--nw-cyan)' }}>nightwire.css</code>. All are plain CSS; overlays open and close by toggling a <code style={{ color: 'var(--nw-cyan)' }}>data-open</code> attribute.
       </p>
 
       {/* Form Suite */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Form Suite</span><span className="tag">入力</span></div>
+        <div className="panel-header"><span>Form Suite</span><span className="kanji">入力</span></div>
         <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div className="field">
             <label className="field-label">Node ID <span className="req">*</span></label>
@@ -72,7 +72,7 @@ export function MoreComponentsPage() {
 
       <div className="grid-2" style={{ gap: 2, marginBottom: 2 }}>
         <div className="panel">
-          <div className="panel-header"><span>Modal / Dialog</span><span className="tag">ダイアログ</span></div>
+          <div className="panel-header"><span>Modal / Dialog</span><span className="kanji">ダイアログ</span></div>
           <div className="panel-body">
             <div className="modal" style={{ position: 'relative', maxWidth: 360 }}>
               <div className="modal-header">
@@ -102,7 +102,7 @@ export function MoreComponentsPage() {
         </div>
 
         <div className="panel">
-          <div className="panel-header"><span>Dropdown</span><span className="tag">ドロップダウン</span></div>
+          <div className="panel-header"><span>Dropdown</span><span className="kanji">ドロップダウン</span></div>
           <div className="panel-body">
             <div className="dropdown" data-open={menuOpen} style={{ position: 'relative' }}>
               <button className="btn-ghost btn-sm" aria-expanded={menuOpen} onClick={() => setMenuOpen(o => !o)}>Actions ▾</button>
@@ -129,7 +129,7 @@ export function MoreComponentsPage() {
 
       <div className="grid-2" style={{ gap: 2 }}>
         <div className="panel">
-          <div className="panel-header"><span>Skeleton Loader</span><span className="tag">スケルトン</span></div>
+          <div className="panel-header"><span>Skeleton Loader</span><span className="kanji">スケルトン</span></div>
           <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 }}>
             <div className="skeleton skeleton-heading" />
             <div className="skeleton skeleton-text" />
@@ -143,7 +143,7 @@ export function MoreComponentsPage() {
         </div>
 
         <div className="panel">
-          <div className="panel-header"><span>Avatar</span><span className="tag">アバター</span></div>
+          <div className="panel-header"><span>Avatar</span><span className="kanji">アバター</span></div>
           <div className="panel-body" style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12 }}>
             <span className="avatar avatar-sm">JD</span>
             <span className="avatar">JD</span>

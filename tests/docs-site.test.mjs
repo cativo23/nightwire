@@ -122,3 +122,92 @@ test('should_copy_the_component_stylesheets_into_the_docs_images_that_count_them
   }
   assert.match(read('docker-compose.dev.yml'), /\.\/src\/components:\/app\/src\/components/, 'dev compose does not mount src/components');
 });
+
+// ── US5 look (T082) ────────────────────────────────────────────────────────────────────────
+// The docs site follows the mockup look: the kanji in a header is a `.kanji`, not a `.tag`; a
+// dense console demo opts into `.nw-reticle`; the new pieces have a page; counts follow the build.
+
+const CJK = '[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}ー・\\s]';
+
+test('should_write_the_header_kanji_as_kanji_and_not_as_a_tag', () => {
+  // `.tag` is a status. A tag that holds only Japanese is the kanji of a header.
+  const re = new RegExp(`class(?:Name)?="tag"[^>]*>${CJK}+</span>`, 'u');
+  const hits = sources.filter((f) => f.endsWith('.tsx') && re.test(read(f)));
+  assert.deepEqual(hits, [], 'a .tag holds only kanji; use .kanji');
+  // The two places that take the kanji as a value.
+  assert.match(read(`${SRC}/components/CodeBlock.tsx`), /className="kanji">\{kanji\}/, 'SectionTitle does not render a .kanji');
+  assert.match(read(`${SRC}/pages/Layer2TokensPage.tsx`), /className="kanji">\{kanji\}/, 'Layer2TokensPage does not render a .kanji');
+  assert.doesNotMatch(read(`${SRC}/components/CodeBlock.tsx`), /className="tag"/, 'SectionTitle still renders a .tag');
+  // The same switch in the HTML the pages teach.
+  assert.doesNotMatch(read(`${SRC}/pages/PanelsPage.tsx`), /class="tag">日本語タグ/, 'PanelsPage teaches the .tag kanji');
+});
+
+test('should_keep_tag_where_it_is_a_status_or_a_label', () => {
+  // The kanji switch must not eat the real tags: statuses and the latin labels stay `.tag`.
+  const buttons = read(`${SRC}/pages/ButtonsPage.tsx`);
+  for (const status of ['tag-success', 'tag-danger', 'tag-warn', 'tag-info', 'tag-chrome', 'tag-ai']) {
+    assert.match(buttons, new RegExp(status), `ButtonsPage lost ${status}`);
+  }
+  assert.match(read(`${SRC}/pages/QuickStartPage.tsx`), /tag tag-success">Online/);
+});
+
+test('should_not_describe_a_panel_as_filled_or_a_card_as_rounded', () => {
+  assert.deepEqual(offenders(/Panel fill|border-radius and are intended/), []);
+});
+
+test('should_not_hard_code_a_token_count_in_the_event_stream', () => {
+  const data = read(`${SRC}/data/index.ts`);
+  assert.doesNotMatch(data, /custom properties: \d+ active/);
+  assert.match(data, /__NW_TOKEN_COUNT__/);
+});
+
+const PIECES = [
+  'nw-section-head', 'nw-section-head-chrome', 'nw-display', 'nw-lede', 'nw-chip', 'nw-chip-solid',
+  'nw-index', 'nw-index-row', 'nw-accordion', 'nw-link-arrow', 'nw-reticle', 'nw-halftone',
+  'nw-halftone-layer', 'nw-barcode', 'nw-wordmark', 'nw-grain',
+];
+
+test('should_route_a_page_for_the_new_pieces_and_list_it_in_the_sidebar', () => {
+  const page = `${SRC}/pages/PiecesPage.tsx`;
+  assert.equal(existsSync(path.join(root, page)), true, 'PiecesPage.tsx is missing');
+  const app = read(`${SRC}/App.tsx`);
+  assert.match(app, /import \{ PiecesPage \} from '\.\/pages\/PiecesPage'/);
+  assert.match(app, /path="\/pieces" element=\{<PiecesPage \/>\}/);
+  assert.match(read(`${SRC}/data/index.ts`), /id: 'pieces'/, 'the sidebar does not list the pieces page');
+  assert.match(read('apps/docs/README.md'), /PiecesPage\.tsx/, 'the README structure omits PiecesPage');
+});
+
+test('should_show_every_new_piece_on_the_pieces_page_and_in_the_registry', () => {
+  const page = read(`${SRC}/pages/PiecesPage.tsx`);
+  const registry = read(`${SRC}/data/index.ts`);
+  for (const cls of PIECES) {
+    assert.match(page, new RegExp(`(^|[^\\w-])${cls}([^\\w-]|$)`), `PiecesPage does not show .${cls}`);
+  }
+  for (const cls of ['nw-section-head', 'nw-display', 'nw-chip', 'nw-index', 'nw-accordion', 'nw-link-arrow', 'nw-reticle', 'nw-halftone', 'nw-barcode', 'nw-wordmark', 'nw-grain']) {
+    assert.match(registry, new RegExp(`name: '\\.${cls}`), `the registry does not list .${cls}`);
+  }
+});
+
+test('should_scope_the_grain_demo_and_leave_the_docs_body_without_grain', () => {
+  // .nw-grain belongs on <body>; the docs site keeps its own body clean and demos it in a box.
+  assert.doesNotMatch(read('apps/docs/index.html'), /nw-grain/);
+  assert.doesNotMatch(read(`${SRC}/main.tsx`), /nw-grain/);
+  const page = read(`${SRC}/pages/PiecesPage.tsx`);
+  assert.match(page, /<body class="nw-grain">/, 'the page does not show the body hook');
+  assert.doesNotMatch(page, /document\.body\.classList/, 'the demo must not put grain on the whole site');
+});
+
+test('should_ship_the_halftone_scene_inside_the_docs_app', () => {
+  const svg = path.join(root, SRC, 'assets/scene.svg');
+  assert.equal(existsSync(svg), true, 'scene.svg is not in apps/docs/src/assets');
+  assert.equal(readFileSync(svg, 'utf8'), read('docs/design/v3/scene.svg'), 'scene.svg drifted from docs/design/v3/scene.svg');
+});
+
+test('should_opt_the_dense_console_demos_into_the_reticle', () => {
+  // The panel is open in v3; a demo that is a console tile keeps its box with .nw-reticle.
+  const examples = read(`${SRC}/pages/ExamplesPage.tsx`);
+  const panels = examples.match(/className="panel(?:\s[^"]*)?"/g) ?? [];
+  assert.ok(panels.length >= 4, 'ExamplesPage lost its console tiles');
+  assert.deepEqual(panels.filter((p) => !/nw-reticle/.test(p)), [], 'an ExamplesPage tile is not a .panel.nw-reticle');
+  assert.match(read(`${SRC}/pages/PanelsPage.tsx`), /panel nw-reticle/, 'PanelsPage does not show the opt-in frame');
+});

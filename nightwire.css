@@ -52,6 +52,7 @@
   --nw-text-dim:      #aaaaaa;
   --nw-text-faint:    rgba(255, 255, 255, 0.08);
   --nw-text-line:     rgba(255, 255, 255, 0.14);
+  --nw-bone:          #d8d2c8;
 
   /* ── Semantic Roles ──────────────────────────────────────── */
   --nw-success:       var(--nw-green);
@@ -136,6 +137,7 @@
   /* Lines */
   --nw-line:          var(--nw-text-line);
   --nw-line-strong:   rgba(255, 255, 255, 0.36);
+  --nw-chip-line:     rgba(255, 255, 255, 0.18);
   --nw-line-chrome:   rgba(102, 153, 255, 0.35);
 
   /* Focus */
@@ -161,6 +163,8 @@
   --nw-value-weight:  500;
   --nw-kanji-display: inline;
   --nw-label-spacing:   var(--ls-ultra);
+  --nw-grain:         0.07;
+  --nw-kanji-glow:    calc(20px * var(--nw-glow));
 
   /* ── Motion vocabulary ──────────────────────────────────── */
   --nw-tick:   calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1);
@@ -207,6 +211,7 @@
   --nw-value-weight: 400;
   --nw-kanji-display: none;
   --nw-label-spacing: 0.14em;
+  --nw-grain: 0;
 }
 
 /* ── Intensity: operator (default — same as base :root) ── */
@@ -225,6 +230,7 @@
   --nw-led-glow: calc(var(--nw-glow) * 2);
   --nw-control-glow: calc(var(--nw-glow) * 2);
   --nw-progress-glow: calc(var(--nw-glow) * 2);
+  --nw-grain: 0.1;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -589,31 +595,20 @@ input::placeholder, textarea::placeholder {
 /* ── src/components/panel.css ──────────────────────────────────── */
 /* ── Panel ───────────────────────────────────────────────────── */
 
+/* Open at every intensity (FR-026): no fill, no outline, no radius. The frame is opt-in, with
+   .nw-reticle. The header look is in section-head.css. */
 .panel {
-  background: var(--void-warm);
-  border: var(--nw-hairline) solid var(--nw-line);
-  border-radius: var(--nw-panel-radius);
+  background: none;
+  border: 0;
+  border-radius: 0;
 }
 
 .panel-header {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--nw-text-mute);
-  padding: var(--sp-2) var(--sp-3) 7px;
-  border-bottom: var(--nw-hairline) solid var(--nw-line);
-  display: flex;
-  justify-content: space-between;
-}
-
-/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
-:where(.panel-header .kanji) {
-  color: var(--nw-text-default);
+  padding: 0 0 var(--sp-3);
 }
 
 .panel-body {
-  padding: var(--sp-3);
+  padding: var(--sp-3) 0;
 }
 
 /* ── src/components/table.css ──────────────────────────────────── */
@@ -734,26 +729,16 @@ input::placeholder, textarea::placeholder {
 /* ── src/components/card.css ───────────────────────────────────── */
 /* ── Card ────────────────────────────────────────────────────── */
 
+/* A hairline outline on black, no fill (FR-027). The header look is in section-head.css. */
 .card {
-  background: var(--void-warm);
+  background: none;
   border: var(--nw-hairline) solid var(--nw-line);
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
 .card-header {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: var(--nw-hairline) solid var(--nw-line);
-}
-
-/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
-:where(.card-header .kanji) {
-  color: var(--nw-text-default);
 }
 
 .card-body {
@@ -763,6 +748,87 @@ input::placeholder, textarea::placeholder {
 .card-footer {
   padding: var(--sp-3) var(--sp-4);
   border-top: var(--nw-hairline) solid var(--nw-line);
+}
+
+/* ── src/components/section-head.css ───────────────────────────── */
+/* ── Section head ────────────────────────────────────────────────
+   One implementation for .nw-section-head, .panel-header and .card-header (FR-026, FR-030):
+   a mute label, no bottom border, a hairline that runs from the label to the right slot, and a
+   .kanji in the right slot at the section-head size. Any other right-slot content (a .tag, an LED
+   and text) keeps its own look. data-idx shows an index in the accent colour before the label.
+   Loaded after panel.css and card.css, which keep the header padding only. */
+
+.nw-section-head,
+.panel-header,
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-sys);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: var(--ls-ultra);
+  text-transform: uppercase;
+  color: var(--nw-text-mute);
+  border-bottom: 0;
+}
+
+/* The hairline from the label to the right slot. */
+.nw-section-head::after,
+.panel-header::after,
+.card-header::after {
+  content: '';
+  order: 1;
+  flex: 1;
+  height: var(--nw-hairline);
+  background: var(--nw-line);
+}
+
+.nw-section-head > :not(:first-child),
+.panel-header > :not(:first-child),
+.card-header > :not(:first-child) { order: 2; }
+
+/* data-idx: "01 // LABEL" */
+.nw-section-head[data-idx]::before,
+.panel-header[data-idx]::before,
+.card-header[data-idx]::before {
+  content: attr(data-idx);
+  color: var(--nw-chrome);
+}
+
+.nw-section-head[data-idx] > :first-child::before,
+.panel-header[data-idx] > :first-child::before,
+.card-header[data-idx] > :first-child::before { content: '// '; }
+
+.nw-section-head > .kanji,
+.panel-header > .kanji,
+.card-header > .kanji {
+  font-size: 20px;
+  letter-spacing: 0;
+  text-transform: none;
+  flex-shrink: 0;       /* a long label wraps; the kanji keeps its width instead of stacking its glyphs */
+  white-space: nowrap;
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.nw-section-head .kanji, .panel-header .kanji, .card-header .kanji) {
+  color: var(--nw-text-default);
+}
+
+/* Chrome variant: a hairline that fades out, and a kanji in the accent. */
+.nw-section-head-chrome::after { background: linear-gradient(90deg, var(--nw-line-chrome), transparent); }
+
+.nw-section-head-chrome > .kanji {
+  color: var(--nw-chrome);
+  text-shadow: 0 0 var(--nw-kanji-glow) var(--nw-chrome);   /* FR-034 exception: 0 at archive */
+}
+
+/* Forced colours replace background colours with Canvas, which would erase the hairline: paint it
+   with the text colour, as v2's border-bottom rule was. */
+@media (forced-colors: active) {
+  .nw-section-head::after,
+  .panel-header::after,
+  .card-header::after { background: CanvasText; }
 }
 
 /* ── src/components/modal.css ──────────────────────────────────── */
@@ -1130,12 +1196,14 @@ input::placeholder, textarea::placeholder {
 
 /* ── src/components/kv-row.css ─────────────────────────────────── */
 /* ── Key-Value Row ───────────────────────────────────────────── */
+/* Spec-sheet look (FR-029): top-aligned rows scaled by --nw-pad-scale, a right-aligned value, an
+   optional .kv-note under it and an optional .kv-swap glyph in the accent. */
 
 .kv-row {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  padding: var(--sp-1) 0;
+  align-items: flex-start;
+  padding: calc(var(--sp-3) * var(--nw-pad-scale)) 0;
   border-bottom: var(--nw-hairline) solid var(--nw-line);
   font-size: var(--text-sm);
 }
@@ -1145,12 +1213,26 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   letter-spacing: var(--ls-wide);
   font-size: 10px;
+  padding-top: 2px;
 }
 
 .kv-row .kv-value {
   color: var(--nw-text-default);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.kv-row .kv-note {
+  display: block;
+  color: var(--nw-text-mute);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.kv-row .kv-swap {
+  color: var(--nw-chrome);
 }
 
 /* ── src/components/avatar.css ─────────────────────────────────── */
@@ -1637,3 +1719,419 @@ input::placeholder, textarea::placeholder {
 .uplink > *:nth-child(5) { animation-delay: calc(4 * var(--nw-stagger)); }
 .uplink > *:nth-child(6) { animation-delay: calc(5 * var(--nw-stagger)); }
 @keyframes nw-uplink { to { opacity: 1; transform: translateY(0); } }
+
+/* ── src/components/display.css ────────────────────────────────── */
+/* ── Display and lede ────────────────────────────────────────────
+   A heading face for the top of a page (FR-030): the title font at weight 900, squeezed to 82%
+   wide, in capitals, and a muted lead paragraph under it. Values are the approved mockup's. */
+
+.nw-display {
+  font-family: var(--font-title);
+  font-weight: 900;
+  font-size: clamp(40px, 7vw, 76px);
+  line-height: .95;
+  transform: scaleX(.82);
+  transform-origin: left center;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: var(--nw-text-strong);
+  margin: var(--sp-6) 0 var(--sp-3);
+}
+
+.nw-lede {
+  max-width: 52ch;
+  color: var(--nw-text-mute);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+/* ── src/components/chip.css ───────────────────────────────────── */
+/* ── Chip ────────────────────────────────────────────────────────
+   A small label or link with a hairline outline (FR-030). The border reads --nw-chip-line, the
+   piece's own token, because the shared --nw-line-strong moved since the mockup. .sq is a 6px
+   square in the text colour, .star a warn-coloured mark. .nw-chip-solid is the same bone fill
+   as .btn (--nw-action*). Its hover sets the text colour itself: a:hover in reset.css would
+   otherwise recolour an <a class="nw-chip-solid">. */
+
+.nw-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 var(--sp-2);
+  border: var(--nw-hairline) solid var(--nw-chip-line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sys);
+  font-size: var(--text-xs);
+  color: var(--nw-text-mute);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  transition: border-color var(--nw-tick), color var(--nw-tick);
+}
+
+.nw-chip:hover {
+  border-color: var(--nw-line-chrome);
+  color: var(--nw-text-default);
+}
+
+.nw-chip .sq {
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+}
+
+.nw-chip .star { color: var(--nw-signal-warn); }
+
+.nw-chip-solid {
+  background: var(--nw-action);
+  border-color: var(--nw-action);
+  color: var(--nw-action-text);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+}
+
+.nw-chip-solid:hover {
+  background: var(--nw-action-hot);
+  border-color: var(--nw-action-hot);
+  color: var(--nw-action-text);
+}
+
+/* ── src/components/link-arrow.css ─────────────────────────────── */
+/* ── Arrow link ──────────────────────────────────────────────────
+   A chrome label link, "READ MORE →" (FR-030). The arrow is part of the text. */
+
+.nw-link-arrow {
+  display: inline-block;
+  margin-top: var(--sp-3);
+  font-family: var(--font-sys);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-ultra);
+  text-transform: uppercase;
+  color: var(--nw-chrome);
+  text-decoration: none;
+  transition: color var(--nw-tick);
+}
+
+.nw-link-arrow:hover { color: var(--nw-chrome-hot); }
+
+/* ── src/components/kanji-index.css ────────────────────────────── */
+/* ── Kanji index ─────────────────────────────────────────────────
+   A two-column index of rows: a kanji, a name, a count and a line of items (FR-030). Every child
+   of .nw-index-row names its own grid column, so the row keeps its shape when the kanji is hidden
+   at archive (FR-033): the name and count stay in columns 2 and 3, and column 1 stays empty.
+   The kanji lights up on hover: the second FR-034 glow exception, scaled by --nw-kanji-glow, 0 at
+   archive. */
+
+.nw-index {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--sp-8);
+}
+
+.nw-index-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  column-gap: var(--sp-3);
+  row-gap: 2px;
+  align-items: baseline;
+  padding: var(--sp-3) 0;
+  border-top: var(--nw-hairline) solid var(--nw-line);
+}
+
+.nw-index-row .kanji {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  font-size: 20px;
+  color: var(--nw-text-default);
+  transition: color var(--nw-tick), text-shadow var(--nw-tick);
+}
+
+.nw-index-row .name {
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--nw-text-default);
+  font-size: var(--text-base);
+}
+
+.nw-index-row .count {
+  grid-column: 3;
+  grid-row: 1;
+  color: var(--nw-text-mute);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.nw-index-row .items {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  font-size: var(--text-xs);
+  color: var(--nw-text-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nw-index-row:hover .kanji {
+  color: var(--nw-chrome);
+  text-shadow: 0 0 calc(var(--nw-kanji-glow) * .8) var(--nw-chrome);   /* FR-034 exception: 0 at archive */
+}
+
+@media (max-width: 720px) { .nw-index { grid-template-columns: 1fr; } }
+
+/* ── src/components/accordion.css ──────────────────────────────── */
+/* ── Accordion ───────────────────────────────────────────────────
+   Native <details>/<summary>, no JavaScript (FR-032). The marker is replaced by a "+" that
+   becomes "−" when open. The focus ring stays the global 2px one; only its offset moves.
+   Where the browser can animate <details> (interpolate-size), the answer opens on --nw-sweep and
+   closes on --nw-sweep-out. Everywhere else it opens and closes at once. Both tokens multiply
+   --nw-motion-scale, which prefers-reduced-motion sets to 0, so reduced motion is instant too. */
+
+.nw-accordion details { border-top: var(--nw-hairline) solid var(--nw-line); }
+.nw-accordion details:last-child { border-bottom: var(--nw-hairline) solid var(--nw-line); }
+
+.nw-accordion summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--nw-text-default);
+  transition: color var(--nw-tick);
+}
+
+.nw-accordion summary::-webkit-details-marker { display: none; }
+
+.nw-accordion summary::after {
+  content: '+';
+  font-family: var(--font-sys);
+  font-size: 16px;
+  color: var(--nw-chrome);
+}
+
+.nw-accordion details[open] summary::after { content: '−'; }
+
+.nw-accordion summary:hover { color: var(--nw-text-strong); }
+
+.nw-accordion summary:focus-visible { outline-offset: 4px; }   /* width stays the global 2px */
+
+.nw-accordion .answer {
+  padding: 0 0 var(--sp-6);
+  max-width: 62ch;
+  color: var(--nw-text-mute);
+  line-height: 1.65;
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .nw-accordion details { interpolate-size: allow-keywords; }
+
+  .nw-accordion details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size var(--nw-sweep-out), content-visibility var(--nw-sweep-out) allow-discrete;
+  }
+
+  .nw-accordion details[open]::details-content {
+    block-size: auto;
+    transition: block-size var(--nw-sweep), content-visibility var(--nw-sweep) allow-discrete;
+  }
+}
+
+/* ── src/components/reticle.css ────────────────────────────────── */
+/* ── Reticle frame ───────────────────────────────────────────────
+   An opt-in frame (FR-028): a hairline outline with an arm at each corner. It works alone or on a
+   .panel (class="panel nw-reticle"). The arms are background-IMAGES only, so the element keeps its
+   own background colour, and nothing here sets one. Colour and arm length are the two knobs:
+   --nw-reticle-c and --nw-reticle-arm. The parts below are the art-card children of the approved
+   mockup: a meta line, a vertical label, a kanji stamp and a foot. The stamp is a kanji, so it
+   leaves with the others at archive. */
+
+.nw-reticle {
+  --nw-reticle-c: var(--nw-line-chrome);
+  --nw-reticle-arm: 14px;
+  position: relative;
+  padding: var(--sp-4);
+  border: var(--nw-hairline) solid var(--nw-line);
+  background-image:
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c));
+  background-repeat: no-repeat;
+  background-position: top left, top left, top right, top right, bottom left, bottom left, bottom right, bottom right;
+  background-size:
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm);
+}
+
+.panel.nw-reticle { border-radius: 0; }
+
+.nw-reticle-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sys);
+  font-size: 10px;
+  letter-spacing: var(--ls-ultra);
+  color: var(--nw-text-mute);
+  margin-bottom: var(--sp-3);
+}
+
+.nw-reticle-vlabel {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font-family: var(--font-sys);
+  font-size: 9px;
+  letter-spacing: var(--ls-ultra);
+  color: var(--nw-text-mute);
+}
+
+.nw-reticle-stamp {
+  position: absolute;
+  right: var(--sp-6);
+  top: 56px;
+  display: var(--nw-kanji-display);
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1.05;
+  writing-mode: vertical-rl;
+  color: var(--nw-text-strong);
+  mix-blend-mode: difference;
+}
+
+.nw-reticle-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--sp-3);
+}
+
+.nw-reticle-foot .nw-barcode { flex: 1; }
+
+.nw-reticle-foot .kanji {
+  font-size: 24px;
+  color: var(--nw-text-default);
+}
+
+/* ── src/components/halftone.css ───────────────────────────────── */
+/* ── Halftone ────────────────────────────────────────────────────
+   Plain CSS over any <img> (FR-030): the image goes grey and high-contrast, a dot pattern is laid
+   over it, and a tint is multiplied on top. The structure is
+   .nw-halftone > .nw-halftone-layer > img. Tint and dot size are --nw-halftone-tint and
+   --nw-halftone-dot. The #000 and #fff below are the mask of the dot pattern, not palette colours,
+   so they are the only colour literals in the stylesheet. Halftone art is an approved decoration
+   exception (FR-034): it is an image treatment, not a glow. */
+
+.nw-halftone {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.nw-halftone-layer {
+  --nw-halftone-dot: 6px;
+  position: relative;
+  background: #000;
+  filter: grayscale(1) contrast(22);
+}
+
+.nw-halftone-layer img {
+  display: block;
+  width: 100%;
+  filter: blur(1.2px);
+}
+
+.nw-halftone-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle closest-side, #fff 0%, #000 100%) 0 0 / var(--nw-halftone-dot) var(--nw-halftone-dot);
+  opacity: .5;
+}
+
+.nw-halftone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--nw-halftone-tint, var(--nw-text-default));
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.nw-halftone-chrome { --nw-halftone-tint: var(--nw-chrome); }
+.nw-halftone-data { --nw-halftone-tint: var(--nw-data); }
+.nw-halftone-bone { --nw-halftone-tint: var(--nw-bone); }
+
+.nw-halftone-fine .nw-halftone-layer { --nw-halftone-dot: 4px; }
+
+/* ── src/components/barcode.css ────────────────────────────────── */
+/* ── Barcode ─────────────────────────────────────────────────────
+   A decorative strip of bars (FR-030), drawn with a repeating gradient in the current text colour:
+   set `color` on it (or on a parent) to tint it. */
+
+.nw-barcode {
+  height: 26px;
+  margin-top: var(--sp-3);
+  color: var(--nw-text-default);
+  background: repeating-linear-gradient(90deg,
+    currentColor 0 2px, transparent 2px 3px, currentColor 3px 4px, transparent 4px 7px,
+    currentColor 7px 10px, transparent 10px 11px, currentColor 11px 12px, transparent 12px 15px);
+}
+
+/* ── src/components/wordmark.css ───────────────────────────────── */
+/* ── Outline wordmark ────────────────────────────────────────────
+   A large outlined word for footers and covers (FR-030): the title face, transparent fill, a
+   hairline stroke, squeezed to 82% wide and faded out towards the bottom. The #000 in the mask
+   is the opaque stop of an alpha mask, not a palette colour. */
+
+.nw-wordmark {
+  font-family: var(--font-title);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(56px, 12.5vw, 190px);
+  line-height: .85;
+  letter-spacing: .01em;
+  color: transparent;
+  -webkit-text-stroke: var(--nw-hairline) var(--nw-line-chrome);
+  transform: scaleX(.82);
+  transform-origin: center;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+}
+
+/* ── src/components/grain.css ──────────────────────────────────── */
+/* ── Grain ───────────────────────────────────────────────────────
+   Film grain over the page, opt-in on <body> (FR-031): class="nw-grain". A fixed layer of SVG
+   noise, never in the way of the pointer. Its strength is the knob --nw-grain: 0 at archive,
+   .07 at operator, .1 at combat. Grain is an approved decoration exception (FR-034), not a glow.
+   Forced colours hides it. */
+
+.nw-grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--nw-grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (forced-colors: active) {
+  .nw-grain::before { display: none; }
+}

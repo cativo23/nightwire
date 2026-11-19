@@ -20,14 +20,14 @@ export function QuickStartPage() {
       </div>
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Step 2 — Load the Fonts</span><span className="tag">書体読込</span></div>
+        <div className="panel-header"><span>Step 2 — Load the Fonts</span><span className="kanji">書体読込</span></div>
         <div className="panel-body">
           <CodeBlock>{`<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">`}</CodeBlock>
         </div>
       </div>
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Step 3 — Use a Component</span><span className="tag">使用開始</span></div>
+        <div className="panel-header"><span>Step 3 — Use a Component</span><span className="kanji">使用開始</span></div>
         <div className="panel-body">
           <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
             <button className="btn">Launch</button>

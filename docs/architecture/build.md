@@ -77,8 +77,8 @@ For an intended visual change, `--expect <file>` turns the check from "nothing d
 "nothing differs that a declared category does not explain". The file is validated, compiled once
 and applied to the structured difference records; the pure pieces live in
 `scripts/parity/lib/diff.mjs` (`validateCategories`, `classify`), `lib/baseline.mjs`
-(`resolveOld`), `lib/glob.mjs` (the one glob used by `--pages` and `match.page`) and
-`lib/report.mjs` (report layout and exit code), each covered by a test in `tests/`.
+(`resolveOld`), `lib/control.mjs` (`loadControl`, `withControl`), `lib/glob.mjs` (the one glob
+used by `--pages` and `match.page`) and `lib/report.mjs` (report layout and exit code), each covered by a test in `tests/`.
 
 - **Matching.** A record `{ page, state, path, prop, old, new }` is expected when one category
   matches every `match.*` field it declares. `prop` is required; `path`, `state`, `old` and `new`
@@ -96,6 +96,21 @@ and applied to the structured difference records; the pure pieces live in
   `git:main` as before.
 - **Exit code.** 0 only when `unexpected=0` and coverage is full; 1 otherwise; 2 when the file is
   unreadable, not JSON or invalid (checked before Chrome starts).
+- **Cascade categories and `--control`.** A category may declare `"kind": "cascade"` for geometry
+  that an ancestor's open layout moves (FR-038). `validateCategories` accepts it only when
+  `match.path` and `match.page` are set, `match.path` cannot match `:root` or `@keyframes` (the
+  records for custom properties and keyframes), and `match.prop` has the closed form `^name$`,
+  `^(name|name)$` or `^(?:name|name)$` over `CASCADE_PROPS` in `lib/diff.mjs`: `width`, `height`, `inline-size`, `block-size`,
+  `transform-origin`, `perspective-origin`, the offsets (`top`, `right`, `bottom`, `left`, `inset-*`
+  longhands), the resolved horizontal margins (`margin-left`, `margin-inline-start`), the grid track
+  sizes and `aspect-ratio`, that is, what the browser resolves from layout. It is a closed form, not a probe against a property
+  list, because the snapshot also records custom properties and keyframe names that no list can
+  enumerate.
+  `--control <css>` (needs `--expect`, `lib/control.mjs`) appends the sheet to the new stylesheet,
+  makes `classify(…, { control: true })` skip the cascade categories, and prints
+  `CONTROL  sheet=<path>  cascade-categories-ignored=N` before `RESULT`. A control run with
+  `unexpected=0` is the evidence that the cascade categories name the real cause; without it they
+  prove nothing. Exit codes are unchanged, and `--json` records `meta.control`.
 
 A state label joins its parts with `|` (`combat|rm-off`, then `|:hover@<path>` for a forced
 pseudo-state), and `match.state` is a regex, so an unescaped `|` is alternation:

@@ -14,7 +14,7 @@ export function Layer2TokensPage() {
 
   const renderTable = (title: string, kanji: string, rows: typeof LAYER2_TOKENS) => (
     <div className="panel" style={{ marginBottom: 2 }}>
-      <div className="panel-header"><span>{title}</span><span className="tag">{kanji}</span></div>
+      <div className="panel-header"><span>{title}</span><span className="kanji">{kanji}</span></div>
       <div className="panel-body" style={{ padding: 0 }}>
         <table className="nw-table">
           <thead>
@@ -40,7 +40,7 @@ export function Layer2TokensPage() {
 
   return (
     <section id="layer2-tokens">
-      <SectionTitle tag="意味層">Layer 2 Semantic Tokens</SectionTitle>
+      <SectionTitle kanji="意味層">Layer 2 Semantic Tokens</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, margin: '8px 0 16px', lineHeight: 1.6 }}>
         Layer 1 holds the primitives (<code style={{ color: 'var(--nw-green)' }}>--nw-primary</code> is "the blue"). Layer 2
         names the roles (<code style={{ color: 'var(--nw-green)' }}>--nw-chrome</code> is "the focus and accent color") and
@@ -54,7 +54,7 @@ export function Layer2TokensPage() {
       {renderTable('Lines', '線', lines)}
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Motion vocabulary</span><span className="tag">動き</span></div>
+        <div className="panel-header"><span>Motion vocabulary</span><span className="kanji">動き</span></div>
         <div className="panel-body" style={{ padding: 0 }}>
           <table className="nw-table">
             <thead>
@@ -74,7 +74,7 @@ export function Layer2TokensPage() {
       </div>
 
       <div className="panel">
-        <div className="panel-header"><span>Usage</span><span className="tag">使用例</span></div>
+        <div className="panel-header"><span>Usage</span><span className="kanji">使用例</span></div>
         <div className="panel-body">
           <CodeBlock>{`/* Prefer semantic over primitive */
 .my-button {

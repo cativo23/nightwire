@@ -54,11 +54,11 @@ export function FeedbackPage() {
 
   return (
     <section id="feedback">
-      <SectionTitle tag="応答">Feedback & Status</SectionTitle>
+      <SectionTitle kanji="応答">Feedback & Status</SectionTitle>
 
       {/* Toasts — interactive */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Toasts</span><span className="tag">通知</span></div>
+        <div className="panel-header"><span>Toasts</span><span className="kanji">通知</span></div>
         <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 12 }}>
           <div className="toast toast-success">System synchronization complete. All nodes connected.</div>
           <div className="toast toast-warning">High memory utilization detected. Consider optimizing operations.</div>
@@ -86,7 +86,7 @@ export function FeedbackPage() {
 
       {/* Banner */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Banner</span><span className="tag">告知</span></div>
+        <div className="panel-header"><span>Banner</span><span className="kanji">告知</span></div>
         <div className="banner" style={{ marginBottom: 12 }}>
           <span className="banner-tag">Notice</span>
           Scheduled maintenance on edge nodes <span className="data tabular" style={{ color: 'var(--nw-green)' }}>2026-05-20 22:00 UTC</span> · expected 12m downtime.
@@ -100,7 +100,7 @@ export function FeedbackPage() {
 
       {/* Stepper */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Stepper</span><span className="tag">段階</span></div>
+        <div className="panel-header"><span>Stepper</span><span className="kanji">段階</span></div>
         <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div style={{ fontSize: 11, color: 'var(--nw-text-dim)' }}>Multi-step progress — 3 of 5 complete</div>
           <div className="steps">
@@ -122,7 +122,7 @@ export function FeedbackPage() {
 
       {/* Empty state */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Empty State</span><span className="tag">空</span></div>
+        <div className="panel-header"><span>Empty State</span><span className="kanji">空</span></div>
         <div className="panel-body">
           <div className="empty" style={{ background: 'var(--nw-surface-1)', border: '1px solid var(--nw-line)' }}>
             <div className="glyph">⌬</div>
@@ -141,7 +141,7 @@ export function FeedbackPage() {
 
       {/* AI block */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>AI Block</span><span className="tag">予言</span></div>
+        <div className="panel-header"><span>AI Block</span><span className="kanji">予言</span></div>
         <div className="panel-body" style={{ padding: 0 }}>
           <div className="ai-block">
             <div className="ai-block-head">
@@ -170,7 +170,7 @@ export function FeedbackPage() {
 
       {/* Modal / Drawer / Cmd K */}
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Overlays — Modal · Drawer · Cmd K</span><span className="tag">重ね</span></div>
+        <div className="panel-header"><span>Overlays — Modal · Drawer · Cmd K</span><span className="kanji">重ね</span></div>
         <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button className="btn btn-ghost" onClick={() => setModalOpen(true)}>Open modal</button>

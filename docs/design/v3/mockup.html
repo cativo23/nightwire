@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" data-intensity="operator">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nightwire v3 · mockup replica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../nightwire.css">
+<style>
+/* Page scaffolding copied from ryoku-inspo.html: not part of the system. */
+body { background: var(--void); color: var(--nw-text-default); margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px); }
+.demo-nav { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap; padding: var(--sp-4) 0; border-bottom: 1px solid var(--nw-line); }
+.demo-nav .brand { display: flex; align-items: center; gap: var(--sp-2); font-family: var(--font-sys); font-size: var(--text-sm); color: var(--nw-text-default); }
+.demo-nav .brand .kanji { font-size: 20px; color: var(--nw-chrome); }
+.demo-nav .links { display: flex; gap: var(--sp-6); font-family: var(--font-sys); font-size: 10px; letter-spacing: var(--ls-ultra); text-transform: uppercase; color: var(--nw-text-mute); }
+.demo-nav .right { display: flex; gap: var(--sp-2); }
+.block { padding: var(--sp-12) 0; border-bottom: 1px dashed var(--nw-text-faint); }
+.tagline { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-6); }
+.tagline .what { font-family: var(--font-sys); font-size: var(--text-xs); color: var(--nw-signal-warn); letter-spacing: var(--ls-wide); }
+.tagline .what b { color: var(--nw-text-strong); }
+.pick { font-family: var(--font-sys); font-size: var(--text-xs); background: transparent; color: var(--nw-text-mute); border: 1px solid var(--nw-line-strong); border-radius: var(--radius-sm); padding: 4px 10px; cursor: pointer; }
+.pick:hover { border-color: var(--nw-line-chrome); color: var(--nw-text-default); }
+.pick.on { color: var(--nw-data); border-color: var(--nw-data); box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-green-fill); }
+.pick.on::before { content: '✓ '; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-8); }
+.cols-3 { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: var(--sp-6); align-items: start; }
+@media (max-width: 860px) { .cols, .cols-3 { grid-template-columns: 1fr; } .demo-nav .links { display: none; } }
+.cap { font-family: var(--font-sys); font-size: 10px; letter-spacing: var(--ls-ultra); text-transform: uppercase; color: var(--nw-text-disabled); margin-bottom: var(--sp-2); }
+.intro { padding: var(--sp-12) 0 var(--sp-6); }
+.intro p { max-width: 70ch; color: var(--nw-text-mute); line-height: 1.6; }
+.intro code, .tagline code { font-family: var(--font-sys); color: var(--nw-chrome); }
+.ctrl { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-4); }
+</style>
+</head>
+<body class="nw-grain">
+<script>{const i=new URLSearchParams(location.search).get("i");if(i)document.documentElement.dataset.intensity=i;}</script>
+
+<div class="wrap">
+
+  <!-- D · nav con chips -->
+  <nav class="demo-nav">
+    <div class="brand"><span class="kanji">夜</span> nightwire</div>
+    <div class="links"><span>Tokens</span><span>Components</span><span>Workshop</span><span>Changelog</span></div>
+    <div class="right">
+      <a class="nw-chip" href="#"><span class="led" data-state="ok"></span>v3.0.0</a>
+      <a class="nw-chip" href="#"><span class="star">★</span>github</a>
+      <a class="nw-chip" href="#">docs</a>
+      <a class="nw-chip nw-chip-solid" href="#">INSTALL</a>
+    </div>
+  </nav>
+
+  <section class="intro">
+    <div class="cap">US5 direction gate · replica of the approved mockup (2026-11-13), built with v3 classes</div>
+    <p>Every block uses Nightwire tokens only (<code>--nw-chrome</code>, <code>--nw-line</code>, <code>--font-mincho</code>…), so it follows <code>data-intensity</code>. Switch the intensity here (or with <code>?i=archive|operator|combat</code>) to see the glow and the grain react:</p>
+    <div class="ctrl">
+      <button class="pick" onclick="document.documentElement.dataset.intensity='archive'">archive</button>
+      <button class="pick" onclick="document.documentElement.dataset.intensity='operator'">operator</button>
+      <button class="pick" onclick="document.documentElement.dataset.intensity='combat'">combat</button>
+      <button class="pick" onclick="document.body.classList.toggle('nw-grain')">grain on/off</button>
+    </div>
+  </section>
+
+  <!-- D -->
+  <section class="block">
+    <div class="tagline">
+      <span class="what"><b>D · Chips</b> · new <code>.nw-chip</code>, square and mono (not <code>.tag</code>, which keeps the stamp font and the kanji slot)</span>
+    </div>
+    <div style="display:flex;gap:var(--sp-2);flex-wrap:wrap;align-items:center">
+      <a class="nw-chip" href="#"><span class="led" data-state="ok"></span>v3.0.0</a>
+      <a class="nw-chip" href="#"><span class="led" data-state="warn"></span>beta</a>
+      <a class="nw-chip" href="#"><span class="sq"></span>142 tokens</a>
+      <a class="nw-chip" href="#"><span class="star">★</span>github</a>
+      <a class="nw-chip" href="#">npm i @cativo23/nightwire</a>
+      <a class="nw-chip nw-chip-solid" href="#">INSTALL</a>
+      <span style="margin-left:var(--sp-4)" class="cap">vs .tag →</span>
+      <span class="tag">v3.0.0</span><span class="tag tag-success">stable</span>
+    </div>
+  </section>
+
+  <!-- A1 -->
+  <section class="block">
+    <div class="tagline">
+      <span class="what"><b>A1 · Section head</b> · new <code>.nw-section-head</code> + <code>.nw-display</code></span>
+    </div>
+    <div class="cap">base variant</div>
+    <div class="nw-section-head" data-idx="01"><span>telemetry</span><span class="kanji">観</span></div>
+    <h2 class="nw-display">See it live.</h2>
+    <p class="nw-lede">Three intensities, one set of tokens. Walk the strip and open any view at full size.</p>
+
+    <div class="cap" style="margin-top:var(--sp-12)"><code>.nw-section-head-chrome</code> variant (fading rule + glowing kanji)</div>
+    <div class="nw-section-head nw-section-head-chrome" data-idx="02"><span>manifesto</span><span class="kanji">道</span></div>
+    <h2 class="nw-display">Neon with discipline.</h2>
+  </section>
+
+  <!-- A2 + A3 -->
+  <section class="block">
+    <div class="tagline">
+      <span class="what"><b>A2 · Spec sheet</b> · <code>.kv-row</code> is a spec sheet in v3, plus <code>.kv-note</code> and <code>.kv-swap</code></span>
+    </div>
+    <div class="cols">
+      <div>
+        <div class="cap">.kv-row (v3)</div>
+        <div class="kv-row"><span class="kv-label">Intensity</span><span class="kv-value">operator</span></div>
+        <div class="kv-row"><span class="kv-label">Delivery</span><span class="kv-value">npm · cli · preset</span></div>
+        <div class="kv-row"><span class="kv-label">Theme</span><span class="kv-value">dark-only</span></div>
+      </div>
+      <div>
+        <div class="cap">.kv-row with .kv-note and .kv-swap</div>
+        <div class="kv-row"><span class="kv-label">Intensity</span><span class="kv-value">archive <span class="kv-swap">⇄</span> operator <span class="kv-swap">⇄</span> combat<span class="kv-note">one attribute on &lt;html&gt;, no rebuild</span></span></div>
+        <div class="kv-row"><span class="kv-label">Delivery</span><span class="kv-value">npm, CLI installer<span class="kv-note">npx @cativo23/nightwire install</span></span></div>
+        <div class="kv-row"><span class="kv-label">Frameworks</span><span class="kv-value">Plain CSS · Tailwind preset</span></div>
+        <div class="kv-row"><span class="kv-label">Theme</span><span class="kv-value">dark-only</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="tagline">
+      <span class="what"><b>A3 · Kanji index</b> · new <code>.nw-index</code> (hover the rows)</span>
+    </div>
+    <div class="nw-index">
+      <div class="nw-index-row"><span class="kanji">押</span><span class="name">Buttons</span><span class="count">11</span><span class="items">btn, btn-ghost, btn-chrome, btn-danger, btn-success, btn-ai, btn-icon, btn-loading…</span></div>
+      <div class="nw-index-row"><span class="kanji">入</span><span class="name">Forms</span><span class="count">8</span><span class="items">field, field-label, field-help, check, radio, switch, seg, combo</span></div>
+      <div class="nw-index-row"><span class="kanji">層</span><span class="name">Overlays</span><span class="count">6</span><span class="items">modal, drawer, cmdk, dropdown, tooltip, toast</span></div>
+      <div class="nw-index-row"><span class="kanji">数</span><span class="name">Data</span><span class="count">8</span><span class="items">nw-table, stat, stat-spark, metrics-grid, metric-cell, kv-row, nw-progress, diff</span></div>
+      <div class="nw-index-row"><span class="kanji">航</span><span class="name">Navigation</span><span class="count">5</span><span class="items">tabs, tab, sidebar, breadcrumbs, steps</span></div>
+      <div class="nw-index-row"><span class="kanji">状</span><span class="name">States</span><span class="count">6</span><span class="items">skeleton, empty, banner, led, badge, tag</span></div>
+    </div>
+  </section>
+
+  <!-- A4 -->
+  <section class="block">
+    <div class="tagline">
+      <span class="what"><b>A4 · Accordion / FAQ</b> · new <code>.nw-accordion</code> on native <code>&lt;details&gt;</code>, accessible, no JS</span>
+    </div>
+    <div class="nw-section-head" data-idx="04"><span>questions</span><span class="kanji">問</span></div>
+    <h2 class="nw-display">Common questions.</h2>
+    <div class="nw-accordion">
+      <details open>
+        <summary>Does it work with Tailwind?</summary>
+        <div class="answer">Yes. The preset <code>tailwind.preset.js</code> exposes the same tokens as <code>nightwire.css</code>, so you can use classes or utilities.<br><a class="nw-link-arrow" href="#">Read the manual →</a></div>
+      </details>
+      <details>
+        <summary>Does v3 break anything from v2?</summary>
+        <div class="answer">Yes, it is a major. The migration guide lists every change and how to stay on v2.</div>
+      </details>
+      <details>
+        <summary>Is there a light mode?</summary>
+        <div class="answer">No. Nightwire is dark-only.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- C1 -->
+  <section class="block">
+    <div class="tagline">
+      <span class="what"><b>C1 · Reticle frame + halftone + barcode</b> · new <code>.nw-reticle</code>, <code>.nw-halftone</code>, <code>.nw-barcode</code>. The halftone is plain CSS over any &lt;img&gt;</span>
+    </div>
+    <div class="cols-3">
+      <div>
+        <div class="cap">bone tint · 6px dot</div>
+        <div class="nw-reticle">
+          <div class="nw-reticle-meta"><span>00 // NIGHTWIRE-CORE</span><span>v3</span></div>
+          <span class="nw-reticle-vlabel">SUPPORTED · INTENSITY</span>
+          <div class="nw-halftone nw-halftone-bone"><div class="nw-halftone-layer"><img src="scene.svg" alt=""></div></div>
+          <span class="nw-reticle-stamp">夜線</span>
+          <div class="nw-reticle-foot"><div class="nw-barcode"></div><span class="kanji">電</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="cap">chrome tint · 4px dot</div>
+        <div class="nw-reticle">
+          <div class="nw-reticle-meta"><span>01 // UPLINK</span><span>■</span></div>
+          <div class="nw-halftone nw-halftone-chrome nw-halftone-fine"><div class="nw-halftone-layer"><img src="scene.svg" alt=""></div></div>
+          <div class="nw-reticle-foot"><div class="nw-barcode" style="color:var(--nw-chrome)"></div><span class="kanji" style="color:var(--nw-chrome)">信</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="cap">data tint · original image to compare</div>
+        <div class="nw-reticle" style="margin-bottom:var(--sp-4)">
+          <div class="nw-halftone nw-halftone-data"><div class="nw-halftone-layer"><img src="scene.svg" alt=""></div></div>
+        </div>
+        <div class="nw-reticle"><img src="scene.svg" alt="" style="display:block;width:100%"></div>
+      </div>
+    </div>
+  </section>
+
+    <!-- E · existing components with the open layout (US5, FR-026–FR-029) -->
+  <section class="block">
+    <div class="tagline">
+      <span class="what"><b>E · Existing components, open layout</b> · <code>.panel</code> without a box, <code>.card</code> outlined, opt-in frame <code>.panel.nw-reticle</code></span>
+    </div>
+    <div class="cols">
+      <div>
+        <div class="cap">.panel with data-idx and .kanji (v2 markup + data-idx)</div>
+        <div class="panel">
+          <div class="panel-header" data-idx="05"><span>Telemetry</span><span class="kanji">観</span></div>
+          <div class="panel-body">
+            <div class="kv-row"><span class="kv-label">Uptime</span><span class="kv-value">99.98%<span class="kv-note">last 30 days</span></span></div>
+            <div class="kv-row"><span class="kv-label">Region</span><span class="kv-value">us-east-1</span></div>
+          </div>
+        </div>
+        <div class="cap" style="margin-top:var(--sp-8)">.card (outline, no fill)</div>
+        <div class="card">
+          <div class="card-header"><span>Deploy</span><span class="kanji">展</span></div>
+          <div class="card-body"><p style="margin:0;color:var(--nw-text-mute)">Last deploy 4 min ago. No errors.</p></div>
+          <div class="card-footer"><a class="nw-link-arrow" href="#">View logs →</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="cap">.panel with a status in the right slot (.tag + LED)</div>
+        <div class="panel">
+          <div class="panel-header"><span>Services</span><span><span class="led" data-state="ok"></span> <span class="tag tag-success">healthy</span></span></div>
+          <div class="panel-body">
+            <div class="kv-row"><span class="kv-label">API</span><span class="kv-value">200 ms</span></div>
+            <div class="kv-row"><span class="kv-label">Queue</span><span class="kv-value">12 jobs</span></div>
+          </div>
+        </div>
+        <div class="cap" style="margin-top:var(--sp-8)">dense console: .panel.nw-reticle (opt-in)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2)">
+          <div class="panel nw-reticle"><div class="panel-header"><span>CPU</span><span class="kanji">算</span></div><div class="panel-body"><div class="stat"><div class="stat-label">load</div><div class="stat-value">42%</div></div></div></div>
+          <div class="panel nw-reticle"><div class="panel-header"><span>MEM</span><span class="kanji">記</span></div><div class="panel-body"><div class="stat"><div class="stat-label">used</div><div class="stat-value">6.1 GB</div></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- C2 -->
+  <section class="block">
+    <div class="tagline">
+      <span class="what"><b>C2 · Grain</b> · new <code>.nw-grain</code> on &lt;body&gt;. Its strength is the <code>--nw-grain</code> knob: 0 at archive, stronger at combat. It is on in this page (toggle it above)</span>
+    </div>
+  </section>
+
+  <!-- C3 -->
+  <section class="block" style="border-bottom:0">
+    <div class="tagline">
+      <span class="what"><b>C3 · Outline wordmark</b> · new <code>.nw-wordmark</code> for footers and covers</span>
+    </div>
+  </section>
+</div>
+
+<footer style="border-top:1px solid var(--nw-line);padding-top:var(--sp-8);overflow:hidden">
+  <div class="wrap" style="display:flex;justify-content:space-between;gap:var(--sp-6);flex-wrap:wrap">
+    <div>
+      <div style="font-family:var(--font-title);font-weight:700;font-size:22px">Built in the dark.</div>
+      <div class="kanji" style="color:var(--nw-text-mute);margin-top:4px">夜の線のために</div>
+      <div style="margin-top:var(--sp-3)"><span class="nw-chip"><span class="sq"></span>v3.0.0</span></div>
+    </div>
+    <div style="display:flex;gap:var(--sp-12);font-family:var(--font-sys);font-size:var(--text-sm);color:var(--nw-text-mute)">
+      <div class="nw-stack"><span>Tokens</span><span>Components</span><span>Workshop</span></div>
+      <div class="nw-stack"><span>GitHub</span><span>npm</span><span>Changelog</span></div>
+    </div>
+  </div>
+  <div class="nw-wordmark" style="margin-top:var(--sp-8)">Nightwire</div>
+</footer>
+
+</body>
+</html>

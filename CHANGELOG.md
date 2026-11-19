@@ -69,6 +69,26 @@ All notable changes to this project will be documented in this file.
     `scripts/parity/glow-check.mjs <file>` checks the glow rules (FR-013b, SC-012) over that file.
     The categories in `change-inventory.json` are pinned to one intensity level and one exact old
     and new value each.
+- **The mockup look: new classes (spec 002, User Story 5).** `.nw-section-head` (and
+  `.nw-section-head-chrome`), `.nw-display`, `.nw-lede`, `.nw-chip` (and `.nw-chip-solid`),
+  `.nw-index` / `.nw-index-row`, `.nw-accordion` (native `<details>`, no JavaScript),
+  `.nw-link-arrow`, `.nw-reticle` (and `.nw-reticle-meta`, `-vlabel`, `-stamp`, `-foot`),
+  `.nw-halftone` (and the `-chrome`, `-data`, `-bone` and `-fine` variants), `.nw-barcode`,
+  `.nw-wordmark` and `.nw-grain`. `.nw-grain` is an opt-in class on `<body>`; it never takes
+  pointer events and is hidden under forced colours. They reproduce the approved mockup
+  (`ryoku-inspo.html`) at operator with v3 tokens. See the
+  [migration guide](docs/migration/v3.md#new-classes-and-knobs).
+- **`--nw-grain`, `--nw-chip-line`, `--nw-bone` and `--nw-kanji-glow`.** `--nw-grain` is the grain
+  strength knob: 0 at archive, .07 at operator, .1 at combat. `--nw-chip-line` is the `.nw-chip`
+  border (white at 0.18; `--nw-line-strong` is 0.36). `--nw-bone` is `#d8d2c8`, the tint of
+  `.nw-halftone-bone`. `--nw-kanji-glow` is `calc(20px * var(--nw-glow))`: 0 at archive, 10px at
+  operator and combat. Grain, the halftone and the kanji glow of `.nw-section-head-chrome` and of
+  `.nw-index-row` on hover are the approved exceptions to "no decorative effects". Grain and the
+  kanji glow are 0 at archive; the halftone is image content and renders at every intensity.
+- **`data-idx` on `.panel-header`, `.card-header` and `.nw-section-head`.** It shows the index in
+  front of the label: `data-idx="01"` renders `01 // LABEL`.
+- **`.kv-note` and `.kv-swap`** inside `.kv-row`: a mute note under the value, and a glyph in the
+  chrome (blue) colour.
 
 ### Changed
 
@@ -200,6 +220,21 @@ All notable changes to this project will be documented in this file.
   content `role="tooltip"`: `aria-describedby` still reads hidden content, so the description
   survives.
 - `docs/architecture/intensity.md`: known issues K1, K2, K3, K4 and K5 are marked resolved.
+- **The open layout (User Story 5; the values and reasons are in the US5 section of
+  [docs/design/v3/direction.md](docs/design/v3/direction.md)).** **Breaking** for any page that
+  relied on the old boxes. The migration guide has the markup:
+  [Open layout](docs/migration/v3.md#open-layout).
+  - **`.panel` is open:** no fill, no outline, no radius, at every intensity. For a box, add
+    `.nw-reticle` (`class="panel nw-reticle"`) or keep your own CSS.
+  - **`.panel-header` and `.card-header` take the section-head look** with the same markup: a mute
+    label (11px, wide tracking, regular weight) and a hairline from the label to the right slot,
+    with no bottom border. This replaces the neutral bottom-border header rule listed above for
+    these two. A `.kanji` in the right slot is 20px; a `.tag` or an LED keeps its own look.
+  - **Kanji in headers is a `.kanji`, not a `.tag`.** `<span class="tag">日本語</span>` still
+    renders, as a tag. Switch to `<span class="kanji">日本語</span>` for the mockup look.
+  - **`.card` keeps a hairline outline and loses its fill.**
+  - **`.kv-row`** has the spec-sheet rhythm: padding scaled by `--nw-pad-scale`, top-aligned, with a
+    right-aligned value.
 
 ### Removed
 

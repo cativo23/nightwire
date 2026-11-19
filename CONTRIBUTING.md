@@ -116,11 +116,14 @@ Exit code 0 means `unexpected=0` and full coverage; 1 means unexpected differenc
 coverage; 2 means the file cannot be read, is not valid JSON, or fails validation (the message
 names the category and field). Without `--expect` the output and exit codes are unchanged.
 
-A category file is `{ "baseline": "v2.1.0", "categories": [ … ] }`. Each category has:
+A category file is `{ "baseline": "v2.1.0", "control": "<sheet>", "categories": [ … ] }`; `control` is
+optional and names the control sheet that proves the file's cascade categories (see "Cascade
+categories and the control run"). Each category has:
 
 | Field | Rule |
 |---|---|
 | `id` | Required, unique, kebab-case. |
+| `kind` | Optional. The only value is `"cascade"` (see "Cascade categories and the control run"). |
 | `description` | Why the change is intended; link the requirement. |
 | `match.prop` | Required regex, tested against the DIFF property (a CSS property, `--custom`, `@keyframes` name or `(element)`). |
 | `match.path` | Optional regex against the DOM path. |
@@ -149,6 +152,66 @@ each: the `state` anchors the intensity (`^combat\\|rm-off`, say), and `old` and
 old-to-new pair. A value seen at `archive` therefore cannot stand for the same category at
 `combat`, and a new value at any level fails until someone names it. When `--expect` reports an
 unexpected difference at one level, add or retune the category for that level, not a looser one.
+
+### Cascade categories and the control run
+
+An open layout in a container (v3's `.panel`, `.card`, their headers and `.kv-row`) changes the size
+of everything inside it, which would need one pinned category per old-to-new value. A category with
+`"kind": "cascade"` explains those geometric differences without pinning values, on two conditions
+(FR-038):
+
+1. **Validation.** `match.prop` must be exactly `^name$`, `^(name|name)$` or `^(?:name|name)$`, with
+   every name one of the geometric properties the browser resolves from layout: `width`, `height`,
+   `inline-size`, `block-size`, `transform-origin`, `perspective-origin`, the offsets `top`, `right`,
+   `bottom`, `left`, `inset-block-start`, `inset-block-end`, `inset-inline-start`,
+   `inset-inline-end`, the resolved horizontal margins `margin-left` and `margin-inline-start`, the
+   grid track sizes `grid-template-columns` and `grid-template-rows`, and `aspect-ratio`; anything
+   else (colours, fonts, padding, border widths, other margins) is rejected (`width` unanchored, `.*`, `^width|color$`,
+   `^(width|--nw-glow)$`). `match.path` and `match.page` are both required, and `match.path` must not
+   match `:root` or `@keyframes` (where custom properties and keyframes are recorded), so `.` is
+   rejected. Scope `path` to the opened components (`.panel`, `.card`, their headers and `.kv-row`, and what is
+   inside them) or, when an ancestor's size follows them, to that ancestor only: the page box (`html`,
+   `body`) or the row or grid that holds the panels. Cut `match.prop` to the properties seen on that
+   page and path; a category that accepts all of them says nothing.
+   `match.old` and `match.new` are optional. Any other `kind` is rejected, and a category without
+   `kind` follows the rules above.
+2. **The control run.** `--control <css>` appends that sheet to the new stylesheet, so it wins at
+   equal specificity, and ignores every cascade category. Write the sheet to restore the pre-change
+   layout declarations of those components. If the run then reports `unexpected=0`, the open layout
+   is proven to be the cause of every difference the cascade categories absorb.
+
+```sh
+npm run parity -- --expect docs/design/v3/change-inventory.json                                # cascade categories count
+npm run parity -- --expect docs/design/v3/change-inventory.json --control path/to/control.css  # the proof
+```
+
+The control run prints one extra line before `RESULT`, and the exit codes are unchanged:
+
+```text
+CONTROL  sheet=<path>  cascade-categories-ignored=N
+```
+
+A normal run with cascade categories active prints a reminder before `RESULT` (the exit code does not
+change), naming the sheet the category file declares in `control`:
+
+```text
+CASCADE  N categories active, not proven by this run: also run --control <sheet>
+```
+
+A run with cascade categories is evidence only together with its control run: `width`, `height`,
+offsets and grid tracks are also properties people declare, so a normal run absorbs a changed
+declaration inside an opened component without saying so, and only the control run catches it.
+Both runs must end `unexpected=0` before a phase closes.
+
+A normal run also checks that each cascade category was needed for everything it lists: for every
+category whose `page` glob matched a page of the run, a property it allows that explained no
+difference (first match, as in the counts) prints `CASCADE-UNUSED  <id>  <props>` and fails the run.
+Drop those properties from `match.prop`.
+
+`--control` without `--expect`, or with a file that cannot be read, exits 2. With `--json`, `meta.control`
+is the sheet path, or `null` without the flag, and each difference's `category` is computed without
+the cascade categories. A cascade category states an expectation: write it by hand, never derive it
+from a run's output. Every non-geometric difference keeps a narrow category.
 
 ### Checking the glow rules
 
