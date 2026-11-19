@@ -45,7 +45,6 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
-import { availableParallelism } from 'node:os';
 import { extractSelectors, analyzeSelectors } from './lib/selectors.mjs';
 import { snapshotKey, diffRecords, validateCategories } from './lib/diff.mjs';
 import { globToRegExp } from './lib/glob.mjs';
@@ -56,6 +55,7 @@ import { loadSheet as loadSheetFrom, SheetError } from './lib/sheet.mjs';
 import { startServer as startServerAt } from './lib/server.mjs';
 import { routeAction } from './lib/route.mjs';
 import { runPool } from './lib/pool.mjs';
+import { resolveJobs } from './lib/jobs.mjs';
 import { startPausedClock } from './lib/clock.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -77,17 +77,6 @@ function usage(message) {
   console.error('  --old defaults to git:main, or to git:<baseline> of the --expect file when it has one');
   console.error('  --jobs defaults to NW_PARITY_JOBS, else min(6, cores - 2), at least 1');
   process.exit(2);
-}
-
-/** Concurrency: --jobs, else NW_PARITY_JOBS, else min(6, cores - 2) and at least 1. */
-function resolveJobs(arg, env) {
-  const raw = arg ?? env;
-  if (raw === undefined || raw === '') return Math.max(1, Math.min(6, availableParallelism() - 2));
-  const n = Number(raw);
-  if (!/^\d+$/.test(String(raw).trim()) || !Number.isSafeInteger(n) || n < 1) {
-    usage(`${arg === undefined ? 'NW_PARITY_JOBS' : '--jobs'} must be a positive integer, got "${raw}"`);
-  }
-  return n;
 }
 
 function loadSheet(spec) {
@@ -360,7 +349,10 @@ async function main() {
   const maxLines = Number(args['max-lines']);
   if (!Number.isInteger(maxLines) || maxLines < 0) usage('--max-lines must be a non-negative integer');
 
-  const jobs = resolveJobs(args.jobs, process.env.NW_PARITY_JOBS);
+  let jobs;
+  try {
+    jobs = resolveJobs(args.jobs, process.env.NW_PARITY_JOBS);
+  } catch (err) { usage(err.message); }
 
   const file = args.expect === undefined ? undefined : loadCategories(args.expect);
   const categories = file?.categories;
