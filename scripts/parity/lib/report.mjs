@@ -7,6 +7,8 @@ import { formatDiff, classify, matchCategory } from './diff.mjs';
  * @param {object[]} input.diffs         records from diffRecords(), any order
  * @param {object[]} [input.categories]  compiled categories (validateCategories(...).categories);
  *                                       omit for the classic report without --expect
+ * @param {boolean}  [input.control]     a `--control` run: cascade categories are ignored, so they
+ *                                       print no CATEGORY line and explain nothing
  * @param {number}   input.maxLines      cap on printed DIFF lines
  * @param {string}   input.coverageLine  the finished COVERAGE line
  * @param {number}   input.uncovered     how many classes/attr-states no page exercised
@@ -15,9 +17,9 @@ import { formatDiff, classify, matchCategory } from './diff.mjs';
  * Layout: DIFF lines (all of them, or only the unexpected ones with categories), the
  * truncation note, then CATEGORY lines (only with categories), COVERAGE, RESULT.
  */
-export function buildReport({ diffs, categories, maxLines, coverageLine, uncovered }) {
+export function buildReport({ diffs, categories, control = false, maxLines, coverageLine, uncovered }) {
   const withCategories = categories !== undefined;
-  const { counts, unexpected } = withCategories ? classify(diffs, categories) : { counts: new Map(), unexpected: diffs };
+  const { counts, unexpected } = withCategories ? classify(diffs, categories, { control }) : { counts: new Map(), unexpected: diffs };
   const shown = unexpected.map(formatDiff).sort();
 
   const lines = shown.slice(0, maxLines);
@@ -39,14 +41,17 @@ export function buildReport({ diffs, categories, maxLines, coverageLine, uncover
  * @param {object[]} input.diffs          records from diffRecords()
  * @param {object[]} input.shadows        records from collectShadows(), every element with a shadow
  * @param {object[]} [input.categories]   compiled categories; omit when there is no --expect
+ * @param {string}   [input.control]      the --control sheet path; cascade categories explain nothing
  * @returns {{ meta: object, diffs: object[], shadows: object[] }} each diff carries `category`,
- *          the id of the first category that explains it, or null
+ *          the id of the first category that explains it, or null; `meta.control` is the control
+ *          sheet path or null
  */
-export function buildJsonReport({ oldSpec, newSpec, pages, states, diffs, shadows, categories }) {
-  const meta = { old: oldSpec, new: newSpec, pages, states, differences: diffs.length };
+export function buildJsonReport({ oldSpec, newSpec, pages, states, diffs, shadows, categories, control }) {
+  const meta = { old: oldSpec, new: newSpec, pages, states, differences: diffs.length, control: control ?? null };
   let tagged = diffs.map((d) => ({ ...d, category: null }));
   if (categories !== undefined) {
-    tagged = diffs.map((d) => ({ ...d, category: categories.find((c) => matchCategory(d, c))?.id ?? null }));
+    const active = control === undefined ? categories : categories.filter((c) => c.kind !== 'cascade');
+    tagged = diffs.map((d) => ({ ...d, category: active.find((c) => matchCategory(d, c))?.id ?? null }));
     meta.unexpected = tagged.filter((d) => d.category === null).length;
   }
   return { meta, diffs: tagged, shadows };
