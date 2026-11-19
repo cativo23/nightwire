@@ -98,10 +98,12 @@ used by `--pages` and `match.page`) and `lib/report.mjs` (report layout and exit
   unreadable, not JSON or invalid (checked before Chrome starts).
 - **Cascade categories and `--control`.** A category may declare `"kind": "cascade"` for geometry
   that an ancestor's open layout moves (FR-038). `validateCategories` accepts it only when
-  `match.path` and `match.page` are set and `match.prop` matches nothing but `width`, `height`,
-  `inline-size`, `block-size`, `transform-origin` and `perspective-origin`; it tests the regex
-  against `lib/computed-properties.mjs`, the list of every property parity records (copied from
-  Chrome, and refreshed by hand when Chrome adds one), plus `(element)` and a custom property.
+  `match.path` and `match.page` are set, `match.path` cannot match `:root` or `@keyframes` (the
+  records for custom properties and keyframes), and `match.prop` has the closed form `^name$`,
+  `^(name|name)$` or `^(?:name|name)$` over `width`, `height`, `inline-size`, `block-size`,
+  `transform-origin` and `perspective-origin`. It is a closed form, not a probe against a property
+  list, because the snapshot also records custom properties and keyframe names that no list can
+  enumerate.
   `--control <css>` (needs `--expect`, `lib/control.mjs`) appends the sheet to the new stylesheet,
   makes `classify(…, { control: true })` skip the cascade categories, and prints
   `CONTROL  sheet=<path>  cascade-categories-ignored=N` before `RESULT`. A control run with

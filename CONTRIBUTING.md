@@ -158,11 +158,14 @@ of everything inside it, which would need one pinned category per old-to-new val
 `"kind": "cascade"` explains those geometric differences without pinning values, on two conditions
 (FR-038):
 
-1. **Validation.** `match.prop` may match nothing but `width`, `height`, `inline-size`,
-   `block-size`, `transform-origin` and `perspective-origin` (it is tested against every property
-   parity records, so `width` unanchored, `.*` or `^width|color$` are rejected), and it must match at
-   least one of them. `match.path` and `match.page` are both required. `match.old` and `match.new`
-   are optional. Any other `kind` is rejected, and a category without `kind` follows the rules above.
+1. **Validation.** `match.prop` must be exactly `^name$`, `^(name|name)$` or `^(?:name|name)$`, with
+   every name one of `width`, `height`, `inline-size`, `block-size`, `transform-origin` and
+   `perspective-origin`; anything else is rejected (`width` unanchored, `.*`, `^width|color$`,
+   `^(width|--nw-glow)$`). `match.path` and `match.page` are both required, and `match.path` must not
+   match `:root` or `@keyframes` (where custom properties and keyframes are recorded), so `.` is
+   rejected. Scope `path` to the opened components: `.panel`, `.card`, their headers and `.kv-row`.
+   `match.old` and `match.new` are optional. Any other `kind` is rejected, and a category without
+   `kind` follows the rules above.
 2. **The control run.** `--control <css>` appends that sheet to the new stylesheet, so it wins at
    equal specificity, and ignores every cascade category. Write the sheet to restore the pre-change
    layout declarations of those components. If the run then reports `unexpected=0`, the open layout
