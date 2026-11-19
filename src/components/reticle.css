@@ -1,0 +1,83 @@
+/* ── Reticle frame ───────────────────────────────────────────────
+   An opt-in frame (FR-028): a hairline outline with an arm at each corner. It works alone or on a
+   .panel (class="panel nw-reticle"). The arms are background-IMAGES only, so the element keeps its
+   own background colour, and nothing here sets one. Colour and arm length are the two knobs:
+   --nw-reticle-c and --nw-reticle-arm. The parts below are the art-card children of the approved
+   mockup: a meta line, a vertical label, a kanji stamp and a foot. The stamp is a kanji, so it
+   leaves with the others at archive. */
+
+.nw-reticle {
+  --nw-reticle-c: var(--nw-line-chrome);
+  --nw-reticle-arm: 14px;
+  position: relative;
+  padding: var(--sp-4);
+  border: var(--nw-hairline) solid var(--nw-line);
+  background-image:
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c));
+  background-repeat: no-repeat;
+  background-position: top left, top left, top right, top right, bottom left, bottom left, bottom right, bottom right;
+  background-size:
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm);
+}
+
+.panel.nw-reticle { border-radius: 0; }
+
+.nw-reticle-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sys);
+  font-size: 10px;
+  letter-spacing: var(--ls-ultra);
+  color: var(--nw-text-mute);
+  margin-bottom: var(--sp-3);
+}
+
+.nw-reticle-vlabel {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font-family: var(--font-sys);
+  font-size: 9px;
+  letter-spacing: var(--ls-ultra);
+  color: var(--nw-text-mute);
+}
+
+.nw-reticle-stamp {
+  position: absolute;
+  right: var(--sp-6);
+  top: 56px;
+  display: var(--nw-kanji-display);
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1.05;
+  writing-mode: vertical-rl;
+  color: var(--nw-text-strong);
+  mix-blend-mode: difference;
+}
+
+.nw-reticle-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--sp-3);
+}
+
+.nw-reticle-foot .nw-barcode { flex: 1; }
+
+.nw-reticle-foot .kanji {
+  font-size: 24px;
+  color: var(--nw-text-default);
+}

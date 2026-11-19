@@ -1,0 +1,22 @@
+/* ── Outline wordmark ────────────────────────────────────────────
+   A large outlined word for footers and covers (FR-030): the title face, transparent fill, a
+   hairline stroke, squeezed to 82% wide and faded out towards the bottom. The #000 in the mask
+   is the opaque stop of an alpha mask, not a palette colour. */
+
+.nw-wordmark {
+  font-family: var(--font-title);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(56px, 12.5vw, 190px);
+  line-height: .85;
+  letter-spacing: .01em;
+  color: transparent;
+  -webkit-text-stroke: var(--nw-hairline) var(--nw-line-chrome);
+  transform: scaleX(.82);
+  transform-origin: center;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+}

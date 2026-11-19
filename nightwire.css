@@ -1930,3 +1930,198 @@ input::placeholder, textarea::placeholder {
     transition: block-size var(--nw-sweep), content-visibility var(--nw-sweep) allow-discrete;
   }
 }
+
+/* ── src/components/reticle.css ────────────────────────────────── */
+/* ── Reticle frame ───────────────────────────────────────────────
+   An opt-in frame (FR-028): a hairline outline with an arm at each corner. It works alone or on a
+   .panel (class="panel nw-reticle"). The arms are background-IMAGES only, so the element keeps its
+   own background colour, and nothing here sets one. Colour and arm length are the two knobs:
+   --nw-reticle-c and --nw-reticle-arm. The parts below are the art-card children of the approved
+   mockup: a meta line, a vertical label, a kanji stamp and a foot. The stamp is a kanji, so it
+   leaves with the others at archive. */
+
+.nw-reticle {
+  --nw-reticle-c: var(--nw-line-chrome);
+  --nw-reticle-arm: 14px;
+  position: relative;
+  padding: var(--sp-4);
+  border: var(--nw-hairline) solid var(--nw-line);
+  background-image:
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c));
+  background-repeat: no-repeat;
+  background-position: top left, top left, top right, top right, bottom left, bottom left, bottom right, bottom right;
+  background-size:
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm);
+}
+
+.panel.nw-reticle { border-radius: 0; }
+
+.nw-reticle-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sys);
+  font-size: 10px;
+  letter-spacing: var(--ls-ultra);
+  color: var(--nw-text-mute);
+  margin-bottom: var(--sp-3);
+}
+
+.nw-reticle-vlabel {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font-family: var(--font-sys);
+  font-size: 9px;
+  letter-spacing: var(--ls-ultra);
+  color: var(--nw-text-mute);
+}
+
+.nw-reticle-stamp {
+  position: absolute;
+  right: var(--sp-6);
+  top: 56px;
+  display: var(--nw-kanji-display);
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1.05;
+  writing-mode: vertical-rl;
+  color: var(--nw-text-strong);
+  mix-blend-mode: difference;
+}
+
+.nw-reticle-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--sp-3);
+}
+
+.nw-reticle-foot .nw-barcode { flex: 1; }
+
+.nw-reticle-foot .kanji {
+  font-size: 24px;
+  color: var(--nw-text-default);
+}
+
+/* ── src/components/halftone.css ───────────────────────────────── */
+/* ── Halftone ────────────────────────────────────────────────────
+   Plain CSS over any <img> (FR-030): the image goes grey and high-contrast, a dot pattern is laid
+   over it, and a tint is multiplied on top. The structure is
+   .nw-halftone > .nw-halftone-layer > img. Tint and dot size are --nw-halftone-tint and
+   --nw-halftone-dot. The #000 and #fff below are the mask of the dot pattern, not palette colours,
+   so they are the only colour literals in the stylesheet. Halftone art is an approved decoration
+   exception (FR-034): it is an image treatment, not a glow. */
+
+.nw-halftone {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.nw-halftone-layer {
+  --nw-halftone-dot: 6px;
+  position: relative;
+  background: #000;
+  filter: grayscale(1) contrast(22);
+}
+
+.nw-halftone-layer img {
+  display: block;
+  width: 100%;
+  filter: blur(1.2px);
+}
+
+.nw-halftone-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle closest-side, #fff 0%, #000 100%) 0 0 / var(--nw-halftone-dot) var(--nw-halftone-dot);
+  opacity: .5;
+}
+
+.nw-halftone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--nw-halftone-tint, var(--nw-text-default));
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.nw-halftone-chrome { --nw-halftone-tint: var(--nw-chrome); }
+.nw-halftone-data { --nw-halftone-tint: var(--nw-data); }
+.nw-halftone-bone { --nw-halftone-tint: var(--nw-bone); }
+
+.nw-halftone-fine .nw-halftone-layer { --nw-halftone-dot: 4px; }
+
+/* ── src/components/barcode.css ────────────────────────────────── */
+/* ── Barcode ─────────────────────────────────────────────────────
+   A decorative strip of bars (FR-030), drawn with a repeating gradient in the current text colour:
+   set `color` on it (or on a parent) to tint it. */
+
+.nw-barcode {
+  height: 26px;
+  margin-top: var(--sp-3);
+  color: var(--nw-text-default);
+  background: repeating-linear-gradient(90deg,
+    currentColor 0 2px, transparent 2px 3px, currentColor 3px 4px, transparent 4px 7px,
+    currentColor 7px 10px, transparent 10px 11px, currentColor 11px 12px, transparent 12px 15px);
+}
+
+/* ── src/components/wordmark.css ───────────────────────────────── */
+/* ── Outline wordmark ────────────────────────────────────────────
+   A large outlined word for footers and covers (FR-030): the title face, transparent fill, a
+   hairline stroke, squeezed to 82% wide and faded out towards the bottom. The #000 in the mask
+   is the opaque stop of an alpha mask, not a palette colour. */
+
+.nw-wordmark {
+  font-family: var(--font-title);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(56px, 12.5vw, 190px);
+  line-height: .85;
+  letter-spacing: .01em;
+  color: transparent;
+  -webkit-text-stroke: var(--nw-hairline) var(--nw-line-chrome);
+  transform: scaleX(.82);
+  transform-origin: center;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+}
+
+/* ── src/components/grain.css ──────────────────────────────────── */
+/* ── Grain ───────────────────────────────────────────────────────
+   Film grain over the page, opt-in on <body> (FR-031): class="nw-grain". A fixed layer of SVG
+   noise, never in the way of the pointer. Its strength is the knob --nw-grain: 0 at archive,
+   .07 at operator, .1 at combat. Grain is an approved decoration exception (FR-034), not a glow.
+   Forced colours hides it. */
+
+.nw-grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--nw-grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (forced-colors: active) {
+  .nw-grain::before { display: none; }
+}

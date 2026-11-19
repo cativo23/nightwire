@@ -59,3 +59,8 @@
 @import "./components/link-arrow.css";
 @import "./components/kanji-index.css";
 @import "./components/accordion.css";
+@import "./components/reticle.css";
+@import "./components/halftone.css";
+@import "./components/barcode.css";
+@import "./components/wordmark.css";
+@import "./components/grain.css";
