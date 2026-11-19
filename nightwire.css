@@ -1749,9 +1749,9 @@ input::placeholder, textarea::placeholder {
 /* ── Chip ────────────────────────────────────────────────────────
    A small label or link with a hairline outline (FR-030). The border reads --nw-chip-line, the
    piece's own token, because the shared --nw-line-strong moved since the mockup. .sq is a 6px
-   square in the text colour, .star a warn-coloured mark. .nw-chip-solid is the same bone fill
-   as .btn (--nw-action*). Its hover sets the text colour itself: a:hover in reset.css would
-   otherwise recolour an <a class="nw-chip-solid">. */
+   square in the text colour, .star a warn-coloured mark. .nw-chip-solid is the --nw-action fill
+   (as .btn), not --nw-bone, which is the halftone tint. Its hover sets the text colour itself:
+   a:hover in reset.css would otherwise recolour an <a class="nw-chip-solid">. */
 
 .nw-chip {
   display: inline-flex;
