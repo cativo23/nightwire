@@ -1,0 +1,16 @@
+/* ── Arrow link ──────────────────────────────────────────────────
+   A chrome label link, "READ MORE →" (FR-030). The arrow is part of the text. */
+
+.nw-link-arrow {
+  display: inline-block;
+  margin-top: var(--sp-3);
+  font-family: var(--font-sys);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-ultra);
+  text-transform: uppercase;
+  color: var(--nw-chrome);
+  text-decoration: none;
+  transition: color var(--nw-tick);
+}
+
+.nw-link-arrow:hover { color: var(--nw-chrome-hot); }

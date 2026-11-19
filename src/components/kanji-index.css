@@ -1,0 +1,62 @@
+/* ── Kanji index ─────────────────────────────────────────────────
+   A two-column index of rows: a kanji, a name, a count and a line of items (FR-030). Every child
+   of .nw-index-row names its own grid column, so the row keeps its shape when the kanji is hidden
+   at archive (FR-033): the name and count stay in columns 2 and 3, and column 1 stays empty.
+   The kanji lights up on hover: the second FR-034 glow exception, scaled by --nw-kanji-glow, 0 at
+   archive. */
+
+.nw-index {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--sp-8);
+}
+
+.nw-index-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  column-gap: var(--sp-3);
+  row-gap: 2px;
+  align-items: baseline;
+  padding: var(--sp-3) 0;
+  border-top: var(--nw-hairline) solid var(--nw-line);
+}
+
+.nw-index-row .kanji {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  font-size: 20px;
+  color: var(--nw-text-default);
+  transition: color var(--nw-tick), text-shadow var(--nw-tick);
+}
+
+.nw-index-row .name {
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--nw-text-default);
+  font-size: var(--text-base);
+}
+
+.nw-index-row .count {
+  grid-column: 3;
+  grid-row: 1;
+  color: var(--nw-text-mute);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.nw-index-row .items {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  font-size: var(--text-xs);
+  color: var(--nw-text-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nw-index-row:hover .kanji {
+  color: var(--nw-chrome);
+  text-shadow: 0 0 calc(var(--nw-kanji-glow) * .8) var(--nw-chrome);   /* FR-034 exception: 0 at archive */
+}
+
+@media (max-width: 720px) { .nw-index { grid-template-columns: 1fr; } }
