@@ -11,6 +11,8 @@ export function Layer2TokensPage() {
     t.token.startsWith('--nw-ai')
   );
   const lines = LAYER2_TOKENS.filter(t => t.token.startsWith('--nw-line'));
+  const shown = new Set([...surfaces, ...text, ...roles, ...lines]);
+  const others = LAYER2_TOKENS.filter(t => !shown.has(t));
 
   const renderTable = (title: string, kanji: string, rows: typeof LAYER2_TOKENS) => (
     <div className="panel" style={{ marginBottom: 2 }}>
@@ -52,6 +54,7 @@ export function Layer2TokensPage() {
       {renderTable('Text tiers', '文字階層', text)}
       {renderTable('Semantic roles', '役割', roles)}
       {renderTable('Lines', '線', lines)}
+      {renderTable('Action, structure and effects', '効果', others)}
 
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>Motion vocabulary</span><span className="kanji">動き</span></div>

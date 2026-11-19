@@ -86,6 +86,25 @@ export class TokenReader {
     return n;
   }
 
+  /** The hex value of the colour token that publishes a custom property (`--nw-primary`). */
+  hex(css) {
+    let found;
+    const walk = (node) => {
+      if (!isObject(node) || found) return;
+      if ('$value' in node) {
+        const ext = node.$extensions;
+        if (isObject(ext) && isObject(ext[EXT]) && ext[EXT].css === css) found = node;
+        return;
+      }
+      for (const [key, child] of Object.entries(node)) if (key !== '$extensions') walk(child);
+    };
+    walk(this.#file);
+    if (!found) throw new Error(`no token publishes ${css}`);
+    const hex = isObject(found.$value) ? found.$value.hex : undefined;
+    if (typeof hex !== 'string') throw new Error(`${css} is not a colour`);
+    return hex;
+  }
+
   // ── Motion ────────────────────────────────────────────────────────────────
   /** `150ms cubic-bezier(0.3, 0, 0.7, 1)`: the duration and curve of one step, enter or exit. */
   motion(step, dir) {

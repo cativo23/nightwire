@@ -1,21 +1,22 @@
 import tokens from '../../../../src/tokens/tokens.json';
 import { TokenReader, KNOB_COLUMNS, motionVocab } from './tokens.mjs';
 
-// Motion and intensity values are read from src/tokens/tokens.json (Principle II); only the
-// human copy (use, desc) is written here.
+// Motion, intensity and palette values are read from src/tokens/tokens.json (Principle II); only
+// the human copy (use, desc) is written here. The Layer 2 table below keeps hand-written "maps to"
+// cells and is pinned to tokens.json by tests/docs-site-tokens.test.mjs.
 const nw = new TokenReader(tokens);
 
 export const COLORS = [
-  { name: 'void', hex: '#000000', variable: '--void', desc: 'Primary background — absolute void' },
-  { name: 'void-warm', hex: '#0a0a0a', variable: '--void-warm', desc: 'Metric cells, sidebar; the fill of your own box (a .panel has none)' },
-  { name: 'void-panel', hex: '#111111', variable: '--void-panel', desc: 'Inset surfaces & inputs' },
-  { name: 'void-raised', hex: '#1a1a1a', variable: '--void-raised', desc: 'Elevated elements' },
-  { name: 'primary', hex: '#6699ff', variable: '--nw-primary', desc: 'Focus rings, accent lines & links (labels are neutral)' },
-  { name: 'green', hex: '#7aed7a', variable: '--nw-green', desc: 'Data & success states' },
-  { name: 'cyan', hex: '#66ddff', variable: '--nw-cyan', desc: 'Wireframes & info' },
-  { name: 'red', hex: '#ff6688', variable: '--nw-red', desc: 'Alerts & critical errors' },
-  { name: 'yellow', hex: '#e8993a', variable: '--nw-yellow', desc: 'Warnings & degraded states' },
-  { name: 'purple', hex: '#b266e0', variable: '--nw-purple', desc: 'Accents & AI elements' },
+  { name: 'void', hex: nw.hex('--void'), variable: '--void', desc: 'Primary background — absolute void' },
+  { name: 'void-warm', hex: nw.hex('--void-warm'), variable: '--void-warm', desc: 'Metric cells, sidebar; the fill of your own box (a .panel has none)' },
+  { name: 'void-panel', hex: nw.hex('--void-panel'), variable: '--void-panel', desc: 'Inset surfaces & inputs' },
+  { name: 'void-raised', hex: nw.hex('--void-raised'), variable: '--void-raised', desc: 'Elevated elements' },
+  { name: 'primary', hex: nw.hex('--nw-primary'), variable: '--nw-primary', desc: 'Focus rings, accent lines & links (labels are neutral)' },
+  { name: 'green', hex: nw.hex('--nw-green'), variable: '--nw-green', desc: 'Data & success states' },
+  { name: 'cyan', hex: nw.hex('--nw-cyan'), variable: '--nw-cyan', desc: 'Wireframes & info' },
+  { name: 'red', hex: nw.hex('--nw-red'), variable: '--nw-red', desc: 'Alerts & critical errors' },
+  { name: 'yellow', hex: nw.hex('--nw-yellow'), variable: '--nw-yellow', desc: 'Warnings & degraded states' },
+  { name: 'purple', hex: nw.hex('--nw-purple'), variable: '--nw-purple', desc: 'Accents & AI elements' },
 ];
 
 export const FONTS = [
@@ -178,6 +179,13 @@ export const LAYER2_TOKENS = [
   { token: '--nw-hairline',      maps: '1px',                           desc: 'Every structural border' },
   { token: '--nw-rule',          maps: '1.5px',                         desc: 'Marks drawn inside controls' },
   { token: '--nw-accent-width',  maps: '2px',                           desc: 'Accent bars: tabs, sidebar, diff, toast' },
+  // Focus, overlay and the mockup additions
+  { token: '--nw-focus-ring',        maps: '--nw-chrome',                    desc: 'Colour of the focus outline' },
+  { token: '--nw-elevation-overlay', maps: '0 24px 64px rgba(0, 0, 0, 0.7)', desc: 'The only drop shadow: modal, drawer, command palette' },
+  { token: '--nw-chip-line',         maps: 'rgba(255,255,255,0.18)',         desc: 'Border of .nw-chip' },
+  { token: '--nw-bone',              maps: '#d8d2c8',                        desc: 'Tint of .nw-halftone-bone' },
+  { token: '--nw-grain',             maps: '0.07',                           desc: 'Film grain opacity of .nw-grain; 0 at archive, 0.1 at combat' },
+  { token: '--nw-kanji-glow',        maps: 'calc(20px * var(--nw-glow))',    desc: 'Kanji glow of the chrome section head and the hovered index row; 0 at archive' },
 ];
 
 export const COMPONENTS_V2 = [
