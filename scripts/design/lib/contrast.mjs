@@ -108,17 +108,37 @@ function declarations(body) {
 }
 
 /**
- * Read custom properties from `:root` (base) and `:root[data-intensity="<level>"]` blocks.
- * Anything inside an @media block is ignored.
+ * Read custom properties from top-level `:root` (base) and `:root[data-intensity="<level>"]`
+ * rules. Rules nested inside any at-rule (@media, @supports, ...) are ignored, tracked by brace
+ * depth, so a `:root {}` inside @media is never mistaken for a base token.
  */
 export function parseTokenCss(css) {
   const base = new Map();
   const levels = Object.fromEntries(LEVELS.map((l) => [l, new Map()]));
-  for (const [, selector, body] of stripComments(css).matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-    const sel = selector.trim();
-    const target = sel === ':root' ? base : levels[/^:root\[data-intensity=["']?(\w+)["']?\]$/.exec(sel)?.[1]];
-    if (!target) continue;
-    for (const [k, v] of declarations(body)) target.set(k, v);
+  const text = stripComments(css);
+  let depth = 0;
+  let preludeStart = 0;
+  let open = null; // the depth-0 rule being read: { selector, bodyStart, nested }
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '{') {
+      if (depth === 0) open = { selector: text.slice(preludeStart, i).trim(), bodyStart: i + 1, nested: false };
+      else if (open) open.nested = true;
+      depth++;
+    } else if (ch === '}') {
+      depth = Math.max(0, depth - 1);
+      if (depth === 0) {
+        if (open && !open.nested) {
+          const sel = open.selector;
+          const target = sel === ':root' ? base : levels[/^:root\[data-intensity=["']?(\w+)["']?\]$/.exec(sel)?.[1]];
+          if (target) for (const [k, v] of declarations(text.slice(open.bodyStart, i))) target.set(k, v);
+        }
+        open = null;
+        preludeStart = i + 1;
+      }
+    } else if (ch === ';' && depth === 0) {
+      preludeStart = i + 1; // @import / @charset statements
+    }
   }
   return { base, levels };
 }

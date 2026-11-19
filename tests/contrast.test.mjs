@@ -130,6 +130,19 @@ test('parseTokenCss reads :root and the per-intensity blocks, ignoring @media', 
   assert.equal(parsed.levels.operator.size, 0);
 });
 
+test('a bare :root inside @media (or any at-rule) is never read as base tokens', () => {
+  const parsed = parseTokenCss(`
+    :root { --a: #111111; }
+    @media (prefers-color-scheme: light) { :root { --a: #ffffff; --b: #123456; } }
+    @supports (color: red) { @media print { :root[data-intensity="combat"] { --a: #ff0000; } } }
+    :root[data-intensity="archive"] { --b: #654321; }
+  `);
+  assert.equal(parsed.base.get('--a'), '#111111');
+  assert.equal(parsed.base.has('--b'), false);
+  assert.equal(parsed.levels.combat.size, 0);
+  assert.equal(parsed.levels.archive.get('--b'), '#654321');
+});
+
 test('resolveColorToken follows var() chains and fallbacks', () => {
   const map = tokensForLevel(parseTokenCss(CSS), 'operator');
   assert.deepEqual(resolveColorToken('--c', map), { r: 17, g: 17, b: 17, a: 1 });
