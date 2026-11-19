@@ -111,3 +111,119 @@ test('should_record_the_cativo_dev_validation', () => {
     assert.ok(section.includes(text), `cativo.dev section does not mention ${text}`);
   }
 });
+
+// FR-037 / T080: the guide documents the US5 mockup look. The open-layout section is found by
+// its heading so the assertions read the prose that explains the change, not a stray mention.
+function section(heading) {
+  const guide = read(GUIDE);
+  const start = guide.indexOf(`\n${heading}\n`);
+  assert.notEqual(start, -1, `guide has no "${heading}" heading`);
+  const level = heading.match(/^#+/)[0].length;
+  const rest = guide.slice(start + heading.length + 2);
+  const next = rest.search(new RegExp(`^#{1,${level}} `, 'm'));
+  return next === -1 ? rest : rest.slice(0, next);
+}
+
+test('should_document_the_open_panel_and_both_ways_to_get_boxes_back', () => {
+  const text = section('### Open layout');
+  for (const needle of [
+    '.panel',
+    'no fill',
+    'no outline',
+    '.nw-reticle',
+    '<div class="panel nw-reticle">',
+    'your own CSS',
+  ]) {
+    assert.ok(text.includes(needle), `open layout section does not mention ${needle}`);
+  }
+});
+
+test('should_document_the_card_outline', () => {
+  const text = section('### Open layout');
+  assert.ok(/`\.card`[^.]*hairline outline[^.]*fill/.test(text), 'card outline not described');
+});
+
+test('should_document_the_section_head_look_and_data_idx', () => {
+  const text = section('### Open layout');
+  for (const needle of [
+    '.panel-header',
+    '.card-header',
+    '11px',
+    'data-idx="01"',
+    '01 // LABEL',
+    '20px',
+  ]) {
+    assert.ok(text.includes(needle), `open layout section does not mention ${needle}`);
+  }
+});
+
+test('should_tell_headers_to_use_kanji_instead_of_tag', () => {
+  const text = section('### Open layout');
+  assert.ok(text.includes('<span class="tag">日本語</span>'), 'old kanji markup not shown');
+  assert.ok(text.includes('<span class="kanji">日本語</span>'), 'new kanji markup not shown');
+  assert.ok(/nothing breaks/i.test(text), 'guide does not say the switch is optional');
+});
+
+test('should_document_the_kv_row_rhythm', () => {
+  const text = section('### Open layout');
+  for (const needle of ['.kv-row', '--nw-pad-scale', '.kv-note', '.kv-swap', 'right-aligned']) {
+    assert.ok(text.includes(needle), `open layout section does not mention ${needle}`);
+  }
+});
+
+test('should_list_every_new_us5_class_and_knob', () => {
+  const text = section('## New classes and knobs');
+  for (const needle of [
+    '.nw-section-head',
+    '.nw-section-head-chrome',
+    '.nw-display',
+    '.nw-lede',
+    '.nw-chip',
+    '.nw-chip-solid',
+    '.nw-index',
+    '.nw-index-row',
+    '.nw-accordion',
+    '.nw-link-arrow',
+    '.nw-reticle',
+    '.nw-reticle-meta',
+    '.nw-reticle-vlabel',
+    '.nw-reticle-stamp',
+    '.nw-reticle-foot',
+    '.nw-halftone',
+    '.nw-halftone-chrome',
+    '.nw-halftone-data',
+    '.nw-halftone-bone',
+    '.nw-halftone-fine',
+    '.nw-barcode',
+    '.nw-wordmark',
+    '.nw-grain',
+    '--nw-grain',
+    '--nw-chip-line',
+    '--nw-bone',
+    '--nw-kanji-glow',
+  ]) {
+    assert.ok(text.includes(needle), `new classes section does not mention ${needle}`);
+  }
+});
+
+test('should_give_the_grain_values_per_intensity', () => {
+  const text = section('## New classes and knobs');
+  assert.ok(/--nw-grain[^\n]*0[^\n]*archive[^\n]*\.07[^\n]*operator[^\n]*\.1[^\n]*combat/i.test(text));
+  assert.ok(text.includes('<body class="nw-grain">'), 'grain opt-in snippet missing');
+});
+
+test('should_put_the_open_layout_in_the_checklist', () => {
+  const guide = read(GUIDE);
+  const start = guide.indexOf('\n## Checklist');
+  const end = guide.indexOf('\n## ', start + 1);
+  const checklist = guide.slice(start, end);
+  assert.ok(checklist.includes('#open-layout'), 'checklist does not link the open layout');
+  assert.ok(checklist.includes('nw-reticle'), 'checklist does not mention the frame opt-in');
+});
+
+test('should_flag_that_cativo_dev_is_not_yet_revalidated_for_the_mockup_look', () => {
+  const guide = read(GUIDE);
+  const text = guide.slice(guide.indexOf('\n## cativo.dev'));
+  assert.ok(/`\.panel`/.test(text) && /`\.card`/.test(text), 'section does not name .panel and .card');
+  assert.ok(/re-?validat/i.test(text), 'section does not mention the re-validation');
+});
