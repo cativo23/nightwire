@@ -688,6 +688,29 @@
       }
     },
     {
+      "id": "examples-neural-ops-cell-inherit",
+      "description": "Consequence of round2-table-text on the neural-ops example (T045): the rack and model progress bars, their fill and the status LEDs sit inside a td and take no colour of their own, so everything that follows currentColor on them (borders, outlines, carets, text decoration) moves with the cell text from --nw-green to --nw-text-default (#e6e6e6). Their own colours (fill background, LED state) are unchanged. Pinned to the neural-ops page, to .nw-progress, its .nw-progress-fill and .led directly inside a td, old green to #e6e6e6.",
+      "match": {
+        "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
+        "path": ">td:nth-child\\(\\d+\\)>(div\\.nw-progress:nth-child\\(\\d+\\)(>div\\.nw-progress-fill:nth-child\\(\\d+\\))?|span\\.led:nth-child\\(\\d+\\))$",
+        "old": "^rgb\\(122, 237, 122\\)$",
+        "new": "^rgb\\(230, 230, 230\\)$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
+      "id": "examples-neural-ops-led-pulse",
+      "description": "Consequence of refresh-pulse on the neural-ops example (T045): the two pulsing model LEDs (Training and Fine-tuning rows) read the new --nw-pulse-speed, so with reduced motion off their animation-duration goes from 1.4s to 1.6s at operator and none, and to 2.66667s (1.6s over the 0.6 archive motion scale) at archive. Pinned to the neural-ops page, to a .led directly inside a td, with the exact old and new durations.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": ">td:nth-child\\(\\d+\\)>span\\.led:nth-child\\(\\d+\\)$",
+        "state": "\\|rm-off",
+        "old": "^1\\.4s$",
+        "new": "^(1\\.6|2\\.66667)s$",
+        "page": "examples/html/neural-ops.html"
+      }
+    },
+    {
       "id": "round2-table-hover",
       "description": "The .nw-table row hover fill goes from --nw-green-faint to --nw-text-faint, a neutral hover. Pinned to td background-color, from green at 0.06 to white at 0.08.",
       "match": {
