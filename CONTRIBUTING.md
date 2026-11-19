@@ -189,7 +189,7 @@ the same commit.
 
 ```sh
 npm run design:board                              # before (git:v2.1.0) and after, 3 intensities, 6 PNGs
-npm run design:board -- --out ./board --wait 2000
+npm run design:board -- --out .cache/board --wait 2000
 npm run design:board -- --page examples/html/dashboard.html --before git:main
 ```
 
@@ -215,7 +215,7 @@ require editing the harness. It is not part of `npm test`: it needs local browse
 
 ```sh
 npm run test:browsers                                  # Chrome and Firefox
-npm run test:browsers -- --engine firefox --out ./out  # one engine, custom output directory
+npm run test:browsers -- --engine firefox --out .cache/browsers  # one engine, custom output directory
 NW_CHROME_PATH=/usr/bin/chromium NW_FIREFOX_PATH=/opt/firefox/firefox npm run test:browsers
 ```
 
