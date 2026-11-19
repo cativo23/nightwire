@@ -2,7 +2,7 @@
 // Render the v3 direction board (docs/design/v3/board.html) as full-page PNGs: once per
 // stylesheet, at each of the three intensities.
 //
-//   npm run design:board -- [--out <dir>] [--page <path>] [--width N]
+//   npm run design:board -- [--out <dir>] [--page <path>] [--width N] [--wait MS]
 //                           [--before <spec>] [--after <spec>] | [--css <spec>]
 //
 // <spec> is what parity accepts: a repo-relative path or git:<ref>. By default it renders both
@@ -14,6 +14,9 @@
 // CDP (CSS.forcePseudoState) so the states can be photographed without a pointer. Fonts come
 // from Google Fonts like in every Nightwire page: that origin, and only that origin, is let
 // through the request interception so the four typefaces render; the run prints which loaded.
+//
+// --wait MS pauses that long after the page loads, before the first screenshot, for pages with a boot
+// sequence or timers that build the view (default 0).
 //
 // Exit codes: 0 = rendered, 2 = usage error or browser launch failure.
 
@@ -36,7 +39,7 @@ class UsageError extends Error {}
 
 function usage(message) {
   if (message) console.error(`design:board: ${message}`);
-  console.error('usage: npm run design:board -- [--out <dir>] [--page <path>] [--width N] [--before <spec>] [--after <spec>] | [--css <spec>]');
+  console.error('usage: npm run design:board -- [--out <dir>] [--page <path>] [--width N] [--wait MS] [--before <spec>] [--after <spec>] | [--css <spec>]');
   console.error('  <spec> is a repo-relative stylesheet path or git:<ref>; default renders git:v2.1.0 and nightwire.css');
   process.exit(2);
 }
@@ -59,7 +62,7 @@ async function forceStates(page, context) {
   return forced.length;
 }
 
-async function renderSheet({ browser, origin, pageUrl, width, outDir, label, css }) {
+async function renderSheet({ browser, origin, pageUrl, width, wait, outDir, label, css }) {
   const context = await browser.newContext({ viewport: { width, height: VIEWPORT_HEIGHT }, reducedMotion: 'no-preference' });
   try {
     const page = await context.newPage();
@@ -80,6 +83,7 @@ async function renderSheet({ browser, origin, pageUrl, width, outDir, label, css
     const forcedCount = await forceStates(page, context);
     console.log(`${label}: ${forcedCount} forced states, fonts loaded: ${fonts.length}/${FONT_FAMILIES.length}${fonts.length === FONT_FAMILIES.length ? '' : ` (missing: ${FONT_FAMILIES.filter((f) => !fonts.includes(f)).join(', ')})`}`);
 
+    if (wait > 0) await page.waitForTimeout(wait);
     const files = [];
     for (const intensity of INTENSITIES) {
       await page.evaluate((value) => document.documentElement.setAttribute('data-intensity', value), intensity);
@@ -130,7 +134,7 @@ async function main() {
   try {
     for (const { label, spec, css } of sheets) {
       console.log(`${label}: ${spec}`);
-      written.push(...await renderSheet({ browser, origin, pageUrl: `${origin}/${pagePath}`, width: args.width, outDir, label, css }));
+      written.push(...await renderSheet({ browser, origin, pageUrl: `${origin}/${pagePath}`, width: args.width, wait: args.wait, outDir, label, css }));
     }
   } finally {
     await browser.close();

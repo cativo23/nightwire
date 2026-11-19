@@ -11,6 +11,7 @@ test('by default both sides render: v2.1.0 as before, the working tree as after'
     out: '/tmp-x/nightwire-board',
     page: 'docs/design/v3/board.html',
     width: 1280,
+    wait: 0,
   });
 });
 
@@ -33,6 +34,15 @@ test('--out, --page and --width override their defaults', () => {
   assert.equal(r.out, 'shots');
   assert.equal(r.page, 'examples/html/x.html');
   assert.equal(r.width, 900);
+});
+
+test('--wait is the number of milliseconds to let a page settle before the screenshots', () => {
+  assert.equal(parse('--wait', '6000').wait, 6000);
+  assert.equal(parse('--wait', '0').wait, 0);
+});
+
+test('--wait must be a non-negative integer', () => {
+  for (const bad of ['-1', '1.5', 'soon', '']) assert.throws(() => parse(`--wait=${bad}`), /--wait must be a non-negative integer/);
 });
 
 test('--width must be a positive integer', () => {

@@ -10,6 +10,7 @@ const DEFAULT_BEFORE = 'git:v2.1.0';
 const DEFAULT_AFTER = 'nightwire.css';
 const DEFAULT_PAGE = 'docs/design/v3/board.html';
 const DEFAULT_WIDTH = 1280;
+const DEFAULT_WAIT = 0;
 
 // `data-force` value -> name CDP `CSS.forcePseudoState` expects.
 const FORCEABLE = new Map([':hover', ':focus', ':focus-visible', ':active', ':focus-within'].map((p) => [p, p.slice(1)]));
@@ -17,7 +18,7 @@ const FORCEABLE = new Map([':hover', ':focus', ':focus-visible', ':active', ':fo
 /**
  * @param {string[]} argv
  * @param {{ tmpdir: string }} env  injected so the default output dir is testable
- * @returns {{ sheets: {label: string, spec: string}[], out: string, page: string, width: number }}
+ * @returns {{ sheets: {label: string, spec: string}[], out: string, page: string, width: number, wait: number }}
  * @throws {Error} on any usage error (the message is user-facing)
  */
 export function parseBoardArgs(argv, { tmpdir }) {
@@ -25,7 +26,7 @@ export function parseBoardArgs(argv, { tmpdir }) {
     args: argv,
     allowPositionals: true,
     options: { css: { type: 'string' }, before: { type: 'string' }, after: { type: 'string' },
-      out: { type: 'string' }, page: { type: 'string' }, width: { type: 'string' } },
+      out: { type: 'string' }, page: { type: 'string' }, width: { type: 'string' }, wait: { type: 'string' } },
   });
   if (positionals.length) throw new Error(`unexpected argument: ${positionals[0]}`);
   if (values.css !== undefined && (values.before !== undefined || values.after !== undefined)) {
@@ -36,10 +37,15 @@ export function parseBoardArgs(argv, { tmpdir }) {
     if (!/^[1-9]\d*$/.test(values.width)) throw new Error('--width must be a positive integer');
     width = Number(values.width);
   }
+  let wait = DEFAULT_WAIT;
+  if (values.wait !== undefined) {
+    if (!/^\d+$/.test(values.wait)) throw new Error('--wait must be a non-negative integer');
+    wait = Number(values.wait);
+  }
   const sheets = values.css !== undefined
     ? [{ label: 'css', spec: values.css }]
     : [{ label: 'before', spec: values.before ?? DEFAULT_BEFORE }, { label: 'after', spec: values.after ?? DEFAULT_AFTER }];
-  return { sheets, out: values.out ?? join(tmpdir, 'nightwire-board'), page: values.page ?? DEFAULT_PAGE, width };
+  return { sheets, out: values.out ?? join(tmpdir, 'nightwire-board'), page: values.page ?? DEFAULT_PAGE, width, wait };
 }
 
 /** File name of one screenshot: `board-<label>-<intensity>.png`. */
