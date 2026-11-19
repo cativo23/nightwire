@@ -47,6 +47,15 @@ const STATE_SIGNAL = [
 ];
 export const isStateSignalPath = (path) => STATE_SIGNAL.some((re) => re.test(plain(path)));
 
+// Example-page rules that carry their own status glow and read the state knobs through
+// calc(Npx * var(--nw-led-glow | --nw-progress-glow, var(--nw-glow))). They are accepted by page
+// and path so the library list above does not learn page-local class names.
+const PAGE_STATE_SIGNAL = [
+  { page: 'examples/html/synapse-ops.html', re: /(^|>)(span\.(dot|ev-dot)|div\.rbar-fill)$/ },
+  { page: 'examples/html/neural-ops.html', re: /(^|>)div\.layer-fill$/ },
+];
+export const isPageStateSignal = (page, path) => PAGE_STATE_SIGNAL.some((e) => e.page === page && e.re.test(plain(path)));
+
 // A glow that did not exist in v2.1.0 is acceptable on a state that is new in v3: the active LED.
 // Parity paths carry no attributes, so the state is recognised by the glow colour, which is
 // --nw-chrome (#6699ff) for data-state="active" and the colour of no other LED state. Every layer
@@ -118,7 +127,7 @@ export function checkGlow(shadows) {
       const before = parseShadow(r.old);
       const rising = after.map((layer, i) => ({ layer, op: atOperator[i], old: before[i] })).filter(({ layer, op }) => isGlow(layer) && layer.blur > (op?.blur ?? 0));
       if (!rising.length) { combat['at-or-below-operator']++; continue; }
-      if (!isStateSignalPath(r.path)) combat.violations.push({ ...r, reason: 'blurs more than at operator and is not a state signal' });
+      if (!isStateSignalPath(r.path) && !isPageStateSignal(r.page, r.path)) combat.violations.push({ ...r, reason: 'blurs more than at operator and is not a state signal' });
       else if (rising.some(({ layer, old }) => old && !(layer.blur < old.blur))) combat.violations.push({ ...r, reason: 'state signal is not below its v2.1.0 combat blur' });
       else combat['state-signal']++;
     }

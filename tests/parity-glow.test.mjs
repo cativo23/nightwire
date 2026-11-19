@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseShadow, checkGlow, isStateSignalPath } from '../scripts/parity/lib/glow.mjs';
+import { parseShadow, checkGlow, isStateSignalPath, isPageStateSignal } from '../scripts/parity/lib/glow.mjs';
 
 const rec = (over) => ({ page: 'p.html', state: 'operator|rm-off', path: 'html>body>span.led:nth-child(1)', prop: 'box-shadow', old: 'none', new: 'none', ...over });
 const glow = (blur, colour = 'rgb(122, 237, 122)') => `${colour} 0px 0px ${blur}px 0px`;
@@ -156,4 +156,36 @@ test('formatGlowReport prints one line per rule, groups exceptions, lists violat
   assert.match(lines.find((l) => l.startsWith('VIOLATION')), /^VIOLATION  archive  p\.html  \[archive\|rm-off\]  a>span\.dot:nth-child\(1\)  box-shadow/);
   assert.equal(lines.at(-1), 'RESULT  violations=1');
   assert.equal(formatGlowReport(checkGlow([])).exitCode, 0);
+});
+
+test('combat: example-page status glows that read the state knobs are accepted by page and path, not by the library list', () => {
+  const dot = 'html>body>div>span.dot:nth-child(1)';
+  const rows = (page, path) => [
+    rec({ page, path, state: 'operator|rm-off', old: glow(4), new: glow(2) }),
+    rec({ page, path, state: 'combat|rm-off', old: glow(8.8), new: glow(4) }),
+  ];
+  const ok = checkGlow(rows('examples/html/synapse-ops.html', dot));
+  assert.equal(ok.combat['state-signal'], 1);
+  assert.equal(ok.combat.violations.length, 0);
+  // the same element on another page, or another element on that page, still fails
+  assert.equal(checkGlow(rows('examples/html/workshop.html', dot)).combat.violations.length, 1);
+  assert.equal(checkGlow(rows('examples/html/synapse-ops.html', 'html>body>div.card:nth-child(1)')).combat.violations.length, 1);
+  assert.ok(!isStateSignalPath(dot), 'page-local class names stay out of the library list');
+});
+
+test('combat: a page-scoped state signal must still stay below its v2.1.0 combat blur', () => {
+  const path = 'html>body>div>div.layer-fill:nth-child(1)';
+  const r = checkGlow([
+    rec({ page: 'examples/html/neural-ops.html', path, state: 'operator|rm-off', old: glow(4), new: glow(2) }),
+    rec({ page: 'examples/html/neural-ops.html', path, state: 'combat|rm-off', old: glow(3), new: glow(4) }),
+  ]);
+  assert.equal(r.combat.violations.length, 1);
+});
+
+test('isPageStateSignal names the page-local rules that read --nw-led-glow and --nw-progress-glow', () => {
+  assert.ok(isPageStateSignal('examples/html/synapse-ops.html', 'a>span.dot:nth-child(1)'));
+  assert.ok(isPageStateSignal('examples/html/synapse-ops.html', 'a>span.ev-dot:nth-child(1)'));
+  assert.ok(isPageStateSignal('examples/html/synapse-ops.html', 'a>div.rbar-fill:nth-child(1)'));
+  assert.ok(isPageStateSignal('examples/html/neural-ops.html', 'a>div.layer-fill:nth-child(1)'));
+  assert.ok(!isPageStateSignal('examples/html/neural-ops.html', 'a>span.dot:nth-child(1)'));
 });

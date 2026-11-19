@@ -100,7 +100,7 @@ body { font-family: var(--font-sys); font-size: 13px; background: var(--void); c
 }
 .rbar-track { flex: 1; height: 5px; background: var(--nw-text-faint); overflow: hidden; }
 .rbar-fill  { height: 100%; transition: width 1.5s ease; }
-.rbar-fill.hot  { background: var(--nw-red); box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-red-fill); }
+.rbar-fill.hot  { background: var(--nw-red); box-shadow: 0 0 calc(4px * var(--nw-progress-glow, var(--nw-glow))) var(--nw-red-fill); }
 .rbar-fill.warn { background: var(--nw-yellow); }
 .rbar-fill.ok   { background: var(--nw-primary); }
 .rbar-count { font-family: var(--font-sys); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
@@ -126,11 +126,11 @@ body { font-family: var(--font-sys); font-size: 13px; background: var(--void); c
   width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
   display: inline-block;
 }
-.dot.g { background: var(--nw-green); box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-green); }
-.dot.b { background: var(--nw-primary); box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-primary); }
-.dot.r { background: var(--nw-red); box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-red); animation: nw-pulse 1s ease-in-out infinite; }
+.dot.g { background: var(--nw-green); box-shadow: 0 0 calc(4px * var(--nw-led-glow, var(--nw-glow))) var(--nw-green); }
+.dot.b { background: var(--nw-primary); box-shadow: 0 0 calc(4px * var(--nw-led-glow, var(--nw-glow))) var(--nw-primary); }
+.dot.r { background: var(--nw-red); box-shadow: 0 0 calc(4px * var(--nw-led-glow, var(--nw-glow))) var(--nw-red); animation: nw-pulse 1s ease-in-out infinite; }
 .dot.y { background: var(--nw-yellow); }
-.dot.p { background: var(--nw-purple); box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-purple); animation: nw-pulse 1.4s ease-in-out infinite; }
+.dot.p { background: var(--nw-purple); box-shadow: 0 0 calc(6px * var(--nw-led-glow, var(--nw-glow))) var(--nw-purple); animation: nw-pulse 1.4s ease-in-out infinite; }
 
 /* ── Progress stack ─────────────────────────────────────────── */
 .progress-stack { padding: 8px 10px; display: flex; flex-direction: column; gap: 8px; }
@@ -152,15 +152,15 @@ body { font-family: var(--font-sys); font-size: 13px; background: var(--void); c
 .ev-dot  { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
 .ev-msg  { flex: 1; font-size: 11px; line-height: 1.45; color: var(--nw-text-dim); }
 .ev-msg b { font-weight: 500; }
-.ev.crit .ev-dot { background: var(--nw-red); box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-red); }
+.ev.crit .ev-dot { background: var(--nw-red); box-shadow: 0 0 calc(4px * var(--nw-led-glow, var(--nw-glow))) var(--nw-red); }
 .ev.crit .ev-msg, .ev.crit .ev-msg b { color: var(--nw-red-hot); }
 .ev.warn .ev-dot { background: var(--nw-yellow); }
 .ev.warn .ev-msg b { color: var(--nw-yellow); }
-.ev.ok   .ev-dot { background: var(--nw-green); box-shadow: 0 0 calc(4px * var(--nw-glow)) rgba(122,237,122,.4); }
+.ev.ok   .ev-dot { background: var(--nw-green); box-shadow: 0 0 calc(4px * var(--nw-led-glow, var(--nw-glow))) rgba(122,237,122,.4); }
 .ev.ok   .ev-msg b { color: var(--nw-green); }
 .ev.info .ev-dot { background: var(--nw-cyan); }
 .ev.info .ev-msg b { color: var(--nw-cyan); }
-.ev.ai   .ev-dot { background: var(--nw-purple); box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-purple); }
+.ev.ai   .ev-dot { background: var(--nw-purple); box-shadow: 0 0 calc(4px * var(--nw-led-glow, var(--nw-glow))) var(--nw-purple); }
 .ev.ai   .ev-msg { color: var(--nw-purple); }
 .ev.ai   .ev-msg b { color: var(--nw-purple); }
 

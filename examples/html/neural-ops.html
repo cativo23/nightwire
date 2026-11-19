@@ -1554,7 +1554,7 @@ function updateMetrics() {
     fill.id = 'layerFill' + i;
     fill.style.width = gradPct + '%';
     fill.style.background = color;
-    fill.style.boxShadow = '0 0 calc(4px * var(--nw-glow)) ' + color;
+    fill.style.boxShadow = '0 0 calc(4px * var(--nw-progress-glow, var(--nw-glow))) ' + color;
     barWrap.appendChild(fill);
     row.appendChild(barWrap);
 
@@ -1582,7 +1582,7 @@ function updateMetrics() {
       if (fillEl) {
         fillEl.style.width = pct + '%';
         fillEl.style.background = color;
-        fillEl.style.boxShadow = '0 0 calc(4px * var(--nw-glow)) ' + color;
+        fillEl.style.boxShadow = '0 0 calc(4px * var(--nw-progress-glow, var(--nw-glow))) ' + color;
       }
       if (valEl) valEl.textContent = pct + '%';
     });

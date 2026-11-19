@@ -624,8 +624,8 @@
       }
     },
     {
-      "id": "examples-glow-scale-operator",
-      "description": "Page-local status glow follows --nw-glow instead of a literal blur (FR-013b, T047): the synapse-ops status dots (.dot), event dots (.ev-dot) and hot risk bar (.rbar-fill) and the neural-ops layer bars (.layer-fill) had a fixed 4px glow at every intensity. They now read calc(4px * var(--nw-glow)), so with --nw-glow at 0.5 they glow 2px at operator and when no level is set, and nothing at archive (unchanged there). Pinned to those two pages (the -ops example pages), to those elements, to box-shadow, to none and operator, and to the exact 4px to 2px step. The purple dot (6px) is examples-glow-scale-operator-purple.",
+      "id": "examples-glow-state-operator",
+      "description": "Page-local status glow reads the state knobs instead of a literal blur (FR-013a, FR-013b, T047): the synapse-ops status dots (.dot) and event dots (.ev-dot) read calc(4px * var(--nw-led-glow, var(--nw-glow))), the hot risk bar (.rbar-fill) and the neural-ops layer bars (.layer-fill) read calc(4px * var(--nw-progress-glow, var(--nw-glow))). They had a fixed 4px at every intensity. The fallback to --nw-glow makes the v2.1.0 side a real value (4px at operator, 8.8px at combat, 0 at archive), since v2.1.0 does not define the knobs. With the knobs at 0.5 they glow 2px at operator and when no level is set, and nothing at archive (unchanged there). Pinned to those two pages (the -ops example pages), to those elements, to box-shadow, to none and operator, and to the exact 4px to 2px step. The purple dot (6px) is examples-glow-state-operator-purple.",
       "match": {
         "prop": "^box-shadow$",
         "path": "(span\\.(dot|ev-dot)|div\\.(rbar-fill|layer-fill)):nth-child\\(\\d+\\)$",
@@ -636,8 +636,8 @@
       }
     },
     {
-      "id": "examples-glow-scale-operator-purple",
-      "description": "The purple status dot of synapse-ops (.dot.p) had a fixed 6px glow and now reads calc(6px * var(--nw-glow)): 6px to 3px at operator and when no level is set (FR-013b, T047). Pinned like examples-glow-scale-operator, to the purple colour and the exact step.",
+      "id": "examples-glow-state-operator-purple",
+      "description": "The purple status dot of synapse-ops (.dot.p) read a fixed 6px and now reads calc(6px * var(--nw-led-glow, var(--nw-glow))): 6px to 3px at operator and when no level is set (FR-013b, T047). Pinned like examples-glow-state-operator, to the purple colour and the exact step.",
       "match": {
         "prop": "^box-shadow$",
         "path": "(span\\.(dot|ev-dot)|div\\.(rbar-fill|layer-fill)):nth-child\\(\\d+\\)$",
@@ -648,26 +648,26 @@
       }
     },
     {
-      "id": "examples-glow-scale-combat",
-      "description": "Same change as examples-glow-scale-operator at combat (FR-013a, FR-013b, T047): --nw-glow is 2.2 in v2.1.0 and 0.5 now, so the 4px page-local glow was 8.8px at combat and is 2px, equal to its operator value. Nothing that is not a state signal glows more at combat than at operator. Pinned to the same pages and elements, to combat and to the exact 8.8px to 2px step.",
+      "id": "examples-glow-state-combat",
+      "description": "Same change as examples-glow-state-operator at combat (FR-013a, FR-013b, T047): state glow doubles at combat through --nw-led-glow and --nw-progress-glow, so the 4px page-local glow is 4px at combat against 2px at operator, and below the 8.8px it was under the v2.1.0 knob (2.2). Only state signals may exceed operator, and the glow check accepts these elements by page and path. Pinned to the same pages and elements, to combat and to the exact 8.8px to 4px step.",
       "match": {
         "prop": "^box-shadow$",
         "path": "(span\\.(dot|ev-dot)|div\\.(rbar-fill|layer-fill)):nth-child\\(\\d+\\)$",
         "state": "^combat\\|",
         "old": "^(rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\)) 0px 0px 8\\.8px 0px$",
-        "new": "^(rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\)) 0px 0px 2px 0px$",
+        "new": "^(rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\)) 0px 0px 4px 0px$",
         "page": "examples/html/*-ops.html"
       }
     },
     {
-      "id": "examples-glow-scale-combat-purple",
-      "description": "The purple dot at combat (FR-013a, T047): 6px read 13.2px under the 2.2 knob and is 3px now, equal to operator. Pinned to the purple colour and the exact step.",
+      "id": "examples-glow-state-combat-purple",
+      "description": "The purple dot at combat (FR-013a, T047): 6px read 13.2px under the v2.1.0 knob and is 6px now, twice its 3px at operator as a state signal. Pinned to the purple colour and the exact step.",
       "match": {
         "prop": "^box-shadow$",
         "path": "(span\\.(dot|ev-dot)|div\\.(rbar-fill|layer-fill)):nth-child\\(\\d+\\)$",
         "state": "^combat\\|",
         "old": "^rgb\\(178, 102, 224\\) 0px 0px 13\\.2px 0px$",
-        "new": "^rgb\\(178, 102, 224\\) 0px 0px 3px 0px$",
+        "new": "^rgb\\(178, 102, 224\\) 0px 0px 6px 0px$",
         "page": "examples/html/*-ops.html"
       }
     },
