@@ -857,50 +857,6 @@
       }
     },
     {
-      "id": "v1-removal-progress-synapse-size",
-      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the synapse-ops example still uses .fill (migrated in T045), so its bar loses its height. Pinned to the synapse-ops example path and to .fill directly inside .nw-progress, with the exact old and new values.",
-      "match": {
-        "prop": "^(height|block-size)$",
-        "path": "div\\.progress-stack:nth-child\\(\\d+\\)>div\\.prog-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
-        "old": "^1px$",
-        "new": "^0px$",
-        "page": "examples/html/synapse-ops.html"
-      }
-    },
-    {
-      "id": "v1-removal-progress-synapse-colour",
-      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the synapse-ops example still uses .fill (migrated in T045), so its bar loses its background colour. Pinned to the synapse-ops example path and to .fill directly inside .nw-progress, with the exact old and new values.",
-      "match": {
-        "prop": "^background-color$",
-        "path": "div\\.progress-stack:nth-child\\(\\d+\\)>div\\.prog-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
-        "old": "^rgb\\(122, 237, 122\\)$",
-        "new": "^rgba\\(0, 0, 0, 0\\)$",
-        "page": "examples/html/synapse-ops.html"
-      }
-    },
-    {
-      "id": "v1-removal-progress-synapse-glow",
-      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the synapse-ops example still uses .fill (migrated in T045), so its bar loses its glow. Pinned to the synapse-ops example path and to .fill directly inside .nw-progress, with the exact old and new values.",
-      "match": {
-        "prop": "^box-shadow$",
-        "path": "div\\.progress-stack:nth-child\\(\\d+\\)>div\\.prog-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
-        "old": "^rgba\\(122, 237, 122, 0\\.3\\) 0px 0px (0|4|8\\.8)px 0px$",
-        "new": "^none$",
-        "page": "examples/html/synapse-ops.html"
-      }
-    },
-    {
-      "id": "v1-removal-progress-synapse-origin",
-      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the synapse-ops example still uses .fill (migrated in T045), so its bar loses its height, so the size-derived origins follow. Pinned to the synapse-ops example path and to .fill directly inside .nw-progress, with the exact old and new values.",
-      "match": {
-        "prop": "^(transform|perspective)-origin$",
-        "path": "div\\.progress-stack:nth-child\\(\\d+\\)>div\\.prog-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
-        "old": "^[\\d.]+px 0\\.5px$",
-        "new": "^[\\d.]+px 0px$",
-        "page": "examples/html/synapse-ops.html"
-      }
-    },
-    {
       "id": "v1-removal-progress-workshop-size",
       "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the workshop example still uses .fill (migrated in T045), so its bar loses its height. Pinned to the workshop example path and to .fill directly inside .nw-progress, with the exact old and new values.",
       "match": {
