@@ -351,3 +351,16 @@ test('should_tell_consumers_to_hide_the_decorative_pieces_from_assistive_tech', 
     }
   }
 });
+
+// M2 (left as is, Carlos 2026-11-19): a framed panel stacks the frame's padding on `.panel-body`'s,
+// so about 28px sit below the last row. A CSS fix cannot be proven under the parity control sheet,
+// so the guide documents the known limitation and the consumer's one-line override.
+test('should_document_the_framed_panel_bottom_padding_and_its_override', () => {
+  const guide = read(GUIDE);
+  assert.match(guide, /\.panel\.nw-reticle/, 'the guide does not name the framed panel when explaining its padding');
+  assert.match(
+    guide,
+    /28px[^\n]*\n?[^\n]*padding-bottom: 0/,
+    'the guide does not say how much space sits below the last row and how to remove it',
+  );
+});
