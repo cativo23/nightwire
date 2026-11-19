@@ -3,11 +3,11 @@ import { SectionTitle } from '../components/CodeBlock';
 export function ExamplesPage() {
   return (
     <section id="examples">
-      <SectionTitle tag="デモ">Live Examples</SectionTitle>
+      <SectionTitle kanji="デモ">Live Examples</SectionTitle>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 2 }}>
 
         <div className="panel">
-          <div className="panel-header"><span>Alchemix V3 Dashboard</span><span className="tag">デモ</span></div>
+          <div className="panel-header"><span>Alchemix V3 Dashboard</span><span className="kanji">デモ</span></div>
           <div className="node-card">
             <div className="nc-id">Dashboard Demo</div>
             <div className="nc-name">錬金術V3運用パネル</div>
@@ -28,7 +28,7 @@ export function ExamplesPage() {
         </div>
 
         <div className="panel">
-          <div className="panel-header"><span>Neural-Ops Center</span><span className="tag">デモ</span></div>
+          <div className="panel-header"><span>Neural-Ops Center</span><span className="kanji">デモ</span></div>
           <div className="node-card">
             <div className="nc-id">Neural Ops Demo</div>
             <div className="nc-name">神経制御システム</div>
@@ -51,7 +51,7 @@ export function ExamplesPage() {
         <div className="panel">
           <div className="panel-header">
             <span>Workshop — Operator Console</span>
-            <span className="tag">部品</span>
+            <span className="kanji">部品</span>
           </div>
           <div className="node-card">
             <div className="nc-id">Operator Console</div>
@@ -76,7 +76,7 @@ export function ExamplesPage() {
         <div className="panel">
           <div className="panel-header">
             <span>SYNAPSE — Neural Intelligence</span>
-            <span className="tag">デモ</span>
+            <span className="kanji">デモ</span>
           </div>
           <div className="node-card">
             <div className="nc-id">Ops Center</div>

@@ -122,3 +122,32 @@ test('should_copy_the_component_stylesheets_into_the_docs_images_that_count_them
   }
   assert.match(read('docker-compose.dev.yml'), /\.\/src\/components:\/app\/src\/components/, 'dev compose does not mount src/components');
 });
+
+// ── US5 look (T082) ────────────────────────────────────────────────────────────────────────
+// The docs site follows the mockup look: the kanji in a header is a `.kanji`, not a `.tag`; a
+// dense console demo opts into `.nw-reticle`; the new pieces have a page; counts follow the build.
+
+const CJK = '[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}ー・\\s]';
+
+test('should_write_the_header_kanji_as_kanji_and_not_as_a_tag', () => {
+  // `.tag` is a status. A tag that holds only Japanese is the kanji of a header.
+  const re = new RegExp(`class(?:Name)?="tag"[^>]*>${CJK}+</span>`, 'u');
+  const hits = sources.filter((f) => f.endsWith('.tsx') && re.test(read(f)));
+  assert.deepEqual(hits, [], 'a .tag holds only kanji; use .kanji');
+  // The two places that take the kanji as a value.
+  assert.match(read(`${SRC}/components/CodeBlock.tsx`), /className="kanji">\{kanji\}/, 'SectionTitle does not render a .kanji');
+  assert.match(read(`${SRC}/pages/Layer2TokensPage.tsx`), /className="kanji">\{kanji\}/, 'Layer2TokensPage does not render a .kanji');
+  assert.doesNotMatch(read(`${SRC}/components/CodeBlock.tsx`), /className="tag"/, 'SectionTitle still renders a .tag');
+  // The same switch in the HTML the pages teach.
+  assert.doesNotMatch(read(`${SRC}/pages/PanelsPage.tsx`), /class="tag">日本語タグ/, 'PanelsPage teaches the .tag kanji');
+});
+
+test('should_keep_tag_where_it_is_a_status_or_a_label', () => {
+  // The kanji switch must not eat the real tags: statuses and the latin labels stay `.tag`.
+  const buttons = read(`${SRC}/pages/ButtonsPage.tsx`);
+  for (const status of ['tag-success', 'tag-danger', 'tag-warn', 'tag-info', 'tag-chrome', 'tag-ai']) {
+    assert.match(buttons, new RegExp(status), `ButtonsPage lost ${status}`);
+  }
+  assert.match(read(`${SRC}/pages/QuickStartPage.tsx`), /tag tag-success">Online/);
+});
+

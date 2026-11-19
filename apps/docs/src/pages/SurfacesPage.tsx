@@ -3,7 +3,7 @@ import { SectionTitle } from '../components/CodeBlock';
 export function SurfacesPage() {
   return (
     <section id="surfaces">
-      <SectionTitle tag="サーフェス">Surface Hierarchy</SectionTitle>
+      <SectionTitle kanji="サーフェス">Surface Hierarchy</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         Four levels of dark surfaces, stepping slightly away from the absolute void.
       </p>

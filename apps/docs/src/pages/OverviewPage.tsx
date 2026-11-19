@@ -13,7 +13,7 @@ export function OverviewPage() {
       </div>
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>System Overview</span><span className="tag">概要</span></div>
+        <div className="panel-header"><span>System Overview</span><span className="kanji">概要</span></div>
         <div className="metrics-grid">
           <div className="metric-cell"><div className="m-label">Design Tokens</div><div className="m-value">{__NW_TOKEN_COUNT__}</div><div className="m-sub">CSS custom properties</div></div>
           <div className="metric-cell"><div className="m-label">Component Classes</div><div className="m-value">{__NW_COMPONENT_COUNT__}</div><div className="m-sub">pure CSS components</div></div>
@@ -27,7 +27,7 @@ export function OverviewPage() {
       <Waveform />
 
       <div className="panel" style={{ marginTop: 2 }}>
-        <div className="panel-header"><span>MAGI Design Principles</span><span className="tag">設計哲学</span></div>
+        <div className="panel-header"><span>MAGI Design Principles</span><span className="kanji">設計哲学</span></div>
         <div className="panel-body">
           <div className="magi-oracle">
             {[

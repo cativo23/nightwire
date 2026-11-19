@@ -3,7 +3,7 @@ import { SectionTitle, CodeBlock } from '../components/CodeBlock';
 export function TemplatesPage() {
   return (
     <section id="templates">
-      <SectionTitle tag="型紙">Layout Templates</SectionTitle>
+      <SectionTitle kanji="型紙">Layout Templates</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, margin: '8px 0 16px', lineHeight: 1.6 }}>
         The core <code style={{ color: 'var(--nw-cyan)' }}>nightwire.css</code> is layout-agnostic — it works for portfolios, blogs, and standard sites.
         For a dense, full-viewport <strong>Operations Console</strong> (like our demos), use this template.
