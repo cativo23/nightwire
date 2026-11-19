@@ -142,6 +142,24 @@ toward the **first** matching category in file order only, so the counts plus `u
 always add up to `differences`. Every new rendering difference gets a category in the same
 commit that causes it.
 
+### Checking the glow rules
+
+`--json <file>` also writes the run as JSON: `meta`, every difference with its category (`null`
+when none explains it), and `shadows`, every element whose `box-shadow` or `text-shadow` is not
+`none` on either side, changed or not. `scripts/parity/glow-check.mjs` reads it and checks
+FR-013b / SC-012:
+
+```sh
+npm run parity -- --expect docs/design/v3/change-inventory.json --json /tmp/parity.json
+node scripts/parity/glow-check.mjs /tmp/parity.json
+```
+
+At `none` and `operator` every glow must be a smaller blur than v2.1.0's (or gone), layer by layer;
+at `archive` no element may have a coloured blur; at `combat` only state signals (LED, check,
+switch, segmented, steps, progress) may blur more than at operator, and they stay below v2.1.0's
+combat blur. Neutral black layers (the overlay elevation) and layers without blur (focus rings,
+pressed states) are listed as exceptions. Exit code 1 means a violation.
+
 ## Checking overlays in real browsers
 
 `npm run test:browsers` opens the six overlays (drawer, modal, command palette, dropdown, toast,
