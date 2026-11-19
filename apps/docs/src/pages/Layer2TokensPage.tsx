@@ -84,7 +84,6 @@ export function Layer2TokensPage() {
 
 .my-stat {
   color: var(--nw-data);                 /* was: var(--nw-green)       */
-  text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(122,237,122,.5);
 }
 
 .my-alert {

@@ -65,7 +65,7 @@ export function FeedbackPage() {
           <div className="toast toast-warning">High memory utilization detected. Consider optimizing operations.</div>
           <div className="toast toast-danger">Connection to core server lost. Attempting reconnection.</div>
         </div>
-        <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '12px 0 6px' }}>
+        <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '12px 0 6px' }}>
           Live trigger <NewBadge />
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>

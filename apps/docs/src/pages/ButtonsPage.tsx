@@ -38,14 +38,14 @@ export function ButtonsPage() {
           <span className="tag">寸法</span>
         </div>
         <div className="panel-body">
-          <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>Sizes</div>
+          <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>Sizes</div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
             <button className="btn btn-chrome btn-xs">XS</button>
             <button className="btn btn-chrome btn-sm">SM</button>
             <button className="btn btn-chrome">MD</button>
             <button className="btn btn-chrome btn-lg">LG</button>
           </div>
-          <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>States</div>
+          <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>States</div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
             <button className="btn btn-chrome btn-loading">Loading…</button>
             <button className="btn btn-chrome" disabled>Disabled</button>
@@ -90,7 +90,7 @@ export function ButtonsPage() {
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>Tags & Badges</span><span className="tag">標識</span></div>
         <div className="panel-body">
-          <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>Status Tags</div>
+          <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>Status Tags</div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
             <span className="tag tag-success">Operational</span>
             <span className="tag tag-danger">Offline</span>
@@ -113,7 +113,7 @@ export function ButtonsPage() {
 <span class="tag tag-chrome">System</span>   <!-- new -->
 <span class="tag tag-warn">Warn</span>       <!-- new -->
 <span class="tag tag-ai">Oracle</span>       <!-- new -->`}</CodeBlock>
-          <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '12px 0 6px' }}>Badges</div>
+          <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '12px 0 6px' }}>Badges</div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
             <span className="badge">Default</span>
             <span className="badge badge-success">Success</span>
@@ -130,7 +130,7 @@ export function ButtonsPage() {
       <div className="panel">
         <div className="panel-header"><span>Status LEDs</span><span className="tag">LED</span></div>
         <div className="panel-body">
-          <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
+          <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
             data-state attribute
           </div>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>

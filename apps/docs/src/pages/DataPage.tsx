@@ -46,9 +46,9 @@ export function DataPage() {
         <div className="panel">
           <div className="panel-header"><span>Progress Bars</span><span className="tag">進捗</span></div>
           <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
-            <div><div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Loading: 72%</div><div className="nw-progress"><div className="nw-progress-fill" style={{ width: '72%' }} /></div></div>
-            <div><div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Sync: 45%</div><div className="nw-progress"><div className="nw-progress-fill" style={{ width: '45%', background: 'var(--nw-primary)' }} /></div></div>
-            <div><div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Critical: 91%</div><div className="nw-progress"><div className="nw-progress-fill" style={{ width: '91%', background: 'var(--nw-red)' }} /></div></div>
+            <div><div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Loading: 72%</div><div className="nw-progress"><div className="nw-progress-fill" style={{ width: '72%' }} /></div></div>
+            <div><div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Sync: 45%</div><div className="nw-progress"><div className="nw-progress-fill" style={{ width: '45%', background: 'var(--nw-primary)' }} /></div></div>
+            <div><div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Critical: 91%</div><div className="nw-progress"><div className="nw-progress-fill" style={{ width: '91%', background: 'var(--nw-red)' }} /></div></div>
           </div>
           <CodeBlock>{`<div class="nw-progress">
   <div class="nw-progress-fill" style="width: 72%"></div>
