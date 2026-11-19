@@ -2,11 +2,42 @@
   "baseline": "v2.1.0",
   "categories": [
     {
+      "id": "motion-exit-tick",
+      "description": "Final exit duration of --nw-tick-out and --nw-tick-out-duration: 100ms times the computed --nw-motion-scale (0, 0.6, 1 or 1.2), still shorter than the enter duration (FR-001, FR-002, T047). They did not exist in v2.1.0. The composite also carries the exit easing cubic-bezier(0.4, 0, 1, 1). Pinned to :root, to the <missing> old value and to the exact new duration at any of the four scales.",
+      "match": {
+        "prop": "^--nw-tick-out(-duration)?$",
+        "path": "^:root$",
+        "old": "^<missing>$",
+        "new": "^calc\\(100ms \\* (0|0\\.6|1|1\\.2)\\)( cubic-bezier\\(0\\.4, 0, 1, 1\\))?$"
+      }
+    },
+    {
+      "id": "motion-exit-sweep",
+      "description": "Final exit duration of --nw-sweep-out and --nw-sweep-out-duration: 250ms times the computed --nw-motion-scale (0, 0.6, 1 or 1.2), still shorter than the enter duration (FR-001, FR-002, T047). They did not exist in v2.1.0. The composite also carries the exit easing cubic-bezier(0.4, 0, 1, 1). Pinned to :root, to the <missing> old value and to the exact new duration at any of the four scales.",
+      "match": {
+        "prop": "^--nw-sweep-out(-duration)?$",
+        "path": "^:root$",
+        "old": "^<missing>$",
+        "new": "^calc\\(250ms \\* (0|0\\.6|1|1\\.2)\\)( cubic-bezier\\(0\\.4, 0, 1, 1\\))?$"
+      }
+    },
+    {
+      "id": "motion-exit-uplink",
+      "description": "Final exit duration of --nw-uplink-out and --nw-uplink-out-duration: 300ms times the computed --nw-motion-scale (0, 0.6, 1 or 1.2), still shorter than the enter duration (FR-001, FR-002, T047). They did not exist in v2.1.0. The composite also carries the exit easing cubic-bezier(0.4, 0, 1, 1). Pinned to :root, to the <missing> old value and to the exact new duration at any of the four scales.",
+      "match": {
+        "prop": "^--nw-uplink-out(-duration)?$",
+        "path": "^:root$",
+        "old": "^<missing>$",
+        "new": "^calc\\(300ms \\* (0|0\\.6|1|1\\.2)\\)( cubic-bezier\\(0\\.4, 0, 1, 1\\))?$"
+      }
+    },
+    {
       "id": "token-additions",
-      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles, and the --nw-loop-state knob (FR-001, FR-002, FR-006). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged.",
+      "description": "New motion custom properties on :root: exit composites, duration and easing longhands, stagger and loop cycles, and the --nw-loop-state knob (FR-001, FR-002, FR-006). Existing --nw-tick/--nw-sweep/--nw-uplink are unchanged. The exit composites and durations (--nw-*-out, --nw-*-out-duration) are pinned to their final values by motion-exit-tick, motion-exit-sweep and motion-exit-uplink, which come first. Pinned to :root and to the <missing> old value.",
       "match": {
         "prop": "^--nw-(tick|sweep|uplink)-(out|duration|ease|out-duration|out-ease)$|^--nw-(stagger|loop-spin|loop-shimmer)$|^--nw-loop-state$",
-        "path": "^:root$"
+        "path": "^:root$",
+        "old": "^<missing>$"
       }
     },
     {
@@ -20,13 +51,36 @@
       }
     },
     {
-      "id": "motion-reduced-composites",
-      "description": "Consequence of motion-reduced (FR-006, K1): the existing --nw-tick, --nw-sweep and --nw-uplink composites multiply by --nw-motion-scale, so under reduced motion with data-intensity set they now compute to calc(<n>ms * 0) instead of * 0.6 (archive) or * 1.2 (combat).",
+      "id": "motion-reduced-composites-tick",
+      "description": "Consequence of motion-reduced (FR-006, K1): the existing --nw-tick composite (150ms, cubic-bezier(0.3, 0, 0.7, 1)) multiplies by --nw-motion-scale, so under reduced motion with data-intensity set it computes to calc(150ms * 0) instead of * 0.6 (archive) or * 1.2 (combat). Pinned to :root, to reduced motion on and to the exact old and new composite.",
       "match": {
-        "prop": "^--nw-(tick|sweep|uplink)$",
+        "prop": "^--nw-tick$",
         "path": "^:root$",
         "state": "\\|rm-on",
-        "new": "^calc\\(\\d+ms \\* 0\\) (cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)|cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\)|cubic-bezier\\(0, 0\\.6, 0\\.4, 1\\))$"
+        "old": "^calc\\(150ms \\* (0\\.6|1\\.2)\\) cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)$",
+        "new": "^calc\\(150ms \\* 0\\) cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\)$"
+      }
+    },
+    {
+      "id": "motion-reduced-composites-sweep",
+      "description": "Consequence of motion-reduced (FR-006, K1): the existing --nw-sweep composite (350ms, cubic-bezier(0.2, 0.8, 0.2, 1)) multiplies by --nw-motion-scale, so under reduced motion with data-intensity set it computes to calc(350ms * 0) instead of * 0.6 (archive) or * 1.2 (combat). Pinned to :root, to reduced motion on and to the exact old and new composite.",
+      "match": {
+        "prop": "^--nw-sweep$",
+        "path": "^:root$",
+        "state": "\\|rm-on",
+        "old": "^calc\\(350ms \\* (0\\.6|1\\.2)\\) cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\)$",
+        "new": "^calc\\(350ms \\* 0\\) cubic-bezier\\(0\\.2, 0\\.8, 0\\.2, 1\\)$"
+      }
+    },
+    {
+      "id": "motion-reduced-composites-uplink",
+      "description": "Consequence of motion-reduced (FR-006, K1): the existing --nw-uplink composite (400ms, cubic-bezier(0, 0.6, 0.4, 1)) multiplies by --nw-motion-scale, so under reduced motion with data-intensity set it computes to calc(400ms * 0) instead of * 0.6 (archive) or * 1.2 (combat). Pinned to :root, to reduced motion on and to the exact old and new composite.",
+      "match": {
+        "prop": "^--nw-uplink$",
+        "path": "^:root$",
+        "state": "\\|rm-on",
+        "old": "^calc\\(400ms \\* (0\\.6|1\\.2)\\) cubic-bezier\\(0, 0\\.6, 0\\.4, 1\\)$",
+        "new": "^calc\\(400ms \\* 0\\) cubic-bezier\\(0, 0\\.6, 0\\.4, 1\\)$"
       }
     },
     {
@@ -81,13 +135,14 @@
     },
     {
       "id": "motion-tooltip-opens",
-      "description": "A tooltip with data-open=\"true\" is now open at rest (FR-005, FR-007): in v2 data-open did nothing on a tooltip, so its content stayed at opacity 0 until hover. Pinned to the fixture's open tooltip, which sits directly in a section, outside .fixture-closed.",
+      "description": "A tooltip with data-open=\"true\" is now open at rest (FR-005, FR-007): in v2 data-open did nothing on a tooltip, so its content stayed at opacity 0 until hover. Pinned to the fixture's open tooltip, which sits directly in a section, outside .fixture-closed, and to the eight base states (four levels, reduced motion off and on); the hover and focus-within cases are their own categories.",
       "match": {
         "prop": "^opacity$",
         "path": "section:nth-child\\(\\d+\\)>span\\.tooltip:nth-child\\(\\d+\\)>span\\.tooltip-content:nth-child\\(\\d+\\)$",
         "old": "^0$",
         "new": "^1$",
-        "page": "scripts/parity/fixtures/coverage.html"
+        "page": "scripts/parity/fixtures/coverage.html",
+        "state": "^(none|archive|operator|combat)\\|rm-(off|on)$"
       }
     },
     {
@@ -128,25 +183,75 @@
       }
     },
     {
-      "id": "motion-loops",
-      "description": "Continuous loops scale inversely with intensity (FR-002, Principle V): the button spinner (--nw-loop-spin, 0.8s), the skeleton shimmer (--nw-loop-shimmer, 1.2s) and the LED pulse (--nw-pulse-speed / --nw-motion-scale) are slower under archive and faster under combat. Operator durations are unchanged, so only archive and combat differ. Pinned to those three loops and to their old and new durations, with reduced motion off; the reduced-motion case is motion-reduced-backstop.",
+      "id": "motion-loops-spinner-archive",
+      "description": "The button spinner (--nw-loop-spin, 0.8s) is slower at archive (FR-002, Principle V): 0.8s to 1.33333s (0.8s over the 0.6 motion scale), with reduced motion off. Operator is unchanged. Pinned to the workshop page, to the spinner pseudo-element, to archive and to the exact old and new duration; the reduced-motion case is motion-reduced-backstop-workshop.",
       "match": {
         "prop": "^animation-duration$",
-        "path": "(button\\.btn[a-z-]*:nth-child\\(\\d+\\)::before|div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after|span\\.led:nth-child\\(\\d+\\))$",
-        "state": "\\|rm-off",
-        "old": "^(0\\.8|1\\.2|1\\.4|0\\.7)s$",
-        "new": "^(1\\.33333|0\\.666667|2|1|2\\.33333|0\\.583333)s$"
+        "path": "button\\.btn[a-z-]*:nth-child\\(\\d+\\)::before$",
+        "state": "^archive\\|rm-off",
+        "old": "^0\\.8s$",
+        "new": "^1\\.33333s$",
+        "page": "examples/html/workshop.html"
       }
     },
     {
-      "id": "motion-loops-stagger",
-      "description": "The uplink stagger is a multiple of --nw-stagger instead of literal 0.05s steps (FR-003, SC-003), so it scales with data-intensity: 0.03s steps under archive, 0.06s under combat, 0.05s (unchanged) under operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page and to the strip's position.",
+      "id": "motion-loops-spinner-combat",
+      "description": "The button spinner is faster at combat (FR-002, Principle V): 0.8s to 0.666667s (0.8s over the 1.2 motion scale), with reduced motion off. Pinned like motion-loops-spinner-archive, to combat and the exact step.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": "button\\.btn[a-z-]*:nth-child\\(\\d+\\)::before$",
+        "state": "^combat\\|rm-off",
+        "old": "^0\\.8s$",
+        "new": "^0\\.666667s$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "motion-loops-shimmer-archive",
+      "description": "The skeleton shimmer (--nw-loop-shimmer, 1.2s) is slower at archive (FR-002, Principle V): 1.2s to 2s (over the 0.6 motion scale), with reduced motion off. Operator is unchanged. Pinned to the parity fixture, to the shimmer pseudo-element, to archive and to the exact old and new duration; the reduced-motion case is motion-reduced-backstop.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": "div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after$",
+        "state": "^archive\\|rm-off",
+        "old": "^1\\.2s$",
+        "new": "^2s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "motion-loops-shimmer-combat",
+      "description": "The skeleton shimmer is faster at combat (FR-002, Principle V): 1.2s to 1s (over the 1.2 motion scale), with reduced motion off. Pinned like motion-loops-shimmer-archive, to combat and the exact step.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": "div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after$",
+        "state": "^combat\\|rm-off",
+        "old": "^1\\.2s$",
+        "new": "^1s$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "motion-loops-stagger-archive",
+      "description": "The uplink stagger is a multiple of --nw-stagger instead of literal 0.05s steps (FR-003, SC-003), so it scales with data-intensity: 0.03s steps (0.05, 0.1 and 0.15s become 0.03, 0.06 and 0.09s) at archive, 0.05s steps (unchanged) at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to archive and to the three step values.",
       "match": {
         "prop": "^animation-delay$",
         "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
-        "page": "**/workshop.html",
-        "old": "^0\\.(05|1|15|2|25)s$",
-        "new": "^0\\.(03|06|09|12|15|18|24|3)s$"
+        "state": "^archive\\|rm-off",
+        "old": "^0\\.(05|1|15)s$",
+        "new": "^0\\.(03|06|09)s$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "motion-loops-stagger-combat",
+      "description": "The uplink stagger is a multiple of --nw-stagger instead of literal 0.05s steps (FR-003, SC-003), so it scales with data-intensity: 0.06s steps (0.05, 0.1 and 0.15s become 0.06, 0.12 and 0.18s) at combat, 0.05s steps (unchanged) at operator. Only the workshop page uses .uplink, on its first stat strip; parity paths carry no classes beyond the first, so the category is pinned to that page, to the strip's position, to combat and to the three step values.",
+      "match": {
+        "prop": "^animation-delay$",
+        "path": "section\\.panel:nth-child\\(1\\)>div\\.stat-strip:nth-child\\(2\\)>div\\.stat:nth-child\\(\\d+\\)$",
+        "state": "^combat\\|rm-off",
+        "old": "^0\\.(05|1|15)s$",
+        "new": "^0\\.(06|12|18)s$",
+        "page": "examples/html/workshop.html"
       }
     },
     {
@@ -182,12 +287,50 @@
     },
     {
       "id": "motion-reduced-backstop",
-      "description": "Nothing animates under reduced motion (FR-006): the kill switch in accessibility.css now covers ::before and ::after as well as elements, because the universal selector does not reach pseudo-elements. Before, the button spinner (.btn-loading::before) and the skeleton shimmer (::after) kept looping under reduced motion, and the switch and checkbox marks kept a transition. Their animation and transition longhands now take the reset values of animation: none and transition: none. Pinned to pseudo-elements, to reduced motion on, and to those reset values.",
+      "description": "Nothing animates under reduced motion (FR-006): the kill switch in accessibility.css now covers ::before and ::after as well as elements, because the universal selector does not reach pseudo-elements. Before, the skeleton shimmer (::after) kept looping under reduced motion. Its animation and transition longhands now take the reset values of animation: none and transition: none. Pinned to the parity fixture, to the skeleton shimmer, to reduced motion on, and to the old and new values.",
       "match": {
         "prop": "^(animation|transition)-(name|duration|timing-function|delay|iteration-count|property|behavior)$",
-        "path": "::(before|after)$",
+        "path": "div\\.skeleton[a-z-]*:nth-child\\(\\d+\\)::after$",
         "state": "\\|rm-on",
-        "new": "^(none|0s|ease|1|normal)$"
+        "old": "^(1\\.2s|skeleton-shimmer|infinite|ease-in-out|all)$",
+        "new": "^(none|0s|ease|1|normal)$",
+        "page": "scripts/parity/fixtures/coverage.html"
+      }
+    },
+    {
+      "id": "motion-reduced-backstop-workshop",
+      "description": "The same reduced-motion backstop on the workshop example page (FR-006): the button spinner (.btn-loading::before), the checkbox mark, the switch knob, the tab accent and the sidebar accent keep no animation or transition under reduced motion. Pinned to the workshop page, to those pseudo-elements, to reduced motion on, and to the old and new values.",
+      "match": {
+        "prop": "^(animation|transition)-(name|duration|timing-function|delay|iteration-count|property|behavior)$",
+        "path": "(button\\.btn|button\\.tab-btn|span\\.box|span\\.track|div\\.nav-item):nth-child\\(\\d+\\)::(before|after)$",
+        "state": "\\|rm-on",
+        "old": "^(0\\.8s|nw-spin|infinite|linear|all|transform, background|normal, normal|0s, 0s|cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\), cubic-bezier\\(0\\.3, 0, 0\\.7, 1\\))$",
+        "new": "^(none|0s|ease|1|normal)$",
+        "page": "examples/html/workshop.html"
+      }
+    },
+    {
+      "id": "motion-reduced-backstop-dashboard",
+      "description": "The same reduced-motion backstop on the dashboard example page (FR-006): the legend swatches and the emergency toggle knob declare transition: all on a pseudo-element, which reduced motion now resets to none. Pinned to the dashboard page, to those pseudo-elements, to reduced motion on, and to transition-property all to none.",
+      "match": {
+        "prop": "^transition-property$",
+        "path": "(span\\.l-(cyan|green|orange)|button\\.emergency-toggle):nth-child\\(\\d+\\)::before$",
+        "state": "\\|rm-on",
+        "old": "^all$",
+        "new": "^none$",
+        "page": "examples/html/dashboard.html"
+      }
+    },
+    {
+      "id": "motion-reduced-backstop-neural-ops",
+      "description": "The same reduced-motion backstop on the neural-ops example page (FR-006): the legend swatches declare transition: all on a pseudo-element, which reduced motion now resets to none. Pinned to the neural-ops page, to those pseudo-elements, to reduced motion on, and to transition-property all to none.",
+      "match": {
+        "prop": "^transition-property$",
+        "path": "span\\.l-(cyan|green|purple):nth-child\\(\\d+\\)::before$",
+        "state": "\\|rm-on",
+        "old": "^all$",
+        "new": "^none$",
+        "page": "examples/html/neural-ops.html"
       }
     },
     {
@@ -242,6 +385,78 @@
         "path": "^:root$",
         "old": "^(1\\.4s|0\\.7s)$",
         "new": "^1\\.6s$"
+      }
+    },
+    {
+      "id": "refresh-pulse-workshop-operator",
+      "description": "Consequence of refresh-pulse (FR-013a, T047): the pulsing LEDs of the workshop page read the new --nw-pulse-speed, so with reduced motion off their animation-duration goes from 1.4s to 1.6s at operator and when no level is set. Pinned to the page, to .led, to those two levels and to the exact old and new duration.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": "span\\.led:nth-child\\(\\d+\\)$",
+        "page": "examples/html/workshop.html",
+        "state": "^(none|operator)\\|rm-off",
+        "old": "^1\\.4s$",
+        "new": "^1\\.6s$"
+      }
+    },
+    {
+      "id": "refresh-pulse-workshop-archive",
+      "description": "Consequence of refresh-pulse (FR-013a, T047) at archive: the pulsing LEDs of the workshop page go from 1.4s to 2.66667s (1.6s over the 0.6 archive motion scale). Pinned to the page, to .led, to archive and to the exact old and new duration.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": "span\\.led:nth-child\\(\\d+\\)$",
+        "page": "examples/html/workshop.html",
+        "state": "^archive\\|rm-off",
+        "old": "^1\\.4s$",
+        "new": "^2\\.66667s$"
+      }
+    },
+    {
+      "id": "refresh-pulse-workshop-combat",
+      "description": "Consequence of refresh-pulse (FR-013a, T047) at combat: the pulsing LEDs of the workshop page go from 0.7s to 1.33333s (1.6s over the 1.2 combat motion scale), still faster than operator. Pinned to the page, to .led, to combat and to the exact old and new duration.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": "span\\.led:nth-child\\(\\d+\\)$",
+        "page": "examples/html/workshop.html",
+        "state": "^combat\\|rm-off",
+        "old": "^0\\.7s$",
+        "new": "^1\\.33333s$"
+      }
+    },
+    {
+      "id": "refresh-pulse-neural-ops-operator",
+      "description": "Consequence of refresh-pulse (FR-013a, T047): the pulsing LEDs of the neural-ops page read the new --nw-pulse-speed, so with reduced motion off their animation-duration goes from 1.4s to 1.6s at operator and when no level is set. Pinned to the page, to .led, to those two levels and to the exact old and new duration.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": ">td:nth-child\\(\\d+\\)>span\\.led:nth-child\\(\\d+\\)$",
+        "page": "examples/html/neural-ops.html",
+        "state": "^(none|operator)\\|rm-off",
+        "old": "^1\\.4s$",
+        "new": "^1\\.6s$"
+      }
+    },
+    {
+      "id": "refresh-pulse-neural-ops-archive",
+      "description": "Consequence of refresh-pulse (FR-013a, T047) at archive: the pulsing LEDs of the neural-ops page go from 1.4s to 2.66667s (1.6s over the 0.6 archive motion scale). Pinned to the page, to .led, to archive and to the exact old and new duration.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": ">td:nth-child\\(\\d+\\)>span\\.led:nth-child\\(\\d+\\)$",
+        "page": "examples/html/neural-ops.html",
+        "state": "^archive\\|rm-off",
+        "old": "^1\\.4s$",
+        "new": "^2\\.66667s$"
+      }
+    },
+    {
+      "id": "refresh-pulse-neural-ops-combat",
+      "description": "Consequence of refresh-pulse (FR-013a, T047) at combat: the pulsing LEDs of the neural-ops page go from 0.7s to 1.33333s (1.6s over the 1.2 combat motion scale), still faster than operator. Pinned to the page, to .led, to combat and to the exact old and new duration.",
+      "match": {
+        "prop": "^animation-duration$",
+        "path": ">td:nth-child\\(\\d+\\)>span\\.led:nth-child\\(\\d+\\)$",
+        "page": "examples/html/neural-ops.html",
+        "state": "^combat\\|rm-off",
+        "old": "^0\\.7s$",
+        "new": "^1\\.33333s$"
       }
     },
     {
@@ -406,17 +621,6 @@
         "state": "^combat\\|",
         "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) 0px 0px (13\\.2|8\\.8)px( 0px)?$",
         "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) 0px 0px (6|4)px( 0px)?$"
-      }
-    },
-    {
-      "id": "glow-scale-combat",
-      "description": "Nothing that is not a state signal glows more at combat than at operator (FR-013a, FR-013b): --nw-glow went 2.2 → 0.5, so a glow that read it now equals its operator value. Box shadows. Pinned to the component elements that still read --nw-glow (LEDs); the control and progress state glows have their own category, glow-state-controls, to the state, and to shadow-shaped old and new values.",
-      "match": {
-        "prop": "^box-shadow$",
-        "path": "(span\\.led:nth-child\\(\\d+\\))$",
-        "state": "^combat\\|",
-        "old": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$",
-        "new": "^rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px(, rgba?\\(\\d+, \\d+, \\d+(, [\\d.]+)?\\) -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px -?[\\d.]+px)*$"
       }
     },
     {
@@ -627,10 +831,10 @@
     },
     {
       "id": "round2-kanji",
-      "description": "A .kanji inside .panel-header or .modal-header with no colour of its own takes --nw-text-default (#e6e6e6), the one bright mark in a quiet header. The default is set inside :where(), so a colour utility on the kanji itself and inline styles still win; only a colour inherited from an ancestor loses to it. The one case in the parity pages is the workshop Fleet Pulse header, where the kanji inherited #aaaaaa from an inline-styled wrapper span. Pinned to a .kanji under those headers, to that page, from #aaaaaa to #e6e6e6.",
+      "description": "A .kanji inside .panel-header or .modal-header with no colour of its own takes --nw-text-default (#e6e6e6), the one bright mark in a quiet header. The default is set inside :where(), so a colour utility on the kanji itself and inline styles still win; only a colour inherited from an ancestor loses to it. The one case in the parity pages is the workshop Fleet Pulse header, where the kanji inherited #aaaaaa from an inline-styled wrapper span. Pinned to the exact chain panel-header, wrapper span, .kanji, to that page, from #aaaaaa to #e6e6e6.",
       "match": {
         "prop": "^(border-(top|right|bottom|left|block-start|block-end|inline-start|inline-end)-color|column-rule-color|row-rule-color|outline-color|text-decoration-color|text-emphasis-color|caret-color|color|background-color|-webkit-text-fill-color|-webkit-text-stroke-color)$",
-        "path": "div\\.(panel|modal)-header:nth-child\\(\\d+\\)(>.*)?>span\\.kanji:nth-child\\(\\d+\\)$",
+        "path": "div\\.panel-header:nth-child\\(\\d+\\)>span:nth-child\\(\\d+\\)>span\\.kanji:nth-child\\(\\d+\\)$",
         "old": "^rgb\\(170, 170, 170\\)$",
         "new": "^rgb\\(230, 230, 230\\)$",
         "page": "examples/html/workshop.html"
@@ -706,18 +910,6 @@
         "path": ">td:nth-child\\(\\d+\\)>(div\\.nw-progress:nth-child\\(\\d+\\)(>div\\.nw-progress-fill:nth-child\\(\\d+\\))?|span\\.led:nth-child\\(\\d+\\))$",
         "old": "^rgb\\(122, 237, 122\\)$",
         "new": "^rgb\\(230, 230, 230\\)$",
-        "page": "examples/html/neural-ops.html"
-      }
-    },
-    {
-      "id": "examples-neural-ops-led-pulse",
-      "description": "Consequence of refresh-pulse on the neural-ops example (T045): the two pulsing model LEDs (Training and Fine-tuning rows) read the new --nw-pulse-speed, so with reduced motion off their animation-duration goes from 1.4s to 1.6s at operator and none, and to 2.66667s (1.6s over the 0.6 archive motion scale) at archive. Pinned to the neural-ops page, to a .led directly inside a td, with the exact old and new durations.",
-      "match": {
-        "prop": "^animation-duration$",
-        "path": ">td:nth-child\\(\\d+\\)>span\\.led:nth-child\\(\\d+\\)$",
-        "state": "\\|rm-off",
-        "old": "^1\\.4s$",
-        "new": "^(1\\.6|2\\.66667)s$",
         "page": "examples/html/neural-ops.html"
       }
     },
