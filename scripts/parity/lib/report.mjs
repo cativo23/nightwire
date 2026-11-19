@@ -1,5 +1,5 @@
 // Builds the parity report lines and exit code from structured differences. Pure.
-import { formatDiff, classify } from './diff.mjs';
+import { formatDiff, classify, matchCategory } from './diff.mjs';
 
 /**
  * @param {object} input
@@ -26,4 +26,27 @@ export function buildReport({ diffs, categories, maxLines, coverageLine, uncover
   lines.push(`RESULT  differences=${diffs.length}${withCategories ? `  unexpected=${unexpected.length}` : ''}`);
 
   return { lines, exitCode: unexpected.length || uncovered ? 1 : 0 };
+}
+
+/**
+ * The machine-readable form of a run, for `--json <file>`.
+ * @param {object} input
+ * @param {string} input.oldSpec
+ * @param {string} input.newSpec
+ * @param {string[]} input.pages
+ * @param {string[]} input.states         base state labels
+ * @param {object[]} input.diffs          records from diffRecords()
+ * @param {object[]} input.shadows        records from collectShadows(), every element with a shadow
+ * @param {object[]} [input.categories]   compiled categories; omit when there is no --expect
+ * @returns {{ meta: object, diffs: object[], shadows: object[] }} each diff carries `category`,
+ *          the id of the first category that explains it, or null
+ */
+export function buildJsonReport({ oldSpec, newSpec, pages, states, diffs, shadows, categories }) {
+  const meta = { old: oldSpec, new: newSpec, pages, states, differences: diffs.length };
+  let tagged = diffs.map((d) => ({ ...d, category: null }));
+  if (categories !== undefined) {
+    tagged = diffs.map((d) => ({ ...d, category: categories.find((c) => matchCategory(d, c))?.id ?? null }));
+    meta.unexpected = tagged.filter((d) => d.category === null).length;
+  }
+  return { meta, diffs: tagged, shadows };
 }

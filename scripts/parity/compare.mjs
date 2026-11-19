@@ -2,7 +2,7 @@
 // Computed-style parity between two Nightwire stylesheets.
 //
 //   npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>]
-//                     [--max-lines N] [--expect <categories.json>] [--jobs N]
+//                     [--max-lines N] [--expect <categories.json>] [--jobs N] [--json <file>]
 //
 // --old defaults to git:main. With --expect and no --old it defaults to git:<baseline> instead,
 // where `baseline` is the optional top-level field of the category file (git:main when the file
@@ -26,6 +26,10 @@
 // transitions are finished and CSS animations are paused at t=0. No freeze stylesheet is
 // injected, so animation-* and transition-* values stay comparable.
 //
+// With --json <file>, the run is also written as JSON: `meta`, every difference with its category
+// (null when none explains it) and `shadows`, every element with a box-shadow or text-shadow on
+// either side, changed or not. `node scripts/parity/glow-check.mjs <file>` reads it (FR-013b).
+//
 // With --expect <file>, differences are classified against the change categories in that file
 // (docs/design/v3/change-inventory.json): one CATEGORY line per category, and only the
 // differences no category explains are printed and fail the run.
@@ -35,7 +39,7 @@
 // 2 = usage error (including an unreadable or invalid --expect file) or browser launch failure.
 // See CONTRIBUTING.md.
 
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
@@ -43,7 +47,8 @@ import { availableParallelism } from 'node:os';
 import { extractSelectors, analyzeSelectors } from './lib/selectors.mjs';
 import { snapshotKey, diffRecords, validateCategories } from './lib/diff.mjs';
 import { globToRegExp } from './lib/glob.mjs';
-import { buildReport } from './lib/report.mjs';
+import { buildReport, buildJsonReport } from './lib/report.mjs';
+import { collectShadows } from './lib/shadows.mjs';
 import { resolveOld } from './lib/baseline.mjs';
 import { loadSheet as loadSheetFrom, SheetError } from './lib/sheet.mjs';
 import { startServer as startServerAt } from './lib/server.mjs';
@@ -66,7 +71,7 @@ class UsageError extends Error {}
 
 function usage(message) {
   if (message) console.error(`parity: ${message}`);
-  console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N] [--expect <categories.json>] [--jobs N]');
+  console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N] [--expect <categories.json>] [--jobs N] [--json <file>]');
   console.error('  --old defaults to git:main, or to git:<baseline> of the --expect file when it has one');
   console.error('  --jobs defaults to NW_PARITY_JOBS, else min(6, cores - 2), at least 1');
   process.exit(2);
@@ -347,7 +352,7 @@ async function main() {
     ({ values: args } = parseArgs({
       args: process.argv.slice(2),
       options: { old: { type: 'string' }, new: { type: 'string', default: 'nightwire.css' },
-        pages: { type: 'string' }, 'max-lines': { type: 'string', default: '200' }, expect: { type: 'string' }, jobs: { type: 'string' } },
+        pages: { type: 'string' }, 'max-lines': { type: 'string', default: '200' }, expect: { type: 'string' }, jobs: { type: 'string' }, json: { type: 'string' } },
     }));
   } catch (err) { usage(err.message); }
   const maxLines = Number(args['max-lines']);
@@ -389,6 +394,7 @@ async function main() {
   console.log(`PARITY  old=${oldSpec}  new=${args.new}  pages=${pages.length}  states=${states.length}  viewport=${VIEWPORT.width}x${VIEWPORT.height}`);
 
   const diffs = [];
+  const shadows = [];
   const coveredClasses = new Set();
   const coveredAttrs = new Set(attrStates.filter((a) => PROVIDED_ATTR_STATES.test(a)));
   try {
@@ -405,10 +411,15 @@ async function main() {
         label: state.label, classes, attrs: attrStates };
       const before = await captureState(browser, { ...common, css: oldCss }, props, stateful);
       const after = await captureState(browser, { ...common, css: newCss }, props, stateful);
-      return { diffs: compareCaptures(pageName, before.captures, after.captures, props), coverage: after.coverage };
+      return {
+        diffs: compareCaptures(pageName, before.captures, after.captures, props),
+        shadows: collectShadows(pageName, before.captures, after.captures, props, SEPARATOR),
+        coverage: after.coverage,
+      };
     });
     for (const result of results) { // job order, so the report matches a sequential run
       diffs.push(...result.diffs);
+      shadows.push(...result.shadows);
       result.coverage.classes.forEach((c) => coveredClasses.add(c));
       result.coverage.attrs.forEach((a) => coveredAttrs.add(a));
     }
@@ -422,6 +433,11 @@ async function main() {
   const coverageLine = `COVERAGE  classes=${coveredClasses.size}/${classes.length}  attr-states=${coveredAttrs.size}/${attrStates.length}  uncovered=${uncovered.length ? uncovered.join(' ') : 'none'}`;
   const report = buildReport({ diffs, categories, maxLines, coverageLine, uncovered: uncovered.length });
   report.lines.forEach((l) => console.log(l));
+  if (args.json !== undefined) {
+    const json = buildJsonReport({ oldSpec, newSpec: args.new, pages, states: states.map((s) => s.label), diffs, shadows, categories });
+    writeFileSync(resolve(args.json), JSON.stringify(json));
+    console.log(`JSON  ${args.json}  differences=${diffs.length}  shadows=${shadows.length}`);
+  }
   process.exit(report.exitCode);
 }
 
