@@ -172,8 +172,8 @@ The maintainer decided on 2026-11-19 that v3 does not ship without the mockup's 
   - `.card` keeps a hairline outline;
   - dense consoles opt into `.nw-reticle`.
 - **Gate:** `docs/design/v3/mockup.html` is a replica of the mockup built with v3 classes. It
-  loads `nightwire.css` and the proposal `docs/design/v3/mockup-proposal.css`, and is served next
-  to the original on localhost.
+  loads `nightwire.css` only (the proposal stylesheet used for the gate was folded into the library
+  and deleted, and the replica renders as before), and is served next to the original on localhost.
 
 ### Values and why
 
