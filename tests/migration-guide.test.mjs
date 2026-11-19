@@ -263,3 +263,41 @@ test('should_record_the_mockup_look_in_the_changelog_unreleased_section', () => 
     assert.ok(unreleased.includes(text), `[Unreleased] does not mention ${text}`);
   }
 });
+
+// Fix round 1 (review AJ): markup for the two pieces that need structure, the real colour of
+// .kv-swap, what .nw-reticle adds, and the halftone ruling (image content, every intensity).
+test('should_show_the_halftone_and_accordion_markup', () => {
+  const text = section('## New classes and knobs');
+  for (const needle of [
+    '<div class="nw-halftone nw-halftone-chrome">',
+    '<div class="nw-halftone-layer">',
+    '<div class="nw-accordion">',
+    '<details><summary>',
+    '<div class="answer">',
+  ]) {
+    assert.ok(text.includes(needle), `new classes section does not show ${needle}`);
+  }
+});
+
+test('should_name_the_kv_swap_colour_as_chrome_blue', () => {
+  const text = section('### Open layout');
+  assert.ok(/`\.kv-swap`[^.]*chrome \(blue\)/.test(text), '.kv-swap colour not named');
+  assert.ok(!/accent colour/.test(text), 'guide still calls the kv-swap colour "accent"');
+});
+
+test('should_say_what_the_reticle_adds_to_the_element', () => {
+  const text = section('### Open layout');
+  assert.ok(!/does not touch[^.]*layout/.test(text), 'guide still says the reticle leaves layout alone');
+  for (const needle of ['position: relative', 'padding', '--sp-4', 'background colour']) {
+    assert.ok(text.includes(needle), `open layout section does not mention ${needle}`);
+  }
+});
+
+test('should_say_halftone_renders_at_every_intensity', () => {
+  const text = section('## New classes and knobs');
+  assert.ok(/halftone[^.]*image content[^.]*every intensity/i.test(text), 'halftone ruling missing');
+});
+
+test('should_not_leave_two_blank_lines_in_the_guide', () => {
+  assert.ok(!/\n\n\n/.test(read(GUIDE)));
+});
