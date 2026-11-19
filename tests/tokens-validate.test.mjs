@@ -275,6 +275,19 @@ test('FR-018: a duration, easing or shadow tailwind target needs a css name', ()
   rejects(t3, 'shadow.glow', 'boxShadow.glow', 'FR-018');
 });
 
+test('FR-018: a raw shadow without a css name is valid when its value references a custom property', () => {
+  const t = sample();
+  t.shadow.glow.$value = '0 0 calc(8px * var(--glow)) rgba(1,2,3,0.33)';
+  delete ext(t.shadow.glow).css;
+  assert.doesNotThrow(() => validate(t));
+});
+
+test('FR-018: a raw shadow without a css name and without a var() is rejected', () => {
+  const t = sample();
+  delete ext(t.shadow.glow).css;
+  rejects(t, 'shadow.glow', 'boxShadow.glow', 'FR-018');
+});
+
 test('FR-018: a typed duration with a transitionDuration target needs a css name too', () => {
   const t = sample();
   t.motion.timing.duration.$extensions = { [NS]: { tailwind: ['transitionDuration.typed'] } };

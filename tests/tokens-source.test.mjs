@@ -333,16 +333,12 @@ test('state glow reads its own component knob, not --nw-glow directly (led, cont
   assert.deepEqual(hits, [], `${hits.length} state glow(s) not on their knob:\n${hits.join('\n')}`);
 });
 
-// .glow-green|blue|cyan|red read --nw-shadow-glow-*, so check the token value they resolve to.
-const expandGlowTokens = (value) => value.replace(/var\((--nw-shadow-glow-[a-z]+)\)/g, (whole, css) =>
-  allTokens.find(({ node }) => ext(node).css === css)?.node.$value ?? whole);
-
 test('the .glow-* utilities scale by --nw-glow and stay restrained (alpha at most 0.35)', () => {
   const offenders = [];
   for (const { name, text } of cssFiles('src/utilities/').filter((f) => f.name.endsWith('glow.css'))) {
     for (const rule of parseRules(text)) {
       for (const d of rule.decls.filter((x) => x.prop === 'text-shadow')) {
-        for (const layer of glowLayers(expandGlowTokens(d.value))) {
+        for (const layer of glowLayers(d.value)) {
           const blur = splitTop(layer, /\s/).filter((t) => LENGTH.test(t))[2] ?? '';
           const alpha = Number(/rgba\([^)]*,\s*([\d.]+)\s*\)/.exec(layer)?.[1] ?? 1);
           if (!blur.includes('var(--nw-glow)') || alpha > 0.35) {
@@ -353,16 +349,6 @@ test('the .glow-* utilities scale by --nw-glow and stay restrained (alpha at mos
     }
   }
   assert.deepEqual(offenders, [], `glow utilities must be calc(Npx * var(--nw-glow)) with alpha <= 0.35:\n${offenders.join('\n')}`);
-});
-
-test('.glow-green|blue|cyan|red read the shared --nw-shadow-glow-* tokens that the preset also uses', () => {
-  const { text } = cssFiles('src/utilities/').find((f) => f.name.endsWith('glow.css'));
-  const byClass = new Map(parseRules(text).map((r) => [r.selector, r.decls.find((d) => d.prop === 'text-shadow')?.value]));
-  for (const c of ['green', 'blue', 'cyan', 'red']) {
-    assert.equal(byClass.get(`.glow-${c}`), `var(--nw-shadow-glow-${c})`);
-    const token = allTokens.find(({ node }) => ext(node).css === `--nw-shadow-glow-${c}`);
-    assert.deepEqual(ext(token.node).tailwind, [`boxShadow.glow-${c}`], 'the preset reads the same token');
-  }
 });
 
 // ---- v1 compatibility surfaces (FR-016, research R10) ------------------------------------------
