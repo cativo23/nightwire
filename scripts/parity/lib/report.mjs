@@ -50,7 +50,7 @@ export function buildJsonReport({ oldSpec, newSpec, pages, states, diffs, shadow
   const meta = { old: oldSpec, new: newSpec, pages, states, differences: diffs.length, control: control ?? null };
   let tagged = diffs.map((d) => ({ ...d, category: null }));
   if (categories !== undefined) {
-    const active = control === undefined ? categories : categories.filter((c) => c.kind !== 'cascade');
+    const active = control == null ? categories : categories.filter((c) => c.kind !== 'cascade');
     tagged = diffs.map((d) => ({ ...d, category: active.find((c) => matchCategory(d, c))?.id ?? null }));
     meta.unexpected = tagged.filter((d) => d.category === null).length;
   }

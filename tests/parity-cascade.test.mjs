@@ -7,7 +7,6 @@ import { join } from 'node:path';
 import { validateCategories, classify } from '../scripts/parity/lib/diff.mjs';
 import { buildReport, buildJsonReport } from '../scripts/parity/lib/report.mjs';
 import { loadControl, withControl, ControlError } from '../scripts/parity/lib/control.mjs';
-import { COMPUTED_PROPERTIES } from '../scripts/parity/lib/computed-properties.mjs';
 
 const SCRIPT = new URL('../scripts/parity/compare.mjs', import.meta.url).pathname;
 const INVENTORY = new URL('../docs/design/v3/change-inventory.json', import.meta.url).pathname;
@@ -22,16 +21,6 @@ const cascade = (over = {}, match = {}) => ({
   ...over,
 });
 const compile = (...cats) => validateCategories({ categories: cats }).categories;
-
-// --- the property list ---------------------------------------------------------
-
-test('the recorded property list holds the six cascade properties and many more', () => {
-  for (const p of ['width', 'height', 'inline-size', 'block-size', 'transform-origin', 'perspective-origin', 'min-width', 'color']) {
-    assert.ok(COMPUTED_PROPERTIES.includes(p), p);
-  }
-  assert.ok(COMPUTED_PROPERTIES.length > 300);
-  assert.ok(COMPUTED_PROPERTIES.every((p) => !p.startsWith('--')));
-});
 
 // --- validateCategories: kind "cascade" -----------------------------------------
 
@@ -65,21 +54,31 @@ test('a cascade category without a path is rejected and names the category and p
   assert.throws(() => compile(c), /panel-open-layout.*match\.path/i);
 });
 
-test('a cascade category whose prop matches anything outside the six is rejected, naming the property it caught', () => {
-  assert.throws(() => compile(cascade({}, { prop: '^color$' })), /panel-open-layout.*color/);
-  assert.throws(() => compile(cascade({}, { prop: 'width' })), /panel-open-layout.*also matches "[a-z-]*width"/);
-  assert.throws(() => compile(cascade({}, { prop: '^width|color$' })), /panel-open-layout.*[a-z-]*color/);
-  assert.throws(() => compile(cascade({}, { prop: '^(width|padding-top)$' })), /padding-top/);
-});
-
-test('a cascade prop of .* (or any pattern that reaches custom properties or element presence) is rejected', () => {
-  for (const prop of ['.*', '.', '^', '^-', '^--', '--', 'size', '\\(element\\)']) {
-    assert.throws(() => compile(cascade({}, { prop })), /panel-open-layout/, prop);
+test('a cascade prop is a closed form: ^name$, ^(name|name)$ or ^(?:name|name)$ over the six names, nothing else', () => {
+  assert.doesNotThrow(() => compile(cascade({}, { prop: '^(?:width|height)$' })));
+  const rejected = [
+    '^color$', 'width', '^width', 'width$', '^width|color$', '^(width|padding-top)$', '^min-width$', '^(width|)$', '^$',
+    '^(width|height)$|^$', '^(width|--nw-glow)$', '^width$|^--nw-color$', '^(width|nw-pulse)$', '^width$|^some-future-prop$',
+    '^width$|^height$', '^wid.h$', '^widt?h$', '^(width|height)+$', '^(width|height)*$', '^(?=width)width$', '^(?!color)width$',
+    '^[wh]idth$', '^width\\b$', '^(width)(height)$', '^((width))$', '^(width|height)$ ', ' ^width$',
+    '.*', '.', '^', '^-', '^--', '--', 'size', '\\(element\\)', '^nonexistent$',
+  ];
+  for (const prop of rejected) {
+    assert.throws(() => compile(cascade({}, { prop })), /panel-open-layout.*match\.prop/, prop);
   }
 });
 
-test('a cascade prop that matches none of the six is rejected as dead', () => {
-  assert.throws(() => compile(cascade({}, { prop: '^nonexistent$' })), /panel-open-layout.*none of/i);
+test('the closed-form rejection names the allowed shape', () => {
+  assert.throws(() => compile(cascade({}, { prop: '^color$' })), /panel-open-layout.*width, height, inline-size, block-size, transform-origin, perspective-origin/);
+});
+
+test('a cascade path that can match :root or an @keyframes record is rejected', () => {
+  for (const path of ['.', ':root', '^:root$', 'root', '.*', '@keyframes', '^@keyframes$', 'keyframes', '^(div|:root)$']) {
+    assert.throws(() => compile(cascade({}, { path })), /panel-open-layout.*match\.path/, path);
+  }
+  for (const path of ['div\\.panel', 'html>body>.*div\\.panel', 'kv-row', '\\.card-header']) {
+    assert.doesNotThrow(() => compile(cascade({}, { path })), path);
+  }
 });
 
 test('an unknown kind is rejected and names the category and the kind', () => {
@@ -152,6 +151,9 @@ test('buildJsonReport records control in meta, null when there is none, and tags
   const plain = buildJsonReport(base);
   assert.equal(plain.meta.control, null);
   assert.equal(plain.diffs[0].category, 'panel-open-layout');
+  const nullControl = buildJsonReport({ ...base, control: null });
+  assert.equal(nullControl.meta.control, null);
+  assert.equal(nullControl.diffs[0].category, 'panel-open-layout');
   const controlled = buildJsonReport({ ...base, control: 'control.css' });
   assert.equal(controlled.meta.control, 'control.css');
   assert.equal(controlled.diffs[0].category, null);

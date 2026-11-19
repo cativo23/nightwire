@@ -2,7 +2,6 @@
 // A snapshot is a Map<key, value>; keys are built with snapshotKey().
 
 import { globToRegExp } from './glob.mjs';
-import { COMPUTED_PROPERTIES, PSEUDO_PROPERTIES } from './computed-properties.mjs';
 
 const SEP = '\u0000';
 
@@ -62,10 +61,10 @@ const KINDS = new Set(['cascade']);
  *         form is what `matchCategory` and `classify` take.
  *
  * `kind` is optional; the only value is `"cascade"` (FR-038), for geometry that an ancestor's layout
- * moves. Such a category must set `match.path` and `match.page`, and its `match.prop` may match
- * none of the properties parity records except `width`, `height`, `inline-size`, `block-size`,
- * `transform-origin` and `perspective-origin` (checked against `COMPUTED_PROPERTIES`). `old` and
- * `new` are optional for it. `kind` is copied to the compiled form only when it is `"cascade"`.
+ * moves. Such a category must set `match.path` and `match.page`; its `match.path` may not match
+ * `:root` or `@keyframes`; and its `match.prop` must be exactly `^name$`, `^(name|name…)$` or
+ * `^(?:name|name…)$` with each name one of `width`, `height`, `inline-size`, `block-size`,
+ * `transform-origin`, `perspective-origin`. `old` and `new` are optional for it. `kind` is copied to the compiled form only when it is `"cascade"`.
  *
  * @throws {Error} with a message naming the category (and field) on any invalid input.
  */
@@ -125,7 +124,7 @@ export function validateCategories(file) {
     }
     const category = { id, description: raw.description, match: out };
     if (kind === 'cascade') {
-      assertCascade(id, out);
+      assertCascade(id, match.prop, out);
       category.kind = kind;
     }
     return category;
@@ -133,20 +132,28 @@ export function validateCategories(file) {
   return { baseline: file.baseline, categories: compiled };
 }
 
-/** The extra rules of `kind: "cascade"`, on an already compiled `match`. Throws naming the category. */
-function assertCascade(id, match) {
+// The shape a cascade `match.prop` must have: `^name$`, `^(name|name…)$` or `^(?:name|name…)$`,
+// every name one of CASCADE_PROPS. A closed form instead of probing a property list, because the
+// snapshot also records custom properties and @keyframes names under their own names, which no
+// fixed list can enumerate.
+const CASCADE_NAME = CASCADE_PROPS.map((n) => n.replace(/-/g, '\\-')).join('|');
+const CASCADE_PROP_FORM = new RegExp(`^\\^(?:(?:${CASCADE_NAME})|\\((?:\\?:)?(?:${CASCADE_NAME})(?:\\|(?:${CASCADE_NAME}))*\\))\\$$`);
+// Records that are not element geometry: custom properties on :root and @keyframes rules.
+const NON_GEOMETRY_PATHS = [':root', '@keyframes'];
+
+/** The extra rules of `kind: "cascade"`. `rawProp` is the `match.prop` source. Throws naming the category. */
+function assertCascade(id, rawProp, match) {
   for (const field of ['path', 'page']) {
     if (match[field] === undefined) {
       throw new Error(`change category "${id}": a cascade category requires match.${field} (it may only explain geometry in a named place)`);
     }
   }
-  const allowed = new Set(CASCADE_PROPS);
-  const caught = [...COMPUTED_PROPERTIES, ...PSEUDO_PROPERTIES].find((name) => !allowed.has(name) && match.prop.test(name));
-  if (caught !== undefined) {
-    throw new Error(`change category "${id}": a cascade category's match.prop may only match ${CASCADE_PROPS.join(', ')}, but /${match.prop.source}/ also matches "${caught}"`);
+  if (!CASCADE_PROP_FORM.test(rawProp)) {
+    throw new Error(`change category "${id}": a cascade category's match.prop must be ^name$ or ^(name|name)$ with each name one of ${CASCADE_PROPS.join(', ')}, got ${JSON.stringify(rawProp)}`);
   }
-  if (!CASCADE_PROPS.some((name) => match.prop.test(name))) {
-    throw new Error(`change category "${id}": match.prop /${match.prop.source}/ matches none of ${CASCADE_PROPS.join(', ')}`);
+  const caught = NON_GEOMETRY_PATHS.find((where) => match.path.test(where));
+  if (caught !== undefined) {
+    throw new Error(`change category "${id}": a cascade category's match.path /${match.path.source}/ also matches "${caught}", which holds custom properties or @keyframes, not geometry; scope it to the opened components`);
   }
 }
 
