@@ -663,49 +663,69 @@ export default { presets: [nightwirePreset] }
 
 ---
 
-## v2-alpha — Additive Architecture
+## v3 — Architecture and Contract
 
-> v2 is in flight on the `feature/v2-alpha` branch. The frontmatter above describes v1 (current default). This section describes the additive surface — nothing in v1 is removed or renamed.
+> v3 is a major release. It replaces the look of v2.1.0 everywhere (the visual identity above), adds
+> the motion system, and removes the v1 compatibility surfaces that v2 kept. The frontmatter and the
+> sections above describe v3. The last section, "The v3 contract", lists what changed for a
+> consumer; the migration guide ([docs/migration/v3.md](docs/migration/v3.md), written in a later
+> phase of this release) will walk through each change.
 
 ### Token architecture in 3 layers
 
-v1 mixes primitives and semantics in one layer. v2 separates them while keeping v1 as **Layer 1**:
+Primitives and semantics live in separate layers. The v1 primitive names are **Layer 1** and stay:
 
 | Layer | Purpose | Naming | Examples |
 |---|---|---|---|
 | 1 — Primitive | Raw values | `--nw-<hue>[-<step>]` | `--nw-primary`, `--nw-green`, `--void-warm` (v1 names preserved) |
-| 2 — Semantic | Role references | `--nw-<role>[-<modifier>]` | `--nw-chrome`, `--nw-data`, `--nw-signal-error`, `--nw-ai` |
-| 3 — Component | Per-component | `--nw-<component>-<prop>` | (consumer-defined) |
+| 2 — Semantic | Role references | `--nw-<role>[-<modifier>]` | `--nw-chrome`, `--nw-data`, `--nw-signal-error`, `--nw-ai`, `--nw-action`, `--nw-action-hot`, `--nw-action-text` |
+| 3 — Component | Per-component knobs | `--nw-<component>-<prop>` | `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow`; others are consumer-defined |
 
-Layer 2 references Layer 1, so a v1 override propagates to v2 consumers automatically.
+Layer 2 references Layer 1, so an override of a Layer 1 token propagates to Layer 2 consumers
+automatically. `--nw-action` (the bone primary action fill, `var(--nw-text-default)`),
+`--nw-action-hot` (its hover, `var(--nw-chrome-hot)`) and `--nw-action-text` (text on the fill,
+`var(--void)`) are the role tokens `.btn` reads; each has a Tailwind mapping
+(`nw.action.DEFAULT`, `nw.action.hot`, `nw.action.text`).
 
 ### Intensity system
 
 A single attribute on `<html>` reconfigures glow strength, motion speed, density, padding, kanji visibility, and pulse state across all components:
 
 ```html
-<html data-intensity="archive">    <!-- docs, blogs: glow off, more padding, no kanji -->
-<html data-intensity="operator">   <!-- default: same as v1 -->
-<html data-intensity="combat">     <!-- ops console: high glow, dense, fast pulse -->
+<html data-intensity="archive">    <!-- docs, blogs: no glow, more padding, no kanji -->
+<html data-intensity="operator">   <!-- default: same as no attribute -->
+<html data-intensity="combat">     <!-- ops console: state glow doubles, dense, faster pulse -->
 ```
 
 Components read knobs, not hardcoded values:
 
 ```yaml
 knobs:
-  --nw-glow:           1          # multiplier for all box/text-shadow glows
+  --nw-glow:           0.5        # base glow multiplier: 0 at archive, 0.5 at operator and combat (no combat override)
+  --nw-led-glow:       var(--nw-glow)  # state glow of .led; combat: calc(var(--nw-glow) * 2), effective 1
+  --nw-control-glow:   var(--nw-glow)  # state glow of check, radio, switch, segmented, steps; combat x2
+  --nw-progress-glow:  var(--nw-glow)  # state glow of .nw-progress-fill; combat x2
   --nw-density:        1          # gap/spacing multiplier
   --nw-motion-scale:   1          # multiplies transition durations; loop cycles divide by it (not an off switch)
   --nw-pad-scale:      1          # padding multiplier (0.7 → 1.35)
   --nw-base-font:      14px       # body base
   --nw-pulse-state:    running    # LED pulse on/off
   --nw-loop-state:     running    # spinner and skeleton shimmer on/off
-  --nw-pulse-speed:    1.4s
+  --nw-pulse-speed:    1.6s       # LED heartbeat; no combat override (combat runs faster through --nw-motion-scale)
+  --nw-hairline:       1px        # every structural border (no per-level overrides)
+  --nw-rule:           1.5px      # marks drawn inside controls: check strokes, spinner ring
+  --nw-accent-width:   2px        # accent bars: tabs, sidebar, diff, toast
   --nw-panel-radius:   0          # softens to 2px in archive
   --nw-value-color:    var(--nw-data)  # dims in archive, brightens in combat
   --nw-kanji-display:  inline     # → none in archive
   --nw-label-spacing:  0.2em      # → 0.14em in archive
 ```
+
+Combat adds energy only through state signals (the three glow knobs double, so they read 1 against
+operator's 0.5, still below v2.1.0's combat 2.2), the pulse and density. It does not thicken lines
+or add decoration, and the header gradient and scanline knobs that v2 had at combat are removed. The
+line knobs have no per-level overrides, but they exist so a level can set one later. Full table:
+[docs/architecture/intensity.md](docs/architecture/intensity.md).
 
 ### Motion vocabulary
 
@@ -715,12 +735,13 @@ decelerate into place, while `tick` is a symmetric ease-in-out.
 
 | Step | Use | Enter | Exit |
 |------|-----|-------|------|
-| `tick` | clicks, toggles, micro-feedback | `--nw-tick` (150ms) | `--nw-tick-out` |
-| `sweep` | panels, modals, drawers | `--nw-sweep` (350ms) | `--nw-sweep-out` |
-| `uplink` | data load reveal | `--nw-uplink` (400ms) | `--nw-uplink-out` |
+| `tick` | clicks, toggles, micro-feedback | `--nw-tick` (150ms) | `--nw-tick-out` (100ms) |
+| `sweep` | panels, modals, drawers | `--nw-sweep` (350ms) | `--nw-sweep-out` (250ms) |
+| `uplink` | data load reveal | `--nw-uplink` (400ms) | `--nw-uplink-out` (300ms) |
 
-The exit values and the final curves are provisional until the v3 direction board sets them. The
-generated `motion` region in the frontmatter lists the current values.
+The exit values and curves are final: the maintainer approved them on the v3 direction board
+(2026-11-18). Every exit is shorter than its enter and uses `cubic-bezier(0.4, 0, 1, 1)`. The
+generated `motion` region in the frontmatter lists the values; durations shown here are at scale 1.
 
 - **Composites** (`--nw-sweep`, `--nw-sweep-out`) fill the `transition` shorthand slot:
   `transition: transform var(--nw-sweep)`.
@@ -731,9 +752,10 @@ generated `motion` region in the frontmatter lists the current values.
 - **Stagger**: `--nw-stagger` is the delay step between items revealed in sequence; multiply it
   by the item's index.
 - **Loops**: `--nw-loop-spin` (800ms at scale 1) and `--nw-loop-shimmer` (1200ms) are the cycles of
-  the button spinner and the skeleton shimmer, and `--nw-pulse-speed` (1.4s, 0.7s in combat) is the
-  LED heartbeat. All three cycles scale inversely with `--nw-motion-scale`: archive (0.6) runs
-  slower and calmer, combat (1.2) runs faster. `--nw-pulse-state` and `--nw-loop-state`
+  the button spinner and the skeleton shimmer, and `--nw-pulse-speed` (1.6s at every level, no combat
+  override) is the LED heartbeat. All three cycles scale inversely with `--nw-motion-scale`: archive
+  (0.6) runs slower and calmer, combat (1.2) runs faster, so the pulse is 1.6s at operator and
+  1.333s at combat. `--nw-pulse-state` and `--nw-loop-state`
   (`running` | `paused`) are state-driven: the LED pulse reads the first, the spinner and the
   shimmer read the second.
 - **The off switches.** `--nw-motion-scale` multiplies transition durations, and loops divide by it,
@@ -799,8 +821,8 @@ Overlays take a `data-open` attribute. The value is a string; React's `data-open
 
 - Drawer, modal and command palette are closed unless told otherwise. Set `data-open="true"` to
   open them. The drawer has two parts, backdrop and panel, and each takes the attribute.
-- Dropdown and toast keep their 2.x behaviour: with no attribute they are open, so existing markup
-  renders as before. Only `data-open="false"` closes them.
+- Dropdown and toast keep their v1 and v2 behaviour: with no attribute they are open, so existing
+  markup renders as before. Only `data-open="false"` closes them.
 - A closed toast keeps its layout box, so the toasts around it do not move up. Remove the element
   once the exit has finished if you want the space back.
 - A tooltip opens on hover and when focus is inside it, so keyboard users get it too.
@@ -812,13 +834,13 @@ Overlays take a `data-open` attribute. The value is a string; React's `data-open
   frame: two nested `requestAnimationFrame` calls, since one can still run before the browser has
   computed the closed style. Drawer, modal and command palette are already closed on mount, so they
   only need the flip to `"true"`. Remove an overlay after its longest exit (350ms covers the sweep at
-  every intensity: combat's `--nw-sweep-out` is 315ms), with a timer rather than `transitionend`,
+  every intensity: combat's `--nw-sweep-out` is 300ms), with a timer rather than `transitionend`,
   which does not fire under reduced motion.
 - A closed tooltip is `visibility: hidden`, so its text is out of the accessibility tree. Wire it
   the usual way: the trigger gets `aria-describedby` pointing at the `.tooltip-content` `id`, and the
   content gets `role="tooltip"`. `aria-describedby` still reads hidden content.
 
-### New components
+### Component families added in v2 (all kept in v3)
 
 ```yaml
 components-v2:
@@ -846,13 +868,14 @@ components-v2:
   # State & feedback
   empty:           "{glyph, head, sub}"
   ai-block:        "{ai-block-head, ai-block-body} purple-accented"
-  led-state:       "[data-state=ok|warn|error|info|ai], [data-pulse]"
+  led-state:       "[data-state=ok|warn|error|info|active|ai], [data-pulse]"
   banner:          "system-wide notice strip"
 
   # Tag & button variants
-  tag-chrome:      "system/UI tag (blue)"
+  tag-chrome:      "system/UI tag (blue); the default .tag is neutral"
   tag-warn:        "degraded tag (amber)"
   tag-ai:          "AI/oracle tag (purple)"
+  btn-chrome:      "blue solid button; .btn itself is the bone solid"
   btn-success:     "green outline button"
   btn-ai:          "purple outline button"
   btn-icon:        "square icon-only button"
@@ -869,20 +892,69 @@ components-v2:
 
 ### Color-blind safety
 
-v2 adds **state + shape + label** redundancy rather than relying on color alone:
+Nightwire gives **state + shape + label** redundancy rather than relying on color alone:
 
-- `.led[data-state="ok|warn|error|info|ai"]` carries the color
+- `.led[data-state="ok|warn|error|info|active|ai"]` carries the color
 - Recommended companion: matching `.tag-*` or icon next to the LED
 - Status text in monospace (`tabular-nums`) maintains alignment regardless of locale
 
-### Backward compatibility contract
+### The v3 contract
 
-v2 promises:
+Nightwire follows semver. v3 is a major, so it may change default rendering and remove names; the
+promises below hold within v3.x, where a minor release only adds.
 
-1. No v1 token rename. `--nw-primary` stays `--nw-primary`.
-2. No v1 class rename. `.btn` stays `.btn`.
-3. No v1 component layout change. Existing HTML renders identically.
-4. New v2 classes are opt-in by name.
-5. Intensity is opt-in by attribute. Default behaves like v1.
+**What changed against v2.1.0.**
 
-A consumer can safely upgrade by replacing `nightwire.css` and continue using v1 markup, then incrementally adopt v2 classes/tokens where useful.
+1. **The look.** Every component, at every intensity, moved to the visual identity above: neutral
+   labels and hairlines, square corners, bone `.btn`, outline secondaries, no decorative glow, a
+   neutral default `.tag`, a `.toast` with a hairline boundary and a 2px accent. The values and
+   reasons are in [docs/design/v3/direction.md](docs/design/v3/direction.md). Existing markup keeps
+   working and renders the new look.
+2. **Removed v1 surfaces (breaking).** Each has a v3 replacement:
+
+   | Removed | Use instead |
+   |---|---|
+   | `.led.green`, `.led.yellow`, `.led.red`, `.led.blue` | `.led[data-state="ok"]`, `"warn"`, `"error"`, `"active"` |
+   | `.tag-warning` | `.tag-warn` |
+   | `.nw-progress .fill` | `.nw-progress-fill` |
+   | `.stack` | `.nw-stack` (also honours `--nw-density`) |
+   | `--nw-header-gradient`, `--nw-header-pattern` | none: panel headers have no gradient or scanlines at any level |
+
+   `.led[data-state="active"]` is new (`--nw-chrome`); v1 `.led.blue` had no v2 equivalent. The
+   migration is not pixel-identical: the v1 LED glow was `4px * --nw-glow`, the state glow is
+   `8px * --nw-led-glow`. [docs/design/v3/v1-inventory.md](docs/design/v3/v1-inventory.md) records
+   each decision.
+3. **New tokens.** `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow`, `--nw-hairline`,
+   `--nw-rule`, `--nw-accent-width`, `--nw-elevation-overlay`, `--nw-action`, `--nw-action-hot`,
+   `--nw-action-text`.
+4. **Changed token values.** `--nw-glow` 1 to 0.5 (combat 2.2 to 0.5), `--nw-pulse-speed` 1.4s to
+   1.6s (combat 0.7s override removed), `--nw-text-faint` 0.06 to 0.08, `--nw-text-line` and
+   `--nw-line` 0.12 to 0.14, `--nw-line-strong` 0.18 to 0.36, `--nw-purple-fill` 0.1 to 0.06, exit
+   durations 112.5/262.5/300ms to 100/250/300ms.
+
+**What stays.**
+
+1. **Token names.** The v1 primitives (`--nw-primary`, `--nw-green`, `--void-warm`, ...) and the
+   Layer 2 roles keep their names, except the two header knobs above.
+2. **Class names.** Every class not in the removed table keeps its name. That includes
+   `.modal-header`, `.badge-warning`, `.toast-warning`, `.tab.active`, `.tag-info` and the grid
+   utilities.
+3. **Open-state contract.** `data-open` works as the table above says. Dropdown and toast stay open
+   when the attribute is absent, because markup written for v1 and v2 depends on it.
+4. **Intensity is opt-in by attribute.** No attribute behaves as `operator`. Operator is no longer
+   v1-identical: its glow is 0.5 instead of 1.
+5. **Reduced motion wins** at every intensity.
+6. **The package surface.** `package.json` still has no `exports`, `type` or `engines`; the Tailwind
+   preset still emits literals, not `var()`. Those changes are tracked separately.
+
+**Rules the refresh holds, and the tooling checks.**
+
+- FR-013a: decorative sci-fi treatments (header gradients, scanlines, coloured ambient glow) are
+  gone at every intensity.
+- FR-013b: no glow at `archive`; at `operator` every remaining glow is weaker than in v2.1.0; at
+  `combat` only state signals may exceed operator, and they stay below v2.1.0's combat.
+  `scripts/parity/glow-check.mjs` enforces it over a parity run.
+- FR-014: WCAG AA on the black surfaces (4.5:1 for text, 3:1 for boundaries and large text), checked
+  by `npm run design:contrast`.
+- FR-012: the four typefaces, kanji labels, compressed title and three intensities are the identity.
+  They do not change in a refresh.
