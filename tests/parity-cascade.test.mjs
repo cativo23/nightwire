@@ -4,7 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { validateCategories, classify } from '../scripts/parity/lib/diff.mjs';
+import { validateCategories, classify, CASCADE_PROPS } from '../scripts/parity/lib/diff.mjs';
 import { buildReport, buildJsonReport } from '../scripts/parity/lib/report.mjs';
 import { loadControl, withControl, ControlError } from '../scripts/parity/lib/control.mjs';
 
@@ -39,6 +39,26 @@ test('every one of the six size and origin properties is accepted, alone or toge
   for (const prop of ['^width$', '^height$', '^inline-size$', '^block-size$', '^transform-origin$', '^perspective-origin$',
     '^(width|height|inline-size|block-size|transform-origin|perspective-origin)$']) {
     assert.doesNotThrow(() => compile(cascade({}, { prop })), prop);
+  }
+});
+
+// FR-038 (amended): the geometric properties the browser resolves from layout, and nothing else.
+const RESOLVED = ['top', 'right', 'bottom', 'left', 'inset-block-start', 'inset-block-end', 'inset-inline-start', 'inset-inline-end',
+  'margin-left', 'margin-inline-start', 'grid-template-columns', 'grid-template-rows', 'aspect-ratio'];
+
+test('the resolved offsets, horizontal margins, grid tracks and aspect ratio are accepted, alone or together', () => {
+  for (const name of RESOLVED) assert.doesNotThrow(() => compile(cascade({}, { prop: `^${name}$` })), name);
+  assert.doesNotThrow(() => compile(cascade({}, { prop: `^(${RESOLVED.join('|')})$` })));
+  assert.doesNotThrow(() => compile(cascade({}, { prop: '^(?:top|right|bottom|left|width|height)$' })));
+  assert.deepEqual([...CASCADE_PROPS].sort(), [...RESOLVED, 'width', 'height', 'inline-size', 'block-size', 'transform-origin', 'perspective-origin'].sort());
+});
+
+test('what the browser does not resolve from layout is still rejected: colours, fonts, padding, border widths, other margins, shorthands', () => {
+  for (const name of ['color', 'background-color', 'font-size', 'line-height', 'letter-spacing', 'padding-top', 'padding-left', 'border-top-width',
+    'border-bottom-width', 'margin-right', 'margin-top', 'margin-inline-end', 'margin', 'inset', 'grid-template', 'grid-template-areas', 'min-width',
+    'max-width', 'order', 'gap', 'display', 'translate', 'z-index', 'flex-basis']) {
+    assert.throws(() => compile(cascade({}, { prop: `^${name}$` })), /panel-open-layout.*match\.prop/, name);
+    assert.throws(() => compile(cascade({}, { prop: `^(width|${name})$` })), /panel-open-layout.*match\.prop/, `(width|${name})`);
   }
 });
 

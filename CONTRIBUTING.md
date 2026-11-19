@@ -159,8 +159,12 @@ of everything inside it, which would need one pinned category per old-to-new val
 (FR-038):
 
 1. **Validation.** `match.prop` must be exactly `^name$`, `^(name|name)$` or `^(?:name|name)$`, with
-   every name one of `width`, `height`, `inline-size`, `block-size`, `transform-origin` and
-   `perspective-origin`; anything else is rejected (`width` unanchored, `.*`, `^width|color$`,
+   every name one of the geometric properties the browser resolves from layout: `width`, `height`,
+   `inline-size`, `block-size`, `transform-origin`, `perspective-origin`, the offsets `top`, `right`,
+   `bottom`, `left`, `inset-block-start`, `inset-block-end`, `inset-inline-start`,
+   `inset-inline-end`, the resolved horizontal margins `margin-left` and `margin-inline-start`, the
+   grid track sizes `grid-template-columns` and `grid-template-rows`, and `aspect-ratio`; anything
+   else (colours, fonts, padding, border widths, other margins) is rejected (`width` unanchored, `.*`, `^width|color$`,
    `^(width|--nw-glow)$`). `match.path` and `match.page` are both required, and `match.path` must not
    match `:root` or `@keyframes` (where custom properties and keyframes are recorded), so `.` is
    rejected. Scope `path` to the opened components: `.panel`, `.card`, their headers and `.kv-row`.

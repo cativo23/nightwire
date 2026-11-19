@@ -100,8 +100,10 @@ used by `--pages` and `match.page`) and `lib/report.mjs` (report layout and exit
   that an ancestor's open layout moves (FR-038). `validateCategories` accepts it only when
   `match.path` and `match.page` are set, `match.path` cannot match `:root` or `@keyframes` (the
   records for custom properties and keyframes), and `match.prop` has the closed form `^name$`,
-  `^(name|name)$` or `^(?:name|name)$` over `width`, `height`, `inline-size`, `block-size`,
-  `transform-origin` and `perspective-origin`. It is a closed form, not a probe against a property
+  `^(name|name)$` or `^(?:name|name)$` over `CASCADE_PROPS` in `lib/diff.mjs`: `width`, `height`, `inline-size`, `block-size`,
+  `transform-origin`, `perspective-origin`, the offsets (`top`, `right`, `bottom`, `left`, `inset-*`
+  longhands), the resolved horizontal margins (`margin-left`, `margin-inline-start`), the grid track
+  sizes and `aspect-ratio`, that is, what the browser resolves from layout. It is a closed form, not a probe against a property
   list, because the snapshot also records custom properties and keyframe names that no list can
   enumerate.
   `--control <css>` (needs `--expect`, `lib/control.mjs`) appends the sheet to the new stylesheet,

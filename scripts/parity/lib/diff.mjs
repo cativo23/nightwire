@@ -45,9 +45,15 @@ const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const REGEX_FIELDS = ['prop', 'path', 'state', 'old', 'new'];
 const MATCH_KEYS = new Set([...REGEX_FIELDS, 'page']);
 
-// A `kind: "cascade"` category may only explain size and origin properties (FR-038): the ones an
-// ancestor's layout moves without any declaration on the element itself.
-export const CASCADE_PROPS = Object.freeze(['width', 'height', 'inline-size', 'block-size', 'transform-origin', 'perspective-origin']);
+// A `kind: "cascade"` category may only explain the geometric properties the browser resolves from
+// layout (FR-038): size, origin, offsets, resolved horizontal margins, grid track sizes and the
+// aspect ratio of replaced elements. An ancestor's layout moves them without any declaration on the
+// element itself. Colours, fonts, padding, border widths and the like are never in this set.
+export const CASCADE_PROPS = Object.freeze([
+  'width', 'height', 'inline-size', 'block-size', 'transform-origin', 'perspective-origin',
+  'top', 'right', 'bottom', 'left', 'inset-block-start', 'inset-block-end', 'inset-inline-start', 'inset-inline-end',
+  'margin-left', 'margin-inline-start', 'grid-template-columns', 'grid-template-rows', 'aspect-ratio',
+]);
 const KINDS = new Set(['cascade']);
 
 /**
@@ -63,8 +69,8 @@ const KINDS = new Set(['cascade']);
  * `kind` is optional; the only value is `"cascade"` (FR-038), for geometry that an ancestor's layout
  * moves. Such a category must set `match.path` and `match.page`; its `match.path` may not match
  * `:root` or `@keyframes`; and its `match.prop` must be exactly `^name$`, `^(name|name…)$` or
- * `^(?:name|name…)$` with each name one of `width`, `height`, `inline-size`, `block-size`,
- * `transform-origin`, `perspective-origin`. `old` and `new` are optional for it. `kind` is copied to the compiled form only when it is `"cascade"`.
+ * `^(?:name|name…)$` with each name one of CASCADE_PROPS (size, origin, offsets,
+ * resolved horizontal margins, grid track sizes, aspect ratio). `old` and `new` are optional for it. `kind` is copied to the compiled form only when it is `"cascade"`.
  *
  * @throws {Error} with a message naming the category (and field) on any invalid input.
  */
