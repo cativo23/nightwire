@@ -115,14 +115,20 @@ export default {
         'nw-lg': '8px',
       },
       transitionDuration: {
-        'nw-tick': '150ms',
-        'nw-sweep': '350ms',
-        'nw-uplink': '400ms',
+        'nw-tick': 'calc(150ms * var(--nw-motion-scale))',
+        'nw-sweep': 'calc(350ms * var(--nw-motion-scale))',
+        'nw-uplink': 'calc(400ms * var(--nw-motion-scale))',
+        'nw-tick-out': 'calc(100ms * var(--nw-motion-scale))',
+        'nw-sweep-out': 'calc(250ms * var(--nw-motion-scale))',
+        'nw-uplink-out': 'calc(300ms * var(--nw-motion-scale))',
       },
       transitionTimingFunction: {
         'nw-tick': 'cubic-bezier(0.3, 0, 0.7, 1)',
         'nw-sweep': 'cubic-bezier(0.2, 0.8, 0.2, 1)',
         'nw-uplink': 'cubic-bezier(0, 0.6, 0.4, 1)',
+        'nw-tick-out': 'cubic-bezier(0.4, 0, 1, 1)',
+        'nw-sweep-out': 'cubic-bezier(0.4, 0, 1, 1)',
+        'nw-uplink-out': 'cubic-bezier(0.4, 0, 1, 1)',
       },
       boxShadow: {
         'glow-green': '0 0 8px rgba(122,237,122,0.5), 0 0 16px rgba(122,237,122,0.2)',
