@@ -33,7 +33,7 @@ export function OverviewPage() {
             {[
               { id: 'MELCHIOR', name: 'Void First', value: 'Pure #000000 backgrounds. No grays, no gradients, no noise.', status: 'agree' },
               { id: 'BALTHASAR', name: 'Data Density', value: 'Every pixel conveys information. No decorative waste.', status: 'agree' },
-              { id: 'CASPER', name: 'Neon Discipline', value: 'Semantic color only. Green=data, Blue=UI, Red=danger, Cyan=info.', status: 'agree' },
+              { id: 'CASPER', name: 'Neon Discipline', value: 'Neutral first, semantic color only. Green=data, Blue=focus and accents, Red=danger, Cyan=info.', status: 'agree' },
             ].map((p) => (
               <div className="magi-source" key={p.id}>
                 <div className="ms-name">{p.id}</div>

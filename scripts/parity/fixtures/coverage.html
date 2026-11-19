@@ -9,6 +9,12 @@
   parity DOM path has no attributes, so this wrapper is how change-inventory.json tells a closed
   instance from an open one. Keep open, "true" and absent-attribute dropdown and toast instances
   outside it: they must not change.
+
+  v1 surfaces removed in v3 (FR-016) sit inside <div class="fixture-v1">. Parity unions the classes
+  of the old and the new stylesheet and demands that some page uses each one, so the removed
+  classes need markup somewhere; this wrapper is how change-inventory.json pins the expected
+  "v1 class now unstyled" differences to them and to nothing else. The wrapper has a fixed height
+  so a removed class that changes its content's size does not move the ancestors' computed sizes.
 -->
 <html lang="en">
 <head>
@@ -40,7 +46,6 @@
     <div class="grid-2"><div>a</div><div>b</div></div>
     <div class="grid-3"><div>a</div><div>b</div><div>c</div></div>
     <div class="grid-4"><div>a</div><div>b</div><div>c</div><div>d</div></div>
-    <div class="stack"><div>a</div><div>b</div></div>
     <div class="nw-stack"><div>a</div><div>b</div></div>
     <div class="nw-cluster"><span>a</span><span>b</span></div>
     <hr class="divider">
@@ -48,10 +53,15 @@
   </section>
 
   <section>
-    <span class="led green"></span> <span class="led blue"></span>
+    <span class="led" data-state="ok"></span> <span class="led" data-state="active"></span>
+    <span class="led" data-state="error"></span> <span class="led" data-state="warn"></span>
+    <span class="led" data-state="info"></span> <span class="led" data-state="ai"></span>
+    <div class="fixture-v1" style="height: 120px"><span class="led green"></span> <span class="led blue"></span>
     <span class="led red"></span> <span class="led yellow"></span>
-    <div class="nw-progress"><div class="nw-progress-fill" style="width: 40%"></div></div>
+    <div class="stack"><div>a</div><div>b</div></div>
     <span class="tag tag-warning">warning</span>
+    <div class="nw-progress"><div class="fill" style="width: 40%"></div></div></div>
+    <div class="nw-progress"><div class="nw-progress-fill" style="width: 40%"></div></div>
     <span class="avatar avatar-lg">NW</span>
   </section>
 
@@ -181,5 +191,8 @@
     <div class="cmdk"><input placeholder="Closed palette"></div>
   </div>
 </div>
+<section>
+  <input placeholder="Plain input"><select><option>One</option></select><textarea placeholder="Plain textarea"></textarea>
+</section>
 </body>
 </html>

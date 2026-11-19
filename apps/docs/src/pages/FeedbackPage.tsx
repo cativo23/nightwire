@@ -6,8 +6,8 @@ import { makeEvent, type EventEntry } from '../data';
 type ToastKind = 'success' | 'info' | 'warning' | 'danger';
 type Toast = { id: number; kind: ToastKind; head: string; body: string; open: boolean };
 
-// Longer than the slowest toast exit: --nw-sweep-out is 262.5ms at operator and 315ms at combat
-// (262.5ms * 1.2), the longest at any intensity. 350ms clears it. A timer rather than
+// Longer than the slowest toast exit: --nw-sweep-out is 250ms at operator and 300ms at combat
+// (250ms * 1.2), the longest at any intensity. 350ms clears it. A timer rather than
 // transitionend, which never fires under reduced motion (transitions are off there).
 const TOAST_EXIT_MS = 350;
 
@@ -65,7 +65,7 @@ export function FeedbackPage() {
           <div className="toast toast-warning">High memory utilization detected. Consider optimizing operations.</div>
           <div className="toast toast-danger">Connection to core server lost. Attempting reconnection.</div>
         </div>
-        <div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '12px 0 6px' }}>
+        <div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '12px 0 6px' }}>
           Live trigger <NewBadge />
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>

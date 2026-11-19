@@ -19,7 +19,7 @@ export function SpacingPage() {
                 <tr key={s.token}>
                   <td style={{ color: 'var(--nw-cyan)' }}>{s.token}</td>
                   <td>{s.val}</td>
-                  <td><div style={{ height: 4, width: parseInt(s.val), background: 'var(--nw-green)', boxShadow: '0 0 4px rgba(122,237,122,0.3)' }} /></td>
+                  <td><div style={{ height: 4, width: parseInt(s.val), background: 'var(--nw-green)' }} /></td>
                 </tr>
               ))}
             </tbody>

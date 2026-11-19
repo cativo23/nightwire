@@ -33,12 +33,12 @@ export function QuickStartPage() {
             <button className="btn">Launch</button>
             <button className="btn-ghost">Cancel</button>
             <span className="tag tag-success">Online</span>
-            <span className="led green" />
+            <span className="led" data-state="ok" />
           </div>
           <CodeBlock>{`<button class="btn">Launch</button>
 <button class="btn-ghost">Cancel</button>
 <span class="tag tag-success">Online</span>
-<span class="led green"></span>`}</CodeBlock>
+<span class="led" data-state="ok"></span>`}</CodeBlock>
         </div>
       </div>
 

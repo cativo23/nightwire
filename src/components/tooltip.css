@@ -10,11 +10,11 @@
   left: 50%;
   transform: translateX(-50%);
   background: var(--void-raised);
-  border: 1px solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-1) var(--sp-2);
   font-size: var(--text-xs);
-  color: var(--nw-text);
+  color: var(--nw-text-default);
   white-space: nowrap;
   pointer-events: none;
   /* Closed by default: exit curve, visibility dropped once the fade is done. */

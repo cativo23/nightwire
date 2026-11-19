@@ -18,7 +18,7 @@ generated, so the first rule is to know which files are sources.
 | `dist/` | generated, ignored | `tsc` output, published to npm |
 | `skill/nightwire/` | **hand-edited** | Agent skill and references shipped with the package |
 | `apps/docs/` | **hand-edited** | Docs site (React + Vite + Tailwind) built on the root `nightwire.css` and preset |
-| `docs/` | **hand-edited** | Contributor docs: architecture, proposals, roadmap |
+| `docs/` | **hand-edited** | Contributor docs: architecture, design decisions, proposals, roadmap |
 | `examples/` | **hand-edited** | Standalone HTML demos and component snippets |
 | `scripts/` | **hand-edited** | Build scripts and the parity tool |
 | `tests/` | **hand-edited** | `node:test` unit tests and fixtures |
@@ -68,7 +68,15 @@ npm run parity                                      # main's nightwire.css vs yo
 npm run parity -- --old git:v2.0.1 --new nightwire.css
 npm run parity -- --pages "examples/html/workshop.html" --max-lines 50
 NW_CHROME_PATH=/usr/bin/chromium npm run parity     # no branded Chrome installed
+npm run parity -- --jobs 1                          # strictly sequential
+npm run parity -- --json /tmp/parity.json           # also write the run as JSON (see "Checking the glow rules")
 ```
+
+The page clock starts paused, so a capture does not depend on how loaded the host is.
+Captures run concurrently, one job per page and state. `--jobs N` (or `NW_PARITY_JOBS=N`) sets how
+many run at once; the default is `min(6, cores - 2)`, at least 1, and `--jobs 1` is the sequential
+run. The output does not depend on `N`. While iterating, pass `--pages <glob>` for the pages you
+touch, and run the full set once before committing.
 
 It prints `DIFF` lines, a `COVERAGE` line and `RESULT  differences=N`. Exit code 0 means no
 differences and full coverage; 1 means differences or missing coverage; 2 means a usage error, a
@@ -135,6 +143,88 @@ expected when at least one category matches all of the fields that category has.
 toward the **first** matching category in file order only, so the counts plus `unexpected`
 always add up to `differences`. Every new rendering difference gets a category in the same
 commit that causes it.
+
+The categories in `change-inventory.json` that follow an intensity level are pinned to one level
+each: the `state` anchors the intensity (`^combat\\|rm-off`, say), and `old` and `new` pin one exact
+old-to-new pair. A value seen at `archive` therefore cannot stand for the same category at
+`combat`, and a new value at any level fails until someone names it. When `--expect` reports an
+unexpected difference at one level, add or retune the category for that level, not a looser one.
+
+### Checking the glow rules
+
+`--json <file>` also writes the run as JSON: `meta`, every difference with its category (`null`
+when none explains it), and `shadows`, every element whose `box-shadow` or `text-shadow` is not
+`none` on either side, changed or not. `scripts/parity/glow-check.mjs` reads it and checks
+FR-013b / SC-012:
+
+```sh
+npm run parity -- --expect docs/design/v3/change-inventory.json --json /tmp/parity.json
+node scripts/parity/glow-check.mjs /tmp/parity.json
+```
+
+At `none` and `operator` every glow must be a smaller blur than v2.1.0's (or gone), layer by layer;
+at `archive` no element may have a coloured blur; at `combat` only state signals (LED, check,
+switch, segmented, steps, progress) may blur more than at operator, and they stay below v2.1.0's
+combat blur. Neutral black layers (the overlay elevation) and layers without blur (focus rings,
+pressed states) are listed as exceptions. Exit code 1 means a violation.
+
+## Checking the colour contrast
+
+```sh
+npm run design:contrast                          # every pairing, one PASS or FAIL line each
+npm run design:contrast -- --quiet               # the summary and the failures only
+npm run design:contrast -- --pairs <file> --css <file>
+```
+
+`docs/design/v3/contrast-pairs.json` lists each pairing (text, labels, signal colours, button
+labels, tags, placeholders, focus rings and control boundaries, on each surface they sit on). The
+script emits the tokens in memory from `src/tokens/tokens.json`, so it needs no build and cannot read
+a stale `tokens.css` (`--css <file>` checks a stylesheet instead), and checks WCAG: 4.5:1 for text, 3:1 for large text and UI boundaries. `tests/contrast.test.mjs` runs it
+inside `npm test` and also fails when a colour token used by a component has no pair. Pairings
+marked `exempt` in the file (disabled controls, hover borders) are listed, not checked. Exit code 1
+means a pairing fails; 2 means a usage or data error. A new colour on a component needs a pair in
+the same commit.
+
+## Rendering the direction board
+
+```sh
+npm run design:board                              # before (git:v2.1.0) and after, 3 intensities, 6 PNGs
+npm run design:board -- --out .cache/board --wait 2000
+npm run design:board -- --page examples/html/dashboard.html --before git:main
+```
+
+`docs/design/v3/board.html` is the page the maintainer reviews a visual change on. The script
+renders it as full-page PNGs in your local Chrome (`NW_CHROME_PATH` works here too), once for the
+`--before` stylesheet (default `git:v2.1.0`) and once for `--after` (default the working tree
+`nightwire.css`), at `archive`, `operator` and `combat`. Elements with `data-force=":hover
+:focus-visible"` get those states forced, so they can be photographed. `--css <spec>` renders one
+stylesheet, `--page` renders another page, and `--wait MS` pauses after load for a page that builds
+its view on a timer or boot sequence. Files are named `board-<label>-<intensity>.png` in `--out`
+(default `nightwire-board/` under the system temp directory); nothing is written inside the repo.
+Exit code 0 means rendered, 2 means a usage error or a browser that would not start.
+
+## Checking overlays in real browsers
+
+`npm run test:browsers` opens the six overlays (drawer, modal, command palette, dropdown, toast,
+tooltip) in real Chrome and real Firefox and runs 65 checks per engine: open and close really
+animate and hide on time, a closed overlay cannot be hit or tabbed to, re-opening mid-close does
+not flash, first paint with `data-open="true"` does not animate, reduced motion switches
+instantly, the LED pulse follows intensity, and the console stays clean. Expected enter and exit
+durations are read from the stylesheet at run time, so retuning the motion tokens does not
+require editing the harness. It is not part of `npm test`: it needs local browsers.
+
+```sh
+npm run test:browsers                                  # Chrome and Firefox
+npm run test:browsers -- --engine firefox --out .cache/browsers  # one engine, custom output directory
+NW_CHROME_PATH=/usr/bin/chromium NW_FIREFOX_PATH=/opt/firefox/firefox npm run test:browsers
+```
+
+Chrome runs through `playwright-core` (the `chrome` channel, or `NW_CHROME_PATH`); Firefox runs
+through `puppeteer-core` against `NW_FIREFOX_PATH` or `/usr/bin/firefox`. Neither downloads a
+browser. Pages, `results-<engine>.json` and `results.md` go to `--out`, by default
+`nightwire-browsers/` under the system temp directory; nothing is written inside the repo. Exit
+code 0 means every check passed, 1 means a check failed, 2 means a usage error or a browser that
+would not start.
 
 ## Commits and branches
 

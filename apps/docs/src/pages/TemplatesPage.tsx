@@ -24,7 +24,7 @@ export function TemplatesPage() {
   align-items: center;
   padding: 10px 16px;
   background: var(--void);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: 1px solid var(--nw-line);
   flex-shrink: 0;
 }
 

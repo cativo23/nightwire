@@ -8,8 +8,10 @@
 }
 .empty .glyph {
   font-family: var(--font-mincho); font-size: var(--text-3xl);
-  color: var(--nw-chrome-mute); opacity: 0.5;
+  opacity: 0.5;
 }
+/* :where() keeps specificity at 0, so a colour utility on the glyph still wins. */
+:where(.empty .glyph) { color: var(--nw-text-default); }
 .empty .head {
   font-family: var(--font-stamp); font-size: var(--text-xs);
   letter-spacing: 0.18em; text-transform: uppercase;

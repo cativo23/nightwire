@@ -5,7 +5,7 @@ One attribute on `<html>` retunes the whole system:
 ```html
 <html data-intensity="archive">   <!-- docs, blogs: no glow, calmer, roomier -->
 <html data-intensity="operator">  <!-- the default; same as no attribute -->
-<html data-intensity="combat">    <!-- ops consoles: more glow, denser, faster pulse -->
+<html data-intensity="combat">    <!-- ops consoles: state glow doubles, denser, faster pulse -->
 ```
 
 The levels are blocks of custom-property overrides, generated from the `intensity` key in
@@ -16,23 +16,35 @@ themselves; they read the knobs.
 
 | Knob | Operator (base) | Archive | Combat | Read by |
 |------|-----------------|---------|--------|---------|
-| `--nw-glow` | `1` | `0` | `2.2` | led, button, switch, check, segmented, progress, steps, drawer, cmdk, ai-block, stat |
+| `--nw-glow` | `0.5` | `0` | — (no combat override; see [direction.md](../design/v3/direction.md)) | the `.glow-*` utilities, which read it wherever it is set; the three state-glow knobs below take its value from `:root` (see the note under this table) |
 | `--nw-density` | `1` | — | `0.85` | layout primitives |
 | `--nw-motion-scale` | `1` | `0.6` | `1.2` | every motion token (`--nw-tick`, `--nw-sweep`, `--nw-uplink`, `-out`, longhands, `--nw-stagger`; the loop cycles inversely) |
 | `--nw-pad-scale` | `1` | `1.35` | `0.7` | stat |
 | `--nw-base-font` | `var(--text-base)` | `15px` | `13px` | reset (`body`) |
 | `--nw-pulse-state` | `running` | `paused` | `running` | led |
-| `--nw-pulse-speed` | `1.4s` | — | `0.7s` | led |
+| `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow` | `var(--nw-glow)` | — (follows `--nw-glow`, so 0) | `calc(var(--nw-glow) * 2)`, effective 1 | state glow only, never decoration: led reads the first, check, radio, switch, segmented and steps the second, progress the third |
+| `--nw-pulse-speed` | `1.6s` | — | — (no combat override; the motion scale divides it, so combat pulses in 1.333s) | led |
 | `--nw-loop-state` | `running` | — | — | button spinner, skeleton shimmer |
 | `--nw-panel-radius` | `var(--radius-none)` | `var(--radius-sm)` | — | panel |
 | `--nw-value-color` | `var(--nw-data)` | `var(--nw-green-dim)` | `var(--nw-green-dim)` | stat |
 | `--nw-value-weight` | `500` | `400` | — | stat |
 | `--nw-kanji-display` | `inline` | `none` | — | `.kanji` |
-| `--nw-header-gradient` | blue 6% → transparent 80% | `none` | blue 18% → transparent 70% | panel header |
-| `--nw-header-pattern` | `none` | — | 1px scanlines | panel header |
+| `--nw-hairline`, `--nw-rule`, `--nw-accent-width` | `1px`, `1.5px`, `2px` | — | — | structural borders (hairline), marks drawn inside controls (rule: check strokes, spinner ring), accent bars (tabs, sidebar, diff, toast). No per-level overrides in v3: combat energy comes from state glow, pulse and density, not heavier lines. The knobs exist so a level can set one later |
 | `--nw-label-spacing` | `var(--ls-ultra)` | `0.14em` | — | stat |
 
 "—" means the level keeps the base value. The operator block is intentionally empty.
+
+The state-glow knobs are declared as `var(--nw-glow)` on `:root`, so they follow `--nw-glow` when it
+is set on `:root` or on the element that carries `data-intensity`. A `--nw-glow` set on a single
+element does not reach the LED, check, switch or progress inside it (v2.1.0's `.led` read
+`--nw-glow` directly, so it did); to tune one element, set `--nw-led-glow`, `--nw-control-glow` or
+`--nw-progress-glow` on it. The `.glow-*` utilities still read `--nw-glow` where they are used.
+
+Combat is still different from operator without decoration. Only state signals glow brighter (1
+against 0.5, and below v2.1.0's combat 2.2), the pulse runs faster through the motion scale, and
+spacing is denser. The v2 combat header gradient and scanlines (`--nw-header-gradient`,
+`--nw-header-pattern`) are removed. The glow rules are checked by
+`scripts/parity/glow-check.mjs` (see [CONTRIBUTING.md](../../CONTRIBUTING.md)).
 
 ## Known issues
 
@@ -73,13 +85,17 @@ Every preset value is a literal, so Tailwind utilities (`bg-nw-chrome`, `duratio
 follow runtime overrides or intensity levels. Switching to `var()` would change what those
 utilities render. Owner: sub-project 2.
 
-### K4. Example pages redeclare tokens inline
+### K4. Example pages redeclare tokens inline (resolved in v3)
 
-Seven example pages (`dashboard.html`, `neural-ops.html` and the five under `components/`) carry
-their own `<style>` blocks with token values instead of loading `nightwire.css`, and
-`dashboard.html` declares legacy `--nerv-*` names. These pages do not load the stylesheet, so the
-restructure cannot change them and parity does not cover them. Owner: sub-project 2 (examples
-cleanup).
+**Resolved.** The seven pages that carried their own token values (`dashboard.html`,
+`neural-ops.html` and the five under `components/`) now load `nightwire.css`, and the legacy
+`--nerv-*` names are gone. Every page under `examples/html/` is a parity page, so a stylesheet change
+that alters an example shows up in `npm run parity`. Page-local classes (the ops-console layout, the
+ticker, the event log) stay in each page's own `<style>`, and where they glow they read the state
+knobs, not a literal blur.
+
+The 2.x problem, kept for the record: these pages declared token values inline and did not load the
+stylesheet, so the restructure could not change them and parity did not cover them.
 
 ### K5. The preset is ESM in a package without `"type": "module"`
 

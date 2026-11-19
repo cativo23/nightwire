@@ -4,7 +4,8 @@ description: >
   Use when building any dark-themed web UI or generating HTML/CSS with a cyberpunk aesthetic —
   dashboards, admin panels, dev tools, monitoring UIs, portfolios, landing pages, blogs, or any
   interface that lives on a pure black background. Provides design tokens, semantic color roles,
-  component classes, layout templates, and complete HTML examples.
+  component classes, layout templates, and complete HTML examples. Version 3: neutral-first,
+  square-cornered, bone primary action.
 ---
 
 # Nightwire — Cyberpunk UI System
@@ -46,6 +47,13 @@ Nightwire is a **cyberpunk aesthetic system** that works at any information dens
 
 **NOT:** Apple design, Material Design, generic SaaS dashboards, Cyberpunk 2077 UI (too flashy)
 
+**The v3 look:** neutral first. Labels, hairlines and default text are grey; colour appears only where
+it means something (data, state, focus, the selected item). Corners are square: panels 0, every
+control, card and modal `--radius-sm` (2px). Edges are 1px hairlines. There is **one solid action
+per view**, the bone `.btn`; every other button is an outline, except the deliberate solids `.btn-danger` (red) and `.btn-chrome` (blue). Nothing glows for decoration. Glow is
+a state signal (LED, check, switch, segmented, steps, progress), off at `archive`. Typefaces, kanji
+labels, the compressed title and the three intensities are unchanged.
+
 ---
 
 ## Core Rules — Non-Negotiable
@@ -56,17 +64,17 @@ Nightwire is a **cyberpunk aesthetic system** that works at any information dens
 
 2. **2px gaps between adjacent panels** — ALWAYS `gap: 2px`. NEVER 8px, 16px, 1rem, or any other value. This is the signature Nightwire spacing.
 
-3. **Sharp edges on panels** — ALWAYS `border-radius: 0` on `.panel`, `.nw-table`, and all data containers. Cards may use `border-radius: 8px` but panels MUST be sharp.
+3. **Square corners** — ALWAYS `border-radius: 0` on `.panel`, `.nw-table`, and all data containers. Controls, cards and modals use `--radius-sm` (2px). NEVER round a panel, and never use `--radius-md` or `--radius-lg` (no component reads them in v3).
 
 4. **Kanji tags on EVERY panel header** — Japanese characters are decorative style elements, not translations. Every `<div class="panel-header">` MUST include a `<span class="tag">` with Japanese text.
 
-5. **Green for ALL data values** — Numbers, percentages, metrics ALWAYS use `--nw-green`. No exceptions. If it's a data value, it's green.
+5. **Green for data values** — Stat and metric numbers, percentages and readouts use `--nw-green` (`--nw-data`). Table text is content, not a readout, and stays `--nw-text-default`.
 
-6. **Blue for ALL UI chrome** — Headers, labels, navigation ALWAYS use `--nw-primary`. This is structural UI, not data.
+6. **Neutral labels, blue only for accents** — Panel, card, modal and table headers, field labels and stat labels use `--nw-text-mute`. Blue (`--nw-primary` / `--nw-chrome`) is for focus rings, the selected-tab and current-item accent lines, links, compressed titles and `.btn-chrome` / `.tag-chrome`. Never colour a label blue.
 
-7. **NO box-shadows** — Elevation is communicated through surface color progression ONLY. Never add `box-shadow` to any element.
+7. **Elevation is tone, not shadow** — Surfaces rise through colour progression. The only drop shadow is `--nw-elevation-overlay`, which modal, drawer and command palette already apply. NEVER add a decorative `box-shadow` or `text-shadow`. Glow belongs to state signals and reads a knob (`--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow`).
 
-8. **Monospace everywhere** — JetBrains Mono (`--font-sys`) for ALL body text, data, labels. The only exceptions are: titles (Noto Serif Display), buttons/badges (Saira Extra Condensed), and Japanese decorative text (Shippori Mincho).
+8. **Monospace everywhere** — JetBrains Mono (`--font-sys`) for ALL body text, data, labels. The only exceptions are: titles (Noto Serif Display), badges and tags (Saira Extra Condensed; buttons stay in JetBrains Mono), and Japanese decorative text (Shippori Mincho).
 
 9. **Compressed serif titles** — Display headings MUST use Noto Serif Display with `transform: scaleX(0.82)` and the `.compressed-title` class. Never use regular serif without compression.
 
@@ -79,8 +87,8 @@ Nightwire is a **cyberpunk aesthetic system** that works at any information dens
 All colors are CSS custom properties with `--nw-` prefix. Use semantic roles, never raw hex.
 
 **CSS Variable Mapping:**
-- DESIGN.md `on-surface-faint` → CSS `--nw-text-faint`
-- DESIGN.md `on-surface-line` → CSS `--nw-text-line`
+- DESIGN.md `on-surface-faint` → CSS `--nw-text-faint` (quiet dividers)
+- DESIGN.md `on-surface-line` → CSS `--nw-text-line` (equal to `--nw-line`: panel and header edges)
 - DESIGN.md `on-surface-dim` → CSS `--nw-text-dim`
 - DESIGN.md `on-surface` → CSS `--nw-text`
 - DESIGN.md `success` → CSS `--nw-green`
@@ -94,8 +102,10 @@ All colors are CSS custom properties with `--nw-` prefix. Use semantic roles, ne
 
 | Role | Variable | Hex | Use ONLY for |
 |---|---|---|---|
-| Primary | `--nw-primary` | `#6699ff` | Headers, labels, active states, links, UI chrome |
-| Success/Data | `--nw-green` | `#7aed7a` | Data values, success states, online indicators |
+| Action | `--nw-action` | `#e6e6e6` (bone) | The one solid action (`.btn`); hover `--nw-action-hot` `#99bbff`, text `--nw-action-text` `#000000` |
+| Neutral text | `--nw-text-default`, `--nw-text-mute` | `#e6e6e6`, `#aaaaaa` | Body and table text; labels and headers |
+| Primary | `--nw-primary` | `#6699ff` | Focus, the selected-tab and current-item accent lines, links, compressed titles, `.btn-chrome`, `.tag-chrome`, `data-state="active"` |
+| Success/Data | `--nw-green` | `#7aed7a` | Stat and metric values, success states, online indicators |
 | Info | `--nw-cyan` | `#66ddff` | Metadata, secondary info, wireframe elements |
 | Danger | `--nw-red` | `#ff6688` | Errors, destructive actions, offline states |
 | Warning | `--nw-warning` | `#e8993a` | Caution, pending, degraded states |
@@ -111,6 +121,14 @@ Each role has `-dim` (muted), `-hot` (bright), `-fill` (translucent bg) variants
 | 1 | `--void-warm` | `#0a0a0a` | Panels, cards |
 | 2 | `--void-panel` | `#111111` | Modals, inputs, raised panels |
 | 3 | `--void-raised` | `#1a1a1a` | Dropdowns, tooltips |
+| Overlay | `--nw-elevation-overlay` | `0 24px 64px rgba(0,0,0,0.7)` | Modal, drawer and command palette panels only |
+
+### Lines
+
+`--nw-hairline` (1px) is every structural border, `--nw-rule` (1.5px) the marks drawn inside controls,
+`--nw-accent-width` (2px) every accent bar (tabs, sidebar, diff, toast). Greys: `--nw-text-faint` for
+quiet dividers, `--nw-line` for panel and header edges, `--nw-line-strong` for control boundaries
+(input, check, switch, segmented, combo, kbd, modal, toast), which keeps 3:1 contrast on black.
 
 ---
 
@@ -138,7 +156,8 @@ Google Fonts:
 |---|---|---|
 | All body text, data | `--font-sys` | Always monospace |
 | Page/section titles | `--font-title` + `.compressed-title` | scaleX(0.82), uppercase |
-| Buttons, badges, tags | `--font-stamp` | Uppercase, condensed |
+| Badges, tags, stat labels | `--font-stamp` | Uppercase, condensed |
+| Buttons | `--font-sys` | Bold, uppercase |
 | Japanese decorative | `--font-mincho` | Panel tags, subtitles only |
 
 ### Compressed Title Pattern
@@ -169,65 +188,69 @@ Google Fonts:
 ```
 
 Rules:
-- Header text: 8-10px, uppercase, `--nw-primary`, letter-spacing 0.14em
-- Japanese tag: right-aligned, `--nw-text-dim`, `--font-mincho`
-- Bottom border: `1px solid --nw-primary-dim`
+- Header text: 8-10px, uppercase, `--nw-text-mute`, letter-spacing 0.14em
+- Japanese tag: right-aligned, `--font-mincho`; a `.kanji` inside a header is `--nw-text-default` (set with `:where()`, so a colour utility on it wins)
+- Bottom border: `1px solid --nw-line`
 
 ---
 
 ## Component Reference
 
 ### Buttons
-- `.btn` — Primary (blue bg, dark text)
-- `.btn-ghost` — Transparent bg, blue border
+- `.btn` — Primary, the one solid action: bone fill (`--nw-action`), black text, square (`--radius-sm`); hover `--nw-action-hot`
+- `.btn-ghost` — Outline: `--nw-text-default` text, `--nw-line-strong` border; hover keeps it transparent and lifts the text to `--nw-text-strong`
 - `.btn-danger` — Red bg for destructive actions
+- `.btn-chrome` — The only blue solid, for UI-chrome actions (add it next to `.btn`)
 - `.btn-sm` — Small size modifier
 
 ### Panel & Card
-- `.panel` — void-warm bg, faint border, NO radius
-- `.panel-header` — 10px uppercase primary, primary-dim bottom border
+- `.panel` — void-warm bg, `--nw-line` border, NO radius
+- `.panel-header` — 10px uppercase `--nw-text-mute`, `--nw-line` bottom border
 - `.panel-body` — sp-3 padding
-- `.card` — void-warm bg, faint border, radius-lg
-- `.card-header` — Uppercase primary label
+- `.card` — void-warm bg, `--nw-line` border, `--radius-sm`
+- `.card-header` — Uppercase `--nw-text-mute` label
 - `.card-body` — sp-4 padding
-- `.card-footer` — Faint top border
+- `.card-footer` — `--nw-line` top border
 
 ### Data Table
 - `.nw-table` — Full-width, collapsed borders
-- `.nw-table th` — 9px uppercase primary, primary-dim border
-- `.nw-table td` — Green data, faint border, tabular-nums
+- `.nw-table th` — 9px uppercase `--nw-text-mute`, `--nw-line` border
+- `.nw-table td` — `--nw-text-default` text (content, not a readout), faint border, tabular-nums; row hover `--nw-text-faint`
 
 ### Metrics Grid
 - `.metrics-grid` — 2-column grid, 1px faint separators
 - `.metric-cell` — void-warm bg
-- `.m-label` — 9px uppercase primary
-- `.m-value` — 20px bold green with glow
+- `.m-label` — 9px uppercase `--nw-text-mute`
+- `.m-value` — 20px bold green, no glow
 - `.m-sub` — 9px dim subtitle
 - `.metric-cell.highlight` — Blue primary value, 24px
 
 ### Status LED
-- `.led.green` — Online / healthy
-- `.led.blue` — Active / processing
-- `.led.red` — Error / offline
-- `.led.yellow` — Warning / degraded
-- `.led.blink` — Animated pulse
+Set the state with `data-state` on `.led`; the glow is the state glow (`--nw-led-glow`).
+- `.led[data-state="ok"]` — Online / healthy (green)
+- `.led[data-state="active"]` — Active / processing (blue)
+- `.led[data-state="error"]` — Error / offline (red)
+- `.led[data-state="warn"]` — Warning / degraded (amber)
+- `.led[data-state="info"]`, `.led[data-state="ai"]` — Info (cyan), AI (purple)
+- `.led[data-pulse]` — Animated pulse (paused at `archive` and under reduced motion)
 
 ### Badges & Tags
-- `.badge` — Stamp font, 12px uppercase, primary border
+- `.badge` — Stamp font, 12px uppercase, `--nw-text-default` on a `--nw-line-strong` border
 - `.badge-success` / `.badge-danger` / `.badge-warning` — Color variants
-- `.tag` — Pill, stamp font, primary on primary-fill
-- `.tag-success` / `.tag-danger` / `.tag-warning` / `.tag-info` — Color variants
+- `.tag` — Neutral: stamp font, `--nw-text-default` on `--nw-text-faint`, square `--radius-sm`. Blue is `.tag-chrome`
+- `.tag-success` / `.tag-danger` / `.tag-warn` / `.tag-info` / `.tag-chrome` / `.tag-ai` — Color variants
 
 ### Other Components
-- `.toast` / `.toast-success` / `.toast-danger` / `.toast-info` — Notifications with 3px left border
+- `.toast` / `.toast-success` / `.toast-danger` / `.toast-info` — Notifications with a `--nw-line-strong` hairline boundary and a 2px (`--nw-accent-width`) left accent in the variant colour
 - `.dropdown` + `.dropdown-menu` / `.dropdown-item` / `.dropdown-divider` — Menu; `data-open="false"` on `.dropdown` closes it
 - `.tooltip` + `.tooltip-content` — Opens on hover and keyboard focus; `data-open` overrides (see Overlay open state)
 - `.sidebar` — 240px, void-warm bg, right border
-- `.sidebar-item` / `.sidebar-item.active` — Nav items
+- `.sidebar-item` / `.sidebar-item.active` — Nav items; hover reads `--nw-text-strong`, the active item keeps a blue accent line and a neutral label
+- `.tab` / `.tab.active` — Tabs; hover reads `--nw-text-strong`, the selected tab keeps a blue underline and a neutral label
 - `.kv-row` — Key-value display with faint bottom border
-- `.nw-progress` — 4px height progress bar with green fill
+- `.nw-progress` — 4px height progress bar with a `--nw-line` edge; the fill is `.nw-progress-fill` (green, state glow via `--nw-progress-glow`)
 - `.skeleton` / `.skeleton-text` / `.skeleton-heading` / `.skeleton-block` — Loading states
-- `.modal` / `.modal-backdrop` / `.modal-header` / `.modal-body` / `.modal-footer` — Dialog system
+- `.modal` / `.modal-backdrop` / `.modal-header` / `.modal-body` / `.modal-footer` — Dialog system; `--nw-line-strong` border, `--radius-sm`, `--nw-elevation-overlay`
 
 ---
 
@@ -238,8 +261,11 @@ Rules:
 | NEVER Generate | ALWAYS Use Instead | Why |
 |---|---|---|
 | `background: #1a1a2e` or `#0d0d0d` | `background: #000000` | Only pure black is Nightwire |
-| `box-shadow: 0 2px 8px rgba(...)` | Surface color progression (`--void-warm`, `--void-panel`) | No shadows in cyberpunk aesthetic |
-| `border-radius: 4px` on panels | `border-radius: 0` | Panels must have sharp edges |
+| `box-shadow: 0 2px 8px rgba(...)` | Surface color progression (`--void-warm`, `--void-panel`); `--nw-elevation-overlay` on overlays | Tone, not shadow; no decorative glow |
+| A glow on a heading, value or button (`text-shadow`, coloured `box-shadow`) | Nothing, or a state signal reading `--nw-led-glow` / `--nw-control-glow` / `--nw-progress-glow` | Glow means state |
+| `border-radius: 4px` on panels, or round buttons and tags | `border-radius: 0` on panels; `--radius-sm` on controls | Square corners everywhere |
+| Blue labels or a blue default `.tag` | `--nw-text-mute` labels; `.tag-chrome` for blue | Neutral first, blue marks focus and accents |
+| `.led.green`, `.led.blue`, `.led.red`, `.led.yellow`, `.tag-warning`, `.nw-progress .fill`, `.stack` | `.led[data-state="ok\|active\|error\|warn"]`, `.tag-warn`, `.nw-progress-fill`, `.nw-stack` | Removed in v3 |
 | `gap: 16px` between panels | `gap: 2px` | Signature tight spacing |
 | `font-family: sans-serif` for titles | `font-family: var(--font-title)` + `transform: scaleX(0.82)` | Compressed serif is required |
 | `text-transform: capitalize` on labels | `text-transform: uppercase` + `letter-spacing: 0.1em` | Labels are always uppercase |
@@ -284,19 +310,25 @@ For HTML examples, see [references/examples.md](references/examples.md)
 
 ---
 
-## v2-alpha — Additive Surface
+## Intensity, Layer 2 Tokens and the v2 Components
 
-> v1 is the default. v2 is **100% additive**: nothing renamed, nothing removed. Use v2 tokens/classes when they help; keep using v1 where it works.
+> v3 is a major release: it restyled every component and removed the v1 forms listed in the
+> anti-pattern table. The v1 primitive tokens (`--nw-primary`, `--nw-green`, `--void-warm`) keep
+> their names.
 
 ### Intensity attribute
 
 Set on `<html>` to retune glow, motion, density, kanji visibility:
 
 ```html
-<html data-intensity="archive">   <!-- docs / blogs: glow off, more padding, no kanji -->
-<html data-intensity="operator">  <!-- default: identical to v1 -->
-<html data-intensity="combat">    <!-- ops console: high glow, dense, fast pulse -->
+<html data-intensity="archive">   <!-- docs / blogs: no glow, more padding, no kanji -->
+<html data-intensity="operator">  <!-- default: same as no attribute -->
+<html data-intensity="combat">    <!-- ops console: state glow doubles, dense, faster pulse -->
 ```
+
+Glow is `--nw-glow` (0 at archive, 0.5 at operator and combat). The three state-glow knobs
+`--nw-led-glow`, `--nw-control-glow` and `--nw-progress-glow` follow it and double at combat, so
+only state signals glow brighter there. Never add a glow to a non-state element.
 
 ### Layer 2 semantic tokens (use these when forking palette)
 
@@ -307,6 +339,8 @@ Set on `<html>` to retune glow, motion, density, kanji visibility:
 --nw-signal-warn      warning (was --nw-yellow)
 --nw-signal-error     error (was --nw-red)
 --nw-ai               AI / oracle (was --nw-purple)
+--nw-action           the solid action fill (bone #e6e6e6); --nw-action-hot hover, --nw-action-text label
+--nw-line             panel and header edges; --nw-line-strong control boundaries (3:1)
 --nw-text-strong      headings (#ffffff)
 --nw-text-default     body (#e6e6e6)
 --nw-text-mute        captions (#aaaaaa)
@@ -314,16 +348,16 @@ Set on `<html>` to retune glow, motion, density, kanji visibility:
 --nw-surface-0..4     elevation tiers
 ```
 
-### New components (v2)
+### Components added in v2 (all in v3)
 
 - **Forms**: `.field` (with `.error`/`.success` modifiers), `.switch`, `.check`, `.radio`, `.combo` (with `.chip`), `.kbd`, `.seg`
 - **Overlays**: `.cmdk` + `.cmdk-section`/`.cmdk-item`, `.drawer` + `.drawer-backdrop`, `.modal-title`
 - **Data**: `.code-block` (syntax tokens `.tok-k/-s/-c/-n/-fn`), `.code-inline`, `.diff` (with `.ln.add`/`.ln.del`), `.steps`
-- **State**: `.led[data-state="ok|warn|error|info|ai"]`, `.led[data-pulse]`, `.empty`, `.ai-block`
+- **State**: `.led[data-state="ok|warn|error|info|active|ai"]`, `.led[data-pulse]`, `.empty`, `.ai-block`
 - **Stat**: `.stat` + `.stat-label`/`.stat-value`/`.stat-delta`/`.stat-spark`
 - **Layout**: `.nw-frame`, `.nw-stack`, `.nw-cluster`, `.nw-split`
-- **Tag variants**: `.tag-chrome`, `.tag-warn`, `.tag-ai`
-- **Button variants**: `.btn-success`, `.btn-ai`, `.btn-icon`, `.btn-xs`, `.btn-lg`, `.btn-loading`
+- **Tag variants**: `.tag-chrome` (blue), `.tag-warn`, `.tag-ai`; the default `.tag` is neutral
+- **Button variants**: `.btn-chrome` (blue solid), `.btn-success`, `.btn-ai`, `.btn-icon`, `.btn-xs`, `.btn-lg`, `.btn-loading`
 - **Banner**: system-wide notice strip
 
 ### Overlay open state
@@ -342,10 +376,10 @@ and unfocusable.
 | Tooltip | `.tooltip` | closed; opens on `:hover` and `:focus-within` | open | closed, even on hover |
 
 - For drawer, modal and command palette, always set the attribute: `"true"` to show, `"false"` to hide.
-- For dropdown and toast, omit the attribute for plain always-visible markup. Set
+- For dropdown and toast, omit the attribute (or set `"true"`) for plain always-visible markup. Set
   `data-open="false"` to dismiss with an exit animation, and remove the element after the exit
   finishes, not at the moment you set `"false"`: a closed toast keeps its layout box until you do.
-  Wait at least 350ms (the longest overlay exit, combat's sweep, is 315ms) with a timer, not
+  Wait at least 350ms (the longest overlay exit, combat's sweep, is 300ms) with a timer, not
   `transitionend`, which does not fire under reduced motion.
 - An element mounted already open never animates in: the first style does not transition. To
   animate a toast or dropdown you add at runtime, mount it with `data-open="false"`, then set
@@ -357,6 +391,13 @@ and unfocusable.
   `role="tooltip"`; `aria-describedby` still reads hidden content.
 
 ```html
+<!-- open -->
+<div class="dropdown" data-open="true">
+  <button class="btn-ghost btn-sm">Actions ▾</button>
+  <div class="dropdown-menu"><button class="dropdown-item">Edit</button></div>
+</div>
+
+<!-- closed -->
 <div class="dropdown" data-open="false">
   <button class="btn-ghost btn-sm">Actions ▾</button>
   <div class="dropdown-menu"><button class="dropdown-item">Edit</button></div>
@@ -368,13 +409,13 @@ and unfocusable.
 Use named timings instead of ad-hoc ms values. Never write a literal duration in a component.
 
 Three steps, each with an enter and an exit variant. The bare name enters, `-out` exits (shorter,
-accelerating):
+accelerating, `cubic-bezier(0.4, 0, 1, 1)`):
 
 | Step | Use | Enter | Exit |
 |---|---|---|---|
-| `tick` | clicks, toggles, hover and focus feedback | `var(--nw-tick)` (150ms) | `var(--nw-tick-out)` |
-| `sweep` | panels, modal, drawer, command palette, toast | `var(--nw-sweep)` (350ms) | `var(--nw-sweep-out)` |
-| `uplink` | data load reveal | `var(--nw-uplink)` (400ms) | `var(--nw-uplink-out)` |
+| `tick` | clicks, toggles, hover and focus feedback | `var(--nw-tick)` (150ms) | `var(--nw-tick-out)` (100ms) |
+| `sweep` | panels, modal, drawer, command palette, toast | `var(--nw-sweep)` (350ms) | `var(--nw-sweep-out)` (250ms) |
+| `uplink` | data load reveal | `var(--nw-uplink)` (400ms) | `var(--nw-uplink-out)` (300ms) |
 
 - **Composites** (`--nw-sweep`, `--nw-sweep-out`) fill the `transition` shorthand:
   `transition: transform var(--nw-sweep)`.
@@ -386,7 +427,7 @@ accelerating):
 - **Stagger**: `--nw-stagger` (50ms) is the delay step between items revealed in sequence:
   `animation-delay: calc(2 * var(--nw-stagger))` for the third item.
 - **Loops**: `--nw-loop-spin` (800ms) and `--nw-loop-shimmer` (1200ms) are the spinner and skeleton
-  shimmer cycles; `--nw-pulse-speed` is the LED heartbeat. Pair a loop with
+  shimmer cycles; `--nw-pulse-speed` (1.6s, the same at every level) is the LED heartbeat. Pair a loop with
   `animation-play-state: var(--nw-loop-state)` (the LED uses `--nw-pulse-state`), so reduced motion
   can pause it.
 
@@ -397,17 +438,17 @@ frame, not paused. Pause loops with `--nw-loop-state` and
 `--nw-pulse-state` set to `paused`. `prefers-reduced-motion` sets all three: the scale to `0` and
 both states to `paused`.
 
-### When to use v2 vs v1
+### Choosing an intensity and components
 
 | Use case | Recommendation |
 |---|---|
-| Blog post, portfolio, docs | `data-intensity="archive"` + v1 components |
-| Default look (current Nightwire feel) | No attribute or `data-intensity="operator"` + mix freely |
-| Ops console, monitoring dashboard | `data-intensity="combat"` + v2 components (`.cmdk`, `.drawer`, `.stat`, `.steps`) |
+| Blog post, portfolio, docs | `data-intensity="archive"` + `.panel`, `.card`, `.nw-table`, `.code-block` |
+| Default look | No attribute or `data-intensity="operator"`; mix components freely |
+| Ops console, monitoring dashboard | `data-intensity="combat"` + `.cmdk`, `.drawer`, `.stat`, `.steps`, `.led[data-state]` |
 | Forms-heavy admin panel | v2 form suite (`.field`, `.switch`, `.check`, `.combo`) |
 | AI-generated suggestions/oracle UIs | `.ai-block` + `.tag-ai` + `.btn-ai` + `.led[data-state="ai"]` |
 
-See `examples/html/workshop.html` for a live demonstration with all v2 components + intensity toggle.
+See `examples/html/workshop.html` for a live demonstration with every component and the intensity toggle.
 
 ---
 

@@ -27,7 +27,7 @@ code, pre {
 }
 pre {
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
   padding: var(--sp-3);
   overflow-x: auto;
 }

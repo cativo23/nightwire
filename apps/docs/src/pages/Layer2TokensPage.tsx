@@ -43,7 +43,7 @@ export function Layer2TokensPage() {
       <SectionTitle tag="意味層">Layer 2 Semantic Tokens</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, margin: '8px 0 16px', lineHeight: 1.6 }}>
         v1 mixes primitives and semantics in one layer (<code style={{ color: 'var(--nw-green)' }}>--nw-primary</code> is both
-        "the blue" and "UI chrome color"). v2 separates concerns. Layer 2 tokens reference Layer 1, so a v1 override
+        "the blue" and "the chrome and focus color"). v2 separates concerns. Layer 2 tokens reference Layer 1, so a v1 override
         propagates to v2 consumers automatically. <strong>Zero rename</strong> — Layer 1 names stay untouched.
       </p>
 
@@ -84,7 +84,6 @@ export function Layer2TokensPage() {
 
 .my-stat {
   color: var(--nw-data);                 /* was: var(--nw-green)       */
-  text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(122,237,122,.5);
 }
 
 .my-alert {

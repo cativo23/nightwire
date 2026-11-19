@@ -2,7 +2,7 @@
 // Computed-style parity between two Nightwire stylesheets.
 //
 //   npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>]
-//                     [--max-lines N] [--expect <categories.json>]
+//                     [--max-lines N] [--expect <categories.json>] [--jobs N] [--json <file>]
 //
 // --old defaults to git:main. With --expect and no --old it defaults to git:<baseline> instead,
 // where `baseline` is the optional top-level field of the category file (git:main when the file
@@ -15,10 +15,21 @@
 // operator/combat × prefers-reduced-motion off/on) and again with :hover/:focus/
 // :focus-visible/:active forced on the elements each stateful selector targets.
 //
+// Captures run concurrently, one job per page x state (the old and the new stylesheet of a pair
+// are captured by the same job). --jobs N (or NW_PARITY_JOBS=N) sets how many run at once;
+// default min(6, cores - 2), at least 1. --jobs 1 is the strictly sequential run. Results are
+// merged in page/state order, so the output does not depend on N. While iterating, pass --pages
+// for the pages you touch; run the full set once before committing.
+//
 // Determinism: Math.random is seeded, the page clock is faked and advanced by a fixed amount,
 // requests outside the local server are blocked (fallback fonts on both sides), CSS
 // transitions are finished and CSS animations are paused at t=0. No freeze stylesheet is
 // injected, so animation-* and transition-* values stay comparable.
+//
+// With --json <file>, the run is also written as JSON: `meta`, every difference with its category
+// (null when none explains it) and `shadows`, every element with a box-shadow or text-shadow on
+// either side, changed or not. `node scripts/parity/glow-check.mjs <file>` reads it (FR-013b). The
+// JSON line is printed before the report, so RESULT stays last; a write failure exits 2.
 //
 // With --expect <file>, differences are classified against the change categories in that file
 // (docs/design/v3/change-inventory.json): one CATEGORY line per category, and only the
@@ -26,20 +37,26 @@
 //
 // Exit codes: 0 = no differences (with --expect: none unexpected) and full coverage,
 // 1 = differences (with --expect: unexpected ones) or coverage < 100%,
-// 2 = usage error (including an unreadable or invalid --expect file) or browser launch failure.
+// 2 = usage error (including an unreadable or invalid --expect file, or a --json file that cannot be
+// written) or browser launch failure.
 // See CONTRIBUTING.md.
 
-import { createServer } from 'node:http';
-import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
-import { resolve, extname, sep, dirname } from 'node:path';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { resolve, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { extractSelectors, analyzeSelectors } from './lib/selectors.mjs';
 import { snapshotKey, diffRecords, validateCategories } from './lib/diff.mjs';
 import { globToRegExp } from './lib/glob.mjs';
-import { buildReport } from './lib/report.mjs';
+import { buildReport, buildJsonReport, writeJsonReport } from './lib/report.mjs';
+import { collectShadows } from './lib/shadows.mjs';
 import { resolveOld } from './lib/baseline.mjs';
+import { loadSheet as loadSheetFrom, SheetError } from './lib/sheet.mjs';
+import { startServer as startServerAt } from './lib/server.mjs';
+import { routeAction } from './lib/route.mjs';
+import { runPool } from './lib/pool.mjs';
+import { resolveJobs } from './lib/jobs.mjs';
+import { startPausedClock } from './lib/clock.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const COVERAGE_FIXTURE = 'scripts/parity/fixtures/coverage.html';
@@ -56,24 +73,19 @@ class UsageError extends Error {}
 
 function usage(message) {
   if (message) console.error(`parity: ${message}`);
-  console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N] [--expect <categories.json>]');
+  console.error('usage: npm run parity -- [--old <path|git:REF>] [--new <path|git:REF>] [--pages <glob,glob…>] [--max-lines N] [--expect <categories.json>] [--jobs N] [--json <file>]');
   console.error('  --old defaults to git:main, or to git:<baseline> of the --expect file when it has one');
+  console.error('  --jobs defaults to NW_PARITY_JOBS, else min(6, cores - 2), at least 1');
   process.exit(2);
 }
 
 function loadSheet(spec) {
-  if (spec.startsWith('git:')) {
-    const ref = spec.slice(4);
-    if (!ref || ref.startsWith('-')) usage(`invalid git ref: ${spec}`);
-    try {
-      return execFileSync('git', ['show', `${ref}:nightwire.css`], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 << 20 });
-    } catch {
-      usage(`cannot read nightwire.css at ${ref}`);
-    }
+  try {
+    return loadSheetFrom(spec, ROOT);
+  } catch (err) {
+    if (err instanceof SheetError) usage(err.message);
+    throw err;
   }
-  const path = resolve(ROOT, spec);
-  if (!existsSync(path)) usage(`stylesheet not found: ${spec}`);
-  return readFileSync(path, 'utf8');
 }
 
 /** Read and compile a change-category file ({ baseline?, categories }); any failure is a usage error. */
@@ -130,23 +142,7 @@ function resolvePages(arg) {
   return [...pages].sort();
 }
 
-const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript',
-  '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg',
-  '.woff2': 'font/woff2', '.woff': 'font/woff', '.ico': 'image/x-icon' };
-
-function startServer() {
-  const server = createServer((req, res) => {
-    let pathname;
-    try { pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch { res.writeHead(400).end(); return; }
-    if (pathname.split('/').some((seg) => seg.startsWith('.'))) { res.writeHead(404).end(); return; }
-    const file = resolve(ROOT, `.${pathname}`);
-    if (file !== ROOT && !file.startsWith(ROOT + sep)) { res.writeHead(403).end(); return; }
-    if (!existsSync(file) || !statSync(file).isFile()) { res.writeHead(404).end(); return; }
-    res.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' });
-    res.end(readFileSync(file));
-  });
-  return new Promise((ok) => server.listen(0, '127.0.0.1', () => ok(server)));
-}
+const startServer = () => startServerAt(ROOT);
 
 // ---- in-page helpers (serialized into the page) -------------------------------------------
 
@@ -224,16 +220,16 @@ async function openPage(browser, { css, origin, url, intensity, reducedMotion })
   const page = await context.newPage();
   let substituted = 0;
   await page.route('**/*', (route) => {
-    const u = new URL(route.request().url());
-    if (u.origin !== origin) return route.abort();
-    if (u.pathname.endsWith('/nightwire.css')) { substituted++; return route.fulfill({ status: 200, contentType: 'text/css', body: css }); }
+    const action = routeAction(route.request().url(), origin);
+    if (action === 'abort') return route.abort();
+    if (action === 'css') { substituted++; return route.fulfill({ status: 200, contentType: 'text/css', body: css }); }
     return route.continue();
   });
   await page.addInitScript(SEED_RANDOM);
   await page.addInitScript(PAGE_HELPERS);
-  await page.clock.install({ time: FIXED_TIME });
-  // install() lets time flow in real time; pause it so page timers only fire on runFor().
-  await page.clock.pauseAt(new Date(FIXED_TIME.getTime() + 1000));
+  // Paused from the start (see lib/clock.mjs): page timers only fire on runFor(), and nothing
+  // depends on how long the host takes between two calls.
+  await startPausedClock(page.clock, FIXED_TIME);
   const response = await page.goto(url, { waitUntil: 'load' });
   if (!response?.ok()) throw new UsageError(`${url} returned HTTP ${response?.status() ?? 'no response'}`);
   if (!substituted) throw new UsageError(`${url} never requested nightwire.css, so there is nothing to compare`);
@@ -347,11 +343,16 @@ async function main() {
     ({ values: args } = parseArgs({
       args: process.argv.slice(2),
       options: { old: { type: 'string' }, new: { type: 'string', default: 'nightwire.css' },
-        pages: { type: 'string' }, 'max-lines': { type: 'string', default: '200' }, expect: { type: 'string' } },
+        pages: { type: 'string' }, 'max-lines': { type: 'string', default: '200' }, expect: { type: 'string' }, jobs: { type: 'string' }, json: { type: 'string' } },
     }));
   } catch (err) { usage(err.message); }
   const maxLines = Number(args['max-lines']);
   if (!Number.isInteger(maxLines) || maxLines < 0) usage('--max-lines must be a non-negative integer');
+
+  let jobs;
+  try {
+    jobs = resolveJobs(args.jobs, process.env.NW_PARITY_JOBS);
+  } catch (err) { usage(err.message); }
 
   const file = args.expect === undefined ? undefined : loadCategories(args.expect);
   const categories = file?.categories;
@@ -387,6 +388,7 @@ async function main() {
   console.log(`PARITY  old=${oldSpec}  new=${args.new}  pages=${pages.length}  states=${states.length}  viewport=${VIEWPORT.width}x${VIEWPORT.height}`);
 
   const diffs = [];
+  const shadows = [];
   const coveredClasses = new Set();
   const coveredAttrs = new Set(attrStates.filter((a) => PROVIDED_ATTR_STATES.test(a)));
   try {
@@ -395,17 +397,25 @@ async function main() {
     const props = await probe.evaluate(() => Array.from(getComputedStyle(document.body)).filter((p) => !p.startsWith('--')).sort());
     await probe.close();
 
-    for (const pageName of pages) {
-      const url = `${origin}/${pageName}`;
-      for (const state of states) {
-        const common = { origin, url, intensity: state.intensity, reducedMotion: state.reducedMotion,
-          label: state.label, classes, attrs: attrStates };
-        const before = await captureState(browser, { ...common, css: oldCss }, props, stateful);
-        const after = await captureState(browser, { ...common, css: newCss }, props, stateful);
-        diffs.push(...compareCaptures(pageName, before.captures, after.captures, props));
-        after.coverage.classes.forEach((c) => coveredClasses.add(c));
-        after.coverage.attrs.forEach((a) => coveredAttrs.add(a));
-      }
+    // One job per page x state; the old and new capture of a pair stay in the same job. Every
+    // job builds its own options and results, so nothing is shared between concurrent jobs.
+    const jobList = pages.flatMap((pageName) => states.map((state) => ({ pageName, state })));
+    const results = await runPool(jobList, jobs, async ({ pageName, state }) => {
+      const common = { origin, url: `${origin}/${pageName}`, intensity: state.intensity, reducedMotion: state.reducedMotion,
+        label: state.label, classes, attrs: attrStates };
+      const before = await captureState(browser, { ...common, css: oldCss }, props, stateful);
+      const after = await captureState(browser, { ...common, css: newCss }, props, stateful);
+      return {
+        diffs: compareCaptures(pageName, before.captures, after.captures, props),
+        shadows: collectShadows(pageName, before.captures, after.captures, props, SEPARATOR),
+        coverage: after.coverage,
+      };
+    });
+    for (const result of results) { // job order, so the report matches a sequential run
+      diffs.push(...result.diffs);
+      shadows.push(...result.shadows);
+      result.coverage.classes.forEach((c) => coveredClasses.add(c));
+      result.coverage.attrs.forEach((a) => coveredAttrs.add(a));
     }
   } finally {
     await browser.close();
@@ -416,6 +426,18 @@ async function main() {
     ...attrStates.filter((a) => !coveredAttrs.has(a))];
   const coverageLine = `COVERAGE  classes=${coveredClasses.size}/${classes.length}  attr-states=${coveredAttrs.size}/${attrStates.length}  uncovered=${uncovered.length ? uncovered.join(' ') : 'none'}`;
   const report = buildReport({ diffs, categories, maxLines, coverageLine, uncovered: uncovered.length });
+  // The JSON goes out before the report so RESULT stays the last line, and a write failure exits 2
+  // instead of passing for unexpected differences.
+  if (args.json !== undefined) {
+    const json = buildJsonReport({ oldSpec, newSpec: args.new, pages, states: states.map((s) => s.label), diffs, shadows, categories });
+    try {
+      writeJsonReport(resolve(args.json), json);
+    } catch (err) {
+      console.error(`parity: ${err.message}`);
+      process.exit(2);
+    }
+    console.log(`JSON  ${args.json}  differences=${diffs.length}  shadows=${shadows.length}`);
+  }
   report.lines.forEach((l) => console.log(l));
   process.exit(report.exitCode);
 }

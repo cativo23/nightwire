@@ -45,13 +45,13 @@
 
   --nw-purple:        #b266e0;
   --nw-purple-dim:    #8844bb;
-  --nw-purple-fill:   rgba(178, 102, 224, 0.1);
+  --nw-purple-fill:   rgba(178, 102, 224, 0.06);
 
   /* Text */
   --nw-text:          #ffffff;
   --nw-text-dim:      #aaaaaa;
-  --nw-text-faint:    rgba(255, 255, 255, 0.06);
-  --nw-text-line:     rgba(255, 255, 255, 0.12);
+  --nw-text-faint:    rgba(255, 255, 255, 0.08);
+  --nw-text-line:     rgba(255, 255, 255, 0.14);
 
   /* ── Semantic Roles ──────────────────────────────────────── */
   --nw-success:       var(--nw-green);
@@ -122,6 +122,9 @@
   --nw-chrome:        var(--nw-primary);
   --nw-chrome-mute:   var(--nw-primary-dim);
   --nw-chrome-hot:    var(--nw-primary-hot);
+  --nw-action:        var(--nw-text-default);
+  --nw-action-hot:    var(--nw-chrome-hot);
+  --nw-action-text:   var(--void);
   --nw-data:          var(--nw-green);
   --nw-data-mute:     var(--nw-green-dim);
   --nw-signal-info:   var(--nw-cyan);
@@ -132,27 +135,31 @@
 
   /* Lines */
   --nw-line:          var(--nw-text-line);
-  --nw-line-strong:   rgba(255, 255, 255, 0.18);
+  --nw-line-strong:   rgba(255, 255, 255, 0.36);
   --nw-line-chrome:   rgba(102, 153, 255, 0.35);
 
   /* Focus */
   --nw-focus-ring:    var(--nw-chrome);
 
   /* ── Intensity knobs (default: operator) ────────────────── */
-  --nw-glow:          1;
+  --nw-glow:          0.5;
+  --nw-led-glow:      var(--nw-glow);
+  --nw-control-glow:  var(--nw-glow);
+  --nw-progress-glow: var(--nw-glow);
   --nw-density:       1;
   --nw-motion-scale:  1;
   --nw-pad-scale:     1;
   --nw-base-font:     var(--text-base);
   --nw-pulse-state:   running;
   --nw-loop-state:    running;
-  --nw-pulse-speed:   1.4s;
+  --nw-pulse-speed:   1.6s;
+  --nw-hairline:      1px;
+  --nw-rule:          1.5px;
+  --nw-accent-width:  2px;
   --nw-panel-radius:  var(--radius-none);
   --nw-value-color:   var(--nw-data);
   --nw-value-weight:  500;
   --nw-kanji-display: inline;
-  --nw-header-gradient: linear-gradient(180deg, rgba(102, 153, 255, 0.06), transparent 80%);
-  --nw-header-pattern:  none;
   --nw-label-spacing:   var(--ls-ultra);
 
   /* ── Motion vocabulary ──────────────────────────────────── */
@@ -160,9 +167,9 @@
   --nw-sweep:  calc(350ms * var(--nw-motion-scale)) cubic-bezier(0.2, 0.8, 0.2, 1);
   --nw-uplink: calc(400ms * var(--nw-motion-scale)) cubic-bezier(0, 0.6, 0.4, 1);
 
-  /* Exit variants: shorter, accelerating (provisional) */
-  --nw-tick-out:   calc(112.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
-  --nw-sweep-out:  calc(262.5ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+  /* Exit variants: shorter, accelerating */
+  --nw-tick-out:   calc(100ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+  --nw-sweep-out:  calc(250ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
   --nw-uplink-out: calc(300ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
 
   /* Longhands, for building transitions */
@@ -173,8 +180,8 @@
   --nw-sweep-ease:      cubic-bezier(0.2, 0.8, 0.2, 1);
   --nw-uplink-ease:     cubic-bezier(0, 0.6, 0.4, 1);
 
-  --nw-tick-out-duration:   calc(112.5ms * var(--nw-motion-scale));
-  --nw-sweep-out-duration:  calc(262.5ms * var(--nw-motion-scale));
+  --nw-tick-out-duration:   calc(100ms * var(--nw-motion-scale));
+  --nw-sweep-out-duration:  calc(250ms * var(--nw-motion-scale));
   --nw-uplink-out-duration: calc(300ms * var(--nw-motion-scale));
   --nw-tick-out-ease:       cubic-bezier(0.4, 0, 1, 1);
   --nw-sweep-out-ease:      cubic-bezier(0.4, 0, 1, 1);
@@ -184,6 +191,8 @@
   --nw-stagger:      calc(50ms * var(--nw-motion-scale));
   --nw-loop-spin:    calc(800ms / var(--nw-motion-scale));
   --nw-loop-shimmer: calc(1200ms / var(--nw-motion-scale));
+
+  --nw-elevation-overlay: 0 24px 64px rgba(0, 0, 0, 0.7);
 }
 
 /* ── Intensity: archive (docs, blogs, low-glow) ─────────── */
@@ -197,7 +206,6 @@
   --nw-value-color: var(--nw-green-dim);
   --nw-value-weight: 400;
   --nw-kanji-display: none;
-  --nw-header-gradient: none;
   --nw-label-spacing: 0.14em;
 }
 
@@ -208,16 +216,15 @@
 
 /* ── Intensity: combat (ops console, high-glow, dense) ─── */
 :root[data-intensity="combat"] {
-  --nw-glow: 2.2;
   --nw-motion-scale: 1.2;
   --nw-density: 0.85;
   --nw-pad-scale: 0.7;
   --nw-base-font: 13px;
   --nw-pulse-state: running;
-  --nw-pulse-speed: 0.7s;
   --nw-value-color: var(--nw-green-dim);
-  --nw-header-gradient: linear-gradient(180deg, rgba(102, 153, 255, 0.18), transparent 70%);
-  --nw-header-pattern: repeating-linear-gradient(0deg, rgba(102, 153, 255, 0.05) 0 1px, transparent 1px 3px);
+  --nw-led-glow: calc(var(--nw-glow) * 2);
+  --nw-control-glow: calc(var(--nw-glow) * 2);
+  --nw-progress-glow: calc(var(--nw-glow) * 2);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -259,7 +266,7 @@ code, pre {
 }
 pre {
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
   padding: var(--sp-3);
   overflow-x: auto;
 }
@@ -313,19 +320,19 @@ table {
 /* ── src/utilities/glow.css ────────────────────────────────────── */
 /* ── Glow ────────────────────────────────────────────────────── */
 
-.glow-green  { text-shadow: 0 0 8px rgba(122,237,122,0.5), 0 0 16px rgba(122,237,122,0.2); }
-.glow-blue   { text-shadow: 0 0 8px rgba(102,153,255,0.5), 0 0 16px rgba(102,153,255,0.2); }
-.glow-cyan   { text-shadow: 0 0 8px rgba(102,221,255,0.5), 0 0 16px rgba(102,221,255,0.2); }
-.glow-red    { text-shadow: 0 0 8px rgba(255,102,136,0.5), 0 0 16px rgba(255,102,136,0.3); }
-.glow-yellow { text-shadow: 0 0 8px rgba(232,153,58,0.5),  0 0 16px rgba(232,153,58,0.2); }
-.glow-purple { text-shadow: 0 0 8px rgba(178,102,224,0.5), 0 0 16px rgba(178,102,224,0.2); }
+.glow-green  { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(122,237,122,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(122,237,122,0.13); }
+.glow-blue   { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(102,153,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,153,255,0.13); }
+.glow-cyan   { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(102,221,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,221,255,0.13); }
+.glow-red    { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(255,102,136,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(255,102,136,0.2); }
+.glow-yellow { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(232,153,58,0.33),  0 0 calc(16px * var(--nw-glow)) rgba(232,153,58,0.13); }
+.glow-purple { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(178,102,224,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(178,102,224,0.13); }
 
 /* ── src/utilities/border.css ──────────────────────────────────── */
 /* ── Border ──────────────────────────────────────────────────── */
 
-.border         { border: 1px solid var(--nw-text-line); }
-.border-primary { border: 1px solid var(--nw-primary-dim); }
-.border-dim     { border: 1px solid var(--nw-text-faint); }
+.border         { border: var(--nw-hairline) solid var(--nw-text-line); }
+.border-primary { border: var(--nw-hairline) solid var(--nw-primary-dim); }
+.border-dim     { border: var(--nw-hairline) solid var(--nw-text-faint); }
 
 /* ── src/utilities/layout.css ──────────────────────────────────── */
 /* ── Grid & Layout ───────────────────────────────────────────── */
@@ -333,9 +340,8 @@ table {
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-2); }
-.stack  { display: flex; flex-direction: column; gap: var(--sp-2); }
 
-/* ── v2 · Layout primitives ────────────────────────────────── */
+/* ── Layout primitives ─────────────────────────────────────── */
 .nw-frame   { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 .nw-stack   { display: flex; flex-direction: column; gap: calc(var(--sp-2) * var(--nw-density)); }
 .nw-cluster { display: flex; flex-wrap: wrap; gap: calc(var(--sp-2) * var(--nw-density)); align-items: center; }
@@ -380,16 +386,16 @@ table {
   font-weight: 700;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--void);
-  background: var(--nw-primary);
-  border: 1px solid var(--nw-primary);
-  border-radius: var(--radius-md);
+  color: var(--nw-action-text);
+  background: var(--nw-action);
+  border: var(--nw-hairline) solid var(--nw-action);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn:hover {
-  background: var(--nw-primary-hot);
-  border-color: var(--nw-primary-hot);
+  background: var(--nw-action-hot);
+  border-color: var(--nw-action-hot);
 }
 /* Tactile press — expected on a terminal/console system. */
 .btn:active,
@@ -408,16 +414,17 @@ table {
   font-weight: 700;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-default);
   background: transparent;
-  border: 1px solid var(--nw-primary-dim);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn-ghost:hover {
-  background: var(--nw-primary-fill);
-  border-color: var(--nw-primary);
+  background: transparent;
+  border-color: var(--nw-line-chrome);
+  color: var(--nw-text-strong);
 }
 
 .btn-danger {
@@ -432,8 +439,8 @@ table {
   text-transform: uppercase;
   color: var(--void);
   background: var(--nw-red);
-  border: 1px solid var(--nw-red);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-red);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
@@ -466,18 +473,16 @@ table {
 .btn-success {
   background: transparent;
   color: var(--nw-data);
-  border: 1px solid var(--nw-data-mute);
-  box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(122, 237, 122, 0.2);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
 }
-.btn-success:hover { background: var(--nw-green-fill); }
+.btn-success:hover { background: var(--nw-green-fill); border-color: var(--nw-data-mute); }
 
 .btn-ai {
   background: transparent;
   color: var(--nw-ai);
-  border: 1px solid var(--nw-ai-mute);
-  box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(178, 102, 224, 0.2);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
 }
-.btn-ai:hover { background: var(--nw-purple-fill); }
+.btn-ai:hover { background: var(--nw-purple-fill); border-color: var(--nw-ai-mute); }
 
 .btn-icon { padding: var(--sp-1) var(--sp-1); min-width: 28px; justify-content: center; }
 .btn-xs   { padding: 2px 6px; font-size: 9px; }
@@ -487,7 +492,7 @@ table {
 .btn-loading::before {
   content: ""; display: inline-block;
   width: 10px; height: 10px; margin-right: 6px;
-  border: 1.5px solid currentColor; border-right-color: transparent;
+  border: var(--nw-rule) solid currentColor; border-right-color: transparent;
   border-radius: 50%;
   animation: nw-spin var(--nw-loop-spin) linear infinite;
   animation-play-state: var(--nw-loop-state);
@@ -503,8 +508,8 @@ input, select, textarea {
   font-size: var(--text-base);
   color: var(--nw-text);
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-2) var(--sp-3);
   transition: border-color var(--nw-tick), box-shadow var(--nw-tick);
 }
@@ -515,7 +520,7 @@ input:focus, select:focus, textarea:focus {
 }
 input::placeholder, textarea::placeholder {
   color: var(--nw-text-dim);
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 /* ── v2 · Form fields ──────────────────────────────────────── */
@@ -523,7 +528,7 @@ input::placeholder, textarea::placeholder {
 .field-label {
   font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 .field-label .req { color: var(--nw-signal-error); margin-left: 2px; }
 .field-help { font-size: var(--text-xs); color: var(--nw-text-mute); }
@@ -546,8 +551,8 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   padding: 1px var(--sp-2);
   border-radius: var(--radius-sm);
-  color: var(--nw-primary);
-  border: 1px solid var(--nw-primary-dim);
+  color: var(--nw-text-default);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
 }
 .badge-success { color: var(--nw-success); border-color: var(--nw-green-dim); }
 .badge-danger  { color: var(--nw-danger);  border-color: var(--nw-red-dim); }
@@ -564,17 +569,14 @@ input::placeholder, textarea::placeholder {
   vertical-align: middle;
   margin-right: 4px;
 }
-.led.green  { background: var(--nw-green);   box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-green); }
-.led.blue   { background: var(--nw-primary); box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-primary); }
-.led.red    { background: var(--nw-red);     box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-red); }
-.led.yellow { background: var(--nw-yellow);  box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-yellow); }
 
-/* ── v2 · LED with state attribute (new pattern) ───────────── */
-.led[data-state="ok"]    { background: var(--nw-data);         box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-data); }
-.led[data-state="warn"]  { background: var(--nw-signal-warn);  box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-warn); }
-.led[data-state="error"] { background: var(--nw-signal-error); box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-error); }
-.led[data-state="info"]  { background: var(--nw-signal-info);  box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-info); }
-.led[data-state="ai"]    { background: var(--nw-ai);           box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-ai); }
+/* ── State colour: data-state on .led ──────────────────────── */
+.led[data-state="ok"]     { background: var(--nw-data);         box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-data); }
+.led[data-state="warn"]   { background: var(--nw-signal-warn);  box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-signal-warn); }
+.led[data-state="error"]  { background: var(--nw-signal-error); box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-signal-error); }
+.led[data-state="info"]   { background: var(--nw-signal-info);  box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-signal-info); }
+.led[data-state="active"] { background: var(--nw-chrome);       box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-chrome); }
+.led[data-state="ai"]     { background: var(--nw-ai);           box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-ai); }
 .led[data-pulse] {
   animation: nw-pulse calc(var(--nw-pulse-speed) / var(--nw-motion-scale)) ease-in-out infinite;
   animation-play-state: var(--nw-pulse-state);
@@ -589,7 +591,7 @@ input::placeholder, textarea::placeholder {
 
 .panel {
   background: var(--void-warm);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line);
   border-radius: var(--nw-panel-radius);
 }
 
@@ -598,12 +600,16 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-2) var(--sp-3) 7px;
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: space-between;
-  background-image: var(--nw-header-pattern), var(--nw-header-gradient);
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.panel-header .kanji) {
+  color: var(--nw-text-default);
 }
 
 .panel-body {
@@ -626,19 +632,19 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   text-align: left;
   padding: 6px 10px;
-  color: var(--nw-primary);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  color: var(--nw-text-mute);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
 }
 
 .nw-table td {
   padding: 5px 10px;
-  color: var(--nw-green);
-  border-bottom: 1px solid var(--nw-text-faint);
+  color: var(--nw-text-default);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   font-variant-numeric: tabular-nums;
   font-weight: 500;
 }
 
-.nw-table tr:hover td { background: var(--nw-green-faint); }
+.nw-table tr:hover td { background: var(--nw-text-faint); }
 
 /* ── src/components/metrics.css ────────────────────────────────── */
 /* ── Metrics Grid ────────────────────────────────────────────── */
@@ -646,7 +652,7 @@ input::placeholder, textarea::placeholder {
 .metrics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px;
+  gap: var(--nw-hairline);
   background: var(--nw-text-faint);
 }
 
@@ -659,7 +665,7 @@ input::placeholder, textarea::placeholder {
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   margin-bottom: 2px;
 }
 
@@ -668,7 +674,6 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   color: var(--nw-green);
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 6px rgba(122,237,122,0.4), 0 0 12px rgba(122,237,122,0.15);
   line-height: 1.1;
 }
 
@@ -680,7 +685,6 @@ input::placeholder, textarea::placeholder {
 
 .metric-cell.highlight .m-value {
   color: var(--nw-primary);
-  text-shadow: 0 0 6px rgba(102,153,255,0.4);
   font-size: var(--text-2xl);
 }
 
@@ -690,15 +694,14 @@ input::placeholder, textarea::placeholder {
 .nw-progress {
   height: 4px;
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line);
   overflow: hidden;
 }
 
-.nw-progress .fill,
 .nw-progress-fill {
   height: 100%;
-  background: var(--nw-green);
-  box-shadow: 0 0 calc(4px * var(--nw-glow)) rgba(122,237,122,0.3);
+  background: var(--nw-data);
+  box-shadow: 0 0 calc(4px * var(--nw-progress-glow)) rgba(122,237,122,0.3);
 }
 
 /* ── src/components/toast.css ──────────────────────────────────── */
@@ -706,10 +709,12 @@ input::placeholder, textarea::placeholder {
 
 .toast {
   background: var(--void-panel);
-  border-left: 3px solid var(--nw-primary);
+  /* The modal's boundary on all sides; the accent line below overrides the left. */
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-left: var(--nw-accent-width) solid var(--nw-chrome);
   padding: var(--sp-3) var(--sp-4);
   font-size: var(--text-sm);
-  color: var(--nw-text);
+  color: var(--nw-text-default);
   /* Open by default (no data-open, or "true"): enter curve. */
   transition: opacity var(--nw-sweep), transform var(--nw-sweep), visibility 0s;
 }
@@ -731,8 +736,8 @@ input::placeholder, textarea::placeholder {
 
 .card {
   background: var(--void-warm);
-  border: 1px solid var(--nw-text-faint);
-  border-radius: var(--radius-lg);
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -741,9 +746,14 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.card-header .kanji) {
+  color: var(--nw-text-default);
 }
 
 .card-body {
@@ -752,12 +762,13 @@ input::placeholder, textarea::placeholder {
 
 .card-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: 1px solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-line);
 }
 
 /* ── src/components/modal.css ──────────────────────────────────── */
 /* ── Modal / Dialog ──────────────────────────────────────────── */
 
+/* Closed by default. Set data-open="true" to show it; the element can stay mounted. */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -766,12 +777,18 @@ input::placeholder, textarea::placeholder {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
 
 .modal {
   background: var(--void-panel);
-  border: 1px solid var(--nw-primary-dim);
-  border-radius: var(--radius-lg);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--nw-elevation-overlay);
   width: 100%;
   max-width: 480px;
   max-height: 90vh;
@@ -783,12 +800,17 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.modal-header .kanji) {
+  color: var(--nw-text-default);
 }
 
 .modal-body {
@@ -799,33 +821,20 @@ input::placeholder, textarea::placeholder {
 
 .modal-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: 1px solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: flex-end;
   gap: var(--sp-2);
 }
 
-/* ── v2 · Modal title (non-flex header label) ──────────────── */
+/* ── Modal title (non-flex header label) ───────────────────── */
 .modal-title {
   font-family: var(--font-stamp); font-size: 10px; font-weight: 700;
   letter-spacing: var(--ls-ultra); text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 
-/* ── v2 · Modal show/hide via [data-open] attribute ──────────────
-   The v1 .modal-backdrop above is always visible (relies on DOM
-   add/remove). The patch below makes it controllable via attribute
-   so React/Vue consumers can keep the element mounted and toggle
-   data-open instead. v1 markup without data-open still works
-   (defaults to hidden — set data-open="true" on initial render or
-   render conditionally). */
-.modal-backdrop {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  /* Closed: exit curve, visibility dropped once the fade is done. */
-  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
-}
+/* ── Open state ────────────────────────────────────────────── */
 .modal-backdrop[data-open="true"] {
   visibility: visible;
   opacity: 1;
@@ -838,7 +847,7 @@ input::placeholder, textarea::placeholder {
   transition: transform var(--nw-sweep-out);
 }
 .modal-backdrop[data-open="true"] .modal {
-  transform: scale(1);
+  transform: none;
   transition: transform var(--nw-sweep);
 }
 
@@ -847,7 +856,7 @@ input::placeholder, textarea::placeholder {
 
 .tabs {
   display: flex;
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   gap: 0;
 }
 
@@ -857,22 +866,23 @@ input::placeholder, textarea::placeholder {
   font-weight: 500;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--nw-accent-width) solid transparent;
   padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
   transition: color var(--nw-tick), border-color var(--nw-tick);
 }
 
 .tab:hover {
-  color: var(--nw-text);
+  color: var(--nw-text-strong);
 }
 
+/* Blue is the underline only; the label stays neutral. */
 .tab.active {
-  color: var(--nw-primary);
-  border-bottom-color: var(--nw-primary);
+  color: var(--nw-text-default);
+  border-bottom-color: var(--nw-chrome);
 }
 
 .tab-panel {
@@ -885,7 +895,7 @@ input::placeholder, textarea::placeholder {
 .sidebar {
   width: 240px;
   background: var(--void-warm);
-  border-right: 1px solid var(--nw-text-faint);
+  border-right: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -896,9 +906,14 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-4);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.sidebar-header .kanji) {
+  color: var(--nw-text-default);
 }
 
 .sidebar-section {
@@ -906,7 +921,7 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4) var(--sp-1);
 }
 
@@ -915,22 +930,23 @@ input::placeholder, textarea::placeholder {
   align-items: center;
   gap: var(--sp-2);
   font-size: var(--text-sm);
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   padding: var(--sp-2) var(--sp-4);
-  border-left: 2px solid transparent;
+  border-left: var(--nw-accent-width) solid transparent;
   cursor: pointer;
   transition: color var(--nw-tick), background var(--nw-tick), border-color var(--nw-tick);
   text-decoration: none;
 }
 
 .sidebar-item:hover {
-  color: var(--nw-text);
+  color: var(--nw-text-strong);
   background: var(--nw-text-faint);
 }
 
+/* Blue is the accent line only; the label stays neutral. */
 .sidebar-item.active {
-  color: var(--nw-primary);
-  border-left-color: var(--nw-primary);
+  color: var(--nw-text-default);
+  border-left-color: var(--nw-chrome);
   background: var(--nw-primary-fill);
 }
 
@@ -949,8 +965,8 @@ input::placeholder, textarea::placeholder {
   z-index: 100;
   min-width: 180px;
   background: var(--void-raised);
-  border: 1px solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-1) 0;
   margin-top: var(--sp-1);
   /* Open by default (no data-open, or "true"): enter curve. */
@@ -971,7 +987,7 @@ input::placeholder, textarea::placeholder {
   width: 100%;
   font-family: var(--font-sys);
   font-size: var(--text-sm);
-  color: var(--nw-text-dim);
+  color: var(--nw-text-default);
   background: transparent;
   border: none;
   padding: var(--sp-2) var(--sp-3);
@@ -981,16 +997,16 @@ input::placeholder, textarea::placeholder {
 }
 
 .dropdown-item:hover {
-  color: var(--nw-text);
-  background: var(--nw-primary-fill);
+  color: var(--nw-text-strong);
+  background: var(--nw-text-faint);
 }
 
 .dropdown-item.danger { color: var(--nw-red); }
 .dropdown-item.danger:hover { background: var(--nw-red-fill); }
 
 .dropdown-divider {
-  height: 1px;
-  background: var(--nw-text-faint);
+  height: var(--nw-hairline);
+  background: var(--nw-line);
   margin: var(--sp-1) 0;
 }
 
@@ -1034,11 +1050,11 @@ input::placeholder, textarea::placeholder {
   left: 50%;
   transform: translateX(-50%);
   background: var(--void-raised);
-  border: 1px solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-1) var(--sp-2);
   font-size: var(--text-xs);
-  color: var(--nw-text);
+  color: var(--nw-text-default);
   white-space: nowrap;
   pointer-events: none;
   /* Closed by default: exit curve, visibility dropped once the fade is done. */
@@ -1067,7 +1083,7 @@ input::placeholder, textarea::placeholder {
   border-radius: var(--radius-sm);
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
 }
 
 .skeleton::after {
@@ -1077,9 +1093,9 @@ input::placeholder, textarea::placeholder {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(102, 153, 255, 0.08) 40%,
-    rgba(102, 221, 255, 0.12) 50%,
-    rgba(102, 153, 255, 0.08) 60%,
+    var(--nw-text-faint) 40%,
+    var(--nw-line) 50%,
+    var(--nw-text-faint) 60%,
     transparent 100%
   );
   animation: skeleton-shimmer var(--nw-loop-shimmer) ease-in-out infinite;
@@ -1120,19 +1136,19 @@ input::placeholder, textarea::placeholder {
   justify-content: space-between;
   align-items: baseline;
   padding: var(--sp-1) 0;
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   font-size: var(--text-sm);
 }
 
 .kv-row .kv-label {
-  color: var(--nw-primary-dim);
+  color: var(--nw-text-mute);
   text-transform: uppercase;
   letter-spacing: var(--ls-wide);
   font-size: 10px;
 }
 
 .kv-row .kv-value {
-  color: var(--nw-green);
+  color: var(--nw-text-default);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -1147,9 +1163,9 @@ input::placeholder, textarea::placeholder {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-full);
-  background: var(--nw-primary-fill);
-  border: 1px solid var(--nw-primary-dim);
-  color: var(--nw-primary);
+  background: var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line);
+  color: var(--nw-text-default);
   font-size: var(--text-sm);
   font-weight: 700;
 }
@@ -1161,8 +1177,8 @@ input::placeholder, textarea::placeholder {
 /* ── Divider ─────────────────────────────────────────────────── */
 
 .divider {
-  height: 1px;
-  background: var(--nw-text-faint);
+  height: var(--nw-hairline);
+  background: var(--nw-line);
   margin: var(--sp-4) 0;
 }
 
@@ -1183,26 +1199,22 @@ input::placeholder, textarea::placeholder {
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   padding: 0 var(--sp-2);
-  border-radius: var(--radius-full);
-  color: var(--nw-primary);
-  background: var(--nw-primary-fill);
+  border-radius: var(--radius-sm);
+  color: var(--nw-text-default);
+  background: var(--nw-text-faint);
 }
 
 .tag-success { color: var(--nw-success); background: var(--nw-green-faint); }
 .tag-danger  { color: var(--nw-danger);  background: var(--nw-red-fill); }
-.tag-warning { color: var(--nw-warning); background: rgba(232, 153, 58, 0.1); }
 .tag-info    { color: var(--nw-info);    background: var(--nw-cyan-glow); }
 
-/* ── v2 · Tag variants (chrome/info/ai/warn shortcut) ──────── */
+/* ── Tag variants (chrome/warn/ai) ─────────────────────────── */
 .tag-chrome  { color: var(--nw-chrome);       background: var(--nw-primary-fill); }
 .tag-warn    { color: var(--nw-signal-warn);  background: rgba(232, 153, 58, 0.1); }
 .tag-ai      { color: var(--nw-ai);           background: var(--nw-purple-fill); }
 
 /* ═══════════════════════════════════════════════════════════════
-   Nightwire v2 — additive components
-   All new classes. Consumers using v1 (.btn, .panel, .tag) keep
-   working unchanged. v2 components opt-in by class name or via
-   data-intensity attribute on <html>.
+   Components added after the base set. Order is the cascade.
    ─────────────────────────────────────────────────────────────── */
 
 /* ── src/components/kbd.css ────────────────────────────────────── */
@@ -1211,7 +1223,7 @@ input::placeholder, textarea::placeholder {
   display: inline-block;
   font-family: var(--font-sys); font-size: 10px;
   padding: 1px 5px;
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   background: var(--nw-surface-2);
   color: var(--nw-text-mute);
   border-radius: var(--radius-sm);
@@ -1221,7 +1233,7 @@ input::placeholder, textarea::placeholder {
 /* ── v2 · Segmented control ────────────────────────────────── */
 .seg {
   display: inline-flex;
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
@@ -1230,7 +1242,7 @@ input::placeholder, textarea::placeholder {
   letter-spacing: 0.14em; text-transform: uppercase;
   padding: 5px 12px; background: transparent;
   color: var(--nw-text-mute); border: 0;
-  border-right: 1px solid var(--nw-line);
+  border-right: var(--nw-hairline) solid var(--nw-line);
   cursor: pointer;
   transition: background var(--nw-tick), color var(--nw-tick);
 }
@@ -1239,18 +1251,20 @@ input::placeholder, textarea::placeholder {
 .seg button[aria-pressed="true"] {
   background: var(--nw-chrome);
   color: var(--nw-text-on-fill);
-  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(255, 255, 255, 0.5);
 }
-/* .seg clips with overflow: hidden, so the global offset outline would be cut off.
-   Draw the ring inside the segment instead. */
+/* .seg clips with overflow: hidden, so draw the ring inside the segment, 2px in from the edge.
+   The --nw-text-on-fill band outside it keeps the ring off a neighbouring selected segment's
+   --nw-chrome fill, which it merged with. WCAG 1.4.11: the ring needs 3:1 against both
+   neighbours, and --nw-chrome on --nw-text-on-fill is well above that. */
 .seg button:focus-visible {
   outline: 2px solid var(--nw-focus-ring);
-  outline-offset: -2px;
+  outline-offset: -4px;
+  box-shadow: inset 0 0 0 2px var(--nw-text-on-fill);
 }
-/* The selected segment is filled with the same colour as the ring, which would hide
-   it. A void band inside the ring keeps the ring against a contrasting colour. */
+/* The selected fill is the ring colour, so a second band inside the ring keeps them apart. */
 .seg button[aria-pressed="true"]:focus-visible {
-  box-shadow: inset 0 0 0 4px var(--nw-text-on-fill);
+  box-shadow: inset 0 0 0 6px var(--nw-text-on-fill);
 }
 
 /* ── src/components/switch.css ─────────────────────────────────── */
@@ -1260,7 +1274,7 @@ input::placeholder, textarea::placeholder {
 .switch .track {
   width: 32px; height: 16px;
   background: var(--nw-surface-3);
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-full);
   position: relative;
   transition: background var(--nw-tick), border-color var(--nw-tick);
@@ -1278,7 +1292,7 @@ input::placeholder, textarea::placeholder {
 .switch input:checked + .track::after {
   transform: translateX(16px);
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) var(--nw-chrome);
 }
 /* The input is visually hidden, so the track shows keyboard focus for it. */
 .switch input:focus-visible + .track {
@@ -1297,7 +1311,7 @@ input::placeholder, textarea::placeholder {
 .check .box, .radio .box {
   width: 14px; height: 14px;
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   display: inline-flex; align-items: center; justify-content: center;
   transition: border-color var(--nw-tick), background var(--nw-tick);
 }
@@ -1306,12 +1320,12 @@ input::placeholder, textarea::placeholder {
 .check input:checked + .box {
   background: var(--nw-chrome);
   border-color: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(102, 153, 255, 0.5);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(102, 153, 255, 0.5);
 }
 .check input:checked + .box::after {
   content: ""; width: 8px; height: 4px;
-  border-left: 1.5px solid var(--nw-text-on-fill);
-  border-bottom: 1.5px solid var(--nw-text-on-fill);
+  border-left: var(--nw-rule) solid var(--nw-text-on-fill);
+  border-bottom: var(--nw-rule) solid var(--nw-text-on-fill);
   transform: rotate(-45deg) translate(1px, -1px);
 }
 .radio input:checked + .box { border-color: var(--nw-chrome); }
@@ -1324,15 +1338,15 @@ input::placeholder, textarea::placeholder {
 .radio input:checked + .box::after {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) var(--nw-chrome);
 }
 
 /* ── src/components/combo.css ──────────────────────────────────── */
 /* ── v2 · Combo / multiselect ──────────────────────────────── */
 .combo {
   position: relative; min-height: 36px;
-  border: 1px solid var(--nw-line-strong);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   background: var(--nw-surface-2);
   padding: var(--sp-1) var(--sp-2);
   display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-1);
@@ -1344,10 +1358,10 @@ input::placeholder, textarea::placeholder {
 .combo .chip {
   display: inline-flex; align-items: center; gap: var(--sp-1);
   padding: 2px 6px;
-  background: rgba(102, 153, 255, 0.12);
-  border: 1px solid var(--nw-chrome-mute);
+  background: var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-sm);
-  font-size: var(--text-xs); color: var(--nw-chrome);
+  font-size: var(--text-xs); color: var(--nw-text-default);
 }
 .combo .chip .x { cursor: pointer; opacity: 0.7; }
 .combo input {
@@ -1376,10 +1390,10 @@ input::placeholder, textarea::placeholder {
   position: fixed; top: 0; right: 0; height: 100vh;
   width: min(440px, 92vw);
   background: var(--nw-surface-1);
-  border-left: 1px solid var(--nw-line-chrome);
+  border-left: var(--nw-hairline) solid var(--nw-line-strong);
   display: flex; flex-direction: column;
   z-index: 46;
-  box-shadow: -10px 0 calc(40px * var(--nw-glow)) rgba(102, 153, 255, 0.1);
+  box-shadow: var(--nw-elevation-overlay);
   transform: translateX(100%);
   visibility: hidden; pointer-events: none;
   transition: transform var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
@@ -1391,7 +1405,7 @@ input::placeholder, textarea::placeholder {
 .drawer-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--nw-chrome-mute);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
 }
 .drawer-body { flex: 1; overflow: auto; padding: var(--sp-4); }
 
@@ -1415,12 +1429,10 @@ input::placeholder, textarea::placeholder {
 .cmdk {
   width: min(560px, 92vw);
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-chrome-mute);
-  border-radius: var(--radius-lg);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(102, 153, 255, 0.25),
-    0 calc(20px * var(--nw-glow)) calc(80px * var(--nw-glow)) rgba(102, 153, 255, 0.15);
+  box-shadow: var(--nw-elevation-overlay);
 }
 /* Scoped to the backdrop: a standalone .cmdk (no backdrop to open it) stays where it was in 2.x. */
 .cmdk-backdrop .cmdk {
@@ -1434,7 +1446,7 @@ input::placeholder, textarea::placeholder {
 }
 .cmdk input {
   width: 100%; background: transparent;
-  border: 0; border-bottom: 1px solid var(--nw-line);
+  border: 0; border-bottom: var(--nw-hairline) solid var(--nw-line);
   color: var(--nw-text-strong);
   padding: 14px 16px;
   font-family: var(--font-sys); font-size: var(--text-base);
@@ -1445,7 +1457,7 @@ input::placeholder, textarea::placeholder {
 .cmdk-section {
   font-family: var(--font-stamp); font-size: 9px;
   letter-spacing: var(--ls-ultra); text-transform: uppercase;
-  color: var(--nw-chrome-mute);
+  color: var(--nw-text-mute);
   padding: 10px 16px 4px;
 }
 .cmdk-item {
@@ -1453,8 +1465,13 @@ input::placeholder, textarea::placeholder {
   padding: var(--sp-2) 16px; font-size: var(--text-sm);
   color: var(--nw-text-default); cursor: pointer;
 }
-.cmdk-item:hover, .cmdk-item.active {
-  background: rgba(102, 153, 255, 0.1);
+.cmdk-item:hover {
+  background: var(--nw-text-faint);
+  color: var(--nw-text-strong);
+}
+/* After :hover, so the active blue wins on a hovered active item. */
+.cmdk-item.active {
+  background: var(--nw-primary-fill);
   color: var(--nw-chrome);
 }
 
@@ -1465,14 +1482,14 @@ input::placeholder, textarea::placeholder {
   padding: 6px var(--sp-3);
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: rgba(232, 153, 58, 0.08);
-  border-bottom: 1px solid var(--nw-signal-warn);
+  border-bottom: var(--nw-hairline) solid var(--nw-signal-warn);
   color: var(--nw-text-default);
 }
 .banner .banner-tag {
   font-family: var(--font-stamp); font-size: 9px;
   letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--nw-signal-warn);
-  border: 1px solid var(--nw-signal-warn);
+  border: var(--nw-hairline) solid var(--nw-signal-warn);
   padding: 1px 6px;
   background: transparent;
 }
@@ -1482,7 +1499,7 @@ input::placeholder, textarea::placeholder {
 .code-inline {
   font-family: var(--font-sys); font-size: 0.9em;
   background: var(--nw-surface-2);
-  color: var(--nw-data);
+  color: var(--nw-text-default);
   padding: 1px 5px;
   border-radius: var(--radius-sm);
 }
@@ -1491,8 +1508,8 @@ input::placeholder, textarea::placeholder {
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
   color: var(--nw-text-default);
-  border: 1px solid var(--nw-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   padding: 10px var(--sp-3);
   white-space: pre;
   overflow: auto;
@@ -1506,11 +1523,11 @@ input::placeholder, textarea::placeholder {
 .diff {
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
-.diff .ln { display: flex; border-left: 2px solid transparent; }
+.diff .ln { display: flex; border-left: var(--nw-accent-width) solid transparent; }
 .diff .ln .num {
   width: 32px; text-align: right;
   color: var(--nw-text-mute);
@@ -1534,11 +1551,11 @@ input::placeholder, textarea::placeholder {
 }
 .steps .step.done {
   background: var(--nw-data);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(122, 237, 122, 0.5);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(122, 237, 122, 0.5);
 }
 .steps .step.current {
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(102, 153, 255, 0.6);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(102, 153, 255, 0.6);
 }
 
 /* ── src/components/empty.css ──────────────────────────────────── */
@@ -1552,8 +1569,10 @@ input::placeholder, textarea::placeholder {
 }
 .empty .glyph {
   font-family: var(--font-mincho); font-size: var(--text-3xl);
-  color: var(--nw-chrome-mute); opacity: 0.5;
+  opacity: 0.5;
 }
+/* :where() keeps specificity at 0, so a colour utility on the glyph still wins. */
+:where(.empty .glyph) { color: var(--nw-text-default); }
 .empty .head {
   font-family: var(--font-stamp); font-size: var(--text-xs);
   letter-spacing: 0.18em; text-transform: uppercase;
@@ -1565,15 +1584,14 @@ input::placeholder, textarea::placeholder {
 /* ── v2 · AI block (purple-accented suggestion strip) ──────── */
 .ai-block {
   padding: var(--sp-3);
-  background: linear-gradient(180deg, rgba(178, 102, 224, 0.06), transparent 70%);
-  border-top: 1px solid rgba(178, 102, 224, 0.25);
+  background: var(--nw-purple-fill);
+  border-top: var(--nw-hairline) solid var(--nw-line);
 }
 .ai-block-head {
   font-family: var(--font-stamp); font-size: 10px;
   letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--nw-ai);
   display: flex; align-items: center; gap: var(--sp-2);
-  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(178, 102, 224, 0.45);
 }
 .ai-block-body { margin-top: var(--sp-2); font-size: var(--text-sm); color: var(--nw-text-default); }
 .ai-block-body em { color: var(--nw-ai); font-style: normal; }
@@ -1583,13 +1601,13 @@ input::placeholder, textarea::placeholder {
 .stat {
   display: flex; flex-direction: column; gap: 6px;
   padding: calc(14px * var(--nw-pad-scale));
-  border-right: 1px solid var(--nw-line);
+  border-right: var(--nw-hairline) solid var(--nw-line);
 }
 .stat:last-child { border-right: 0; }
 .stat .stat-label {
   font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
   letter-spacing: var(--nw-label-spacing); text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 .stat .stat-value {
   font-family: var(--font-sys);
@@ -1598,9 +1616,6 @@ input::placeholder, textarea::placeholder {
   color: var(--nw-value-color);
   line-height: 1; letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
-  text-shadow:
-    0 0 calc(8px * var(--nw-glow)) rgba(122, 237, 122, 0.55),
-    0 0 calc(20px * var(--nw-glow)) rgba(122, 237, 122, 0.25);
 }
 .stat .stat-delta { display: inline-flex; align-items: center; gap: 4px; font-size: var(--text-xs); }
 .stat .stat-delta.up   { color: var(--nw-data); }

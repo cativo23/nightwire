@@ -13,16 +13,16 @@
   text-transform: uppercase;
   text-align: left;
   padding: 6px 10px;
-  color: var(--nw-primary);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  color: var(--nw-text-mute);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
 }
 
 .nw-table td {
   padding: 5px 10px;
-  color: var(--nw-green);
-  border-bottom: 1px solid var(--nw-text-faint);
+  color: var(--nw-text-default);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   font-variant-numeric: tabular-nums;
   font-weight: 500;
 }
 
-.nw-table tr:hover td { background: var(--nw-green-faint); }
+.nw-table tr:hover td { background: var(--nw-text-faint); }

@@ -2,10 +2,12 @@
 
 .toast {
   background: var(--void-panel);
-  border-left: 3px solid var(--nw-primary);
+  /* The modal's boundary on all sides; the accent line below overrides the left. */
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-left: var(--nw-accent-width) solid var(--nw-chrome);
   padding: var(--sp-3) var(--sp-4);
   font-size: var(--text-sm);
-  color: var(--nw-text);
+  color: var(--nw-text-default);
   /* Open by default (no data-open, or "true"): enter curve. */
   transition: opacity var(--nw-sweep), transform var(--nw-sweep), visibility 0s;
 }

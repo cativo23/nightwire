@@ -10,17 +10,16 @@
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   padding: 0 var(--sp-2);
-  border-radius: var(--radius-full);
-  color: var(--nw-primary);
-  background: var(--nw-primary-fill);
+  border-radius: var(--radius-sm);
+  color: var(--nw-text-default);
+  background: var(--nw-text-faint);
 }
 
 .tag-success { color: var(--nw-success); background: var(--nw-green-faint); }
 .tag-danger  { color: var(--nw-danger);  background: var(--nw-red-fill); }
-.tag-warning { color: var(--nw-warning); background: rgba(232, 153, 58, 0.1); }
 .tag-info    { color: var(--nw-info);    background: var(--nw-cyan-glow); }
 
-/* ── v2 · Tag variants (chrome/info/ai/warn shortcut) ──────── */
+/* ── Tag variants (chrome/warn/ai) ─────────────────────────── */
 .tag-chrome  { color: var(--nw-chrome);       background: var(--nw-primary-fill); }
 .tag-warn    { color: var(--nw-signal-warn);  background: rgba(232, 153, 58, 0.1); }
 .tag-ai      { color: var(--nw-ai);           background: var(--nw-purple-fill); }

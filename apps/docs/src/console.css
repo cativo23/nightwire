@@ -17,7 +17,7 @@
   align-items: center;
   padding: 10px 16px;
   background: var(--void);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: 1px solid var(--nw-line);
   gap: 20px;
   z-index: 100;
   flex-shrink: 0;
@@ -86,7 +86,7 @@
   font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   flex-shrink: 0;
 }
 
@@ -234,7 +234,7 @@
 }
 
 .node-card .nc-row:last-child { border-bottom: none; }
-.node-card .nc-row .lbl { color: var(--nw-primary-dim); text-transform: uppercase; letter-spacing: 0.06em; font-size: 8px; }
+.node-card .nc-row .lbl { color: var(--nw-text-mute); text-transform: uppercase; letter-spacing: 0.06em; font-size: 8px; }
 .node-card .nc-row .val { color: var(--nw-green); font-weight: 500; font-variant-numeric: tabular-nums; }
 
 .node-card .nc-status {
@@ -328,9 +328,9 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: 6px 10px 5px;
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: 1px solid var(--nw-line);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -401,10 +401,6 @@
   border-top: 1px solid var(--nw-text-faint);
   flex-shrink: 0;
 }
-
-/* ── LED BLINK ────────────────────────────────────────────── */
-@keyframes led-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-.led.blink { animation: led-blink 1s ease-in-out infinite; }
 
 /* ── COLOR SWATCH ─────────────────────────────────────────── */
 .color-swatch {

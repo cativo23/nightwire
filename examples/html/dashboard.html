@@ -22,104 +22,19 @@
 }
 </script>
 
+<link rel="stylesheet" href="../../nightwire.css">
+
 <style>
 /* ═══════════════════════════════════════════════════════════════
    NERV UI v2.1 — Dense Operations Console
-   Every pixel conveys information. No decorative waste.
+   Tokens, panel, table, LED and metric looks come from nightwire.css.
+   This block keeps only the page layout and its dense sizing.
    ═══════════════════════════════════════════════════════════════ */
 
-:root {
-  /* Cyberpunk Anime - Evangelion/GITS inspired */
-  --void:             #000000;
-  --void-warm:        #0a0a0a;
-  --void-panel:       #111111;
-  --void-raised:      #1a1a1a;
-
-  /* Blue for headers/primary (replacing magenta) */
-  --nerv-orange:      #6699ff;
-  --nerv-orange-dim:  #4477cc;
-  --nerv-orange-hot:  #99bbff;
-  --nerv-orange-fill: rgba(102, 153, 255, 0.08);
-
-  /* Green for data/success — bright but not neon-harsh */
-  --data-green:       #7aed7a;
-  --data-green-dim:   #5cb85c;
-  --data-green-faint: rgba(122, 237, 122, 0.06);
-  --data-green-fill:  rgba(122, 237, 122, 0.1);
-
-  /* Cyan for wireframes (softer) */
-  --wire-cyan:        #66ddff;
-  --wire-cyan-dim:    #44aacc;
-  --wire-cyan-glow:   rgba(102, 221, 255, 0.12);
-
-  /* Pink/red for alerts (less neon) */
-  --alert-red:        #ff6688;
-  --alert-red-dim:    #cc4466;
-  --alert-red-hot:    #ff99aa;
-  --alert-red-fill:   rgba(255, 102, 136, 0.15);
-
-  /* Warning orange, accent purple, secondary cyan */
-  --thermal-yellow:   #e8993a;
-  --thermal-magenta:  #b266e0;
-  --thermal-blue:     #66ddff;
-
-  /* Bright text */
-  --steel:            #ffffff;
-  --steel-dim:        #aaaaaa;
-  --steel-faint:      rgba(255, 255, 255, 0.06);
-  --steel-line:       rgba(255, 255, 255, 0.12);
-
-  --font-mincho:      'Shippori Mincho B1', 'YuMincho', 'Hiragino Mincho ProN', serif;
-  --font-title:       'Noto Serif Display', 'Times New Roman', serif;
-  --font-sys:         'JetBrains Mono', 'Cascadia Mono', 'Consolas', monospace;
-  --font-stamp:       'Saira Extra Condensed', 'Impact', sans-serif;
-
-  --scan-opacity:     0;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { background: var(--void); color: var(--data-green); }
-
-body {
-  font-family: var(--font-sys);
-  font-size: 14px;
-  line-height: 1.5;
-  background: var(--void);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ── CRT EFFECTS (DISABLED) ───────────────────────────────── */
-body::after {
-  display: none;
-}
-
-body::before {
-  display: none;
-}
-
-body { animation: none; }
-
-.scan-line-overlay {
-  display: none;
-}
-
-@keyframes scan-line {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
-}
-
-[data-mode="emergency"] .scan-line-overlay {
-  background: linear-gradient(90deg, transparent 0%, rgba(255,48,48,0.2) 20%, rgba(255,48,48,0.5) 50%, rgba(255,48,48,0.2) 80%, transparent 100%);
-  animation-duration: 2s;
-  opacity: 0.8;
-}
-
-/* ── GLOW EFFECTS — matched to palette variables ─────────── */
-.glow-green { text-shadow: 0 0 8px rgba(122,237,122,0.5), 0 0 16px rgba(122,237,122,0.2); }
-.glow-orange { text-shadow: 0 0 8px rgba(102,153,255,0.5), 0 0 16px rgba(102,153,255,0.2); }
-.glow-cyan { text-shadow: 0 0 8px rgba(102,221,255,0.5), 0 0 16px rgba(102,221,255,0.2); }
-.glow-red { text-shadow: 0 0 8px rgba(255,102,136,0.5), 0 0 16px rgba(255,102,136,0.3); }
+/* The page reads as a data readout, so unset text inherits the data colour.
+   Emergency mode re-themes it by overriding the shipped green and cyan. */
+html { color: var(--nw-data); }
+body { overflow-x: hidden; }
 
 /* ── GLITCH/EMERGENCY ──────────────────────────────────────── */
 @keyframes glitch-jitter {
@@ -131,7 +46,6 @@ body { animation: none; }
   90% { transform: translate(1px,1px); }
 }
 [data-mode="emergency"] .glitch-target { animation: glitch-jitter 0.3s steps(10) infinite; }
-@media (prefers-reduced-motion: reduce) { body, [data-mode="emergency"] * { animation: none !important; } }
 
 /* ── NAVIGATION ────────────────────────────────────────────── */
 .nerv-nav {
@@ -139,7 +53,7 @@ body { animation: none; }
   align-items: center;
   padding: 10px 16px;
   background: var(--void);
-  border-bottom: 1px solid var(--nerv-orange-dim);
+  border-bottom: 1px solid var(--nw-line);
   gap: 20px;
   z-index: 100;
 }
@@ -149,7 +63,7 @@ body { animation: none; }
   font-size: 24px;
   font-weight: 900;
   letter-spacing: 0.25em;
-  color: var(--nerv-orange);
+  color: var(--nw-chrome);
   text-transform: uppercase;
   transform: scaleX(0.82);
   transform-origin: left center;
@@ -160,7 +74,7 @@ body { animation: none; }
   font-family: var(--font-sys);
   font-size: 9px;
   letter-spacing: 0.12em;
-  color: var(--steel-dim);
+  color: var(--nw-text-mute);
   display: block;
   transform: scaleX(1.22);
   font-weight: 400;
@@ -170,7 +84,7 @@ body { animation: none; }
   font-family: var(--font-mincho);
   font-size: 15px;
   font-weight: 800;
-  color: var(--nerv-orange-dim);
+  color: var(--nw-text-mute);
   transform: scaleX(0.8);
   transform-origin: left;
 }
@@ -186,7 +100,7 @@ body { animation: none; }
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--steel-dim);
+  color: var(--nw-text-mute);
   text-decoration: none;
   background: none;
   border: none;
@@ -195,14 +109,14 @@ body { animation: none; }
   transition: color 0.15s;
 }
 
-.nerv-nav a:hover, .nerv-nav a.active, .nerv-nav button:hover { color: var(--nerv-orange); }
+.nerv-nav a:hover, .nerv-nav a.active, .nerv-nav button:hover { color: var(--nw-chrome); }
 
 .emergency-toggle { position: relative; }
 .emergency-toggle::before { content: '⚠'; margin-right: 4px; }
 [data-mode="emergency"] .emergency-toggle {
-  background: var(--alert-red) !important;
+  background: var(--nw-signal-error) !important;
   color: var(--void) !important;
-  border-color: var(--alert-red) !important;
+  border-color: var(--nw-signal-error) !important;
 }
 
 /* ── TICKER ────────────────────────────────────────────────── */
@@ -210,13 +124,13 @@ body { animation: none; }
   overflow: hidden;
   white-space: nowrap;
   background: var(--void);
-  border-bottom: 1px solid var(--steel-faint);
+  border-bottom: 1px solid var(--nw-text-faint);
   padding: 2px 0;
   font-family: var(--font-sys);
   font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--nerv-orange);
+  color: var(--nw-text-mute);
 }
 
 .ticker .scroll {
@@ -230,12 +144,10 @@ body { animation: none; }
   to { transform: translateX(-100%); }
 }
 
-[data-mode="emergency"] .ticker { background: var(--alert-red); color: var(--void); border-color: var(--alert-red); }
+[data-mode="emergency"] .ticker { background: var(--nw-signal-error); color: var(--void); border-color: var(--nw-signal-error); }
 
-/* ── PANEL (base component) ────────────────────────────────── */
+/* ── PANEL (dense sizing over the shipped .panel) ──────────── */
 .panel {
-  background: var(--void-warm);
-  border: 1px solid var(--steel-faint);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -243,23 +155,15 @@ body { animation: none; }
 }
 
 .panel-header {
-  font-family: var(--font-sys);
   font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--nerv-orange);
   padding: 6px 10px 5px;
-  border-bottom: 1px solid var(--nerv-orange-dim);
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
 }
 
 .panel-header .tag {
   font-size: 7px;
-  color: var(--steel-dim);
+  color: var(--nw-text-mute);
   letter-spacing: 0.08em;
 }
 
@@ -318,52 +222,20 @@ body { animation: none; }
   .dash-row.r1, .dash-row.r2, .dash-row.r3 { grid-template-columns: 1fr; }
 }
 
-/* ── METRICS GRID ──────────────────────────────────────────── */
-.metrics-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--steel-faint);
-  flex: 1;
-}
+/* ── METRICS GRID (dense sizing over the shipped one) ──────── */
+.metrics-grid { flex: 1; }
 
 .metric-cell {
-  background: var(--void-warm);
   padding: 8px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.metric-cell .m-label {
-  font-size: 7px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--nerv-orange);
-  margin-bottom: 2px;
-}
-
-.metric-cell .m-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--data-green);
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 6px rgba(122,237,122,0.4), 0 0 12px rgba(122,237,122,0.15);
-  line-height: 1.1;
-}
-
-.metric-cell .m-sub {
-  font-size: 7px;
-  color: var(--steel-dim);
-  margin-top: 2px;
-  letter-spacing: 0.06em;
-}
-
-.metric-cell.highlight .m-value {
-  color: var(--nerv-orange);
-  text-shadow: 0 0 6px rgba(102,153,255,0.4), 0 0 12px rgba(102,153,255,0.15);
-  font-size: 22px;
-}
+.metric-cell .m-label { font-size: 7px; }
+.metric-cell .m-value { font-size: 18px; }
+.metric-cell .m-sub { font-size: 7px; letter-spacing: 0.06em; }
+.metric-cell.highlight .m-value { font-size: 22px; }
 
 .metric-cell.zero .m-value {
   font-family: var(--font-title);
@@ -386,7 +258,7 @@ body { animation: none; }
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--wire-cyan);
+  color: var(--nw-signal-info);
   transform: scaleX(0.82);
   transform-origin: left;
 }
@@ -395,7 +267,7 @@ body { animation: none; }
   font-family: var(--font-mincho);
   font-size: 13px;
   font-weight: 800;
-  color: var(--steel);
+  color: var(--nw-text-strong);
   transform: scaleX(0.78);
   transform-origin: left;
   margin: 2px 0 6px;
@@ -406,12 +278,12 @@ body { animation: none; }
   justify-content: space-between;
   font-size: 9px;
   padding: 2px 0;
-  border-bottom: 1px solid var(--steel-faint);
+  border-bottom: 1px solid var(--nw-text-faint);
 }
 
 .vault-card .vc-row:last-child { border-bottom: none; }
-.vault-card .vc-row .lbl { color: var(--nerv-orange-dim); text-transform: uppercase; letter-spacing: 0.06em; font-size: 8px; }
-.vault-card .vc-row .val { color: var(--data-green); font-weight: 500; font-variant-numeric: tabular-nums; }
+.vault-card .vc-row .lbl { color: var(--nw-text-mute); text-transform: uppercase; letter-spacing: 0.06em; font-size: 8px; }
+.vault-card .vc-row .val { color: var(--nw-data); font-weight: 500; font-variant-numeric: tabular-nums; }
 
 .vault-card .vc-status {
   margin-top: 4px;
@@ -420,60 +292,24 @@ body { animation: none; }
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--data-green);
+  color: var(--nw-data);
 }
 
-.led {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  margin-right: 4px;
-  vertical-align: middle;
-}
-.led.green { background: var(--data-green); box-shadow: 0 0 4px var(--data-green), 0 0 8px rgba(122,237,122,0.3); }
-.led.red { background: var(--alert-red); box-shadow: 0 0 4px var(--alert-red); }
-.led.orange { background: var(--nerv-orange); box-shadow: 0 0 4px var(--nerv-orange); }
-.led.cyan { background: var(--wire-cyan); box-shadow: 0 0 4px var(--wire-cyan); }
-@keyframes led-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-.led.blink { animation: led-blink 1s ease-in-out infinite; }
+/* The dense LED is one pixel smaller than the shipped 6px. */
+.led { width: 5px; height: 5px; }
 
-/* ── DATA TABLE ────────────────────────────────────────────── */
-.nerv-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-sys);
-  font-size: 10px;
-}
-
-.nerv-table th {
-  font-size: 7px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-align: left;
-  padding: 4px 8px;
-  color: var(--nerv-orange);
-  border-bottom: 1px solid var(--nerv-orange-dim);
-}
-
-.nerv-table td {
-  padding: 3px 8px;
-  color: var(--data-green);
-  border-bottom: 1px solid var(--steel-faint);
-  font-variant-numeric: tabular-nums;
-  font-weight: 500;
-}
+/* ── DATA TABLE (dense sizing over .nw-table) ──────────────── */
+.nerv-table { font-size: 10px; }
+.nerv-table th { font-size: 7px; padding: 4px 8px; }
+.nerv-table td { padding: 3px 8px; }
 
 .nerv-table td.lbl {
-  color: var(--nerv-orange-dim);
+  color: var(--nw-text-mute);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 8px;
   font-weight: 400;
 }
-
-.nerv-table tr:hover td { background: var(--data-green-faint); }
 
 /* ── THREE.JS VIEWPORT ────────────────────────────────────── */
 .three-viewport {
@@ -494,7 +330,7 @@ body { animation: none; }
   font-size: 7px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--nerv-orange-dim);
+  color: var(--nw-text-mute);
   z-index: 2;
   background: rgba(0,0,0,0.65);
   padding: 2px 6px;
@@ -506,18 +342,18 @@ body { animation: none; }
   left: 8px;
   font-family: var(--font-sys);
   font-size: 9px;
-  color: var(--wire-cyan);
+  color: var(--nw-signal-info);
   z-index: 2;
   line-height: 1.5;
   background: rgba(0,0,0,0.65);
   padding: 4px 8px;
-  border-left: 1px solid var(--nerv-orange-dim);
+  border-left: 1px solid var(--nw-line);
 }
 
 .measurement-grid {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(var(--steel-line) 1px, transparent 1px), linear-gradient(90deg, var(--steel-line) 1px, transparent 1px);
+  background-image: linear-gradient(var(--nw-line) 1px, transparent 1px), linear-gradient(90deg, var(--nw-line) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
   z-index: 1;
@@ -540,8 +376,7 @@ body { animation: none; }
   right: 8px;
   font-size: 20px;
   font-weight: 700;
-  color: var(--data-green);
-  text-shadow: 0 0 6px rgba(122,237,122,0.8), 0 0 12px rgba(122,237,122,0.5), 0 0 24px rgba(122,237,122,0.3);
+  color: var(--nw-data);
   z-index: 2;
 }
 
@@ -552,7 +387,7 @@ body { animation: none; }
   font-size: 7px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nerv-orange);
+  color: var(--nw-text-mute);
   z-index: 2;
 }
 
@@ -561,7 +396,7 @@ body { animation: none; }
   bottom: 4px;
   right: 8px;
   font-size: 7px;
-  color: var(--nerv-orange-dim);
+  color: var(--nw-text-mute);
   letter-spacing: 0.08em;
   z-index: 2;
 }
@@ -571,7 +406,7 @@ body { animation: none; }
   bottom: 4px;
   left: 8px;
   font-size: 7px;
-  color: var(--steel-dim);
+  color: var(--nw-text-mute);
   z-index: 2;
   display: flex;
   gap: 12px;
@@ -581,9 +416,9 @@ body { animation: none; }
   content: '●';
   margin-right: 3px;
 }
-.waveform-wrap .legend .l-green::before { color: var(--data-green); }
-.waveform-wrap .legend .l-cyan::before { color: var(--wire-cyan); }
-.waveform-wrap .legend .l-orange::before { color: var(--nerv-orange); }
+.waveform-wrap .legend .l-green::before { color: var(--nw-data); }
+.waveform-wrap .legend .l-cyan::before { color: var(--nw-signal-info); }
+.waveform-wrap .legend .l-orange::before { color: var(--nw-chrome); }
 
 /* ── MAGI ORACLE ───────────────────────────────────────────── */
 .magi-oracle {
@@ -594,7 +429,7 @@ body { animation: none; }
 
 .magi-source {
   padding: 6px 8px;
-  border: 1px solid var(--wire-cyan-dim);
+  border: 1px solid var(--nw-line);
   background: var(--void);
   display: flex;
   align-items: center;
@@ -607,7 +442,7 @@ body { animation: none; }
   font-weight: 800;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--wire-cyan);
+  color: var(--nw-signal-info);
   transform: scaleX(0.85);
   transform-origin: left;
   min-width: 90px;
@@ -616,13 +451,13 @@ body { animation: none; }
 .magi-source .ms-price {
   font-size: 11px;
   font-weight: 700;
-  color: var(--data-green);
+  color: var(--nw-data);
   font-variant-numeric: tabular-nums;
 }
 
 .magi-source .ms-meta {
   font-size: 7px;
-  color: var(--steel-dim);
+  color: var(--nw-text-mute);
   margin-left: auto;
   text-align: right;
   line-height: 1.4;
@@ -635,18 +470,18 @@ body { animation: none; }
   letter-spacing: 0.06em;
 }
 
-.magi-source .ms-status.agree { color: var(--data-green); }
-.magi-source .ms-status.stale { color: var(--nerv-orange); }
-.magi-source .ms-status.reject { color: var(--alert-red); }
+.magi-source .ms-status.agree { color: var(--nw-data); }
+.magi-source .ms-status.stale { color: var(--nw-chrome); }
+.magi-source .ms-status.reject { color: var(--nw-signal-error); }
 
 .magi-consensus {
   font-size: 8px;
   text-align: center;
   padding: 4px;
-  color: var(--steel-dim);
+  color: var(--nw-text-mute);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  border-top: 1px solid var(--wire-cyan-dim);
+  border-top: 1px solid var(--nw-line);
 }
 
 .magi-consensus span { font-weight: 700; }
@@ -654,7 +489,7 @@ body { animation: none; }
 /* ── EVENT LOG ─────────────────────────────────────────────── */
 .event-log {
   background: var(--void-warm);
-  border: 1px solid var(--steel-faint);
+  border: 1px solid var(--nw-line);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -667,9 +502,9 @@ body { animation: none; }
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nerv-orange);
+  color: var(--nw-text-mute);
   padding: 6px 10px 5px;
-  border-bottom: 1px solid var(--nerv-orange-dim);
+  border-bottom: 1px solid var(--nw-line);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -678,7 +513,7 @@ body { animation: none; }
 
 .event-log .el-header .el-count {
   font-size: 7px;
-  color: var(--data-green);
+  color: var(--nw-data);
   font-weight: 500;
 }
 
@@ -695,7 +530,7 @@ body { animation: none; }
 
 .event-log .el-body::-webkit-scrollbar { width: 3px; }
 .event-log .el-body::-webkit-scrollbar-track { background: var(--void); }
-.event-log .el-body::-webkit-scrollbar-thumb { background: var(--steel-faint); border-radius: 2px; }
+.event-log .el-body::-webkit-scrollbar-thumb { background: var(--nw-text-faint); border-radius: 2px; }
 
 .ev {
   padding: 1px 10px;
@@ -706,32 +541,32 @@ body { animation: none; }
   border-left: 2px solid transparent;
 }
 
-.ev:hover { background: var(--data-green-faint); }
+.ev:hover { background: var(--nw-text-faint); }
 
-.ev .ev-time { color: var(--steel-dim); min-width: 52px; flex-shrink: 0; }
+.ev .ev-time { color: var(--nw-text-mute); min-width: 52px; flex-shrink: 0; }
 .ev .ev-type { min-width: 62px; font-weight: 700; letter-spacing: 0.04em; flex-shrink: 0; }
-.ev .ev-detail { color: var(--steel); flex: 1; overflow: hidden; text-overflow: ellipsis; }
-.ev .ev-amount { color: var(--data-green); min-width: 85px; text-align: right; flex-shrink: 0; }
-.ev .ev-block { color: var(--steel-dim); font-size: 8px; min-width: 65px; text-align: right; flex-shrink: 0; }
+.ev .ev-detail { color: var(--nw-text-strong); flex: 1; overflow: hidden; text-overflow: ellipsis; }
+.ev .ev-amount { color: var(--nw-data); min-width: 85px; text-align: right; flex-shrink: 0; }
+.ev .ev-block { color: var(--nw-text-mute); font-size: 8px; min-width: 65px; text-align: right; flex-shrink: 0; }
 
-.ev-type.deposit  { color: var(--data-green); }
-.ev-type.borrow   { color: var(--wire-cyan); }
-.ev-type.harvest  { color: var(--nerv-orange); }
-.ev-type.repay    { color: var(--data-green-dim); }
-.ev-type.redeem   { color: var(--thermal-yellow); }
-.ev-type.transmute{ color: var(--wire-cyan-dim); }
-.ev-type.mint     { color: var(--thermal-magenta); }
+.ev-type.deposit  { color: var(--nw-data); }
+.ev-type.borrow   { color: var(--nw-signal-info); }
+.ev-type.harvest  { color: var(--nw-chrome); }
+.ev-type.repay    { color: var(--nw-data-mute); }
+.ev-type.redeem   { color: var(--nw-signal-warn); }
+.ev-type.transmute{ color: var(--nw-cyan-dim); }
+.ev-type.mint     { color: var(--nw-ai); }
 
-.ev.new-entry { border-left-color: var(--data-green); }
+.ev.new-entry { border-left-color: var(--nw-data); }
 .ev.new-entry { animation: ev-flash 0.6s ease-out; }
 @keyframes ev-flash {
-  0% { background: var(--data-green-fill); }
+  0% { background: var(--nw-green-fill); }
   100% { background: transparent; }
 }
 
 /* ── ALERT BANNER / EMERGENCY ──────────────────────────────── */
 .alert-banner {
-  background: var(--alert-red);
+  background: var(--nw-signal-error);
   color: var(--void);
   padding: 6px 20px;
   font-family: var(--font-stamp);
@@ -747,7 +582,7 @@ body { animation: none; }
 .alert-banner.pulse { animation: alert-pulse 0.8s ease-in-out infinite; }
 
 .hazard-stripe {
-  background: repeating-linear-gradient(-45deg, var(--alert-red) 0px, var(--alert-red) 16px, var(--void) 16px, var(--void) 32px);
+  background: repeating-linear-gradient(-45deg, var(--nw-signal-error) 0px, var(--nw-signal-error) 16px, var(--void) 16px, var(--void) 32px);
   padding: 4px 0;
 }
 
@@ -765,42 +600,30 @@ body { animation: none; }
 }
 @keyframes emergency-pulse { from { background: rgba(255,0,0,0.02); } to { background: rgba(255,0,0,0.08); } }
 
+/* Emergency re-themes the page by overriding the shipped data and info hues. */
 [data-mode="emergency"] {
-  --data-green: #FF3030;
-  --data-green-dim: #CC2020;
-  --data-green-faint: rgba(255,48,48,0.06);
-  --data-green-fill: rgba(255,48,48,0.1);
-  --wire-cyan: #FF5050;
-  --wire-cyan-dim: #AA3030;
-  --scan-opacity: 0.08;
+  --nw-green: #FF3030;
+  --nw-green-dim: #CC2020;
+  --nw-green-faint: rgba(255,48,48,0.06);
+  --nw-green-fill: rgba(255,48,48,0.1);
+  --nw-cyan: #FF5050;
+  --nw-cyan-dim: #AA3030;
 }
 
 [data-mode="emergency"] .panel { border-color: rgba(255,48,48,0.2); }
-[data-mode="emergency"] .panel-header { border-bottom-color: var(--alert-red-dim); }
-[data-mode="emergency"] .nerv-nav { border-bottom-color: var(--alert-red); background: rgba(255,0,0,0.04); }
+[data-mode="emergency"] .panel-header { border-bottom-color: var(--nw-red-dim); }
+[data-mode="emergency"] .nerv-nav { border-bottom-color: var(--nw-signal-error); background: rgba(255,0,0,0.04); }
 
 /* ── STRATEGY TABLE ────────────────────────────────────────── */
 .strat-table td.strat-name {
-  color: var(--wire-cyan);
+  color: var(--nw-signal-info);
   font-weight: 500;
   letter-spacing: 0.04em;
 }
 
-.strat-table td.alloc { color: var(--nerv-orange); }
 .strat-table td.apy { font-weight: 700; }
 
-.nerv-progress {
-  height: 3px;
-  background: var(--void-panel);
-  border: 1px solid var(--steel-faint);
-  overflow: hidden;
-  min-width: 60px;
-}
-.nerv-progress .fill {
-  height: 100%;
-  background: var(--data-green);
-  box-shadow: 0 0 4px rgba(122,237,122,0.3);
-}
+.nerv-progress { height: 3px; min-width: 60px; }
 
 /* ── BOTTOM BAR ────────────────────────────────────────────── */
 .status-bar {
@@ -811,8 +634,8 @@ body { animation: none; }
   font-size: 7px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--steel-dim);
-  border-top: 1px solid var(--steel-faint);
+  color: var(--nw-text-mute);
+  border-top: 1px solid var(--nw-text-faint);
   flex-shrink: 0;
 }
 </style>
@@ -820,7 +643,6 @@ body { animation: none; }
 
 <body>
 
-<div class="scan-line-overlay"></div>
 <div class="emergency-overlay" id="emergencyOverlay"></div>
 
 <div class="console-wrapper">
@@ -869,14 +691,14 @@ body { animation: none; }
         </div>
         <div class="three-viewport" id="globeViewport">
           <div class="vp-data">
-            <div style="color:var(--nerv-orange);font-size:7px;letter-spacing:0.12em">TOTAL VALUE LOCKED</div>
-            <div style="font-size:18px;font-weight:700;color:var(--data-green);text-shadow:0 0 8px rgba(122,237,122,0.6),0 0 20px rgba(122,237,122,0.3);" id="tvlReadout">$299,400,000</div>
-            <div style="font-size:7px;color:var(--steel-dim);margin-top:2px">
-              <span style="color:var(--wire-cyan)">●</span> alETH &nbsp;
-              <span style="color:var(--nerv-orange)">●</span> alUSD &nbsp;
-              <span style="color:var(--wire-cyan)">■</span> MESH &nbsp;
-              <span style="color:var(--nerv-orange)">■</span> FLOWS &nbsp;
-              <span style="color:var(--data-green)">■</span> BARS
+            <div style="color:var(--nw-text-mute);font-size:7px;letter-spacing:0.12em">TOTAL VALUE LOCKED</div>
+            <div style="font-size:18px;font-weight:700;color:var(--nw-data)" id="tvlReadout">$299,400,000</div>
+            <div style="font-size:7px;color:var(--nw-text-mute);margin-top:2px">
+              <span style="color:var(--nw-signal-info)">●</span> alETH &nbsp;
+              <span style="color:var(--nw-chrome)">●</span> alUSD &nbsp;
+              <span style="color:var(--nw-signal-info)">■</span> MESH &nbsp;
+              <span style="color:var(--nw-chrome)">■</span> FLOWS &nbsp;
+              <span style="color:var(--nw-data)">■</span> BARS
             </div>
           </div>
           <div class="vp-label">MAGI DATA ANALYSIS — YIELD TOPOLOGY — ネットワーク構造解析</div>
@@ -917,7 +739,7 @@ body { animation: none; }
           </div>
           <div class="metric-cell zero">
             <div class="m-label">Liquidations</div>
-            <div class="m-value" style="color:var(--data-green)">0 ∞</div>
+            <div class="m-value" style="color:var(--nw-data)">0 ∞</div>
             <div class="m-sub">by design — 設計上ゼロ</div>
           </div>
         </div>
@@ -929,7 +751,7 @@ body { animation: none; }
     <div class="dash-row r2">
 
       <div class="panel">
-        <div class="panel-header"><span>Unit-00 — alETH</span><span class="tag"><span class="led green"></span>Operational</span></div>
+        <div class="panel-header"><span>Unit-00 — alETH</span><span class="tag"><span class="led" data-state="ok"></span>Operational</span></div>
         <div class="vault-card">
           <div class="vc-id">Primary — Ethereum</div>
           <div class="vc-name">自己返済型ＥＴＨ</div>
@@ -943,7 +765,7 @@ body { animation: none; }
       </div>
 
       <div class="panel">
-        <div class="panel-header"><span>Unit-01 — alUSD</span><span class="tag"><span class="led green"></span>Operational</span></div>
+        <div class="panel-header"><span>Unit-01 — alUSD</span><span class="tag"><span class="led" data-state="ok"></span>Operational</span></div>
         <div class="vault-card">
           <div class="vc-id">Stablecoin — USDC</div>
           <div class="vc-name">自己返済型ＵＳＤ</div>
@@ -991,28 +813,28 @@ body { animation: none; }
         <div class="panel-body">
           <div class="magi-oracle">
             <div class="magi-source" id="magi1">
-              <span class="led green"></span>
+              <span class="led" data-state="ok"></span>
               <div class="ms-name">Melchior</div>
               <div class="ms-price" id="magi1Price">$3,842.18</div>
               <div class="ms-meta">Chainlink<br><span id="magi1Age">2s ago</span></div>
               <div class="ms-status agree" id="magi1Status">AGREE</div>
             </div>
             <div class="magi-source" id="magi2">
-              <span class="led green"></span>
+              <span class="led" data-state="ok"></span>
               <div class="ms-name">Balthasar</div>
               <div class="ms-price" id="magi2Price">$3,842.44</div>
               <div class="ms-meta">Uniswap TWAP<br><span id="magi2Age">5s ago</span></div>
               <div class="ms-status agree" id="magi2Status">AGREE</div>
             </div>
             <div class="magi-source" id="magi3">
-              <span class="led green"></span>
+              <span class="led" data-state="ok"></span>
               <div class="ms-name">Casper</div>
               <div class="ms-price" id="magi3Price">$3,841.92</div>
               <div class="ms-meta">Internal<br><span id="magi3Age">1s ago</span></div>
               <div class="ms-status agree" id="magi3Status">AGREE</div>
             </div>
             <div class="magi-consensus">
-              Consensus: <span style="color:var(--data-green)" id="magiResult">3/3 AGREE — Deviation: 0.013%</span>
+              Consensus: <span style="color:var(--nw-data)" id="magiResult">3/3 AGREE — Deviation: 0.013%</span>
             </div>
           </div>
         </div>
@@ -1028,7 +850,7 @@ body { animation: none; }
           <span class="tag">メタイールドトークン</span>
         </div>
         <div class="panel-body" style="padding:0 0 4px 0;overflow-x:auto">
-          <table class="nerv-table strat-table">
+          <table class="nw-table nerv-table strat-table">
             <thead>
               <tr>
                 <th>Strategy</th>
@@ -1050,7 +872,7 @@ body { animation: none; }
                 <td>$9,572</td>
                 <td>312</td>
                 <td>1.0847</td>
-                <td><div class="nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="fill" style="width:78%"></div></div> 78%</td>
+                <td><div class="nw-progress nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="nw-progress-fill" style="width:78%"></div></div> 78%</td>
               </tr>
               <tr>
                 <td class="strat-name">EtherFi eETH</td>
@@ -1060,7 +882,7 @@ body { animation: none; }
                 <td>$5,401</td>
                 <td>198</td>
                 <td>1.0621</td>
-                <td><div class="nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="fill" style="width:64%"></div></div> 64%</td>
+                <td><div class="nw-progress nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="nw-progress-fill" style="width:64%"></div></div> 64%</td>
               </tr>
               <tr>
                 <td class="strat-name">Aave wstETH</td>
@@ -1070,7 +892,7 @@ body { animation: none; }
                 <td>$3,751</td>
                 <td>147</td>
                 <td>1.0412</td>
-                <td><div class="nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="fill" style="width:52%"></div></div> 52%</td>
+                <td><div class="nw-progress nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="nw-progress-fill" style="width:52%"></div></div> 52%</td>
               </tr>
               <tr>
                 <td class="strat-name">Euler USDC</td>
@@ -1080,7 +902,7 @@ body { animation: none; }
                 <td>$7,198</td>
                 <td>89</td>
                 <td>1.1242</td>
-                <td><div class="nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="fill" style="width:71%"></div></div> 71%</td>
+                <td><div class="nw-progress nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="nw-progress-fill" style="width:71%"></div></div> 71%</td>
               </tr>
               <tr>
                 <td class="strat-name">Fluid fUSDC</td>
@@ -1090,7 +912,7 @@ body { animation: none; }
                 <td>$4,689</td>
                 <td>67</td>
                 <td>1.0891</td>
-                <td><div class="nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="fill" style="width:58%"></div></div> 58%</td>
+                <td><div class="nw-progress nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="nw-progress-fill" style="width:58%"></div></div> 58%</td>
               </tr>
               <tr>
                 <td class="strat-name">Aave USDC</td>
@@ -1100,7 +922,7 @@ body { animation: none; }
                 <td>$3,290</td>
                 <td>54</td>
                 <td>1.0724</td>
-                <td><div class="nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="fill" style="width:44%"></div></div> 44%</td>
+                <td><div class="nw-progress nerv-progress" style="display:inline-block;width:60px;vertical-align:middle"><div class="nw-progress-fill" style="width:44%"></div></div> 44%</td>
               </tr>
 
             </tbody>
@@ -1117,7 +939,7 @@ body { animation: none; }
           <span class="tag">変成器</span>
         </div>
         <div class="panel-body" style="padding:0 0 4px 0">
-          <table class="nerv-table">
+          <table class="nw-table nerv-table">
             <thead>
               <tr>
                 <th>Pair</th>
@@ -1137,7 +959,7 @@ body { animation: none; }
                 <td>$2,184,200</td>
                 <td>142 positions</td>
                 <td>~4.2h</td>
-                <td><span class="led green"></span>Nominal</td>
+                <td><span class="led" data-state="ok"></span>Nominal</td>
               </tr>
               <tr>
                 <td class="lbl">alUSD → USDC</td>
@@ -1146,7 +968,7 @@ body { animation: none; }
                 <td>$1,442,800</td>
                 <td>89 positions</td>
                 <td>~2.8h</td>
-                <td><span class="led green"></span>Nominal</td>
+                <td><span class="led" data-state="ok"></span>Nominal</td>
               </tr>
 
             </tbody>
@@ -1182,7 +1004,7 @@ body { animation: none; }
 <!-- ═══ STATUS BAR ═══ -->
 <div class="status-bar">
   <span>NERV v2.1 — ALCHEMIX V3 OPERATIONS</span>
-  <span>CLASSIFICATION: <span style="color:var(--nerv-orange)">RESTRICTED</span></span>
+  <span>CLASSIFICATION: <span style="color:var(--nw-text-default)">RESTRICTED</span></span>
   <span id="systemClock">—</span>
 </div>
 
@@ -1557,13 +1379,13 @@ function updateMetrics() {
       const led = document.querySelector('#' + id + ' .led');
       const statusEl = document.getElementById(id + 'Status');
       if (age < 30) {
-        if (led) { led.className = 'led green'; }
+        if (led) { led.className = 'led'; led.dataset.state = 'ok'; }
         if (statusEl) { statusEl.className = 'ms-status agree'; statusEl.textContent = 'AGREE'; }
       } else if (age < 60) {
-        if (led) { led.className = 'led orange'; }
+        if (led) { led.className = 'led'; led.dataset.state = 'active'; }
         if (statusEl) { statusEl.className = 'ms-status stale'; statusEl.textContent = 'STALE'; }
       } else {
-        if (led) { led.className = 'led red'; }
+        if (led) { led.className = 'led'; led.dataset.state = 'error'; }
         if (statusEl) { statusEl.className = 'ms-status reject'; statusEl.textContent = 'REJECT'; }
       }
     });
@@ -1578,7 +1400,7 @@ function updateMetrics() {
     const resultEl = document.getElementById('magiResult');
     const allAgree = document.querySelectorAll('.ms-status.agree').length === 3;
     if (resultEl) {
-      resultEl.style.color = allAgree ? 'var(--data-green)' : 'var(--nerv-orange)';
+      resultEl.style.color = allAgree ? 'var(--nw-data)' : 'var(--nw-chrome)';
       resultEl.textContent = (allAgree ? '3/3 AGREE' : '⚠ DEVIATION') + ' — Spread: ' + maxDev.toFixed(3) + '%';
     }
   }

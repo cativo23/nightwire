@@ -25,10 +25,10 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
   <style>
     /* Operations Console Layout */
     .console-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-    .nw-nav { display: flex; align-items: center; padding: 10px 16px; background: var(--void); border-bottom: 1px solid var(--nw-primary-dim); flex-shrink: 0; gap: 20px; }
+    .nw-nav { display: flex; align-items: center; padding: 10px 16px; background: var(--void); border-bottom: 1px solid var(--nw-line); flex-shrink: 0; gap: 20px; }
     .org-mark { font-family: var(--font-title); font-size: 24px; font-weight: 900; letter-spacing: 0.25em; color: var(--nw-primary); text-transform: uppercase; transform: scaleX(0.82); transform-origin: left center; line-height: 1.15; }
     .org-mark .sub { font-family: var(--font-sys); font-size: 9px; letter-spacing: 0.12em; color: var(--nw-text-dim); display: block; transform: scaleX(1.22); font-weight: 400; }
-    .ticker { overflow: hidden; white-space: nowrap; background: var(--void); border-bottom: 1px solid var(--nw-text-faint); padding: 2px 0; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nw-primary); flex-shrink: 0; }
+    .ticker { overflow: hidden; white-space: nowrap; background: var(--void); border-bottom: 1px solid var(--nw-text-faint); padding: 2px 0; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nw-text-mute); flex-shrink: 0; }
     .ticker .scroll { display: inline-block; animation: ticker-scroll 80s linear infinite; padding-left: 100%; }
     @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
     .dashboard { display: flex; gap: 2px; flex: 1; padding: 2px; min-height: 0; }
@@ -37,7 +37,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
     .dash-row { display: grid; gap: 2px; flex-shrink: 0; }
     .dash-row.r1 { grid-template-columns: 1.2fr 1fr; min-height: 360px; }
     .dash-row.r2 { grid-template-columns: 1fr 1fr; }
-    .status-bar { display: flex; justify-content: space-between; padding: 3px 12px; font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--nw-text-dim); border-top: 1px solid var(--nw-text-faint); flex-shrink: 0; }
+    .status-bar { display: flex; justify-content: space-between; padding: 3px 12px; font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--nw-text-mute); border-top: 1px solid var(--nw-text-faint); flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -109,7 +109,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
               <tr><th>Node</th><th>Status</th><th>CPU</th><th>Memory</th></tr>
             </thead>
             <tbody>
-              <tr><td>node-01</td><td><span class="led green"></span> Online</td><td>42%</td><td>68%</td></tr>
+              <tr><td>node-01</td><td><span class="led" data-state="ok"></span> Online</td><td>42%</td><td>68%</td></tr>
             </tbody>
           </table>
         </div>
@@ -119,8 +119,8 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
     <!-- Right column: Event log -->
     <div class="dash-right">
-      <div style="background:var(--void-warm);border:1px solid var(--nw-text-faint);display:flex;flex-direction:column;flex:1;min-height:0;">
-        <div style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--nw-primary);padding:6px 10px 5px;border-bottom:1px solid var(--nw-primary-dim);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+      <div style="background:var(--void-warm);border:1px solid var(--nw-line);display:flex;flex-direction:column;flex:1;min-height:0;">
+        <div style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--nw-text-mute);padding:6px 10px 5px;border-bottom:1px solid var(--nw-line);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
           <span>EVENT LOG</span>
           <span style="font-size:7px;color:var(--nw-green)">42 entries</span>
         </div>
@@ -138,7 +138,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
   <!-- Status bar -->
   <div class="status-bar">
-    <span><span class="led green"></span> SYSTEM ONLINE</span>
+    <span><span class="led" data-state="ok"></span> SYSTEM ONLINE</span>
     <span>NODES: 42 │ TOKENS: 847K │ UPTIME: 99.9%</span>
     <span id="clock">14:32:07 JST</span>
   </div>
@@ -455,9 +455,9 @@ For portfolios, landing pages, and documentation sites.
 
 ---
 
-## v2-alpha — Layout primitives
+## Layout primitives
 
-v1's `.console-wrapper` / `.dashboard` / `.dash-left|right` are coupled to a single ops-console layout. v2 adds **composable primitives** that work for any layout (blog, portfolio, SaaS, docs, dashboard, console).
+`.console-wrapper` / `.dashboard` / `.dash-left|right` (the Operations Console pattern above) are coupled to a single ops-console layout. The **composable primitives** below work for any layout (blog, portfolio, SaaS, docs, dashboard, console).
 
 ```css
 .nw-frame   { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
@@ -524,4 +524,4 @@ Combine with `data-intensity="combat"` on `<html>` for high-density ops feel.
 - Use `.nw-frame` once at the root of full-viewport layouts (dashboards, consoles).
 - Use `.nw-stack` / `.nw-cluster` instead of inline `display:flex` — keeps density consistent across the app.
 - Use `.nw-split` for the canonical 240px sidebar + main pattern; override grid-template-columns for variants.
-- Keep `.console-wrapper` (v1) if you're already using it; it still works.
+- Keep the Operations Console classes above if you're already using them; they still work.

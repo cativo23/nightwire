@@ -56,7 +56,7 @@ At the root, `cssComment` (printed above `:root`), `cssAlign`, and `intensity`:
 "intensity": {
   "archive":  { "comment": "/* … */", "tokens": { "knob.glow": 0, "knob.panel-radius": "{radius.sm}" } },
   "operator": { "comment": "/* … */", "body": "/* base :root values apply */", "tokens": {} },
-  "combat":   { "comment": "/* … */", "tokens": { "knob.glow": 2.2 } }
+  "combat":   { "comment": "/* … */", "tokens": { "knob.led-glow": "calc(var(--nw-glow) * 2)" } }
 }
 ```
 
@@ -131,17 +131,34 @@ Every raw token today, and why it cannot be typed:
 | `font.tracking.tight` / `normal` / `wide` / `ultra` | `-0.01em`, `0`, `0.06em`, `0.2em` | `--ls-*`, preset `letterSpacing.nw-*` (not `normal`) | `em` is not a DTCG dimension unit |
 | `knob.pulse-state` / `loop-state` | `running` | `--nw-pulse-state`, `--nw-loop-state` | CSS keyword |
 | `knob.kanji-display` | `inline` | `--nw-kanji-display` | CSS keyword |
-| `knob.header-gradient` | `linear-gradient(180deg, rgba(102, 153, 255, 0.06), transparent 80%)` | `--nw-header-gradient` | CSS gradient |
-| `knob.header-pattern` | `none` | `--nw-header-pattern` | CSS keyword (combat sets a gradient) |
 | `motion.tick` / `sweep` / `uplink` | `calc({motion.timing.<name>.in.duration} * var(--nw-motion-scale)) {motion.timing.<name>.in.easing}` | `--nw-tick`, `--nw-sweep`, `--nw-uplink` | `calc()` with a runtime `var()` |
 | `motion.exit.*`, `motion.longhand.*`, `motion.longhand-out.*` | the same shape over `out.*`, and the bare `calc()` duration or curve | `--nw-<step>-out`, `--nw-<step>-duration`, `--nw-<step>-ease`, `--nw-<step>-out-duration`, `--nw-<step>-out-ease` | `calc()` with a runtime `var()`; a bare curve interpolated from a typed token |
 | `motion.cycle.*` | `calc({motion.timing.stagger} * var(--nw-motion-scale))`; loops divide by `var(--nw-motion-scale)` | `--nw-stagger`, `--nw-loop-spin`, `--nw-loop-shimmer` | `calc()` with a runtime `var()` |
+| `shadow.elevation-overlay` | `0 24px 64px rgba(0, 0, 0, 0.7)` | `--nw-elevation-overlay` (CSS only) | Multi-value shadow |
 | `shadow.glow-green` / `blue` / `cyan` / `red` | `0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)` (red: `0.3`) | preset `boxShadow.glow-*` | Kept byte-for-byte as the preset had it |
 | `doc.typography.title.transform` | `scaleX(0.82)` | `DESIGN.md` only | CSS transform |
 | `doc.typography.title.textTransform`, `doc.typography.stamp.textTransform` | `uppercase` | `DESIGN.md` only | CSS keyword |
 
-Intensity overrides that are strings (`paused`, `none`, the combat gradients, `0.14em`) are raw in
-the same way.
+Intensity overrides that are strings (`paused`, `none`, `calc(var(--nw-glow) * 2)`, `0.14em`) are
+raw in the same way.
+
+## Role and knob tokens added in v3
+
+| Token | CSS | Value | Use |
+|-------|-----|-------|-----|
+| `semantic.role.action` | `--nw-action` | alias of `semantic.text.default` (`#e6e6e6`) | The one solid action fill: `.btn` background and border |
+| `semantic.role.action-hot` | `--nw-action-hot` | alias of `semantic.role.chrome-hot` (`#99bbff`) | `.btn:hover` |
+| `semantic.role.action-text` | `--nw-action-text` | alias of `color.void.base` (`#000000`) | Text on the action fill |
+| `knob.led-glow`, `knob.control-glow`, `knob.progress-glow` | `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow` | alias of `knob.glow`; combat overrides each to `calc(var(--nw-glow) * 2)` | State glow of the LED; of check, radio, switch, segmented and steps; of the progress fill |
+| `knob.hairline`, `knob.rule`, `knob.accent-width` | `--nw-hairline`, `--nw-rule`, `--nw-accent-width` | `1px`, `1.5px`, `2px` | Structural borders, marks drawn inside controls, accent bars. No per-level overrides |
+| `shadow.elevation-overlay` | `--nw-elevation-overlay` | `0 24px 64px rgba(0, 0, 0, 0.7)` | Modal, drawer and command palette panels. CSS only |
+
+The action tokens map to Tailwind as `colors.nw.action.DEFAULT`, `.hot` and `.text`, like the
+chrome tokens. The glow knobs are declared as `var(--nw-glow)` on `:root`, so a consumer override of
+`--nw-glow` on `:root` (or the element that carries `data-intensity`) reaches every one of them at
+every intensity; an override on a single element does not, so tune that element with the
+per-component knob. `knob.header-gradient` and `knob.header-pattern` were
+removed in v3: panel headers have no gradient or scanlines at any level.
 
 ## Preset-only and doc-only tokens
 
@@ -149,6 +166,7 @@ Some values exist only in one output, and they stay that way so this refactor ch
 surface:
 
 - **Preset-only:** `shadow.glow-*` (the `boxShadow.glow-*` utilities have no custom property).
+- **CSS-only:** `shadow.elevation-overlay` (`--nw-elevation-overlay` has no preset utility yet).
 - **Doc-only:** `doc.*` holds the `DESIGN.md` views. `doc.typography.*` mostly aliases the font and
   size tokens and adds weights and line heights. The `motion` region of `DESIGN.md` has no doc-only
   tokens: it lists the real `motion.*` tokens through their `designMd` targets.

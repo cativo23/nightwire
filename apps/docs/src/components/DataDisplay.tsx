@@ -45,10 +45,10 @@ export function Progress({ value, max = 100, variant = 'primary', className }: {
   return (
     <div className={cn('nw-progress', className)}>
       <div 
-        className="fill" 
+        className="nw-progress-fill" 
         style={{ 
           width: `${percentage}%`,
-          ...(variant === 'danger' ? { background: 'var(--nw-red)', boxShadow: '0 0 4px rgba(255,102,136,0.3)' } : {})
+          ...(variant === 'danger' ? { background: 'var(--nw-red)', boxShadow: '0 0 calc(4px * var(--nw-progress-glow)) rgba(255,102,136,0.3)' } : {})
         }} 
       />
     </div>

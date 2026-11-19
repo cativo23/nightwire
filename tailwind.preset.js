@@ -35,8 +35,8 @@ export default {
           text: {
             DEFAULT: '#ffffff',
             dim: '#aaaaaa',
-            faint: 'rgba(255, 255, 255, 0.06)',
-            line: 'rgba(255, 255, 255, 0.12)',
+            faint: 'rgba(255, 255, 255, 0.08)',
+            line: 'rgba(255, 255, 255, 0.14)',
             strong: '#ffffff',
             default: '#e6e6e6',
             mute: '#aaaaaa',
@@ -46,6 +46,11 @@ export default {
             DEFAULT: '#6699ff',
             mute: '#4477cc',
             hot: '#99bbff',
+          },
+          action: {
+            DEFAULT: '#e6e6e6',
+            hot: '#99bbff',
+            text: '#000000',
           },
           data: {
             DEFAULT: '#7aed7a',
@@ -68,9 +73,9 @@ export default {
         'nw-red-fill': 'rgba(255, 102, 136, 0.15)',
       },
       borderColor: {
-        'nw-faint': 'rgba(255, 255, 255, 0.06)',
-        'nw-line': 'rgba(255, 255, 255, 0.12)',
-        'nw-line-strong': 'rgba(255, 255, 255, 0.18)',
+        'nw-faint': 'rgba(255, 255, 255, 0.08)',
+        'nw-line': 'rgba(255, 255, 255, 0.14)',
+        'nw-line-strong': 'rgba(255, 255, 255, 0.36)',
         'nw-line-chrome': 'rgba(102, 153, 255, 0.35)',
       },
       fontFamily: {
