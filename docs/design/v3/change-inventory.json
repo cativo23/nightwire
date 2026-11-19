@@ -857,39 +857,6 @@
       }
     },
     {
-      "id": "v1-removal-progress-workshop-size",
-      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the workshop example still uses .fill (migrated in T045), so its bar loses its height. Pinned to the workshop example path and to .fill directly inside .nw-progress, with the exact old and new values.",
-      "match": {
-        "prop": "^(height|block-size)$",
-        "path": "div\\.show-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
-        "old": "^100%$",
-        "new": "^auto$",
-        "page": "examples/html/workshop.html"
-      }
-    },
-    {
-      "id": "v1-removal-progress-workshop-colour",
-      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the workshop example still uses .fill (migrated in T045), so its bar loses its background colour. Pinned to the workshop example path and to .fill directly inside .nw-progress, with the exact old and new values.",
-      "match": {
-        "prop": "^background-color$",
-        "path": "div\\.show-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
-        "old": "^rgb\\(122, 237, 122\\)$",
-        "new": "^rgba\\(0, 0, 0, 0\\)$",
-        "page": "examples/html/workshop.html"
-      }
-    },
-    {
-      "id": "v1-removal-progress-workshop-glow",
-      "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. the workshop example still uses .fill (migrated in T045), so its bar loses its glow. Pinned to the workshop example path and to .fill directly inside .nw-progress, with the exact old and new values.",
-      "match": {
-        "prop": "^box-shadow$",
-        "path": "div\\.show-row:nth-child\\(\\d+\\)>div\\.nw-progress:nth-child\\(\\d+\\)>div\\.fill:nth-child\\(\\d+\\)$",
-        "old": "^rgba\\(122, 237, 122, 0\\.3\\) 0px 0px (0|4|8\\.8)px 0px$",
-        "new": "^none$",
-        "page": "examples/html/workshop.html"
-      }
-    },
-    {
       "id": "v1-removal-progress-fixture-size",
       "description": "The v1 .nw-progress .fill alias is removed (FR-016, research R10, T042); the v3 spelling is .nw-progress-fill. The parity fixture keeps one .fill bar inside .fixture-v1 so the class stays covered once T045 migrates the examples, so the bar loses its height. Pinned to the fixture's .fixture-v1 wrapper and to .fill directly inside .nw-progress, with the exact old and new values.",
       "match": {
