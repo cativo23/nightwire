@@ -27,7 +27,8 @@
     "docs:build": "cd apps/docs && npm run build",
     "docs:preview": "cd apps/docs && npm run preview",
     "test:browsers": "node scripts/browsers/run.mjs",
-    "design:board": "node scripts/design/board.mjs"
+    "design:board": "node scripts/design/board.mjs",
+    "design:contrast": "node scripts/design/contrast.mjs"
   },
   "repository": {
     "type": "git",
