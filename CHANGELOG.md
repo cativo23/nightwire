@@ -88,7 +88,8 @@ All notable changes to this project will be documented in this file.
     neutral. The data colour stays on stat and metric values.
   - **Corners.** `.btn`, `.btn-ghost`, `.btn-danger`, inputs, `.tag`, `.modal`, `.card`, `.combo`
     and the code blocks use `--radius-sm` (were `--radius-md`, `--radius-lg` or fully round for
-    `.tag`).
+    `.tag`). So do `.cmdk` (was `--radius-lg`, 8px), `.dropdown-menu`, `.tooltip-content` and
+    `.diff` (were `--radius-md`, 4px); all are 2px now.
   - **Buttons.** `.btn` is a bone solid (`--nw-action`, black text; hover `--nw-action-hot`) and was
     blue. `.btn-chrome` is the blue solid. `.btn-ghost` is `--nw-text-default` on a
     `--nw-line-strong` border and lifts instead of filling on hover. `.btn-success` and `.btn-ai`
@@ -99,11 +100,21 @@ All notable changes to this project will be documented in this file.
     accent is 2px (`--nw-accent-width`, was 3px). The `.toast-*` variants still colour the accent.
   - **Overlays.** `.modal`, `.drawer` and `.cmdk` take `--nw-elevation-overlay` and a
     `--nw-line-strong` border; the open modal has no residual `transform`.
-  - **Tabs and sidebar** keep blue on the selected underline and the current-item line only; the
-    labels are neutral, and hover uses `--nw-text-strong` (as the dropdown and command palette
-    already did).
-  - **Smaller changes.** `.code-inline` and `.kv-value` are `--nw-text-default`; the `.empty` glyph
-    and the skeleton shimmer are neutral; the `.ai-block` rule and fill are quieter and
+  - **Tabs and sidebar.** The selected `.tab` keeps a blue underline, and the current
+    `.sidebar-item` keeps its blue line and its blue `--nw-primary-fill` background (the fill is
+    the same as in 2.1.0); their labels are neutral (`--nw-text-default` when selected, were
+    blue), and hover is `--nw-text-strong`.
+  - **Dropdown and command palette.** `.dropdown-item` is `--nw-text-default` at rest (was
+    `--nw-text-dim`, #aaaaaa). `.dropdown-item:hover` and `.cmdk-item:hover` are `--nw-text-strong`
+    on a neutral `--nw-text-faint` fill; in 2.1.0 the dropdown hover was `--nw-text` on the blue
+    `--nw-primary-fill`, and the palette hover was a blue `--nw-chrome` label on a blue fill. The
+    `.cmdk-item.active` row, the keyboard cursor, keeps its blue label and blue fill.
+  - **Smaller changes.** `.code-inline` and `.kv-value` are `--nw-text-default` (were green); the
+    `.empty` glyph and the skeleton shimmer are neutral (were blue); `.avatar` and `.combo .chip`
+    are a neutral fill, edge and text (were blue); `.cmdk-section` is `--nw-text-mute` (was
+    `--nw-chrome-mute`); `.kv-label` is `--nw-text-mute` (was `--nw-primary-dim`);
+    `.cmdk-item.active` fills at `--nw-primary-fill`, 0.08 (was 0.1); `.divider` and
+    `.dropdown-divider` are `--nw-line` (were `--nw-text-faint`); the `.ai-block` rule and fill are quieter and
     `--nw-purple-fill` is 0.06 alpha (was 0.1) so purple text passes AA on raised surfaces;
     `.nw-progress` has a `--nw-line` edge; every structural border reads `--nw-hairline`.
   - **Motion values.** `--nw-pulse-speed` is 1.6s (was 1.4s) with no combat override (was 0.7s);
@@ -124,8 +135,8 @@ All notable changes to this project will be documented in this file.
   system font). Direction approval, the SC-006 review and the v1 inventory are recorded under
   `docs/design/v3/`. SC-006: the maintainer approved the 34 components at all three intensities,
   with the default `.tag` neutral, the `.tab` and `.sidebar-item` hover at `--nw-text-strong`, and
-  the toast boundary above; `.code-inline`, `.kv-value` and `.dropdown-item` stay white and the
-  skeleton shimmer stays neutral.
+  the toast boundary above; `.code-inline`, `.kv-value` and `.dropdown-item` at `--nw-text-default`
+  (were green, green and `--nw-text-dim`) and the skeleton shimmer neutral (was blue).
 - `DESIGN.md`: the generated `motion` region lists the real motion custom properties instead of
   the doc-only `duration-*` and `easing-*` names, and the `ticker-scroll` and `led-blink`
   animations, which had no CSS behind them, are gone.
