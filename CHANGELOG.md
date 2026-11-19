@@ -4,16 +4,20 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-> **Status:** v3 in progress on `next/v3`. Not released.
+> **Status:** v3 in progress on `next/v3`. Not released. This is a **major** release: it replaces the
+> look of every component and removes the v1 compatibility surfaces. Items marked **Breaking** need a
+> change in consuming code. The migration guide (`docs/migration/v3.md`) is written later in this
+> release; until then [docs/design/v3/v1-inventory.md](docs/design/v3/v1-inventory.md) lists each
+> removal with its replacement.
 
 ### Added
 
 - **Motion vocabulary: exit variants and longhands.** Each step (`tick`, `sweep`, `uplink`) now
   publishes an exit composite (`--nw-tick-out`, …), and duration and easing longhands for both
   directions (`--nw-tick-duration`, `--nw-tick-ease`, `--nw-tick-out-duration`,
-  `--nw-tick-out-ease`, …). Durations scale with `--nw-motion-scale`. The exit values (enter × 0.75,
-  accelerating curve) are provisional until the v3 direction board sets them. `--nw-tick`,
-  `--nw-sweep` and `--nw-uplink` are unchanged.
+  `--nw-tick-out-ease`, …). Durations scale with `--nw-motion-scale`. The exit values are final,
+  approved on the v3 direction board: 100ms, 250ms and 300ms with `cubic-bezier(0.4, 0, 1, 1)`, each
+  shorter than its enter. `--nw-tick`, `--nw-sweep` and `--nw-uplink` are unchanged.
 - **`--nw-stagger`, `--nw-loop-spin` and `--nw-loop-shimmer`.** Stagger scales with
   `--nw-motion-scale`; the loop cycles scale inversely (`calc(<ms> / var(--nw-motion-scale))`), so
   archive loops run slower and combat faster. Components read them (see Changed).
@@ -39,9 +43,89 @@ All notable changes to this project will be documented in this file.
 - **Parity tool:** `--expect <file>` classifies every difference against declared change
   categories (`docs/design/v3/change-inventory.json`) and fails only on differences no category
   explains. Without `--expect`, the output and exit codes are unchanged.
+- **New tokens.** `--nw-led-glow`, `--nw-control-glow` and `--nw-progress-glow` (per-component state
+  glow, aliases of `--nw-glow`; combat doubles each); `--nw-hairline` (1px), `--nw-rule` (1.5px) and
+  `--nw-accent-width` (2px), the line-weight knobs that structural borders, drawn marks and accent
+  bars read; `--nw-elevation-overlay` (`0 24px 64px rgba(0, 0, 0, 0.7)`, the neutral overlay shadow);
+  and the role tokens `--nw-action` (bone `#e6e6e6`), `--nw-action-hot` (`#99bbff`) and
+  `--nw-action-text` (`#000000`), with Tailwind mappings `nw.action.DEFAULT`, `.hot` and `.text`.
+- **`.led[data-state="active"]`** (`--nw-chrome`), the replacement for `.led.blue`, which v2 had no
+  state for.
+- **Tooling.**
+  - `npm run test:browsers` opens the six overlays in real Chrome and Firefox and runs the open,
+    close, first-paint, reduced-motion and console checks (`puppeteer-core` is a dev dependency).
+  - `npm run design:board` renders the direction board (`docs/design/v3/board.html`, or any page
+    with `--page`) as full-page PNGs, before (`git:v2.1.0`) and after, at each intensity;
+    `--wait MS` lets a page with a boot sequence settle before the first shot.
+  - `npm run design:contrast` checks every colour pairing in `docs/design/v3/contrast-pairs.json`
+    against WCAG (4.5:1 text, 3:1 boundaries); `tests/contrast.test.mjs` runs it in `npm test`.
+  - `npm run parity` captures pages concurrently (`--jobs N`, default `min(6, cores - 2)`), starts
+    the page clock paused so a capture does not depend on host load, and writes
+    `--json <file>` (differences with their category, plus every element's shadows).
+    `scripts/parity/glow-check.mjs <file>` checks the glow rules (FR-013b, SC-012) over that file.
+    The categories in `change-inventory.json` are pinned to one intensity level and one exact old
+    and new value each.
 
 ### Changed
 
+- **The visual direction (approved 2026-11-18, two rounds; every value and reason is in
+  [docs/design/v3/direction.md](docs/design/v3/direction.md)).** Every component changes at every
+  intensity. **Breaking** for anyone who relies on the old look or on literal values:
+  - **Glow.** `--nw-glow` is 0.5 at operator (was 1) and 0 at archive, with no combat override (was
+    2.2). State signals (LED, check, radio, switch, segmented, steps, progress) read their own knob,
+    so at combat they reach an effective 1, still below 2.1.0's 2.2. Decorative glow is gone: the
+    `.btn-success` and `.btn-ai` resting shadow, the `.stat-value`, `.m-value` and AI-block glyph
+    `text-shadow`, and the panel header gradient and scanlines. The `.glow-*` utilities now read
+    `--nw-glow` and are weaker (alpha 0.33 and 0.13, was 0.5 and 0.2; red's second layer is 0.2).
+  - **Lines.** `--nw-text-faint` is 0.08 (was 0.06), `--nw-text-line` and `--nw-line` 0.14 (was
+    0.12), and `--nw-line-strong` 0.36 (was 0.18), the 3:1 control boundary, now used by form
+    controls, check, switch, segmented, combo, kbd, modal, dropdown, tooltip and toast. Placeholder
+    text is opacity 0.75 (was 0.6). Header rules (`.panel-header`, `.modal-header`, `.nw-table th`)
+    are a neutral `--nw-line` hairline.
+  - **Labels.** Panel, card, modal and sidebar headers, table headers, field labels, stat labels
+    and metric labels are `--nw-text-mute` (were blue), and a `.kanji` inside a header is
+    `--nw-text-default`. `.nw-table td` is `--nw-text-default` (was green) and its row hover is
+    neutral. The data colour stays on stat and metric values.
+  - **Corners.** `.btn`, `.btn-ghost`, `.btn-danger`, inputs, `.tag`, `.modal`, `.card`, `.combo`
+    and the code blocks use `--radius-sm` (were `--radius-md`, `--radius-lg` or fully round for
+    `.tag`).
+  - **Buttons.** `.btn` is a bone solid (`--nw-action`, black text; hover `--nw-action-hot`) and was
+    blue. `.btn-chrome` is the blue solid. `.btn-ghost` is `--nw-text-default` on a
+    `--nw-line-strong` border and lifts instead of filling on hover. `.btn-success` and `.btn-ai`
+    keep their coloured text with a `--nw-line-strong` border.
+  - **Default `.tag` and `.badge` are neutral** (`--nw-text-default` on `--nw-text-faint`; the badge
+    border is `--nw-line-strong`). Blue is `.tag-chrome`.
+  - **Toast** has a `1px --nw-line-strong` boundary on the top, right and bottom, and its left
+    accent is 2px (`--nw-accent-width`, was 3px). The `.toast-*` variants still colour the accent.
+  - **Overlays.** `.modal`, `.drawer` and `.cmdk` take `--nw-elevation-overlay` and a
+    `--nw-line-strong` border; the open modal has no residual `transform`.
+  - **Tabs and sidebar** keep blue on the selected underline and the current-item line only; the
+    labels are neutral, and hover uses `--nw-text-strong` (as the dropdown and command palette
+    already did).
+  - **Smaller changes.** `.code-inline` and `.kv-value` are `--nw-text-default`; the `.empty` glyph
+    and the skeleton shimmer are neutral; the `.ai-block` rule and fill are quieter and
+    `--nw-purple-fill` is 0.06 alpha (was 0.1) so purple text passes AA on raised surfaces;
+    `.nw-progress` has a `--nw-line` edge; every structural border reads `--nw-hairline`.
+  - **Motion values.** `--nw-pulse-speed` is 1.6s (was 1.4s) with no combat override (was 0.7s);
+    combat pulses in 1.333s through the motion scale. The exit durations are 100ms and 250ms (were
+    112.5ms and 262.5ms); the longest overlay exit at combat is 300ms (was 315ms).
+- **Identity unchanged (FR-012):** the four typefaces, kanji labels, compressed title and the three
+  intensities.
+- **The example pages load `nightwire.css`.** `dashboard.html`, `neural-ops.html` and the five pages
+  under `examples/html/components/` no longer redeclare tokens, and the legacy `--nerv-*` names are
+  gone. `synapse-ops.html` and `workshop.html` use `.nw-progress-fill`, and page-local status
+  glows read the state knobs. Known issue K4 is resolved.
+- **Docs.** `DESIGN.md`, `README.md`, `skill/nightwire/` and the docs site describe the v3 look and
+  use the v3 forms of LED, tag and progress. `DESIGN.md` replaces its v2-alpha and backward
+  compatibility sections with the v3 contract and states that elevation is tone plus one neutral
+  overlay shadow, not "no shadows". `docs/architecture/intensity.md` has the v3 knobs table and K4
+  resolved. The generated `DESIGN.md` `rounded`, `colors` and `typography` comments are corrected
+  at their source in `tokens.json` (the radius steps and surfaces as v3 uses them, buttons in the
+  system font). Direction approval, the SC-006 review and the v1 inventory are recorded under
+  `docs/design/v3/`. SC-006: the maintainer approved the 34 components at all three intensities,
+  with the default `.tag` neutral, the `.tab` and `.sidebar-item` hover at `--nw-text-strong`, and
+  the toast boundary above; `.code-inline`, `.kv-value` and `.dropdown-item` stay white and the
+  skeleton shimmer stays neutral.
 - `DESIGN.md`: the generated `motion` region lists the real motion custom properties instead of
   the doc-only `duration-*` and `easing-*` names, and the `ticker-scroll` and `led-blink`
   animations, which had no CSS behind them, are gone.
@@ -61,7 +145,28 @@ All notable changes to this project will be documented in this file.
   it was, at opacity 0). Give the trigger `aria-describedby` pointing at the content's `id`, and the
   content `role="tooltip"`: `aria-describedby` still reads hidden content, so the description
   survives.
-- `docs/architecture/intensity.md`: known issues K1 and K2 are marked resolved.
+- `docs/architecture/intensity.md`: known issues K1, K2 and K4 are marked resolved.
+
+### Removed
+
+- **Breaking: `.led.green`, `.led.blue`, `.led.red`, `.led.yellow`.** Use `.led[data-state="ok"]`,
+  `"active"`, `"error"` and `"warn"`. The state glow is `8px * --nw-led-glow`, not the v1
+  `4px * --nw-glow`, so the migration is not pixel-identical.
+- **Breaking: `.tag-warning`.** Use `.tag-warn`, which was always the same colour and fill.
+- **Breaking: `.nw-progress .fill`.** Use `.nw-progress-fill`. 2.1.0 had called it a deprecation
+  candidate for v3; earlier notes that said it was "kept indefinitely" are superseded.
+- **Breaking: `.stack`.** Use `.nw-stack`, which also honours `--nw-density`.
+- **Breaking: `--nw-header-gradient` and `--nw-header-pattern`.** Panel headers have no gradient or
+  scanlines at any intensity.
+- **Breaking: the combat-only `--nw-glow` of 2.2 and the combat `--nw-pulse-speed` of 0.7s.** Combat
+  no longer overrides either; see Changed.
+- The always-visible `.modal-backdrop` rules and the "v1 markup still works" comment were dead code
+  (a later rule already hid the backdrop) and are merged into one closed-by-default rule. Rendering
+  does not change.
+
+Kept on purpose: `.modal-header`, `.badge-warning`, `.toast-warning`, `.text-warning`, `.tag-info`,
+`.tab.active`, `.sidebar-item.active`, `.grid-2|3|4`, and dropdown and toast being open when
+`data-open` is absent. The reasons are in `docs/design/v3/v1-inventory.md`.
 
 ### Fixed
 
