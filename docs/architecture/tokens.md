@@ -6,7 +6,7 @@ generates three things from it:
 | Output | What it gets |
 |--------|--------------|
 | `src/tokens/tokens.css` (gitignored, inlined into `nightwire.css`) | The `:root` custom properties and the three intensity blocks |
-| `tailwind.preset.js` | `theme.extend`, with every value resolved to a literal |
+| `tailwind.preset.js` | `theme.extend`; colours, motion and shadows reference the custom properties, the rest is literal |
 | `DESIGN.md` | The `colors`, `typography`, `spacing`, `rounded` and `motion` regions between `# <generated:NAME>` markers |
 
 Edit `tokens.json`, run `npm run build`, commit the source and the regenerated files together.
@@ -102,12 +102,29 @@ not even a blank line.
 | Target | Alias | Typed value | Raw value |
 |--------|-------|-------------|-----------|
 | CSS | `var(--target)` | `#rrggbb`, or `rgba(R, G, B, A)` when alpha < 1; `N<unit>` (`4px`, `1.5rem`); zero dimensions as `0` | verbatim, `{x}` replaced by x's literal |
-| Preset | the final literal | same as CSS (font families stay arrays) | verbatim with literals |
+| Preset | see below | see below | see below |
 | `DESIGN.md` | the final literal | same as CSS; numbers unquoted | verbatim |
 
+The preset decides per tailwind target (FR-018, K3), in this order:
+
+1. A token whose type is `color` becomes
+   `color-mix(in srgb, var(--css) calc(<alpha-value> * 100%), transparent)`. `--css` is the token's
+   own name, not the end of its alias chain, so overriding `--nw-chrome` reaches `nw-chrome`. The
+   `calc(<alpha-value> * 100%)` is what keeps `bg-nw-cyan/40` generating; a plain `var()` colour
+   silently loses its opacity variants (research R7).
+2. A target under `transitionDuration`, `transitionTimingFunction` or `boxShadow` becomes
+   `var(--css)`.
+3. Everything else is the literal: font families (arrays), dimensions and the raw `--ls-*` letter
+   spacing, which publish a css name but stay literal because no intensity changes them.
+
+A token under rule 1 or 2 must have a `css` name, and the build fails otherwise, naming the token
+and FR-018. That is why the preset's duration and easing keys point at the `motion.longhand.*` and
+`motion.longhand-out.*` tokens (which publish `--nw-*-duration`, `--nw-*-ease` and their `-out`
+forms) and not at the typed `motion.timing.*` tokens (which have no custom property).
+
 Aliases stay `var()` in CSS on purpose. `--nw-surface-0: var(--void)` means overriding `--void`
-at runtime still reaches every v2 consumer. The preset and `DESIGN.md` need concrete values, so
-they get the resolved literal.
+at runtime still reaches every v2 consumer. `DESIGN.md` needs concrete values, so it gets the
+resolved literal.
 
 Emission follows key order, which mirrors the original `:root` order, so the generated block reads
 like the hand-written one did.
@@ -121,8 +138,9 @@ alternative was a second hand-edited token file, and the point of this file is t
 
 Raw values can interpolate aliases: `"calc({motion.timing.tick.in.duration} * var(--nw-motion-scale)) {motion.timing.tick.in.easing}"`
 emits `calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1)`. The 150 ms and the curve
-live once, in `motion.timing.tick.in`, and feed both `--nw-tick` and the preset's
-`transitionDuration`/`transitionTimingFunction`.
+live once, in `motion.timing.tick.in`, and feed `--nw-tick`, `--nw-tick-duration`
+and `--nw-tick-ease`; the preset's `transitionDuration` and `transitionTimingFunction` read the last
+two.
 
 Every raw token today, and why it cannot be typed:
 
@@ -135,7 +153,7 @@ Every raw token today, and why it cannot be typed:
 | `motion.exit.*`, `motion.longhand.*`, `motion.longhand-out.*` | the same shape over `out.*`, and the bare `calc()` duration or curve | `--nw-<step>-out`, `--nw-<step>-duration`, `--nw-<step>-ease`, `--nw-<step>-out-duration`, `--nw-<step>-out-ease` | `calc()` with a runtime `var()`; a bare curve interpolated from a typed token |
 | `motion.cycle.*` | `calc({motion.timing.stagger} * var(--nw-motion-scale))`; loops divide by `var(--nw-motion-scale)` | `--nw-stagger`, `--nw-loop-spin`, `--nw-loop-shimmer` | `calc()` with a runtime `var()` |
 | `shadow.elevation-overlay` | `0 24px 64px rgba(0, 0, 0, 0.7)` | `--nw-elevation-overlay` (CSS only) | Multi-value shadow |
-| `shadow.glow-green` / `blue` / `cyan` / `red` | `0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)` (red: `0.3`) | preset `boxShadow.glow-*` | Kept byte-for-byte as the preset had it |
+| `shadow.glow-green` / `blue` / `cyan` / `red` | `0 0 calc(8px * var(--nw-glow)) rgba(…,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(…,0.13)` (red: `0.2`) | `--nw-shadow-glow-*`, preset `boxShadow.glow-*` | `calc()` with a runtime `var()`; one value for the `.glow-*` text-shadows and the preset |
 | `doc.typography.title.transform` | `scaleX(0.82)` | `DESIGN.md` only | CSS transform |
 | `doc.typography.title.textTransform`, `doc.typography.stamp.textTransform` | `uppercase` | `DESIGN.md` only | CSS keyword |
 
@@ -160,12 +178,14 @@ every intensity; an override on a single element does not, so tune that element 
 per-component knob. `knob.header-gradient` and `knob.header-pattern` were
 removed in v3: panel headers have no gradient or scanlines at any level.
 
-## Preset-only and doc-only tokens
+## CSS-only and doc-only tokens
 
-Some values exist only in one output, and they stay that way so this refactor changes no public
-surface:
+Some values exist only in one output:
 
-- **Preset-only:** `shadow.glow-*` (the `boxShadow.glow-*` utilities have no custom property).
+- **Shared glow:** `shadow.glow-*` publish `--nw-shadow-glow-*`. `.glow-green`, `.glow-blue`,
+  `.glow-cyan` and `.glow-red` read them as `text-shadow`, and the preset's `boxShadow.glow-*` is
+  `var(--nw-shadow-glow-*)`, so both follow `--nw-glow` on `:root` (a `--nw-glow` set on one element
+  does not reach them). `.glow-yellow` and `.glow-purple` have no token and keep their own value.
 - **CSS-only:** `shadow.elevation-overlay` (`--nw-elevation-overlay` has no preset utility yet).
 - **Doc-only:** `doc.*` holds the `DESIGN.md` views. `doc.typography.*` mostly aliases the font and
   size tokens and adds weights and line heights. The `motion` region of `DESIGN.md` has no doc-only

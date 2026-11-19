@@ -947,8 +947,9 @@ promises below hold within v3.x, where a minor release only adds.
 4. **Intensity is opt-in by attribute.** No attribute behaves as `operator`. Operator is no longer
    v1-identical: its glow is 0.5 instead of 1.
 5. **Reduced motion wins** at every intensity.
-6. **The package surface.** `package.json` still has no `exports`, `type` or `engines`; the Tailwind
-   preset still emits literals, not `var()`. Those changes are tracked separately.
+6. **The package surface.** `package.json` still has no `exports`, `type` or `engines`; that change
+   is tracked separately. The Tailwind preset keeps every key name, and its colour, glow shadow and
+   motion values now reference the custom properties, so utilities follow intensity (FR-018).
 
 **Rules the refresh holds, and the tooling checks.**
 

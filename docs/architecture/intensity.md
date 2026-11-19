@@ -79,11 +79,17 @@ test in `npm test` fails if a component hardcodes a duration. The loops scale in
 `--nw-loop-state` and `--nw-pulse-state`. `DESIGN.md` lists the real tokens in its generated
 `motion` region instead of the doc-only `duration-*` and `easing-*` names.
 
-### K3. The Tailwind preset has no `var()`
+### K3. The Tailwind preset has no `var()` (resolved in v3)
 
-Every preset value is a literal, so Tailwind utilities (`bg-nw-chrome`, `duration-nw-tick`) do not
-follow runtime overrides or intensity levels. Switching to `var()` would change what those
-utilities render. Owner: sub-project 2.
+**Resolved.** Colour, glow shadow and motion values in the preset reference the custom properties,
+so `bg-nw-chrome`, `shadow-glow-cyan` and `duration-nw-tick` follow `data-intensity` and runtime
+overrides. Colours are `color-mix(in srgb, var(--nw-x) calc(<alpha-value> * 100%), transparent)`,
+which keeps opacity modifiers such as `bg-nw-cyan/40` generating; a plain `var()` would drop them.
+Font families, sizes, letter spacing, spacing and radii stay literal, since no intensity changes
+them. See [tokens.md](tokens.md#how-values-are-emitted).
+
+The 2.x problem, kept for the record: every preset value was a literal, so the utilities ignored
+the intensity level while the CSS classes followed it.
 
 ### K4. Example pages redeclare tokens inline (resolved in v3)
 
