@@ -18,7 +18,7 @@ generated, so the first rule is to know which files are sources.
 | `dist/` | generated, ignored | `tsc` output, published to npm |
 | `skill/nightwire/` | **hand-edited** | Agent skill and references shipped with the package |
 | `apps/docs/` | **hand-edited** | Docs site (React + Vite + Tailwind) built on the root `nightwire.css` and preset |
-| `docs/` | **hand-edited** | Contributor docs: architecture, proposals, roadmap |
+| `docs/` | **hand-edited** | Contributor docs: architecture, design decisions, proposals, roadmap |
 | `examples/` | **hand-edited** | Standalone HTML demos and component snippets |
 | `scripts/` | **hand-edited** | Build scripts and the parity tool |
 | `tests/` | **hand-edited** | `node:test` unit tests and fixtures |
