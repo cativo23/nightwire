@@ -2032,8 +2032,9 @@ input::placeholder, textarea::placeholder {
    over it, and a tint is multiplied on top. The structure is
    .nw-halftone > .nw-halftone-layer > img. Tint and dot size are --nw-halftone-tint and
    --nw-halftone-dot. The #000 and #fff below are the mask of the dot pattern, not palette colours,
-   so they are the only colour literals in the stylesheet. Halftone art is an approved decoration
-   exception (FR-034): it is an image treatment, not a glow. */
+   so they are the only colour literals in the stylesheet apart from the #000 of the wordmark's
+   alpha mask (wordmark.css). Halftone art is an approved decoration exception (FR-034): it is an
+   image treatment, not a glow. */
 
 .nw-halftone {
   position: relative;
