@@ -68,6 +68,8 @@ test('the installer copies the preset as .mjs, prints a matching import, and it 
     // eslint-disable-next-line no-control-regex
     const out = logged.join('\n').replace(/\u001b\[[0-9;]*m/g, '');
     assert.match(out, /import nightwirePreset from '\.\/nightwire\.tailwind\.preset\.mjs'/);
+    // the snippet names its file, so pasting it into a .js config in a typeless project is not the default
+    assert.match(out, /\/\/ tailwind\.config\.mjs\n\s*import nightwirePreset/);
 
     const r = spawnSync(
       process.execPath,
