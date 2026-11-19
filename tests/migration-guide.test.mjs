@@ -67,17 +67,24 @@ test('should_name_the_knobs_the_module_type_and_the_way_to_stay_on_v2', () => {
     'nightwire.tailwind.preset.mjs',
     'shadow-<colour>',
     '@cativo23/nightwire@^2',
+    'npx @cativo23/nightwire@2',
+    'v2.1.0',
     'blog.cativo.dev',
   ]) {
     assert.ok(guide.includes(text), `guide does not mention ${text}`);
   }
 });
 
-test('should_link_the_guide_from_readme_and_changelog', () => {
-  for (const file of ['README.md', 'CHANGELOG.md']) {
+// DESIGN.md ships in the npm package and the installer copies it into consumer projects, so it
+// must not keep a "written in a later phase" promise either (FR-022).
+test('should_link_the_guide_from_readme_changelog_and_design', () => {
+  for (const file of ['README.md', 'CHANGELOG.md', 'DESIGN.md']) {
     const text = read(file);
     assert.ok(text.includes('docs/migration/v3.md'), `${file} does not link the guide`);
-    assert.ok(!text.includes('written later'), `${file} still says the guide is written later`);
+    assert.ok(
+      !/written (in a )?later|later phase/i.test(text),
+      `${file} still says the guide is written later`,
+    );
   }
 });
 
