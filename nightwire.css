@@ -192,11 +192,6 @@
   --nw-loop-spin:    calc(800ms / var(--nw-motion-scale));
   --nw-loop-shimmer: calc(1200ms / var(--nw-motion-scale));
 
-  /* Shadows: glow (also the preset's) and overlay */
-  --nw-shadow-glow-green: 0 0 calc(8px * var(--nw-glow)) rgba(122,237,122,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(122,237,122,0.13);
-  --nw-shadow-glow-blue: 0 0 calc(8px * var(--nw-glow)) rgba(102,153,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,153,255,0.13);
-  --nw-shadow-glow-cyan: 0 0 calc(8px * var(--nw-glow)) rgba(102,221,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,221,255,0.13);
-  --nw-shadow-glow-red: 0 0 calc(8px * var(--nw-glow)) rgba(255,102,136,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(255,102,136,0.2);
   --nw-elevation-overlay: 0 24px 64px rgba(0, 0, 0, 0.7);
 }
 
@@ -325,10 +320,10 @@ table {
 /* ── src/utilities/glow.css ────────────────────────────────────── */
 /* ── Glow ────────────────────────────────────────────────────── */
 
-.glow-green  { text-shadow: var(--nw-shadow-glow-green); }
-.glow-blue   { text-shadow: var(--nw-shadow-glow-blue); }
-.glow-cyan   { text-shadow: var(--nw-shadow-glow-cyan); }
-.glow-red    { text-shadow: var(--nw-shadow-glow-red); }
+.glow-green  { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(122,237,122,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(122,237,122,0.13); }
+.glow-blue   { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(102,153,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,153,255,0.13); }
+.glow-cyan   { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(102,221,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,221,255,0.13); }
+.glow-red    { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(255,102,136,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(255,102,136,0.2); }
 .glow-yellow { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(232,153,58,0.33),  0 0 calc(16px * var(--nw-glow)) rgba(232,153,58,0.13); }
 .glow-purple { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(178,102,224,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(178,102,224,0.13); }
 
