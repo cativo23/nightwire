@@ -12,6 +12,8 @@ const tsc = createRequire(import.meta.url).resolve('typescript/bin/tsc');
 
 const result = spawnSync(process.execPath, [tsc], { cwd: root, stdio: 'inherit' });
 if (result.status !== 0) {
+  // status is null when tsc never started or was killed by a signal: say why instead of exiting silently
+  if (result.status === null) console.error(`build-cli: tsc did not finish: ${result.error ?? result.signal}`);
   process.exit(result.status ?? 1);
 }
 
