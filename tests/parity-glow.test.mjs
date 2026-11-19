@@ -189,3 +189,69 @@ test('isPageStateSignal names the page-local rules that read --nw-led-glow and -
   assert.ok(isPageStateSignal('examples/html/neural-ops.html', 'a>div.layer-fill:nth-child(1)'));
   assert.ok(!isPageStateSignal('examples/html/neural-ops.html', 'a>span.dot:nth-child(1)'));
 });
+
+// ---- FR-034: the glow exceptions approved with the mockup ---------------------------------------
+// Parity paths name only the first class of each element, so `.nw-section-head-chrome` is told from a
+// plain `.nw-section-head` by the glow colour: --nw-chrome (#6699ff) is the only colour it uses.
+
+const KANJI = 'html>body>div.nw-section-head:nth-child(1)>span.kanji:nth-child(2)';
+const chromeGlow = (blur) => `rgb(102, 153, 255) 0px 0px ${blur}px`;
+const kanji = (over) => rec({ path: KANJI, prop: 'text-shadow', old: 'none', ...over });
+
+test('FR-034: a new chrome kanji glow on a section head is an exception at none and operator, with the reason', () => {
+  const r = checkGlow([
+    kanji({ state: 'operator|rm-off', new: chromeGlow(10) }),
+    kanji({ state: 'none|rm-off', new: chromeGlow(20) }),
+  ]);
+  assert.equal(r.operator.checked, 2);
+  assert.equal(r.operator['fr-034'], 2);
+  assert.equal(r.operator.violations.length, 0);
+  assert.equal(r.operator.exceptions.length, 2);
+  assert.match(r.operator.exceptions[0].reason, /FR-034/);
+  assert.match(r.operator.exceptions[0].reason, /nw-section-head-chrome/);
+});
+
+test('FR-034: the kanji glow is reported as an EXCEPTION line citing FR-034', async () => {
+  const { formatGlowReport } = await import('../scripts/parity/lib/glow.mjs');
+  const { lines, exitCode } = formatGlowReport(checkGlow([kanji({ new: chromeGlow(10) })]));
+  assert.equal(exitCode, 0);
+  assert.match(lines[0], /fr-034=1/);
+  assert.match(lines.find((l) => l.startsWith('EXCEPTION')), /^EXCEPTION  fr-034  1  .*FR-034.*\[span\.kanji text-shadow\]$/);
+});
+
+test('FR-034: it does not break the combat rule, and it is still not a state signal', () => {
+  const r = checkGlow([
+    kanji({ state: 'operator|rm-off', new: chromeGlow(10) }),
+    kanji({ state: 'combat|rm-off', new: chromeGlow(24) }),
+  ]);
+  assert.equal(r.combat.checked, 1);
+  assert.equal(r.combat['fr-034'], 1);
+  assert.equal(r.combat.violations.length, 0);
+  assert.ok(!isStateSignalPath(KANJI));
+});
+
+test('FR-034: at archive a coloured blur is still a violation, even on the section-head kanji', () => {
+  const r = checkGlow([kanji({ state: 'archive|rm-off', new: chromeGlow(10) })]);
+  assert.equal(r.archive.violations.length, 1);
+});
+
+test('FR-034: the exception is narrow: another path, another prop, another colour or a growing glow still fail', () => {
+  const other = checkGlow([
+    // the kanji of a panel or card header has no glow in the mockup either
+    rec({ path: 'html>body>div.panel-header:nth-child(1)>span.kanji:nth-child(2)', prop: 'text-shadow', old: 'none', new: chromeGlow(10) }),
+    // a box-shadow on the section head
+    rec({ path: 'html>body>div.nw-section-head:nth-child(1)', old: 'none', new: chromeGlow(10) }),
+    // a non-chrome colour on the section-head kanji
+    kanji({ new: glow(10) }),
+    // a glow that existed in v2.1.0 is compared as before (equal is not smaller)
+    kanji({ old: chromeGlow(10), new: chromeGlow(10) }),
+  ]);
+  assert.equal(other.operator.checked, 4);
+  assert.equal(other.operator.violations.length, 4);
+  assert.equal(other.operator['fr-034'], 0);
+  const combat = checkGlow([
+    rec({ path: 'html>body>div.panel-header:nth-child(1)>span.kanji:nth-child(2)', prop: 'text-shadow', state: 'operator|rm-off', old: 'none', new: chromeGlow(10) }),
+    rec({ path: 'html>body>div.panel-header:nth-child(1)>span.kanji:nth-child(2)', prop: 'text-shadow', state: 'combat|rm-off', old: 'none', new: chromeGlow(24) }),
+  ]);
+  assert.equal(combat.combat.violations.length, 1);
+});

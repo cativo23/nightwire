@@ -5,6 +5,7 @@
 //   archive   no element has a coloured blur
 //   combat    no element blurs more than it does at operator, unless it is a state signal, and a
 //             state signal stays below its v2.1.0 combat blur
+//   FR-034    the decorative glows approved with the mockup are named exceptions (see FR034 below)
 //
 // A "glow" is a layer with a blur radius that is not neutral black. Black layers are elevation
 // (the overlay shadow), and layers without blur are rings, borders or pressed states.
@@ -71,6 +72,22 @@ const NEW_SIGNAL = [
 ];
 const newSignalReason = (path, glows) => NEW_SIGNAL.find(({ re, layers }) => re.test(plain(path)) && layers(glows))?.reason;
 
+// FR-034: the decorative glows approved with the mockup, each scaled by a knob and 0 at archive.
+// This task adds the kanji glow of .nw-section-head-chrome (--nw-kanji-glow). Parity paths name only
+// the first class of an element, so the chrome variant is told from a plain .nw-section-head by the
+// glow colour, --nw-chrome, as the active LED is above; the kanji of .panel-header and .card-header
+// has no glow and is not listed. The exception is for text-shadow only and for a glow with no
+// v2.1.0 counterpart: an existing glow is still compared against its old blur.
+const FR034 = [
+  {
+    re: /(^|>)[a-z0-9]+\.nw-section-head(-chrome)?>[a-z0-9]+\.kanji$/,
+    prop: 'text-shadow',
+    layers: (glows) => glows.every(isChrome),
+    reason: 'FR-034: the kanji of .nw-section-head-chrome glows at --nw-kanji-glow (10px at operator, 0 at archive)',
+  },
+];
+const fr034For = (record, glows) => FR034.find(({ re, prop, layers }) => prop === record.prop && re.test(plain(record.path)) && layers(glows));
+
 const operatorState = (state) => /^(none|operator)\|/.test(state);
 
 function judgeOperator(record) {
@@ -84,6 +101,8 @@ function judgeOperator(record) {
   }
   if (glows.every(({ layer, old }) => old && layer.blur < old.blur)) return { kind: 'smaller' };
   if (glows.some(({ layer, old }) => old && layer.blur >= old.blur)) return { kind: 'violation', reason: 'blur is not smaller than in v2.1.0' };
+  const exception = fr034For(record, glows.map(({ layer }) => layer));
+  if (exception) return { kind: 'fr-034', reason: exception.reason };
   const reason = newSignalReason(record.path, glows.map(({ layer }) => layer));
   if (reason) return { kind: 'new-signal', reason };
   return { kind: 'violation', reason: 'a glow with no v2.1.0 counterpart' };
@@ -94,9 +113,9 @@ function judgeOperator(record) {
  *        the `shadows` of a parity --json file
  */
 export function checkGlow(shadows) {
-  const operator = { checked: 0, smaller: 0, removed: 0, 'no-blur': 0, elevation: 0, 'new-signal': 0, exceptions: [], violations: [] };
+  const operator = { checked: 0, smaller: 0, removed: 0, 'no-blur': 0, elevation: 0, 'new-signal': 0, 'fr-034': 0, exceptions: [], violations: [] };
   const archive = { checked: 0, violations: [] };
-  const combat = { checked: 0, 'at-or-below-operator': 0, 'state-signal': 0, violations: [] };
+  const combat = { checked: 0, 'at-or-below-operator': 0, 'state-signal': 0, 'fr-034': 0, violations: [] };
 
   const operatorNew = new Map(); // key of the operator state -> layers
   const key = (r, state) => [r.page, state, r.path, r.prop].join('\u0000');
@@ -127,6 +146,7 @@ export function checkGlow(shadows) {
       const before = parseShadow(r.old);
       const rising = after.map((layer, i) => ({ layer, op: atOperator[i], old: before[i] })).filter(({ layer, op }) => isGlow(layer) && layer.blur > (op?.blur ?? 0));
       if (!rising.length) { combat['at-or-below-operator']++; continue; }
+      if (fr034For(r, rising.map(({ layer }) => layer)) && rising.every(({ old }) => !old)) { combat['fr-034']++; continue; }
       if (!isStateSignalPath(r.path) && !isPageStateSignal(r.page, r.path)) combat.violations.push({ ...r, reason: 'blurs more than at operator and is not a state signal' });
       else if (rising.some(({ layer, old }) => old && !(layer.blur < old.blur))) combat.violations.push({ ...r, reason: 'state signal is not below its v2.1.0 combat blur' });
       else combat['state-signal']++;
@@ -140,7 +160,7 @@ const last = (path) => plain(path).split('>').pop();
 /** Printable report and exit code (1 when any rule has a violation) for a checkGlow() result. */
 export function formatGlowReport({ operator, archive, combat }) {
   const lines = [];
-  lines.push(`OPERATOR  checked=${operator.checked}  smaller=${operator.smaller}  removed=${operator.removed}  no-blur=${operator['no-blur']}  elevation=${operator.elevation}  new-signal=${operator['new-signal']}  violations=${operator.violations.length}`);
+  lines.push(`OPERATOR  checked=${operator.checked}  smaller=${operator.smaller}  removed=${operator.removed}  no-blur=${operator['no-blur']}  elevation=${operator.elevation}  new-signal=${operator['new-signal']}  fr-034=${operator['fr-034']}  violations=${operator.violations.length}`);
   const groups = new Map();
   for (const e of operator.exceptions) {
     const k = `${e.kind}\u0000${e.reason}`;
@@ -151,7 +171,7 @@ export function formatGlowReport({ operator, archive, combat }) {
   }
   for (const g of groups.values()) lines.push(`EXCEPTION  ${g.kind}  ${g.count}  ${g.reason}  [${[...g.elements].sort().join('; ')}]`);
   lines.push(`ARCHIVE  checked=${archive.checked}  violations=${archive.violations.length}`);
-  lines.push(`COMBAT  checked=${combat.checked}  at-or-below-operator=${combat['at-or-below-operator']}  state-signal=${combat['state-signal']}  violations=${combat.violations.length}`);
+  lines.push(`COMBAT  checked=${combat.checked}  at-or-below-operator=${combat['at-or-below-operator']}  state-signal=${combat['state-signal']}  fr-034=${combat['fr-034']}  violations=${combat.violations.length}`);
   for (const [area, list] of [['operator', operator.violations], ['archive', archive.violations], ['combat', combat.violations]]) {
     for (const v of list) lines.push(`VIOLATION  ${area}  ${v.page}  [${v.state}]  ${v.path}  ${v.prop}  ${v.old} → ${v.new}  (${v.reason})`);
   }
