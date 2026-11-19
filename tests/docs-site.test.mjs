@@ -211,3 +211,23 @@ test('should_opt_the_dense_console_demos_into_the_reticle', () => {
   assert.deepEqual(panels.filter((p) => !/nw-reticle/.test(p)), [], 'an ExamplesPage tile is not a .panel.nw-reticle');
   assert.match(read(`${SRC}/pages/PanelsPage.tsx`), /panel nw-reticle/, 'PanelsPage does not show the opt-in frame');
 });
+
+// M11: the decorative pieces are hidden from assistive tech, in the markup the page teaches and
+// in the markup it renders.
+test('should_hide_the_decorative_pieces_from_assistive_tech_on_the_pieces_page', () => {
+  const page = read(`${SRC}/pages/PiecesPage.tsx`);
+  for (const cls of ['nw-barcode', 'nw-wordmark', 'nw-reticle-stamp', 'nw-reticle-vlabel']) {
+    const tags = page.match(new RegExp(`<[a-z]+ [^<>]*class(?:Name)?="${cls}"[^<>]*>`, 'g')) ?? [];
+    assert.ok(tags.length >= 2, `PiecesPage shows .${cls} fewer than twice (code and demo)`);
+    assert.deepEqual(
+      tags.filter((t) => !/aria-hidden="true"/.test(t)),
+      [],
+      `a .${cls} on PiecesPage is not aria-hidden`,
+    );
+  }
+  assert.match(
+    page,
+    /<code>aria-hidden=&quot;true&quot;<\/code>[^<]*<code>\.nw-barcode<\/code>/,
+    'PiecesPage does not tell the reader to hide the decorative pieces',
+  );
+});

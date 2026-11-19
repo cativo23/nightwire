@@ -339,3 +339,15 @@ test('should_name_the_chip_solid_fill_by_its_token_not_as_bone', () => {
     assert.ok(row && row.includes('`--nw-action`'), `${file} chip row does not name --nw-action`);
   }
 });
+
+// M11: the decorative pieces are hidden from assistive tech by the consumer; the contrast file
+// exempts them as decoration on that assumption, so the guide and the skill say so.
+test('should_tell_consumers_to_hide_the_decorative_pieces_from_assistive_tech', () => {
+  for (const file of [GUIDE, 'skill/nightwire/SKILL.md']) {
+    const line = read(file).split('\n').find((l) => l.includes('aria-hidden="true"'));
+    assert.ok(line, `${file} does not mention aria-hidden="true"`);
+    for (const piece of ['.nw-barcode', '.nw-wordmark', '.nw-reticle-stamp', '.nw-reticle-vlabel']) {
+      assert.ok(line.includes(piece), `${file} aria-hidden line does not name ${piece}`);
+    }
+  }
+});
