@@ -90,7 +90,7 @@ which keeps opacity modifiers such as `bg-nw-cyan/40` generating; a plain `var()
 (`duration-nw-{tick,sweep,uplink}-out`, `ease-nw-{tick,sweep,uplink}-out`) are new. `shadow-glow-*`
 use the same string as the `.glow-*` text classes, so they scale with `--nw-glow` (4px and 8px
 blur at operator, none at archive). **Breaking** for preset users: 2.1.0 had a fixed
-`0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)`. Font families, sizes, letter spacing, spacing and radii
+`0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)` (red's second layer was 0.3). Font families, sizes, letter spacing, spacing and radii
 stay literal, since no intensity changes them.
 
 Colour utilities and the glow shadows read their custom property where they are used, so an

@@ -79,7 +79,7 @@ All notable changes to this project will be documented in this file.
     so at combat they reach an effective 1, still below 2.1.0's 2.2. Decorative glow is gone: the
     `.btn-success` and `.btn-ai` resting shadow, the `.stat-value`, `.m-value` and AI-block glyph
     `text-shadow`, and the panel header gradient and scanlines. The `.glow-*` utilities now read
-    `--nw-glow` and are weaker (alpha 0.33 and 0.13, was 0.5 and 0.2; red's second layer is 0.2).
+    `--nw-glow` and are weaker (alpha 0.33 and 0.13, was 0.5 and 0.2; red's second layer is 0.2, was 0.3).
     **Behaviour change:** the LED, control and progress glow read their own knob, and each knob is
     `var(--nw-glow)` resolved on `:root`. A `--nw-glow` override on `:root` (or on the element with
     `data-intensity`) still reaches them, but one on a single element no longer does, where in
@@ -137,7 +137,7 @@ All notable changes to this project will be documented in this file.
   - **Breaking: `shadow-glow-{green,blue,cyan,red}` change value.** They use the same string as the
     `.glow-*` classes, `0 0 calc(8px * var(--nw-glow)) rgba(…,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(…,0.13)`
     (red's second layer is 0.2): 4px and 8px blur at operator, none at archive. 2.1.0 had a fixed
-    `0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)`.
+    `0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)` (red's second layer was 0.3).
   - **Known limit.** The tokens that carry their own alpha (`bg-nw-primary-fill`, `-green-faint`,
     `-green-fill`, `-cyan-glow`, `-red-fill`, and the faint, line, `line-strong` and `line-chrome`
     colours) multiply with an opacity modifier: `bg-nw-primary-fill/40` is 0.4 × 0.08, where v2
