@@ -2,13 +2,15 @@ FROM node:24-alpine AS builder
 
 # Build context is the repo root. The docs app lives at /app/apps/docs and reads the
 # generated root artifacts from /app: package.json (version), nightwire.css, tailwind.preset.js,
-# and src/tokens/tokens.json (the motion and intensity values the pages display).
+# src/tokens/tokens.json (the motion and intensity values the pages display), and the file
+# list of src/components (counted for the ticker, status bar and overview).
 WORKDIR /app/apps/docs
 COPY apps/docs/package*.json ./
 RUN npm ci
 COPY apps/docs/ ./
 COPY package.json nightwire.css tailwind.preset.js /app/
 COPY src/tokens/tokens.json /app/src/tokens/tokens.json
+COPY src/components/ /app/src/components/
 RUN npm run build
 
 FROM nginx:alpine

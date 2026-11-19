@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
+import { docsCounts } from '../apps/docs/build-counts.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -92,4 +93,32 @@ test('should_copy_tokens_json_into_the_docs_images_that_now_import_it', () => {
     assert.match(read(file), /src\/tokens\/tokens\.json/, `${file} does not copy tokens.json`);
   }
   assert.match(read('docker-compose.dev.yml'), /src\/tokens\/tokens\.json/, 'dev compose does not mount tokens.json');
+});
+
+// T058 fix 2 (Principle II): the token and component counts are computed at build time.
+test('should_compute_the_token_and_component_counts_instead_of_writing_them', () => {
+  const counts = docsCounts(root);
+  assert.equal(counts.components, readdirSync(path.join(root, 'src/components')).filter((f) => f.endsWith('.css')).length);
+  assert.equal(counts.tokens, (read('src/tokens/tokens.json').match(/"css":/g) ?? []).length);
+  const users = {
+    'components/Ticker.tsx': ['__NW_TOKEN_COUNT__', '__NW_COMPONENT_COUNT__'],
+    'components/StatusBar.tsx': ['__NW_TOKEN_COUNT__', '__NW_COMPONENT_COUNT__'],
+    'pages/OverviewPage.tsx': ['__NW_TOKEN_COUNT__', '__NW_COMPONENT_COUNT__'],
+  };
+  for (const [file, defines] of Object.entries(users)) {
+    const text = read(`${SRC}/${file}`);
+    for (const d of defines) assert.match(text, new RegExp(d), `${file} does not use ${d}`);
+    assert.doesNotMatch(text, new RegExp(`\\b(${counts.tokens}|${counts.components})\\b`), `${file} hard-codes a count`);
+  }
+  const vite = read('apps/docs/vite.config.ts');
+  assert.match(vite, /__NW_TOKEN_COUNT__/);
+  assert.match(vite, /__NW_COMPONENT_COUNT__/);
+  assert.match(read('apps/docs/src/vite-env.d.ts'), /__NW_TOKEN_COUNT__[\s\S]*__NW_COMPONENT_COUNT__/);
+});
+
+test('should_copy_the_component_stylesheets_into_the_docs_images_that_count_them', () => {
+  for (const file of ['apps/docs/Dockerfile', 'apps/docs/Dockerfile.dev']) {
+    assert.match(read(file), /COPY src\/components\/ \/app\/src\/components\//, `${file} does not copy src/components`);
+  }
+  assert.match(read('docker-compose.dev.yml'), /\.\/src\/components:\/app\/src\/components/, 'dev compose does not mount src/components');
 });
