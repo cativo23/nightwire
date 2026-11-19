@@ -69,8 +69,10 @@ npm run parity -- --old git:v2.0.1 --new nightwire.css
 npm run parity -- --pages "examples/html/workshop.html" --max-lines 50
 NW_CHROME_PATH=/usr/bin/chromium npm run parity     # no branded Chrome installed
 npm run parity -- --jobs 1                          # strictly sequential
+npm run parity -- --json /tmp/parity.json           # also write the run as JSON (see "Checking the glow rules")
 ```
 
+The page clock starts paused, so a capture does not depend on how loaded the host is.
 Captures run concurrently, one job per page and state. `--jobs N` (or `NW_PARITY_JOBS=N`) sets how
 many run at once; the default is `min(6, cores - 2)`, at least 1, and `--jobs 1` is the sequential
 run. The output does not depend on `N`. While iterating, pass `--pages <glob>` for the pages you
@@ -142,6 +144,12 @@ toward the **first** matching category in file order only, so the counts plus `u
 always add up to `differences`. Every new rendering difference gets a category in the same
 commit that causes it.
 
+The categories in `change-inventory.json` that follow an intensity level are pinned to one level
+each: the `state` anchors the intensity (`^combat\\|rm-off`, say), and `old` and `new` pin one exact
+old-to-new pair. A value seen at `archive` therefore cannot stand for the same category at
+`combat`, and a new value at any level fails until someone names it. When `--expect` reports an
+unexpected difference at one level, add or retune the category for that level, not a looser one.
+
 ### Checking the glow rules
 
 `--json <file>` also writes the run as JSON: `meta`, every difference with its category (`null`
@@ -159,6 +167,41 @@ at `archive` no element may have a coloured blur; at `combat` only state signals
 switch, segmented, steps, progress) may blur more than at operator, and they stay below v2.1.0's
 combat blur. Neutral black layers (the overlay elevation) and layers without blur (focus rings,
 pressed states) are listed as exceptions. Exit code 1 means a violation.
+
+## Checking the colour contrast
+
+```sh
+npm run design:contrast                          # every pairing, one PASS or FAIL line each
+npm run design:contrast -- --quiet               # the summary and the failures only
+npm run design:contrast -- --pairs <file> --css <file>
+```
+
+`docs/design/v3/contrast-pairs.json` lists each pairing (text, labels, signal colours, button
+labels, tags, placeholders, focus rings and control boundaries, on each surface they sit on). The
+script resolves the colours from the built `src/tokens/tokens.css` (run `npm run build` first) and
+checks WCAG: 4.5:1 for text, 3:1 for large text and UI boundaries. `tests/contrast.test.mjs` runs it
+inside `npm test` and also fails when a colour token used by a component has no pair. Pairings
+marked `exempt` in the file (disabled controls, hover borders) are listed, not checked. Exit code 1
+means a pairing fails; 2 means a usage or data error. A new colour on a component needs a pair in
+the same commit.
+
+## Rendering the direction board
+
+```sh
+npm run design:board                              # before (git:v2.1.0) and after, 3 intensities, 6 PNGs
+npm run design:board -- --out ./board --wait 2000
+npm run design:board -- --page examples/html/dashboard.html --before git:main
+```
+
+`docs/design/v3/board.html` is the page the maintainer reviews a visual change on. The script
+renders it as full-page PNGs in your local Chrome (`NW_CHROME_PATH` works here too), once for the
+`--before` stylesheet (default `git:v2.1.0`) and once for `--after` (default the working tree
+`nightwire.css`), at `archive`, `operator` and `combat`. Elements with `data-force=":hover
+:focus-visible"` get those states forced, so they can be photographed. `--css <spec>` renders one
+stylesheet, `--page` renders another page, and `--wait MS` pauses after load for a page that builds
+its view on a timer or boot sequence. Files are named `board-<label>-<intensity>.png` in `--out`
+(default `nightwire-board/` under the system temp directory); nothing is written inside the repo.
+Exit code 0 means rendered, 2 means a usage error or a browser that would not start.
 
 ## Checking overlays in real browsers
 
