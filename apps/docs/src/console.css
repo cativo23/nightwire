@@ -508,6 +508,10 @@
 /* Whatever follows a page head gets the same gap a .docs-block has (pages that predate .docs-block). */
 .docs-pagehead + :not(.docs-block) { margin-top: var(--sp-12); }
 
+/* Panels stacked directly in a page section carry an inline 2px margin from v2's boxed layout; open
+   panels need a real gap so a table does not touch the next section head. Panels inside a grid are untouched. */
+main section > .panel + .panel { margin-top: var(--sp-8); }
+
 .docs-accordion { margin-top: var(--sp-4); }
 
 .docs-principle-meta {

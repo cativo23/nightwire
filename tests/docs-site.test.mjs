@@ -346,3 +346,13 @@ test('should_style_the_docs_private_pieces_with_neutral_labels_and_a_quiet_copy_
   assert.doesNotMatch(read(`${SRC}/components/CodeBlock.tsx`), /nw-primary/);
   assert.doesNotMatch(read(`${SRC}/pages/OverviewPage.tsx`), /nw-section-head-chrome/);
 });
+
+test('should_separate_consecutive_page_level_panels_so_a_table_does_not_touch_the_next_section_head', () => {
+  // Pages stack panels with an inline marginBottom of 2px, sized for v2's boxed panels. In the open
+  // layout that leaves a table flush against the next section head. Only direct children of the page
+  // section are spaced, so panels inside a .grid-2 keep their alignment.
+  const css = read(`${SRC}/console.css`);
+  const m = css.match(/main\s+section\s*>\s*\.panel\s*\+\s*\.panel\s*\{([^}]*)\}/);
+  assert.ok(m, 'no rule spaces consecutive page-level panels');
+  assert.match(m[1], /margin-top:\s*var\(--sp-8\)/);
+});
