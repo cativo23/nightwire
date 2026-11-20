@@ -10,6 +10,7 @@ export class TokenReader {
   format(value: unknown): string;
   display(dotted: string): string;
   number(dotted: string): number;
+  hex(css: string): string;
   motion(step: 'tick' | 'sweep' | 'uplink', dir: 'in' | 'out'): string;
   duration(step: 'tick' | 'sweep' | 'uplink', dir: 'in' | 'out'): string;
   reducedMotion(knob: string): string;

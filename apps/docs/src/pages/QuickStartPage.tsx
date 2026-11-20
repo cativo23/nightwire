@@ -12,7 +12,7 @@ export function QuickStartPage() {
       </div>
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Step 1 — Add the CSS</span><span className="tag">CSS読込</span></div>
+        <div className="panel-header"><span>Step 1 — Add the CSS</span><span className="kanji">CSS読込</span></div>
         <div className="panel-body">
           <CodeBlock>{`<link rel="stylesheet" href="nightwire.css">`}</CodeBlock>
           <div style={{ fontSize: 9, color: 'var(--nw-text-dim)', marginTop: 6 }}>Or via npm: <code style={{ color: 'var(--nw-cyan)' }}>npm install @cativo23/nightwire</code></div>

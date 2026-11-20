@@ -242,6 +242,34 @@ test('should_record_the_cativo_dev_revalidation_for_the_mockup_look', () => {
   }
 });
 
+// T090: cativo.dev was walked again on the polish tip; the guide records what was compared and
+// that nothing changed, with the numbers, and says what was still not checked.
+test('should_record_the_cativo_dev_revalidation_on_the_polish_tip', () => {
+  const guide = read(GUIDE);
+  const start = guide.indexOf('\n### Re-validation: the polish tip');
+  assert.notEqual(start, -1, 'guide has no "Re-validation: the polish tip" subsection');
+  const text = guide.slice(start);
+  assert.ok(guide.indexOf('\n### Re-validation: the open layout') < start, 'subsection is not after the open-layout one');
+  for (const item of [
+    '2026-11-19',
+    '`d15f27f`',
+    '`f950bfd`',
+    '0 broken',
+    '625 selectors',
+    '0 changed declarations',
+    '`.kv-row`',
+    '`.nw-reticle`',
+    '`.nw-accordion`',
+    '`.kanji`',
+    'Not checked',
+    'forced-colours',
+    'Optional follow-ups',
+  ]) {
+    assert.ok(text.includes(item), `polish-tip subsection does not mention ${item}`);
+  }
+  assert.ok(!/pending/i.test(text), 'subsection says pending');
+});
+
 // FR-037 / T080: CHANGELOG [Unreleased] records the US5 look in lockstep with the guide.
 test('should_record_the_mockup_look_in_the_changelog_unreleased_section', () => {
   const log = read('CHANGELOG.md');
@@ -322,4 +350,45 @@ test('should_list_halftone_among_the_decorative_exceptions_in_the_changelog', ()
   const unreleased = log.slice(start, log.indexOf('\n## [', start + 1));
   assert.ok(/halftone[\s\S]{0,300}every intensity/i.test(unreleased), 'changelog halftone ruling missing');
   assert.ok(/`\.kv-swap`[\s\S]{0,200}chrome \(blue\)/.test(unreleased), 'changelog kv-swap colour missing');
+});
+
+// M10: two colours were called "bone": the --nw-action fill (#e6e6e6) and the --nw-bone halftone
+// tint (#d8d2c8). The chip's solid fill is the first one, so it is named by its token.
+test('should_name_the_chip_solid_fill_by_its_token_not_as_bone', () => {
+  for (const file of [GUIDE, 'skill/nightwire/SKILL.md', 'DESIGN.md', 'CHANGELOG.md']) {
+    const lines = read(file).split('\n').filter((l) => /chip-solid/.test(l));
+    assert.ok(lines.length > 0, `${file} does not mention .nw-chip-solid`);
+    for (const line of lines) {
+      assert.ok(!/bone/i.test(line), `${file} calls the chip-solid fill bone: ${line.trim()}`);
+    }
+  }
+  for (const file of [GUIDE, 'skill/nightwire/SKILL.md']) {
+    const row = read(file).split('\n').find((l) => /\.nw-chip` \(\+/.test(l));
+    assert.ok(row && row.includes('`--nw-action`'), `${file} chip row does not name --nw-action`);
+  }
+});
+
+// M11: the decorative pieces are hidden from assistive tech by the consumer; the contrast file
+// exempts them as decoration on that assumption, so the guide and the skill say so.
+test('should_tell_consumers_to_hide_the_decorative_pieces_from_assistive_tech', () => {
+  for (const file of [GUIDE, 'skill/nightwire/SKILL.md']) {
+    const line = read(file).split('\n').find((l) => l.includes('aria-hidden="true"'));
+    assert.ok(line, `${file} does not mention aria-hidden="true"`);
+    for (const piece of ['.nw-barcode', '.nw-wordmark', '.nw-reticle-stamp', '.nw-reticle-vlabel']) {
+      assert.ok(line.includes(piece), `${file} aria-hidden line does not name ${piece}`);
+    }
+  }
+});
+
+// M2 (left as is, Carlos 2026-11-19): a framed panel stacks the frame's padding on `.panel-body`'s,
+// so about 28px sit below the last row. A CSS fix cannot be proven under the parity control sheet,
+// so the guide documents the known limitation and the consumer's one-line override.
+test('should_document_the_framed_panel_bottom_padding_and_its_override', () => {
+  const guide = read(GUIDE);
+  assert.match(guide, /\.panel\.nw-reticle/, 'the guide does not name the framed panel when explaining its padding');
+  assert.match(
+    guide,
+    /28px[^\n]*\n?[^\n]*padding-bottom: 0/,
+    'the guide does not say how much space sits below the last row and how to remove it',
+  );
 });

@@ -95,6 +95,38 @@ test('should_copy_tokens_json_into_the_docs_images_that_now_import_it', () => {
   assert.match(read('docker-compose.dev.yml'), /src\/tokens\/tokens\.json/, 'dev compose does not mount tokens.json');
 });
 
+// The numbers a source file writes as text a reader sees: JSX text nodes and string or template
+// literals. Style objects (`fontSize: 36`), numeric props and comments are not text, so a count
+// that equals a style number does not collide. A number glued to a unit or word (`36px`, `46rem`)
+// is a size, not a count.
+function renderedNumbers(source) {
+  const spans = [
+    ...[...source.matchAll(/>([^<>]+)</g)].map((m) => m[1]),
+    ...[...source.matchAll(/'([^'\\\n]*)'|"([^"\\\n]*)"|`([^`]*)`/g)].map((m) => m[1] ?? m[2] ?? m[3]),
+  ];
+  return spans.flatMap((span) => [...span.matchAll(/(?<![\w.#$-])\d+(?![\w%]|\.\d)/g)].map((m) => Number(m[0])));
+}
+
+function hardCodedCounts(source, counts) {
+  const wanted = new Set([counts.tokens, counts.components]);
+  return renderedNumbers(source).filter((n) => wanted.has(n));
+}
+
+test('should_match_a_hard_coded_count_only_in_text_and_strings', () => {
+  const counts = { tokens: 134, components: 36 };
+  // A style number that equals a count is not a count.
+  assert.deepEqual(hardCodedCounts(`<div style={{ fontSize: 36, gap: 134 }}>NIGHTWIRE</div>`, counts), []);
+  assert.deepEqual(hardCodedCounts(`<div style={{ fontSize: '36px', width: '134%' }} />`, counts), []);
+  assert.deepEqual(hardCodedCounts(`// 36 components, 134 tokens\nconst a = 1;`, counts), []);
+  // A real count in JSX text, in a string and in a template literal is.
+  assert.deepEqual(hardCodedCounts(`<span>TOKENS: 134</span>`, counts), [134]);
+  assert.deepEqual(hardCodedCounts(`const x = '36 components';`, counts), [36]);
+  assert.deepEqual(hardCodedCounts('const x = `${a} of 134 tokens`;', counts), [134]);
+  assert.deepEqual(hardCodedCounts(`<b>{__NW_TOKEN_COUNT__} of 36</b>`, counts), [36]);
+  assert.deepEqual(hardCodedCounts(`<b>{134}</b>`, counts), [134]);
+  assert.deepEqual(hardCodedCounts(`<b>{__NW_TOKEN_COUNT__} tokens</b>`, counts), []);
+});
+
 // T058 fix 2 (Principle II): the token and component counts are computed at build time.
 test('should_compute_the_token_and_component_counts_instead_of_writing_them', () => {
   const counts = docsCounts(root);
@@ -108,7 +140,7 @@ test('should_compute_the_token_and_component_counts_instead_of_writing_them', ()
   for (const [file, defines] of Object.entries(users)) {
     const text = read(`${SRC}/${file}`);
     for (const d of defines) assert.match(text, new RegExp(d), `${file} does not use ${d}`);
-    assert.doesNotMatch(text, new RegExp(`\\b(${counts.tokens}|${counts.components})\\b`), `${file} hard-codes a count`);
+    assert.deepEqual(hardCodedCounts(text, counts), [], `${file} hard-codes a count`);
   }
   const vite = read('apps/docs/vite.config.ts');
   assert.match(vite, /__NW_TOKEN_COUNT__/);
@@ -127,19 +159,37 @@ test('should_copy_the_component_stylesheets_into_the_docs_images_that_count_them
 // The docs site follows the mockup look: the kanji in a header is a `.kanji`, not a `.tag`; a
 // dense console demo opts into `.nw-reticle`; the new pieces have a page; counts follow the build.
 
-const CJK = '[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}ー・\\s]';
-
+const JP = '[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}ー・]';
 test('should_write_the_header_kanji_as_kanji_and_not_as_a_tag', () => {
-  // `.tag` is a status. A tag that holds only Japanese is the kanji of a header.
-  const re = new RegExp(`class(?:Name)?="tag"[^>]*>${CJK}+</span>`, 'u');
+  // `.tag` is a status or a latin label. A tag that holds any Japanese, alone (`日本語`) or mixed
+  // with latin (`構造CSS`, `KV対`), is the kanji of a header.
+  const re = new RegExp(`class(?:Name)?="tag"[^>]*>[^<]*${JP}[^<]*</span>`, 'u');
   const hits = sources.filter((f) => f.endsWith('.tsx') && re.test(read(f)));
-  assert.deepEqual(hits, [], 'a .tag holds only kanji; use .kanji');
+  assert.deepEqual(hits, [], 'a .tag holds kanji; use .kanji');
   // The two places that take the kanji as a value.
   assert.match(read(`${SRC}/components/CodeBlock.tsx`), /className="kanji">\{kanji\}/, 'SectionTitle does not render a .kanji');
   assert.match(read(`${SRC}/pages/Layer2TokensPage.tsx`), /className="kanji">\{kanji\}/, 'Layer2TokensPage does not render a .kanji');
   assert.doesNotMatch(read(`${SRC}/components/CodeBlock.tsx`), /className="tag"/, 'SectionTitle still renders a .tag');
   // The same switch in the HTML the pages teach.
   assert.doesNotMatch(read(`${SRC}/pages/PanelsPage.tsx`), /class="tag">日本語タグ/, 'PanelsPage teaches the .tag kanji');
+});
+
+test('should_teach_the_two_pixel_gap_for_framed_panels_only', () => {
+  const panels = read(`${SRC}/pages/PanelsPage.tsx`);
+  assert.doesNotMatch(panels, /8px uppercase headers/, 'PanelsPage still teaches 8px headers');
+  assert.doesNotMatch(panels, /2px gaps are standard/, 'PanelsPage still says 2px gaps are standard');
+  assert.doesNotMatch(panels, /8px font header/, 'PanelsPage still says 8px font header');
+  assert.match(panels, /11px/, 'PanelsPage does not state the 11px header');
+  assert.match(panels, /framed/i);
+  assert.match(panels, /--sp-8/, 'PanelsPage does not name the open-panel gap');
+  // The open panel next to the card is not set 2px apart in the live sample either.
+  assert.doesNotMatch(panels, /className="grid-2" style=\{\{ gap: 2,/, 'open panel and card sit 2px apart');
+});
+
+test('should_frame_the_panels_of_the_dense_console_sample', () => {
+  const templates = read(`${SRC}/pages/TemplatesPage.tsx`);
+  assert.doesNotMatch(templates, /class="panel"/, 'the dense console sample has a bare open panel in a 2px grid');
+  assert.ok((templates.match(/class="panel nw-reticle"/g) ?? []).length >= 3, 'the sample panels do not opt into nw-reticle');
 });
 
 test('should_keep_tag_where_it_is_a_status_or_a_label', () => {
@@ -210,4 +260,30 @@ test('should_opt_the_dense_console_demos_into_the_reticle', () => {
   assert.ok(panels.length >= 4, 'ExamplesPage lost its console tiles');
   assert.deepEqual(panels.filter((p) => !/nw-reticle/.test(p)), [], 'an ExamplesPage tile is not a .panel.nw-reticle');
   assert.match(read(`${SRC}/pages/PanelsPage.tsx`), /panel nw-reticle/, 'PanelsPage does not show the opt-in frame');
+});
+
+// M11: the decorative pieces are hidden from assistive tech, in the markup the page teaches and
+// in the markup it renders.
+test('should_hide_the_decorative_pieces_from_assistive_tech_on_the_pieces_page', () => {
+  const page = read(`${SRC}/pages/PiecesPage.tsx`);
+  for (const cls of ['nw-barcode', 'nw-wordmark', 'nw-reticle-stamp', 'nw-reticle-vlabel']) {
+    const tags = page.match(new RegExp(`<[a-z]+ [^<>]*class(?:Name)?="${cls}"[^<>]*>`, 'g')) ?? [];
+    assert.ok(tags.length >= 2, `PiecesPage shows .${cls} fewer than twice (code and demo)`);
+    assert.deepEqual(
+      tags.filter((t) => !/aria-hidden="true"/.test(t)),
+      [],
+      `a .${cls} on PiecesPage is not aria-hidden`,
+    );
+  }
+  assert.match(
+    page,
+    /<code>aria-hidden=&quot;true&quot;<\/code>[^<]*<code>\.nw-barcode<\/code>/,
+    'PiecesPage does not tell the reader to hide the decorative pieces',
+  );
+});
+
+test('should_not_export_the_unused_v2_component_registry', () => {
+  // T058 left COMPONENTS_V2 for Polish: nothing imports it and its rows are the v2-era registry.
+  const offenders = sources.filter((f) => /COMPONENTS_V2/.test(read(f)));
+  assert.deepEqual(offenders, [], 'COMPONENTS_V2 is still defined or imported');
 });

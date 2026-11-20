@@ -393,7 +393,7 @@ it frames the panels of the grid.
 |---|---|
 | `.nw-section-head` (+ `.nw-section-head-chrome`) | A section head outside a panel: `data-idx`, label, hairline, `.kanji`. `-chrome` fades the hairline and glows a blue kanji |
 | `.nw-display`, `.nw-lede` | Large compressed serif heading; intro paragraph (mute, 52ch) |
-| `.nw-chip` (+ `.nw-chip-solid`) | Small outlined label or link; `-solid` is the bone fill |
+| `.nw-chip` (+ `.nw-chip-solid`) | Small outlined label or link; `-solid` is the `--nw-action` fill (as `.btn`) |
 | `.nw-index` + `.nw-index-row` | Kanji index: each row has `.kanji`, `.name`, `.count`, `.items`. Keeps its grid at `archive`, where the kanji is hidden |
 | `.nw-accordion` | A group of native `<details>` / `<summary>`, no JavaScript. Answers go in `.answer` |
 | `.nw-link-arrow` | Uppercase mono link in the primary colour |
@@ -401,6 +401,8 @@ it frames the panels of the grid.
 | `.nw-halftone` (+ `-chrome`, `-data`, `-bone`, `-fine`) | Halftone image: put the `img` in a `.nw-halftone-layer` |
 | `.nw-barcode`, `.nw-wordmark` | Decorative barcode strip; large outlined wordmark |
 | `.nw-grain` | On `<body>`: film grain, strength from `--nw-grain` (0 archive, .07 operator, .1 combat) |
+
+Put `aria-hidden="true"` on the decorative pieces: `.nw-barcode`, `.nw-wordmark`, `.nw-reticle-stamp` and `.nw-reticle-vlabel`.
 
 Tokens: `--nw-grain`, `--nw-chip-line` (chip border, white at 0.18), `--nw-bone` (`#d8d2c8`, the bone
 halftone tint) and `--nw-kanji-glow` (`calc(20px * --nw-glow)`: the glow of the chrome section-head

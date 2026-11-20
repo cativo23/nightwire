@@ -27,7 +27,9 @@ export function PiecesPage() {
         The pieces that give a page the approved mockup look: heads and headings, chips, an index, an
         accordion, an arrow link, a frame, halftone art, a barcode, an outline wordmark and film grain.
         All are plain classes in <code>nightwire.css</code>; the kanji ones leave at the archive
-        intensity, and the grain is 0 there.
+        intensity, and the grain is 0 there. Put <code>aria-hidden=&quot;true&quot;</code> on the
+        decorative ones: <code>.nw-barcode</code>, <code>.nw-wordmark</code>, <code>.nw-reticle-stamp</code> and{' '}
+        <code>.nw-reticle-vlabel</code>.
       </p>
 
       <Demo
@@ -133,9 +135,9 @@ export function PiecesPage() {
         code={`<!-- alone, with its parts -->
 <div class="nw-reticle">
   <div class="nw-reticle-meta"><span>00 // CORE</span><span>v3</span></div>
-  <span class="nw-reticle-vlabel">SUPPORTED · INTENSITY</span>
-  <span class="nw-reticle-stamp">夜線</span>
-  <div class="nw-reticle-foot"><div class="nw-barcode"></div><span class="kanji">電</span></div>
+  <span class="nw-reticle-vlabel" aria-hidden="true">SUPPORTED · INTENSITY</span>
+  <span class="nw-reticle-stamp" aria-hidden="true">夜線</span>
+  <div class="nw-reticle-foot"><div class="nw-barcode" aria-hidden="true"></div><span class="kanji">電</span></div>
 </div>
 
 <!-- on a panel: the dense console tile that wants its box back -->
@@ -152,10 +154,10 @@ export function PiecesPage() {
         <div className="grid-2" style={{ gap: 8, marginBottom: 12 }}>
           <div className="nw-reticle" style={{ minHeight: 240 }}>
             <div className="nw-reticle-meta"><span>00 // NIGHTWIRE-CORE</span><span>v3</span></div>
-            <span className="nw-reticle-vlabel">SUPPORTED · INTENSITY</span>
-            <span className="nw-reticle-stamp">夜線</span>
+            <span className="nw-reticle-vlabel" aria-hidden="true">SUPPORTED · INTENSITY</span>
+            <span className="nw-reticle-stamp" aria-hidden="true">夜線</span>
             <div style={{ height: 110 }} />
-            <div className="nw-reticle-foot"><div className="nw-barcode" /><span className="kanji">電</span></div>
+            <div className="nw-reticle-foot"><div className="nw-barcode" aria-hidden="true" /><span className="kanji">電</span></div>
           </div>
           <div className="panel nw-reticle">
             <div className="panel-header"><span>CPU</span><span className="kanji">算</span></div>
@@ -187,24 +189,24 @@ export function PiecesPage() {
       <Demo
         title="Barcode"
         kanji="縞"
-        code={`<div class="nw-barcode"></div>
-<div class="nw-barcode" style="color: var(--nw-chrome)"></div>`}
+        code={`<div class="nw-barcode" aria-hidden="true"></div>
+<div class="nw-barcode" aria-hidden="true" style="color: var(--nw-chrome)"></div>`}
       >
         <p style={note}>A strip of bars drawn in the current text colour; set <code>color</code> to tint it.</p>
-        <div className="nw-barcode" />
-        <div className="nw-barcode" style={{ color: 'var(--nw-chrome)', marginBottom: 12 }} />
+        <div className="nw-barcode" aria-hidden="true" />
+        <div className="nw-barcode" aria-hidden="true" style={{ color: 'var(--nw-chrome)', marginBottom: 12 }} />
       </Demo>
 
       <Demo
         title="Outline wordmark"
         kanji="輪郭"
-        code={`<div class="nw-wordmark">Nightwire</div>`}
+        code={`<div class="nw-wordmark" aria-hidden="true">Nightwire</div>`}
       >
         <p style={note}>
           A large outlined word for footers and covers: hairline stroke, squeezed to 82% wide, faded towards the bottom.
         </p>
         <div style={{ overflow: 'hidden', marginBottom: 12 }}>
-          <div className="nw-wordmark">Nightwire</div>
+          <div className="nw-wordmark" aria-hidden="true">Nightwire</div>
         </div>
       </Demo>
 

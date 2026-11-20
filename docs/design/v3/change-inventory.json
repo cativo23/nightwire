@@ -145,36 +145,135 @@
       }
     },
     {
-      "id": "token-additions-mockup-operator",
-      "description": "New custom properties on :root for the approved mockup look (FR-030, FR-031): the grain knob --nw-grain, the chip border --nw-chip-line, the halftone tint --nw-bone and the derived --nw-kanji-glow. Declaring them changes no rendered style by itself. --nw-grain and --nw-kanji-glow depend on the intensity (grain 0, 0.07 or 0.1; kanji glow 20px times the level's --nw-glow), so this category is pinned to operator (also the default, no data-intensity), with the exact old and new values observed.",
+      "id": "token-additions-mockup-grain-operator",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the grain knob --nw-grain (grain 0 at archive, 0.07 at operator, 0.1 at combat). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to operator (also the default, no data-intensity), to the <missing> old value and to the exact new value observed there.",
       "match": {
-        "prop": "^--nw-(grain|chip-line|bone|kanji-glow)$",
+        "prop": "^--nw-grain$",
         "path": "^:root$",
         "state": "^(none|operator)\\|",
         "old": "^<missing>$",
-        "new": "^(0\\.07|rgba\\(255, 255, 255, 0\\.18\\)|#d8d2c8|calc\\(20px \\* 0\\.5\\))$"
+        "new": "^0\\.07$"
       }
     },
     {
-      "id": "token-additions-mockup-archive",
-      "description": "New custom properties on :root for the approved mockup look (FR-030, FR-031): the grain knob --nw-grain, the chip border --nw-chip-line, the halftone tint --nw-bone and the derived --nw-kanji-glow. Declaring them changes no rendered style by itself. --nw-grain and --nw-kanji-glow depend on the intensity (grain 0, 0.07 or 0.1; kanji glow 20px times the level's --nw-glow), so this category is pinned to archive, with the exact old and new values observed.",
+      "id": "token-additions-mockup-chip-line-operator",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the chip border --nw-chip-line (the same rgba(255, 255, 255, 0.18) at every level). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to operator (also the default, no data-intensity), to the <missing> old value and to the exact new value observed there.",
       "match": {
-        "prop": "^--nw-(grain|chip-line|bone|kanji-glow)$",
+        "prop": "^--nw-chip-line$",
+        "path": "^:root$",
+        "state": "^(none|operator)\\|",
+        "old": "^<missing>$",
+        "new": "^rgba\\(255, 255, 255, 0\\.18\\)$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-bone-operator",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the halftone tint --nw-bone (the same #d8d2c8 at every level). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to operator (also the default, no data-intensity), to the <missing> old value and to the exact new value observed there.",
+      "match": {
+        "prop": "^--nw-bone$",
+        "path": "^:root$",
+        "state": "^(none|operator)\\|",
+        "old": "^<missing>$",
+        "new": "^#d8d2c8$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-kanji-glow-operator",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the derived --nw-kanji-glow (20px times the level's --nw-glow). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to operator (also the default, no data-intensity), to the <missing> old value and to the exact new value observed there.",
+      "match": {
+        "prop": "^--nw-kanji-glow$",
+        "path": "^:root$",
+        "state": "^(none|operator)\\|",
+        "old": "^<missing>$",
+        "new": "^calc\\(20px \\* 0\\.5\\)$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-grain-archive",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the grain knob --nw-grain (grain 0 at archive, 0.07 at operator, 0.1 at combat). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to archive, to the <missing> old value and to the exact new value observed there.",
+      "match": {
+        "prop": "^--nw-grain$",
         "path": "^:root$",
         "state": "^archive\\|",
         "old": "^<missing>$",
-        "new": "^(0|rgba\\(255, 255, 255, 0\\.18\\)|#d8d2c8|calc\\(20px \\* 0\\))$"
+        "new": "^0$"
       }
     },
     {
-      "id": "token-additions-mockup-combat",
-      "description": "New custom properties on :root for the approved mockup look (FR-030, FR-031): the grain knob --nw-grain, the chip border --nw-chip-line, the halftone tint --nw-bone and the derived --nw-kanji-glow. Declaring them changes no rendered style by itself. --nw-grain and --nw-kanji-glow depend on the intensity (grain 0, 0.07 or 0.1; kanji glow 20px times the level's --nw-glow), so this category is pinned to combat, with the exact old and new values observed.",
+      "id": "token-additions-mockup-chip-line-archive",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the chip border --nw-chip-line (the same rgba(255, 255, 255, 0.18) at every level). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to archive, to the <missing> old value and to the exact new value observed there.",
       "match": {
-        "prop": "^--nw-(grain|chip-line|bone|kanji-glow)$",
+        "prop": "^--nw-chip-line$",
+        "path": "^:root$",
+        "state": "^archive\\|",
+        "old": "^<missing>$",
+        "new": "^rgba\\(255, 255, 255, 0\\.18\\)$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-bone-archive",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the halftone tint --nw-bone (the same #d8d2c8 at every level). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to archive, to the <missing> old value and to the exact new value observed there.",
+      "match": {
+        "prop": "^--nw-bone$",
+        "path": "^:root$",
+        "state": "^archive\\|",
+        "old": "^<missing>$",
+        "new": "^#d8d2c8$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-kanji-glow-archive",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the derived --nw-kanji-glow (20px times the level's --nw-glow). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to archive, to the <missing> old value and to the exact new value observed there.",
+      "match": {
+        "prop": "^--nw-kanji-glow$",
+        "path": "^:root$",
+        "state": "^archive\\|",
+        "old": "^<missing>$",
+        "new": "^calc\\(20px \\* 0\\)$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-grain-combat",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the grain knob --nw-grain (grain 0 at archive, 0.07 at operator, 0.1 at combat). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to combat, to the <missing> old value and to the exact new value observed there.",
+      "match": {
+        "prop": "^--nw-grain$",
         "path": "^:root$",
         "state": "^combat\\|",
         "old": "^<missing>$",
-        "new": "^(0\\.1|rgba\\(255, 255, 255, 0\\.18\\)|#d8d2c8|calc\\(20px \\* 0\\.5\\))$"
+        "new": "^0\\.1$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-chip-line-combat",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the chip border --nw-chip-line (the same rgba(255, 255, 255, 0.18) at every level). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to combat, to the <missing> old value and to the exact new value observed there.",
+      "match": {
+        "prop": "^--nw-chip-line$",
+        "path": "^:root$",
+        "state": "^combat\\|",
+        "old": "^<missing>$",
+        "new": "^rgba\\(255, 255, 255, 0\\.18\\)$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-bone-combat",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the halftone tint --nw-bone (the same #d8d2c8 at every level). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to combat, to the <missing> old value and to the exact new value observed there.",
+      "match": {
+        "prop": "^--nw-bone$",
+        "path": "^:root$",
+        "state": "^combat\\|",
+        "old": "^<missing>$",
+        "new": "^#d8d2c8$"
+      }
+    },
+    {
+      "id": "token-additions-mockup-kanji-glow-combat",
+      "description": "New custom property on :root for the approved mockup look (FR-030, FR-031): the derived --nw-kanji-glow (20px times the level's --nw-glow). Declaring it changes no rendered style by itself. One category per property and level, so a value of one property can never stand for another's: this one is pinned to combat, to the <missing> old value and to the exact new value observed there.",
+      "match": {
+        "prop": "^--nw-kanji-glow$",
+        "path": "^:root$",
+        "state": "^combat\\|",
+        "old": "^<missing>$",
+        "new": "^calc\\(20px \\* 0\\.5\\)$"
       }
     },
     {

@@ -13,8 +13,13 @@ manifest order is therefore part of the design system's behaviour, not just tidi
 | 3 | `base/accessibility.css` | Global focus ring and the reduced-motion animation kill switch (a backstop for anything the knobs do not reach) |
 | 4 | `utilities/surface, text, glow, border, layout` | Single-purpose classes |
 | 5 | `base/typography.css` | `.compressed-title`, font-family utilities, `.kanji` |
-| 6 | `components/*` (v1 era) | button → form → badge → led → panel → table → metrics → progress → toast → card → modal → tabs → sidebar → dropdown → breadcrumbs → tooltip → skeleton → kv-row → avatar → divider → tag |
+| 6 | `components/*` (v1 era) | button → form → badge → led → panel → table → metrics → progress → toast → card → section-head → modal → tabs → sidebar → dropdown → breadcrumbs → tooltip → skeleton → kv-row → avatar → divider → tag |
 | 7 | `components/*` (v2 era) | kbd → segmented → switch → check → combo → drawer → cmdk → banner → code → steps → empty → ai-block → stat → uplink |
+| 8 | `components/*` (v3 era) | display → chip → link-arrow → kanji-index → accordion → reticle → halftone → barcode → wordmark → grain |
+
+`section-head` is a v3 file, but it sits inside row 6, between `card` and `modal`, because it
+restyles `.panel-header` and `.card-header` and must come after `panel` and `card`. The files in
+row 8 are the v3 additions, appended in the order they were written.
 
 ## The reduced-motion block
 

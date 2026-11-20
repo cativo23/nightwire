@@ -29,7 +29,7 @@ export function DataPage() {
 
       <div className="grid-2" style={{ gap: 2 }}>
         <div className="panel">
-          <div className="panel-header"><span>Key-Value</span><span className="tag">KV対</span></div>
+          <div className="panel-header"><span>Key-Value</span><span className="kanji">KV対</span></div>
           <div className="panel-body">
             <div className="kv-row"><span className="kv-label">System</span><span className="kv-value">Nightwire v{__NW_VERSION__}</span></div>
             <div className="kv-row"><span className="kv-label">Status</span><span className="kv-value" style={{ color: 'var(--nw-green)' }}>Operational</span></div>

@@ -100,9 +100,10 @@
   --radius-full: 9999px;
 
   /* ═══════════════════════════════════════════════════════════
-     Nightwire v2 — Layer 2 Semantic Tokens (additive aliases)
-     v1 tokens above remain untouched. Layer 2 references Layer 1
-     so any v1 override propagates to v2 consumers.
+     Nightwire — Layer 2 Semantic Tokens
+     Layer 1 above holds the primitives. Layer 2 names the roles and
+     references Layer 1, so a Layer 1 override reaches every consumer
+     of the role.
      ─────────────────────────────────────────────────────────── */
 
   /* Surfaces */
@@ -803,12 +804,18 @@ input::placeholder, textarea::placeholder {
 .nw-section-head > .kanji,
 .panel-header > .kanji,
 .card-header > .kanji {
+  order: 2;             /* the right slot, also when the kanji is the first child (a bare-text label) */
   font-size: 20px;
   letter-spacing: 0;
   text-transform: none;
   flex-shrink: 0;       /* a long label wraps; the kanji keeps its width instead of stacking its glyphs */
   white-space: nowrap;
 }
+
+/* A kanji that is the first child is not a label: no "// " prefix before it. */
+.nw-section-head[data-idx] > .kanji:first-child::before,
+.panel-header[data-idx] > .kanji:first-child::before,
+.card-header[data-idx] > .kanji:first-child::before { content: none; }
 
 /* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
 :where(.nw-section-head .kanji, .panel-header .kanji, .card-header .kanji) {
@@ -1749,9 +1756,9 @@ input::placeholder, textarea::placeholder {
 /* ── Chip ────────────────────────────────────────────────────────
    A small label or link with a hairline outline (FR-030). The border reads --nw-chip-line, the
    piece's own token, because the shared --nw-line-strong moved since the mockup. .sq is a 6px
-   square in the text colour, .star a warn-coloured mark. .nw-chip-solid is the same bone fill
-   as .btn (--nw-action*). Its hover sets the text colour itself: a:hover in reset.css would
-   otherwise recolour an <a class="nw-chip-solid">. */
+   square in the text colour, .star a warn-coloured mark. .nw-chip-solid is the --nw-action fill
+   (as .btn), not --nw-bone, which is the halftone tint. Its hover sets the text colour itself:
+   a:hover in reset.css would otherwise recolour an <a class="nw-chip-solid">. */
 
 .nw-chip {
   display: inline-flex;
@@ -1908,12 +1915,16 @@ input::placeholder, textarea::placeholder {
 
 .nw-accordion summary::after {
   content: '+';
+  content: '+' / '';   /* the marker is decoration: empty alt text keeps it out of the accessible name */
   font-family: var(--font-sys);
   font-size: 16px;
   color: var(--nw-chrome);
 }
 
-.nw-accordion details[open] summary::after { content: '−'; }
+.nw-accordion details[open] summary::after {
+  content: '−';
+  content: '−' / '';
+}
 
 .nw-accordion summary:hover { color: var(--nw-text-strong); }
 
@@ -1950,10 +1961,11 @@ input::placeholder, textarea::placeholder {
    mockup: a meta line, a vertical label, a kanji stamp and a foot. The stamp is a kanji, so it
    leaves with the others at archive. */
 
+:where(.nw-reticle) { position: relative; }   /* specificity 0: a .drawer keeps its position: fixed */
+
 .nw-reticle {
   --nw-reticle-c: var(--nw-line-chrome);
   --nw-reticle-arm: 14px;
-  position: relative;
   padding: var(--sp-4);
   border: var(--nw-hairline) solid var(--nw-line);
   background-image:
@@ -2032,8 +2044,9 @@ input::placeholder, textarea::placeholder {
    over it, and a tint is multiplied on top. The structure is
    .nw-halftone > .nw-halftone-layer > img. Tint and dot size are --nw-halftone-tint and
    --nw-halftone-dot. The #000 and #fff below are the mask of the dot pattern, not palette colours,
-   so they are the only colour literals in the stylesheet. Halftone art is an approved decoration
-   exception (FR-034): it is an image treatment, not a glow. */
+   so they are the only colour literals in the stylesheet apart from the #000 of the wordmark's
+   alpha mask (wordmark.css). Halftone art is an approved decoration exception (FR-034): it is an
+   image treatment, not a glow. */
 
 .nw-halftone {
   position: relative;

@@ -145,6 +145,16 @@ test('FR-026: the header kanji never shrinks or wraps: a long label gives way to
   assert.equal(kanji.decls.find((d) => d.prop === 'white-space')?.value, 'nowrap');
 });
 
+test('FR-026: a header kanji sits in the right slot even when it is the first child (bare-text label), and gets no "// " prefix', () => {
+  const rules = parseRules(read('src/components/section-head.css'));
+  const kanji = rules.find((r) => r.selector.split(/\s*,\s*/).filter((s) => s.endsWith('> .kanji')).length === 3);
+  assert.equal(kanji.decls.find((d) => d.prop === 'order')?.value, '2', 'order 2, after the hairline (order 1)');
+  const prefix = rules.find((r) => r.selector.split(/\s*,\s*/).filter((s) => s.endsWith('> .kanji:first-child::before')).length === 3);
+  assert.ok(prefix, 'one shared rule for a first-child kanji');
+  assert.equal(prefix.decls.find((d) => d.prop === 'content')?.value, 'none');
+  assert.ok(rules.indexOf(prefix) > rules.findIndex((r) => r.selector.includes('[data-idx] > :first-child::before')), 'after the "// " rule, so it wins on equal or higher specificity');
+});
+
 test('FR-026: in forced colours the section-head hairline is painted with CanvasText, because the forced background would erase it', () => {
   const css = read('src/components/section-head.css');
   const forced = blockOf(css, '@media (forced-colors: active)');
@@ -330,6 +340,14 @@ test('FR-032: the accordion is native <details>/<summary>: no script hook, the 2
   assert.doesNotMatch(accordion, /\[data-(open|state)|aria-expanded|:target/, 'no attribute a script would have to set');
 });
 
+test('FR-032: the accordion marker is decoration: each content declaration is a pair with an empty alt text, fallback first', () => {
+  const rules = parseRules(piece('accordion'));
+  for (const [sel, glyph] of [['.nw-accordion summary::after', '+'], ['.nw-accordion details[open] summary::after', '\u2212']]) {
+    const contents = rules.find((r) => r.selector === sel).decls.filter((d) => d.prop === 'content').map((d) => d.value);
+    assert.deepEqual(contents, [`'${glyph}'`, `'${glyph}' / ''`], `${sel}: fallback, then the alt-text form`);
+  }
+});
+
 test('FR-032: the accordion animates only inside @supports (interpolate-size), on the shared sweep tokens, and is instant elsewhere', () => {
   const accordion = piece('accordion');
   const supports = blockOf(accordion, '@supports (interpolate-size: allow-keywords)');
@@ -396,6 +414,14 @@ test('FR-028: .nw-reticle draws its frame with background-image only, so a .pane
   assert.ok(d.has('background-image'), 'the corners are a background-image');
   assert.match(d.get('border') ?? '', /var\(--nw-hairline\) solid var\(--nw-line\)/);
   assert.equal(declsOf(reticle, '.panel.nw-reticle').get('border-radius'), '0');
+});
+
+test('FR-028: .nw-reticle sets position inside :where(), so class="drawer nw-reticle" keeps position: fixed', () => {
+  const reticle = piece('reticle');
+  const rules = parseRules(reticle);
+  assert.equal(declsOf(reticle, ':where(.nw-reticle)').get('position'), 'relative');
+  const own = rules.find((r) => r.selector === '.nw-reticle');
+  assert.ok(own && !own.decls.some((d) => d.prop === 'position'), '.nw-reticle itself does not set position');
 });
 
 test('FR-028: the reticle arms and the frame use --nw-hairline and --nw- custom properties only', () => {

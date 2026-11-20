@@ -437,3 +437,11 @@ test('the emitted stylesheet declares the grain knob and the mockup piece tokens
     assert.doesNotMatch(intensityBlock(css, level), /--nw-kanji-glow/, `${level} does not override the derived kanji glow`);
   }
 });
+
+test('the Layer 2 banner comment describes the v3 token layering, not v2 or additive aliases (FR-016, SC-011)', () => {
+  const banner = tokens.semantic.$extensions[NS].cssComment;
+  assert.match(banner, /Layer 2/);
+  assert.match(banner, /Layer 1/);
+  assert.doesNotMatch(banner, /v2|v1|additive/i);
+  assert.doesNotMatch(tokens.semantic.$description, /v2|v1|additive/i);
+});

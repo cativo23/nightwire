@@ -14,9 +14,9 @@ const isObject = (v) => typeof v === 'object' && v !== null && !Array.isArray(v)
 /** Knobs listed in each column of the Intensity page. Archive and combat list knobs the level
  *  overrides; operator lists base `:root` values. */
 export const KNOB_COLUMNS = {
-  archive: ['glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight'],
-  operator: ['glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight'],
-  combat: ['led-glow', 'control-glow', 'progress-glow', 'motion-scale', 'density', 'pad-scale', 'base-font'],
+  archive: ['glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight', 'grain'],
+  operator: ['glow', 'motion-scale', 'pad-scale', 'base-font', 'pulse-state', 'kanji-display', 'panel-radius', 'value-weight', 'grain'],
+  combat: ['led-glow', 'control-glow', 'progress-glow', 'motion-scale', 'density', 'pad-scale', 'base-font', 'grain'],
 };
 
 /** Number of tokens that publish a CSS custom property (the `css` extension key). */
@@ -84,6 +84,25 @@ export class TokenReader {
     const n = isObject(v) ? v.value : v;
     if (typeof n !== 'number') throw new Error(`tokens.json "${dotted}" is not numeric`);
     return n;
+  }
+
+  /** The hex value of the colour token that publishes a custom property (`--nw-primary`). */
+  hex(css) {
+    let found;
+    const walk = (node) => {
+      if (!isObject(node) || found) return;
+      if ('$value' in node) {
+        const ext = node.$extensions;
+        if (isObject(ext) && isObject(ext[EXT]) && ext[EXT].css === css) found = node;
+        return;
+      }
+      for (const [key, child] of Object.entries(node)) if (key !== '$extensions') walk(child);
+    };
+    walk(this.#file);
+    if (!found) throw new Error(`no token publishes ${css}`);
+    const hex = isObject(found.$value) ? found.$value.hex : undefined;
+    if (typeof hex !== 'string') throw new Error(`${css} is not a colour`);
+    return hex;
   }
 
   // ── Motion ────────────────────────────────────────────────────────────────
