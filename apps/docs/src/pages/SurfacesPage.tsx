@@ -1,9 +1,9 @@
-import { SectionTitle } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function SurfacesPage() {
   return (
     <section id="surfaces">
-      <SectionTitle kanji="サーフェス">Surface Hierarchy</SectionTitle>
+      <PageHead idx="07" label="Surface Hierarchy" kanji="サーフェス" title="Surface Hierarchy" />
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         Four levels of dark surfaces, stepping slightly away from the absolute void.
       </p>
@@ -19,7 +19,7 @@ export function SurfacesPage() {
               <span style={{ fontSize: 9, color: s.hex === '#000000' ? 'var(--nw-text-dim)' : 'var(--nw-text)', letterSpacing: '0.1em' }}>{s.hex}</span>
             </div>
             <div style={{ flex: 1, padding: '10px 12px', background: s.hex, border: '1px solid var(--nw-text-faint)', borderLeft: 0 }}>
-              <div style={{ fontSize: 10, color: 'var(--nw-primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>--{s.name}</div>
+              <div style={{ fontSize: 10, color: 'var(--nw-text-default)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>--{s.name}</div>
               <div style={{ fontSize: 9, color: 'var(--nw-text-dim)', marginTop: 4 }}>{s.desc}</div>
             </div>
           </div>

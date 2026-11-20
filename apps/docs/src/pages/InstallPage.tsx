@@ -1,10 +1,10 @@
 import { CodeBlock } from '../components/CodeBlock';
-import { SectionTitle } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function InstallPage() {
   return (
     <section id="install">
-      <SectionTitle kanji="導入">Installation</SectionTitle>
+      <PageHead idx="03" label="Installation" kanji="導入" title="Installation" />
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>AI Skill (Recommended)</span><span className="kanji">推奨</span></div>
         <div className="panel-body">

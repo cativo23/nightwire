@@ -1,9 +1,10 @@
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function SpacingPage() {
   return (
     <section id="spacing">
-      <SectionTitle kanji="スペーシング">Spacing Scale</SectionTitle>
+      <PageHead idx="08" label="Spacing Scale" kanji="スペーシング" title="Spacing Scale" />
       <div className="panel">
         <div className="panel-header"><span>Scale Options — 4px Base</span><span className="kanji">間隔</span></div>
         <div className="panel-body" style={{ padding: 0 }}>
@@ -17,9 +18,9 @@ export function SpacingPage() {
                 { token: '--sp-12', val: '48px' }, { token: '--sp-16', val: '64px' },
               ].map(s => (
                 <tr key={s.token}>
-                  <td style={{ color: 'var(--nw-cyan)' }}>{s.token}</td>
+                  <td>{s.token}</td>
                   <td>{s.val}</td>
-                  <td><div style={{ height: 4, width: parseInt(s.val), background: 'var(--nw-green)' }} /></td>
+                  <td><div style={{ height: 4, width: parseInt(s.val), background: 'var(--nw-text-dim)' }} /></td>
                 </tr>
               ))}
             </tbody>

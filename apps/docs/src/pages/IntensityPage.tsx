@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 import { INTENSITY_MODES } from '../data';
 
 export function IntensityPage() {
@@ -16,9 +17,9 @@ export function IntensityPage() {
 
   return (
     <section id="intensity">
-      <SectionTitle kanji="強度">Intensity System</SectionTitle>
+      <PageHead idx="17" label="Intensity System" kanji="強度" title="Intensity System" />
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, margin: '8px 0 20px', lineHeight: 1.6 }}>
-        A single attribute on <code style={{ color: 'var(--nw-green)' }}>&lt;html&gt;</code> reconfigures glow, motion,
+        A single attribute on <code className="code-inline">&lt;html&gt;</code> reconfigures glow, motion,
         density, padding, kanji visibility, and pulse state across the whole document. Toggle below to see the
         rest of this docs site respond in real time.
       </p>
@@ -71,7 +72,7 @@ export function IntensityPage() {
                 );
                 return allKeys.map(k => (
                   <tr key={k}>
-                    <td style={{ color: 'var(--nw-cyan)' }}>{k}</td>
+                    <td>{k}</td>
                     {INTENSITY_MODES.map(m => (
                       <td key={m.id} style={{ color: m.id === mode ? 'var(--nw-green)' : 'var(--nw-text-dim)' }}>
                         {(m.knobs as unknown as Record<string, string>)[k] ?? '—'}
@@ -93,7 +94,7 @@ export function IntensityPage() {
         </div>
         <div className="panel-body">
           <p style={{ fontSize: 13, color: 'var(--nw-text-dim)', marginTop: 0, marginBottom: 12, lineHeight: 1.6 }}>
-            Set the attribute at the root. Every component and any consumer that reads <code style={{ color: 'var(--nw-green)' }}>--nw-*</code> knobs will
+            Set the attribute at the root. Every component and any consumer that reads <code className="code-inline">--nw-*</code> knobs will
             respond automatically.
           </p>
           <CodeBlock>{`<!-- Docs site, blog post -->

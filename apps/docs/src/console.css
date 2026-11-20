@@ -12,79 +12,131 @@
 }
 
 /* ── NAVIGATION ───────────────────────────────────────────── */
+/* Same language as docs/design/v3/mockup.html (.demo-nav): wordmark left, muted uppercase labels
+   centred, chips right, one hairline under it. Three equal tracks keep the labels truly centred. */
 .nw-nav {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 10px 16px;
+  padding: var(--sp-3) var(--sp-4);
   background: var(--void);
-  border-bottom: 1px solid var(--nw-line);
-  gap: 20px;
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
+  gap: var(--sp-4);
   z-index: 100;
   flex-shrink: 0;
 }
 
-.nw-nav .org-mark {
-  font-family: var(--font-title);
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: 0.25em;
-  color: var(--nw-primary);
-  text-transform: uppercase;
-  transform: scaleX(0.82);
-  transform-origin: left center;
-  line-height: 1.15;
-}
-
-.nw-nav .org-mark .sub {
+.nw-nav .brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  justify-self: start;
   font-family: var(--font-sys);
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  color: var(--nw-text-dim);
-  display: block;
-  transform: scaleX(1.22);
-  transform-origin: left;
-  font-weight: 400;
-  white-space: nowrap;
+  font-size: var(--text-sm);
+  color: var(--nw-text-default);
+  text-decoration: none;
 }
 
-.nw-nav .jp-sub {
-  font-family: var(--font-mincho);
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--nw-text-dim);
-  transform: scaleX(0.8);
-  transform-origin: left;
+.nw-nav .brand:hover { color: var(--nw-text-strong); }
+.nw-nav .brand .kanji { font-size: 20px; color: var(--nw-chrome); }
+
+.nw-nav .nav-labels {
+  display: flex;
+  gap: var(--sp-6);
+  font-family: var(--font-sys);
+  font-size: 10px;
+  letter-spacing: var(--ls-ultra);
+  text-transform: uppercase;
 }
+
+.nw-nav .nav-labels a {
+  color: var(--nw-text-mute);
+  text-decoration: none;
+  transition: color var(--nw-tick);
+}
+
+.nw-nav .nav-labels a:hover,
+.nw-nav .nav-labels a[aria-current="page"] { color: var(--nw-text-default); }
 
 .nw-nav .nav-links {
   display: flex;
-  gap: 14px;
-  margin-left: auto;
+  align-items: center;
+  gap: var(--sp-2);
+  justify-self: end;
 }
 
-.nw-nav a {
-  font-family: var(--font-sys);
+/* The mobile menu button and its drawer close share the chip look; display is set per breakpoint. */
+.nw-hamburger { display: none; background: transparent; cursor: pointer; }
+.nw-drawer-close { background: transparent; cursor: pointer; }
+
+.nw-drawer { border-right: var(--nw-hairline) solid var(--nw-line); }
+.nw-drawer .sidebar { border-right: none; height: calc(100% - 41px) !important; }
+
+.nw-drawer-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: var(--sp-2) var(--sp-3);
+  height: 41px;
+  box-sizing: border-box;
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
+}
+
+/* ── SIDEBAR (docs additions on the library .sidebar) ─────── */
+/* Labels muted, the open page white with a neutral hairline marker, kanji muted. The library
+   fills the open item with blue; the docs keep blue for focus only. */
+.docs-side-head,
+.docs-side-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+
+.sidebar .kanji { color: var(--nw-text-mute); }
+.docs-side-head .kanji { font-size: var(--text-sm); }
+.docs-side-section .kanji { font-size: 10px; letter-spacing: 0.05em; }
+.sidebar-item .kanji { font-size: 9px; flex-shrink: 0; color: var(--nw-text-disabled); }
+
+.docs-side-label { flex: 1; white-space: nowrap; }
+
+.sidebar-item.active {
+  color: var(--nw-text-strong);
+  background: transparent;
+  border-left-color: var(--nw-text-default);
+}
+
+.sidebar-item.active .kanji { color: var(--nw-text-mute); }
+
+.docs-side-foot {
+  margin-top: auto;
+  padding: var(--sp-3) var(--sp-4);
+  border-top: var(--nw-hairline) solid var(--nw-line);
   font-size: 10px;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--nw-text-dim);
-  text-decoration: none;
-  padding: 4px 8px;
-  transition: color 0.15s;
+  color: var(--nw-text-mute);
 }
 
-.nw-nav a:hover, .nw-nav a.active { color: var(--nw-primary); }
+.docs-side-foot a {
+  display: block;
+  margin-top: var(--sp-1);
+  color: var(--nw-text-mute);
+  text-decoration: none;
+}
+
+.docs-side-foot a:hover { color: var(--nw-text-default); }
 
 /* ── TICKER ───────────────────────────────────────────────── */
 .ticker {
   overflow: hidden;
   white-space: nowrap;
   background: var(--void);
-  border-bottom: 1px solid var(--nw-text-faint);
-  padding: 2px 0;
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
+  padding: var(--sp-1) 0;
   font-family: var(--font-sys);
-  font-size: 9px;
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   color: var(--nw-text-mute);
   flex-shrink: 0;
@@ -172,7 +224,7 @@
   font-size: 7px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   z-index: 2;
 }
 
@@ -209,7 +261,7 @@
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--nw-cyan);
+  color: var(--nw-text-default);
   transform: scaleX(0.82);
   transform-origin: left;
 }
@@ -234,7 +286,7 @@
 
 .node-card .nc-row:last-child { border-bottom: none; }
 .node-card .nc-row .lbl { color: var(--nw-text-mute); text-transform: uppercase; letter-spacing: 0.06em; font-size: 8px; }
-.node-card .nc-row .val { color: var(--nw-green); font-weight: 500; font-variant-numeric: tabular-nums; }
+.node-card .nc-row .val { color: var(--nw-text-default); font-weight: 500; font-variant-numeric: tabular-nums; }
 
 .node-card .nc-status {
   margin-top: 4px;
@@ -392,12 +444,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3px 12px;
-  font-size: 7px;
-  letter-spacing: 0.1em;
+  padding: var(--sp-1) var(--sp-4);
+  font-family: var(--font-sys);
+  font-size: 10px;
+  letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--nw-text-dim);
-  border-top: 1px solid var(--nw-text-faint);
+  color: var(--nw-text-mute);
+  border-top: var(--nw-hairline) solid var(--nw-line);
   flex-shrink: 0;
 }
 
@@ -421,7 +474,7 @@
 }
 
 .color-swatch .swatch-name {
-  color: var(--nw-primary);
+  color: var(--nw-text-default);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -430,7 +483,7 @@
 }
 
 .color-swatch .swatch-hex {
-  color: var(--nw-green);
+  color: var(--nw-text-mute);
   font-variant-numeric: tabular-nums;
 }
 
@@ -439,3 +492,64 @@
   font-size: 8px;
   margin-left: auto;
 }
+
+/* ── PAGE LAYOUT (v3 look) ────────────────────────────────── */
+/* Shared by every restyled docs page: PageHead + blocks separated by space, not boxes. */
+.docs-pagehead-sub {
+  font-family: var(--font-mincho);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--nw-text-mute);
+  margin-bottom: var(--sp-4);
+}
+
+.docs-block { margin-top: var(--sp-12); }
+
+/* Whatever follows a page head gets the same gap a .docs-block has (pages that predate .docs-block). */
+.docs-pagehead + :not(.docs-block) { margin-top: var(--sp-12); }
+
+.docs-accordion { margin-top: var(--sp-4); }
+
+.docs-principle-meta {
+  display: block;
+  margin-top: var(--sp-2);
+  letter-spacing: var(--ls-wide);
+}
+
+.docs-consensus {
+  margin: var(--sp-4) 0 0;
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--nw-text-mute);
+}
+
+/* Copy button of every code block: a quiet outlined control; the only colour is the green
+   state flash after a successful copy. */
+.docs-copy {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 2px 8px;
+  font-family: var(--font-stamp);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nw-text-mute);
+  background: var(--void-raised);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  cursor: pointer;
+  transition: color var(--nw-tick), border-color var(--nw-tick);
+}
+.docs-copy:hover { color: var(--nw-text-strong); border-color: var(--nw-line-chrome); }
+.docs-copy[data-copied] { color: var(--nw-green); }
+
+/* ── OVERFLOW CONTAINMENT ─────────────────────────────────── */
+/* A grid track written as 1fr is minmax(auto, 1fr): a child with a long line (a code block, a
+   table) stretches the track and, in the end, the whole main area. minmax(0, 1fr) lets the child
+   shrink and scroll inside its own box. The library .grid-2 uses 1fr 1fr (see the report, gaps). */
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* A table wider than the column scrolls inside this wrapper, not the page. */
+.docs-scroll { overflow-x: auto; }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, NavLink } from 'react-router-dom';
 import { Ticker } from './components/Ticker';
 import { StatusBar } from './components/StatusBar';
 import { Sidebar } from './components/Sidebar';
@@ -23,35 +23,41 @@ import { ExamplesPage } from './pages/ExamplesPage';
 import { IntensityPage } from './pages/IntensityPage';
 import { Layer2TokensPage } from './pages/Layer2TokensPage';
 
+// Top-bar labels: a short list of the pages most read; the sidebar stays the full index.
+const NAV_LABELS = [
+  { id: 'tokens', label: 'Tokens' },
+  { id: 'components', label: 'Components' },
+  { id: 'templates', label: 'Templates' },
+  { id: 'examples', label: 'Examples' },
+];
+
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <div className="console-wrapper">
       {/* Top Nav */}
-      <nav className="nw-nav">
-        {/* Hamburger — mobile only */}
+      <nav className="nw-nav" aria-label="Site">
+        {/* Hamburger: mobile only */}
         <button
           onClick={() => setMobileOpen(true)}
-          style={{
-            display: 'none',
-            background: 'none', border: '1px solid var(--nw-line-strong)',
-            color: 'var(--nw-text)', cursor: 'pointer',
-            padding: '4px 8px', fontFamily: 'var(--font-sys)', fontSize: 12,
-            marginRight: 12, flexShrink: 0,
-          }}
-          className="nw-hamburger"
+          className="nw-chip nw-hamburger"
           aria-label="Open navigation"
         >
           ☰
         </button>
-        <div className="org-mark">
-          <span style={{ color: 'var(--nw-text)' }}>Nightwire</span>
-          <span className="sub" style={{ color: 'var(--nw-primary)' }}>Dark Cyberpunk UI Design System — Documentation</span>
+        <NavLink to="/overview" className="brand" aria-label="Nightwire overview">
+          <span className="kanji">夜</span> nightwire
+        </NavLink>
+        <div className="nav-labels">
+          {NAV_LABELS.map(item => (
+            <NavLink key={item.id} to={`/${item.id}`}>{item.label}</NavLink>
+          ))}
         </div>
-        <span className="jp-sub">設計体系文書</span>
         <div className="nav-links">
-          <a href="https://github.com/cativo23/nightwire" target="_blank" rel="noopener noreferrer">Github</a>
+          <span className="nw-chip"><span className="led" data-state="ok" />v{__NW_VERSION__}</span>
+          <a className="nw-chip nw-chip-github" href="https://github.com/cativo23/nightwire" target="_blank" rel="noopener noreferrer"><span className="star">★</span>github</a>
+          <NavLink className="nw-chip nw-chip-solid" to="/install">INSTALL</NavLink>
         </div>
       </nav>
 
@@ -75,16 +81,16 @@ export default function App() {
         style={{
           position: 'fixed', top: 0, left: 0, bottom: 0, width: 260,
           zIndex: 201, background: 'var(--void-warm)',
-          borderRight: '1px solid var(--nw-text-faint)',
           transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
           transition: 'transform 0.25s ease',
           display: 'none',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px 12px', borderBottom: '1px solid var(--nw-text-faint)' }}>
+        <div className="nw-drawer-bar">
           <button
             onClick={() => setMobileOpen(false)}
-            style={{ background: 'none', border: 'none', color: 'var(--nw-text-dim)', cursor: 'pointer', fontSize: 16 }}
+            className="nw-chip nw-drawer-close"
+            aria-label="Close navigation"
           >✕</button>
         </div>
         <Sidebar onNavigate={() => setMobileOpen(false)} />
@@ -93,7 +99,7 @@ export default function App() {
       {/* Main layout */}
       <div style={{ display: 'flex', flex: 1, minHeight: 0, overflow: 'hidden' }}>
         {/* Desktop sidebar */}
-        <div className="nw-sidebar-desktop" style={{ width: 220, flexShrink: 0, borderRight: '1px solid var(--nw-text-faint)' }}>
+        <div className="nw-sidebar-desktop" style={{ width: 220, flexShrink: 0 }}>
           <Sidebar />
         </div>
 

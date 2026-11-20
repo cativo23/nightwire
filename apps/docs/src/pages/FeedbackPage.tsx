@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 import { makeEvent, type EventEntry } from '../data';
 
 type ToastKind = 'success' | 'info' | 'warning' | 'danger';
@@ -54,7 +55,7 @@ export function FeedbackPage() {
 
   return (
     <section id="feedback">
-      <SectionTitle kanji="応答">Feedback & Status</SectionTitle>
+      <PageHead idx="13" label="Feedback & Status" kanji="応答" title="Feedback & Status" />
 
       {/* Toasts — interactive */}
       <div className="panel" style={{ marginBottom: 2 }}>

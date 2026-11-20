@@ -1,9 +1,10 @@
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function PanelsPage() {
   return (
     <section id="panels">
-      <SectionTitle kanji="構造">Panel Anatomy</SectionTitle>
+      <PageHead idx="14" label="Panel Anatomy" kanji="構造" title="Panel Anatomy" />
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         Panels are the primary structural element. A panel is open: its 11px uppercase header is a section head with a Japanese kanji in the right slot, and open panels sit a wide gap apart (--sp-8). The 2px gap is for framed panels (.panel.nw-reticle), where it separates the frames.
       </p>

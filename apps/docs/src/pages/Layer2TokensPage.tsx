@@ -1,4 +1,5 @@
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 import { LAYER2_TOKENS, MOTION_VOCAB } from '../data';
 
 export function Layer2TokensPage() {
@@ -18,34 +19,36 @@ export function Layer2TokensPage() {
     <div className="panel" style={{ marginBottom: 2 }}>
       <div className="panel-header"><span>{title}</span><span className="kanji">{kanji}</span></div>
       <div className="panel-body" style={{ padding: 0 }}>
-        <table className="nw-table">
-          <thead>
-            <tr>
-              <th>Token</th>
-              <th>Maps to</th>
-              <th>Use</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map(r => (
-              <tr key={r.token}>
-                <td style={{ color: 'var(--nw-cyan)' }}>{r.token}</td>
-                <td style={{ color: 'var(--nw-green)' }}>{r.maps}</td>
-                <td style={{ color: 'var(--nw-text-dim)' }}>{r.desc}</td>
+        <div className="docs-scroll">
+          <table className="nw-table">
+            <thead>
+              <tr>
+                <th>Token</th>
+                <th>Maps to</th>
+                <th>Use</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rows.map(r => (
+                <tr key={r.token}>
+                  <td>{r.token}</td>
+                  <td>{r.maps}</td>
+                  <td style={{ color: 'var(--nw-text-dim)' }}>{r.desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 
   return (
     <section id="layer2-tokens">
-      <SectionTitle kanji="意味層">Layer 2 Semantic Tokens</SectionTitle>
+      <PageHead idx="09" label="Layer 2 Semantic Tokens" kanji="意味層" title="Layer 2 Semantic Tokens" />
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, margin: '8px 0 16px', lineHeight: 1.6 }}>
-        Layer 1 holds the primitives (<code style={{ color: 'var(--nw-green)' }}>--nw-primary</code> is "the blue"). Layer 2
-        names the roles (<code style={{ color: 'var(--nw-green)' }}>--nw-chrome</code> is "the focus and accent color") and
+        Layer 1 holds the primitives (<code className="code-inline">--nw-primary</code> is "the blue"). Layer 2
+        names the roles (<code className="code-inline">--nw-chrome</code> is "the focus and accent color") and
         references Layer 1, so overriding a primitive reaches every consumer of the role automatically.
         Reach for a Layer 2 token in your own CSS; Layer 1 names stay available.
       </p>
@@ -59,20 +62,22 @@ export function Layer2TokensPage() {
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>Motion vocabulary</span><span className="kanji">動き</span></div>
         <div className="panel-body" style={{ padding: 0 }}>
-          <table className="nw-table">
-            <thead>
-              <tr><th>Token</th><th>Value</th><th>Use</th></tr>
-            </thead>
-            <tbody>
-              {MOTION_VOCAB.map(m => (
-                <tr key={m.token}>
-                  <td style={{ color: 'var(--nw-cyan)' }}>{m.token}</td>
-                  <td style={{ color: 'var(--nw-green)', fontSize: 11 }}>{m.value}</td>
-                  <td style={{ color: 'var(--nw-text-dim)' }}>{m.use}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="docs-scroll">
+            <table className="nw-table">
+              <thead>
+                <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+              </thead>
+              <tbody>
+                {MOTION_VOCAB.map(m => (
+                  <tr key={m.token}>
+                    <td>{m.token}</td>
+                    <td style={{ fontSize: 11 }}>{m.value}</td>
+                    <td style={{ color: 'var(--nw-text-dim)' }}>{m.use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

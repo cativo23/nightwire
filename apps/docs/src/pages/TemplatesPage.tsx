@@ -1,13 +1,14 @@
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function TemplatesPage() {
   return (
     <section id="templates">
-      <SectionTitle kanji="型紙">Layout Templates</SectionTitle>
+      <PageHead idx="18" label="Layout Templates" kanji="型紙" title="Layout Templates" />
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, margin: '8px 0 16px', lineHeight: 1.6 }}>
-        The core <code style={{ color: 'var(--nw-cyan)' }}>nightwire.css</code> is layout-agnostic — it works for portfolios, blogs, and standard sites.
+        The core <code className="code-inline">nightwire.css</code> is layout-agnostic — it works for portfolios, blogs, and standard sites.
         For a dense, full-viewport <strong>Operations Console</strong> (like our demos), use this template.
-        Its panels are framed with <code style={{ color: 'var(--nw-cyan)' }}>nw-reticle</code>: the 2px gap separates framed panels, and a bare <code style={{ color: 'var(--nw-cyan)' }}>.panel</code> is open and has no edge to separate.
+        Its panels are framed with <code className="code-inline">nw-reticle</code>: the 2px gap separates framed panels, and a bare <code className="code-inline">.panel</code> is open and has no edge to separate.
       </p>
 
       <div className="panel" style={{ marginBottom: 2 }}>
