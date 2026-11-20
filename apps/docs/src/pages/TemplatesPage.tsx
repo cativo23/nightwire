@@ -3,14 +3,15 @@ import { SectionTitle, CodeBlock } from '../components/CodeBlock';
 export function TemplatesPage() {
   return (
     <section id="templates">
-      <SectionTitle tag="型紙">Layout Templates</SectionTitle>
+      <SectionTitle kanji="型紙">Layout Templates</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, margin: '8px 0 16px', lineHeight: 1.6 }}>
         The core <code style={{ color: 'var(--nw-cyan)' }}>nightwire.css</code> is layout-agnostic — it works for portfolios, blogs, and standard sites.
         For a dense, full-viewport <strong>Operations Console</strong> (like our demos), use this template.
+        Its panels are framed with <code style={{ color: 'var(--nw-cyan)' }}>nw-reticle</code>: the 2px gap separates framed panels, and a bare <code style={{ color: 'var(--nw-cyan)' }}>.panel</code> is open and has no edge to separate.
       </p>
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Operations Console CSS</span><span className="tag">構造CSS</span></div>
+        <div className="panel-header"><span>Operations Console CSS</span><span className="kanji">構造CSS</span></div>
         <div className="panel-body">
           <CodeBlock>{`.console-wrapper {
   display: flex;
@@ -24,13 +25,13 @@ export function TemplatesPage() {
   align-items: center;
   padding: 10px 16px;
   background: var(--void);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: 1px solid var(--nw-line);
   flex-shrink: 0;
 }
 
 .dashboard {
   display: flex;
-  gap: 2px; /* signature 2px gap */
+  gap: 2px; /* signature 2px gap between framed panels */
   flex: 1;
   padding: 2px;
   min-height: 0;
@@ -59,19 +60,19 @@ export function TemplatesPage() {
       </div>
 
       <div className="panel">
-        <div className="panel-header"><span>HTML Structure</span><span className="tag">構造HTML</span></div>
+        <div className="panel-header"><span>HTML Structure</span><span className="kanji">構造HTML</span></div>
         <div className="panel-body">
           <CodeBlock>{`<div class="console-wrapper">
   <nav class="nw-nav">...</nav>
   <div class="dashboard">
     <div class="dash-left">
       <div class="dash-row r1">
-        <div class="panel">...</div>
-        <div class="panel">...</div>
+        <div class="panel nw-reticle">...</div>
+        <div class="panel nw-reticle">...</div>
       </div>
     </div>
     <div class="dash-right">
-      <div class="panel">...</div>
+      <div class="panel nw-reticle">...</div>
     </div>
   </div>
 </div>`}</CodeBlock>

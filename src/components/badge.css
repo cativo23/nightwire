@@ -9,8 +9,8 @@
   text-transform: uppercase;
   padding: 1px var(--sp-2);
   border-radius: var(--radius-sm);
-  color: var(--nw-primary);
-  border: 1px solid var(--nw-primary-dim);
+  color: var(--nw-text-default);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
 }
 .badge-success { color: var(--nw-success); border-color: var(--nw-green-dim); }
 .badge-danger  { color: var(--nw-danger);  border-color: var(--nw-red-dim); }

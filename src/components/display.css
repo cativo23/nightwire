@@ -1,0 +1,23 @@
+/* ── Display and lede ────────────────────────────────────────────
+   A heading face for the top of a page (FR-030): the title font at weight 900, squeezed to 82%
+   wide, in capitals, and a muted lead paragraph under it. Values are the approved mockup's. */
+
+.nw-display {
+  font-family: var(--font-title);
+  font-weight: 900;
+  font-size: clamp(40px, 7vw, 76px);
+  line-height: .95;
+  transform: scaleX(.82);
+  transform-origin: left center;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: var(--nw-text-strong);
+  margin: var(--sp-6) 0 var(--sp-3);
+}
+
+.nw-lede {
+  max-width: 52ch;
+  color: var(--nw-text-mute);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}

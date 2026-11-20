@@ -5,7 +5,6 @@
    ═══════════════════════════════════════════════════════════════ */
 
 @import "./tokens/tokens.css";
-@import "./base/reduced-motion.css";
 @import "./base/reset.css";
 @import "./base/accessibility.css";
 @import "./utilities/surface.css";
@@ -24,6 +23,7 @@
 @import "./components/progress.css";
 @import "./components/toast.css";
 @import "./components/card.css";
+@import "./components/section-head.css";
 @import "./components/modal.css";
 @import "./components/tabs.css";
 @import "./components/sidebar.css";
@@ -37,10 +37,7 @@
 @import "./components/tag.css";
 
 /* ═══════════════════════════════════════════════════════════════
-   Nightwire v2 — additive components
-   All new classes. Consumers using v1 (.btn, .panel, .tag) keep
-   working unchanged. v2 components opt-in by class name or via
-   data-intensity attribute on <html>.
+   Components added after the base set. Order is the cascade.
    ─────────────────────────────────────────────────────────────── */
 
 @import "./components/kbd.css";
@@ -57,3 +54,13 @@
 @import "./components/ai-block.css";
 @import "./components/stat.css";
 @import "./components/uplink.css";
+@import "./components/display.css";
+@import "./components/chip.css";
+@import "./components/link-arrow.css";
+@import "./components/kanji-index.css";
+@import "./components/accordion.css";
+@import "./components/reticle.css";
+@import "./components/halftone.css";
+@import "./components/barcode.css";
+@import "./components/wordmark.css";
+@import "./components/grain.css";

@@ -7,9 +7,9 @@
 }
 .steps .step.done {
   background: var(--nw-data);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(122, 237, 122, 0.5);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(122, 237, 122, 0.5);
 }
 .steps .step.current {
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(102, 153, 255, 0.6);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(102, 153, 255, 0.6);
 }

@@ -10,7 +10,7 @@
 
 .breadcrumbs a {
   color: var(--nw-text-dim);
-  transition: color 0.15s;
+  transition: color var(--nw-tick);
 }
 
 .breadcrumbs a:hover { color: var(--nw-primary); }

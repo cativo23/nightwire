@@ -45,13 +45,14 @@
 
   --nw-purple:        #b266e0;
   --nw-purple-dim:    #8844bb;
-  --nw-purple-fill:   rgba(178, 102, 224, 0.1);
+  --nw-purple-fill:   rgba(178, 102, 224, 0.06);
 
   /* Text */
   --nw-text:          #ffffff;
   --nw-text-dim:      #aaaaaa;
-  --nw-text-faint:    rgba(255, 255, 255, 0.06);
-  --nw-text-line:     rgba(255, 255, 255, 0.12);
+  --nw-text-faint:    rgba(255, 255, 255, 0.08);
+  --nw-text-line:     rgba(255, 255, 255, 0.14);
+  --nw-bone:          #d8d2c8;
 
   /* ── Semantic Roles ──────────────────────────────────────── */
   --nw-success:       var(--nw-green);
@@ -99,9 +100,10 @@
   --radius-full: 9999px;
 
   /* ═══════════════════════════════════════════════════════════
-     Nightwire v2 — Layer 2 Semantic Tokens (additive aliases)
-     v1 tokens above remain untouched. Layer 2 references Layer 1
-     so any v1 override propagates to v2 consumers.
+     Nightwire — Layer 2 Semantic Tokens
+     Layer 1 above holds the primitives. Layer 2 names the roles and
+     references Layer 1, so a Layer 1 override reaches every consumer
+     of the role.
      ─────────────────────────────────────────────────────────── */
 
   /* Surfaces */
@@ -122,6 +124,9 @@
   --nw-chrome:        var(--nw-primary);
   --nw-chrome-mute:   var(--nw-primary-dim);
   --nw-chrome-hot:    var(--nw-primary-hot);
+  --nw-action:        var(--nw-text-default);
+  --nw-action-hot:    var(--nw-chrome-hot);
+  --nw-action-text:   var(--void);
   --nw-data:          var(--nw-green);
   --nw-data-mute:     var(--nw-green-dim);
   --nw-signal-info:   var(--nw-cyan);
@@ -132,32 +137,67 @@
 
   /* Lines */
   --nw-line:          var(--nw-text-line);
-  --nw-line-strong:   rgba(255, 255, 255, 0.18);
+  --nw-line-strong:   rgba(255, 255, 255, 0.36);
+  --nw-chip-line:     rgba(255, 255, 255, 0.18);
   --nw-line-chrome:   rgba(102, 153, 255, 0.35);
 
   /* Focus */
   --nw-focus-ring:    var(--nw-chrome);
 
   /* ── Intensity knobs (default: operator) ────────────────── */
-  --nw-glow:          1;
+  --nw-glow:          0.5;
+  --nw-led-glow:      var(--nw-glow);
+  --nw-control-glow:  var(--nw-glow);
+  --nw-progress-glow: var(--nw-glow);
   --nw-density:       1;
   --nw-motion-scale:  1;
   --nw-pad-scale:     1;
   --nw-base-font:     var(--text-base);
   --nw-pulse-state:   running;
-  --nw-pulse-speed:   1.4s;
+  --nw-loop-state:    running;
+  --nw-pulse-speed:   1.6s;
+  --nw-hairline:      1px;
+  --nw-rule:          1.5px;
+  --nw-accent-width:  2px;
   --nw-panel-radius:  var(--radius-none);
   --nw-value-color:   var(--nw-data);
   --nw-value-weight:  500;
   --nw-kanji-display: inline;
-  --nw-header-gradient: linear-gradient(180deg, rgba(102, 153, 255, 0.06), transparent 80%);
-  --nw-header-pattern:  none;
   --nw-label-spacing:   var(--ls-ultra);
+  --nw-grain:         0.07;
+  --nw-kanji-glow:    calc(20px * var(--nw-glow));
 
   /* ── Motion vocabulary ──────────────────────────────────── */
   --nw-tick:   calc(150ms * var(--nw-motion-scale)) cubic-bezier(0.3, 0, 0.7, 1);
   --nw-sweep:  calc(350ms * var(--nw-motion-scale)) cubic-bezier(0.2, 0.8, 0.2, 1);
   --nw-uplink: calc(400ms * var(--nw-motion-scale)) cubic-bezier(0, 0.6, 0.4, 1);
+
+  /* Exit variants: shorter, accelerating */
+  --nw-tick-out:   calc(100ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+  --nw-sweep-out:  calc(250ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+  --nw-uplink-out: calc(300ms * var(--nw-motion-scale)) cubic-bezier(0.4, 0, 1, 1);
+
+  /* Longhands, for building transitions */
+  --nw-tick-duration:   calc(150ms * var(--nw-motion-scale));
+  --nw-sweep-duration:  calc(350ms * var(--nw-motion-scale));
+  --nw-uplink-duration: calc(400ms * var(--nw-motion-scale));
+  --nw-tick-ease:       cubic-bezier(0.3, 0, 0.7, 1);
+  --nw-sweep-ease:      cubic-bezier(0.2, 0.8, 0.2, 1);
+  --nw-uplink-ease:     cubic-bezier(0, 0.6, 0.4, 1);
+
+  --nw-tick-out-duration:   calc(100ms * var(--nw-motion-scale));
+  --nw-sweep-out-duration:  calc(250ms * var(--nw-motion-scale));
+  --nw-uplink-out-duration: calc(300ms * var(--nw-motion-scale));
+  --nw-tick-out-ease:       cubic-bezier(0.4, 0, 1, 1);
+  --nw-sweep-out-ease:      cubic-bezier(0.4, 0, 1, 1);
+  --nw-uplink-out-ease:     cubic-bezier(0.4, 0, 1, 1);
+
+  /* Stagger, and loop cycles (scale inversely: archive slower, combat faster) */
+  --nw-stagger:      calc(50ms * var(--nw-motion-scale));
+  --nw-loop-spin:    calc(800ms / var(--nw-motion-scale));
+  --nw-loop-shimmer: calc(1200ms / var(--nw-motion-scale));
+
+  --nw-elevation-overlay: 0 24px 64px rgba(0, 0, 0, 0.7);
 }
 
 /* ── Intensity: archive (docs, blogs, low-glow) ─────────── */
@@ -171,8 +211,8 @@
   --nw-value-color: var(--nw-green-dim);
   --nw-value-weight: 400;
   --nw-kanji-display: none;
-  --nw-header-gradient: none;
   --nw-label-spacing: 0.14em;
+  --nw-grain: 0;
 }
 
 /* ── Intensity: operator (default — same as base :root) ── */
@@ -182,21 +222,25 @@
 
 /* ── Intensity: combat (ops console, high-glow, dense) ─── */
 :root[data-intensity="combat"] {
-  --nw-glow: 2.2;
   --nw-motion-scale: 1.2;
   --nw-density: 0.85;
   --nw-pad-scale: 0.7;
   --nw-base-font: 13px;
   --nw-pulse-state: running;
-  --nw-pulse-speed: 0.7s;
   --nw-value-color: var(--nw-green-dim);
-  --nw-header-gradient: linear-gradient(180deg, rgba(102, 153, 255, 0.18), transparent 70%);
-  --nw-header-pattern: repeating-linear-gradient(0deg, rgba(102, 153, 255, 0.05) 0 1px, transparent 1px 3px);
+  --nw-led-glow: calc(var(--nw-glow) * 2);
+  --nw-control-glow: calc(var(--nw-glow) * 2);
+  --nw-progress-glow: calc(var(--nw-glow) * 2);
+  --nw-grain: 0.1;
 }
 
-/* ── src/base/reduced-motion.css ───────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  :root { --nw-motion-scale: 0; --nw-pulse-state: paused; }
+  :root,
+  :root[data-intensity] {
+    --nw-motion-scale: 0;
+    --nw-pulse-state: paused;
+    --nw-loop-state: paused;
+  }
 }
 
 /* ── src/base/reset.css ────────────────────────────────────────── */
@@ -229,7 +273,7 @@ code, pre {
 }
 pre {
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
   padding: var(--sp-3);
   overflow-x: auto;
 }
@@ -243,15 +287,22 @@ table {
 /* ── Accessibility ───────────────────────────────────────────── */
 
 :focus-visible {
-  outline: 2px solid var(--nw-primary);
+  outline: 2px solid var(--nw-focus-ring);
   outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
   /* Suppress the tactile press shift too — the universal rule only kills
-     the easing, not the transform itself. */
-  .btn:active, .btn-ghost:active, .btn-danger:active { transform: none; }
+     the easing, not the transform itself. !important for the same load-order
+     reason as .uplink below: this file loads before button.css, whose :active
+     rule has the same specificity and would win. */
+  .btn:active, .btn-ghost:active, .btn-danger:active { transform: none !important; }
+  /* .uplink children start at opacity 0 and only the animation reveals them. With
+     the animation gone they would stay invisible, so show them at their end state.
+     !important because this file loads before uplink.css, whose rule has the same
+     specificity and would win; the animation's forwards fill overrode it the same way. */
+  .uplink > * { opacity: 1 !important; transform: none !important; }
 }
 
 /* ── src/utilities/surface.css ─────────────────────────────────── */
@@ -276,19 +327,19 @@ table {
 /* ── src/utilities/glow.css ────────────────────────────────────── */
 /* ── Glow ────────────────────────────────────────────────────── */
 
-.glow-green  { text-shadow: 0 0 8px rgba(122,237,122,0.5), 0 0 16px rgba(122,237,122,0.2); }
-.glow-blue   { text-shadow: 0 0 8px rgba(102,153,255,0.5), 0 0 16px rgba(102,153,255,0.2); }
-.glow-cyan   { text-shadow: 0 0 8px rgba(102,221,255,0.5), 0 0 16px rgba(102,221,255,0.2); }
-.glow-red    { text-shadow: 0 0 8px rgba(255,102,136,0.5), 0 0 16px rgba(255,102,136,0.3); }
-.glow-yellow { text-shadow: 0 0 8px rgba(232,153,58,0.5),  0 0 16px rgba(232,153,58,0.2); }
-.glow-purple { text-shadow: 0 0 8px rgba(178,102,224,0.5), 0 0 16px rgba(178,102,224,0.2); }
+.glow-green  { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(122,237,122,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(122,237,122,0.13); }
+.glow-blue   { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(102,153,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,153,255,0.13); }
+.glow-cyan   { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(102,221,255,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(102,221,255,0.13); }
+.glow-red    { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(255,102,136,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(255,102,136,0.2); }
+.glow-yellow { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(232,153,58,0.33),  0 0 calc(16px * var(--nw-glow)) rgba(232,153,58,0.13); }
+.glow-purple { text-shadow: 0 0 calc(8px * var(--nw-glow)) rgba(178,102,224,0.33), 0 0 calc(16px * var(--nw-glow)) rgba(178,102,224,0.13); }
 
 /* ── src/utilities/border.css ──────────────────────────────────── */
 /* ── Border ──────────────────────────────────────────────────── */
 
-.border         { border: 1px solid var(--nw-text-line); }
-.border-primary { border: 1px solid var(--nw-primary-dim); }
-.border-dim     { border: 1px solid var(--nw-text-faint); }
+.border         { border: var(--nw-hairline) solid var(--nw-text-line); }
+.border-primary { border: var(--nw-hairline) solid var(--nw-primary-dim); }
+.border-dim     { border: var(--nw-hairline) solid var(--nw-text-faint); }
 
 /* ── src/utilities/layout.css ──────────────────────────────────── */
 /* ── Grid & Layout ───────────────────────────────────────────── */
@@ -296,9 +347,8 @@ table {
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-2); }
-.stack  { display: flex; flex-direction: column; gap: var(--sp-2); }
 
-/* ── v2 · Layout primitives ────────────────────────────────── */
+/* ── Layout primitives ─────────────────────────────────────── */
 .nw-frame   { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 .nw-stack   { display: flex; flex-direction: column; gap: calc(var(--sp-2) * var(--nw-density)); }
 .nw-cluster { display: flex; flex-wrap: wrap; gap: calc(var(--sp-2) * var(--nw-density)); align-items: center; }
@@ -343,16 +393,16 @@ table {
   font-weight: 700;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--void);
-  background: var(--nw-primary);
-  border: 1px solid var(--nw-primary);
-  border-radius: var(--radius-md);
+  color: var(--nw-action-text);
+  background: var(--nw-action);
+  border: var(--nw-hairline) solid var(--nw-action);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn:hover {
-  background: var(--nw-primary-hot);
-  border-color: var(--nw-primary-hot);
+  background: var(--nw-action-hot);
+  border-color: var(--nw-action-hot);
 }
 /* Tactile press — expected on a terminal/console system. */
 .btn:active,
@@ -371,16 +421,17 @@ table {
   font-weight: 700;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-default);
   background: transparent;
-  border: 1px solid var(--nw-primary-dim);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn-ghost:hover {
-  background: var(--nw-primary-fill);
-  border-color: var(--nw-primary);
+  background: transparent;
+  border-color: var(--nw-line-chrome);
+  color: var(--nw-text-strong);
 }
 
 .btn-danger {
@@ -395,10 +446,10 @@ table {
   text-transform: uppercase;
   color: var(--void);
   background: var(--nw-red);
-  border: 1px solid var(--nw-red);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-red);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background var(--nw-tick), border-color var(--nw-tick), transform var(--nw-tick);
 }
 .btn-danger:hover {
   background: var(--nw-red-hot);
@@ -429,18 +480,16 @@ table {
 .btn-success {
   background: transparent;
   color: var(--nw-data);
-  border: 1px solid var(--nw-data-mute);
-  box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(122, 237, 122, 0.2);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
 }
-.btn-success:hover { background: var(--nw-green-fill); }
+.btn-success:hover { background: var(--nw-green-fill); border-color: var(--nw-data-mute); }
 
 .btn-ai {
   background: transparent;
   color: var(--nw-ai);
-  border: 1px solid var(--nw-ai-mute);
-  box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(178, 102, 224, 0.2);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
 }
-.btn-ai:hover { background: var(--nw-purple-fill); }
+.btn-ai:hover { background: var(--nw-purple-fill); border-color: var(--nw-ai-mute); }
 
 .btn-icon { padding: var(--sp-1) var(--sp-1); min-width: 28px; justify-content: center; }
 .btn-xs   { padding: 2px 6px; font-size: 9px; }
@@ -450,9 +499,10 @@ table {
 .btn-loading::before {
   content: ""; display: inline-block;
   width: 10px; height: 10px; margin-right: 6px;
-  border: 1.5px solid currentColor; border-right-color: transparent;
+  border: var(--nw-rule) solid currentColor; border-right-color: transparent;
   border-radius: 50%;
-  animation: nw-spin 0.8s linear infinite;
+  animation: nw-spin var(--nw-loop-spin) linear infinite;
+  animation-play-state: var(--nw-loop-state);
   vertical-align: -1px;
 }
 @keyframes nw-spin { to { transform: rotate(360deg); } }
@@ -465,10 +515,10 @@ input, select, textarea {
   font-size: var(--text-base);
   color: var(--nw-text);
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-2) var(--sp-3);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color var(--nw-tick), box-shadow var(--nw-tick);
 }
 input:focus, select:focus, textarea:focus {
   border-color: var(--nw-primary);
@@ -477,7 +527,7 @@ input:focus, select:focus, textarea:focus {
 }
 input::placeholder, textarea::placeholder {
   color: var(--nw-text-dim);
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 /* ── v2 · Form fields ──────────────────────────────────────── */
@@ -485,7 +535,7 @@ input::placeholder, textarea::placeholder {
 .field-label {
   font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 .field-label .req { color: var(--nw-signal-error); margin-left: 2px; }
 .field-help { font-size: var(--text-xs); color: var(--nw-text-mute); }
@@ -508,8 +558,8 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   padding: 1px var(--sp-2);
   border-radius: var(--radius-sm);
-  color: var(--nw-primary);
-  border: 1px solid var(--nw-primary-dim);
+  color: var(--nw-text-default);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
 }
 .badge-success { color: var(--nw-success); border-color: var(--nw-green-dim); }
 .badge-danger  { color: var(--nw-danger);  border-color: var(--nw-red-dim); }
@@ -526,19 +576,16 @@ input::placeholder, textarea::placeholder {
   vertical-align: middle;
   margin-right: 4px;
 }
-.led.green  { background: var(--nw-green);   box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-green); }
-.led.blue   { background: var(--nw-primary); box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-primary); }
-.led.red    { background: var(--nw-red);     box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-red); }
-.led.yellow { background: var(--nw-yellow);  box-shadow: 0 0 calc(4px * var(--nw-glow)) var(--nw-yellow); }
 
-/* ── v2 · LED with state attribute (new pattern) ───────────── */
-.led[data-state="ok"]    { background: var(--nw-data);         box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-data); }
-.led[data-state="warn"]  { background: var(--nw-signal-warn);  box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-warn); }
-.led[data-state="error"] { background: var(--nw-signal-error); box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-error); }
-.led[data-state="info"]  { background: var(--nw-signal-info);  box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-signal-info); }
-.led[data-state="ai"]    { background: var(--nw-ai);           box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-ai); }
+/* ── State colour: data-state on .led ──────────────────────── */
+.led[data-state="ok"]     { background: var(--nw-data);         box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-data); }
+.led[data-state="warn"]   { background: var(--nw-signal-warn);  box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-signal-warn); }
+.led[data-state="error"]  { background: var(--nw-signal-error); box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-signal-error); }
+.led[data-state="info"]   { background: var(--nw-signal-info);  box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-signal-info); }
+.led[data-state="active"] { background: var(--nw-chrome);       box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-chrome); }
+.led[data-state="ai"]     { background: var(--nw-ai);           box-shadow: 0 0 calc(8px * var(--nw-led-glow)) var(--nw-ai); }
 .led[data-pulse] {
-  animation: nw-pulse var(--nw-pulse-speed) ease-in-out infinite;
+  animation: nw-pulse calc(var(--nw-pulse-speed) / var(--nw-motion-scale)) ease-in-out infinite;
   animation-play-state: var(--nw-pulse-state);
 }
 @keyframes nw-pulse {
@@ -549,27 +596,20 @@ input::placeholder, textarea::placeholder {
 /* ── src/components/panel.css ──────────────────────────────────── */
 /* ── Panel ───────────────────────────────────────────────────── */
 
+/* Open at every intensity (FR-026): no fill, no outline, no radius. The frame is opt-in, with
+   .nw-reticle. The header look is in section-head.css. */
 .panel {
-  background: var(--void-warm);
-  border: 1px solid var(--nw-text-faint);
-  border-radius: var(--nw-panel-radius);
+  background: none;
+  border: 0;
+  border-radius: 0;
 }
 
 .panel-header {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--nw-primary);
-  padding: var(--sp-2) var(--sp-3) 7px;
-  border-bottom: 1px solid var(--nw-primary-dim);
-  display: flex;
-  justify-content: space-between;
-  background-image: var(--nw-header-pattern), var(--nw-header-gradient);
+  padding: 0 0 var(--sp-3);
 }
 
 .panel-body {
-  padding: var(--sp-3);
+  padding: var(--sp-3) 0;
 }
 
 /* ── src/components/table.css ──────────────────────────────────── */
@@ -588,19 +628,19 @@ input::placeholder, textarea::placeholder {
   text-transform: uppercase;
   text-align: left;
   padding: 6px 10px;
-  color: var(--nw-primary);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  color: var(--nw-text-mute);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
 }
 
 .nw-table td {
   padding: 5px 10px;
-  color: var(--nw-green);
-  border-bottom: 1px solid var(--nw-text-faint);
+  color: var(--nw-text-default);
+  border-bottom: var(--nw-hairline) solid var(--nw-text-faint);
   font-variant-numeric: tabular-nums;
   font-weight: 500;
 }
 
-.nw-table tr:hover td { background: var(--nw-green-faint); }
+.nw-table tr:hover td { background: var(--nw-text-faint); }
 
 /* ── src/components/metrics.css ────────────────────────────────── */
 /* ── Metrics Grid ────────────────────────────────────────────── */
@@ -608,7 +648,7 @@ input::placeholder, textarea::placeholder {
 .metrics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px;
+  gap: var(--nw-hairline);
   background: var(--nw-text-faint);
 }
 
@@ -621,7 +661,7 @@ input::placeholder, textarea::placeholder {
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   margin-bottom: 2px;
 }
 
@@ -630,7 +670,6 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   color: var(--nw-green);
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 6px rgba(122,237,122,0.4), 0 0 12px rgba(122,237,122,0.15);
   line-height: 1.1;
 }
 
@@ -642,7 +681,6 @@ input::placeholder, textarea::placeholder {
 
 .metric-cell.highlight .m-value {
   color: var(--nw-primary);
-  text-shadow: 0 0 6px rgba(102,153,255,0.4);
   font-size: var(--text-2xl);
 }
 
@@ -652,15 +690,14 @@ input::placeholder, textarea::placeholder {
 .nw-progress {
   height: 4px;
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line);
   overflow: hidden;
 }
 
-.nw-progress .fill,
 .nw-progress-fill {
   height: 100%;
-  background: var(--nw-green);
-  box-shadow: 0 0 calc(4px * var(--nw-glow)) rgba(122,237,122,0.3);
+  background: var(--nw-data);
+  box-shadow: 0 0 calc(4px * var(--nw-progress-glow)) rgba(122,237,122,0.3);
 }
 
 /* ── src/components/toast.css ──────────────────────────────────── */
@@ -668,10 +705,22 @@ input::placeholder, textarea::placeholder {
 
 .toast {
   background: var(--void-panel);
-  border-left: 3px solid var(--nw-primary);
+  /* The modal's boundary on all sides; the accent line below overrides the left. */
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-left: var(--nw-accent-width) solid var(--nw-chrome);
   padding: var(--sp-3) var(--sp-4);
   font-size: var(--text-sm);
-  color: var(--nw-text);
+  color: var(--nw-text-default);
+  /* Open by default (no data-open, or "true"): enter curve. */
+  transition: opacity var(--nw-sweep), transform var(--nw-sweep), visibility 0s;
+}
+/* Closed only when data-open="false": exit curve, visibility dropped once the fade is done. */
+.toast[data-open="false"] {
+  opacity: 0;
+  transform: translateY(8px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--nw-sweep-out), transform var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
 .toast-success { border-left-color: var(--nw-success); }
 .toast-danger  { border-left-color: var(--nw-danger); }
@@ -681,21 +730,16 @@ input::placeholder, textarea::placeholder {
 /* ── src/components/card.css ───────────────────────────────────── */
 /* ── Card ────────────────────────────────────────────────────── */
 
+/* A hairline outline on black, no fill (FR-027). The header look is in section-head.css. */
 .card {
-  background: var(--void-warm);
-  border: 1px solid var(--nw-text-faint);
-  border-radius: var(--radius-lg);
+  background: none;
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
 .card-header {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--nw-primary);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--nw-text-faint);
 }
 
 .card-body {
@@ -704,12 +748,100 @@ input::placeholder, textarea::placeholder {
 
 .card-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: 1px solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-line);
+}
+
+/* ── src/components/section-head.css ───────────────────────────── */
+/* ── Section head ────────────────────────────────────────────────
+   One implementation for .nw-section-head, .panel-header and .card-header (FR-026, FR-030):
+   a mute label, no bottom border, a hairline that runs from the label to the right slot, and a
+   .kanji in the right slot at the section-head size. Any other right-slot content (a .tag, an LED
+   and text) keeps its own look. data-idx shows an index in the accent colour before the label.
+   Loaded after panel.css and card.css, which keep the header padding only. */
+
+.nw-section-head,
+.panel-header,
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-sys);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: var(--ls-ultra);
+  text-transform: uppercase;
+  color: var(--nw-text-mute);
+  border-bottom: 0;
+}
+
+/* The hairline from the label to the right slot. */
+.nw-section-head::after,
+.panel-header::after,
+.card-header::after {
+  content: '';
+  order: 1;
+  flex: 1;
+  height: var(--nw-hairline);
+  background: var(--nw-line);
+}
+
+.nw-section-head > :not(:first-child),
+.panel-header > :not(:first-child),
+.card-header > :not(:first-child) { order: 2; }
+
+/* data-idx: "01 // LABEL" */
+.nw-section-head[data-idx]::before,
+.panel-header[data-idx]::before,
+.card-header[data-idx]::before {
+  content: attr(data-idx);
+  color: var(--nw-chrome);
+}
+
+.nw-section-head[data-idx] > :first-child::before,
+.panel-header[data-idx] > :first-child::before,
+.card-header[data-idx] > :first-child::before { content: '// '; }
+
+.nw-section-head > .kanji,
+.panel-header > .kanji,
+.card-header > .kanji {
+  order: 2;             /* the right slot, also when the kanji is the first child (a bare-text label) */
+  font-size: 20px;
+  letter-spacing: 0;
+  text-transform: none;
+  flex-shrink: 0;       /* a long label wraps; the kanji keeps its width instead of stacking its glyphs */
+  white-space: nowrap;
+}
+
+/* A kanji that is the first child is not a label: no "// " prefix before it. */
+.nw-section-head[data-idx] > .kanji:first-child::before,
+.panel-header[data-idx] > .kanji:first-child::before,
+.card-header[data-idx] > .kanji:first-child::before { content: none; }
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.nw-section-head .kanji, .panel-header .kanji, .card-header .kanji) {
+  color: var(--nw-text-default);
+}
+
+/* Chrome variant: a hairline that fades out, and a kanji in the accent. */
+.nw-section-head-chrome::after { background: linear-gradient(90deg, var(--nw-line-chrome), transparent); }
+
+.nw-section-head-chrome > .kanji {
+  color: var(--nw-chrome);
+  text-shadow: 0 0 var(--nw-kanji-glow) var(--nw-chrome);   /* FR-034 exception: 0 at archive */
+}
+
+/* Forced colours replace background colours with Canvas, which would erase the hairline: paint it
+   with the text colour, as v2's border-bottom rule was. */
+@media (forced-colors: active) {
+  .nw-section-head::after,
+  .panel-header::after,
+  .card-header::after { background: CanvasText; }
 }
 
 /* ── src/components/modal.css ──────────────────────────────────── */
 /* ── Modal / Dialog ──────────────────────────────────────────── */
 
+/* Closed by default. Set data-open="true" to show it; the element can stay mounted. */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -718,12 +850,18 @@ input::placeholder, textarea::placeholder {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
 
 .modal {
   background: var(--void-panel);
-  border: 1px solid var(--nw-primary-dim);
-  border-radius: var(--radius-lg);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--nw-elevation-overlay);
   width: 100%;
   max-width: 480px;
   max-height: 90vh;
@@ -735,12 +873,17 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.modal-header .kanji) {
+  color: var(--nw-text-default);
 }
 
 .modal-body {
@@ -751,47 +894,42 @@ input::placeholder, textarea::placeholder {
 
 .modal-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: 1px solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   justify-content: flex-end;
   gap: var(--sp-2);
 }
 
-/* ── v2 · Modal title (non-flex header label) ──────────────── */
+/* ── Modal title (non-flex header label) ───────────────────── */
 .modal-title {
   font-family: var(--font-stamp); font-size: 10px; font-weight: 700;
   letter-spacing: var(--ls-ultra); text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 
-/* ── v2 · Modal show/hide via [data-open] attribute ──────────────
-   The v1 .modal-backdrop above is always visible (relies on DOM
-   add/remove). The patch below makes it controllable via attribute
-   so React/Vue consumers can keep the element mounted and toggle
-   data-open instead. v1 markup without data-open still works
-   (defaults to hidden — set data-open="true" on initial render or
-   render conditionally). */
-.modal-backdrop {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
-}
+/* ── Open state ────────────────────────────────────────────── */
 .modal-backdrop[data-open="true"] {
   visibility: visible;
   opacity: 1;
+  pointer-events: auto;
+  /* Open: show at once, enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
 }
 .modal-backdrop .modal {
   transform: scale(0.96);
+  transition: transform var(--nw-sweep-out);
+}
+.modal-backdrop[data-open="true"] .modal {
+  transform: none;
   transition: transform var(--nw-sweep);
 }
-.modal-backdrop[data-open="true"] .modal { transform: scale(1); }
 
 /* ── src/components/tabs.css ───────────────────────────────────── */
 /* ── Tabs ────────────────────────────────────────────────────── */
 
 .tabs {
   display: flex;
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   gap: 0;
 }
 
@@ -801,22 +939,23 @@ input::placeholder, textarea::placeholder {
   font-weight: 500;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--nw-accent-width) solid transparent;
   padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: color var(--nw-tick), border-color var(--nw-tick);
 }
 
 .tab:hover {
-  color: var(--nw-text);
+  color: var(--nw-text-strong);
 }
 
+/* Blue is the underline only; the label stays neutral. */
 .tab.active {
-  color: var(--nw-primary);
-  border-bottom-color: var(--nw-primary);
+  color: var(--nw-text-default);
+  border-bottom-color: var(--nw-chrome);
 }
 
 .tab-panel {
@@ -829,7 +968,7 @@ input::placeholder, textarea::placeholder {
 .sidebar {
   width: 240px;
   background: var(--void-warm);
-  border-right: 1px solid var(--nw-text-faint);
+  border-right: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -840,9 +979,14 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-4);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.sidebar-header .kanji) {
+  color: var(--nw-text-default);
 }
 
 .sidebar-section {
@@ -850,7 +994,7 @@ input::placeholder, textarea::placeholder {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4) var(--sp-1);
 }
 
@@ -859,22 +1003,23 @@ input::placeholder, textarea::placeholder {
   align-items: center;
   gap: var(--sp-2);
   font-size: var(--text-sm);
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   padding: var(--sp-2) var(--sp-4);
-  border-left: 2px solid transparent;
+  border-left: var(--nw-accent-width) solid transparent;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  transition: color var(--nw-tick), background var(--nw-tick), border-color var(--nw-tick);
   text-decoration: none;
 }
 
 .sidebar-item:hover {
-  color: var(--nw-text);
+  color: var(--nw-text-strong);
   background: var(--nw-text-faint);
 }
 
+/* Blue is the accent line only; the label stays neutral. */
 .sidebar-item.active {
-  color: var(--nw-primary);
-  border-left-color: var(--nw-primary);
+  color: var(--nw-text-default);
+  border-left-color: var(--nw-chrome);
   background: var(--nw-primary-fill);
 }
 
@@ -893,10 +1038,21 @@ input::placeholder, textarea::placeholder {
   z-index: 100;
   min-width: 180px;
   background: var(--void-raised);
-  border: 1px solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-1) 0;
   margin-top: var(--sp-1);
+  /* Open by default (no data-open, or "true"): enter curve. */
+  transition: opacity var(--nw-tick), transform var(--nw-tick), visibility 0s;
+}
+
+/* Closed only when data-open="false": exit curve, visibility dropped once the fade is done. */
+.dropdown[data-open="false"] .dropdown-menu {
+  opacity: 0;
+  transform: translateY(-4px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--nw-tick-out), transform var(--nw-tick-out), visibility 0s linear var(--nw-tick-out-duration);
 }
 
 .dropdown-item {
@@ -904,26 +1060,26 @@ input::placeholder, textarea::placeholder {
   width: 100%;
   font-family: var(--font-sys);
   font-size: var(--text-sm);
-  color: var(--nw-text-dim);
+  color: var(--nw-text-default);
   background: transparent;
   border: none;
   padding: var(--sp-2) var(--sp-3);
   text-align: left;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s;
+  transition: color var(--nw-tick), background var(--nw-tick);
 }
 
 .dropdown-item:hover {
-  color: var(--nw-text);
-  background: var(--nw-primary-fill);
+  color: var(--nw-text-strong);
+  background: var(--nw-text-faint);
 }
 
 .dropdown-item.danger { color: var(--nw-red); }
 .dropdown-item.danger:hover { background: var(--nw-red-fill); }
 
 .dropdown-divider {
-  height: 1px;
-  background: var(--nw-text-faint);
+  height: var(--nw-hairline);
+  background: var(--nw-line);
   margin: var(--sp-1) 0;
 }
 
@@ -940,7 +1096,7 @@ input::placeholder, textarea::placeholder {
 
 .breadcrumbs a {
   color: var(--nw-text-dim);
-  transition: color 0.15s;
+  transition: color var(--nw-tick);
 }
 
 .breadcrumbs a:hover { color: var(--nw-primary); }
@@ -967,19 +1123,29 @@ input::placeholder, textarea::placeholder {
   left: 50%;
   transform: translateX(-50%);
   background: var(--void-raised);
-  border: 1px solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-1) var(--sp-2);
   font-size: var(--text-xs);
-  color: var(--nw-text);
+  color: var(--nw-text-default);
   white-space: nowrap;
   pointer-events: none;
+  /* Closed by default: exit curve, visibility dropped once the fade is done. */
   opacity: 0;
-  transition: opacity 0.15s;
+  visibility: hidden;
+  transition: opacity var(--nw-tick-out), visibility 0s linear var(--nw-tick-out-duration);
 }
 
-.tooltip:hover .tooltip-content {
+/* Open on hover, keyboard focus inside, or data-open="true". data-open="false" must stay closed
+   even on hover, so the hover and focus-within rules exclude it with :not(). That keeps the
+   decision out of source order and out of a specificity race: a tooltip marked "false" matches
+   none of the open rules and simply keeps the closed rule above. */
+.tooltip:not([data-open="false"]):hover .tooltip-content,
+.tooltip:not([data-open="false"]):focus-within .tooltip-content,
+.tooltip[data-open="true"] .tooltip-content {
   opacity: 1;
+  visibility: visible;
+  transition: opacity var(--nw-tick), visibility 0s;
 }
 
 /* ── src/components/skeleton.css ───────────────────────────────── */
@@ -990,7 +1156,7 @@ input::placeholder, textarea::placeholder {
   border-radius: var(--radius-sm);
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-text-faint);
 }
 
 .skeleton::after {
@@ -1000,12 +1166,13 @@ input::placeholder, textarea::placeholder {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(102, 153, 255, 0.08) 40%,
-    rgba(102, 221, 255, 0.12) 50%,
-    rgba(102, 153, 255, 0.08) 60%,
+    var(--nw-text-faint) 40%,
+    var(--nw-line) 50%,
+    var(--nw-text-faint) 60%,
     transparent 100%
   );
-  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+  animation: skeleton-shimmer var(--nw-loop-shimmer) ease-in-out infinite;
+  animation-play-state: var(--nw-loop-state);
 }
 
 @keyframes skeleton-shimmer {
@@ -1036,27 +1203,43 @@ input::placeholder, textarea::placeholder {
 
 /* ── src/components/kv-row.css ─────────────────────────────────── */
 /* ── Key-Value Row ───────────────────────────────────────────── */
+/* Spec-sheet look (FR-029): top-aligned rows scaled by --nw-pad-scale, a right-aligned value, an
+   optional .kv-note under it and an optional .kv-swap glyph in the accent. */
 
 .kv-row {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  padding: var(--sp-1) 0;
-  border-bottom: 1px solid var(--nw-text-faint);
+  align-items: flex-start;
+  padding: calc(var(--sp-3) * var(--nw-pad-scale)) 0;
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   font-size: var(--text-sm);
 }
 
 .kv-row .kv-label {
-  color: var(--nw-primary-dim);
+  color: var(--nw-text-mute);
   text-transform: uppercase;
   letter-spacing: var(--ls-wide);
   font-size: 10px;
+  padding-top: 2px;
 }
 
 .kv-row .kv-value {
-  color: var(--nw-green);
+  color: var(--nw-text-default);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.kv-row .kv-note {
+  display: block;
+  color: var(--nw-text-mute);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.kv-row .kv-swap {
+  color: var(--nw-chrome);
 }
 
 /* ── src/components/avatar.css ─────────────────────────────────── */
@@ -1069,9 +1252,9 @@ input::placeholder, textarea::placeholder {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-full);
-  background: var(--nw-primary-fill);
-  border: 1px solid var(--nw-primary-dim);
-  color: var(--nw-primary);
+  background: var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line);
+  color: var(--nw-text-default);
   font-size: var(--text-sm);
   font-weight: 700;
 }
@@ -1083,8 +1266,8 @@ input::placeholder, textarea::placeholder {
 /* ── Divider ─────────────────────────────────────────────────── */
 
 .divider {
-  height: 1px;
-  background: var(--nw-text-faint);
+  height: var(--nw-hairline);
+  background: var(--nw-line);
   margin: var(--sp-4) 0;
 }
 
@@ -1105,26 +1288,22 @@ input::placeholder, textarea::placeholder {
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   padding: 0 var(--sp-2);
-  border-radius: var(--radius-full);
-  color: var(--nw-primary);
-  background: var(--nw-primary-fill);
+  border-radius: var(--radius-sm);
+  color: var(--nw-text-default);
+  background: var(--nw-text-faint);
 }
 
 .tag-success { color: var(--nw-success); background: var(--nw-green-faint); }
 .tag-danger  { color: var(--nw-danger);  background: var(--nw-red-fill); }
-.tag-warning { color: var(--nw-warning); background: rgba(232, 153, 58, 0.1); }
 .tag-info    { color: var(--nw-info);    background: var(--nw-cyan-glow); }
 
-/* ── v2 · Tag variants (chrome/info/ai/warn shortcut) ──────── */
+/* ── Tag variants (chrome/warn/ai) ─────────────────────────── */
 .tag-chrome  { color: var(--nw-chrome);       background: var(--nw-primary-fill); }
 .tag-warn    { color: var(--nw-signal-warn);  background: rgba(232, 153, 58, 0.1); }
 .tag-ai      { color: var(--nw-ai);           background: var(--nw-purple-fill); }
 
 /* ═══════════════════════════════════════════════════════════════
-   Nightwire v2 — additive components
-   All new classes. Consumers using v1 (.btn, .panel, .tag) keep
-   working unchanged. v2 components opt-in by class name or via
-   data-intensity attribute on <html>.
+   Components added after the base set. Order is the cascade.
    ─────────────────────────────────────────────────────────────── */
 
 /* ── src/components/kbd.css ────────────────────────────────────── */
@@ -1133,7 +1312,7 @@ input::placeholder, textarea::placeholder {
   display: inline-block;
   font-family: var(--font-sys); font-size: 10px;
   padding: 1px 5px;
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   background: var(--nw-surface-2);
   color: var(--nw-text-mute);
   border-radius: var(--radius-sm);
@@ -1143,7 +1322,7 @@ input::placeholder, textarea::placeholder {
 /* ── v2 · Segmented control ────────────────────────────────── */
 .seg {
   display: inline-flex;
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
@@ -1152,7 +1331,7 @@ input::placeholder, textarea::placeholder {
   letter-spacing: 0.14em; text-transform: uppercase;
   padding: 5px 12px; background: transparent;
   color: var(--nw-text-mute); border: 0;
-  border-right: 1px solid var(--nw-line);
+  border-right: var(--nw-hairline) solid var(--nw-line);
   cursor: pointer;
   transition: background var(--nw-tick), color var(--nw-tick);
 }
@@ -1161,7 +1340,20 @@ input::placeholder, textarea::placeholder {
 .seg button[aria-pressed="true"] {
   background: var(--nw-chrome);
   color: var(--nw-text-on-fill);
-  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(255, 255, 255, 0.5);
+}
+/* .seg clips with overflow: hidden, so draw the ring inside the segment, 2px in from the edge.
+   The --nw-text-on-fill band outside it keeps the ring off a neighbouring selected segment's
+   --nw-chrome fill, which it merged with. WCAG 1.4.11: the ring needs 3:1 against both
+   neighbours, and --nw-chrome on --nw-text-on-fill is well above that. */
+.seg button:focus-visible {
+  outline: 2px solid var(--nw-focus-ring);
+  outline-offset: -4px;
+  box-shadow: inset 0 0 0 2px var(--nw-text-on-fill);
+}
+/* The selected fill is the ring colour, so a second band inside the ring keeps them apart. */
+.seg button[aria-pressed="true"]:focus-visible {
+  box-shadow: inset 0 0 0 6px var(--nw-text-on-fill);
 }
 
 /* ── src/components/switch.css ─────────────────────────────────── */
@@ -1171,7 +1363,7 @@ input::placeholder, textarea::placeholder {
 .switch .track {
   width: 32px; height: 16px;
   background: var(--nw-surface-3);
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-full);
   position: relative;
   transition: background var(--nw-tick), border-color var(--nw-tick);
@@ -1189,7 +1381,12 @@ input::placeholder, textarea::placeholder {
 .switch input:checked + .track::after {
   transform: translateX(16px);
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) var(--nw-chrome);
+}
+/* The input is visually hidden, so the track shows keyboard focus for it. */
+.switch input:focus-visible + .track {
+  outline: 2px solid var(--nw-focus-ring);
+  outline-offset: 2px;
 }
 .switch .lbl { font-size: var(--text-sm); }
 
@@ -1203,7 +1400,7 @@ input::placeholder, textarea::placeholder {
 .check .box, .radio .box {
   width: 14px; height: 14px;
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   display: inline-flex; align-items: center; justify-content: center;
   transition: border-color var(--nw-tick), background var(--nw-tick);
 }
@@ -1212,27 +1409,33 @@ input::placeholder, textarea::placeholder {
 .check input:checked + .box {
   background: var(--nw-chrome);
   border-color: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(102, 153, 255, 0.5);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(102, 153, 255, 0.5);
 }
 .check input:checked + .box::after {
   content: ""; width: 8px; height: 4px;
-  border-left: 1.5px solid var(--nw-text-on-fill);
-  border-bottom: 1.5px solid var(--nw-text-on-fill);
+  border-left: var(--nw-rule) solid var(--nw-text-on-fill);
+  border-bottom: var(--nw-rule) solid var(--nw-text-on-fill);
   transform: rotate(-45deg) translate(1px, -1px);
 }
 .radio input:checked + .box { border-color: var(--nw-chrome); }
+/* The input is visually hidden, so the box shows keyboard focus for it. */
+.check input:focus-visible + .box,
+.radio input:focus-visible + .box {
+  outline: 2px solid var(--nw-focus-ring);
+  outline-offset: 2px;
+}
 .radio input:checked + .box::after {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) var(--nw-chrome);
 }
 
 /* ── src/components/combo.css ──────────────────────────────────── */
 /* ── v2 · Combo / multiselect ──────────────────────────────── */
 .combo {
   position: relative; min-height: 36px;
-  border: 1px solid var(--nw-line-strong);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   background: var(--nw-surface-2);
   padding: var(--sp-1) var(--sp-2);
   display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-1);
@@ -1244,10 +1447,10 @@ input::placeholder, textarea::placeholder {
 .combo .chip {
   display: inline-flex; align-items: center; gap: var(--sp-1);
   padding: 2px 6px;
-  background: rgba(102, 153, 255, 0.12);
-  border: 1px solid var(--nw-chrome-mute);
+  background: var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-sm);
-  font-size: var(--text-xs); color: var(--nw-chrome);
+  font-size: var(--text-xs); color: var(--nw-text-default);
 }
 .combo .chip .x { cursor: pointer; opacity: 0.7; }
 .combo input {
@@ -1262,28 +1465,36 @@ input::placeholder, textarea::placeholder {
   position: fixed; inset: 0;
   background: rgba(0, 0, 0, 0.7);
   z-index: 45;
-  visibility: hidden; opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; opacity: 0; pointer-events: none;
+  /* Closed: fade out on the exit curve, then drop visibility once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.drawer-backdrop[data-open="true"] { visibility: visible; opacity: 1; }
+.drawer-backdrop[data-open="true"] {
+  visibility: visible; opacity: 1; pointer-events: auto;
+  /* Open: show at once, fade in on the enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
+}
 
 .drawer {
   position: fixed; top: 0; right: 0; height: 100vh;
   width: min(440px, 92vw);
   background: var(--nw-surface-1);
-  border-left: 1px solid var(--nw-line-chrome);
+  border-left: var(--nw-hairline) solid var(--nw-line-strong);
   display: flex; flex-direction: column;
   z-index: 46;
-  box-shadow: -10px 0 calc(40px * var(--nw-glow)) rgba(102, 153, 255, 0.1);
+  box-shadow: var(--nw-elevation-overlay);
   transform: translateX(100%);
-  visibility: hidden;
-  transition: transform var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; pointer-events: none;
+  transition: transform var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.drawer[data-open="true"] { transform: translateX(0); visibility: visible; }
+.drawer[data-open="true"] {
+  transform: translateX(0); visibility: visible; pointer-events: auto;
+  transition: transform var(--nw-sweep), visibility 0s;
+}
 .drawer-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--nw-chrome-mute);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
 }
 .drawer-body { flex: 1; overflow: auto; padding: var(--sp-4); }
 
@@ -1294,34 +1505,48 @@ input::placeholder, textarea::placeholder {
   background: rgba(0, 0, 0, 0.85);
   display: flex; align-items: flex-start; justify-content: center;
   padding-top: 12vh; z-index: 55;
-  visibility: hidden; opacity: 0;
-  transition: opacity var(--nw-sweep), visibility var(--nw-sweep);
+  visibility: hidden; opacity: 0; pointer-events: none;
+  /* Closed: exit curve, visibility dropped once the fade is done. */
+  transition: opacity var(--nw-sweep-out), visibility 0s linear var(--nw-sweep-out-duration);
 }
-.cmdk-backdrop[data-open="true"] { visibility: visible; opacity: 1; }
+.cmdk-backdrop[data-open="true"] {
+  visibility: visible; opacity: 1; pointer-events: auto;
+  /* Open: show at once, enter curve. */
+  transition: opacity var(--nw-sweep), visibility 0s;
+}
 
 .cmdk {
   width: min(560px, 92vw);
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-chrome-mute);
-  border-radius: var(--radius-lg);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(102, 153, 255, 0.25),
-    0 calc(20px * var(--nw-glow)) calc(80px * var(--nw-glow)) rgba(102, 153, 255, 0.15);
+  box-shadow: var(--nw-elevation-overlay);
+}
+/* Scoped to the backdrop: a standalone .cmdk (no backdrop to open it) stays where it was in 2.x. */
+.cmdk-backdrop .cmdk {
+  transform: translateY(-8px);
+  transition: transform var(--nw-sweep-out);
+}
+.cmdk-backdrop[data-open="true"] .cmdk {
+  /* none, not translateY(0): an identity transform would still make .cmdk a containing block. */
+  transform: none;
+  transition: transform var(--nw-sweep);
 }
 .cmdk input {
   width: 100%; background: transparent;
-  border: 0; border-bottom: 1px solid var(--nw-line);
+  border: 0; border-bottom: var(--nw-hairline) solid var(--nw-line);
   color: var(--nw-text-strong);
   padding: 14px 16px;
   font-family: var(--font-sys); font-size: var(--text-base);
-  outline: none;
 }
+/* Inset: .cmdk has overflow: hidden, which would clip an outset ring. */
+.cmdk input:focus-visible { outline: 2px solid var(--nw-focus-ring); outline-offset: -2px; }
 .cmdk input::placeholder { color: var(--nw-text-mute); }
 .cmdk-section {
   font-family: var(--font-stamp); font-size: 9px;
   letter-spacing: var(--ls-ultra); text-transform: uppercase;
-  color: var(--nw-chrome-mute);
+  color: var(--nw-text-mute);
   padding: 10px 16px 4px;
 }
 .cmdk-item {
@@ -1329,8 +1554,13 @@ input::placeholder, textarea::placeholder {
   padding: var(--sp-2) 16px; font-size: var(--text-sm);
   color: var(--nw-text-default); cursor: pointer;
 }
-.cmdk-item:hover, .cmdk-item.active {
-  background: rgba(102, 153, 255, 0.1);
+.cmdk-item:hover {
+  background: var(--nw-text-faint);
+  color: var(--nw-text-strong);
+}
+/* After :hover, so the active blue wins on a hovered active item. */
+.cmdk-item.active {
+  background: var(--nw-primary-fill);
   color: var(--nw-chrome);
 }
 
@@ -1341,14 +1571,14 @@ input::placeholder, textarea::placeholder {
   padding: 6px var(--sp-3);
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: rgba(232, 153, 58, 0.08);
-  border-bottom: 1px solid var(--nw-signal-warn);
+  border-bottom: var(--nw-hairline) solid var(--nw-signal-warn);
   color: var(--nw-text-default);
 }
 .banner .banner-tag {
   font-family: var(--font-stamp); font-size: 9px;
   letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--nw-signal-warn);
-  border: 1px solid var(--nw-signal-warn);
+  border: var(--nw-hairline) solid var(--nw-signal-warn);
   padding: 1px 6px;
   background: transparent;
 }
@@ -1358,7 +1588,7 @@ input::placeholder, textarea::placeholder {
 .code-inline {
   font-family: var(--font-sys); font-size: 0.9em;
   background: var(--nw-surface-2);
-  color: var(--nw-data);
+  color: var(--nw-text-default);
   padding: 1px 5px;
   border-radius: var(--radius-sm);
 }
@@ -1367,8 +1597,8 @@ input::placeholder, textarea::placeholder {
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
   color: var(--nw-text-default);
-  border: 1px solid var(--nw-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   padding: 10px var(--sp-3);
   white-space: pre;
   overflow: auto;
@@ -1382,11 +1612,11 @@ input::placeholder, textarea::placeholder {
 .diff {
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
-.diff .ln { display: flex; border-left: 2px solid transparent; }
+.diff .ln { display: flex; border-left: var(--nw-accent-width) solid transparent; }
 .diff .ln .num {
   width: 32px; text-align: right;
   color: var(--nw-text-mute);
@@ -1410,11 +1640,11 @@ input::placeholder, textarea::placeholder {
 }
 .steps .step.done {
   background: var(--nw-data);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(122, 237, 122, 0.5);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(122, 237, 122, 0.5);
 }
 .steps .step.current {
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(102, 153, 255, 0.6);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) rgba(102, 153, 255, 0.6);
 }
 
 /* ── src/components/empty.css ──────────────────────────────────── */
@@ -1428,8 +1658,10 @@ input::placeholder, textarea::placeholder {
 }
 .empty .glyph {
   font-family: var(--font-mincho); font-size: var(--text-3xl);
-  color: var(--nw-chrome-mute); opacity: 0.5;
+  opacity: 0.5;
 }
+/* :where() keeps specificity at 0, so a colour utility on the glyph still wins. */
+:where(.empty .glyph) { color: var(--nw-text-default); }
 .empty .head {
   font-family: var(--font-stamp); font-size: var(--text-xs);
   letter-spacing: 0.18em; text-transform: uppercase;
@@ -1441,15 +1673,14 @@ input::placeholder, textarea::placeholder {
 /* ── v2 · AI block (purple-accented suggestion strip) ──────── */
 .ai-block {
   padding: var(--sp-3);
-  background: linear-gradient(180deg, rgba(178, 102, 224, 0.06), transparent 70%);
-  border-top: 1px solid rgba(178, 102, 224, 0.25);
+  background: var(--nw-purple-fill);
+  border-top: var(--nw-hairline) solid var(--nw-line);
 }
 .ai-block-head {
   font-family: var(--font-stamp); font-size: 10px;
   letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--nw-ai);
   display: flex; align-items: center; gap: var(--sp-2);
-  text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(178, 102, 224, 0.45);
 }
 .ai-block-body { margin-top: var(--sp-2); font-size: var(--text-sm); color: var(--nw-text-default); }
 .ai-block-body em { color: var(--nw-ai); font-style: normal; }
@@ -1459,13 +1690,13 @@ input::placeholder, textarea::placeholder {
 .stat {
   display: flex; flex-direction: column; gap: 6px;
   padding: calc(14px * var(--nw-pad-scale));
-  border-right: 1px solid var(--nw-line);
+  border-right: var(--nw-hairline) solid var(--nw-line);
 }
 .stat:last-child { border-right: 0; }
 .stat .stat-label {
   font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
   letter-spacing: var(--nw-label-spacing); text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 .stat .stat-value {
   font-family: var(--font-sys);
@@ -1474,9 +1705,6 @@ input::placeholder, textarea::placeholder {
   color: var(--nw-value-color);
   line-height: 1; letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
-  text-shadow:
-    0 0 calc(8px * var(--nw-glow)) rgba(122, 237, 122, 0.55),
-    0 0 calc(20px * var(--nw-glow)) rgba(122, 237, 122, 0.25);
 }
 .stat .stat-delta { display: inline-flex; align-items: center; gap: 4px; font-size: var(--text-xs); }
 .stat .stat-delta.up   { color: var(--nw-data); }
@@ -1491,10 +1719,432 @@ input::placeholder, textarea::placeholder {
   opacity: 0; transform: translateY(4px);
   animation: nw-uplink var(--nw-uplink) forwards;
 }
-.uplink > *:nth-child(1) { animation-delay: 0s; }
-.uplink > *:nth-child(2) { animation-delay: 0.05s; }
-.uplink > *:nth-child(3) { animation-delay: 0.1s; }
-.uplink > *:nth-child(4) { animation-delay: 0.15s; }
-.uplink > *:nth-child(5) { animation-delay: 0.2s; }
-.uplink > *:nth-child(6) { animation-delay: 0.25s; }
+.uplink > *:nth-child(1) { animation-delay: calc(0 * var(--nw-stagger)); }
+.uplink > *:nth-child(2) { animation-delay: calc(1 * var(--nw-stagger)); }
+.uplink > *:nth-child(3) { animation-delay: calc(2 * var(--nw-stagger)); }
+.uplink > *:nth-child(4) { animation-delay: calc(3 * var(--nw-stagger)); }
+.uplink > *:nth-child(5) { animation-delay: calc(4 * var(--nw-stagger)); }
+.uplink > *:nth-child(6) { animation-delay: calc(5 * var(--nw-stagger)); }
 @keyframes nw-uplink { to { opacity: 1; transform: translateY(0); } }
+
+/* ── src/components/display.css ────────────────────────────────── */
+/* ── Display and lede ────────────────────────────────────────────
+   A heading face for the top of a page (FR-030): the title font at weight 900, squeezed to 82%
+   wide, in capitals, and a muted lead paragraph under it. Values are the approved mockup's. */
+
+.nw-display {
+  font-family: var(--font-title);
+  font-weight: 900;
+  font-size: clamp(40px, 7vw, 76px);
+  line-height: .95;
+  transform: scaleX(.82);
+  transform-origin: left center;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: var(--nw-text-strong);
+  margin: var(--sp-6) 0 var(--sp-3);
+}
+
+.nw-lede {
+  max-width: 52ch;
+  color: var(--nw-text-mute);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+/* ── src/components/chip.css ───────────────────────────────────── */
+/* ── Chip ────────────────────────────────────────────────────────
+   A small label or link with a hairline outline (FR-030). The border reads --nw-chip-line, the
+   piece's own token, because the shared --nw-line-strong moved since the mockup. .sq is a 6px
+   square in the text colour, .star a warn-coloured mark. .nw-chip-solid is the --nw-action fill
+   (as .btn), not --nw-bone, which is the halftone tint. Its hover sets the text colour itself:
+   a:hover in reset.css would otherwise recolour an <a class="nw-chip-solid">. */
+
+.nw-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 var(--sp-2);
+  border: var(--nw-hairline) solid var(--nw-chip-line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sys);
+  font-size: var(--text-xs);
+  color: var(--nw-text-mute);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  transition: border-color var(--nw-tick), color var(--nw-tick);
+}
+
+.nw-chip:hover {
+  border-color: var(--nw-line-chrome);
+  color: var(--nw-text-default);
+}
+
+.nw-chip .sq {
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+}
+
+.nw-chip .star { color: var(--nw-signal-warn); }
+
+.nw-chip-solid {
+  background: var(--nw-action);
+  border-color: var(--nw-action);
+  color: var(--nw-action-text);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+}
+
+.nw-chip-solid:hover {
+  background: var(--nw-action-hot);
+  border-color: var(--nw-action-hot);
+  color: var(--nw-action-text);
+}
+
+/* ── src/components/link-arrow.css ─────────────────────────────── */
+/* ── Arrow link ──────────────────────────────────────────────────
+   A chrome label link, "READ MORE →" (FR-030). The arrow is part of the text. */
+
+.nw-link-arrow {
+  display: inline-block;
+  margin-top: var(--sp-3);
+  font-family: var(--font-sys);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-ultra);
+  text-transform: uppercase;
+  color: var(--nw-chrome);
+  text-decoration: none;
+  transition: color var(--nw-tick);
+}
+
+.nw-link-arrow:hover { color: var(--nw-chrome-hot); }
+
+/* ── src/components/kanji-index.css ────────────────────────────── */
+/* ── Kanji index ─────────────────────────────────────────────────
+   A two-column index of rows: a kanji, a name, a count and a line of items (FR-030). Every child
+   of .nw-index-row names its own grid column, so the row keeps its shape when the kanji is hidden
+   at archive (FR-033): the name and count stay in columns 2 and 3, and column 1 stays empty.
+   The kanji lights up on hover: the second FR-034 glow exception, scaled by --nw-kanji-glow, 0 at
+   archive. */
+
+.nw-index {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--sp-8);
+}
+
+.nw-index-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  column-gap: var(--sp-3);
+  row-gap: 2px;
+  align-items: baseline;
+  padding: var(--sp-3) 0;
+  border-top: var(--nw-hairline) solid var(--nw-line);
+}
+
+.nw-index-row .kanji {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  font-size: 20px;
+  color: var(--nw-text-default);
+  transition: color var(--nw-tick), text-shadow var(--nw-tick);
+}
+
+.nw-index-row .name {
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--nw-text-default);
+  font-size: var(--text-base);
+}
+
+.nw-index-row .count {
+  grid-column: 3;
+  grid-row: 1;
+  color: var(--nw-text-mute);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.nw-index-row .items {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  font-size: var(--text-xs);
+  color: var(--nw-text-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nw-index-row:hover .kanji {
+  color: var(--nw-chrome);
+  text-shadow: 0 0 calc(var(--nw-kanji-glow) * .8) var(--nw-chrome);   /* FR-034 exception: 0 at archive */
+}
+
+@media (max-width: 720px) { .nw-index { grid-template-columns: 1fr; } }
+
+/* ── src/components/accordion.css ──────────────────────────────── */
+/* ── Accordion ───────────────────────────────────────────────────
+   Native <details>/<summary>, no JavaScript (FR-032). The marker is replaced by a "+" that
+   becomes "−" when open. The focus ring stays the global 2px one; only its offset moves.
+   Where the browser can animate <details> (interpolate-size), the answer opens on --nw-sweep and
+   closes on --nw-sweep-out. Everywhere else it opens and closes at once. Both tokens multiply
+   --nw-motion-scale, which prefers-reduced-motion sets to 0, so reduced motion is instant too. */
+
+.nw-accordion details { border-top: var(--nw-hairline) solid var(--nw-line); }
+.nw-accordion details:last-child { border-bottom: var(--nw-hairline) solid var(--nw-line); }
+
+.nw-accordion summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--nw-text-default);
+  transition: color var(--nw-tick);
+}
+
+.nw-accordion summary::-webkit-details-marker { display: none; }
+
+.nw-accordion summary::after {
+  content: '+';
+  content: '+' / '';   /* the marker is decoration: empty alt text keeps it out of the accessible name */
+  font-family: var(--font-sys);
+  font-size: 16px;
+  color: var(--nw-chrome);
+}
+
+.nw-accordion details[open] summary::after {
+  content: '−';
+  content: '−' / '';
+}
+
+.nw-accordion summary:hover { color: var(--nw-text-strong); }
+
+.nw-accordion summary:focus-visible { outline-offset: 4px; }   /* width stays the global 2px */
+
+.nw-accordion .answer {
+  padding: 0 0 var(--sp-6);
+  max-width: 62ch;
+  color: var(--nw-text-mute);
+  line-height: 1.65;
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .nw-accordion details { interpolate-size: allow-keywords; }
+
+  .nw-accordion details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size var(--nw-sweep-out), content-visibility var(--nw-sweep-out) allow-discrete;
+  }
+
+  .nw-accordion details[open]::details-content {
+    block-size: auto;
+    transition: block-size var(--nw-sweep), content-visibility var(--nw-sweep) allow-discrete;
+  }
+}
+
+/* ── src/components/reticle.css ────────────────────────────────── */
+/* ── Reticle frame ───────────────────────────────────────────────
+   An opt-in frame (FR-028): a hairline outline with an arm at each corner. It works alone or on a
+   .panel (class="panel nw-reticle"). The arms are background-IMAGES only, so the element keeps its
+   own background colour, and nothing here sets one. Colour and arm length are the two knobs:
+   --nw-reticle-c and --nw-reticle-arm. The parts below are the art-card children of the approved
+   mockup: a meta line, a vertical label, a kanji stamp and a foot. The stamp is a kanji, so it
+   leaves with the others at archive. */
+
+:where(.nw-reticle) { position: relative; }   /* specificity 0: a .drawer keeps its position: fixed */
+
+.nw-reticle {
+  --nw-reticle-c: var(--nw-line-chrome);
+  --nw-reticle-arm: 14px;
+  padding: var(--sp-4);
+  border: var(--nw-hairline) solid var(--nw-line);
+  background-image:
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c)),
+    linear-gradient(var(--nw-reticle-c), var(--nw-reticle-c));
+  background-repeat: no-repeat;
+  background-position: top left, top left, top right, top right, bottom left, bottom left, bottom right, bottom right;
+  background-size:
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm),
+    var(--nw-reticle-arm) var(--nw-hairline), var(--nw-hairline) var(--nw-reticle-arm);
+}
+
+.panel.nw-reticle { border-radius: 0; }
+
+.nw-reticle-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sys);
+  font-size: 10px;
+  letter-spacing: var(--ls-ultra);
+  color: var(--nw-text-mute);
+  margin-bottom: var(--sp-3);
+}
+
+.nw-reticle-vlabel {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font-family: var(--font-sys);
+  font-size: 9px;
+  letter-spacing: var(--ls-ultra);
+  color: var(--nw-text-mute);
+}
+
+.nw-reticle-stamp {
+  position: absolute;
+  right: var(--sp-6);
+  top: 56px;
+  display: var(--nw-kanji-display);
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1.05;
+  writing-mode: vertical-rl;
+  color: var(--nw-text-strong);
+  mix-blend-mode: difference;
+}
+
+.nw-reticle-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--sp-3);
+}
+
+.nw-reticle-foot .nw-barcode { flex: 1; }
+
+.nw-reticle-foot .kanji {
+  font-size: 24px;
+  color: var(--nw-text-default);
+}
+
+/* ── src/components/halftone.css ───────────────────────────────── */
+/* ── Halftone ────────────────────────────────────────────────────
+   Plain CSS over any <img> (FR-030): the image goes grey and high-contrast, a dot pattern is laid
+   over it, and a tint is multiplied on top. The structure is
+   .nw-halftone > .nw-halftone-layer > img. Tint and dot size are --nw-halftone-tint and
+   --nw-halftone-dot. The #000 and #fff below are the mask of the dot pattern, not palette colours,
+   so they are the only colour literals in the stylesheet apart from the #000 of the wordmark's
+   alpha mask (wordmark.css). Halftone art is an approved decoration exception (FR-034): it is an
+   image treatment, not a glow. */
+
+.nw-halftone {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.nw-halftone-layer {
+  --nw-halftone-dot: 6px;
+  position: relative;
+  background: #000;
+  filter: grayscale(1) contrast(22);
+}
+
+.nw-halftone-layer img {
+  display: block;
+  width: 100%;
+  filter: blur(1.2px);
+}
+
+.nw-halftone-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle closest-side, #fff 0%, #000 100%) 0 0 / var(--nw-halftone-dot) var(--nw-halftone-dot);
+  opacity: .5;
+}
+
+.nw-halftone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--nw-halftone-tint, var(--nw-text-default));
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.nw-halftone-chrome { --nw-halftone-tint: var(--nw-chrome); }
+.nw-halftone-data { --nw-halftone-tint: var(--nw-data); }
+.nw-halftone-bone { --nw-halftone-tint: var(--nw-bone); }
+
+.nw-halftone-fine .nw-halftone-layer { --nw-halftone-dot: 4px; }
+
+/* ── src/components/barcode.css ────────────────────────────────── */
+/* ── Barcode ─────────────────────────────────────────────────────
+   A decorative strip of bars (FR-030), drawn with a repeating gradient in the current text colour:
+   set `color` on it (or on a parent) to tint it. */
+
+.nw-barcode {
+  height: 26px;
+  margin-top: var(--sp-3);
+  color: var(--nw-text-default);
+  background: repeating-linear-gradient(90deg,
+    currentColor 0 2px, transparent 2px 3px, currentColor 3px 4px, transparent 4px 7px,
+    currentColor 7px 10px, transparent 10px 11px, currentColor 11px 12px, transparent 12px 15px);
+}
+
+/* ── src/components/wordmark.css ───────────────────────────────── */
+/* ── Outline wordmark ────────────────────────────────────────────
+   A large outlined word for footers and covers (FR-030): the title face, transparent fill, a
+   hairline stroke, squeezed to 82% wide and faded out towards the bottom. The #000 in the mask
+   is the opaque stop of an alpha mask, not a palette colour. */
+
+.nw-wordmark {
+  font-family: var(--font-title);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(56px, 12.5vw, 190px);
+  line-height: .85;
+  letter-spacing: .01em;
+  color: transparent;
+  -webkit-text-stroke: var(--nw-hairline) var(--nw-line-chrome);
+  transform: scaleX(.82);
+  transform-origin: center;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+}
+
+/* ── src/components/grain.css ──────────────────────────────────── */
+/* ── Grain ───────────────────────────────────────────────────────
+   Film grain over the page, opt-in on <body> (FR-031): class="nw-grain". A fixed layer of SVG
+   noise, never in the way of the pointer. Its strength is the knob --nw-grain: 0 at archive,
+   .07 at operator, .1 at combat. Grain is an approved decoration exception (FR-034), not a glow.
+   Forced colours hides it. */
+
+.nw-grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--nw-grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (forced-colors: active) {
+  .nw-grain::before { display: none; }
+}

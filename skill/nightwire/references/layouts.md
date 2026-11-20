@@ -14,7 +14,7 @@ Use standard HTML flow. Apply Nightwire components (`.panel`, `.btn`, `.nw-table
 
 ## Operations Console Layout
 
-Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire layout for dashboards, monitoring UIs, and admin panels.
+Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire layout for dashboards, monitoring UIs, and admin panels. A `.panel` is open in v3 (no fill, no outline), so the dense grid puts `nw-reticle` on every panel (`class="panel nw-reticle"`): the hairline frame is what the 2px gap separates.
 
 ```html
 <!DOCTYPE html>
@@ -25,10 +25,10 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
   <style>
     /* Operations Console Layout */
     .console-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-    .nw-nav { display: flex; align-items: center; padding: 10px 16px; background: var(--void); border-bottom: 1px solid var(--nw-primary-dim); flex-shrink: 0; gap: 20px; }
+    .nw-nav { display: flex; align-items: center; padding: 10px 16px; background: var(--void); border-bottom: 1px solid var(--nw-line); flex-shrink: 0; gap: 20px; }
     .org-mark { font-family: var(--font-title); font-size: 24px; font-weight: 900; letter-spacing: 0.25em; color: var(--nw-primary); text-transform: uppercase; transform: scaleX(0.82); transform-origin: left center; line-height: 1.15; }
     .org-mark .sub { font-family: var(--font-sys); font-size: 9px; letter-spacing: 0.12em; color: var(--nw-text-dim); display: block; transform: scaleX(1.22); font-weight: 400; }
-    .ticker { overflow: hidden; white-space: nowrap; background: var(--void); border-bottom: 1px solid var(--nw-text-faint); padding: 2px 0; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nw-primary); flex-shrink: 0; }
+    .ticker { overflow: hidden; white-space: nowrap; background: var(--void); border-bottom: 1px solid var(--nw-text-faint); padding: 2px 0; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nw-text-mute); flex-shrink: 0; }
     .ticker .scroll { display: inline-block; animation: ticker-scroll 80s linear infinite; padding-left: 100%; }
     @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
     .dashboard { display: flex; gap: 2px; flex: 1; padding: 2px; min-height: 0; }
@@ -37,7 +37,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
     .dash-row { display: grid; gap: 2px; flex-shrink: 0; }
     .dash-row.r1 { grid-template-columns: 1.2fr 1fr; min-height: 360px; }
     .dash-row.r2 { grid-template-columns: 1fr 1fr; }
-    .status-bar { display: flex; justify-content: space-between; padding: 3px 12px; font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--nw-text-dim); border-top: 1px solid var(--nw-text-faint); flex-shrink: 0; }
+    .status-bar { display: flex; justify-content: space-between; padding: 3px 12px; font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--nw-text-mute); border-top: 1px solid var(--nw-text-faint); flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -69,18 +69,18 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
       <!-- Row 1: Waveform + Metrics -->
       <div class="dash-row r1">
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>SIGNAL ANALYSIS</span>
-            <span class="tag">信号解析</span>
+            <span class="kanji">信号解析</span>
           </div>
           <!-- canvas waveform or chart goes here -->
         </div>
 
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>SYSTEM METRICS</span>
-            <span class="tag">指標一覧</span>
+            <span class="kanji">指標一覧</span>
           </div>
           <div class="metrics-grid">
             <div class="metric-cell">
@@ -99,17 +99,17 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
       <!-- Row 2: Data table -->
       <div class="dash-row r2">
-        <div class="panel">
+        <div class="panel nw-reticle">
           <div class="panel-header">
             <span>NODE REGISTRY</span>
-            <span class="tag">ノード登録</span>
+            <span class="kanji">ノード登録</span>
           </div>
           <table class="nw-table">
             <thead>
               <tr><th>Node</th><th>Status</th><th>CPU</th><th>Memory</th></tr>
             </thead>
             <tbody>
-              <tr><td>node-01</td><td><span class="led green"></span> Online</td><td>42%</td><td>68%</td></tr>
+              <tr><td>node-01</td><td><span class="led" data-state="ok"></span> Online</td><td>42%</td><td>68%</td></tr>
             </tbody>
           </table>
         </div>
@@ -119,8 +119,8 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
     <!-- Right column: Event log -->
     <div class="dash-right">
-      <div style="background:var(--void-warm);border:1px solid var(--nw-text-faint);display:flex;flex-direction:column;flex:1;min-height:0;">
-        <div style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--nw-primary);padding:6px 10px 5px;border-bottom:1px solid var(--nw-primary-dim);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+      <div style="background:var(--void-warm);border:1px solid var(--nw-line);display:flex;flex-direction:column;flex:1;min-height:0;">
+        <div style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--nw-text-mute);padding:6px 10px 5px;border-bottom:1px solid var(--nw-line);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
           <span>EVENT LOG</span>
           <span style="font-size:7px;color:var(--nw-green)">42 entries</span>
         </div>
@@ -138,7 +138,7 @@ Full-viewport, dense panel grid with 2px gaps. This is the signature Nightwire l
 
   <!-- Status bar -->
   <div class="status-bar">
-    <span><span class="led green"></span> SYSTEM ONLINE</span>
+    <span><span class="led" data-state="ok"></span> SYSTEM ONLINE</span>
     <span>NODES: 42 │ TOKENS: 847K │ UPTIME: 99.9%</span>
     <span id="clock">14:32:07 JST</span>
   </div>
@@ -178,7 +178,7 @@ For personal sites, project showcases, and developer profiles.
 <section style="padding:var(--sp-12) var(--sp-8); max-width:1200px; margin:0 auto">
   <div class="panel-header" style="background:var(--void); margin-bottom:16px">
     <span>SELECTED WORK</span>
-    <span class="tag">プロジェクト</span>
+    <span class="kanji">プロジェクト</span>
   </div>
   <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px">
     <div class="card">
@@ -243,7 +243,7 @@ For articles, documentation pages, and long-form content.
 
     <!-- Code block -->
     <div class="panel" style="margin:24px 0">
-      <div class="panel-header"><span>CODE EXAMPLE</span><span class="tag">コード</span></div>
+      <div class="panel-header"><span>CODE EXAMPLE</span><span class="kanji">コード</span></div>
       <pre style="margin:0; padding:12px; font-size:13px; line-height:1.5; overflow-x:auto; background:transparent">const config = {
   void: '#000000',
   primary: '#6699ff'
@@ -287,11 +287,12 @@ For product pages, marketing sites, and feature announcements.
 <section style="padding:var(--sp-12) var(--sp-8); max-width:1100px; margin:0 auto">
   <div class="panel-header" style="background:var(--void); margin-bottom:24px; text-align:center">
     <span>FEATURES</span>
-    <span class="tag">機能</span>
+    <span class="kanji">機能</span>
   </div>
-  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2px">
+  <!-- Open look: no frame. The 2px gap only works between framed panels, so an open grid uses a wide gap. -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:var(--sp-8)">
     <div class="panel">
-      <div class="panel-header"><span>FEATURE ONE</span><span class="tag">機能一</span></div>
+      <div class="panel-header"><span>FEATURE ONE</span><span class="kanji">機能一</span></div>
       <div class="panel-body">
         <p style="font-size:13px; line-height:1.5; color:var(--nw-text-dim)">
           Feature description. Keep it short and benefit-focused.
@@ -350,8 +351,8 @@ For technical docs, API references, and component libraries.
       </div>
 
       <!-- Live Preview -->
-      <div class="panel" style="margin-bottom:2px">
-        <div class="panel-header"><span>PREVIEW</span><span class="tag">プレビュー</span></div>
+      <div class="panel nw-reticle" style="margin-bottom:2px">
+        <div class="panel-header"><span>PREVIEW</span><span class="kanji">プレビュー</span></div>
         <div class="panel-body" style="display:flex; gap:8px">
           <button class="btn">Primary</button>
           <button class="btn-ghost">Ghost</button>
@@ -361,7 +362,7 @@ For technical docs, API references, and component libraries.
 
       <!-- API Reference Table -->
       <div class="panel">
-        <div class="panel-header"><span>CSS CLASSES</span><span class="tag">クラス</span></div>
+        <div class="panel-header"><span>CSS CLASSES</span><span class="kanji">クラス</span></div>
         <table class="nw-table">
           <thead>
             <tr><th>Class</th><th>Description</th><th>Use For</th></tr>
@@ -455,9 +456,9 @@ For portfolios, landing pages, and documentation sites.
 
 ---
 
-## v2-alpha — Layout primitives
+## Layout primitives
 
-v1's `.console-wrapper` / `.dashboard` / `.dash-left|right` are coupled to a single ops-console layout. v2 adds **composable primitives** that work for any layout (blog, portfolio, SaaS, docs, dashboard, console).
+`.console-wrapper` / `.dashboard` / `.dash-left|right` (the Operations Console pattern above) are coupled to a single ops-console layout. The **composable primitives** below work for any layout (blog, portfolio, SaaS, docs, dashboard, console).
 
 ```css
 .nw-frame   { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
@@ -502,18 +503,18 @@ Combine with `data-intensity="archive"` on `<html>` to drop glow and increase pa
   <header>...</header>
   <div class="nw-stack" style="flex:1; gap:2px; padding:2px">
     <div class="nw-cluster" style="gap:2px; grid-template-columns:1.6fr 1fr">
-      <div class="panel">stat strip</div>
+      <div class="panel nw-reticle">stat strip</div>
     </div>
     <div style="display:grid; grid-template-columns:1.6fr 1fr; gap:2px; flex:1; min-height:0">
-      <div class="panel">events table</div>
-      <div class="panel">oracle</div>
+      <div class="panel nw-reticle">events table</div>
+      <div class="panel nw-reticle">oracle</div>
     </div>
   </div>
   <footer>...</footer>
 </div>
 ```
 
-Combine with `data-intensity="combat"` on `<html>` for high-density ops feel.
+Combine with `data-intensity="combat"` on `<html>` for high-density ops feel. The panels carry `nw-reticle` because a bare `.panel` has no edge: without it the 2px gaps separate nothing.
 
 ### Density-aware gaps
 
@@ -524,4 +525,4 @@ Combine with `data-intensity="combat"` on `<html>` for high-density ops feel.
 - Use `.nw-frame` once at the root of full-viewport layouts (dashboards, consoles).
 - Use `.nw-stack` / `.nw-cluster` instead of inline `display:flex` — keeps density consistent across the app.
 - Use `.nw-split` for the canonical 240px sidebar + main pattern; override grid-template-columns for variants.
-- Keep `.console-wrapper` (v1) if you're already using it; it still works.
+- Keep the Operations Console classes above if you're already using them; they still work.

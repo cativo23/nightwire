@@ -28,7 +28,6 @@
     font-family: var(--font-title); font-weight: 900; font-size: var(--text-xl);
     letter-spacing: 0.22em; text-transform: uppercase; color: var(--nw-chrome);
     transform: scaleX(0.82); transform-origin: left center; display: inline-block;
-    text-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(102,153,255,0.45);
   }
   .brand .kanji { font-family: var(--font-mincho); font-size: 13px; color: var(--nw-chrome-mute); letter-spacing: 0.05em; display: var(--nw-kanji-display); }
   .brand .badge-ver { font-family: var(--font-stamp); font-size: 10px; letter-spacing: 0.18em; color: var(--nw-text-mute); border: 1px solid var(--nw-line-strong); padding: 2px 6px; text-transform: uppercase; border-radius: var(--nw-panel-radius); }
@@ -38,8 +37,8 @@
   .nav-item { display: flex; align-items: center; gap: 10px; padding: calc(6px * var(--nw-pad-scale)) 16px; font-size: 13px; color: var(--nw-text-default); cursor: pointer; position: relative; user-select: none; transition: background var(--nw-tick), color var(--nw-tick); }
   .nav-item:hover { background: var(--nw-surface-2); }
   .nav-item.active { background: rgba(102,153,255,0.08); color: var(--nw-chrome); }
-  .nav-item.active::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--nw-chrome); box-shadow: 0 0 calc(10px * var(--nw-glow)) var(--nw-chrome); }
-  .nav-item .count { margin-left: auto; font-size: 10px; color: var(--nw-data); font-family: var(--font-sys); text-shadow: 0 0 calc(6px * var(--nw-glow)) rgba(122,237,122,0.5); }
+  .nav-item.active::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--nw-chrome); }
+  .nav-item .count { margin-left: auto; font-size: 10px; color: var(--nw-data); font-family: var(--font-sys); }
 
   .page { display: none; flex-direction: column; gap: 2px; flex: 1; min-height: 0; overflow: hidden; }
   .page.active { display: flex; }
@@ -61,7 +60,7 @@
   .statusbar { display: flex; justify-content: space-between; align-items: center; padding: calc(4px * var(--nw-pad-scale)) 12px; border-top: 1px solid var(--nw-line); font-size: 10px; color: var(--nw-text-mute); letter-spacing: 0.12em; text-transform: uppercase; background: var(--nw-surface-0); flex-shrink: 0; }
   .statusbar .cluster { display: flex; gap: 16px; align-items: center; }
 
-  .hud { position: fixed; right: 16px; bottom: 34px; background: var(--nw-surface-3); border: 1px solid var(--nw-line-chrome); padding: 8px 12px; font-family: var(--font-sys); font-size: 10px; color: var(--nw-text-mute); z-index: 60; border-radius: var(--radius-sm); box-shadow: 0 0 calc(10px * var(--nw-glow)) rgba(102,153,255,0.25); letter-spacing: 0.05em; display: flex; gap: 14px; align-items: center; }
+  .hud { position: fixed; right: 16px; bottom: 34px; background: var(--nw-surface-3); border: 1px solid var(--nw-line-chrome); padding: 8px 12px; font-family: var(--font-sys); font-size: 10px; color: var(--nw-text-mute); z-index: 60; border-radius: var(--radius-sm); letter-spacing: 0.05em; display: flex; gap: 14px; align-items: center; }
   .hud b { color: var(--nw-chrome); font-weight: 500; }
   .hud .v { color: var(--nw-data); }
 
@@ -79,7 +78,7 @@
   .tab-btn { font-family: var(--font-stamp); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; padding: 8px 14px; color: var(--nw-text-mute); cursor: pointer; background: transparent; border: 0; position: relative; transition: color var(--nw-tick); }
   .tab-btn:hover { color: var(--nw-text-default); }
   .tab-btn.active { color: var(--nw-chrome); }
-  .tab-btn.active::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px; background: var(--nw-chrome); box-shadow: 0 0 calc(8px * var(--nw-glow)) var(--nw-chrome); }
+  .tab-btn.active::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px; background: var(--nw-chrome); }
 
   .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 2px; }
   @media (max-width: 860px) { .dash-grid { grid-template-columns: 1fr; } }
@@ -87,7 +86,7 @@
   /* Modal overlay */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 48; display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; transition: opacity var(--nw-sweep), visibility var(--nw-sweep); }
   .modal-overlay[data-open="true"] { visibility: visible; opacity: 1; }
-  .modal-box { background: var(--nw-surface-2); border: 1px solid var(--nw-line-chrome); border-radius: var(--nw-panel-radius); width: min(420px, 90vw); padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 8px calc(40px * var(--nw-glow)) rgba(102,153,255,0.15); }
+  .modal-box { background: var(--nw-surface-2); border: 1px solid var(--nw-line-chrome); border-radius: var(--nw-panel-radius); width: min(420px, 90vw); padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--nw-elevation-overlay); }
 </style>
 </head>
 <body>
@@ -142,7 +141,7 @@
 
           <section class="panel">
             <div class="panel-header">
-              <span style="font-family:var(--font-stamp); font-size:10px; letter-spacing:var(--nw-label-spacing); text-transform:uppercase; color:var(--nw-chrome); text-shadow:0 0 calc(8px * var(--nw-glow)) rgba(102,153,255,0.5)">Fleet Pulse</span>
+              <span style="font-family:var(--font-stamp); font-size:10px; letter-spacing:var(--nw-label-spacing); text-transform:uppercase; color:var(--nw-chrome)">Fleet Pulse</span>
               <span style="display:flex; gap:10px; align-items:center; font-family:var(--font-sys); font-size:10px; color:var(--nw-text-mute)">
                 <span class="kanji" style="font-family:var(--font-mincho); display:var(--nw-kanji-display)">艦隊</span> · live
                 <span class="led" data-state="ok" data-pulse></span>
@@ -424,7 +423,7 @@
 
             <div class="show-block tab-content" data-tab="feedback" style="display:none">
               <div class="show-head"><span>Progress · Steps</span><span class="kbd">.nw-progress .steps</span></div>
-              <div class="show-row"><span class="show-note" style="width:64px">Progress</span><div class="nw-progress" style="flex:1"><div class="fill" style="width:62%"></div></div><span style="color:var(--nw-data);font-size:11px;font-family:var(--font-sys)">62%</span></div>
+              <div class="show-row"><span class="show-note" style="width:64px">Progress</span><div class="nw-progress" style="flex:1"><div class="nw-progress-fill" style="width:62%"></div></div><span style="color:var(--nw-data);font-size:11px;font-family:var(--font-sys)">62%</span></div>
               <div class="show-row"><span class="show-note" style="width:64px">Stepper</span><div class="steps" style="flex:1"><div class="step done"></div><div class="step done"></div><div class="step current"></div><div class="step"></div><div class="step"></div></div></div>
               <div class="show-head" style="margin-top:4px"><span>Empty state</span><span class="kbd">.empty</span></div>
               <div class="empty" style="padding:24px 0">

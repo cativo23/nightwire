@@ -2,7 +2,7 @@
 .code-inline {
   font-family: var(--font-sys); font-size: 0.9em;
   background: var(--nw-surface-2);
-  color: var(--nw-data);
+  color: var(--nw-text-default);
   padding: 1px 5px;
   border-radius: var(--radius-sm);
 }
@@ -11,8 +11,8 @@
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
   color: var(--nw-text-default);
-  border: 1px solid var(--nw-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   padding: 10px var(--sp-3);
   white-space: pre;
   overflow: auto;
@@ -26,11 +26,11 @@
 .diff {
   font-family: var(--font-sys); font-size: var(--text-sm);
   background: var(--nw-surface-2);
-  border: 1px solid var(--nw-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
-.diff .ln { display: flex; border-left: 2px solid transparent; }
+.diff .ln { display: flex; border-left: var(--nw-accent-width) solid transparent; }
 .diff .ln .num {
   width: 32px; text-align: right;
   color: var(--nw-text-mute);

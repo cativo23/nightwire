@@ -1,20 +1,15 @@
 /* ── Card ────────────────────────────────────────────────────── */
 
+/* A hairline outline on black, no fill (FR-027). The header look is in section-head.css. */
 .card {
-  background: var(--void-warm);
-  border: 1px solid var(--nw-text-faint);
-  border-radius: var(--radius-lg);
+  background: none;
+  border: var(--nw-hairline) solid var(--nw-line);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
 .card-header {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--nw-primary);
   padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--nw-text-faint);
 }
 
 .card-body {
@@ -23,5 +18,5 @@
 
 .card-footer {
   padding: var(--sp-3) var(--sp-4);
-  border-top: 1px solid var(--nw-text-faint);
+  border-top: var(--nw-hairline) solid var(--nw-line);
 }

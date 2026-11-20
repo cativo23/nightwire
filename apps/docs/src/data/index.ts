@@ -1,14 +1,22 @@
+import tokens from '../../../../src/tokens/tokens.json';
+import { TokenReader, KNOB_COLUMNS, motionVocab } from './tokens.mjs';
+
+// Motion, intensity and palette values are read from src/tokens/tokens.json (Principle II); only
+// the human copy (use, desc) is written here. The Layer 2 table below keeps hand-written "maps to"
+// cells and is pinned to tokens.json by tests/docs-site-tokens.test.mjs.
+const nw = new TokenReader(tokens);
+
 export const COLORS = [
-  { name: 'void', hex: '#000000', variable: '--void', desc: 'Primary background — absolute void' },
-  { name: 'void-warm', hex: '#0a0a0a', variable: '--void-warm', desc: 'Panel fill' },
-  { name: 'void-panel', hex: '#111111', variable: '--void-panel', desc: 'Inset surfaces & inputs' },
-  { name: 'void-raised', hex: '#1a1a1a', variable: '--void-raised', desc: 'Elevated elements' },
-  { name: 'primary', hex: '#6699ff', variable: '--nw-primary', desc: 'Headers & focus rings' },
-  { name: 'green', hex: '#7aed7a', variable: '--nw-green', desc: 'Data & success states' },
-  { name: 'cyan', hex: '#66ddff', variable: '--nw-cyan', desc: 'Wireframes & info' },
-  { name: 'red', hex: '#ff6688', variable: '--nw-red', desc: 'Alerts & critical errors' },
-  { name: 'yellow', hex: '#e8993a', variable: '--nw-yellow', desc: 'Warnings & degraded states' },
-  { name: 'purple', hex: '#b266e0', variable: '--nw-purple', desc: 'Accents & AI elements' },
+  { name: 'void', hex: nw.hex('--void'), variable: '--void', desc: 'Primary background — absolute void' },
+  { name: 'void-warm', hex: nw.hex('--void-warm'), variable: '--void-warm', desc: 'Metric cells, sidebar; the fill of your own box (a .panel has none)' },
+  { name: 'void-panel', hex: nw.hex('--void-panel'), variable: '--void-panel', desc: 'Inset surfaces & inputs' },
+  { name: 'void-raised', hex: nw.hex('--void-raised'), variable: '--void-raised', desc: 'Elevated elements' },
+  { name: 'primary', hex: nw.hex('--nw-primary'), variable: '--nw-primary', desc: 'Focus rings, accent lines & links (labels are neutral)' },
+  { name: 'green', hex: nw.hex('--nw-green'), variable: '--nw-green', desc: 'Data & success states' },
+  { name: 'cyan', hex: nw.hex('--nw-cyan'), variable: '--nw-cyan', desc: 'Wireframes & info' },
+  { name: 'red', hex: nw.hex('--nw-red'), variable: '--nw-red', desc: 'Alerts & critical errors' },
+  { name: 'yellow', hex: nw.hex('--nw-yellow'), variable: '--nw-yellow', desc: 'Warnings & degraded states' },
+  { name: 'purple', hex: nw.hex('--nw-purple'), variable: '--nw-purple', desc: 'Accents & AI elements' },
 ];
 
 export const FONTS = [
@@ -19,22 +27,33 @@ export const FONTS = [
 ];
 
 export const COMPONENTS = [
-  { name: '.btn', desc: 'Primary button', variants: '.btn-ghost, .btn-danger, .btn-sm' },
-  { name: '.panel', desc: 'Base container', variants: '.panel-header, .panel-body' },
-  { name: '.card', desc: 'Rounded container', variants: '.card-header, .card-body, .card-footer' },
+  { name: '.btn', desc: 'Primary button (bone, the one solid action)', variants: '.btn-ghost, .btn-danger, .btn-chrome, .btn-sm' },
+  { name: '.panel', desc: 'Open section (no fill, no outline); .nw-reticle gives it a frame', variants: '.panel-header, .panel-body, [data-idx]' },
+  { name: '.card', desc: 'Hairline outline, no fill, square corners', variants: '.card-header, .card-body, .card-footer' },
   { name: '.metrics-grid', desc: '2-col data grid', variants: '.metric-cell, .m-label, .m-value, .m-sub' },
   { name: '.nw-table', desc: 'Data table', variants: 'th, td, td.lbl' },
   { name: '.badge', desc: 'Inline badge', variants: '.badge-success, .badge-danger, .badge-warning' },
-  { name: '.tag', desc: 'Status tag', variants: '.tag-success, .tag-danger, .tag-warning, .tag-info' },
-  { name: '.led', desc: 'Status indicator', variants: '.green, .blue, .red, .yellow, .blink' },
+  { name: '.tag', desc: 'Status tag', variants: '.tag-success, .tag-danger, .tag-warn, .tag-info, .tag-chrome' },
+  { name: '.led', desc: 'Status indicator', variants: '[data-state=ok|active|error|warn|info|ai], [data-pulse]' },
   { name: '.toast', desc: 'Notification', variants: '.toast-success, .toast-danger, .toast-warning' },
   { name: '.sidebar', desc: 'Side navigation', variants: '.sidebar-header, .sidebar-section, .sidebar-item' },
   { name: '.tabs', desc: 'Tab bar', variants: '.tab, .tab.active, .tab-panel' },
-  { name: '.nw-progress', desc: 'Progress bar', variants: '.fill' },
+  { name: '.nw-progress', desc: 'Progress bar', variants: '.nw-progress-fill' },
   { name: '.modal', desc: 'Dialog overlay', variants: '.modal-backdrop, .modal-header, .modal-body' },
   { name: '.kv-row', desc: 'Key-value pair', variants: '.kv-label, .kv-value' },
   { name: '.skeleton', desc: 'Loading state', variants: '.skeleton-text, .skeleton-heading, .skeleton-block' },
   { name: '.compressed-title', desc: 'scaleX(0.82) serif', variants: 'standalone class' },
+  { name: '.nw-section-head', desc: 'Section head: index, label, rule and kanji', variants: '.nw-section-head-chrome, [data-idx]' },
+  { name: '.nw-display', desc: 'Page-top heading face, with a muted lead', variants: '.nw-lede' },
+  { name: '.nw-chip', desc: 'Small label or link with a hairline outline', variants: '.nw-chip-solid, .sq, .star' },
+  { name: '.nw-index', desc: 'Two-column kanji index', variants: '.nw-index-row, .kanji, .name, .count, .items' },
+  { name: '.nw-accordion', desc: 'FAQ on native details, no JavaScript', variants: 'details, summary, .answer' },
+  { name: '.nw-link-arrow', desc: 'Chrome label link with an arrow', variants: 'standalone class' },
+  { name: '.nw-reticle', desc: 'Opt-in frame with corner arms, alone or on a .panel', variants: '.nw-reticle-meta, -vlabel, -stamp, -foot' },
+  { name: '.nw-halftone', desc: 'Halftone treatment over any img', variants: '.nw-halftone-layer, -chrome, -data, -bone, -fine' },
+  { name: '.nw-barcode', desc: 'Decorative bar strip in the text colour', variants: 'standalone class' },
+  { name: '.nw-wordmark', desc: 'Outlined display word for footers and covers', variants: 'standalone class' },
+  { name: '.nw-grain', desc: 'Film grain over the page, on <body> only', variants: '--nw-grain knob' },
 ];
 
 // ── Sidebar structure ──────────────────────────────────────────────────────
@@ -43,15 +62,11 @@ export const COMPONENTS = [
 // Grouping follows a Foundation / Components / Patterns model, inspired by Polaris, Geist and
 // Atlassian.
 //
-// v2-alpha additions get an inline `isNewV2` flag so the Sidebar can pin a small
-// "v2" chip next to the label, and NewBadge renders the full "NEW IN V2" pill —
-// together they form a two-tier visual system (chip for sidebar, badge for page headers).
 
 export type SidebarItem = {
   id: string;
   label: string;
   kanji: string;
-  isNewV2?: boolean;
 };
 
 export type SidebarGroup = {
@@ -79,7 +94,7 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
       { id: 'typography',    label: 'Typography',        kanji: 'タイポ' },
       { id: 'surfaces',      label: 'Surface Hierarchy', kanji: 'サーフェス' },
       { id: 'spacing',       label: 'Spacing Scale',     kanji: 'スペース' },
-      { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層', isNewV2: true },
+      { id: 'layer2-tokens', label: 'Layer 2 Tokens',    kanji: '意味層' },
     ],
   },
   {
@@ -91,6 +106,7 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
       { id: 'data',            label: 'Data Display',       kanji: 'データ' },
       { id: 'feedback',        label: 'Feedback & Status',  kanji: '応答' },
       { id: 'panels',          label: 'Panel Anatomy',      kanji: '構造' },
+      { id: 'pieces',          label: 'Mockup Pieces',      kanji: '新部品' },
       { id: 'more-components', label: 'More Components',    kanji: '追加部品' },
     ],
   },
@@ -98,7 +114,7 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
     section: 'Patterns',
     kanji: '応用',
     items: [
-      { id: 'intensity', label: 'Intensity System', kanji: '強度', isNewV2: true },
+      { id: 'intensity', label: 'Intensity System', kanji: '強度' },
       { id: 'templates', label: 'Layout Templates', kanji: '型紙' },
       { id: 'examples',  label: 'Live Examples',    kanji: 'デモ' },
     ],
@@ -106,74 +122,49 @@ export const SIDEBAR_GROUPS: SidebarGroup[] = [
 ];
 
 
+// Which knobs each column shows (KNOB_COLUMNS) is a display choice; the values come from the JSON.
 export const INTENSITY_MODES = [
   {
     id: 'archive',
     label: 'Archive',
     kanji: '保管',
-    desc: 'Docs, blogs, low-glow. Glow off, paused pulses, larger padding, no kanji, slower motion.',
-    knobs: {
-      '--nw-glow': '0',
-      '--nw-motion-scale': '0.6',
-      '--nw-pad-scale': '1.35',
-      '--nw-base-font': '15px',
-      '--nw-pulse-state': 'paused',
-      '--nw-kanji-display': 'none',
-      '--nw-panel-radius': '2px',
-      '--nw-value-weight': '400',
-      '--nw-header-gradient': 'none',
-    },
+    desc: 'Docs, blogs. No glow, paused pulses, larger padding, no kanji, slower motion.',
+    knobs: nw.knobs('archive', KNOB_COLUMNS.archive),
   },
   {
     id: 'operator',
     label: 'Operator',
     kanji: '通常',
-    desc: 'Default. Identical to v1 Nightwire look. Subtle glow, comfortable density, kanji visible.',
-    knobs: {
-      '--nw-glow': '1',
-      '--nw-motion-scale': '1',
-      '--nw-pad-scale': '1',
-      '--nw-base-font': '14px',
-      '--nw-pulse-state': 'running',
-      '--nw-kanji-display': 'inline',
-      '--nw-panel-radius': '0',
-      '--nw-value-weight': '500',
-      '--nw-header-gradient': 'linear-gradient(180deg, rgba(102,153,255,0.06), transparent 80%)',
-    },
+    desc: 'Default. Neutral look with a subtle state glow, comfortable density, kanji visible.',
+    knobs: nw.knobs('operator', KNOB_COLUMNS.operator),
   },
   {
     id: 'combat',
     label: 'Combat',
     kanji: '戦闘',
-    desc: 'Ops console, high glow, dense. Extra glow, faster pulses, denser padding, scanline overlay on headers.',
-    knobs: {
-      '--nw-glow': '2.2',
-      '--nw-motion-scale': '1.2',
-      '--nw-density': '0.85',
-      '--nw-pad-scale': '0.7',
-      '--nw-base-font': '13px',
-      '--nw-pulse-speed': '0.7s',
-      '--nw-header-gradient': 'linear-gradient(180deg, rgba(102,153,255,0.18), transparent 70%)',
-      '--nw-header-pattern': 'repeating-linear-gradient(0deg, rgba(102,153,255,0.05) 0 1px, transparent 1px 3px)',
-    },
+    desc: 'Ops console, dense. State signals glow twice as bright, faster pulses, denser padding.',
+    knobs: nw.knobs('combat', KNOB_COLUMNS.combat),
   },
 ];
 
 export const LAYER2_TOKENS = [
   // Surfaces
   { token: '--nw-surface-0', maps: '--void',         desc: 'Page background' },
-  { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Panels, cards' },
+  { token: '--nw-surface-1', maps: '--void-warm',    desc: 'Metric cells, sidebar (a .panel itself has no fill)' },
   { token: '--nw-surface-2', maps: '--void-panel',   desc: 'Modals, inputs' },
   { token: '--nw-surface-3', maps: '--void-raised',  desc: 'Dropdowns, tooltips' },
-  { token: '--nw-surface-4', maps: '#242424',        desc: 'NEW — Overlays' },
+  { token: '--nw-surface-4', maps: '#242424',        desc: 'Highest surface tier (no component uses it yet)' },
   // Text tiers
   { token: '--nw-text-strong',   maps: '#ffffff', desc: 'Headings, critical values' },
-  { token: '--nw-text-default',  maps: '#e6e6e6', desc: 'Body text (NEW tier)' },
-  { token: '--nw-text-mute',     maps: '#aaaaaa', desc: 'Captions, sub-labels' },
-  { token: '--nw-text-disabled', maps: '#5a5a5a', desc: 'Disabled (NEW tier)' },
+  { token: '--nw-text-default',  maps: '#e6e6e6', desc: 'Body and table text' },
+  { token: '--nw-text-mute',     maps: '#aaaaaa', desc: 'Labels, headers, captions' },
+  { token: '--nw-text-disabled', maps: '#5a5a5a', desc: 'Disabled' },
   // Semantic roles
-  { token: '--nw-chrome',        maps: '--nw-primary',     desc: 'UI chrome, headers, focus' },
+  { token: '--nw-chrome',        maps: '--nw-primary',     desc: 'Focus, accent lines, chrome actions' },
   { token: '--nw-chrome-mute',   maps: '--nw-primary-dim', desc: 'Subdued chrome' },
+  { token: '--nw-action',        maps: '--nw-text-default', desc: 'The one solid action (.btn), bone' },
+  { token: '--nw-action-hot',    maps: '--nw-chrome-hot',   desc: 'Action hover' },
+  { token: '--nw-action-text',   maps: '--void',            desc: 'Text on the action fill' },
   { token: '--nw-data',          maps: '--nw-green',       desc: 'Data values, success' },
   { token: '--nw-data-mute',     maps: '--nw-green-dim',   desc: 'Subdued data' },
   { token: '--nw-signal-info',   maps: '--nw-cyan',        desc: 'Info, metadata' },
@@ -183,57 +174,21 @@ export const LAYER2_TOKENS = [
   { token: '--nw-ai-mute',       maps: '--nw-purple-dim',  desc: 'Subdued AI' },
   // Lines
   { token: '--nw-line',          maps: '--nw-text-line',                desc: 'Standard divider' },
-  { token: '--nw-line-strong',   maps: 'rgba(255,255,255,0.18)',        desc: 'Stronger divider' },
+  { token: '--nw-line-strong',   maps: 'rgba(255,255,255,0.36)',        desc: 'Control boundary (3:1)' },
   { token: '--nw-line-chrome',   maps: 'rgba(102,153,255,0.35)',        desc: 'Chrome-tinted divider' },
+  { token: '--nw-hairline',      maps: '1px',                           desc: 'Every structural border' },
+  { token: '--nw-rule',          maps: '1.5px',                         desc: 'Marks drawn inside controls' },
+  { token: '--nw-accent-width',  maps: '2px',                           desc: 'Accent bars: tabs, sidebar, diff, toast' },
+  // Focus, overlay and the mockup additions
+  { token: '--nw-focus-ring',        maps: '--nw-chrome',                    desc: 'Colour of the focus outline' },
+  { token: '--nw-elevation-overlay', maps: '0 24px 64px rgba(0, 0, 0, 0.7)', desc: 'The only drop shadow: modal, drawer, command palette' },
+  { token: '--nw-chip-line',         maps: 'rgba(255,255,255,0.18)',         desc: 'Border of .nw-chip' },
+  { token: '--nw-bone',              maps: '#d8d2c8',                        desc: 'Tint of .nw-halftone-bone' },
+  { token: '--nw-grain',             maps: '0.07',                           desc: 'Film grain opacity of .nw-grain; 0 at archive, 0.1 at combat' },
+  { token: '--nw-kanji-glow',        maps: 'calc(20px * var(--nw-glow))',    desc: 'Kanji glow of the chrome section head and the hovered index row; 0 at archive' },
 ];
 
-export const COMPONENTS_V2 = [
-  // Forms
-  { name: '.field',       category: 'forms',    desc: 'Form field wrapper', variants: '.field.error, .field.success' },
-  { name: '.switch',      category: 'forms',    desc: 'Toggle switch',      variants: '.track, .lbl' },
-  { name: '.check',       category: 'forms',    desc: 'Checkbox',           variants: '.box' },
-  { name: '.radio',       category: 'forms',    desc: 'Radio button',       variants: '.box' },
-  { name: '.combo',       category: 'forms',    desc: 'Multiselect with chips', variants: '.chip, .x' },
-  { name: '.kbd',         category: 'forms',    desc: 'Keyboard chip',      variants: 'inline' },
-  { name: '.seg',         category: 'forms',    desc: 'Segmented control',  variants: 'aria-pressed' },
-  // Overlays
-  { name: '.drawer',      category: 'overlays', desc: 'Right slide-in detail panel', variants: '.drawer-backdrop, .drawer-header, .drawer-body' },
-  { name: '.cmdk',        category: 'overlays', desc: 'Command palette',    variants: '.cmdk-backdrop, .cmdk-section, .cmdk-item' },
-  { name: '.modal-title', category: 'overlays', desc: 'Non-flex header label',  variants: 'companion to modal-header' },
-  // Data display
-  { name: '.code-block',  category: 'data',     desc: 'Syntax-highlighted code', variants: '.tok-k, .tok-s, .tok-c, .tok-n, .tok-fn' },
-  { name: '.code-inline', category: 'data',     desc: 'Inline code chip',   variants: 'inline' },
-  { name: '.diff',        category: 'data',     desc: 'Add/del diff view',  variants: '.ln.add, .ln.del, .num, .code-content' },
-  { name: '.steps',       category: 'data',     desc: 'Stepper bar',        variants: '.step.done, .step.current' },
-  { name: '.stat',        category: 'data',     desc: 'Stat card with sparkline', variants: '.stat-label, .stat-value, .stat-delta, .stat-spark' },
-  // State & feedback
-  { name: '.empty',       category: 'feedback', desc: 'Empty state',        variants: '.glyph, .head, .sub' },
-  { name: '.ai-block',    category: 'feedback', desc: 'Purple-accented suggestion strip', variants: '.ai-block-head, .ai-block-body' },
-  { name: '.banner',      category: 'feedback', desc: 'System-wide notice', variants: '.banner-tag' },
-  { name: '.led[data-state]', category: 'feedback', desc: 'LED with state attribute', variants: 'ok | warn | error | info | ai · [data-pulse]' },
-  // Tag & button variants
-  { name: '.tag-chrome',  category: 'variants', desc: 'System/UI tag (blue)' },
-  { name: '.tag-warn',    category: 'variants', desc: 'Degraded tag (amber)' },
-  { name: '.tag-ai',      category: 'variants', desc: 'AI/oracle tag (purple)' },
-  { name: '.btn-success', category: 'variants', desc: 'Green outline button' },
-  { name: '.btn-ai',      category: 'variants', desc: 'Purple outline button' },
-  { name: '.btn-icon',    category: 'variants', desc: 'Square icon-only button' },
-  { name: '.btn-xs',      category: 'variants', desc: 'Extra small button' },
-  { name: '.btn-lg',      category: 'variants', desc: 'Large button' },
-  { name: '.btn-loading', category: 'variants', desc: 'Spinner-prefixed button' },
-  // Layout primitives
-  { name: '.nw-frame',    category: 'layout',   desc: '100vh flex column with overflow hidden' },
-  { name: '.nw-stack',    category: 'layout',   desc: 'Vertical flex with density-aware gap' },
-  { name: '.nw-cluster',  category: 'layout',   desc: 'Horizontal wrapping flex' },
-  { name: '.nw-split',    category: 'layout',   desc: 'Sidebar + main grid (240px / 1fr)' },
-];
-
-export const MOTION_VOCAB = [
-  { token: '--nw-tick',   value: '150ms cubic-bezier(0.3, 0, 0.7, 1)',    use: 'Clicks, toggles, micro-feedback' },
-  { token: '--nw-sweep',  value: '350ms cubic-bezier(0.2, 0.8, 0.2, 1)',  use: 'Panels enter/exit, modal/drawer' },
-  { token: '--nw-uplink', value: '400ms cubic-bezier(0, 0.6, 0.4, 1)',    use: 'Data load reveal (staggered)' },
-  { token: '--nw-pulse',  value: '--nw-pulse-speed (1.4s default, 0.7s in combat)', use: 'LED heartbeat (state-driven)' },
-];
+export const MOTION_VOCAB = motionVocab(nw);
 
 export type EventEntry = { time: string; type: string; detail: string; metric: string };
 
@@ -242,7 +197,7 @@ export function makeEvent(): EventEntry {
   const details = [
     'Component tree reconciled', 'Token palette validated', 'Panel layout recalculated',
     'Waveform buffer flushed', 'Metrics grid recomputed', 'Font stack loaded: 4/4',
-    'CSS custom properties: 42 active', 'Design token sync complete', 'Surface hierarchy verified',
+    `CSS custom properties: ${__NW_TOKEN_COUNT__} active`, 'Design token sync complete', 'Surface hierarchy verified',
     'Glow shader compiled', 'DOM elements mounted',
   ];
   const t = types[Math.floor(Math.random() * types.length)];

@@ -18,83 +18,19 @@
 }
 </script>
 
+<link rel="stylesheet" href="../../nightwire.css">
+
 <style>
 /* ═══════════════════════════════════════════════════════════════
    NEURON-OPS — Neural Network Operations Center
    Nightwire Design System. Every pixel conveys information.
+   Tokens, panel, table, LED and metric looks come from nightwire.css;
+   this block keeps only the page layout and its dense sizing.
    ═══════════════════════════════════════════════════════════════ */
 
-:root {
-  --void:             #000000;
-  --void-warm:        #0a0a0a;
-  --void-panel:       #111111;
-  --void-raised:      #1a1a1a;
-
-  --nw-primary:       #6699ff;
-  --nw-primary-dim:   #4477cc;
-  --nw-primary-hot:   #99bbff;
-  --nw-primary-fill:  rgba(102, 153, 255, 0.08);
-
-  --nw-green:         #7aed7a;
-  --nw-green-dim:     #5cb85c;
-  --nw-green-faint:   rgba(122, 237, 122, 0.06);
-  --nw-green-fill:    rgba(122, 237, 122, 0.1);
-
-  --nw-cyan:          #66ddff;
-  --nw-cyan-dim:      #44aacc;
-  --nw-cyan-glow:     rgba(102, 221, 255, 0.12);
-
-  --nw-red:           #ff6688;
-  --nw-red-dim:       #cc4466;
-  --nw-red-hot:       #ff99aa;
-  --nw-red-fill:      rgba(255, 102, 136, 0.15);
-
-  --nw-yellow:        #e8993a;
-  --nw-purple:        #b266e0;
-
-  --nw-text:          #ffffff;
-  --nw-text-dim:      #aaaaaa;
-  --nw-text-faint:    rgba(255, 255, 255, 0.06);
-  --nw-text-line:     rgba(255, 255, 255, 0.12);
-
-  --font-title:  'Noto Serif Display', 'Times New Roman', serif;
-  --font-mincho: 'Shippori Mincho B1', 'YuMincho', serif;
-  --font-sys:    'JetBrains Mono', 'Cascadia Mono', monospace;
-  --font-stamp:  'Saira Extra Condensed', 'Impact', sans-serif;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { background: var(--void); color: var(--nw-green); }
-
-body {
-  font-family: var(--font-sys);
-  font-size: 14px;
-  line-height: 1.5;
-  background: var(--void);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; }
-}
-
-/* ── GLOW EFFECTS ─────────────────────────────────────────── */
-.glow-green { text-shadow: 0 0 8px rgba(122,237,122,0.5), 0 0 16px rgba(122,237,122,0.2); }
-.glow-blue { text-shadow: 0 0 8px rgba(102,153,255,0.5), 0 0 16px rgba(102,153,255,0.2); }
-.glow-cyan { text-shadow: 0 0 8px rgba(102,221,255,0.5), 0 0 16px rgba(102,221,255,0.2); }
-.glow-red { text-shadow: 0 0 8px rgba(255,102,136,0.5), 0 0 16px rgba(255,102,136,0.3); }
-.glow-purple { text-shadow: 0 0 8px rgba(178,102,224,0.5), 0 0 16px rgba(178,102,224,0.2); }
-
-/* ── COMPRESSED TITLE ─────────────────────────────────────── */
-.compressed-title {
-  font-family: var(--font-title);
-  font-weight: 900;
-  transform: scaleX(0.82);
-  transform-origin: left center;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
+/* The page reads as a data readout, so unset text inherits the data colour. */
+html { color: var(--nw-data); }
+body { overflow-x: hidden; }
 
 /* ── NAVIGATION ───────────────────────────────────────────── */
 .nw-nav {
@@ -102,7 +38,7 @@ body {
   align-items: center;
   padding: 10px 16px;
   background: var(--void);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: 1px solid var(--nw-line);
   gap: 20px;
   z-index: 100;
   flex-shrink: 0;
@@ -113,7 +49,7 @@ body {
   font-size: 24px;
   font-weight: 900;
   letter-spacing: 0.25em;
-  color: var(--nw-primary);
+  color: var(--nw-chrome);
   text-transform: uppercase;
   transform: scaleX(0.82);
   transform-origin: left center;
@@ -124,7 +60,7 @@ body {
   font-family: var(--font-sys);
   font-size: 9px;
   letter-spacing: 0.12em;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   display: block;
   transform: scaleX(1.22);
   font-weight: 400;
@@ -134,7 +70,7 @@ body {
   font-family: var(--font-mincho);
   font-size: 15px;
   font-weight: 800;
-  color: var(--nw-primary-dim);
+  color: var(--nw-text-mute);
   transform: scaleX(0.8);
   transform-origin: left;
 }
@@ -150,13 +86,13 @@ body {
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   text-decoration: none;
   padding: 4px 8px;
   transition: color 0.15s;
 }
 
-.nw-nav a:hover, .nw-nav a.active { color: var(--nw-primary); }
+.nw-nav a:hover, .nw-nav a.active { color: var(--nw-chrome); }
 
 /* ── TICKER ───────────────────────────────────────────────── */
 .ticker {
@@ -169,7 +105,7 @@ body {
   font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   flex-shrink: 0;
 }
 
@@ -184,10 +120,8 @@ body {
   to { transform: translateX(-100%); }
 }
 
-/* ── PANEL (base component) ───────────────────────────────── */
+/* ── PANEL (dense sizing over the shipped .panel) ────────── */
 .panel {
-  background: var(--void-warm);
-  border: 1px solid var(--nw-text-faint);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -195,23 +129,15 @@ body {
 }
 
 .panel-header {
-  font-family: var(--font-sys);
   font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--nw-primary);
   padding: 6px 10px 5px;
-  border-bottom: 1px solid var(--nw-primary-dim);
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
 }
 
 .panel-header .tag {
   font-size: 7px;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   letter-spacing: 0.08em;
 }
 
@@ -272,79 +198,26 @@ body {
 }
 
 /* ── LED ──────────────────────────────────────────────────── */
-.led {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  margin-right: 4px;
-  vertical-align: middle;
-}
-.led.green { background: var(--nw-green); box-shadow: 0 0 4px var(--nw-green), 0 0 8px rgba(122,237,122,0.3); }
-.led.red { background: var(--nw-red); box-shadow: 0 0 4px var(--nw-red); }
-.led.blue { background: var(--nw-primary); box-shadow: 0 0 4px var(--nw-primary); }
-.led.cyan { background: var(--nw-cyan); box-shadow: 0 0 4px var(--nw-cyan); }
-.led.purple { background: var(--nw-purple); box-shadow: 0 0 4px var(--nw-purple); }
-.led.yellow { background: var(--nw-yellow); box-shadow: 0 0 4px var(--nw-yellow); }
-@keyframes led-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-.led.blink { animation: led-blink 1s ease-in-out infinite; }
+/* The dense LED is one pixel smaller than the shipped 6px. */
+.led { width: 5px; height: 5px; }
 
-/* ── METRICS GRID ─────────────────────────────────────────── */
-.metrics-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--nw-text-faint);
-  flex: 1;
-}
+/* ── METRICS GRID (dense sizing over the shipped one) ─────── */
+.metrics-grid { flex: 1; }
 
 .metric-cell {
-  background: var(--void-warm);
   padding: 8px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.metric-cell .m-label {
-  font-size: 7px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--nw-primary);
-  margin-bottom: 2px;
-}
+.metric-cell .m-label { font-size: 7px; }
+.metric-cell .m-value { font-size: 18px; }
+.metric-cell .m-sub { font-size: 7px; letter-spacing: 0.06em; }
+.metric-cell.highlight .m-value { font-size: 22px; }
 
-.metric-cell .m-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--nw-green);
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 6px rgba(122,237,122,0.4), 0 0 12px rgba(122,237,122,0.15);
-  line-height: 1.1;
-}
-
-.metric-cell .m-sub {
-  font-size: 7px;
-  color: var(--nw-text-dim);
-  margin-top: 2px;
-  letter-spacing: 0.06em;
-}
-
-.metric-cell.highlight .m-value {
-  color: var(--nw-primary);
-  text-shadow: 0 0 6px rgba(102,153,255,0.4), 0 0 12px rgba(102,153,255,0.15);
-  font-size: 22px;
-}
-
-.metric-cell.accent .m-value {
-  color: var(--nw-cyan);
-  text-shadow: 0 0 6px rgba(102,221,255,0.4), 0 0 12px rgba(102,221,255,0.15);
-}
-
-.metric-cell.warn .m-value {
-  color: var(--nw-yellow);
-  text-shadow: 0 0 6px rgba(232,153,58,0.4), 0 0 12px rgba(232,153,58,0.15);
-}
+.metric-cell.accent .m-value { color: var(--nw-signal-info); }
+.metric-cell.warn .m-value { color: var(--nw-signal-warn); }
 
 /* ── THREE.JS VIEWPORT ───────────────────────────────────── */
 .three-viewport {
@@ -365,7 +238,7 @@ body {
   font-size: 7px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--nw-primary-dim);
+  color: var(--nw-text-mute);
   z-index: 2;
   background: rgba(0,0,0,0.65);
   padding: 2px 6px;
@@ -377,12 +250,12 @@ body {
   left: 8px;
   font-family: var(--font-sys);
   font-size: 9px;
-  color: var(--nw-cyan);
+  color: var(--nw-signal-info);
   z-index: 2;
   line-height: 1.5;
   background: rgba(0,0,0,0.65);
   padding: 4px 8px;
-  border-left: 1px solid var(--nw-primary-dim);
+  border-left: 1px solid var(--nw-line);
 }
 
 /* ── CANVAS WAVEFORM ──────────────────────────────────────── */
@@ -401,8 +274,7 @@ body {
   right: 8px;
   font-size: 20px;
   font-weight: 700;
-  color: var(--nw-green);
-  text-shadow: 0 0 6px rgba(122,237,122,0.8), 0 0 12px rgba(122,237,122,0.5), 0 0 24px rgba(122,237,122,0.3);
+  color: var(--nw-data);
   z-index: 2;
 }
 
@@ -413,7 +285,7 @@ body {
   font-size: 7px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   z-index: 2;
 }
 
@@ -422,7 +294,7 @@ body {
   bottom: 4px;
   right: 8px;
   font-size: 7px;
-  color: var(--nw-primary-dim);
+  color: var(--nw-text-mute);
   letter-spacing: 0.08em;
   z-index: 2;
 }
@@ -432,7 +304,7 @@ body {
   bottom: 4px;
   left: 8px;
   font-size: 7px;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   z-index: 2;
   display: flex;
   gap: 12px;
@@ -480,7 +352,7 @@ body {
 }
 
 .node-card .nc-row:last-child { border-bottom: none; }
-.node-card .nc-row .lbl { color: var(--nw-primary-dim); text-transform: uppercase; letter-spacing: 0.06em; font-size: 8px; }
+.node-card .nc-row .lbl { color: var(--nw-text-mute); text-transform: uppercase; letter-spacing: 0.06em; font-size: 8px; }
 .node-card .nc-row .val { color: var(--nw-green); font-weight: 500; font-variant-numeric: tabular-nums; }
 
 .node-card .nc-status {
@@ -501,7 +373,7 @@ body {
 
 .magi-source {
   padding: 6px 8px;
-  border: 1px solid var(--nw-cyan-dim);
+  border: 1px solid var(--nw-line);
   background: var(--void);
   display: flex;
   align-items: center;
@@ -529,7 +401,7 @@ body {
 
 .magi-source .ms-meta {
   font-size: 7px;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   margin-left: auto;
   text-align: right;
   line-height: 1.4;
@@ -550,68 +422,33 @@ body {
   font-size: 8px;
   text-align: center;
   padding: 4px;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  border-top: 1px solid var(--nw-cyan-dim);
+  border-top: 1px solid var(--nw-line);
 }
 
 .magi-consensus span { font-weight: 700; }
 
-/* ── DATA TABLE ───────────────────────────────────────────── */
-.nw-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-sys);
-  font-size: 10px;
-}
-
-.nw-table th {
-  font-size: 7px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-align: left;
-  padding: 4px 8px;
-  color: var(--nw-primary);
-  border-bottom: 1px solid var(--nw-primary-dim);
-}
-
-.nw-table td {
-  padding: 3px 8px;
-  color: var(--nw-green);
-  border-bottom: 1px solid var(--nw-text-faint);
-  font-variant-numeric: tabular-nums;
-  font-weight: 500;
-}
+/* ── DATA TABLE (dense sizing over the shipped .nw-table) ─── */
+.nw-table { font-size: 10px; }
+.nw-table th { font-size: 7px; padding: 4px 8px; }
+.nw-table td { padding: 3px 8px; }
 
 .nw-table td.lbl {
-  color: var(--nw-primary-dim);
+  color: var(--nw-text-mute);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 8px;
   font-weight: 400;
 }
 
-.nw-table tr:hover td { background: var(--nw-green-faint); }
-
-.nw-progress {
-  height: 3px;
-  background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
-  overflow: hidden;
-  min-width: 60px;
-}
-.nw-progress .fill {
-  height: 100%;
-  background: var(--nw-green);
-  box-shadow: 0 0 4px rgba(122,237,122,0.3);
-}
+.nw-progress { height: 3px; min-width: 60px; }
 
 /* ── EVENT LOG ────────────────────────────────────────────── */
 .event-log {
   background: var(--void-warm);
-  border: 1px solid var(--nw-text-faint);
+  border: 1px solid var(--nw-line);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -624,9 +461,9 @@ body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: 6px 10px 5px;
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: 1px solid var(--nw-line);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -663,13 +500,13 @@ body {
   border-left: 2px solid transparent;
 }
 
-.ev:hover { background: var(--nw-green-faint); }
+.ev:hover { background: var(--nw-text-faint); }
 
-.ev .ev-time { color: var(--nw-text-dim); min-width: 52px; flex-shrink: 0; }
+.ev .ev-time { color: var(--nw-text-mute); min-width: 52px; flex-shrink: 0; }
 .ev .ev-type { min-width: 62px; font-weight: 700; letter-spacing: 0.04em; flex-shrink: 0; }
 .ev .ev-detail { color: var(--nw-text); flex: 1; overflow: hidden; text-overflow: ellipsis; }
 .ev .ev-metric { color: var(--nw-green); min-width: 75px; text-align: right; flex-shrink: 0; }
-.ev .ev-node { color: var(--nw-text-dim); font-size: 8px; min-width: 65px; text-align: right; flex-shrink: 0; }
+.ev .ev-node { color: var(--nw-text-mute); font-size: 8px; min-width: 65px; text-align: right; flex-shrink: 0; }
 
 .ev-type.inference { color: var(--nw-green); }
 .ev-type.training  { color: var(--nw-cyan); }
@@ -713,7 +550,7 @@ body {
   flex: 1;
   height: 8px;
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
+  border: 1px solid var(--nw-line);
   overflow: hidden;
   position: relative;
 }
@@ -741,7 +578,7 @@ body {
   font-size: 7px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   border-top: 1px solid var(--nw-text-faint);
   flex-shrink: 0;
 }
@@ -761,7 +598,7 @@ body {
   font-size: 7px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   z-index: 2;
 }
 .heatmap-wrap .hm-readout {
@@ -770,8 +607,7 @@ body {
   right: 8px;
   font-size: 12px;
   font-weight: 700;
-  color: var(--nw-purple);
-  text-shadow: 0 0 6px rgba(178,102,224,0.6);
+  color: var(--nw-ai);
   z-index: 2;
 }
 </style>
@@ -812,23 +648,23 @@ body {
     <div class="dash-row r1">
 
       <!-- 3D Neural Network Visualization -->
-      <div class="panel">
+      <div class="panel nw-reticle">
         <div class="panel-header">
           <span>Neural Topology — Live Inference Graph</span>
           <span class="tag">神経接続構造</span>
         </div>
         <div class="three-viewport" id="neuralViewport">
           <div class="vp-data">
-            <div style="color:var(--nw-primary);font-size:7px;letter-spacing:0.12em">ACTIVE PARAMETERS</div>
-            <div style="font-size:18px;font-weight:700;color:var(--nw-green);text-shadow:0 0 8px rgba(122,237,122,0.6),0 0 20px rgba(122,237,122,0.3);" id="paramReadout">70.6B</div>
-            <div style="font-size:7px;color:var(--nw-text-dim);margin-top:2px" id="vpLegend"></div>
+            <div style="color:var(--nw-text-mute);font-size:7px;letter-spacing:0.12em">ACTIVE PARAMETERS</div>
+            <div style="font-size:18px;font-weight:700;color:var(--nw-green)" id="paramReadout">70.6B</div>
+            <div style="font-size:7px;color:var(--nw-text-mute);margin-top:2px" id="vpLegend"></div>
           </div>
           <div class="vp-label">DEEP TOPOLOGY ANALYSIS — ニューラルネットワーク構造解析</div>
         </div>
       </div>
 
       <!-- Cluster Metrics Grid -->
-      <div class="panel">
+      <div class="panel nw-reticle">
         <div class="panel-header">
           <span>Cluster Metrics</span>
           <span class="tag">クラスタ指標</span>
@@ -872,7 +708,7 @@ body {
     <!-- ROW 2: Node Cards (GPU Clusters) -->
     <div class="dash-row r2">
 
-      <div class="panel">
+      <div class="panel nw-reticle">
         <div class="panel-header">
           <span>Cluster-Alpha — Training</span>
           <span class="tag" id="alphaStatus"></span>
@@ -889,7 +725,7 @@ body {
         </div>
       </div>
 
-      <div class="panel">
+      <div class="panel nw-reticle">
         <div class="panel-header">
           <span>Cluster-Beta — Inference</span>
           <span class="tag" id="betaStatus"></span>
@@ -912,7 +748,7 @@ body {
     <div class="dash-row r3">
 
       <!-- Neural Signal Waveform -->
-      <div class="panel">
+      <div class="panel nw-reticle">
         <div class="panel-header">
           <span>Signal Propagation — Layer Activations</span>
           <span class="tag">信号伝搬</span>
@@ -931,7 +767,7 @@ body {
       </div>
 
       <!-- MAGI Model Consensus -->
-      <div class="panel">
+      <div class="panel nw-reticle">
         <div class="panel-header">
           <span>MAGI — Model Agreement</span>
           <span class="tag">合意判定</span>
@@ -939,21 +775,21 @@ body {
         <div class="panel-body">
           <div class="magi-oracle">
             <div class="magi-source" id="magi1">
-              <span class="led green"></span>
+              <span class="led" data-state="ok"></span>
               <div class="ms-name">Melchior</div>
               <div class="ms-value" id="magi1Val">94.21%</div>
               <div class="ms-meta" id="magi1Meta"></div>
               <div class="ms-status agree" id="magi1Status">AGREE</div>
             </div>
             <div class="magi-source" id="magi2">
-              <span class="led green"></span>
+              <span class="led" data-state="ok"></span>
               <div class="ms-name">Balthasar</div>
               <div class="ms-value" id="magi2Val">93.87%</div>
               <div class="ms-meta" id="magi2Meta"></div>
               <div class="ms-status agree" id="magi2Status">AGREE</div>
             </div>
             <div class="magi-source" id="magi3">
-              <span class="led green"></span>
+              <span class="led" data-state="ok"></span>
               <div class="ms-name">Casper</div>
               <div class="ms-value" id="magi3Val">94.02%</div>
               <div class="ms-meta" id="magi3Meta"></div>
@@ -970,7 +806,7 @@ body {
 
     <!-- ROW 4: Model Registry Table -->
     <div class="dash-row r4">
-      <div class="panel">
+      <div class="panel nw-reticle">
         <div class="panel-header">
           <span>Model Registry — Active Deployments</span>
           <span class="tag">モデル登録簿</span>
@@ -999,7 +835,7 @@ body {
     <div class="dash-row" style="grid-template-columns: 1fr 1fr; min-height: 160px;">
 
       <!-- Attention Heatmap -->
-      <div class="panel">
+      <div class="panel nw-reticle">
         <div class="panel-header">
           <span>Attention Pattern — Head Visualization</span>
           <span class="tag">注意機構</span>
@@ -1012,7 +848,7 @@ body {
       </div>
 
       <!-- Layer Activation Map -->
-      <div class="panel">
+      <div class="panel nw-reticle">
         <div class="panel-header">
           <span>Layer Activation — Gradient Health</span>
           <span class="tag">勾配健全性</span>
@@ -1037,7 +873,7 @@ body {
     </div>
 
     <!-- GPU Power Distribution -->
-    <div class="panel" style="max-height: 200px;">
+    <div class="panel nw-reticle" style="max-height: 200px;">
       <div class="panel-header">
         <span>GPU Power Distribution</span>
         <span class="tag">電力分配</span>
@@ -1071,7 +907,7 @@ body {
 <!-- STATUS BAR -->
 <div class="status-bar">
   <span>NEURON-OPS v1.0 — DISTRIBUTED NEURAL OPERATIONS</span>
-  <span>CLASSIFICATION: <span style="color:var(--nw-primary)">RESTRICTED</span></span>
+  <span>CLASSIFICATION: <span style="color:var(--nw-text-default)">RESTRICTED</span></span>
   <span id="systemClock">--</span>
 </div>
 
@@ -1088,6 +924,14 @@ function createEl(tag, className, textContent) {
   var el = document.createElement(tag);
   if (className) el.className = className;
   if (textContent !== undefined) el.textContent = textContent;
+  return el;
+}
+
+function createLed(state, pulse) {
+  var el = document.createElement('span');
+  el.className = 'led';
+  el.dataset.state = state;
+  if (pulse) el.setAttribute('data-pulse', '');
   return el;
 }
 
@@ -1180,14 +1024,14 @@ function shortHash() {
   // Alpha/Beta status LEDs
   var alphaStatus = document.getElementById('alphaStatus');
   if (alphaStatus) {
-    var led = createSpan('led green', '');
+    var led = createLed('ok');
     alphaStatus.appendChild(led);
     alphaStatus.appendChild(document.createTextNode('Active'));
   }
 
   var betaStatus = document.getElementById('betaStatus');
   if (betaStatus) {
-    var led2 = createSpan('led cyan', '');
+    var led2 = createLed('info');
     betaStatus.appendChild(led2);
     betaStatus.appendChild(document.createTextNode('Serving'));
   }
@@ -1211,12 +1055,12 @@ function shortHash() {
 
   // Model registry table
   var models = [
-    { name: 'CORTEX-70B', ver: 'v3.8', params: '70.6B', ledCls: 'led green', status: 'Serving', tput: '312K tok/s', acc: '94.2%', gpu: '256 H100', util: 89, utilColor: null },
-    { name: 'CORTEX-7B', ver: 'v4.2', params: '7.2B', ledCls: 'led yellow blink', status: 'Training', tput: '--', acc: '91.8%', gpu: '512 H100', util: 97, utilColor: 'var(--nw-yellow)' },
-    { name: 'SYNAPSE-3B', ver: 'v2.1', params: '3.1B', ledCls: 'led green', status: 'Serving', tput: '421K tok/s', acc: '88.4%', gpu: '64 H100', util: 72, utilColor: null },
-    { name: 'REFLEX-1B', ver: 'v5.0', params: '1.3B', ledCls: 'led green', status: 'Serving', tput: '98K tok/s', acc: '84.1%', gpu: '32 H100', util: 58, utilColor: null },
-    { name: 'DENDRITE-13B', ver: 'v1.4', params: '13.2B', ledCls: 'led purple blink', status: 'Fine-tuning', tput: '--', acc: '90.7%', gpu: '128 H100', util: 94, utilColor: 'var(--nw-purple)' },
-    { name: 'AXON-500M', ver: 'v8.2', params: '542M', ledCls: 'led green', status: 'Edge', tput: '16K tok/s', acc: '79.3%', gpu: '8 H100', util: 34, utilColor: null },
+    { name: 'CORTEX-70B', ver: 'v3.8', params: '70.6B', ledState: 'ok', status: 'Serving', tput: '312K tok/s', acc: '94.2%', gpu: '256 H100', util: 89, utilColor: null },
+    { name: 'CORTEX-7B', ver: 'v4.2', params: '7.2B', ledState: 'warn', ledPulse: true, status: 'Training', tput: '--', acc: '91.8%', gpu: '512 H100', util: 97, utilColor: 'var(--nw-yellow)' },
+    { name: 'SYNAPSE-3B', ver: 'v2.1', params: '3.1B', ledState: 'ok', status: 'Serving', tput: '421K tok/s', acc: '88.4%', gpu: '64 H100', util: 72, utilColor: null },
+    { name: 'REFLEX-1B', ver: 'v5.0', params: '1.3B', ledState: 'ok', status: 'Serving', tput: '98K tok/s', acc: '84.1%', gpu: '32 H100', util: 58, utilColor: null },
+    { name: 'DENDRITE-13B', ver: 'v1.4', params: '13.2B', ledState: 'ai', ledPulse: true, status: 'Fine-tuning', tput: '--', acc: '90.7%', gpu: '128 H100', util: 94, utilColor: 'var(--nw-purple)' },
+    { name: 'AXON-500M', ver: 'v8.2', params: '542M', ledState: 'ok', status: 'Edge', tput: '16K tok/s', acc: '79.3%', gpu: '8 H100', util: 34, utilColor: null },
   ];
 
   var modelBody = document.getElementById('modelBody');
@@ -1240,7 +1084,7 @@ function shortHash() {
       tr.appendChild(tdParams);
 
       var tdStatus = document.createElement('td');
-      var statusLed = createSpan(m.ledCls, '');
+      var statusLed = createLed(m.ledState, m.ledPulse);
       tdStatus.appendChild(statusLed);
       tdStatus.appendChild(document.createTextNode(m.status));
       tr.appendChild(tdStatus);
@@ -1265,7 +1109,7 @@ function shortHash() {
       progWrap.style.width = '60px';
       progWrap.style.verticalAlign = 'middle';
       var progFill = document.createElement('div');
-      progFill.className = 'fill';
+      progFill.className = 'nw-progress-fill';
       progFill.style.width = m.util + '%';
       if (m.utilColor) progFill.style.background = m.utilColor;
       progWrap.appendChild(progFill);
@@ -1303,7 +1147,7 @@ function shortHash() {
       tr.appendChild(tdTemp);
 
       var tdStatus = document.createElement('td');
-      var statusLed = createSpan(rack.temp > 73 ? 'led yellow' : 'led green', '');
+      var statusLed = createLed(rack.temp > 73 ? 'warn' : 'ok');
       tdStatus.appendChild(statusLed);
       tdStatus.appendChild(document.createTextNode(rack.temp > 73 ? 'Warm' : 'OK'));
       tr.appendChild(tdStatus);
@@ -1588,7 +1432,7 @@ function updateMetrics() {
       ctx.stroke();
     });
 
-    var activation = 0.7 + Math.sin(t * 0.4) * 0.15 + Math.random() * 0.03;
+    var activation = 0.7 + Math.sin(t * 0.4) * 0.15 + Math.sin(t * 17.3) * 0.015;
     var readoutEl = document.getElementById('activationReadout');
     if (readoutEl) readoutEl.textContent = activation.toFixed(3);
 
@@ -1710,7 +1554,7 @@ function updateMetrics() {
     fill.id = 'layerFill' + i;
     fill.style.width = gradPct + '%';
     fill.style.background = color;
-    fill.style.boxShadow = '0 0 4px ' + color;
+    fill.style.boxShadow = '0 0 calc(4px * var(--nw-progress-glow, var(--nw-glow))) ' + color;
     barWrap.appendChild(fill);
     row.appendChild(barWrap);
 
@@ -1738,7 +1582,7 @@ function updateMetrics() {
       if (fillEl) {
         fillEl.style.width = pct + '%';
         fillEl.style.background = color;
-        fillEl.style.boxShadow = '0 0 4px ' + color;
+        fillEl.style.boxShadow = '0 0 calc(4px * var(--nw-progress-glow, var(--nw-glow))) ' + color;
       }
       if (valEl) valEl.textContent = pct + '%';
     });
@@ -1774,13 +1618,13 @@ function updateMetrics() {
       var led = document.querySelector('#' + id + ' .led');
       var statusEl = document.getElementById(id + 'Status');
       if (age < 5000) {
-        if (led) led.className = 'led green';
+        if (led) led.dataset.state = 'ok';
         if (statusEl) { statusEl.className = 'ms-status agree'; statusEl.textContent = 'AGREE'; }
       } else if (age < 10000) {
-        if (led) led.className = 'led yellow';
+        if (led) led.dataset.state = 'warn';
         if (statusEl) { statusEl.className = 'ms-status warn'; statusEl.textContent = 'STALE'; }
       } else {
-        if (led) led.className = 'led red';
+        if (led) led.dataset.state = 'error';
         if (statusEl) { statusEl.className = 'ms-status reject'; statusEl.textContent = 'REJECT'; }
       }
     });

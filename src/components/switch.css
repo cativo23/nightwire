@@ -4,7 +4,7 @@
 .switch .track {
   width: 32px; height: 16px;
   background: var(--nw-surface-3);
-  border: 1px solid var(--nw-line-strong);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
   border-radius: var(--radius-full);
   position: relative;
   transition: background var(--nw-tick), border-color var(--nw-tick);
@@ -22,6 +22,11 @@
 .switch input:checked + .track::after {
   transform: translateX(16px);
   background: var(--nw-chrome);
-  box-shadow: 0 0 calc(6px * var(--nw-glow)) var(--nw-chrome);
+  box-shadow: 0 0 calc(6px * var(--nw-control-glow)) var(--nw-chrome);
+}
+/* The input is visually hidden, so the track shows keyboard focus for it. */
+.switch input:focus-visible + .track {
+  outline: 2px solid var(--nw-focus-ring);
+  outline-offset: 2px;
 }
 .switch .lbl { font-size: var(--text-sm); }

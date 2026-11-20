@@ -3,14 +3,14 @@ import { SectionTitle } from '../components/CodeBlock';
 export function SurfacesPage() {
   return (
     <section id="surfaces">
-      <SectionTitle tag="サーフェス">Surface Hierarchy</SectionTitle>
+      <SectionTitle kanji="サーフェス">Surface Hierarchy</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         Four levels of dark surfaces, stepping slightly away from the absolute void.
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {[
           { name: 'void', hex: '#000000', desc: 'Page background — the absolute void' },
-          { name: 'void-warm', hex: '#0a0a0a', desc: 'Panel fill — barely visible warmth' },
+          { name: 'void-warm', hex: '#0a0a0a', desc: 'Metric cells, sidebar — barely visible warmth (a .panel is open, no fill)' },
           { name: 'void-panel', hex: '#111111', desc: 'Inset surfaces — inputs, code blocks' },
           { name: 'void-raised', hex: '#1a1a1a', desc: 'Elevated — dropdowns, tooltips' },
         ].map(s => (

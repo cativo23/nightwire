@@ -1,8 +1,8 @@
 /* ── Divider ─────────────────────────────────────────────────── */
 
 .divider {
-  height: 1px;
-  background: var(--nw-text-faint);
+  height: var(--nw-hairline);
+  background: var(--nw-line);
   margin: var(--sp-4) 0;
 }
 

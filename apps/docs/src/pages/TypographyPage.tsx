@@ -4,7 +4,7 @@ import { FONTS } from '../data';
 export function TypographyPage() {
   return (
     <section id="typography">
-      <SectionTitle tag="タイポグラフィ">Typography Stack</SectionTitle>
+      <SectionTitle kanji="タイポグラフィ">Typography Stack</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         Four distinct font families form the visual hierarchy. Helvetica is not permitted.
       </p>

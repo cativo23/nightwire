@@ -2,7 +2,7 @@
 
 .tabs {
   display: flex;
-  border-bottom: 1px solid var(--nw-text-faint);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
   gap: 0;
 }
 
@@ -12,22 +12,23 @@
   font-weight: 500;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--nw-accent-width) solid transparent;
   padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: color var(--nw-tick), border-color var(--nw-tick);
 }
 
 .tab:hover {
-  color: var(--nw-text);
+  color: var(--nw-text-strong);
 }
 
+/* Blue is the underline only; the label stays neutral. */
 .tab.active {
-  color: var(--nw-primary);
-  border-bottom-color: var(--nw-primary);
+  color: var(--nw-text-default);
+  border-bottom-color: var(--nw-chrome);
 }
 
 .tab-panel {

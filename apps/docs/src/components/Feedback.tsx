@@ -19,13 +19,13 @@ export function Tag({
 }
 
 export function LED({ 
-  color = 'green', 
+  state = 'ok', 
   className 
 }: { 
-  color?: 'green' | 'blue' | 'red' | 'yellow'; 
+  state?: 'ok' | 'active' | 'error' | 'warn' | 'info' | 'ai'; 
   className?: string; 
 }) {
-  return <span className={cn('led', color, className)} />;
+  return <span className={cn('led', className)} data-state={state} />;
 }
 
 export function Toast({ 

@@ -5,10 +5,10 @@ input, select, textarea {
   font-size: var(--text-base);
   color: var(--nw-text);
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-line);
-  border-radius: var(--radius-md);
+  border: var(--nw-hairline) solid var(--nw-line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--sp-2) var(--sp-3);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color var(--nw-tick), box-shadow var(--nw-tick);
 }
 input:focus, select:focus, textarea:focus {
   border-color: var(--nw-primary);
@@ -17,7 +17,7 @@ input:focus, select:focus, textarea:focus {
 }
 input::placeholder, textarea::placeholder {
   color: var(--nw-text-dim);
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 /* ── v2 · Form fields ──────────────────────────────────────── */
@@ -25,7 +25,7 @@ input::placeholder, textarea::placeholder {
 .field-label {
   font-family: var(--font-stamp); font-size: 9px; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--nw-chrome);
+  color: var(--nw-text-mute);
 }
 .field-label .req { color: var(--nw-signal-error); margin-left: 2px; }
 .field-help { font-size: var(--text-xs); color: var(--nw-text-mute); }

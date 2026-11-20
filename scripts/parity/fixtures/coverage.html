@@ -3,6 +3,18 @@
   Parity coverage fixture. Not a demo: it exists so `npm run parity` matches every class and
   attribute state in nightwire.css that the example pages do not use. If the parity tool reports
   an uncovered selector, add the smallest markup that matches it here.
+
+  Overlay instances that are closed in v3 (data-open="false", no attribute on drawer, modal and
+  command palette, a tooltip that is not hovered) sit inside <div class="fixture-closed">. The
+  parity DOM path has no attributes, so this wrapper is how change-inventory.json tells a closed
+  instance from an open one. Keep open, "true" and absent-attribute dropdown and toast instances
+  outside it: they must not change.
+
+  v1 surfaces removed in v3 (FR-016) sit inside <div class="fixture-v1">. Parity unions the classes
+  of the old and the new stylesheet and demands that some page uses each one, so the removed
+  classes need markup somewhere; this wrapper is how change-inventory.json pins the expected
+  "v1 class now unstyled" differences to them and to nothing else. The wrapper has a fixed height
+  so a removed class that changes its content's size does not move the ancestors' computed sizes.
 -->
 <html lang="en">
 <head>
@@ -34,7 +46,6 @@
     <div class="grid-2"><div>a</div><div>b</div></div>
     <div class="grid-3"><div>a</div><div>b</div><div>c</div></div>
     <div class="grid-4"><div>a</div><div>b</div><div>c</div><div>d</div></div>
-    <div class="stack"><div>a</div><div>b</div></div>
     <div class="nw-stack"><div>a</div><div>b</div></div>
     <div class="nw-cluster"><span>a</span><span>b</span></div>
     <hr class="divider">
@@ -42,10 +53,15 @@
   </section>
 
   <section>
-    <span class="led green"></span> <span class="led blue"></span>
+    <span class="led" data-state="ok"></span> <span class="led" data-state="active"></span>
+    <span class="led" data-state="error"></span> <span class="led" data-state="warn"></span>
+    <span class="led" data-state="info"></span> <span class="led" data-state="ai"></span>
+    <div class="fixture-v1" style="height: 120px"><span class="led green"></span> <span class="led blue"></span>
     <span class="led red"></span> <span class="led yellow"></span>
-    <div class="nw-progress"><div class="nw-progress-fill" style="width: 40%"></div></div>
+    <div class="stack"><div>a</div><div>b</div></div>
     <span class="tag tag-warning">warning</span>
+    <div class="nw-progress"><div class="fill" style="width: 40%"></div></div></div>
+    <div class="nw-progress"><div class="nw-progress-fill" style="width: 40%"></div></div>
     <span class="avatar avatar-lg">NW</span>
   </section>
 
@@ -54,6 +70,7 @@
     <div class="toast toast-warning">warning</div>
     <div class="toast toast-info">info</div>
     <div class="toast toast-danger">danger</div>
+    <div class="fixture-closed"><div class="toast" data-open="false">closed</div></div>
   </section>
 
   <section>
@@ -91,6 +108,24 @@
         <a class="dropdown-item danger" href="#b">Delete</a>
       </div>
     </div>
+    <div class="dropdown" data-open="true">
+      <button>Open menu</button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#a">Item</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item danger" href="#b">Delete</a>
+      </div>
+    </div>
+    <div class="fixture-closed">
+      <div class="dropdown" data-open="false">
+        <button>Closed menu</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#a">Item</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item danger" href="#b">Delete</a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section>
@@ -102,7 +137,9 @@
   </section>
 
   <section>
-    <span class="tooltip">Hover me<span class="tooltip-content">Tooltip</span></span>
+    <div class="fixture-closed"><span class="tooltip">Hover me<span class="tooltip-content">Tooltip</span></span></div>
+    <span class="tooltip" data-open="true">Open<span class="tooltip-content">Tooltip</span></span>
+    <div class="fixture-closed"><span class="tooltip" data-open="false">Closed<span class="tooltip-content">Tooltip</span></span></div>
   </section>
 
   <section>
@@ -115,14 +152,53 @@
   <section>
     <div class="kv-row"><span class="kv-label">Key</span><span class="kv-value">Value</span></div>
   </section>
+
+  <!-- US5 pieces. Out of the flow, at a fixed size, so that adding them does not move the
+       height of main, body and html that change-inventory.json pins for the fixture. -->
+  <div class="fixture-us5" style="position: absolute; top: 0; left: 0; width: 600px; height: 400px; overflow: hidden">
+    <div class="nw-section-head" data-idx="01"><span>Section head</span></div>
+    <div class="nw-section-head nw-section-head-chrome"><span>Chrome section head</span><span class="kanji">&#27010;</span></div>
+    <div class="panel">
+      <div class="panel-header" data-idx="02"><span>Panel header</span><span>Right slot</span></div>
+      <div class="panel-body">Panel body</div>
+    </div>
+    <div class="kv-row"><span class="kv-label">Key</span><span class="kv-value">Value<span class="kv-note">A note under the value</span></span></div>
+    <div class="kv-row"><span class="kv-label">Key</span><span class="kv-value"><span class="kv-swap">&#8644;</span> Value</span></div>
+    <div class="nw-display">Display</div>
+    <p class="nw-lede">A lede paragraph under the display heading.</p>
+    <a class="nw-chip" href="#"><span class="sq"></span>Chip <span class="star">&#9733;</span></a>
+    <a class="nw-chip nw-chip-solid" href="#">Solid chip</a>
+    <a class="nw-link-arrow" href="#">Read more &rarr;</a>
+    <div class="nw-index">
+      <div class="nw-index-row"><span class="kanji">&#27010;</span><span class="name">Index name</span><span class="count">12</span><span class="items">First item, second item, third item</span></div>
+    </div>
+    <div class="nw-accordion">
+      <details open><summary>Open question</summary><div class="answer">The answer to the open question.</div></details>
+      <details><summary>Closed question</summary><div class="answer">The answer to the closed question.</div></details>
+    </div>
+    <div class="nw-reticle">
+      <div class="nw-reticle-meta"><span>00 // CORE</span><span>v3</span></div>
+      <span class="nw-reticle-vlabel">SUPPORTED</span>
+      <span class="nw-reticle-stamp">&#22812;&#32218;</span>
+      <div class="nw-reticle-foot"><div class="nw-barcode"></div><span class="kanji">&#38651;</span></div>
+    </div>
+    <div class="panel nw-reticle"><div class="panel-body">Panel with a reticle</div></div>
+    <div class="nw-halftone nw-halftone-bone"><div class="nw-halftone-layer"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Crect width='120' height='60' fill='%23888'/%3E%3Ccircle cx='60' cy='30' r='20' fill='%23ccc'/%3E%3C/svg%3E" alt=""></div></div>
+    <div class="nw-halftone nw-halftone-chrome nw-halftone-fine"><div class="nw-halftone-layer"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Crect width='120' height='60' fill='%23888'/%3E%3Ccircle cx='60' cy='30' r='20' fill='%23ccc'/%3E%3C/svg%3E" alt=""></div></div>
+    <div class="nw-halftone nw-halftone-data"><div class="nw-halftone-layer"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Crect width='120' height='60' fill='%23888'/%3E%3Ccircle cx='60' cy='30' r='20' fill='%23ccc'/%3E%3C/svg%3E" alt=""></div></div>
+    <div class="nw-wordmark">Nightwire</div>
+    <div class="nw-grain">Grain</div>
+  </div>
 </main>
 
 <!-- Overlays: one closed and one open copy of each, so both states are measured. -->
-<div class="modal-backdrop">
-  <div class="modal">
-    <div class="modal-header">Closed modal</div>
-    <div class="modal-body">Body</div>
-    <div class="modal-footer">Footer</div>
+<div class="fixture-closed">
+  <div class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">Closed modal</div>
+      <div class="modal-body">Body</div>
+      <div class="modal-footer">Footer</div>
+    </div>
   </div>
 </div>
 <div class="modal-backdrop" data-open="true">
@@ -137,6 +213,23 @@
   <div class="drawer-header">Open drawer</div>
   <div class="drawer-body">Body</div>
 </div>
-<div class="cmdk-backdrop" data-open="true"></div>
+<div class="fixture-closed">
+  <div class="drawer-backdrop" data-open="false"></div>
+  <div class="drawer" data-open="false">
+    <div class="drawer-header">Closed drawer</div>
+    <div class="drawer-body">Body</div>
+  </div>
+</div>
+<div class="cmdk-backdrop" data-open="true">
+  <div class="cmdk"><input placeholder="Open palette"></div>
+</div>
+<div class="fixture-closed">
+  <div class="cmdk-backdrop">
+    <div class="cmdk"><input placeholder="Closed palette"></div>
+  </div>
+</div>
+<section>
+  <input placeholder="Plain input"><select><option>One</option></select><textarea placeholder="Plain textarea"></textarea>
+</section>
 </body>
 </html>

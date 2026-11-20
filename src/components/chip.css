@@ -1,0 +1,49 @@
+/* ── Chip ────────────────────────────────────────────────────────
+   A small label or link with a hairline outline (FR-030). The border reads --nw-chip-line, the
+   piece's own token, because the shared --nw-line-strong moved since the mockup. .sq is a 6px
+   square in the text colour, .star a warn-coloured mark. .nw-chip-solid is the --nw-action fill
+   (as .btn), not --nw-bone, which is the halftone tint. Its hover sets the text colour itself:
+   a:hover in reset.css would otherwise recolour an <a class="nw-chip-solid">. */
+
+.nw-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 var(--sp-2);
+  border: var(--nw-hairline) solid var(--nw-chip-line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sys);
+  font-size: var(--text-xs);
+  color: var(--nw-text-mute);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  transition: border-color var(--nw-tick), color var(--nw-tick);
+}
+
+.nw-chip:hover {
+  border-color: var(--nw-line-chrome);
+  color: var(--nw-text-default);
+}
+
+.nw-chip .sq {
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+}
+
+.nw-chip .star { color: var(--nw-signal-warn); }
+
+.nw-chip-solid {
+  background: var(--nw-action);
+  border-color: var(--nw-action);
+  color: var(--nw-action-text);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+}
+
+.nw-chip-solid:hover {
+  background: var(--nw-action-hot);
+  border-color: var(--nw-action-hot);
+  color: var(--nw-action-text);
+}

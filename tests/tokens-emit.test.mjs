@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { emitCss, emitPreset, resolve, NS } from '../scripts/lib/tokens.mjs';
 
+const ext = (node) => node.$extensions[NS];
 const sample = () => JSON.parse(readFileSync(new URL('./fixtures/tokens/sample.json', import.meta.url), 'utf8'));
 const loadPreset = async (src) => (await import(`data:text/javascript,${encodeURIComponent(src)}`)).default;
 
@@ -20,12 +21,20 @@ const EXPECTED_CSS = `/* ── Palette ── */
 
   /* Knobs */
   --glow:     1;
+  --scale:    1;
   --panel-radius: var(--radius-none);
   --state:    running;
 
   --tick:     calc(150ms * var(--scale)) cubic-bezier(0.3, 0, 0.7, 1);
 
+  --tick-duration: calc(150ms * var(--scale));
+  --tick-ease: cubic-bezier(0.3, 0, 0.7, 1);
+
   --font-sys: 'JetBrains Mono', monospace;
+
+  --ls-wide:  0.06em;
+
+  --glow-shadow: 0 0 8px rgba(1,2,3,0.5);
 }
 
 /* archive */
@@ -43,6 +52,14 @@ const EXPECTED_CSS = `/* ── Palette ── */
 /* combat */
 :root[data-intensity="combat"] {
   --glow: 2.2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  :root[data-intensity] {
+    --scale: 0;
+    --state: paused;
+  }
 }
 `;
 
@@ -64,10 +81,14 @@ test('emitCss: raw values interpolate {alias} to the literal', () => {
   assert.match(emitCss(sample()), /--tick: {5}calc\(150ms \* var\(--scale\)\) cubic-bezier\(0\.3, 0, 0\.7, 1\);/);
 });
 
-test('emitCss: preset-only and doc-only tokens emit no CSS', () => {
+test('emitCss: doc-only tokens emit no CSS, and a token without a css name has no declaration', () => {
   const css = emitCss(sample());
-  assert.doesNotMatch(css, /0 0 8px/);
   assert.doesNotMatch(css, /400/);
+  assert.doesNotMatch(css, /--duration|--easing/);
+});
+
+test('emitCss: a raw shadow with a css name is emitted verbatim', () => {
+  assert.match(emitCss(sample()), /--glow-shadow: 0 0 8px rgba\(1,2,3,0\.5\);/);
 });
 
 test('emitCss: an empty intensity set still emits its block with the body comment', () => {
@@ -80,6 +101,36 @@ test('emitCss: intensity blocks follow archive, operator, combat order', () => {
   const o = css.indexOf('"operator"');
   const c = css.indexOf('"combat"');
   assert.ok(a < o && o < c);
+});
+
+test('emitCss: the reduced-motion block follows the intensity blocks and uses :root and :root[data-intensity]', () => {
+  const css = emitCss(sample());
+  const combat = css.indexOf('"combat"');
+  const media = css.indexOf('@media (prefers-reduced-motion: reduce) {\n  :root,\n  :root[data-intensity] {\n');
+  assert.ok(combat !== -1 && media > combat);
+});
+
+test('emitCss: reduced-motion declarations follow token key order', () => {
+  const t = sample();
+  const { scale, state } = t.knob;
+  delete t.knob.scale;
+  delete t.knob.state;
+  t.knob.state = state;
+  t.knob.scale = scale;
+  const css = emitCss(t);
+  const block = css.slice(css.indexOf('@media'));
+  assert.ok(block.indexOf('--state: paused;') < block.indexOf('--scale: 0;'));
+});
+
+test('emitCss: no reducedMotion on any token emits no @media block', () => {
+  const t = sample();
+  for (const k of [t.knob.scale, t.knob.state]) {
+    delete ext(k).motion;
+    delete ext(k).reducedMotion;
+  }
+  const css = emitCss(t);
+  assert.doesNotMatch(css, /@media/);
+  assert.ok(css.endsWith('  --glow: 2.2;\n}\n'));
 });
 
 test('emitCss: emission follows key order', () => {
@@ -99,21 +150,175 @@ test('emitCss: LF only, one trailing newline, deterministic', () => {
   assert.ok(a.endsWith('}\n') && !a.endsWith('\n\n'));
 });
 
-test('emitPreset: aliases resolve to literals and tailwind arrays fan out', async () => {
+const MIX = (css) => `color-mix(in srgb, var(${css}) calc(<alpha-value> * 100%), transparent)`;
+
+test('emitPreset: colours, motion and shadows reference the custom properties, the rest stays literal', async () => {
   const preset = await loadPreset(emitPreset(sample()));
   assert.deepEqual(preset, {
     theme: {
       extend: {
-        colors: { blue: { DEFAULT: '#6699ff' }, chrome: '#6699ff' },
-        borderColor: { blue: '#6699ff' },
+        colors: { blue: { DEFAULT: MIX('--blue') }, fill: MIX('--blue-fill'), chrome: MIX('--chrome') },
+        borderColor: { blue: MIX('--blue') },
         borderRadius: { none: '0' },
-        transitionDuration: { tick: '150ms' },
-        transitionTimingFunction: { tick: 'cubic-bezier(0.3, 0, 0.7, 1)' },
+        transitionDuration: { tick: 'var(--tick-duration)' },
+        transitionTimingFunction: { tick: 'var(--tick-ease)' },
         fontFamily: { sys: ['JetBrains Mono', 'monospace'] },
-        boxShadow: { glow: '0 0 8px rgba(1,2,3,0.5)' },
+        letterSpacing: { wide: '0.06em' },
+        boxShadow: { glow: 'var(--glow-shadow)' },
       },
     },
   });
+});
+
+test('emitPreset: a colour opacity modifier keeps working, so the value carries the <alpha-value> placeholder', async () => {
+  const { theme: { extend } } = await loadPreset(emitPreset(sample()));
+  assert.equal(extend.colors.blue.DEFAULT, 'color-mix(in srgb, var(--blue) calc(<alpha-value> * 100%), transparent)');
+});
+
+test('emitPreset: an alias colour uses its own css name, not the end of its alias chain', async () => {
+  const { theme: { extend } } = await loadPreset(emitPreset(sample()));
+  assert.equal(extend.colors.chrome, MIX('--chrome'));
+  assert.doesNotMatch(extend.colors.chrome, /--blue/);
+});
+
+test('emitPreset: a colour with alpha < 1 uses the same form, the alpha stays in the custom property', async () => {
+  const { theme: { extend } } = await loadPreset(emitPreset(sample()));
+  assert.equal(extend.colors.fill, MIX('--blue-fill'));
+});
+
+test('emitPreset: duration and easing longhands become var(css)', async () => {
+  const { theme: { extend } } = await loadPreset(emitPreset(sample()));
+  assert.equal(extend.transitionDuration.tick, 'var(--tick-duration)');
+  assert.equal(extend.transitionTimingFunction.tick, 'var(--tick-ease)');
+});
+
+test('emitPreset: a typed duration or cubicBezier token with a css name also becomes var(css)', async () => {
+  const t = sample();
+  t.motion.timing.duration.$extensions = { [NS]: { css: '--d', tailwind: ['transitionDuration.typed'] } };
+  t.motion.timing.easing.$extensions = { [NS]: { css: '--e', tailwind: ['transitionTimingFunction.typed'] } };
+  const { theme: { extend } } = await loadPreset(emitPreset(t));
+  assert.equal(extend.transitionDuration.typed, 'var(--d)');
+  assert.equal(extend.transitionTimingFunction.typed, 'var(--e)');
+});
+
+test('emitPreset: a raw shadow with a css name becomes var(css)', async () => {
+  const { theme: { extend } } = await loadPreset(emitPreset(sample()));
+  assert.equal(extend.boxShadow.glow, 'var(--glow-shadow)');
+});
+
+test('emitPreset: a raw shadow without a css name emits its value as written, since it references a custom property', async () => {
+  const t = sample();
+  const value = '0 0 calc(8px * var(--glow)) rgba(1,2,3,0.33)';
+  t.shadow.glow.$value = value;
+  delete ext(t.shadow.glow).css;
+  const { theme: { extend } } = await loadPreset(emitPreset(t));
+  assert.equal(extend.boxShadow.glow, value);
+});
+
+test('emitPreset: fontFamily stays an array, a dimension stays a literal, raw letter spacing stays a literal', async () => {
+  const { theme: { extend } } = await loadPreset(emitPreset(sample()));
+  assert.deepEqual(extend.fontFamily.sys, ['JetBrains Mono', 'monospace']);
+  assert.equal(extend.borderRadius.none, '0');
+  assert.equal(extend.letterSpacing.wide, '0.06em');
+  assert.equal(typeof extend.letterSpacing.wide, 'string');
+});
+
+test('emitPreset: a dimension with a css name stays literal even under a duration-less target', async () => {
+  const t = sample();
+  ext(t.radius.sm).tailwind = ['borderRadius.sm'];
+  const { theme: { extend } } = await loadPreset(emitPreset(t));
+  assert.equal(extend.borderRadius.sm, '2px');
+});
+
+test('emitPreset: one token with two targets of different kinds decides per target', async () => {
+  const t = sample();
+  ext(t.shadow.glow).tailwind = ['boxShadow.glow', 'dropShadow.glow'];
+  const { theme: { extend } } = await loadPreset(emitPreset(t));
+  assert.equal(extend.boxShadow.glow, 'var(--glow-shadow)');
+  assert.equal(extend.dropShadow.glow, '0 0 8px rgba(1,2,3,0.5)');
+});
+
+test('emitPreset: a colour with targets under several colour keys gets the colour form under each', async () => {
+  const t = sample();
+  ext(t.color.blue).tailwind = ['colors.blue.DEFAULT', 'ringColor.blue', 'outlineColor.blue'];
+  const { theme: { extend } } = await loadPreset(emitPreset(t));
+  assert.equal(extend.ringColor.blue, MIX('--blue'));
+  assert.equal(extend.outlineColor.blue, MIX('--blue'));
+});
+
+test('emitPreset: a deep key path nests and keeps the colour form', async () => {
+  const t = sample();
+  ext(t.color.blue).tailwind = ['colors.nw.a.DEFAULT', 'colors.nw.a.dim'];
+  const { theme: { extend } } = await loadPreset(emitPreset(t));
+  assert.deepEqual(extend.colors.nw, { a: { DEFAULT: MIX('--blue'), dim: MIX('--blue') } });
+});
+
+test('emitPreset: a raw token whose target is not colour, motion or shadow stays a literal string', async () => {
+  const t = sample();
+  ext(t.shadow.glow).tailwind = ['backgroundImage.glow'];
+  const { theme: { extend } } = await loadPreset(emitPreset(t));
+  assert.equal(extend.backgroundImage.glow, '0 0 8px rgba(1,2,3,0.5)');
+});
+
+test('FR-018: every v2.1.0 preset key still exists, and the additions are the v3 ones', async () => {
+  const tree = JSON.parse(readFileSync(new URL('../src/tokens/tokens.json', import.meta.url), 'utf8'));
+  const keys = [];
+  const walk = (node, path) => {
+    for (const [k, v] of Object.entries(node)) {
+      if (v && typeof v === 'object' && !Array.isArray(v)) walk(v, [...path, k]);
+      else keys.push([...path, k].join('.'));
+    }
+  };
+  walk((await loadPreset(emitPreset(tree))).theme.extend, []);
+  const v2 = JSON.parse(readFileSync(new URL('./fixtures/preset-keys-v2.1.0.json', import.meta.url), 'utf8'));
+  assert.deepEqual(v2.filter((k) => !keys.includes(k)), [], 'v2.1.0 preset keys that disappeared');
+  assert.deepEqual(keys.filter((k) => !v2.includes(k)).sort(), [
+    // v3 role tokens (spec 002 US2)
+    'colors.nw.action.DEFAULT', 'colors.nw.action.hot', 'colors.nw.action.text',
+    // exit longhands (FR-018, T050)
+    'transitionDuration.nw-sweep-out', 'transitionDuration.nw-tick-out', 'transitionDuration.nw-uplink-out',
+    'transitionTimingFunction.nw-sweep-out', 'transitionTimingFunction.nw-tick-out', 'transitionTimingFunction.nw-uplink-out',
+  ]);
+});
+
+const realPreset = async () => (await loadPreset(emitPreset(
+  JSON.parse(readFileSync(new URL('../src/tokens/tokens.json', import.meta.url), 'utf8'))))).theme.extend;
+const flat = (o) => Object.values(o).flatMap((v) => (v && typeof v === 'object' ? flat(v) : [v]));
+
+test('FR-018: in the real preset every colour is a color-mix over a custom property, alpha tokens included', async () => {
+  const extend = await realPreset();
+  for (const group of ['colors', 'backgroundColor', 'borderColor']) {
+    assert.ok(flat(extend[group]).length > 0, group);
+    for (const v of flat(extend[group])) {
+      assert.match(v, /^color-mix\(in srgb, var\(--[a-z0-9-]+\) calc\(<alpha-value> \* 100%\), transparent\)$/, group);
+    }
+  }
+});
+
+test('FR-018: in the real preset every motion value is a var() and every shadow references a custom property', async () => {
+  const extend = await realPreset();
+  for (const group of ['transitionDuration', 'transitionTimingFunction']) {
+    for (const v of flat(extend[group])) assert.match(v, /^var\(--[a-z0-9-]+\)$/, group);
+  }
+  for (const v of flat(extend.boxShadow)) assert.match(v, /var\(--[a-z0-9-]+\)/, 'boxShadow');
+});
+
+test('FR-018: font families, sizes, spacing, radii and letter spacing stay literal in the real preset', async () => {
+  const extend = await realPreset();
+  for (const group of ['fontFamily', 'fontSize', 'spacing', 'borderRadius', 'letterSpacing']) {
+    for (const v of flat(extend[group] ?? {})) assert.doesNotMatch(String(v), /var\(/, group);
+  }
+});
+
+test('the preset glow shadows equal the .glow-* text-shadows in glow.css, so both scale by --nw-glow where they are used', async () => {
+  const { boxShadow } = await realPreset();
+  const css = readFileSync(new URL('../src/utilities/glow.css', import.meta.url), 'utf8');
+  for (const c of ['green', 'blue', 'cyan', 'red']) {
+    const m = css.match(new RegExp(`^\\.glow-${c}\\s+\\{ text-shadow: ([^;]+); \\}$`, 'm'));
+    assert.ok(m, `.glow-${c} in glow.css`);
+    assert.equal(boxShadow[`glow-${c}`], m[1]);
+    assert.match(m[1], /var\(--nw-glow\)/);
+  }
 });
 
 test('emitPreset keeps the @type JSDoc and the default-export shape', () => {

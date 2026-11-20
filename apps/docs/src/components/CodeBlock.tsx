@@ -27,11 +27,11 @@ export function CodeBlock({ children }: { children: string }) {
   );
 }
 
-export function SectionTitle({ children, tag }: { children: React.ReactNode; tag: string }) {
+export function SectionTitle({ children, kanji }: { children: React.ReactNode; kanji: string }) {
   return (
     <div className="panel-header" style={{ background: 'var(--void)', marginTop: 0, marginBottom: 2 }}>
       <span>{children}</span>
-      <span className="tag">{tag}</span>
+      <span className="kanji">{kanji}</span>
     </div>
   );
 }

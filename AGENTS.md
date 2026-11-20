@@ -41,8 +41,15 @@ npm run parity   # computed-style diff vs main; needs local Chrome (or NW_CHROME
 
 - Do not change rendered output unless the task asks for it. For refactors, `npm run parity` must
   report `differences=0` with full coverage.
-- Do not add `exports`, `type` or `engines` to `package.json`, and do not rename or remove
+- Do not add `exports` or `engines` to `package.json`, and do not rename or remove
   published classes, tokens or files: those are consumer-facing (see
-  [docs/architecture/intensity.md](docs/architecture/intensity.md), K5).
+  [docs/architecture/intensity.md](docs/architecture/intensity.md), K5). `type` is allowed only as
+  the v3 exception for K5: `"type": "module"`, with the CLI kept CommonJS through
+  `dist/package.json`; do not change it. The other exception is the
+  v1 surfaces that v3 removed under FR-016, listed in
+  [docs/design/v3/v1-inventory.md](docs/design/v3/v1-inventory.md) (`.led.<colour>`, `.tag-warning`,
+  `.nw-progress .fill`, `.stack`, the header gradient and pattern tokens). They are gone on purpose:
+  do not restore them, and do not read that list as a conflict with this rule. Anything else
+  published still stays.
 - Build scripts stay zero-dependency Node ESM. Write the test first.
 - Conventional commits, one concern each, no AI attribution trailers.

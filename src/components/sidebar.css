@@ -3,7 +3,7 @@
 .sidebar {
   width: 240px;
   background: var(--void-warm);
-  border-right: 1px solid var(--nw-text-faint);
+  border-right: var(--nw-hairline) solid var(--nw-line);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -14,9 +14,14 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--nw-primary);
+  color: var(--nw-text-mute);
   padding: var(--sp-4);
-  border-bottom: 1px solid var(--nw-primary-dim);
+  border-bottom: var(--nw-hairline) solid var(--nw-line);
+}
+
+/* :where() keeps specificity at 0, so a colour utility on the kanji still wins. */
+:where(.sidebar-header .kanji) {
+  color: var(--nw-text-default);
 }
 
 .sidebar-section {
@@ -24,7 +29,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   padding: var(--sp-3) var(--sp-4) var(--sp-1);
 }
 
@@ -33,21 +38,22 @@
   align-items: center;
   gap: var(--sp-2);
   font-size: var(--text-sm);
-  color: var(--nw-text-dim);
+  color: var(--nw-text-mute);
   padding: var(--sp-2) var(--sp-4);
-  border-left: 2px solid transparent;
+  border-left: var(--nw-accent-width) solid transparent;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  transition: color var(--nw-tick), background var(--nw-tick), border-color var(--nw-tick);
   text-decoration: none;
 }
 
 .sidebar-item:hover {
-  color: var(--nw-text);
+  color: var(--nw-text-strong);
   background: var(--nw-text-faint);
 }
 
+/* Blue is the accent line only; the label stays neutral. */
 .sidebar-item.active {
-  color: var(--nw-primary);
-  border-left-color: var(--nw-primary);
+  color: var(--nw-text-default);
+  border-left-color: var(--nw-chrome);
   background: var(--nw-primary-fill);
 }

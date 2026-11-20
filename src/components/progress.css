@@ -3,13 +3,12 @@
 .nw-progress {
   height: 4px;
   background: var(--void-panel);
-  border: 1px solid var(--nw-text-faint);
+  border: var(--nw-hairline) solid var(--nw-line);
   overflow: hidden;
 }
 
-.nw-progress .fill,
 .nw-progress-fill {
   height: 100%;
-  background: var(--nw-green);
-  box-shadow: 0 0 calc(4px * var(--nw-glow)) rgba(122,237,122,0.3);
+  background: var(--nw-data);
+  box-shadow: 0 0 calc(4px * var(--nw-progress-glow)) rgba(122,237,122,0.3);
 }

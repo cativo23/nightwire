@@ -1,0 +1,50 @@
+/* ── Halftone ────────────────────────────────────────────────────
+   Plain CSS over any <img> (FR-030): the image goes grey and high-contrast, a dot pattern is laid
+   over it, and a tint is multiplied on top. The structure is
+   .nw-halftone > .nw-halftone-layer > img. Tint and dot size are --nw-halftone-tint and
+   --nw-halftone-dot. The #000 and #fff below are the mask of the dot pattern, not palette colours,
+   so they are the only colour literals in the stylesheet apart from the #000 of the wordmark's
+   alpha mask (wordmark.css). Halftone art is an approved decoration exception (FR-034): it is an
+   image treatment, not a glow. */
+
+.nw-halftone {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.nw-halftone-layer {
+  --nw-halftone-dot: 6px;
+  position: relative;
+  background: #000;
+  filter: grayscale(1) contrast(22);
+}
+
+.nw-halftone-layer img {
+  display: block;
+  width: 100%;
+  filter: blur(1.2px);
+}
+
+.nw-halftone-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle closest-side, #fff 0%, #000 100%) 0 0 / var(--nw-halftone-dot) var(--nw-halftone-dot);
+  opacity: .5;
+}
+
+.nw-halftone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--nw-halftone-tint, var(--nw-text-default));
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.nw-halftone-chrome { --nw-halftone-tint: var(--nw-chrome); }
+.nw-halftone-data { --nw-halftone-tint: var(--nw-data); }
+.nw-halftone-bone { --nw-halftone-tint: var(--nw-bone); }
+
+.nw-halftone-fine .nw-halftone-layer { --nw-halftone-dot: 4px; }

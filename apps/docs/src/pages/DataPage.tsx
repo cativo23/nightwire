@@ -1,13 +1,12 @@
 import { SectionTitle, CodeBlock } from '../components/CodeBlock';
-import { NewBadge } from '../components/NewBadge';
 
 export function DataPage() {
   return (
     <section id="data">
-      <SectionTitle tag="データ">Data Display</SectionTitle>
+      <SectionTitle kanji="データ">Data Display</SectionTitle>
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Metrics Grid</span><span className="tag">指標</span></div>
+        <div className="panel-header"><span>Metrics Grid</span><span className="kanji">指標</span></div>
         <div className="metrics-grid">
           <div className="metric-cell"><div className="m-label">Sync Ratio</div><div className="m-value">48.2%</div><div className="m-sub">Unit-01</div></div>
           <div className="metric-cell highlight"><div className="m-label">Buffer</div><div className="m-value">93.0%</div><div className="m-sub">Nominal</div></div>
@@ -30,9 +29,9 @@ export function DataPage() {
 
       <div className="grid-2" style={{ gap: 2 }}>
         <div className="panel">
-          <div className="panel-header"><span>Key-Value</span><span className="tag">KV対</span></div>
+          <div className="panel-header"><span>Key-Value</span><span className="kanji">KV対</span></div>
           <div className="panel-body">
-            <div className="kv-row"><span className="kv-label">System</span><span className="kv-value">Nightwire v1.0</span></div>
+            <div className="kv-row"><span className="kv-label">System</span><span className="kv-value">Nightwire v{__NW_VERSION__}</span></div>
             <div className="kv-row"><span className="kv-label">Status</span><span className="kv-value" style={{ color: 'var(--nw-green)' }}>Operational</span></div>
             <div className="kv-row"><span className="kv-label">Framework</span><span className="kv-value">Agnostic</span></div>
             <div className="kv-row"><span className="kv-label">Theme</span><span className="kv-value" style={{ color: 'var(--nw-red)' }}>Dark Only</span></div>
@@ -44,22 +43,22 @@ export function DataPage() {
         </div>
 
         <div className="panel">
-          <div className="panel-header"><span>Progress Bars</span><span className="tag">進捗</span></div>
+          <div className="panel-header"><span>Progress Bars</span><span className="kanji">進捗</span></div>
           <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
-            <div><div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Loading: 72%</div><div className="nw-progress"><div className="fill" style={{ width: '72%' }} /></div></div>
-            <div><div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Sync: 45%</div><div className="nw-progress"><div className="fill" style={{ width: '45%', background: 'var(--nw-primary)' }} /></div></div>
-            <div><div style={{ fontSize: 10, color: 'var(--nw-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Critical: 91%</div><div className="nw-progress"><div className="fill" style={{ width: '91%', background: 'var(--nw-red)' }} /></div></div>
+            <div><div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Loading: 72%</div><div className="nw-progress"><div className="nw-progress-fill" style={{ width: '72%' }} /></div></div>
+            <div><div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Sync: 45%</div><div className="nw-progress"><div className="nw-progress-fill" style={{ width: '45%', background: 'var(--nw-primary)' }} /></div></div>
+            <div><div style={{ fontSize: 10, color: 'var(--nw-text-mute)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>Critical: 91%</div><div className="nw-progress"><div className="nw-progress-fill" style={{ width: '91%', background: 'var(--nw-red)' }} /></div></div>
           </div>
           <CodeBlock>{`<div class="nw-progress">
-  <div class="fill" style="width: 72%"></div>
+  <div class="nw-progress-fill" style="width: 72%"></div>
 </div>`}</CodeBlock>
         </div>
       </div>
 
       <div className="panel" style={{ marginBottom: 2, marginTop: 2 }}>
         <div className="panel-header">
-          <span>Stat Card with Sparkline <NewBadge /></span>
-          <span className="tag">指標カード</span>
+          <span>Stat Card with Sparkline</span>
+          <span className="kanji">指標カード</span>
         </div>
         <div className="panel-body" style={{ padding: 0 }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0 }}>
@@ -96,8 +95,8 @@ export function DataPage() {
 
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header">
-          <span>Code Block with Syntax Tokens <NewBadge /></span>
-          <span className="tag">コード</span>
+          <span>Code Block with Syntax Tokens</span>
+          <span className="kanji">コード</span>
         </div>
         <div className="panel-body">
           <pre className="code-block" style={{ margin: 0 }}>
@@ -122,8 +121,8 @@ export function DataPage() {
 
       <div className="panel">
         <div className="panel-header">
-          <span>Diff View <NewBadge /></span>
-          <span className="tag">差分</span>
+          <span>Diff View</span>
+          <span className="kanji">差分</span>
         </div>
         <div className="panel-body">
           <div className="diff" style={{ marginBottom: 12 }}>

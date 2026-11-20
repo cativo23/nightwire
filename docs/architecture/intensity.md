@@ -5,7 +5,7 @@ One attribute on `<html>` retunes the whole system:
 ```html
 <html data-intensity="archive">   <!-- docs, blogs: no glow, calmer, roomier -->
 <html data-intensity="operator">  <!-- the default; same as no attribute -->
-<html data-intensity="combat">    <!-- ops consoles: more glow, denser, faster pulse -->
+<html data-intensity="combat">    <!-- ops consoles: state glow doubles, denser, faster pulse -->
 ```
 
 The levels are blocks of custom-property overrides, generated from the `intensity` key in
@@ -16,66 +16,137 @@ themselves; they read the knobs.
 
 | Knob | Operator (base) | Archive | Combat | Read by |
 |------|-----------------|---------|--------|---------|
-| `--nw-glow` | `1` | `0` | `2.2` | led, button, switch, check, segmented, progress, steps, drawer, cmdk, ai-block, stat |
+| `--nw-glow` | `0.5` | `0` | — (no combat override; see [direction.md](../design/v3/direction.md)) | the `.glow-*` utilities, which read it wherever it is set; the three state-glow knobs below take its value from `:root` (see the note under this table) |
 | `--nw-density` | `1` | — | `0.85` | layout primitives |
-| `--nw-motion-scale` | `1` | `0.6` | `1.2` | `--nw-tick`, `--nw-sweep`, `--nw-uplink` |
+| `--nw-motion-scale` | `1` | `0.6` | `1.2` | every motion token (`--nw-tick`, `--nw-sweep`, `--nw-uplink`, `-out`, longhands, `--nw-stagger`; the loop cycles inversely) |
 | `--nw-pad-scale` | `1` | `1.35` | `0.7` | stat |
 | `--nw-base-font` | `var(--text-base)` | `15px` | `13px` | reset (`body`) |
 | `--nw-pulse-state` | `running` | `paused` | `running` | led |
-| `--nw-pulse-speed` | `1.4s` | — | `0.7s` | led |
-| `--nw-panel-radius` | `var(--radius-none)` | `var(--radius-sm)` | — | panel |
+| `--nw-led-glow`, `--nw-control-glow`, `--nw-progress-glow` | `var(--nw-glow)` | — (follows `--nw-glow`, so 0) | `calc(var(--nw-glow) * 2)`, effective 1 | state glow only, never decoration: led reads the first, check, radio, switch, segmented and steps the second, progress the third |
+| `--nw-pulse-speed` | `1.6s` | — | — (no combat override; the motion scale divides it, so combat pulses in 1.333s) | led |
+| `--nw-loop-state` | `running` | — | — | button spinner, skeleton shimmer |
+| `--nw-panel-radius` | `var(--radius-none)` | `var(--radius-sm)` | — | none: `.panel` is square at every level since the open layout (FR-026), so the knob is for a consumer's own box |
 | `--nw-value-color` | `var(--nw-data)` | `var(--nw-green-dim)` | `var(--nw-green-dim)` | stat |
 | `--nw-value-weight` | `500` | `400` | — | stat |
 | `--nw-kanji-display` | `inline` | `none` | — | `.kanji` |
-| `--nw-header-gradient` | blue 6% → transparent 80% | `none` | blue 18% → transparent 70% | panel header |
-| `--nw-header-pattern` | `none` | — | 1px scanlines | panel header |
+| `--nw-hairline`, `--nw-rule`, `--nw-accent-width` | `1px`, `1.5px`, `2px` | — | — | structural borders (hairline), marks drawn inside controls (rule: check strokes, spinner ring), accent bars (tabs, sidebar, diff, toast). No per-level overrides in v3: combat energy comes from state glow, pulse and density, not heavier lines. The knobs exist so a level can set one later |
 | `--nw-label-spacing` | `var(--ls-ultra)` | `0.14em` | — | stat |
+| `--nw-grain` | `0.07` | `0` | `0.1` | `.nw-grain`: the opacity of the film grain. It has its own knob because `--nw-glow` is 0.5 at both operator and combat, so a glow-scaled grain would stay flat at combat |
+| `--nw-kanji-glow` | `calc(20px * var(--nw-glow))` | — (follows `--nw-glow`, so 0) | — (`--nw-glow` is 0.5 here too, so 10px) | the kanji glow of `.nw-section-head-chrome` and the hovered `.nw-index-row`; with grain and `.nw-halftone`, the approved exceptions to "glow is for state" (FR-034) |
 
 "—" means the level keeps the base value. The operator block is intentionally empty.
 
+The state-glow knobs are declared as `var(--nw-glow)` on `:root`, so they follow `--nw-glow` when it
+is set on `:root` or on the element that carries `data-intensity`. A `--nw-glow` set on a single
+element does not reach the LED, check, switch or progress inside it (v2.1.0's `.led` read
+`--nw-glow` directly, so it did); to tune one element, set `--nw-led-glow`, `--nw-control-glow` or
+`--nw-progress-glow` on it. The `.glow-*` utilities still read `--nw-glow` where they are used.
+
+Combat is still different from operator without decoration. Only state signals glow brighter (1
+against 0.5, and below v2.1.0's combat 2.2), the pulse runs faster through the motion scale, and
+spacing is denser. The v2 combat header gradient and scanlines (`--nw-header-gradient`,
+`--nw-header-pattern`) are removed. The glow rules are checked by
+`scripts/parity/glow-check.mjs` (see [CONTRIBUTING.md](../../CONTRIBUTING.md)).
+
 ## Known issues
 
-These exist in 2.0.1 and are preserved exactly by the restructure, because fixing any of them
-changes rendering or the published surface. Each has an owner. "Sub-project 2" is the visual
-direction work reserved in [docs/design/](../design/README.md), which follows this restructure.
+These exist in 2.0.1 and were preserved exactly by the restructure, because fixing any of them
+changes rendering or the published surface. Each has an owner. Resolved entries say so and stay
+here for the record. "Sub-project 2" is the visual direction work reserved in
+[docs/design/](../design/README.md), which follows this restructure.
 
-### K1. Reduced motion loses to an explicit intensity
+### K1. Reduced motion loses to an explicit intensity (resolved in v3)
 
-`base/reduced-motion.css` sets `--nw-motion-scale: 0` and `--nw-pulse-state: paused` on `:root`
-(specificity 0,1,0). The intensity blocks use `:root[data-intensity="…"]` (0,2,0), so with
-`data-intensity="archive"` or `"combat"` they win: motion scale stays 0.6 or 1.2, and combat keeps
-the pulse `running`. Only pages without the attribute, or with `operator`, get the reduced values
-through the knobs.
+**Resolved.** Reduced motion now wins at every intensity level. The build generates
+`@media (prefers-reduced-motion: reduce) { :root, :root[data-intensity] { … } }` from token data
+(every token with a `reducedMotion` value: `--nw-motion-scale: 0`, `--nw-pulse-state: paused`,
+`--nw-loop-state: paused`) and emits it after the intensity blocks. `:root[data-intensity]` has the
+same specificity as `:root[data-intensity="combat"]` and comes later, so it beats every level. The
+hand-written `src/base/reduced-motion.css` is deleted. See
+[cascade.md](cascade.md#the-reduced-motion-block) and [tokens.md](tokens.md#reduced-motion).
 
-Effect: users who ask for reduced motion are still protected by the blanket
-`* { animation: none !important; transition: none !important; }` in `base/accessibility.css`, so
-nothing animates. But any component that reads the knobs directly sees the wrong values.
-Owner: sub-project 2 (motion system).
+The 2.x problem, kept for the record: `base/reduced-motion.css` set the two knobs on `:root`
+(specificity 0,1,0), the intensity blocks used `:root[data-intensity="…"]` (0,2,0), and with
+`data-intensity="archive"` or `"combat"` they won. The blanket
+`* { animation: none !important; transition: none !important; }` in `base/accessibility.css` still
+stopped everything, but any component that read a knob saw the wrong value.
 
-### K2. `DESIGN.md` motion vocabulary does not match the CSS
+### K2. Components hardcode motion durations instead of reading the tokens (resolved in v3)
 
-`DESIGN.md` describes `duration-fast/base/slow` and `easing-standard/decelerate`. The CSS uses
-`--nw-tick`, `--nw-sweep` and `--nw-uplink`. `duration-fast` and `duration-slow` are aliased to the
-tick and uplink durations; `duration-base` (250 ms) and both easings exist only in the doc, as
-doc-only tokens. Owner: sub-project 2 (motion system).
+**Resolved.** Components read the motion tokens. Every transition and animation in
+`src/components/` uses `--nw-tick`, `--nw-sweep`, `--nw-uplink`, their `-out` and longhand forms,
+`--nw-stagger`, or the loop tokens; the only literal time left is the `0s` of a `visibility` flip. A
+test in `npm test` fails if a component hardcodes a duration. The loops scale inversely with
+`--nw-motion-scale` (`--nw-loop-spin`, `--nw-loop-shimmer`, and the LED pulse), and pause through
+`--nw-loop-state` and `--nw-pulse-state`. `DESIGN.md` lists the real tokens in its generated
+`motion` region instead of the doc-only `duration-*` and `easing-*` names.
 
-### K3. The Tailwind preset has no `var()`
+### K3. The Tailwind preset has no `var()` (resolved in v3)
 
-Every preset value is a literal, so Tailwind utilities (`bg-nw-chrome`, `duration-nw-tick`) do not
-follow runtime overrides or intensity levels. Switching to `var()` would change what those
-utilities render. Owner: sub-project 2.
+**Resolved.** Colour, glow shadow and motion values in the preset reference the custom properties,
+so `bg-nw-chrome`, `shadow-glow-cyan` and `duration-nw-tick` follow `data-intensity` and runtime
+overrides. Colours are `color-mix(in srgb, var(--nw-x) calc(<alpha-value> * 100%), transparent)`,
+which keeps opacity modifiers such as `bg-nw-cyan/40` generating; a plain `var()` would drop them.
+`duration-nw-*` and `ease-nw-*` are `var(--nw-*-duration)` and `var(--nw-*-ease)`, so they scale with
+`--nw-motion-scale` and drop to 0 under reduced motion; the `-out` forms
+(`duration-nw-{tick,sweep,uplink}-out`, `ease-nw-{tick,sweep,uplink}-out`) are new. `shadow-glow-*`
+use the same string as the `.glow-*` text classes, so they scale with `--nw-glow` (4px and 8px
+blur at operator, none at archive). **Breaking** for preset users: 2.1.0 had a fixed
+`0 0 8px rgba(…,0.5), 0 0 16px rgba(…,0.2)` (red's second layer was 0.3). Font families, sizes, letter spacing, spacing and radii
+stay literal, since no intensity changes them.
 
-### K4. Example pages redeclare tokens inline
+Colour utilities and the glow shadows read their custom property where they are used, so an
+override of a colour token (`--nw-cyan`, `--nw-primary`, ...) or of `--nw-glow` on a sub-tree
+reaches them. Two things resolve on `:root` and do not follow a sub-tree: `--nw-motion-scale`
+(the duration longhands are computed there) and alias tokens such as `--nw-chrome`, which is
+`var(--nw-primary)` resolved on `:root`. Override those on `:root` or on the `data-intensity`
+element, or override the derived token itself (`--nw-chrome`, `--nw-tick-duration`). Known limit:
+the tokens that carry their own alpha (the five `bg-nw-*` fill, faint and glow backgrounds, and
+the faint, line, `line-strong` and `line-chrome` colours) now multiply with an opacity modifier, so
+`bg-nw-primary-fill/40` is 0.4 × 0.08, where 2.1.0 replaced the alpha. See
+[tokens.md](tokens.md#how-values-are-emitted).
 
-Seven example pages (`dashboard.html`, `neural-ops.html` and the five under `components/`) carry
-their own `<style>` blocks with token values instead of loading `nightwire.css`, and
-`dashboard.html` declares legacy `--nerv-*` names. These pages do not load the stylesheet, so the
-restructure cannot change them and parity does not cover them. Owner: sub-project 2 (examples
-cleanup).
+Known limit: `shadow-<colour>` no longer recolours `shadow-glow-*`. 2.1.0 had
+`--tw-shadow-colored: 0 0 8px var(--tw-shadow-color), 0 0 16px var(--tw-shadow-color)`. The v3
+value is `0 0 var(--tw-shadow-color), 0 0 var(--tw-shadow-color)`: Tailwind 3 does not read
+`calc(...)` as a length, so it drops the blur and the combination renders no glow (checked on
+Tailwind 3.4.19). Do not combine them: keep the default glow colour, or use an arbitrary
+`shadow-[…]` value.
 
-### K5. The preset is ESM in a package without `"type": "module"`
+The 2.x problem, kept for the record: every preset value was a literal, so the utilities ignored
+the intensity level while the CSS classes followed it.
 
-`tailwind.preset.js` uses `export default`, but `package.json` declares no module type. Tailwind's
-config loader handles it; plain Node prints `MODULE_TYPELESS_PACKAGE_JSON` and reparses the file as
-ESM. Adding `"type": "module"` or `exports` changes how every consumer resolves the package, so it
-waits for a major release. Owner: a future major.
+### K4. Example pages redeclare tokens inline (resolved in v3)
+
+**Resolved.** The seven pages that carried their own token values (`dashboard.html`,
+`neural-ops.html` and the five under `components/`) now load `nightwire.css`, and the legacy
+`--nerv-*` names are gone. Every page under `examples/html/` is a parity page, so a stylesheet change
+that alters an example shows up in `npm run parity`. Page-local classes (the ops-console layout, the
+ticker, the event log) stay in each page's own `<style>`, and where they glow they read the state
+knobs, not a literal blur.
+
+The 2.x problem, kept for the record: these pages declared token values inline and did not load the
+stylesheet, so the restructure could not change them and parity did not cover them.
+
+### K5. The preset is ESM in a package without `"type": "module"` (resolved in v3)
+
+**Resolved.** `package.json` now declares `"type": "module"`, so `tailwind.preset.js` is an ES
+module for Node as well as for Tailwind, and `import preset from '@cativo23/nightwire/tailwind.preset.js'`
+loads without `MODULE_TYPELESS_PACKAGE_JSON`. The CLI is compiled to CommonJS, so
+`scripts/build-cli.mjs` writes `dist/package.json` (`{"type":"commonjs"}`) and Node keeps loading
+`dist/` as CommonJS. File names and locations are unchanged, and `exports` and `engines` are still
+not declared. The installer copies the preset as `nightwire.tailwind.preset.mjs`, which is ESM
+whatever the project's own `type` is.
+
+**Breaking for CommonJS configs.** A CommonJS Tailwind config must use
+`require('@cativo23/nightwire/tailwind.preset.js').default`. A bare `require()` returns the module
+namespace, and Tailwind 3.4 drops it without an error, so no `nw-*` utility is generated (the "No
+utility classes" warning appears only when nothing else in the source matches). A dynamic
+`import()` cannot work in a CommonJS config, because Tailwind's `loadConfig` is synchronous: it
+tries `require` and falls back to jiti. Plain Node without `require()` of ES modules (before 20.19
+and 22.12) throws `ERR_REQUIRE_ESM`; Tailwind 3.4 catches it and loads the config through jiti,
+where `.default` also works. Checked on Node 24.15 with Tailwind 3.4.19, and with
+`--no-experimental-require-module` to simulate the older case, not on an older Node.
+
+The 2.x problem, kept for the record: the file used `export default` in a package with no module
+type, so plain Node printed `MODULE_TYPELESS_PACKAGE_JSON` and reparsed it as ESM.

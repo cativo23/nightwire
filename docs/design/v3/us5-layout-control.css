@@ -1,0 +1,298 @@
+/* US5 layout control sheet (FR-038, T072/T073).
+   Used only by the parity control run:
+     npm run parity -- --old git:v2.1.0 --expect docs/design/v3/change-inventory.json \
+       --control docs/design/v3/us5-layout-control.css
+   It is appended to nightwire.css, so it wins at equal specificity, and it restores the
+   layout-affecting declarations of the components US5 opened (.panel, .card, their headers and
+   bodies, .kv-row) to their values at 3a63a86, the tip before US5 (src/components/panel.css,
+   card.css and kv-row.css as they were there). The new section-head pseudo-elements and the
+   header's new `order` are neutralised. If this run reports unexpected=0 with the cascade
+   categories ignored, the open layout is the cause of every geometric difference those
+   categories absorb. Declarations only change box, text or flow geometry: colours, backgrounds
+   and glows are not restored, because they do not move anything. A border is restored by its
+   width and style only (a border exists only with a style); its colour stays the computed one.
+   The classes US5 added (.nw-section-head, .kv-note, and the pieces .nw-display, .nw-lede, .nw-chip,
+   .nw-link-arrow, .nw-index, .nw-index-row and .nw-accordion, and T076's .nw-reticle with its parts,
+   .nw-halftone, .nw-barcode and .nw-wordmark) are restored to unset, which is their
+   state before US5, so that the size of their boxes is covered by the same proof. For the pieces
+   that means the display, size, spacing, type and flow of an unstyled <div>, <p>, <a>, <span> or
+   <details>: the same limits apply (no colour, background, transform or glow is restored). */
+
+/* Panel: the 1px frame, and the body padding */
+.panel { border: var(--nw-hairline) solid; }
+.panel-body { padding: var(--sp-3); }
+
+/* Panel and card headers: the v2 type, box and flow */
+.panel-header,
+.card-header {
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: var(--nw-hairline) solid;
+  gap: normal;
+  align-items: normal;
+}
+.panel-header {
+  padding: var(--sp-2) var(--sp-3) 7px;
+  display: flex;
+  justify-content: space-between;
+}
+.card-header {
+  padding: var(--sp-3) var(--sp-4);
+  display: block;
+  justify-content: normal;
+}
+
+/* The header's kanji took no size or case of its own: it inherited the header's */
+.panel-header > .kanji,
+.card-header > .kanji {
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  flex-shrink: 1;
+  white-space: normal;
+}
+
+/* The new header pseudo-elements (the hairline and the index) and the right-slot order */
+.panel-header::before, .panel-header[data-idx]::before,
+.panel-header::after,
+.card-header::before, .card-header[data-idx]::before,
+.card-header::after,
+.panel-header[data-idx] > :first-child::before,
+.card-header[data-idx] > :first-child::before { content: none; display: none; }
+.panel-header > :not(:first-child),
+.card-header > :not(:first-child) { order: 0; }
+
+/* Key-value row: the v2 padding, baseline alignment and label offset */
+.kv-row {
+  align-items: baseline;
+  padding: var(--sp-1) 0;
+}
+.kv-row .kv-label { padding-top: 0; }
+.kv-row .kv-value { text-align: start; }
+
+/* The classes US5 added. Before US5 they were unstyled, so "restored" means unset. */
+.nw-section-head {
+  display: block;
+  align-items: normal;
+  gap: normal;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.nw-section-head > .kanji {
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  flex-shrink: 1;
+  white-space: normal;
+}
+.nw-section-head::before, .nw-section-head[data-idx]::before,
+.nw-section-head::after,
+.nw-section-head[data-idx] > :first-child::before { content: none; display: none; }
+.nw-section-head > :not(:first-child) { order: 0; }
+.kv-row .kv-note {
+  display: inline;
+  font-size: inherit;
+  font-weight: inherit;
+  margin-top: 0;
+}
+
+/* .nw-display and .nw-lede: the type, spacing, measure and transform origin of an unstyled <div> and <p> */
+.nw-display {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  margin: 0;
+  transform-origin: 50% 50%;
+}
+.nw-lede {
+  max-width: none;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* .nw-chip and its parts: an unstyled inline <a> with no border and no padding */
+.nw-chip {
+  display: inline;
+  align-items: normal;
+  gap: normal;
+  height: auto;
+  padding: 0;
+  border-width: 0;
+  border-style: none;
+  font-size: inherit;
+  line-height: inherit;
+  font-variant-numeric: normal;
+}
+.nw-chip-solid {
+  font-weight: inherit;
+  letter-spacing: normal;
+}
+.nw-chip .sq {
+  width: auto;
+  height: auto;
+}
+
+/* .nw-link-arrow: an unstyled inline <a> */
+.nw-link-arrow {
+  display: inline;
+  margin-top: 0;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* .nw-index and .nw-index-row: a block, and a block with no grid, no padding and no top edge */
+.nw-index {
+  display: block;
+  column-gap: normal;
+  grid-template-columns: none;
+}
+.nw-index-row {
+  display: block;
+  grid-template-columns: none;
+  column-gap: normal;
+  row-gap: normal;
+  align-items: normal;
+  padding: 0;
+  border-top-width: 0;
+  border-top-style: none;
+}
+.nw-index-row .kanji,
+.nw-index-row .name,
+.nw-index-row .count,
+.nw-index-row .items {
+  font-size: inherit;
+}
+.nw-index-row .count { font-variant-numeric: normal; }
+.nw-index-row .items {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* .nw-accordion: a plain <details> with its UA <summary> (a list item with an inside marker) */
+.nw-accordion details,
+.nw-accordion details:last-child {
+  border-top-width: 0;
+  border-top-style: none;
+  border-bottom-width: 0;
+  border-bottom-style: none;
+}
+.nw-accordion summary {
+  display: list-item;
+  justify-content: normal;
+  align-items: normal;
+  gap: normal;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  list-style: revert;
+}
+.nw-accordion summary::after { content: none; display: none; }
+.nw-accordion .answer {
+  padding: 0;
+  max-width: none;
+  line-height: inherit;
+}
+
+/* .nw-reticle and its parts: an unstyled <div> and <span>s, in flow, with no border and no padding.
+   A .panel.nw-reticle keeps the 1px frame of v2.1.0's .panel. The two absolutely positioned parts also
+   lose their offsets, their display (the stamp's follows the kanji knob) and, for the label, the
+   transform that moves it with its own box, so that their resolved boxes are the unstyled ones. */
+.nw-reticle {
+  position: static;
+  padding: 0;
+  border-width: 0;
+  border-style: none;
+}
+.panel.nw-reticle {
+  border-width: var(--nw-hairline);
+  border-style: solid;
+  border-radius: 0;
+}
+.nw-reticle-meta {
+  display: block;
+  justify-content: normal;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: normal;
+  margin-bottom: 0;
+}
+.nw-reticle-vlabel {
+  position: static;
+  top: auto;
+  left: auto;
+  transform: none;
+  writing-mode: horizontal-tb;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: normal;
+}
+.nw-reticle-stamp {
+  position: static;
+  display: inline;
+  top: auto;
+  right: auto;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  writing-mode: horizontal-tb;
+}
+.nw-reticle-foot {
+  display: block;
+  justify-content: normal;
+  align-items: normal;
+  gap: normal;
+}
+.nw-reticle-foot .nw-barcode {
+  flex-grow: 0;
+  flex-basis: auto;
+}
+.nw-reticle-foot .kanji { font-size: inherit; }
+
+/* .nw-halftone: an unstyled <div> and its <img>, with no clipping and no stacking context */
+.nw-halftone {
+  position: static;
+  overflow: visible;
+  isolation: auto;
+}
+.nw-halftone-layer {
+  position: static;
+  filter: none;
+}
+.nw-halftone-layer img {
+  display: inline;
+  width: auto;
+  filter: none;
+}
+.nw-halftone-layer::after { content: none; display: none; }
+.nw-halftone::after { content: none; display: none; }
+
+/* .nw-barcode and .nw-wordmark: an unstyled <div> */
+.nw-barcode {
+  height: auto;
+  margin-top: 0;
+}
+.nw-wordmark {
+  font-family: inherit;
+  font-weight: inherit;
+  text-transform: none;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+  text-align: start;
+  white-space: normal;
+  transform-origin: 50% 50%;
+}

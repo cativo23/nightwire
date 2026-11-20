@@ -3,17 +3,17 @@ import { SectionTitle, CodeBlock } from '../components/CodeBlock';
 export function PanelsPage() {
   return (
     <section id="panels">
-      <SectionTitle tag="構造">Panel Anatomy</SectionTitle>
+      <SectionTitle kanji="構造">Panel Anatomy</SectionTitle>
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
-        Panels are the primary structural element. 8px uppercase headers, Japanese stylistic tags, and 2px gaps are standard.
+        Panels are the primary structural element. A panel is open: its 11px uppercase header is a section head with a Japanese kanji in the right slot, and open panels sit a wide gap apart (--sp-8). The 2px gap is for framed panels (.panel.nw-reticle), where it separates the frames.
       </p>
 
-      <div className="grid-2" style={{ gap: 2, marginBottom: 2 }}>
+      <div className="grid-2" style={{ gap: 'var(--sp-8)', marginBottom: 2 }}>
         <div className="panel">
-          <div className="panel-header"><span>Standard Panel</span><span className="tag">日本語タグ</span></div>
+          <div className="panel-header"><span>Open Panel</span><span className="kanji">日本語タグ</span></div>
           <div className="panel-body">
             <div style={{ color: 'var(--nw-text-dim)', fontSize: 11 }}>
-              Standard panel body. 8px font header, Japanese tags, 2px gaps between panels.
+              Open panel body. 11px header, a kanji in the right slot, no fill and no outline.
             </div>
           </div>
         </div>
@@ -21,10 +21,24 @@ export function PanelsPage() {
           <div className="card-header">Card Component</div>
           <div className="card-body">
             <div style={{ color: 'var(--nw-text-dim)', fontSize: 11 }}>
-              Cards have a border-radius and are intended for isolated content blocks.
+              Cards keep a hairline outline and no fill; use them for isolated objects, and a panel for a section.
             </div>
           </div>
           <div className="card-footer" style={{ fontSize: 9, color: 'var(--nw-text-dim)' }}>Card Footer</div>
+        </div>
+      </div>
+
+      <div className="panel nw-reticle" style={{ marginBottom: 2 }}>
+        <div className="panel-header"><span>Framed Panel</span><span className="kanji">枠付き</span></div>
+        <div className="panel-body">
+          <div style={{ color: 'var(--nw-text-dim)', fontSize: 11, lineHeight: 1.6, marginBottom: 8 }}>
+            A panel is open: no fill, no outline. A dense console where tiles would merge opts into the frame
+            with <code>nw-reticle</code>; see Mockup Pieces for the parts.
+          </div>
+          <CodeBlock>{`<div class="panel nw-reticle">
+  <div class="panel-header"><span>Title</span><span class="kanji">タグ</span></div>
+  <div class="panel-body">Content</div>
+</div>`}</CodeBlock>
         </div>
       </div>
 
@@ -34,7 +48,7 @@ export function PanelsPage() {
           <CodeBlock>{`<div class="panel">
   <div class="panel-header">
     <span>Title</span>
-    <span class="tag">日本語タグ</span>
+    <span class="kanji">日本語タグ</span>
   </div>
   <div class="panel-body">Content</div>
 </div>`}</CodeBlock>
@@ -42,14 +56,14 @@ export function PanelsPage() {
       </div>
 
       <div className="panel" style={{ marginBottom: 2 }}>
-        <div className="panel-header"><span>Node Card</span><span className="tag">ノード</span></div>
+        <div className="panel-header"><span>Node Card</span><span className="kanji">ノード</span></div>
         <div className="node-card">
           <div className="nc-id">Cluster-Alpha — H100 x 512</div>
           <div className="nc-name">深層学習訓練クラスタ</div>
           <div className="nc-row"><span className="lbl">Model</span><span className="val">CORTEX-7B v4.2</span></div>
           <div className="nc-row"><span className="lbl">Status</span><span className="val">Training</span></div>
           <div className="nc-row"><span className="lbl">GPU Util</span><span className="val">96.8%</span></div>
-          <div className="nc-status" style={{ color: 'var(--nw-green)' }}><span className="led green" /> Operational</div>
+          <div className="nc-status" style={{ color: 'var(--nw-green)' }}><span className="led" data-state="ok" /> Operational</div>
         </div>
       </div>
 
@@ -57,7 +71,7 @@ export function PanelsPage() {
         <div className="panel-header"><span>Node Card HTML</span><span className="tag">HTML</span></div>
         <div className="panel-body">
           <CodeBlock>{`<div class="panel">
-  <div class="panel-header"><span>Title</span><span class="tag">タグ</span></div>
+  <div class="panel-header"><span>Title</span><span class="kanji">タグ</span></div>
   <div class="node-card">
     <div class="nc-id">ID — Subtitle</div>
     <div class="nc-name">日本語名称</div>
@@ -65,7 +79,7 @@ export function PanelsPage() {
       <span class="lbl">Label</span>
       <span class="val">Value</span>
     </div>
-    <div class="nc-status"><span class="led green"></span> Status</div>
+    <div class="nc-status"><span class="led" data-state="ok"></span> Status</div>
   </div>
 </div>`}</CodeBlock>
         </div>

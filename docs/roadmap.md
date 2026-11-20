@@ -65,6 +65,8 @@ Gets its own release: needs a full QA pass across every component, plus contrast
 
 ## 3.0.0 — Not planned (and probably never needed)
 
+> Superseded: v3 removes these surfaces, see CHANGELOG.
+
 **Why this section is empty.** Nightwire's defining contract is *additive*: every v2 feature ships alongside v1 with nothing renamed or removed (see the 2.0.0 API freeze). A major version exists only to **break** things — and almost nothing here needs breaking:
 
 - **`.fill` vs `.nw-progress-fill`** — both work; the alias costs one extra selector. Keeping both forever is cheaper than forcing a migration on every consumer.
