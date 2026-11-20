@@ -1,21 +1,18 @@
 import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function QuickStartPage() {
   return (
     <section id="quickstart">
-      <div style={{ marginBottom: 16 }}>
-        <div className="compressed-title" style={{ fontSize: 28, color: 'var(--nw-green)', lineHeight: 1 }}>QUICK START</div>
-        <div style={{ fontFamily: 'var(--font-mincho)', fontSize: 13, fontWeight: 800, color: 'var(--nw-green-dim)', marginTop: 2 }}>クイックスタート</div>
-        <p style={{ color: 'var(--nw-text-dim)', fontSize: 13, marginTop: 10, lineHeight: 1.6 }}>
-          Get Nightwire running in 3 steps. Works with any framework or plain HTML.
-        </p>
-      </div>
+      <PageHead idx="02" label="Quick Start" kanji="クイック" title="QUICK START" subtitle="クイックスタート">
+        Get Nightwire running in 3 steps. Works with any framework or plain HTML.
+      </PageHead>
 
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>Step 1 — Add the CSS</span><span className="kanji">CSS読込</span></div>
         <div className="panel-body">
           <CodeBlock>{`<link rel="stylesheet" href="nightwire.css">`}</CodeBlock>
-          <div style={{ fontSize: 9, color: 'var(--nw-text-dim)', marginTop: 6 }}>Or via npm: <code style={{ color: 'var(--nw-cyan)' }}>npm install @cativo23/nightwire</code></div>
+          <div style={{ fontSize: 9, color: 'var(--nw-text-dim)', marginTop: 6 }}>Or via npm: <code className="code-inline">npm install @cativo23/nightwire</code></div>
         </div>
       </div>
 

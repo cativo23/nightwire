@@ -48,9 +48,9 @@ export function Waveform() {
       <span className="readout">{readout}%</span>
       <span className="timecode">LIVE</span>
       <div className="legend">
-        <span style={{ color: 'var(--nw-green)' }}>&#9679; design</span>
-        <span style={{ color: 'var(--nw-cyan)' }}>&#9679; tokens</span>
-        <span style={{ color: 'var(--nw-primary)' }}>&#9679; layout</span>
+        <span><span style={{ color: 'var(--nw-green)' }}>&#9679;</span> design</span>
+        <span><span style={{ color: 'var(--nw-cyan)' }}>&#9679;</span> tokens</span>
+        <span><span style={{ color: 'var(--nw-primary)' }}>&#9679;</span> layout</span>
       </div>
     </div>
   );

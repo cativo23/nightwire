@@ -1,9 +1,10 @@
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function TokensPage() {
   return (
     <section id="tokens">
-      <SectionTitle kanji="設計変数">Design Tokens</SectionTitle>
+      <PageHead idx="04" label="Design Tokens" kanji="設計変数" title="Design Tokens" />
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         All styles are defined by CSS variables. Framework-agnostic and easy to consume for AI agents.
       </p>
@@ -21,7 +22,7 @@ export function TokensPage() {
                 { t: '--ls-wide', v: '0.06em', u: 'Wide letter spacing' }, { t: '--ls-ultra', v: '0.2em', u: 'Title tracking' },
               ].map(r => (
                 <tr key={r.t}>
-                  <td style={{ color: 'var(--nw-cyan)' }}>{r.t}</td>
+                  <td>{r.t}</td>
                   <td>{r.v}</td>
                   <td style={{ color: 'var(--nw-text-dim)' }}>{r.u}</td>
                 </tr>

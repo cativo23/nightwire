@@ -1,9 +1,10 @@
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function DataPage() {
   return (
     <section id="data">
-      <SectionTitle kanji="データ">Data Display</SectionTitle>
+      <PageHead idx="12" label="Data Display" kanji="データ" title="Data Display" />
 
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>Metrics Grid</span><span className="kanji">指標</span></div>

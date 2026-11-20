@@ -1,11 +1,11 @@
 import { CodeBlock } from '../components/CodeBlock';
-import { SectionTitle } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 import { COLORS } from '../data';
 
 export function ColorsPage() {
   return (
     <section id="colors">
-      <SectionTitle kanji="パレット">Color Palette</SectionTitle>
+      <PageHead idx="05" label="Color Palette" kanji="パレット" title="Color Palette" />
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         Semantic neon color system. Every color has a strict role. Pure decorative usage is strictly prohibited.
       </p>

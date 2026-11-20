@@ -48,9 +48,6 @@ body {
 pre { font-size: 13px; line-height: 1.6; }
 
 /* Console-specific overrides for tiny text */
-.nw-nav .org-mark .sub { font-size: 10px; }
-.nw-nav a { font-size: 11px; }
-.ticker { font-size: 10px; }
 .waveform-wrap .readout-label { font-size: 10px; }
 .waveform-wrap .timecode { font-size: 10px; }
 .waveform-wrap .legend { font-size: 10px; }
@@ -62,7 +59,6 @@ pre { font-size: 13px; line-height: 1.6; }
 .event-log .el-body { font-size: 11px; }
 .ev { font-size: 11px; }
 .ev .ev-time { font-size: 11px; }
-.status-bar { font-size: 10px; }
 .color-swatch { font-size: 11px; }
 .color-swatch .swatch-name { font-size: 10px; }
 .color-swatch .swatch-var { font-size: 10px; }
@@ -96,9 +92,12 @@ input, select, textarea,
   .nw-drawer { display: block !important; }
   .nw-backdrop { display: block !important; }
   main { padding: 16px !important; }
-  .nw-nav .jp-sub { display: none; }
+  .nw-nav .nav-links > span.nw-chip { display: none; }
+  .nw-nav { grid-template-columns: auto 1fr auto; }
+  .nw-nav .nav-labels { display: none; }
+  .status-bar > span:nth-child(2) { display: none; }
   .magi-source { flex-wrap: wrap; }
-  .grid-2 { grid-template-columns: 1fr !important; }
+  .grid-2 { grid-template-columns: minmax(0, 1fr) !important; }
 }
 section {
   padding-top: 32px;

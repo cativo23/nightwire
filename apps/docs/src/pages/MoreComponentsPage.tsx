@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function MoreComponentsPage() {
   const [menuOpen, setMenuOpen] = useState(true);
 
   return (
     <section id="more-components">
-      <SectionTitle kanji="追加部品">More Components</SectionTitle>
+      <PageHead idx="16" label="More Components" kanji="追加部品" title="More Components" />
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
-        Additional components available in <code style={{ color: 'var(--nw-cyan)' }}>nightwire.css</code>. All are plain CSS; overlays open and close by toggling a <code style={{ color: 'var(--nw-cyan)' }}>data-open</code> attribute.
+        Additional components available in <code className="code-inline">nightwire.css</code>. All are plain CSS; overlays open and close by toggling a <code className="code-inline">data-open</code> attribute.
       </p>
 
       {/* Form Suite */}

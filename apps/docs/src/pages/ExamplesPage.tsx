@@ -1,9 +1,9 @@
-import { SectionTitle } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function ExamplesPage() {
   return (
     <section id="examples">
-      <SectionTitle kanji="デモ">Live Examples</SectionTitle>
+      <PageHead idx="19" label="Live Examples" kanji="デモ" title="Live Examples" />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 2 }}>
 
         <div className="panel nw-reticle">

@@ -1,10 +1,10 @@
-import { SectionTitle } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 import { FONTS } from '../data';
 
 export function TypographyPage() {
   return (
     <section id="typography">
-      <SectionTitle kanji="タイポグラフィ">Typography Stack</SectionTitle>
+      <PageHead idx="06" label="Typography Stack" kanji="タイポグラフィ" title="Typography Stack" />
       <p style={{ color: 'var(--nw-text-dim)', fontSize: 12, margin: '8px 0 16px', lineHeight: 1.6 }}>
         Four distinct font families form the visual hierarchy. Helvetica is not permitted.
       </p>

@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 
 export function ButtonsPage() {
   const [segMode, setSegMode] = useState('day');
   return (
     <section id="buttons">
-      <SectionTitle kanji="操作">Buttons & Actions</SectionTitle>
+      <PageHead idx="11" label="Buttons & Actions" kanji="操作" title="Buttons & Actions" />
 
       <div className="panel" style={{ marginBottom: 2 }}>
         <div className="panel-header"><span>Button Variants</span><span className="kanji">ボタン</span></div>

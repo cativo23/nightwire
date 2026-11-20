@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { SectionTitle, CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '../components/CodeBlock';
+import { PageHead } from '../components/PageHead';
 import scene from '../assets/scene.svg';
 
 // The pieces of the v3 mockup look. Each demo is rendered with the real classes from nightwire.css
@@ -22,7 +23,7 @@ function Demo({ title, kanji, children, code }: { title: string; kanji: string; 
 export function PiecesPage() {
   return (
     <section id="pieces">
-      <SectionTitle kanji="新部品">Mockup Pieces</SectionTitle>
+      <PageHead idx="15" label="Mockup Pieces" kanji="新部品" title="Mockup Pieces" />
       <p style={{ ...note, margin: '8px 0 16px' }}>
         The pieces that give a page the approved mockup look: heads and headings, chips, an index, an
         accordion, an arrow link, a frame, halftone art, a barcode, an outline wordmark and film grain.

@@ -83,9 +83,23 @@ test('should_keep_blue_chrome_for_links_only_not_decorative_borders_and_labels',
   for (const file of ['App.tsx', 'pages/OverviewPage.tsx', 'console.css']) {
     assert.deepEqual(offenders(/primary-dim/, [`${SRC}/${file}`]), [], `${file} has decorative primary-dim chrome`);
   }
-  // The sidebar keeps primary-dim on its GitHub link, and nowhere else.
+  // The sidebar is neutral too: its GitHub link is muted like the rest of the footer.
   const sidebar = offenders(/primary-dim/, [`${SRC}/components/Sidebar.tsx`]);
-  assert.equal(sidebar.length, 1, `Sidebar.tsx should keep primary-dim only on the link: ${sidebar.join(' | ')}`);
+  assert.deepEqual(sidebar, [], `Sidebar.tsx has decorative primary-dim chrome: ${sidebar.join(' | ')}`);
+});
+
+test('should_dress_the_docs_shell_in_the_mockup_chrome_not_the_blue_logotype', () => {
+  const app = read(`${SRC}/App.tsx`);
+  assert.match(app, /className="brand"[\s\S]*夜[\s\S]*nightwire/, 'top bar lacks the 夜 nightwire wordmark');
+  assert.match(app, /nw-chip nw-chip-solid/, 'top bar lacks the solid INSTALL chip');
+  assert.doesNotMatch(app, /org-mark/, 'the wide-tracked org-mark logotype is back');
+  const sidebar = read(`${SRC}/components/Sidebar.tsx`);
+  assert.doesNotMatch(sidebar, /compressed-title|nw-primary/, 'the sidebar has the blue logotype again');
+  assert.match(sidebar, /sidebar-item\$\{isActive \? ' active'/, 'sidebar lost the active state');
+  const css = read(`${SRC}/console.css`);
+  const active = css.match(/\.sidebar-item\.active \{[^}]*\}/);
+  assert.ok(active, 'console.css does not restyle the active sidebar item');
+  assert.doesNotMatch(active[0], /primary|chrome/, 'the active sidebar item is filled or marked in blue');
 });
 
 test('should_copy_tokens_json_into_the_docs_images_that_now_import_it', () => {
@@ -167,9 +181,14 @@ test('should_write_the_header_kanji_as_kanji_and_not_as_a_tag', () => {
   const hits = sources.filter((f) => f.endsWith('.tsx') && re.test(read(f)));
   assert.deepEqual(hits, [], 'a .tag holds kanji; use .kanji');
   // The two places that take the kanji as a value.
-  assert.match(read(`${SRC}/components/CodeBlock.tsx`), /className="kanji">\{kanji\}/, 'SectionTitle does not render a .kanji');
+  assert.match(read(`${SRC}/components/PageHead.tsx`), /className="kanji">\{kanji\}/, 'PageHead does not render a .kanji');
   assert.match(read(`${SRC}/pages/Layer2TokensPage.tsx`), /className="kanji">\{kanji\}/, 'Layer2TokensPage does not render a .kanji');
-  assert.doesNotMatch(read(`${SRC}/components/CodeBlock.tsx`), /className="tag"/, 'SectionTitle still renders a .tag');
+  assert.doesNotMatch(read(`${SRC}/components/PageHead.tsx`), /className="tag"/, 'PageHead renders a .tag');
+  // Every page opens with the PageHead (the page title), not a small header that looks like a sub-section.
+  const pages = sources.filter((f) => /\/pages\/\w+Page\.tsx$/.test(f));
+  assert.equal(pages.length, 19, 'expected 19 docs pages');
+  assert.deepEqual(pages.filter((f) => !/<PageHead\b/.test(read(f))), [], 'a page does not open with a PageHead');
+  assert.deepEqual(offenders(/SectionTitle/), [], 'SectionTitle is gone; the page title is the PageHead');
   // The same switch in the HTML the pages teach.
   assert.doesNotMatch(read(`${SRC}/pages/PanelsPage.tsx`), /class="tag">日本語タグ/, 'PanelsPage teaches the .tag kanji');
 });
@@ -238,9 +257,10 @@ test('should_show_every_new_piece_on_the_pieces_page_and_in_the_registry', () =>
   }
 });
 
-test('should_scope_the_grain_demo_and_leave_the_docs_body_without_grain', () => {
-  // .nw-grain belongs on <body>; the docs site keeps its own body clean and demos it in a box.
-  assert.doesNotMatch(read('apps/docs/index.html'), /nw-grain/);
+test('should_put_grain_on_the_docs_body_once_and_keep_the_grain_demo_scoped', () => {
+  // .nw-grain belongs on <body>, set once in index.html (the v3 look). Nothing toggles it from
+  // script, and the Pieces page still demos it in a box instead of flipping the whole site.
+  assert.match(read('apps/docs/index.html'), /<body class="nw-grain">/);
   assert.doesNotMatch(read(`${SRC}/main.tsx`), /nw-grain/);
   const page = read(`${SRC}/pages/PiecesPage.tsx`);
   assert.match(page, /<body class="nw-grain">/, 'the page does not show the body hook');
@@ -286,4 +306,53 @@ test('should_not_export_the_unused_v2_component_registry', () => {
   // T058 left COMPONENTS_V2 for Polish: nothing imports it and its rows are the v2-era registry.
   const offenders = sources.filter((f) => /COMPONENTS_V2/.test(read(f)));
   assert.deepEqual(offenders, [], 'COMPONENTS_V2 is still defined or imported');
+});
+
+// Neutral-first docs chrome: a docs page does not decorate itself with signal colour. Colour stays
+// on the demos (buttons, tags, toasts, state cells) and on chart series, so the allowlist below is
+// the full list of files that may set a signal colour inline.
+test('should_keep_decorative_signal_colour_out_of_the_docs_page_markup', () => {
+  const inlineSignal = /color:\s*'var\(--nw-(cyan|green|purple|yellow|primary|chrome)\b/;
+  const allowed = new Set([
+    `${SRC}/pages/ButtonsPage.tsx`,   // state of the segmented demo
+    `${SRC}/pages/DataPage.tsx`,      // metric, kv and stat colour demos
+    `${SRC}/pages/FeedbackPage.tsx`,  // toast triggers, banner and drawer demos
+    `${SRC}/pages/IntensityPage.tsx`, // the active-mode column is state
+    `${SRC}/pages/PanelsPage.tsx`,    // the node-card status LED line
+    `${SRC}/pages/PiecesPage.tsx`,    // the barcode tint demo
+    `${SRC}/components/Waveform.tsx`, // series dots of the chart legend
+    `${SRC}/components/CodeBlock.tsx`,
+  ]);
+  const files = sources.filter((f) => f.endsWith('.tsx') && !allowed.has(f));
+  assert.deepEqual(offenders(inlineSignal, files), []);
+  // Inline code and token-name cells are plain text, not a coloured run.
+  assert.deepEqual(offenders(/<code style=\{\{ color/), []);
+  assert.deepEqual(offenders(/<td style=\{\{ color: 'var\(--nw-(cyan|green)\)'/), []);
+});
+
+test('should_style_the_docs_private_pieces_with_neutral_labels_and_a_quiet_copy_button', () => {
+  const css = read(`${SRC}/console.css`);
+  const rule = (sel) => {
+    const m = css.match(new RegExp(`${sel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\{([^}]*)\\}`));
+    assert.ok(m, `${sel} rule missing`);
+    return m[1];
+  };
+  for (const sel of ['.waveform-wrap .readout-label', '.node-card .nc-id', '.color-swatch .swatch-name', '.color-swatch .swatch-hex']) {
+    assert.doesNotMatch(rule(sel), /--nw-(primary|cyan|green|chrome)\b/, `${sel} is coloured`);
+  }
+  assert.doesNotMatch(rule('.node-card .nc-row .val'), /--nw-green/);
+  assert.match(rule('.docs-copy'), /--nw-text-mute/);
+  assert.match(read(`${SRC}/components/CodeBlock.tsx`), /className="docs-copy"/);
+  assert.doesNotMatch(read(`${SRC}/components/CodeBlock.tsx`), /nw-primary/);
+  assert.doesNotMatch(read(`${SRC}/pages/OverviewPage.tsx`), /nw-section-head-chrome/);
+});
+
+test('should_separate_consecutive_page_level_panels_so_a_table_does_not_touch_the_next_section_head', () => {
+  // Pages stack panels with an inline marginBottom of 2px, sized for v2's boxed panels. In the open
+  // layout that leaves a table flush against the next section head. Only direct children of the page
+  // section are spaced, so panels inside a .grid-2 keep their alignment.
+  const css = read(`${SRC}/console.css`);
+  const m = css.match(/main\s+section\s*>\s*\.panel\s*\+\s*\.panel\s*\{([^}]*)\}/);
+  assert.ok(m, 'no rule spaces consecutive page-level panels');
+  assert.match(m[1], /margin-top:\s*var\(--sp-8\)/);
 });
