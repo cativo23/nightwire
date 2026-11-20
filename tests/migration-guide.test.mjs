@@ -270,11 +270,11 @@ test('should_record_the_cativo_dev_revalidation_on_the_polish_tip', () => {
   assert.ok(!/pending/i.test(text), 'subsection says pending');
 });
 
-// FR-037 / T080: CHANGELOG [Unreleased] records the US5 look in lockstep with the guide.
-test('should_record_the_mockup_look_in_the_changelog_unreleased_section', () => {
+// FR-037 / T080: the CHANGELOG v3 section records the US5 look in lockstep with the guide.
+test('should_record_the_mockup_look_in_the_changelog_v3_section', () => {
   const log = read('CHANGELOG.md');
-  const start = log.indexOf('\n## [Unreleased]');
-  assert.notEqual(start, -1, 'CHANGELOG has no [Unreleased] section');
+  const start = log.indexOf('\n## [3.0.0]');
+  assert.notEqual(start, -1, 'CHANGELOG has no [3.0.0] section');
   const end = log.indexOf('\n## [', start + 1);
   const unreleased = log.slice(start, end);
   for (const text of [
@@ -302,7 +302,7 @@ test('should_record_the_mockup_look_in_the_changelog_unreleased_section', () => 
     '`--nw-kanji-glow`',
     'docs/migration/v3.md#open-layout',
   ]) {
-    assert.ok(unreleased.includes(text), `[Unreleased] does not mention ${text}`);
+    assert.ok(unreleased.includes(text), `[3.0.0] does not mention ${text}`);
   }
 });
 
@@ -346,7 +346,7 @@ test('should_not_leave_two_blank_lines_in_the_guide', () => {
 
 test('should_list_halftone_among_the_decorative_exceptions_in_the_changelog', () => {
   const log = read('CHANGELOG.md');
-  const start = log.indexOf('\n## [Unreleased]');
+  const start = log.indexOf('\n## [3.0.0]');
   const unreleased = log.slice(start, log.indexOf('\n## [', start + 1));
   assert.ok(/halftone[\s\S]{0,300}every intensity/i.test(unreleased), 'changelog halftone ruling missing');
   assert.ok(/`\.kv-swap`[\s\S]{0,200}chrome \(blue\)/.test(unreleased), 'changelog kv-swap colour missing');
@@ -391,4 +391,24 @@ test('should_document_the_framed_panel_bottom_padding_and_its_override', () => {
     /28px[^\n]*\n?[^\n]*padding-bottom: 0/,
     'the guide does not say how much space sits below the last row and how to remove it',
   );
+});
+
+// Release v3.0.0: the same drift guard release.yml runs, so it fails here and not after the merge,
+// and the v3 section reads as released and dated (never "in progress").
+test('should_agree_on_the_release_version_across_package_lock_and_changelog', () => {
+  const pkg = JSON.parse(read('package.json'));
+  const lock = JSON.parse(read('package-lock.json'));
+  assert.equal(pkg.version, '3.0.0', 'package.json is not 3.0.0');
+  assert.equal(lock.version, pkg.version, 'package-lock.json version differs');
+  assert.equal(lock.packages[''].version, pkg.version, 'package-lock.json root package version differs');
+  assert.match(read('CHANGELOG.md'), /^## \[3\.0\.0\] — \d{4}-\d{2}-\d{2}$/m, 'CHANGELOG has no dated [3.0.0] heading');
+});
+
+test('should_not_call_the_released_v3_section_in_progress_or_unreleased', () => {
+  const log = read('CHANGELOG.md');
+  const start = log.indexOf('\n## [3.0.0]');
+  assert.notEqual(start, -1, 'CHANGELOG has no [3.0.0] section');
+  const section = log.slice(start, log.indexOf('\n## [', start + 1));
+  assert.ok(!/not released|in progress|unreleased/i.test(section), 'the [3.0.0] section still reads as unreleased');
+  assert.ok(!/\[Unreleased\]/.test(read(GUIDE)), 'the migration guide still points to [Unreleased]');
 });
